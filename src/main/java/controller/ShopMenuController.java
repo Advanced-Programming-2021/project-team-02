@@ -39,7 +39,6 @@ public class ShopMenuController {
             view.showError (Error.CARD_DOES_NOT_EXIST);
             return;
         }
-        System.out.println ("card price: " + Shop.getCards ().get (card) + "/user's coin: " + Objects.requireNonNull (assets).getCoin ());
         if (Objects.requireNonNull (assets).getCoin () < Shop.getCards ().get (card)) {
             view.showError (Error.NOT_ENOUGH_MONEY);
             return;

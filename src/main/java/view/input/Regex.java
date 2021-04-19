@@ -28,7 +28,7 @@ public class Regex {
     public static final String DECK_SHOW_MAIN_DECK = "^deck show --deck-name (?<deckName>.+?)$";
     public static final ArrayList<String> DECK_SHOW_SIDE_DECK;
     public static final String DECK_SHOW_ALL_CARDS = "^deck show --cards$";
-    public static final String SHOP_BUY = "^shop buy (?<cardName>[A-Za-z -',]+)$";
+    public static final String SHOP_BUY = "^shop buy (?<cardName>[A-Za-z ',-]+)$";
     public static final String SHOP_SHOW_ALL = "^shop show --all$";
     public static final List<String> DUEL_NEW_SECOND_PLAYER;
     public static final List<String> DUEL_NEW_AI;
