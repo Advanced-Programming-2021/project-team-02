@@ -34,16 +34,9 @@ public class ProfileMenuView {
             showCurrentMenu ();
         } else if ((matcher = Regex.getMatcher (Regex.PROFILE_CHANGE_NICKNAME, command)).matches ()) {
             controller.changeNickname (matcher);
-        } else if ((matcher = checkAllPermutationsOfChangePassword (command)) != null) {
+        } else if ((matcher = Regex.getMatcherFromAllPermutations (Regex.PROFILE_CHANGE_PASSWORD, command)) != null) {
             controller.changePassword (matcher);
         } else showError (Error.INVALID_COMMAND);
-    }
-
-    public Matcher checkAllPermutationsOfChangePassword(String command) {
-        Matcher matcher;
-        for (String regex : Regex.PROFILE_CHANGE_PASSWORD)
-            if ((matcher = Regex.getMatcher (regex, command)).matches ()) return matcher;
-        return null;
     }
 
     public void showError(Error error) {

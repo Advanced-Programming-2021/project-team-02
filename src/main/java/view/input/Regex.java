@@ -10,12 +10,12 @@ public class Regex {
     public static final String MENU_ENTER = "^menu enter (?<menuName>.+)$";
     public static final String MENU_EXIT = "^menu exit$";
     public static final String MENU_SHOW_CURRENT = "^menu show-current$";
-    public static final ArrayList<String> USER_CREATE;
-    public static final ArrayList<String> USER_LOGIN;
+    public static final List<String> USER_CREATE;
+    public static final List<String> USER_LOGIN;
     public static final String USER_LOGOUT = "^user logout$";
     public static final String SCOREBOARD_SHOW = "^scoreboard show$";
     public static final String PROFILE_CHANGE_NICKNAME = "^profile change --nickname (?<nickname>.+)$";
-    public static final ArrayList<String> PROFILE_CHANGE_PASSWORD;
+    public static final List<String> PROFILE_CHANGE_PASSWORD;
     public static final String CARD_SHOW = "^card show (?<cardName>[A-Za-z]+)$";
     public static final String DECK_CREATE = "^deck create (?<deckName>.+)$";
     public static final String DECK_DELETE = "^deck delete (?<deckName>.+)$";
