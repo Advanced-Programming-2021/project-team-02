@@ -31,20 +31,20 @@ public class Regex {
     public static final String SHOP_BUY = "^shop buy (?<cardName>[A-Za-z]+)$";
     public static final String SHOP_SHOW_ALL = "^shop show --all$";
     public static final List<String> DUEL_NEW_SECOND_PLAYER;
-    public static final String DUEL_NEW_AI = "";
+    public static final List<String> DUEL_NEW_AI;
     public static final String BOARD_GAME_SELECT_MONSTER = "^select --monster (\\d)$";
     public static final List<String> BOARD_GAME_SELECT_MONSTER_OPPONENT;
-    public static final String BOARD_GAME_SELECT_CARD = "";
+    public static final String BOARD_GAME_SELECT_SPELL = "^select --spell (\\d)$";
+    public static final List<String> BOARD_GAME_SELECT_SPELL_OPPONENT;
+    public static final String BOARD_GAME_SELECT_CARD = "^select (.+?)$";
     public static final String BOARD_GAME_SELECT_DELETE = "^select -d$";
     public static final String BOARD_GAME_SUMMON = "^summon$";
-    public static final String BOARD_GAME_SET_MONSTER = "^set$";
+    public static final String BOARD_GAME_SET_MONSTER_SPELL_TRAP = "^set$";
     public static final String BOARD_GAME_SET_POSITION = "^set -- position (attack|defense)$";
     public static final String BOARD_GAME_FLIP_SUMMON = "^flip-summon$";
     public static final String BOARD_GAME_ATTACK = "^attack (\\d)$";
     public static final String BOARD_GAME_ATTACK_DIRECT = "^attack direct$";
     public static final String BOARD_GAME_ACTIVATE_EFFECT = "^activate effect$";
-    //public static final String BOARD_GAME_SET_SPELL = "";
-    //public static final String BOARD_GAME_SET_TRAP = "";
     public static final String BOARD_GAME_SURRENDER = "^surrender$";
     public static final String GRAVEYARD_SHOW = "^show graveyard$";
     public static final String GRAVEYARD_BACK = "^back$";
@@ -55,7 +55,7 @@ public class Regex {
     public static final String CHEAT_DUEL_SET_WINNER = "^duel set-winner (.+?)$";
     public static final String IMPORT_CARD = "^import card (.+?)$";
     public static final String EXPORT_CARD = "^export card (.+?)$";
-    // nist :| public static final String COMMAND_CANCEL = "";
+    public static final String COMMAND_CANCEL = "^cancel$";
 
     static {
         USER_CREATE = new ArrayList<>();
@@ -78,9 +78,19 @@ public class Regex {
         DUEL_NEW_SECOND_PLAYER = new ArrayList<>();
         DUEL_NEW_SECOND_PLAYER.add("^duel new --second-player (.+?) --rounds (\\d+)$");
         DUEL_NEW_SECOND_PLAYER.add("^duel new --rounds (\\d+) --second-player (.+?)$");
+        DUEL_NEW_AI = new ArrayList<>();
+        DUEL_NEW_AI.add("^duel --new --ai --rounds (\\d+)$");
+        DUEL_NEW_AI.add("^duel --new --rounds (\\d+) --ai$");
+        DUEL_NEW_AI.add("^duel --ai --rounds (\\d+) --new$");
+        DUEL_NEW_AI.add("^duel --ai --new --rounds (\\d+)$");
+        DUEL_NEW_AI.add("^duel --rounds (\\d+) --ai  --new$");
+        DUEL_NEW_AI.add("^duel --rounds (\\d+) --new --ai$");
         BOARD_GAME_SELECT_MONSTER_OPPONENT = new ArrayList<>();
         BOARD_GAME_SELECT_MONSTER_OPPONENT.add("^select --monster (\\d) --opponent$");
         BOARD_GAME_SELECT_MONSTER_OPPONENT.add("^select --opponent --monster (\\d)$");
+        BOARD_GAME_SELECT_SPELL_OPPONENT = new ArrayList<>();
+        BOARD_GAME_SELECT_SPELL_OPPONENT.add("^select --spell (\\d+) --opponent$");
+        BOARD_GAME_SELECT_SPELL_OPPONENT.add("^select --opponent --spell (\\d+)$");
         CHEAT_SELECT_HAND = new ArrayList<>();
         CHEAT_SELECT_HAND.add("^select --hand (.+?) --force$");
         CHEAT_SELECT_HAND.add("^select --force --hand (.+?)$");
