@@ -19,6 +19,10 @@ public class ProfileMenuController {
         return instance;
     }
 
+    public void setLoggedInUser(User loggedInUser) {
+        this.loggedInUser = loggedInUser;
+    }
+
     public boolean isNicknameUsed(String nickname) {
         for (User user : User.getAllUsers ())
             if (user.getNickname ().equals (nickname)) return true;
@@ -26,7 +30,7 @@ public class ProfileMenuController {
     }
 
     public boolean isPasswordCorrect(String password) {
-        return loggedInUser.getPassword ().equals (password);
+        return ProfileMenuController.getInstance ().getLoggedInUser ().getPassword ().equals (password);
     }
 
     public User getLoggedInUser() {
@@ -39,7 +43,7 @@ public class ProfileMenuController {
             view.showDynamicError (Error.TAKEN_NICKNAME, matcher);
             return;
         }
-        loggedInUser.changeNickname (newNickname);
+        ProfileMenuController.getInstance ().getLoggedInUser ().changeNickname (newNickname);
         view.showSuccessMessage (SuccessMessage.NICKNAME_CHANGED);
     }
 
@@ -54,7 +58,7 @@ public class ProfileMenuController {
             view.showError (Error.SAME_PASSWORD);
             return;
         }
-        loggedInUser.changePassword (newPassword);
+        ProfileMenuController.getInstance ().getLoggedInUser ().changePassword (newPassword);
         view.showSuccessMessage (SuccessMessage.PASSWORD_CHANGED);
     }
 }

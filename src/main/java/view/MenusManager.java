@@ -14,8 +14,7 @@ public class MenusManager {
     }
 
     public static MenusManager getInstance() {
-        if (instance == null)
-            instance = new MenusManager();
+        if (instance == null) instance = new MenusManager();
         return instance;
     }
 
@@ -34,6 +33,10 @@ public class MenusManager {
                 DeckMenuView.getInstance().run(command);
             } else if (currentMenu.equals(Menu.SHOP_MENU)) {
                 ShopMenuView.getInstance().run(command);
+            } else if (currentMenu.equals (Menu.DUEL_MENU)) {
+                DuelMenuView.getInstance ().run ();
+            } else if (currentMenu.equals (Menu.SCOREBOARD_MENU)) {
+                ScoreBoardView.getInstance ().run (command);
             }
         }
     }

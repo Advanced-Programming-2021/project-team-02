@@ -1,7 +1,6 @@
 package view;
 
 import controller.ProfileMenuController;
-import view.input.Input;
 import view.input.Regex;
 import view.messages.Error;
 import view.messages.SuccessMessage;

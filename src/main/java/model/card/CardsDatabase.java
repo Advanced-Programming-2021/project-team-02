@@ -56,7 +56,7 @@ public class CardsDatabase {
 
 
     public void readAndMakeCards() throws IOException {
-        BufferedReader csvReader = new BufferedReader(new FileReader("Monster.CSV"));
+        BufferedReader csvReader = new BufferedReader(new FileReader("Monster.csv"));
         csvReader.readLine();
         String row;
         int counter = 2;
@@ -71,7 +71,7 @@ public class CardsDatabase {
                     Integer.parseInt(data[6]), MonsterType.getMonsterTypeByName(data[3]), Integer.parseInt(data[8]));
             counter++;
         }
-        csvReader = new BufferedReader(new FileReader("SpellTrap.CSV"));
+        csvReader = new BufferedReader(new FileReader("SpellTrap.csv"));
         csvReader.readLine();
         counter = 1;
         while (counter != 12) {

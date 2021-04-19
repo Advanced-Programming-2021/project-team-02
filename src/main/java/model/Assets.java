@@ -17,6 +17,10 @@ public class Assets {
         allAssets = new HashMap<>();
     }
 
+    {
+        coin = 100000;
+    }
+
     public Assets(String username) {
         setUsername(username);
         allDecks = new ArrayList<>();
