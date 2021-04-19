@@ -33,25 +33,11 @@ public class LoginMenuView {
             MenusManager.getInstance().changeMenu(Menu.EXIT);
         } else if (Regex.getMatcher(Regex.MENU_SHOW_CURRENT, command).matches()) {
             showCurrentMenu();
-        } else if ((matcher = checkAllPermutationsOfUserCreate(command)) != null) {
+        } else if ((matcher = Regex.getMatcherFromAllPermutations (Regex.USER_CREATE, command)) != null) {
             controller.createUser(matcher);
-        } else if ((matcher = checkAllPermutationsOfUserLogin(command)) != null) {
+        } else if ((matcher = Regex.getMatcherFromAllPermutations (Regex.USER_LOGIN, command)) != null) {
             controller.loginUser(matcher);
         } else showError(Error.INVALID_COMMAND);
-    }
-
-    public Matcher checkAllPermutationsOfUserCreate(String command) {
-        Matcher matcher;
-        for (String regex : Regex.USER_CREATE)
-            if ((matcher = Regex.getMatcher(regex, command)).matches()) return matcher;
-        return null;
-    }
-
-    public Matcher checkAllPermutationsOfUserLogin(String command) {
-        Matcher matcher;
-        for (String regex : Regex.USER_LOGIN)
-            if ((matcher = Regex.getMatcher(regex, command)).matches()) return matcher;
-        return null;
     }
 
     public void showError(Error error) {
