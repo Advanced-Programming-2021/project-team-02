@@ -17,14 +17,17 @@ public class Regex {
     public static final String PROFILE_CHANGE_NICKNAME = "^profile change --nickname (?<nickname>.+)$";
     public static final ArrayList<String> PROFILE_CHANGE_PASSWORD;
     public static final String CARD_SHOW = "^card show (?<cardName>[A-Za-z]+)$";
-    public static final String DECK_CREATE = "^deck create (?<deckName>[A-Za-z]+)$";
-    public static final String DECK_DELETE = "^deck delete (?<deckName>[A-Za-z]+)$";
-    public static final String DECK_SET_ACTIVATE = "^deck set-activate (?<deckName>[A-Za-z]+)$";
-    public static final String DECK_ADD_CARD = "^$";
-    public static final String DECK_REMOVE_CARD = "^$";
+    public static final String DECK_CREATE = "^deck create (?<deckName>.+)$";
+    public static final String DECK_DELETE = "^deck delete (?<deckName>.+)$";
+    public static final String DECK_SET_ACTIVATE = "^deck set-activate (?<deckName>.+)$";
+    public static final ArrayList<String> DECK_ADD_CARD_TO_MAIN_DECK;
+    public static final ArrayList<String> DECK_ADD_CARD_TO_SIDE_DECK;
+    public static final ArrayList<String> DECK_REMOVE_CARD_MAIN_DECK;
+    public static final ArrayList<String> DECK_REMOVE_CARD_SIDE_DECK;
     public static final String DECK_SHOW_ALL = "^deck show --all$";
-    public static final String DECK_SHOW_DECK_NAME = "^$";
-    public static final String DECK_SHOW_CARDS = "^deck show --cards$";
+    public static final String DECK_SHOW_MAIN_DECK = "^deck show --deck-name (?<deckName>.+?)$";
+    public static final ArrayList<String> DECK_SHOW_SIDE_DECK;
+    public static final String DECK_SHOW_ALL_CARDS = "^deck show --cards$";
     public static final String SHOP_BUY = "^shop buy (?<cardName>[A-Za-z]+)$";
     public static final String SHOP_SHOW_ALL = "^shop show --all$";
     public static final List<String> DUEL_NEW_SECOND_PLAYER;
@@ -81,10 +84,42 @@ public class Regex {
         CHEAT_SELECT_HAND = new ArrayList<>();
         CHEAT_SELECT_HAND.add("^select --hand (.+?) --force$");
         CHEAT_SELECT_HAND.add("^select --force --hand (.+?)$");
+        DECK_ADD_CARD_TO_MAIN_DECK = new ArrayList<>();
+        DECK_ADD_CARD_TO_MAIN_DECK.add("^deck add-card --card (?<cardName>.+?) --deck (?<deckName>.+?)$");
+        DECK_ADD_CARD_TO_MAIN_DECK.add("^deck add-card --deck (?<deckName>.+?) --card (?<cardName>.+?)$");
+        DECK_ADD_CARD_TO_SIDE_DECK = new ArrayList<>();
+        DECK_ADD_CARD_TO_SIDE_DECK.add("^deck add-card --card (?<cardName>.+?) --deck (?<deckName>.+?) --side$");
+        DECK_ADD_CARD_TO_SIDE_DECK.add("^deck add-card --deck (?<deckName>.+?) --card (?<cardName>.+?) --side$");
+        DECK_ADD_CARD_TO_SIDE_DECK.add("^deck add-card --side --card (?<cardName>.+?) --deck (?<deckName>.+?)$");
+        DECK_ADD_CARD_TO_SIDE_DECK.add("^deck add-card --side --deck (?<deckName>.+?) --card (?<cardName>.+?)$");
+        DECK_ADD_CARD_TO_SIDE_DECK.add("^deck add-card --card (?<cardName>.+?) --side --deck (?<deckName>.+?)$");
+        DECK_ADD_CARD_TO_SIDE_DECK.add("^deck add-card --deck (?<deckName>.+?) --side --card (?<cardName>.+?)$");
+        DECK_REMOVE_CARD_MAIN_DECK = new ArrayList<>();
+        DECK_REMOVE_CARD_MAIN_DECK.add("deck rm-card --card (?<cardName>.+?) --deck (?<deckName>.+?)$");
+        DECK_REMOVE_CARD_MAIN_DECK.add("deck rm-card --deck (?<deckName>.+?) --card (?<cardName>.+?)$");
+        DECK_REMOVE_CARD_SIDE_DECK = new ArrayList<>();
+        DECK_REMOVE_CARD_SIDE_DECK.add("deck rm-card --card (?<cardName>.+?) --deck (?<deckName>.+?) --side$");
+        DECK_REMOVE_CARD_SIDE_DECK.add("deck rm-card --deck (?<deckName>.+?) --card (?<cardName>.+?)$ --side");
+        DECK_REMOVE_CARD_SIDE_DECK.add("deck rm-card --card (?<cardName>.+?) --side --deck (?<deckName>.+?)$");
+        DECK_REMOVE_CARD_SIDE_DECK.add("deck rm-card --deck (?<deckName>.+?) --side --card (?<cardName>.+?)$");
+        DECK_REMOVE_CARD_SIDE_DECK.add("deck rm-card --side --card (?<cardName>.+?) --deck (?<deckName>.+?)$");
+        DECK_REMOVE_CARD_SIDE_DECK.add("deck rm-card --side --deck (?<deckName>.+?) --card (?<cardName>.+?)$");
+        DECK_SHOW_SIDE_DECK = new ArrayList<>();
+        DECK_SHOW_SIDE_DECK.add("^deck show --side --deck-name (?<deckName>.+?)$");
+        DECK_SHOW_SIDE_DECK.add("^deck show --deck-name (?<deckName>.+?) --side$");
     }
 
     public static Matcher getMatcher(String regex, String command) {
         Pattern pattern = Pattern.compile(regex);
         return pattern.matcher(command);
+    }
+
+    public static Matcher getMatcherFromAllPermutations( ArrayList<String> regexes,String command) {
+        Matcher matcher;
+        for (String regex : regexes) {
+            if ((matcher = getMatcher(regex, command)).matches())
+                return matcher;
+        }
+        return null;
     }
 }
