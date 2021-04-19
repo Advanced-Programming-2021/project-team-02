@@ -124,38 +124,44 @@ public class DeckMenuController {
     private void addMonsterToMainDeck(Monster monster, Deck deck, Matcher matcher) {
         if (!isValidNumberOfCardInDeck(matcher, false, deck.getNumberOfCardInMainDeck(monster)))
             return;
-        deck.addCardToMainDeck(monster);
+        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
+        Objects.requireNonNull(assets).addCardToMainDeck(monster, deck);
         view.showSuccessMessage(SuccessMessage.CARD_ADDED_TO_THE_DECK);
     }
 
     private void addSpellToMainDeck(Spell spell, Deck deck, Matcher matcher) {
         if (!isValidNumberOfCardInDeck(matcher, spell.getIsLimited(), deck.getNumberOfCardInMainDeck(spell))) return;
-        deck.addCardToMainDeck(spell);
+        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
+        Objects.requireNonNull(assets).addCardToMainDeck(spell, deck);
         view.showSuccessMessage(SuccessMessage.CARD_ADDED_TO_THE_DECK);
     }
 
     private void addTrapToMainDeck(Trap trap, Deck deck, Matcher matcher) {
         if (!isValidNumberOfCardInDeck(matcher, trap.getIsLimited(), deck.getNumberOfCardInMainDeck(trap))) return;
-        deck.addCardToMainDeck(trap);
+        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
+        Objects.requireNonNull(assets).addCardToMainDeck(trap, deck);
         view.showSuccessMessage(SuccessMessage.CARD_ADDED_TO_THE_DECK);
     }
 
     private void addMonsterToSideDeck(Monster monster, Deck deck, Matcher matcher) {
         if (!isValidNumberOfCardInDeck(matcher, false, deck.getNumberOfCardInMainDeck(monster)))
             return;
-        deck.addCardToSideDeck(monster);
+        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
+        Objects.requireNonNull(assets).addCardToSideDeck(monster, deck);
         view.showSuccessMessage(SuccessMessage.CARD_ADDED_TO_THE_DECK);
     }
 
     private void addSpellToSideDeck(Spell spell, Deck deck, Matcher matcher) {
         if (!isValidNumberOfCardInDeck(matcher, spell.getIsLimited(), deck.getNumberOfCardInMainDeck(spell))) return;
-        deck.addCardToSideDeck(spell);
+        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
+        Objects.requireNonNull(assets).addCardToSideDeck(spell, deck);
         view.showSuccessMessage(SuccessMessage.CARD_ADDED_TO_THE_DECK);
     }
 
     private void addTrapToSideDeck(Trap trap, Deck deck, Matcher matcher) {
         if (!isValidNumberOfCardInDeck(matcher, trap.getIsLimited(), deck.getNumberOfCardInMainDeck(trap))) return;
-        deck.addCardToSideDeck(trap);
+        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
+        Objects.requireNonNull(assets).addCardToSideDeck(trap, deck);
         view.showSuccessMessage(SuccessMessage.CARD_ADDED_TO_THE_DECK);
     }
 
@@ -174,10 +180,10 @@ public class DeckMenuController {
         return true;
     }
 
-    public void showAllDecks(Matcher matcher) {
+    public void showAllDecks() {
         Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
         ArrayList<Deck> decks = assets.getAllDecks();
-        Comparator<Deck> comparator = Comparator.comparing(Deck::isActivated).thenComparing(Deck::getName);
+        Comparator<Deck> comparator = Comparator.comparing(Deck::isActivated).reversed().thenComparing(Deck::getName);
         decks.sort(comparator);
         System.out.println("Decks:\n" +
                 "Active deck:");
@@ -203,8 +209,38 @@ public class DeckMenuController {
 
     }
 
-    public void showDeck(Matcher matcher) {
-
+    public void showDeck(Matcher matcher, String deckType) {
+        String deckName = matcher.group("deckName");
+        if (!doesDeckExist(deckName)) {
+            view.showDynamicError(Error.DECK_NOT_EXIST, matcher);
+            return;
+        }
+        List<Card> monsters = new ArrayList<>();
+        List<Card> spellsAndTraps = new ArrayList<>();
+        List<Card> cards;
+        if (deckType.equals("Main")) {
+            cards = Objects.requireNonNull(Assets.getAssetsByUsername(MenusManager.getInstance().
+                    getLoggedInUser().getUsername())).getDeckByDeckName(deckName).getMainCards();
+        } else {
+            cards = Objects.requireNonNull(Assets.getAssetsByUsername(MenusManager.getInstance().
+                    getLoggedInUser().getUsername())).getDeckByDeckName(deckName).getSideCards();
+        }
+        for (Card card : cards) {
+            if (card.getCardType().equals(CardType.MONSTER))
+                monsters.add(card);
+            else
+                spellsAndTraps.add(card);
+        }
+        Comparator<Card> comparator = Comparator.comparing(Card::getName);
+        monsters.sort(comparator);
+        spellsAndTraps.sort(comparator);
+        System.out.println("Deck: " + deckName);
+        System.out.println(deckType + " deck:");
+        System.out.println("Monsters:");
+        for (Card card : monsters)
+            System.out.println(card.getName() + ": " + card.getDescription());
+        for (Card card : spellsAndTraps)
+            System.out.println(card.getName() + ": " + card.getDescription());
     }
 
     public void showAllCards(Matcher matcher) {

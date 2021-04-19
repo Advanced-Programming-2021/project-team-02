@@ -1,12 +1,10 @@
 package view;
 
 import controller.DeckMenuController;
-import view.input.Input;
 import view.input.Regex;
 import view.messages.Error;
 import view.messages.SuccessMessage;
 
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 public class DeckMenuView {
@@ -44,15 +42,15 @@ public class DeckMenuView {
         } else if ((matcher = Regex.getMatcherFromAllPermutations(Regex.DECK_REMOVE_CARD_SIDE_DECK, command)) != null) {
 
         } else if ((matcher = Regex.getMatcher(Regex.DECK_SHOW_ALL_DECKS, command)).matches()) {
-            controller.showAllDecks(matcher);
+            controller.showAllDecks();
         } else if ((matcher = Regex.getMatcher(Regex.DECK_SHOW_MAIN_DECK, command)).matches()) {
-            controller.showDeck(matcher);
+            controller.showDeck(matcher, "Main");
         } else if ((matcher = Regex.getMatcherFromAllPermutations(Regex.DECK_SHOW_SIDE_DECK, command)) != null) {
-
+            controller.showDeck(matcher, "Side");
         } else if ((matcher = Regex.getMatcher(Regex.DECK_SHOW_ALL_CARDS, command)).matches()) {
 
         } else {
-            System.out.println("invalid command");
+            showError(Error.INVALID_COMMAND);
         }
 
     }

@@ -51,6 +51,10 @@ public abstract class Card {
         return attribute;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public static Card getCardByName(String cardName) {
         for (Card card : Shop.getCards ().keySet ())
             if (card.name.equals (cardName)) return card;

@@ -73,8 +73,14 @@ public class Assets {
         Objects.requireNonNull(User.getUserByUsername(username)).activatedDeck();
     }
 
-    public void addCard(Card card) {
+    public void addCardToMainDeck(Card card, Deck deck) {
+        deck.addCardToMainDeck(card);
+        allCards.replace(card, allCards.get(card) - 1);
+    }
 
+    public void addCardToSideDeck(Card card, Deck deck) {
+        deck.addCardToSideDeck(card);
+        allCards.replace(card, allCards.get(card) - 1);
     }
 
     public void decreaseCoin(int amount) {

@@ -2,8 +2,11 @@ package model;
 
 import model.card.Card;
 import model.card.CardsDatabase;
+import model.card.informationofcards.CardType;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 public class Deck {
     private ArrayList<Card> mainCards;
@@ -69,7 +72,10 @@ public class Deck {
     public ArrayList<Card> getSideCards() {
         return sideCards;
     }
-    public  boolean isValidDeck(){
-        return this.sideCards.size() <= 15 && this.mainCards.size() <= 60 && this.sideCards.size() >= 40;
+
+    public boolean isValidDeck() {
+        return this.sideCards.size() <= 15 && this.mainCards.size() <= 60 && this.mainCards.size() >= 40;
     }
+
+
 }
