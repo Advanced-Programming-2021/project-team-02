@@ -15,11 +15,9 @@ public class User implements Comparable<User> {
     private String nickname;
     private boolean hasActiveDeck;
     private int score;
-    private boolean isUserLoggedIn;
 
     {
         hasActiveDeck = false;
-        isUserLoggedIn = false;
     }
 
     static {
@@ -53,9 +51,6 @@ public class User implements Comparable<User> {
         this.nickname = nickname;
     }
 
-    public void setUserLoggedIn(boolean userLoggedIn) {
-        isUserLoggedIn = userLoggedIn;
-    }
 
     public String getNickname() {
         return nickname;

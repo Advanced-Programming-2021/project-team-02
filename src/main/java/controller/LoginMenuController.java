@@ -67,7 +67,7 @@ public class LoginMenuController {
         }
         MainMenuController.getInstance().setLoggedInUser(User.getUserByUsername(username));
         assert User.getUserByUsername(username) != null;
-        User.getUserByUsername(username).setUserLoggedIn(true);
+        MenusManager.getInstance().setLoggedInUser(User.getUserByUsername(username));
         view.showSuccessMessage(SuccessMessage.LOGIN_SUCCESSFUL);
         MenusManager.getInstance().changeMenu(Menu.MAIN_MENU);
     }
