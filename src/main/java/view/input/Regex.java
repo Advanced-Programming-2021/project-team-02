@@ -2,6 +2,7 @@ package view.input;
 
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,32 +27,32 @@ public class Regex {
     public static final String DECK_SHOW_CARDS = "^deck show --cards$";
     public static final String SHOP_BUY = "^shop buy (?<cardName>[A-Za-z]+)$";
     public static final String SHOP_SHOW_ALL = "^shop show --all$";
-    public static final String DUEL_NEW_SECOND_PLAYER = "^$";
+    public static final List<String> DUEL_NEW_SECOND_PLAYER;
     public static final String DUEL_NEW_AI = "";
-    public static final String BOARD_GAME_SELECT_MONSTER = "";
-    public static final String BOARD_GAME_SELECT_MONSTER_OPPONENT = "";
+    public static final String BOARD_GAME_SELECT_MONSTER = "^select --monster (\\d)$";
+    public static final List<String> BOARD_GAME_SELECT_MONSTER_OPPONENT;
     public static final String BOARD_GAME_SELECT_CARD = "";
-    public static final String BOARD_GAME_SELECT_DELETE = "";
-    public static final String BOARD_GAME_SUMMON = "";
-    public static final String BOARD_GAME_SET_MONSTER = "";
-    public static final String BOARD_GAME_SET_POSITION = "";
-    public static final String BOARD_GAME_FLIP_SUMMON = "";
-    public static final String BOARD_GAME_ATTACK = "";
-    public static final String BOARD_GAME_ATTACK_DIRECT = "";
-    public static final String BOARD_GAME_ACTIVATE_EFFECT = "";
-    public static final String BOARD_GAME_SET_SPELL = "";
-    public static final String BOARD_GAME_SET_TRAP = "";
-    public static final String BOARD_GAME_SURRENDER = "";
-    public static final String GRAVEYARD_SHOW = "";
-    public static final String GRAVEYARD_BACK = "";
-    public static final String CARD_SHOW_SELECTED = "";
-    public static final String CHEAT_INCREASE_MONEY = "";
-    public static final String CHEAT_SELECT_HAND = "";
-    public static final String CHEAT_INCREASE_LP = "";
-    public static final String CHEAT_DUEL_SET_WINNER = "";
-    public static final String IMPORT_CARD = "";
-    public static final String EXPORT_CARD = "";
-    public static final String COMMAND_CANCEL = "";
+    public static final String BOARD_GAME_SELECT_DELETE = "^select -d$";
+    public static final String BOARD_GAME_SUMMON = "^summon$";
+    public static final String BOARD_GAME_SET_MONSTER = "^set$";
+    public static final String BOARD_GAME_SET_POSITION = "^set -- position (attack|defense)$";
+    public static final String BOARD_GAME_FLIP_SUMMON = "^flip-summon$";
+    public static final String BOARD_GAME_ATTACK = "^attack (\\d)$";
+    public static final String BOARD_GAME_ATTACK_DIRECT = "^attack direct$";
+    public static final String BOARD_GAME_ACTIVATE_EFFECT = "^activate effect$";
+    //public static final String BOARD_GAME_SET_SPELL = "";
+    //public static final String BOARD_GAME_SET_TRAP = "";
+    public static final String BOARD_GAME_SURRENDER = "^surrender$";
+    public static final String GRAVEYARD_SHOW = "^show graveyard$";
+    public static final String GRAVEYARD_BACK = "^back$";
+    public static final String CARD_SHOW_SELECTED = "^card show --selected$";
+    public static final String CHEAT_INCREASE_MONEY = "^increase --money (\\d+)$";
+    public static final List<String> CHEAT_SELECT_HAND;
+    public static final String CHEAT_INCREASE_LP = "^increase --LP (\\d+)$";
+    public static final String CHEAT_DUEL_SET_WINNER = "^duel set-winner (.+?)$";
+    public static final String IMPORT_CARD = "^import card (.+?)$";
+    public static final String EXPORT_CARD = "^export card (.+?)$";
+    // nist :| public static final String COMMAND_CANCEL = "";
 
     static {
         USER_CREATE = new ArrayList<>();
@@ -71,6 +72,15 @@ public class Regex {
         PROFILE_CHANGE_PASSWORD.add("^profile change --current (?<currentPassword>.+?) --new (?<newPassword>.+?) --password$");
         PROFILE_CHANGE_PASSWORD.add("^profile change --new (?<newPassword>.+?) --current (?<currentPassword>.+?) --password$");
         PROFILE_CHANGE_PASSWORD.add("^profile change --new (?<newPassword>.+?) --password --current (?<currentPassword>.+?)$");
+        DUEL_NEW_SECOND_PLAYER = new ArrayList<>();
+        DUEL_NEW_SECOND_PLAYER.add("^duel new --second-player (.+?) --rounds (\\d+)$");
+        DUEL_NEW_SECOND_PLAYER.add("^duel new --rounds (\\d+) --second-player (.+?)$");
+        BOARD_GAME_SELECT_MONSTER_OPPONENT = new ArrayList<>();
+        BOARD_GAME_SELECT_MONSTER_OPPONENT.add("^select --monster (\\d) --opponent$");
+        BOARD_GAME_SELECT_MONSTER_OPPONENT.add("^select --opponent --monster (\\d)$");
+        CHEAT_SELECT_HAND = new ArrayList<>();
+        CHEAT_SELECT_HAND.add("^select --hand (.+?) --force$");
+        CHEAT_SELECT_HAND.add("^select --force --hand (.+?)$");
     }
 
     public static Matcher getMatcher(String regex, String command) {

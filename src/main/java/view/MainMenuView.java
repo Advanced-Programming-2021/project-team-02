@@ -1,7 +1,5 @@
 package view;
 
-import com.sun.tools.javac.Main;
-import view.input.Input;
 import view.messages.Error;
 import view.messages.SuccessMessage;
 
