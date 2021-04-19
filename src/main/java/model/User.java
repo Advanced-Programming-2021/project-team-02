@@ -105,4 +105,12 @@ public class User implements Comparable<User> {
         Collections.sort(allUsers);
         return allUsers;
     }
+
+    @Override
+    public String toString() {
+        return "User: " +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", nickname='" + nickname + '\'';
+    }
 }

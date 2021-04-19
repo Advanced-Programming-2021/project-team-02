@@ -7,6 +7,7 @@ import model.card.Card;
 import view.ShopMenuView;
 import view.messages.Error;
 
+import java.util.Locale;
 import java.util.Objects;
 import java.util.regex.Matcher;
 
@@ -22,10 +23,18 @@ public class ShopMenuController {
         return instance;
     }
 
+    public void setLoggedInUser(User loggedInUser) {
+        this.loggedInUser = loggedInUser;
+    }
+
+    public User getLoggedInUser() {
+        return loggedInUser;
+    }
+
     public void buyCard(Matcher matcher) {
         String cardName = matcher.group ("cardName");
         Card card = Card.getCardByName (cardName);
-        Assets assets = Assets.getAssetsByUsername (loggedInUser.getUsername ());
+        Assets assets = Assets.getAssetsByUsername (ShopMenuController.getInstance ().getLoggedInUser ().getUsername ());
         if (card == null) {
             view.showError (Error.CARD_DOES_NOT_EXIST);
             return;

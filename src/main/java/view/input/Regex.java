@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Regex {
-    public static final String MENU_ENTER = "^menu enter (?<menuName>[A-Za-z]+)$";
+    public static final String MENU_ENTER = "^menu enter (?<menuName>.+)$";
     public static final String MENU_EXIT = "^menu exit$";
     public static final String MENU_SHOW_CURRENT = "^menu show-current$";
     public static final ArrayList<String> USER_CREATE;
@@ -28,7 +28,7 @@ public class Regex {
     public static final String DECK_SHOW_MAIN_DECK = "^deck show --deck-name (?<deckName>.+?)$";
     public static final ArrayList<String> DECK_SHOW_SIDE_DECK;
     public static final String DECK_SHOW_ALL_CARDS = "^deck show --cards$";
-    public static final String SHOP_BUY = "^shop buy (?<cardName>[A-Za-z]+)$";
+    public static final String SHOP_BUY = "^shop buy (?<cardName>[A-Za-z ',-]+)$";
     public static final String SHOP_SHOW_ALL = "^shop show --all$";
     public static final List<String> DUEL_NEW_SECOND_PLAYER;
     public static final List<String> DUEL_NEW_AI;
@@ -58,78 +58,76 @@ public class Regex {
     public static final String COMMAND_CANCEL = "^cancel$";
 
     static {
-        USER_CREATE = new ArrayList<>();
-        USER_CREATE.add("^user create --username (?<username>.+?) --password (?<password>.+?) --nickname (?<nickname>.+?)$");
-        USER_CREATE.add("^user create --username (?<username>.+?) --nickname (?<nickname>.+?) --password (?<password>.+?)$");
-        USER_CREATE.add("^user create --nickname (?<nickname>.+?) --username (?<username>.+?) --password (?<password>.+?)$");
-        USER_CREATE.add("^user create --nickname (?<nickname>.+?) --password (?<password>.+?) --username (?<username>.+?)$");
-        USER_CREATE.add("^user create --password (?<password>.+?) --username (?<username>.+?) --nickname (?<nickname>.+?)$");
-        USER_CREATE.add("^user create --password (?<password>.+?) --nickname (?<nickname>.+?) --username (?<username>.+?)$");
-        USER_LOGIN = new ArrayList<>();
-        USER_LOGIN.add("^user login --username (?<username>.+?) --password (?<password>.+?)$");
-        USER_LOGIN.add("^user login --password (?<password>.+?) --username (?<username>.+?)$");
-        PROFILE_CHANGE_PASSWORD = new ArrayList<>();
-        PROFILE_CHANGE_PASSWORD.add("^profile change --password --current (?<currentPassword>.+?) --new (?<newPassword>.+?)$");
-        PROFILE_CHANGE_PASSWORD.add("^profile change --password --new (?<newPassword>.+?) --current (?<currentPassword>.+?)$");
-        PROFILE_CHANGE_PASSWORD.add("^profile change --current (?<currentPassword>.+?) --password --new (?<newPassword>.+?)$");
-        PROFILE_CHANGE_PASSWORD.add("^profile change --current (?<currentPassword>.+?) --new (?<newPassword>.+?) --password$");
-        PROFILE_CHANGE_PASSWORD.add("^profile change --new (?<newPassword>.+?) --current (?<currentPassword>.+?) --password$");
-        PROFILE_CHANGE_PASSWORD.add("^profile change --new (?<newPassword>.+?) --password --current (?<currentPassword>.+?)$");
-        CHEAT_SELECT_HAND = new ArrayList<>();
-        CHEAT_SELECT_HAND.add("^select --hand (?<cardNumber>.+?) --force$");
-        CHEAT_SELECT_HAND.add("^select --force --hand (?<cardNumber>.+?)$");
-        DECK_ADD_CARD_TO_MAIN_DECK = new ArrayList<>();
-        DECK_ADD_CARD_TO_MAIN_DECK.add("^deck add-card --card (?<cardName>.+?) --deck (?<deckName>.+?)$");
-        DECK_ADD_CARD_TO_MAIN_DECK.add("^deck add-card --deck (?<deckName>.+?) --card (?<cardName>.+?)$");
-        DECK_ADD_CARD_TO_SIDE_DECK = new ArrayList<>();
-        DECK_ADD_CARD_TO_SIDE_DECK.add("^deck add-card --card (?<cardName>.+?) --deck (?<deckName>.+?) --side$");
-        DECK_ADD_CARD_TO_SIDE_DECK.add("^deck add-card --deck (?<deckName>.+?) --card (?<cardName>.+?) --side$");
-        DECK_ADD_CARD_TO_SIDE_DECK.add("^deck add-card --side --card (?<cardName>.+?) --deck (?<deckName>.+?)$");
-        DECK_ADD_CARD_TO_SIDE_DECK.add("^deck add-card --side --deck (?<deckName>.+?) --card (?<cardName>.+?)$");
-        DECK_ADD_CARD_TO_SIDE_DECK.add("^deck add-card --card (?<cardName>.+?) --side --deck (?<deckName>.+?)$");
-        DECK_ADD_CARD_TO_SIDE_DECK.add("^deck add-card --deck (?<deckName>.+?) --side --card (?<cardName>.+?)$");
-        DECK_REMOVE_CARD_MAIN_DECK = new ArrayList<>();
-        DECK_REMOVE_CARD_MAIN_DECK.add("deck rm-card --card (?<cardName>.+?) --deck (?<deckName>.+?)$");
-        DECK_REMOVE_CARD_MAIN_DECK.add("deck rm-card --deck (?<deckName>.+?) --card (?<cardName>.+?)$");
-        DECK_REMOVE_CARD_SIDE_DECK = new ArrayList<>();
-        DECK_REMOVE_CARD_SIDE_DECK.add("deck rm-card --card (?<cardName>.+?) --deck (?<deckName>.+?) --side$");
-        DECK_REMOVE_CARD_SIDE_DECK.add("deck rm-card --deck (?<deckName>.+?) --card (?<cardName>.+?)$ --side");
-        DECK_REMOVE_CARD_SIDE_DECK.add("deck rm-card --card (?<cardName>.+?) --side --deck (?<deckName>.+?)$");
-        DECK_REMOVE_CARD_SIDE_DECK.add("deck rm-card --deck (?<deckName>.+?) --side --card (?<cardName>.+?)$");
-        DECK_REMOVE_CARD_SIDE_DECK.add("deck rm-card --side --card (?<cardName>.+?) --deck (?<deckName>.+?)$");
-        DECK_REMOVE_CARD_SIDE_DECK.add("deck rm-card --side --deck (?<deckName>.+?) --card (?<cardName>.+?)$");
-        DECK_SHOW_SIDE_DECK = new ArrayList<>();
-        DECK_SHOW_SIDE_DECK.add("^deck show --side --deck-name (?<deckName>.+?)$");
-        DECK_SHOW_SIDE_DECK.add("^deck show --deck-name (?<deckName>.+?) --side$");
-        DUEL_NEW_SECOND_PLAYER = new ArrayList<>();
-        DUEL_NEW_SECOND_PLAYER.add("^duel new --second-player (?<secondPlayerNickName>.+?) --rounds (?<roundNumber>\\d+)$");
-        DUEL_NEW_SECOND_PLAYER.add("^duel new --rounds (?<roundNumber>\\d+) --second-player (?<secondPlayerNickName>.+?)$");
-        DUEL_NEW_AI = new ArrayList<>();
-        DUEL_NEW_AI.add("^duel --new --ai --rounds (?<roundNumber>\\d+)$");
-        DUEL_NEW_AI.add("^duel --new --rounds (?<roundNumber>\\d+) --ai$");
-        DUEL_NEW_AI.add("^duel --ai --rounds (?<roundNumber>\\d+) --new$");
-        DUEL_NEW_AI.add("^duel --ai --new --rounds (?<roundNumber>\\d+)$");
-        DUEL_NEW_AI.add("^duel --rounds (?<roundNumber>\\d+) --ai --new$");
-        DUEL_NEW_AI.add("^duel --rounds (?<roundNumber>\\d+) --new --ai$");
-        BOARD_GAME_SELECT_MONSTER_OPPONENT = new ArrayList<>();
-        BOARD_GAME_SELECT_MONSTER_OPPONENT.add("^select --monster (?<monsterZoneNumber>\\d) --opponent$");
-        BOARD_GAME_SELECT_MONSTER_OPPONENT.add("^select --opponent --monster (?<monsterZoneNumber>\\d)$");
-        BOARD_GAME_SELECT_SPELL_OPPONENT = new ArrayList<>();
-        BOARD_GAME_SELECT_SPELL_OPPONENT.add("^select --spell (?<spellZoneNumber>\\d+) --opponent$");
-        BOARD_GAME_SELECT_SPELL_OPPONENT.add("^select --opponent --spell (?<spellZoneNumber>\\d+)$");
+        USER_CREATE = new ArrayList<> ();
+        USER_CREATE.add ("^user create --username (?<username>[^-]+) --password (?<password>[^-]+) --nickname (?<nickname>[^-]+)$");
+        USER_CREATE.add ("^user create --username (?<username>[^-]+) --nickname (?<nickname>[^-]+) --password (?<password>[^-]+)$");
+        USER_CREATE.add ("^user create --nickname (?<nickname>[^-]+) --username (?<username>[^-]+) --password (?<password>[^-]+)$");
+        USER_CREATE.add ("^user create --nickname (?<nickname>[^-]+) --password (?<password>[^-]+) --username (?<username>[^-]+)$");
+        USER_CREATE.add ("^user create --password (?<password>[^-]+) --username (?<username>[^-]+) --nickname (?<nickname>[^-]+)$");
+        USER_CREATE.add ("^user create --password (?<password>[^-]+) --nickname (?<nickname>[^-]+) --username (?<username>[^-]+)$");
+        USER_LOGIN = new ArrayList<> ();
+        USER_LOGIN.add ("^user login --username (?<username>[^-]+?) --password (?<password>[^-]+?)$");
+        USER_LOGIN.add ("^user login --password (?<password>[^-]+?) --username (?<username>[^-]+?)$");
+        PROFILE_CHANGE_PASSWORD = new ArrayList<> ();
+        PROFILE_CHANGE_PASSWORD.add ("^profile change --password --current (?<currentPassword>[^-]+) --new (?<newPassword>[^-]+)$");
+        PROFILE_CHANGE_PASSWORD.add ("^profile change --password --new (?<newPassword>[^-]+) --current (?<currentPassword>[^-]+)$");
+        PROFILE_CHANGE_PASSWORD.add ("^profile change --current (?<currentPassword>[^-]+) --password --new (?<newPassword>[^-]+)$");
+        PROFILE_CHANGE_PASSWORD.add ("^profile change --current (?<currentPassword>[^-]+) --new (?<newPassword>[^-]+) --password$");
+        PROFILE_CHANGE_PASSWORD.add ("^profile change --new (?<newPassword>[^-]+) --current (?<currentPassword>[^-]+) --password$");
+        PROFILE_CHANGE_PASSWORD.add ("^profile change --new (?<newPassword>[^-]+) --password --current (?<currentPassword>[^-]+)$");
+        CHEAT_SELECT_HAND = new ArrayList<> ();
+        CHEAT_SELECT_HAND.add ("^select --hand (?<cardNumber>.+?) --force$");
+        CHEAT_SELECT_HAND.add ("^select --force --hand (?<cardNumber>.+?)$");
+        DECK_ADD_CARD_TO_MAIN_DECK = new ArrayList<> ();
+        DECK_ADD_CARD_TO_MAIN_DECK.add ("^deck add-card --card (?<cardName>.+?) --deck (?<deckName>.+?)$");
+        DECK_ADD_CARD_TO_MAIN_DECK.add ("^deck add-card --deck (?<deckName>.+?) --card (?<cardName>.+?)$");
+        DECK_ADD_CARD_TO_SIDE_DECK = new ArrayList<> ();
+        DECK_ADD_CARD_TO_SIDE_DECK.add ("^deck add-card --card (?<cardName>.+?) --deck (?<deckName>.+?) --side$");
+        DECK_ADD_CARD_TO_SIDE_DECK.add ("^deck add-card --deck (?<deckName>.+?) --card (?<cardName>.+?) --side$");
+        DECK_ADD_CARD_TO_SIDE_DECK.add ("^deck add-card --side --card (?<cardName>.+?) --deck (?<deckName>.+?)$");
+        DECK_ADD_CARD_TO_SIDE_DECK.add ("^deck add-card --side --deck (?<deckName>.+?) --card (?<cardName>.+?)$");
+        DECK_ADD_CARD_TO_SIDE_DECK.add ("^deck add-card --card (?<cardName>.+?) --side --deck (?<deckName>.+?)$");
+        DECK_ADD_CARD_TO_SIDE_DECK.add ("^deck add-card --deck (?<deckName>.+?) --side --card (?<cardName>.+?)$");
+        DECK_REMOVE_CARD_MAIN_DECK = new ArrayList<> ();
+        DECK_REMOVE_CARD_MAIN_DECK.add ("deck rm-card --card (?<cardName>.+?) --deck (?<deckName>.+?)$");
+        DECK_REMOVE_CARD_MAIN_DECK.add ("deck rm-card --deck (?<deckName>.+?) --card (?<cardName>.+?)$");
+        DECK_REMOVE_CARD_SIDE_DECK = new ArrayList<> ();
+        DECK_REMOVE_CARD_SIDE_DECK.add ("deck rm-card --card (?<cardName>.+?) --deck (?<deckName>.+?) --side$");
+        DECK_REMOVE_CARD_SIDE_DECK.add ("deck rm-card --deck (?<deckName>.+?) --card (?<cardName>.+?)$ --side");
+        DECK_REMOVE_CARD_SIDE_DECK.add ("deck rm-card --card (?<cardName>.+?) --side --deck (?<deckName>.+?)$");
+        DECK_REMOVE_CARD_SIDE_DECK.add ("deck rm-card --deck (?<deckName>.+?) --side --card (?<cardName>.+?)$");
+        DECK_REMOVE_CARD_SIDE_DECK.add ("deck rm-card --side --card (?<cardName>.+?) --deck (?<deckName>.+?)$");
+        DECK_REMOVE_CARD_SIDE_DECK.add ("deck rm-card --side --deck (?<deckName>.+?) --card (?<cardName>.+?)$");
+        DECK_SHOW_SIDE_DECK = new ArrayList<> ();
+        DECK_SHOW_SIDE_DECK.add ("^deck show --side --deck-name (?<deckName>.+?)$");
+        DECK_SHOW_SIDE_DECK.add ("^deck show --deck-name (?<deckName>.+?) --side$");
+        DUEL_NEW_SECOND_PLAYER = new ArrayList<> ();
+        DUEL_NEW_SECOND_PLAYER.add ("^duel new --second-player (?<secondPlayerNickName>.+?) --rounds (?<roundNumber>\\d+)$");
+        DUEL_NEW_SECOND_PLAYER.add ("^duel new --rounds (?<roundNumber>\\d+) --second-player (?<secondPlayerNickName>.+?)$");
+        DUEL_NEW_AI = new ArrayList<> ();
+        DUEL_NEW_AI.add ("^duel --new --ai --rounds (?<roundNumber>\\d+)$");
+        DUEL_NEW_AI.add ("^duel --new --rounds (?<roundNumber>\\d+) --ai$");
+        DUEL_NEW_AI.add ("^duel --ai --rounds (?<roundNumber>\\d+) --new$");
+        DUEL_NEW_AI.add ("^duel --ai --new --rounds (?<roundNumber>\\d+)$");
+        DUEL_NEW_AI.add ("^duel --rounds (?<roundNumber>\\d+) --ai --new$");
+        DUEL_NEW_AI.add ("^duel --rounds (?<roundNumber>\\d+) --new --ai$");
+        BOARD_GAME_SELECT_MONSTER_OPPONENT = new ArrayList<> ();
+        BOARD_GAME_SELECT_MONSTER_OPPONENT.add ("^select --monster (?<monsterZoneNumber>\\d) --opponent$");
+        BOARD_GAME_SELECT_MONSTER_OPPONENT.add ("^select --opponent --monster (?<monsterZoneNumber>\\d)$");
+        BOARD_GAME_SELECT_SPELL_OPPONENT = new ArrayList<> ();
+        BOARD_GAME_SELECT_SPELL_OPPONENT.add ("^select --spell (?<spellZoneNumber>\\d+) --opponent$");
+        BOARD_GAME_SELECT_SPELL_OPPONENT.add ("^select --opponent --spell (?<spellZoneNumber>\\d+)$");
     }
 
     public static Matcher getMatcher(String regex, String command) {
-        Pattern pattern = Pattern.compile(regex);
-        return pattern.matcher(command);
+        Pattern pattern = Pattern.compile (regex);
+        return pattern.matcher (command);
     }
 
-    public static Matcher getMatcherFromAllPermutations( List<String> regexes,String command) {
+    public static Matcher getMatcherFromAllPermutations(List<String> regexes, String command) {
         Matcher matcher;
-        for (String regex : regexes) {
-            if ((matcher = getMatcher(regex, command)).matches())
-                return matcher;
-        }
+        for (String regex : regexes)
+            if ((matcher = getMatcher (regex, command)).matches ()) return matcher;
         return null;
     }
 }
