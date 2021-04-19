@@ -4,6 +4,7 @@ import model.card.Card;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class Assets {
     private String username;
@@ -51,8 +52,21 @@ public class Assets {
         return null;
     }
 
-    public void addDeck(Deck deck) {
-        this.allDecks.add(deck);
+    public void createDeck(String name) {
+        this.allDecks.add(new Deck(name));
+    }
+
+    public void deleteDeck(String name) {
+        Deck deck = getDeckByDeckName(name);
+        if (deck.isActivated())
+            Objects.requireNonNull(User.getUserByUsername(username)).deactivatedDeck();
+        this.allDecks.remove(deck);
+    }
+
+    public void activateDeck(String deckName) {
+        Deck deck = getDeckByDeckName(deckName);
+        deck.setActivated(true);
+        Objects.requireNonNull(User.getUserByUsername(username)).activatedDeck();
     }
 
     public void addCard(Card card) {

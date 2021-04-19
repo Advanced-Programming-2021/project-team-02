@@ -29,11 +29,11 @@ public class DeckMenuView {
     public void commandRecognition(String command) {
         Matcher matcher;
         if ((matcher = Regex.getMatcher(Regex.DECK_CREATE, command)).matches()) {
-
+            controller.createDeck(matcher);
         } else if ((matcher = Regex.getMatcher(Regex.DECK_DELETE, command)).matches()) {
-
+            controller.deleteDeck(matcher);
         } else if ((matcher = Regex.getMatcher(Regex.DECK_SET_ACTIVATE, command)).matches()) {
-
+            controller.activateDeck(matcher);
         } else if ((matcher = Regex.getMatcherFromAllPermutations(Regex.DECK_ADD_CARD_TO_MAIN_DECK, command)) != null) {
 
         } else if ((matcher = Regex.getMatcherFromAllPermutations(Regex.DECK_ADD_CARD_TO_SIDE_DECK, command)) != null) {
@@ -60,6 +60,9 @@ public class DeckMenuView {
     }
 
     public void showSuccessMessage(SuccessMessage message) {
+
+    }
+    public void showDynamicError(Error error,Matcher matcher){
 
     }
 

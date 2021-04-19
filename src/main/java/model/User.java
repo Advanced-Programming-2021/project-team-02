@@ -23,15 +23,22 @@ public class User implements Comparable<User> {
     }
 
     static {
-        allUsers = new ArrayList<> ();
+        allUsers = new ArrayList<>();
     }
 
     public User(String username, String password, String nickname) {
-        setUsername (username);
-        setNickname (nickname);
-        setPassword (password);
-        new Assets (username);
-        allUsers.add (this);
+        setUsername(username);
+        setNickname(nickname);
+        setPassword(password);
+        new Assets(username);
+        allUsers.add(this);
+    }
+
+    public void activatedDeck() {
+        hasActiveDeck = true;
+    }
+    public void deactivatedDeck(){
+        hasActiveDeck = false;
     }
 
     private void setUsername(String username) {
@@ -75,27 +82,27 @@ public class User implements Comparable<User> {
     }
 
     public void changeNickname(String newNickname) {
-        setNickname (newNickname);
+        setNickname(newNickname);
     }
 
     public void changePassword(String newPassword) {
-        setPassword (newPassword);
+        setPassword(newPassword);
     }
 
     public static User getUserByUsername(String username) {
         for (User user : allUsers)
-            if (user.username.equals (username)) return user;
+            if (user.username.equals(username)) return user;
         return null;
     }
 
     @Override
     public int compareTo(User user) {
         if (score != user.score) return user.score - score;
-        return nickname.compareTo (user.nickname);
+        return nickname.compareTo(user.nickname);
     }
 
     public static ArrayList<User> sortAllUsers() {
-        Collections.sort (allUsers);
+        Collections.sort(allUsers);
         return allUsers;
     }
 }

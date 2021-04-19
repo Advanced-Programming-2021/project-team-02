@@ -32,4 +32,11 @@ public class Deck {
     public void addCardToSideDeck(String cardName) {
         sideCards.add(CardsDatabase.getCardByName(cardName));
     }
+
+    public void setActivated(boolean activated) {
+        isActivated = activated;
+    }
+    public boolean isActivated(){
+        return isActivated;
+    }
 }
