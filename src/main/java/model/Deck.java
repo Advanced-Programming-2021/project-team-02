@@ -25,18 +25,51 @@ public class Deck {
         return name;
     }
 
-    public void addCardToMainDeck(String cardName) {
-        mainCards.add(CardsDatabase.getCardByName(cardName));
+    public void addCardToMainDeck(Card card) {
+        mainCards.add(card);
     }
 
-    public void addCardToSideDeck(String cardName) {
-        sideCards.add(CardsDatabase.getCardByName(cardName));
+    public void addCardToSideDeck(Card card) {
+        sideCards.add(card);
     }
 
     public void setActivated(boolean activated) {
         isActivated = activated;
     }
-    public boolean isActivated(){
+
+    public boolean isActivated() {
         return isActivated;
+    }
+
+    public boolean isMainFull() {
+        return mainCards.size() == 60;
+    }
+
+    public boolean isSideFull() {
+        return sideCards.size() == 15;
+    }
+
+    public int getNumberOfCardInMainDeck(Card card) {
+        int counter = 0;
+        for (Card cardInDeck : mainCards) {
+            if (cardInDeck.getName().equals(card.getName()))
+                counter++;
+        }
+        for (Card sideCardInDeck : sideCards) {
+            if (sideCardInDeck.getName().equals(card.getName()))
+                counter++;
+        }
+        return counter;
+    }
+
+    public ArrayList<Card> getMainCards() {
+        return mainCards;
+    }
+
+    public ArrayList<Card> getSideCards() {
+        return sideCards;
+    }
+    public  boolean isValidDeck(){
+        return this.sideCards.size() <= 15 && this.mainCards.size() <= 60 && this.sideCards.size() >= 40;
     }
 }

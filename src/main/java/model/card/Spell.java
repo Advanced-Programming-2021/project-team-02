@@ -38,4 +38,7 @@ public class Spell extends Card {
                 ", spellEffect=" + spellEffect +
                 '}';
     }
+    public boolean getIsLimited(){
+        return isLimited;
+    }
 }

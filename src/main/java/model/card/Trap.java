@@ -38,4 +38,7 @@ public class Trap extends Card {
                 ", trapEffect=" + trapEffect +
                 '}';
     }
+    public boolean getIsLimited(){
+        return isLimited;
+    }
 }
