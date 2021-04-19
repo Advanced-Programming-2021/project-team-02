@@ -20,10 +20,10 @@ public class Regex {
     public static final String DECK_CREATE = "^deck create (?<deckName>.+)$";
     public static final String DECK_DELETE = "^deck delete (?<deckName>.+)$";
     public static final String DECK_SET_ACTIVATE = "^deck set-activate (?<deckName>.+)$";
-    public static final ArrayList<String> DECK_ADD_CARD_TO_MAIN_DECK;
-    public static final ArrayList<String> DECK_ADD_CARD_TO_SIDE_DECK;
-    public static final ArrayList<String> DECK_REMOVE_CARD_MAIN_DECK;
-    public static final ArrayList<String> DECK_REMOVE_CARD_SIDE_DECK;
+    public static final List<String> DECK_ADD_CARD_TO_MAIN_DECK;
+    public static final List<String> DECK_ADD_CARD_TO_SIDE_DECK;
+    public static final List<String> DECK_REMOVE_CARD_MAIN_DECK;
+    public static final List<String> DECK_REMOVE_CARD_SIDE_DECK;
     public static final String DECK_SHOW_ALL = "^deck show --all$";
     public static final String DECK_SHOW_MAIN_DECK = "^deck show --deck-name (?<deckName>.+?)$";
     public static final ArrayList<String> DECK_SHOW_SIDE_DECK;
@@ -114,7 +114,7 @@ public class Regex {
         return pattern.matcher(command);
     }
 
-    public static Matcher getMatcherFromAllPermutations( ArrayList<String> regexes,String command) {
+    public static Matcher getMatcherFromAllPermutations( List<String> regexes,String command) {
         Matcher matcher;
         for (String regex : regexes) {
             if ((matcher = getMatcher(regex, command)).matches())
