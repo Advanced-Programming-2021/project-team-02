@@ -22,7 +22,7 @@ public enum SuccessMessage {
     POSITION_CHANGED_SUCCESSFULLY("monster card position changed successfully"),
     FLIP_SUMMON_SUCCESSFUL("flip summoned successfully"),
     //OPPONENT_RECEIVE_DAMAGE_AFTER_ATTACK
-    NO_DAMAGE_TO_ANYONE("both you and your opponent monster cards are destroyed and no\n" +
+    NO_DAMAGE_TO_ANYONE("both you and your opponent monster cards are destroyed and no" +
             "one receives damage"),
     //CURRENT_PLAYER_RECEIVE_DAMAGE_AFTER_ATTACK,
     DEFENSIVE_MONSTER_DESTROYED("the defense position monster is destroyed"),
