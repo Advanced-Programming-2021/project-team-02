@@ -2,7 +2,6 @@ package controller;
 
 import model.Assets;
 import model.Deck;
-import model.User;
 import model.card.Card;
 import model.card.Monster;
 import model.card.Spell;
@@ -17,8 +16,6 @@ import java.util.*;
 import java.util.regex.Matcher;
 
 public class DeckMenuController {
-    int q = 0;
-    private User loggedIInUser;
     private static final DeckMenuController instance;
     private static final DeckMenuView view = DeckMenuView.getInstance();
 
@@ -30,10 +27,6 @@ public class DeckMenuController {
         return instance;
     }
 
-    private void setLoggedIInUser(User loggedIInUser) {
-        this.loggedIInUser = loggedIInUser;
-    }
-
     public void createDeck(Matcher matcher) {
         String deckName = matcher.group("deckName");
         if (doesDeckExist(deckName)) {
@@ -41,9 +34,8 @@ public class DeckMenuController {
             return;
         }
         Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
-        assert assets != null;
         view.showSuccessMessage(SuccessMessage.DECK_CREATED);
-        assets.createDeck(deckName);
+        Objects.requireNonNull(assets).createDeck(deckName);
     }
 
     public void deleteDeck(Matcher matcher) {
@@ -53,27 +45,25 @@ public class DeckMenuController {
             return;
         }
         Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
-        assert assets != null;
         view.showSuccessMessage(SuccessMessage.DECK_DELETED);
-        assets.deleteDeck(deckName);
+        Objects.requireNonNull(assets).deleteDeck(deckName);
     }
 
     public void activateDeck(Matcher matcher) {
         Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
-        assert assets != null;
         String deckName = matcher.group("deckName");
         if (!doesDeckExist(deckName)) {
             view.showDynamicError(Error.DECK_NOT_EXIST, matcher);
             return;
         }
-        assets.activateDeck(deckName);
+        Objects.requireNonNull(assets).activateDeck(deckName);
         view.showSuccessMessage(SuccessMessage.DECK_ACTIVATED);
     }
 
     public void addCardToMainDeck(Matcher matcher) {
         String cardName = matcher.group("cardName");
         String deckName = matcher.group("deckName");
-        if (!isValidDeckToAddCard(matcher, cardName, deckName)) return;
+        if (isValidDeckToAddCard(matcher, cardName, deckName)) return;
         Deck deck = Objects.requireNonNull(Assets.getAssetsByUsername(MenusManager.getInstance()
                 .getLoggedInUser().getUsername())).getDeckByDeckName(deckName);
         if (deck.isMainFull()) {
@@ -81,19 +71,18 @@ public class DeckMenuController {
             return;
         }
         Card card = Card.getCardByName(cardName);
-        if (Objects.requireNonNull(card).getCardType().equals(CardType.MONSTER)) {
+        if (Objects.requireNonNull(card).getCardType().equals(CardType.MONSTER))
             addMonsterToMainDeck((Monster) card, deck, matcher);
-        } else if (card.getCardType().equals(CardType.SPELL)) {
+        else if (card.getCardType().equals(CardType.SPELL))
             addSpellToMainDeck((Spell) card, deck, matcher);
-        } else {
+        else
             addTrapToMainDeck((Trap) card, deck, matcher);
-        }
     }
 
     public void addCardToSideDeck(Matcher matcher) {
         String cardName = matcher.group("cardName");
         String deckName = matcher.group("deckName");
-        if (!isValidDeckToAddCard(matcher, cardName, deckName)) return;
+        if (isValidDeckToAddCard(matcher, cardName, deckName)) return;
         Deck deck = Objects.requireNonNull(Assets.getAssetsByUsername(MenusManager.getInstance()
                 .getLoggedInUser().getUsername())).getDeckByDeckName(deckName);
         if (deck.isSideFull()) {
@@ -122,8 +111,7 @@ public class DeckMenuController {
     }
 
     private void addMonsterToMainDeck(Monster monster, Deck deck, Matcher matcher) {
-        if (!isValidNumberOfCardInDeck(matcher, false, deck.getNumberOfCardInMainDeck(monster)))
-            return;
+        if (!isValidNumberOfCardInDeck(matcher, false, deck.getNumberOfCardInMainDeck(monster))) return;
         Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
         Objects.requireNonNull(assets).addCardToMainDeck(monster, deck);
         view.showSuccessMessage(SuccessMessage.CARD_ADDED_TO_THE_DECK);
@@ -144,8 +132,7 @@ public class DeckMenuController {
     }
 
     private void addMonsterToSideDeck(Monster monster, Deck deck, Matcher matcher) {
-        if (!isValidNumberOfCardInDeck(matcher, false, deck.getNumberOfCardInMainDeck(monster)))
-            return;
+        if (!isValidNumberOfCardInDeck(matcher, false, deck.getNumberOfCardInMainDeck(monster))) return;
         Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
         Objects.requireNonNull(assets).addCardToSideDeck(monster, deck);
         view.showSuccessMessage(SuccessMessage.CARD_ADDED_TO_THE_DECK);
@@ -182,7 +169,7 @@ public class DeckMenuController {
 
     public void showAllDecks() {
         Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
-        ArrayList<Deck> decks = assets.getAllDecks();
+        ArrayList<Deck> decks = Objects.requireNonNull(assets).getAllDecks();
         Comparator<Deck> comparator = Comparator.comparing(Deck::isActivated).reversed().thenComparing(Deck::getName);
         decks.sort(comparator);
         System.out.println("Decks:\n" +
@@ -202,11 +189,8 @@ public class DeckMenuController {
                     }
                 }
             }
-        } else {
+        } else
             System.out.println("Other decks:");
-        }
-
-
     }
 
     public void showDeck(Matcher matcher, String deckType) {
@@ -243,13 +227,51 @@ public class DeckMenuController {
             System.out.println(card.getName() + ": " + card.getDescription());
     }
 
-    public void showAllCards(Matcher matcher) {
+    public void showAllCards() {
+        Map<Card, Integer> cardsMap = Objects.requireNonNull(Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername())).getAllCards();
+        List<Card> cardsList = new ArrayList<>(cardsMap.keySet());
+        Comparator<Card> comparator = Comparator.comparing(Card::getName);
+        cardsList.sort(comparator);
+        for (Card card : cardsList) {
+            System.out.println(card.getName() + ": " + card.getDescription());
+        }
+    }
 
+    public void removeCardFromMainDeck(Matcher matcher) {
+        String deckName = matcher.group("deckName");
+        String cardName = matcher.group("cardName");
+        Deck deck;
+        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
+        if (!doesDeckExist(deckName)) {
+            view.showDynamicError(Error.DECK_NOT_EXIST, matcher);
+            return;
+        } else if (!(deck = Objects.requireNonNull(assets).getDeckByDeckName(deckName)).containsMainCard(cardName)) {
+            view.showDynamicError(Error.CARD_DOES_NOT_EXIST_IN_MAIN_DECK, matcher);
+            return;
+        }
+        assets.deleteCardFromMainDeck(Card.getCardByName(cardName), deck);
+        view.showSuccessMessage(SuccessMessage.CARD_REMOVED);
+    }
+
+    public void removeCardFromSideDeck(Matcher matcher) {
+        String deckName = matcher.group("deckName");
+        String cardName = matcher.group("cardName");
+        Deck deck;
+        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
+        if (!doesDeckExist(deckName)) {
+            view.showDynamicError(Error.DECK_NOT_EXIST, matcher);
+            return;
+        } else if (!(deck = Objects.requireNonNull(assets).getDeckByDeckName(deckName)).containsSideCard(cardName)) {
+            view.showDynamicError(Error.CARD_DOES_NOT_EXIST_IN_SIDE_DECK, matcher);
+            return;
+        }
+        assets.deleteCardFromSideDeck(Card.getCardByName(cardName), deck);
+        view.showSuccessMessage(SuccessMessage.CARD_REMOVED);
     }
 
     private boolean doesDeckExist(String deckName) {
         Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
-        return assets.getDeckByDeckName(deckName) != null;
+        return Objects.requireNonNull(assets).getDeckByDeckName(deckName) != null;
     }
 
     private boolean doesCardExist(String cardName) {

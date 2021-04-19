@@ -1,16 +1,12 @@
 package model;
 
 import model.card.Card;
-import model.card.CardsDatabase;
-import model.card.informationofcards.CardType;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 public class Deck {
-    private ArrayList<Card> mainCards;
-    private ArrayList<Card> sideCards;
+    private final ArrayList<Card> mainCards;
+    private final ArrayList<Card> sideCards;
     private String name;
     private boolean isActivated = false;
 
@@ -77,5 +73,27 @@ public class Deck {
         return this.sideCards.size() <= 15 && this.mainCards.size() <= 60 && this.mainCards.size() >= 40;
     }
 
+    public boolean containsMainCard(String cardName) {
+        for (Card card : mainCards) {
+            if (card.getName().equals(cardName))
+                return true;
+        }
+        return false;
+    }
 
+    public boolean containsSideCard(String cardName) {
+        for (Card card : sideCards) {
+            if (card.getName().equals(cardName))
+                return true;
+        }
+        return false;
+    }
+
+    public void deleteCardFromMainDeck(Card card) {
+        mainCards.remove(card);
+    }
+
+    public void deleteCardFromSideDeck(Card card) {
+        sideCards.remove(card);
+    }
 }

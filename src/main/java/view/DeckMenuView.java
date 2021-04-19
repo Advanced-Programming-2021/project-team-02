@@ -12,7 +12,6 @@ public class DeckMenuView {
     private static final DeckMenuController controller = DeckMenuController.getInstance();
 
     private DeckMenuView() {
-
     }
 
     public static DeckMenuView getInstance() {
@@ -38,21 +37,20 @@ public class DeckMenuView {
         } else if ((matcher = Regex.getMatcherFromAllPermutations(Regex.DECK_ADD_CARD_TO_SIDE_DECK, command)) != null) {
             controller.addCardToSideDeck(matcher);
         } else if ((matcher = Regex.getMatcherFromAllPermutations(Regex.DECK_REMOVE_CARD_MAIN_DECK, command)) != null) {
-
+            controller.removeCardFromMainDeck(matcher);
         } else if ((matcher = Regex.getMatcherFromAllPermutations(Regex.DECK_REMOVE_CARD_SIDE_DECK, command)) != null) {
-
-        } else if ((matcher = Regex.getMatcher(Regex.DECK_SHOW_ALL_DECKS, command)).matches()) {
+            controller.removeCardFromSideDeck(matcher);
+        } else if (Regex.getMatcher(Regex.DECK_SHOW_ALL_DECKS, command).matches()) {
             controller.showAllDecks();
         } else if ((matcher = Regex.getMatcher(Regex.DECK_SHOW_MAIN_DECK, command)).matches()) {
             controller.showDeck(matcher, "Main");
         } else if ((matcher = Regex.getMatcherFromAllPermutations(Regex.DECK_SHOW_SIDE_DECK, command)) != null) {
             controller.showDeck(matcher, "Side");
-        } else if ((matcher = Regex.getMatcher(Regex.DECK_SHOW_ALL_CARDS, command)).matches()) {
-
+        } else if (Regex.getMatcher(Regex.DECK_SHOW_ALL_CARDS, command).matches()) {
+            controller.showAllCards();
         } else {
             showError(Error.INVALID_COMMAND);
         }
-
     }
 
     public void showError(Error error) {
@@ -72,6 +70,4 @@ public class DeckMenuView {
             System.out.printf(Error.INCORRECT_CARD_NAME.getValue(), matcher.group("cardName"));
         }
     }
-
-
 }

@@ -83,6 +83,16 @@ public class Assets {
         allCards.replace(card, allCards.get(card) - 1);
     }
 
+    public void deleteCardFromMainDeck(Card card, Deck deck) {
+        deck.deleteCardFromMainDeck(card);
+        allCards.replace(card, allCards.get(card) + 1);
+    }
+
+    public void deleteCardFromSideDeck(Card card, Deck deck) {
+        deck.deleteCardFromSideDeck(card);
+        allCards.replace(card, allCards.get(card) + 1);
+    }
+
     public void decreaseCoin(int amount) {
         coin -= amount;
     }
