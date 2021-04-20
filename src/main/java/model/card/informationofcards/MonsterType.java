@@ -2,10 +2,10 @@ package model.card.informationofcards;
 
 public enum MonsterType {
     BEAST("Beast"),
-    PYRO("Pyto"),
+    PYRO("Pyro"),
     FIEND("Fiend"),
     AQUA("Aqua"),
-    ROCK("Rick"),
+    ROCK("Rock"),
     INSECT("Insect"),
     MACHINE("Machine"),
     FAIRY("Fairy"),
