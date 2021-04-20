@@ -236,6 +236,14 @@ public class DeckMenuController {
             System.out.println(card.getName() + ": " + card.getDescription());
         }
     }
+    public void showCard(Matcher matcher){
+        String cardName = matcher.group("cardName");
+        if (Card.getCardByName(cardName) == null){
+            view.showError(Error.CARD_DOES_NOT_EXIST);
+            return;
+        }
+
+    }
 
     public void removeCardFromMainDeck(Matcher matcher) {
         String deckName = matcher.group("deckName");

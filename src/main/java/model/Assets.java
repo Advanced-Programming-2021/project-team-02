@@ -106,4 +106,14 @@ public class Assets {
     public void decreaseCoin(int amount) {
         coin -= amount;
     }
+
+    public void addCard(Card card) {
+        for (Card cardsOfUser : allCards.keySet()) {
+            if (cardsOfUser.getName().equals(card.getName())) {
+                allCards.replace(card, allCards.get(card) + 1);
+                return;
+            }
+        }
+        allCards.put(card, 1);
+    }
 }

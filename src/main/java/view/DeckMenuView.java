@@ -1,5 +1,6 @@
 package view;
 
+import com.sun.xml.internal.ws.api.server.LazyMOMProvider;
 import controller.DeckMenuController;
 import view.input.Regex;
 import view.messages.Error;
@@ -48,7 +49,9 @@ public class DeckMenuView {
             controller.showDeck(matcher, "Side");
         } else if (Regex.getMatcher(Regex.DECK_SHOW_ALL_CARDS, command).matches()) {
             controller.showAllCards();
-        } else {
+        }else if ((matcher = Regex.getMatcher(Regex.CARD_SHOW, command)).matches()){
+            controller.showCard(matcher);
+        }else {
             showError(Error.INVALID_COMMAND);
         }
     }

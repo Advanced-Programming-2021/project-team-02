@@ -24,7 +24,7 @@ public class Regex {
     public static final List<String> DECK_ADD_CARD_TO_SIDE_DECK;
     public static final List<String> DECK_REMOVE_CARD_MAIN_DECK;
     public static final List<String> DECK_REMOVE_CARD_SIDE_DECK;
-    public static final String DECK_SHOW_ALL = "^deck show --all$";
+    public static final String DECK_SHOW_ALL_DECKS = "^deck show --all$";
     public static final String DECK_SHOW_MAIN_DECK = "^deck show --deck-name (?<deckName>[a-zA-Z0-9 -]+?)$";
     public static final ArrayList<String> DECK_SHOW_SIDE_DECK;
     public static final String DECK_SHOW_ALL_CARDS = "^deck show --cards$";
