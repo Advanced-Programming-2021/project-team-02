@@ -70,7 +70,7 @@ public class Deck {
     }
 
     public boolean isValidDeck() {
-        return this.sideCards.size() <= 15 && this.mainCards.size() <= 60 && this.mainCards.size() >= 40;
+        return !(this.mainCards.size() >= 40);
     }
 
     public boolean containsMainCard(String cardName) {
