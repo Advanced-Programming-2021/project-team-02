@@ -100,7 +100,7 @@ public class DeckMenuController {
     }
 
     private boolean isValidDeckToAddCard(Matcher matcher, String cardName, String deckName) {
-        if (!doesCardExist(cardName)) {
+        if (!doesCardExistInUserCards(cardName)) {
             view.showDynamicError(Error.INCORRECT_CARD_NAME, matcher);
             return false;
         } else if (!doesDeckExist(deckName)) {
@@ -249,7 +249,7 @@ public class DeckMenuController {
             view.showDynamicError(Error.CARD_DOES_NOT_EXIST_IN_MAIN_DECK, matcher);
             return;
         }
-        assets.deleteCardFromMainDeck(Card.getCardByName(cardName), deck);
+        assets.removeCardFromMainDeck(Card.getCardByName(cardName), deck);
         view.showSuccessMessage(SuccessMessage.CARD_REMOVED);
     }
 
@@ -265,7 +265,7 @@ public class DeckMenuController {
             view.showDynamicError(Error.CARD_DOES_NOT_EXIST_IN_SIDE_DECK, matcher);
             return;
         }
-        assets.deleteCardFromSideDeck(Card.getCardByName(cardName), deck);
+        assets.removeCardFromSideDeck(Card.getCardByName(cardName), deck);
         view.showSuccessMessage(SuccessMessage.CARD_REMOVED);
     }
 
@@ -274,7 +274,15 @@ public class DeckMenuController {
         return Objects.requireNonNull(assets).getDeckByDeckName(deckName) != null;
     }
 
-    private boolean doesCardExist(String cardName) {
-        return Card.getCardByName(cardName) != null;
+    private boolean doesCardExistInUserCards(String cardName) {
+        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
+        HashMap<Card, Integer> userCards = Objects.requireNonNull(assets).getAllCards();
+        for (Card card : userCards.keySet()){
+            if (card.getName().equals(cardName))
+                if (userCards.get(card) > 0)
+                    return true;
+        }
+        return false;
     }
+
 }

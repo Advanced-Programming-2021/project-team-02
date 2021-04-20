@@ -64,7 +64,17 @@ public class Assets {
         Deck deck = getDeckByDeckName(name);
         if (deck.isActivated())
             Objects.requireNonNull(User.getUserByUsername(username)).deactivatedDeck();
-        this.allDecks.remove(deck);
+        for (Card card : allCards.keySet()) {
+            for (Card mainCard : deck.getMainCards()) {
+                if (card.getName().equals(mainCard.getName()))
+                    allCards.replace(card, allCards.get(card) + 1);
+                for (Card sideCard : deck.getSideCards()) {
+                    if (card.getName().equals(sideCard.getName()))
+                        allCards.replace(card, allCards.get(card) + 1);
+                }
+            }
+        }
+        allDecks.remove(deck);
     }
 
     public void activateDeck(String deckName) {
@@ -83,13 +93,13 @@ public class Assets {
         allCards.replace(card, allCards.get(card) - 1);
     }
 
-    public void deleteCardFromMainDeck(Card card, Deck deck) {
-        deck.deleteCardFromMainDeck(card);
+    public void removeCardFromMainDeck(Card card, Deck deck) {
+        deck.removeCardFromMainDeck(card);
         allCards.replace(card, allCards.get(card) + 1);
     }
 
-    public void deleteCardFromSideDeck(Card card, Deck deck) {
-        deck.deleteCardFromSideDeck(card);
+    public void removeCardFromSideDeck(Card card, Deck deck) {
+        deck.removeCardFromSideDeck(card);
         allCards.replace(card, allCards.get(card) + 1);
     }
 

@@ -89,11 +89,11 @@ public class Deck {
         return false;
     }
 
-    public void deleteCardFromMainDeck(Card card) {
+    public void removeCardFromMainDeck(Card card) {
         mainCards.remove(card);
     }
 
-    public void deleteCardFromSideDeck(Card card) {
+    public void removeCardFromSideDeck(Card card) {
         sideCards.remove(card);
     }
 }
