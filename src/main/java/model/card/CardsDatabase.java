@@ -25,12 +25,8 @@ public class CardsDatabase {
         return dataBase;
     }
 
-    public static Card getCardByName(String cardName) {
-        for (Card card : allCards) {
-            if (card.getName().equals(cardName))
-                return card;
-        }
-        return null;
+    public static ArrayList<Card> getAllCards() {
+        return allCards;
     }
 
     public static void makeCardMonster(CardType cardType, String name, String id, MonsterActionType monsterActionType, MonsterEffect monsterEffect,

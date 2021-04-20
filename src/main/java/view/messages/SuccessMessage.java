@@ -1,7 +1,7 @@
 package view.messages;
 
 public enum SuccessMessage {
-    SHOW_CURRENT_MENU(""),
+
     REGISTER_SUCCESSFUL("user created successfully!"),
     LOGIN_SUCCESSFUL("user logged in successfully!"),
     LOGOUT("user logged out successfully!"),
@@ -9,7 +9,7 @@ public enum SuccessMessage {
     PASSWORD_CHANGED("password changed successfully!"),
     DECK_CREATED("deck created successfully!"),
     DECK_DELETED("deck deleted successfully"),
-    DECK_ACTIVATED(""),
+    DECK_ACTIVATED("deck activated successfully"),
     CARD_ADDED_TO_THE_DECK("card added to deck successfully"),
     CARD_REMOVED("card removed form deck successfully"),
     CARD_SELECTED("card selected"),

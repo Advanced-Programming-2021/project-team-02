@@ -33,25 +33,27 @@ public class DeckMenuView {
             controller.deleteDeck(matcher);
         } else if ((matcher = Regex.getMatcher(Regex.DECK_SET_ACTIVATE, command)).matches()) {
             controller.activateDeck(matcher);
-        } else if ((matcher = Regex.getMatcherFromAllPermutations(Regex.DECK_ADD_CARD_TO_MAIN_DECK, command)) != null) {
-            controller.addCardToMainDeck(matcher);
         } else if ((matcher = Regex.getMatcherFromAllPermutations(Regex.DECK_ADD_CARD_TO_SIDE_DECK, command)) != null) {
             controller.addCardToSideDeck(matcher);
-        } else if ((matcher = Regex.getMatcherFromAllPermutations(Regex.DECK_REMOVE_CARD_MAIN_DECK, command)) != null) {
-            controller.removeCardFromMainDeck(matcher);
+        } else if ((matcher = Regex.getMatcherFromAllPermutations(Regex.DECK_ADD_CARD_TO_MAIN_DECK, command)) != null) {
+            controller.addCardToMainDeck(matcher);
         } else if ((matcher = Regex.getMatcherFromAllPermutations(Regex.DECK_REMOVE_CARD_SIDE_DECK, command)) != null) {
             controller.removeCardFromSideDeck(matcher);
+        } else if ((matcher = Regex.getMatcherFromAllPermutations(Regex.DECK_REMOVE_CARD_MAIN_DECK, command)) != null) {
+            controller.removeCardFromMainDeck(matcher);
         } else if (Regex.getMatcher(Regex.DECK_SHOW_ALL_DECKS, command).matches()) {
             controller.showAllDecks();
-        } else if ((matcher = Regex.getMatcher(Regex.DECK_SHOW_MAIN_DECK, command)).matches()) {
-            controller.showDeck(matcher, "Main");
         } else if ((matcher = Regex.getMatcherFromAllPermutations(Regex.DECK_SHOW_SIDE_DECK, command)) != null) {
             controller.showDeck(matcher, "Side");
+        } else if ((matcher = Regex.getMatcher(Regex.DECK_SHOW_MAIN_DECK, command)).matches()) {
+            controller.showDeck(matcher, "Main");
         } else if (Regex.getMatcher(Regex.DECK_SHOW_ALL_CARDS, command).matches()) {
             controller.showAllCards();
-        }else if ((matcher = Regex.getMatcher(Regex.CARD_SHOW, command)).matches()){
+        } else if ((matcher = Regex.getMatcher(Regex.CARD_SHOW, command)).matches()) {
             controller.showCard(matcher);
-        }else {
+        } else if (Regex.getMatcher(Regex.MENU_SHOW_CURRENT, command).matches()) {
+            showCurrentMenu();
+        } else {
             showError(Error.INVALID_COMMAND);
         }
     }
@@ -71,6 +73,18 @@ public class DeckMenuView {
             System.out.printf(Error.DECK_NOT_EXIST.getValue(), matcher.group("deckName"));
         } else if (error.equals(Error.INCORRECT_CARD_NAME)) {
             System.out.printf(Error.INCORRECT_CARD_NAME.getValue(), matcher.group("cardName"));
+        } else if (error.equals(Error.EXCESSIVE_NUMBER_IN_DECK)) {
+            System.out.printf(Error.EXCESSIVE_NUMBER_IN_DECK.getValue(), matcher.group("cardName"), matcher.group("deckName"));
+        } else if (error.equals(Error.CARD_LIMITED_IN_DECK)) {
+            System.out.printf(Error.CARD_LIMITED_IN_DECK.getValue(), matcher.group("cardName"));
+        } else if (error.equals(Error.CARD_DOES_NOT_EXIST_IN_SIDE_DECK)) {
+            System.out.printf(Error.CARD_DOES_NOT_EXIST_IN_SIDE_DECK.getValue(), matcher.group("cardName"));
+        } else if (error.equals(Error.CARD_DOES_NOT_EXIST_IN_MAIN_DECK)) {
+            System.out.printf(Error.CARD_DOES_NOT_EXIST_IN_MAIN_DECK.getValue(), matcher.group("cardName"));
         }
+    }
+
+    public void showCurrentMenu() {
+        System.out.println("Deck Menu");
     }
 }

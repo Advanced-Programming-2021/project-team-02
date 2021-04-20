@@ -48,7 +48,7 @@ public class Deck {
         return sideCards.size() == 15;
     }
 
-    public int getNumberOfCardInMainDeck(Card card) {
+    public int getNumberOfCardInDeck(Card card) {
         int counter = 0;
         for (Card cardInDeck : mainCards) {
             if (cardInDeck.getName().equals(card.getName()))
@@ -70,7 +70,7 @@ public class Deck {
     }
 
     public boolean isValidDeck() {
-        return !(this.mainCards.size() >= 40);
+        return (this.mainCards.size() >= 40);
     }
 
     public boolean containsMainCard(String cardName) {

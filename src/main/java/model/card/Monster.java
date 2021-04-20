@@ -51,6 +51,6 @@ public class Monster extends Card {
                 "\nType: " + this.monsterType.getLabel() +
                 "\nATK: " + this.attackPower +
                 "\nDEF: " + this.defensePower +
-                "Description: " + this.description;
+                "\nDescription: " + this.description;
     }
 }

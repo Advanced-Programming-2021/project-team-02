@@ -32,7 +32,7 @@ public class Spell extends Card {
         return "Name: " + this.name +
                 "\nSpell" +
                 "\nType :" + this.spellType +
-                "Description: " + this.description;
+                "\nDescription: " + this.description;
     }
 
     public boolean getIsLimited() {

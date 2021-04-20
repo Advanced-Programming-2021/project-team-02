@@ -4,6 +4,8 @@ import model.Shop;
 import model.card.informationofcards.Attribute;
 import model.card.informationofcards.CardType;
 
+import java.util.ArrayList;
+
 public abstract class Card {
     protected CardType cardType;
     protected String name;
@@ -12,11 +14,11 @@ public abstract class Card {
     protected String id;
 
     protected Card(CardType cardType, String name, String id, Attribute attribute, String description) {
-        setCardType (cardType);
-        setName (name);
-        setAttribute (attribute);
-        setDescription (description);
-        setId (id);
+        setCardType(cardType);
+        setName(name);
+        setAttribute(attribute);
+        setDescription(description);
+        setId(id);
     }
 
     private void setId(String id) {
@@ -56,9 +58,17 @@ public abstract class Card {
     }
 
     public static Card getCardByName(String cardName) {
-        for (Card card : Shop.getCards ().keySet ())
-            if (card.name.equals (cardName)) return card;
+        ArrayList<Card> cards = CardsDatabase.getAllCards();
+        for (Card card : cards) {
+            if (card.getName().equals(cardName))
+                return card;
+        }
         return null;
     }
-
 }
+/*
+user create --password ramz --username mhdsdt --nickname mahdis
+user login --password ramz --username mhdsdt
+menu enter shop
+
+ */

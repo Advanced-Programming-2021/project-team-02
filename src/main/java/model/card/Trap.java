@@ -32,7 +32,7 @@ public class Trap extends Card {
         return "Name: " + this.name +
                 "\nTrap" +
                 "\nType :" + this.trapType +
-                "Description: " + this.description;
+                "\nDescription: " + this.description;
     }
     public boolean getIsLimited(){
         return isLimited;

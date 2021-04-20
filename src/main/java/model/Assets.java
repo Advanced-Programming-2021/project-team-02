@@ -18,7 +18,7 @@ public class Assets {
     }
 
     {
-        coin = 100000;
+        coin = 10000000;
     }
 
     public Assets(String username) {
@@ -78,6 +78,11 @@ public class Assets {
     }
 
     public void activateDeck(String deckName) {
+        for (Deck oneOfDecks : allDecks) {
+            if (oneOfDecks.isActivated()) {
+                oneOfDecks.setActivated(false);
+            }
+        }
         Deck deck = getDeckByDeckName(deckName);
         deck.setActivated(true);
         Objects.requireNonNull(User.getUserByUsername(username)).activatedDeck();
