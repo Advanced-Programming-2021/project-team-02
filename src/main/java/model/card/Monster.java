@@ -9,9 +9,9 @@ public class Monster extends Card {
     private MonsterEffect monsterEffect;
     private MonsterActionType monsterActionType;
 
-    public Monster(CardType cardType, String name,String id,MonsterActionType monsterActionType, MonsterEffect monsterEffect, int level, Attribute attribute,
+    public Monster(CardType cardType, String name, String id, MonsterActionType monsterActionType, MonsterEffect monsterEffect, int level, Attribute attribute,
                    String description, int attackPower, int defensePower, MonsterType monsterType) {
-        super(cardType, name,id,  attribute, description);
+        super(cardType, name, id, attribute, description);
         setAttackPower(attackPower);
         setMonsterType(monsterType);
         setDefensePower(defensePower);
@@ -46,12 +46,11 @@ public class Monster extends Card {
 
     @Override
     public String toString() {
-        return "Monster{" +
-                "level=" + level +
-                ", attackPower=" + attackPower +
-                ", defensePower=" + defensePower +
-                ", monsterType=" + monsterType +
-                ", monsterEffect=" + monsterEffect +
-                '}';
+        return "Name: " + this.name +
+                "\nLevel: " + this.level +
+                "\nType: " + this.monsterType.getLabel() +
+                "\nATK: " + this.attackPower +
+                "\nDEF: " + this.defensePower +
+                "Description: " + this.description;
     }
 }

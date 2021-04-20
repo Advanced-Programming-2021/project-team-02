@@ -158,11 +158,9 @@ public class DeckMenuController {
                 view.showDynamicError(Error.CARD_LIMITED_IN_DECK, matcher);
                 return false;
             }
-        } else {
-            if (numberOfCardInMainDeck == 3) {
-                view.showDynamicError(Error.EXCESSIVE_NUMBER_IN_DECK, matcher);
-                return false;
-            }
+        } else if (numberOfCardInMainDeck == 3) {
+            view.showDynamicError(Error.EXCESSIVE_NUMBER_IN_DECK, matcher);
+            return false;
         }
         return true;
     }
@@ -236,13 +234,24 @@ public class DeckMenuController {
             System.out.println(card.getName() + ": " + card.getDescription());
         }
     }
-    public void showCard(Matcher matcher){
+
+    public void showCard(Matcher matcher) {
         String cardName = matcher.group("cardName");
-        if (Card.getCardByName(cardName) == null){
+        Card card;
+        if ((card = Card.getCardByName(cardName)) == null) {
             view.showError(Error.CARD_DOES_NOT_EXIST);
             return;
         }
-
+        if (card.getCardType().equals(CardType.MONSTER)) {
+            Monster monster = (Monster) card;
+            System.out.println(monster);
+        } else if (card.getCardType().equals(CardType.SPELL)) {
+            Spell spell = (Spell) card;
+            System.out.println(spell);
+        } else {
+            Trap trap = (Trap) card;
+            System.out.println(trap);
+        }
     }
 
     public void removeCardFromMainDeck(Matcher matcher) {
@@ -285,7 +294,7 @@ public class DeckMenuController {
     private boolean doesCardExistInUserCards(String cardName) {
         Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
         HashMap<Card, Integer> userCards = Objects.requireNonNull(assets).getAllCards();
-        for (Card card : userCards.keySet()){
+        for (Card card : userCards.keySet()) {
             if (card.getName().equals(cardName))
                 if (userCards.get(card) > 0)
                     return true;

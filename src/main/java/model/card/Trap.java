@@ -29,14 +29,10 @@ public class Trap extends Card {
 
     @Override
     public String toString() {
-        return "Trap{" +
-                "cardType=" + cardType +
-                ", name='" + name + '\'' +
-                ", attribute=" + attribute +
-                ", description='" + description + '\'' +
-                ", trapType=" + trapType +
-                ", trapEffect=" + trapEffect +
-                '}';
+        return "Name: " + this.name +
+                "\nTrap" +
+                "\nType :" + this.trapType +
+                "Description: " + this.description;
     }
     public boolean getIsLimited(){
         return isLimited;

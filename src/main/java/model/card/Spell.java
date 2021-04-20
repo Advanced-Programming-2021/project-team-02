@@ -7,9 +7,9 @@ public class Spell extends Card {
     private SpellEffect spellEffect;
     private boolean isLimited;
 
-    public Spell(CardType cardType, String name,String id, SpellEffect spellEffect, Attribute attribute,
-                 String description,SpellType spellType, boolean isLimited) {
-        super(cardType, name,id,  attribute, description);
+    public Spell(CardType cardType, String name, String id, SpellEffect spellEffect, Attribute attribute,
+                 String description, SpellType spellType, boolean isLimited) {
+        super(cardType, name, id, attribute, description);
         setSpellType(spellType);
         setSpellEffect(spellEffect);
         setLimited(isLimited);
@@ -29,16 +29,13 @@ public class Spell extends Card {
 
     @Override
     public String toString() {
-        return "Spell{" +
-                "cardType=" + cardType +
-                ", name='" + name + '\'' +
-                ", attribute=" + attribute +
-                ", description='" + description + '\'' +
-                ", spellType=" + spellType +
-                ", spellEffect=" + spellEffect +
-                '}';
+        return "Name: " + this.name +
+                "\nSpell" +
+                "\nType :" + this.spellType +
+                "Description: " + this.description;
     }
-    public boolean getIsLimited(){
+
+    public boolean getIsLimited() {
         return isLimited;
     }
 }
