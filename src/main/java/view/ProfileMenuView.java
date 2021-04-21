@@ -68,7 +68,9 @@ public class ProfileMenuView {
     public void help() {
         System.out.println ("menu show-current\n" +
                 "profile change --nickname <nickname>\n" +
+                "profile change -n <nickname>\n" +
                 "profile change --password --current <currentPassword> --new <newPassword>\n" +
+                "profile change -p -c <currentPassword> -n <newPassword>\n" +
                 "menu exit\n" +
                 "help");
     }

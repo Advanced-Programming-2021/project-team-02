@@ -63,7 +63,9 @@ public class LoginMenuView {
     public void help() {
         System.out.println ("menu show-current\n" +
                 "user create --username <username> --nickname <nickname> --password <password>\n" +
+                "user create -u <username> -n <nickname> -p <password>\n" +
                 "user login --username <username> --password <password>\n" +
+                "user login -u <username> -p <password>\n" +
                 "menu exit\n" +
                 "help");
     }
