@@ -1,5 +1,6 @@
 package view;
 
+import controller.DeckMenuController;
 import controller.ShopMenuController;
 import model.Shop;
 import model.card.Card;
@@ -40,6 +41,8 @@ public class ShopMenuView {
             controller.buyCard(matcher);
         } else if (Regex.getMatcher(Regex.SHOP_SHOW_ALL, command).matches()) {
             showAllCards();
+        } else if ((matcher = Regex.getMatcher(Regex.CARD_SHOW, command)).matches()) {
+            DeckMenuController.getInstance ().showCard (matcher);
         } else if (Regex.getMatcher(Regex.COMMAND_HELP, command).matches()) {
             help ();
         } else showError(Error.INVALID_COMMAND);

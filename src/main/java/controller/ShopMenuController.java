@@ -4,6 +4,10 @@ import model.Assets;
 import model.Shop;
 import model.User;
 import model.card.Card;
+import model.card.Monster;
+import model.card.Spell;
+import model.card.Trap;
+import model.card.informationofcards.CardType;
 import view.ShopMenuView;
 import view.messages.Error;
 

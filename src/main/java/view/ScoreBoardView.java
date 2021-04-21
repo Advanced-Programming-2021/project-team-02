@@ -67,7 +67,7 @@ public class ScoreBoardView {
     }
 
     public void showCurrentMenu() {
-        System.out.println("Login Menu");
+        System.out.println("Scoreboard Menu");
     }
 
     public void help() {
