@@ -5,6 +5,7 @@ import view.input.Regex;
 import view.messages.Error;
 import view.messages.SuccessMessage;
 
+import java.util.Locale;
 import java.util.regex.Matcher;
 
 public class ProfileMenuView {
@@ -26,8 +27,10 @@ public class ProfileMenuView {
 
     public void commandRecognition(String command) {
         Matcher matcher;
-        if (Regex.getMatcher (Regex.MENU_ENTER, command).matches ()) {
-            showError (Error.BEING_ON_A_MENU);
+        if ((matcher = Regex.getMatcher (Regex.MENU_ENTER, command)).matches ()) {
+            if (matcher.group ("menuName").toLowerCase(Locale.ROOT).equals ("profile"))
+                showDynamicError (Error.BEING_ON_CURRENT_MENU, matcher);
+            else showError (Error.BEING_ON_A_MENU);
         } else if (Regex.getMatcher (Regex.MENU_EXIT, command).matches ()) {
             MenusManager.getInstance().changeMenu(Menu.MAIN_MENU);
         } else if ((Regex.getMatcher (Regex.MENU_SHOW_CURRENT, command)).matches ()) {
@@ -36,6 +39,8 @@ public class ProfileMenuView {
             controller.changeNickname (matcher);
         } else if ((matcher = Regex.getMatcherFromAllPermutations (Regex.PROFILE_CHANGE_PASSWORD, command)) != null) {
             controller.changePassword (matcher);
+        } else if (Regex.getMatcher (Regex.COMMAND_HELP, command).matches ()) {
+            help ();
         } else showError (Error.INVALID_COMMAND);
     }
 
@@ -44,10 +49,12 @@ public class ProfileMenuView {
     }
 
     public void showDynamicError(Error error, Matcher matcher) {
-        if (error.equals (Error.TAKEN_USERNAME)) {
+        if (error.equals (Error.TAKEN_USERNAME))
             System.out.printf (Error.TAKEN_USERNAME.getValue (), matcher.group ("username"));
-        } else if (error.equals (Error.TAKEN_NICKNAME))
+        else if (error.equals (Error.TAKEN_NICKNAME))
             System.out.printf (Error.TAKEN_NICKNAME.getValue (), matcher.group ("nickname"));
+        else if (error.equals (Error.BEING_ON_CURRENT_MENU))
+            System.out.printf (error.getValue (), Menu.PROFILE_MENU.getValue ());
     }
 
     public void showSuccessMessage(SuccessMessage message) {
@@ -56,5 +63,13 @@ public class ProfileMenuView {
 
     public void showCurrentMenu() {
         System.out.println ("Profile Menu");
+    }
+
+    public void help() {
+        System.out.println ("menu show-current\n" +
+                "profile change --nickname <nickname>\n" +
+                "profile change --password --current <currentPassword> --new <newPassword>\n" +
+                "menu exit\n" +
+                "help");
     }
 }
