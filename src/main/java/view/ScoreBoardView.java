@@ -6,6 +6,8 @@ import view.input.Regex;
 import view.messages.Error;
 
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.regex.Matcher;
 
 public class ScoreBoardView {
     private static ScoreBoardView instance = null;
@@ -26,14 +28,19 @@ public class ScoreBoardView {
 
 
     public void commandRecognition(String command) {
-        if (Regex.getMatcher(Regex.MENU_ENTER, command).matches()) {
-            showError(Error.BEING_ON_A_MENU);
+        Matcher matcher;
+        if ((matcher = Regex.getMatcher(Regex.MENU_ENTER, command)).matches()) {
+            if (matcher.group ("menuName").toLowerCase (Locale.ROOT).equals ("scoreboard"))
+                showDynamicError (Error.BEING_ON_CURRENT_MENU);
+            else showError(Error.BEING_ON_A_MENU);
         } else if (Regex.getMatcher(Regex.MENU_EXIT, command).matches()) {
             MenusManager.getInstance().changeMenu(Menu.MAIN_MENU);
         } else if (Regex.getMatcher(Regex.MENU_SHOW_CURRENT, command).matches()) {
             showCurrentMenu();
         } else if (Regex.getMatcher(Regex.SCOREBOARD_SHOW, command).matches()) {
             showScoreBoard();
+        } else if (Regex.getMatcher (Regex.COMMAND_HELP, command).matches ()) {
+            help ();
         } else showError(Error.INVALID_COMMAND);
     }
 
@@ -55,7 +62,18 @@ public class ScoreBoardView {
         System.out.println(error.getValue());
     }
 
+    public void showDynamicError(Error error) {
+        System.out.printf (error.getValue (), Menu.SCOREBOARD_MENU.getValue ());
+    }
+
     public void showCurrentMenu() {
         System.out.println("Login Menu");
+    }
+
+    public void help() {
+        System.out.println ("menu show-current\n" +
+                "scoreboard show\n" +
+                "menu exit\n" +
+                "help");
     }
 }
