@@ -56,6 +56,7 @@ public class Regex {
     public static final String IMPORT_CARD = "^import card (?<cardName>[A-Za-z ',-]+)$";
     public static final String EXPORT_CARD = "^export card (?<cardName>[A-Za-z ',-]+)$";
     public static final String COMMAND_CANCEL = "^cancel$";
+    public static final String COMMAND_HELP = "^help$";
 
     static {
         USER_CREATE = new ArrayList<>();
