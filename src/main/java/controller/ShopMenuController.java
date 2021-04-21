@@ -7,7 +7,6 @@ import model.card.Card;
 import view.ShopMenuView;
 import view.messages.Error;
 
-import java.util.Locale;
 import java.util.Objects;
 import java.util.regex.Matcher;
 

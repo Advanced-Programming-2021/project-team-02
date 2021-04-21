@@ -3,10 +3,10 @@ package view;
 import controller.ShopMenuController;
 import model.Shop;
 import model.card.Card;
-import view.input.Input;
 import view.input.Regex;
 import view.messages.Error;
 
+import java.util.Locale;
 import java.util.regex.Matcher;
 
 public class ShopMenuView {
@@ -28,8 +28,10 @@ public class ShopMenuView {
 
     public void commandRecognition(String command) {
         Matcher matcher;
-        if (Regex.getMatcher(Regex.MENU_ENTER, command).matches()) {
-            showError(Error.BEING_ON_A_MENU);
+        if ((matcher = Regex.getMatcher(Regex.MENU_ENTER, command)).matches()) {
+            if (matcher.group ("menuName").toLowerCase(Locale.ROOT).equals ("shop"))
+                showDynamicError (Error.BEING_ON_CURRENT_MENU);
+            else showError(Error.BEING_ON_A_MENU);
         } else if (Regex.getMatcher(Regex.MENU_EXIT, command).matches()) {
             MenusManager.getInstance().changeMenu(Menu.MAIN_MENU);
         } else if (Regex.getMatcher(Regex.MENU_SHOW_CURRENT, command).matches()) {
@@ -38,6 +40,8 @@ public class ShopMenuView {
             controller.buyCard(matcher);
         } else if (Regex.getMatcher(Regex.SHOP_SHOW_ALL, command).matches()) {
             showAllCards();
+        } else if (Regex.getMatcher(Regex.COMMAND_HELP, command).matches()) {
+            help ();
         } else showError(Error.INVALID_COMMAND);
     }
 
@@ -50,7 +54,20 @@ public class ShopMenuView {
         System.out.println(error.getValue());
     }
 
+    public void showDynamicError(Error error) {
+        System.out.printf (error.getValue (), Menu.SHOP_MENU.getValue ());
+    }
+
     public void showCurrentMenu() {
         System.out.println("Shop Menu");
+    }
+
+    public void help() {
+        System.out.println ("menu show-current\n" +
+                "card show <cardName>\n" +
+                "shop show --all\n" +
+                "shop buy <cardName>\n" +
+                "menu exit\n" +
+                "help");
     }
 }

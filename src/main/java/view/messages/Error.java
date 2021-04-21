@@ -3,6 +3,7 @@ package view.messages;
 public enum Error {
     ENTER_MENU_BEFORE_LOGIN("please login first"),
     BEING_ON_A_MENU("menu navigation is not possible"),
+    BEING_ON_CURRENT_MENU("you are in %s!\n"),
     TAKEN_USERNAME("user with username %s already exists\n"),
     TAKEN_NICKNAME("user with nickname %s already exists\n"),
     INCORRECT_USERNAME("Username and password didn't match!"),
