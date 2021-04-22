@@ -15,7 +15,8 @@ public enum Error {
     INCORRECT_CARD_NAME("card with name %s does not exist\n"),
     MAIN_DECK_IS_FULL("main deck is full"),
     EXCESSIVE_NUMBER_IN_DECK ("there are already three cards with name %s in deck %s\n"),
-    CARD_LIMITED_IN_DECK("card %s id limited, you have used it once\n"),
+    CARD_LIMITED_IN_DECK("card %s is limited, you have used it once\n"),
+    DONT_HAVE_ENOUGH_OF_THIS_CARD("you don't have more of this card to use"),//added by erfan - not in doc
     CARD_DOES_NOT_EXIST_IN_MAIN_DECK("card with name %s does not exist in main deck\n"),
     CARD_DOES_NOT_EXIST_IN_SIDE_DECK("card with name %s does not exist in side deck\n"),
     CARD_DOES_NOT_EXIST("there is no card with this name"),

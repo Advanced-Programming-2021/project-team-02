@@ -1,11 +1,11 @@
 package view;
 
-import com.sun.xml.internal.ws.api.server.LazyMOMProvider;
 import controller.DeckMenuController;
 import view.input.Regex;
 import view.messages.Error;
 import view.messages.SuccessMessage;
 
+import java.util.Locale;
 import java.util.regex.Matcher;
 
 public class DeckMenuView {
@@ -27,6 +27,13 @@ public class DeckMenuView {
 
     public void commandRecognition(String command) {
         Matcher matcher;
+        if ((matcher = Regex.getMatcher(Regex.MENU_ENTER, command)).matches()) {
+            if (matcher.group("menuName").toLowerCase(Locale.ROOT).equals("deck"))
+                showDynamicError(Error.BEING_ON_CURRENT_MENU, matcher);
+            else showError(Error.BEING_ON_A_MENU);
+        } else if (Regex.getMatcher(Regex.MENU_EXIT, command).matches()) {
+            MenusManager.getInstance().changeMenu(Menu.MAIN_MENU);
+        }
         if ((matcher = Regex.getMatcher(Regex.DECK_CREATE, command)).matches()) {
             controller.createDeck(matcher);
         } else if ((matcher = Regex.getMatcher(Regex.DECK_DELETE, command)).matches()) {
@@ -53,6 +60,8 @@ public class DeckMenuView {
             controller.showCard(matcher);
         } else if (Regex.getMatcher(Regex.MENU_SHOW_CURRENT, command).matches()) {
             showCurrentMenu();
+        } else if (Regex.getMatcher(Regex.COMMAND_HELP, command).matches()) {
+            help();
         } else {
             showError(Error.INVALID_COMMAND);
         }
@@ -81,10 +90,18 @@ public class DeckMenuView {
             System.out.printf(Error.CARD_DOES_NOT_EXIST_IN_SIDE_DECK.getValue(), matcher.group("cardName"));
         } else if (error.equals(Error.CARD_DOES_NOT_EXIST_IN_MAIN_DECK)) {
             System.out.printf(Error.CARD_DOES_NOT_EXIST_IN_MAIN_DECK.getValue(), matcher.group("cardName"));
-        }
+        } else if (error.equals(Error.BEING_ON_CURRENT_MENU))
+            System.out.printf(error.getValue(), Menu.PROFILE_MENU.getValue());
     }
 
     public void showCurrentMenu() {
         System.out.println("Deck Menu");
+    }
+
+    private void help() {
+        System.out.println("deck create <deck name>\ndeck create <deck name>\ndeck set-activate <deck name>\n" +
+                "deck add-card --card <card name> --deck <deck name>\ndeck add-card --card <card name> --deck <deck name> --" +
+                "side\ndeck rm-card --card <card name> --deck <deck name>\ndeck rm-card --card <card name> --deck <deck name> --side\ndeck show --all\ndeck show --deck-name <deck name>\n" +
+                "deck show --deck-name <deck name> --side\ndeck show --cards\ncard show <card name>");
     }
 }

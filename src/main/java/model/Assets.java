@@ -9,7 +9,7 @@ import java.util.Objects;
 public class Assets {
     private String username;
     private int coin;
-    private final HashMap<Card, Integer> allCards;
+    private final HashMap<Card, Integer> allUserCards;
     private final ArrayList<Deck> allDecks;
     private static final HashMap<String, Assets> allAssets;
 
@@ -24,7 +24,7 @@ public class Assets {
     public Assets(String username) {
         setUsername(username);
         allDecks = new ArrayList<>();
-        allCards = new HashMap<>();
+        allUserCards = new HashMap<>();
         allAssets.put(username, this);
     }
 
@@ -38,8 +38,8 @@ public class Assets {
         return null;
     }
 
-    public HashMap<Card, Integer> getAllCards() {
-        return allCards;
+    public HashMap<Card, Integer> getAllUserCards() {
+        return allUserCards;
     }
 
     public ArrayList<Deck> getAllDecks() {
@@ -64,13 +64,13 @@ public class Assets {
         Deck deck = getDeckByDeckName(name);
         if (deck.isActivated())
             Objects.requireNonNull(User.getUserByUsername(username)).deactivatedDeck();
-        for (Card card : allCards.keySet()) {
+        for (Card card : allUserCards.keySet()) {
             for (Card mainCard : deck.getMainCards()) {
                 if (card.getName().equals(mainCard.getName()))
-                    allCards.replace(card, allCards.get(card) + 1);
+                    allUserCards.replace(card, allUserCards.get(card) + 1);
                 for (Card sideCard : deck.getSideCards()) {
                     if (card.getName().equals(sideCard.getName()))
-                        allCards.replace(card, allCards.get(card) + 1);
+                        allUserCards.replace(card, allUserCards.get(card) + 1);
                 }
             }
         }
@@ -90,22 +90,18 @@ public class Assets {
 
     public void addCardToMainDeck(Card card, Deck deck) {
         deck.addCardToMainDeck(card);
-        allCards.replace(card, allCards.get(card) - 1);
     }
 
     public void addCardToSideDeck(Card card, Deck deck) {
         deck.addCardToSideDeck(card);
-        allCards.replace(card, allCards.get(card) - 1);
     }
 
     public void removeCardFromMainDeck(Card card, Deck deck) {
         deck.removeCardFromMainDeck(card);
-        allCards.replace(card, allCards.get(card) + 1);
     }
 
     public void removeCardFromSideDeck(Card card, Deck deck) {
         deck.removeCardFromSideDeck(card);
-        allCards.replace(card, allCards.get(card) + 1);
     }
 
     public void decreaseCoin(int amount) {
@@ -113,12 +109,21 @@ public class Assets {
     }
 
     public void addCard(Card card) {
-        for (Card cardsOfUser : allCards.keySet()) {
+        for (Card cardsOfUser : allUserCards.keySet()) {
             if (cardsOfUser.getName().equals(card.getName())) {
-                allCards.replace(card, allCards.get(card) + 1);
+                allUserCards.replace(card, allUserCards.get(card) + 1);
                 return;
             }
         }
-        allCards.put(card, 1);
+        allUserCards.put(card, 1);
+    }
+
+    public int getNumberOfCards(Card card) {
+        for (Card cardOfUser : allUserCards.keySet()) {
+            if (cardOfUser.getName().equals(card.getName())) {
+                return allUserCards.get(cardOfUser);
+            }
+        }
+        return 0;
     }
 }

@@ -63,14 +63,20 @@ public class DeckMenuController {
     public void addCardToMainDeck(Matcher matcher) {
         String cardName = matcher.group("cardName");
         String deckName = matcher.group("deckName");
+        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance()
+                .getLoggedInUser().getUsername());
         if (!isValidDeckToAddCard(matcher, cardName, deckName)) return;
-        Deck deck = Objects.requireNonNull(Assets.getAssetsByUsername(MenusManager.getInstance()
-                .getLoggedInUser().getUsername())).getDeckByDeckName(deckName);
+        Deck deck = Objects.requireNonNull(assets).getDeckByDeckName(deckName);
         if (deck.isMainFull()) {
             view.showError(Error.MAIN_DECK_IS_FULL);
             return;
         }
         Card card = Card.getCardByName(cardName);
+        if (assets.getNumberOfCards(card) == deck.getNumberOfCardInDeck(card)) {
+            view.showError(Error.DONT_HAVE_ENOUGH_OF_THIS_CARD);
+            return;
+        }
+
         if (Objects.requireNonNull(card).getCardType().equals(CardType.MONSTER))
             addMonsterToMainDeck((Monster) card, deck, matcher);
         else if (card.getCardType().equals(CardType.SPELL))
@@ -80,16 +86,20 @@ public class DeckMenuController {
     }
 
     public void addCardToSideDeck(Matcher matcher) {
-        String cardName = matcher.group("cardName");
         String deckName = matcher.group("deckName");
+        String cardName = matcher.group("cardName");
+        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
         if (!isValidDeckToAddCard(matcher, cardName, deckName)) return;
-        Deck deck = Objects.requireNonNull(Assets.getAssetsByUsername(MenusManager.getInstance()
-                .getLoggedInUser().getUsername())).getDeckByDeckName(deckName);
+        Deck deck = Objects.requireNonNull(assets).getDeckByDeckName(deckName);
         if (deck.isSideFull()) {
             view.showError(Error.MAIN_DECK_IS_FULL);
             return;
         }
         Card card = Card.getCardByName(cardName);
+        if (assets.getNumberOfCards(card) == deck.getNumberOfCardInDeck(card)) {
+            view.showError(Error.DONT_HAVE_ENOUGH_OF_THIS_CARD);
+            return;
+        }
         if (Objects.requireNonNull(card).getCardType().equals(CardType.MONSTER)) {
             addMonsterToSideDeck((Monster) card, deck, matcher);
         } else if (card.getCardType().equals(CardType.SPELL)) {
@@ -227,7 +237,7 @@ public class DeckMenuController {
     }
 
     public void showAllCards() {
-        Map<Card, Integer> cardsMap = Objects.requireNonNull(Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername())).getAllCards();
+        Map<Card, Integer> cardsMap = Objects.requireNonNull(Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername())).getAllUserCards();
         List<Card> cardsList = new ArrayList<>(cardsMap.keySet());
         Comparator<Card> comparator = Comparator.comparing(Card::getName);
         cardsList.sort(comparator);
@@ -294,7 +304,7 @@ public class DeckMenuController {
 
     private boolean doesCardExistInUserCards(String cardName) {
         Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
-        HashMap<Card, Integer> userCards = Objects.requireNonNull(assets).getAllCards();
+        HashMap<Card, Integer> userCards = Objects.requireNonNull(assets).getAllUserCards();
         for (Card card : userCards.keySet()) {
             if (card.getName().equals(cardName))
                 if (userCards.get(card) > 0)
