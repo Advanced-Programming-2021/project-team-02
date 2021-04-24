@@ -35,7 +35,8 @@ public class User implements Comparable<User> {
     public void activatedDeck() {
         hasActiveDeck = true;
     }
-    public void deactivatedDeck(){
+
+    public void deactivatedDeck() {
         hasActiveDeck = false;
     }
 
@@ -107,5 +108,9 @@ public class User implements Comparable<User> {
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", nickname='" + nickname + '\'';
+    }
+
+    public void addScoreOfGame(int score) {
+
     }
 }

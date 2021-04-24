@@ -20,6 +20,10 @@ public class RoundGameController {
         instance = new RoundGameController();
     }
 
+    public void run() {
+
+    }
+
     public int getTurn() {
         return turn;
     }
@@ -32,68 +36,71 @@ public class RoundGameController {
 
     }
 
-    public void changeTurn() {
+    private void changeTurn() {
 
     }
 
-    public void selectCard(Matcher matcher) {
+    private void selectCard(Matcher matcher) {
 
     }
 
-    public void summonMonster() {
+    private void deselectCard() {
 
     }
 
-    public void setMonster() {
+    private void summonMonster() {
 
     }
 
-    public void changeCardPosition() {
+    private void setMonster() {
 
     }
 
-    public void setSpellOrTrap() {
+    private void changeCardPosition() {
 
     }
 
-    public void attackSpellOrTrap() {
+    private void setSpellOrTrap() {
 
     }
 
-    public void activateEffect() {
+    private void faceUpSpellOrTrap() {
 
     }
 
-    public void monsterEffect(Card card) {
+    private void activateEffect() {
 
     }
 
-    public void spellEffect(Card card) {
+    private void monsterEffect(Card card) {
 
     }
 
-    public void attackToCard(Matcher matcher) {
+    private void spellEffect(Card card) {
 
     }
 
-    public void drawCardFromHand() {
+    private void attackToCard(Matcher matcher) {
 
     }
 
-
-    public void flipSummon() {
-
-    }
-
-    public void directAttack() {
+    private void drawCardFromDeck() {
 
     }
 
-    public void killCard() {
+    private void flipSummon() {
 
     }
 
-    public void changePhase() {
+    private void directAttack() {
+
+    }
+
+    private void killCard() {
+
+    }
+
+    private void changePhase() {
 
     }
 }

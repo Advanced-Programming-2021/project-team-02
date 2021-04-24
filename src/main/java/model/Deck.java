@@ -96,4 +96,8 @@ public class Deck {
     public void removeCardFromSideDeck(Card card) {
         sideCards.remove(card);
     }
+
+    public void shuffleDeck() {
+
+    }
 }
