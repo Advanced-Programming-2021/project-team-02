@@ -1,8 +1,10 @@
 package controller;
 
+import controller.playgame.DuelGameController;
 import model.User;
 import model.game.Duel;
 import view.DuelMenuView;
+import view.MenusManager;
 import view.messages.Error;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -35,6 +37,7 @@ public class DuelMenuController {
             if (arePlayersDecksValid(matcher.group("secondPlayerNickName"))) {
                 duel = new Duel(loggedInUser.getUsername(),matcher.group("" +
                         "secondPlayerNickName"),Integer.parseInt(matcher.group("roundNumber")));
+                DuelGameController.getInstance().startDuel(duel);
             }
         }
     }

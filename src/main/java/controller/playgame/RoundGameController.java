@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 public class RoundGameController {
-    private static final RoundGameController instance;
+    private static RoundGameController instance;
     private DuelPlayer firstPlayer;
     private DuelPlayer secondPlayer;
     private Card selectedCard;
@@ -18,6 +18,11 @@ public class RoundGameController {
 
     static {
         instance = new RoundGameController();
+    }
+
+    public static RoundGameController getInstance() {
+        if (instance == null) instance = new RoundGameController();
+        return instance;
     }
 
     public void run() {
@@ -102,5 +107,21 @@ public class RoundGameController {
 
     private void changePhase() {
 
+    }
+
+    public ArrayList<Card> getFirstPlayerHand() {
+        return firstPlayerHand;
+    }
+
+    public ArrayList<Card> getSecondPlayerHand() {
+        return secondPlayerHand;
+    }
+
+    public void setFirstPlayerHand(Card card) {
+        firstPlayerHand.add(card);
+    }
+
+    public void setSecondPlayerHand(Card card) {
+        secondPlayerHand.add(card);
     }
 }

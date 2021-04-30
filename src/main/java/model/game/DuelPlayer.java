@@ -31,4 +31,8 @@ public class DuelPlayer {
     public PlayerBoard getPlayerBoard() {
         return playerBoard;
     }
+
+    public String getNickname() {
+        return nickname;
+    }
 }

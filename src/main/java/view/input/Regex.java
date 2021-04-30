@@ -57,6 +57,8 @@ public class Regex {
     public static final String EXPORT_CARD = "^export card (?<cardName>[A-Za-z ',-]+)$";
     public static final String COMMAND_CANCEL = "^cancel$";
     public static final String COMMAND_HELP = "^help$";
+    public static final String CHANGE_CARD_BETWEEN_ROUNDS = "^change card (?<cardNameInMainDeck>[A-Za-z ',-]+" +
+            ") with (?<cardNameInSideDeck>[A-Za-z ',-]+)$";
 
     static {
         USER_CREATE = new ArrayList<>();

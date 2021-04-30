@@ -101,10 +101,6 @@ public class Deck {
         sideCards.remove(card);
     }
 
-    public void shuffleDeck() {
-
-    }
-
     public Deck copy() throws CloneNotSupportedException {
         Deck deck = new Deck(this.name);
         for (Card card : this.mainCards)
@@ -125,5 +121,9 @@ public class Deck {
             Trap trap = ((Trap) card).clone();
             deck.addCardToMainDeck(trap);
         }
+    }
+
+    public Deck shuffleDeck() {
+        return null;
     }
 }

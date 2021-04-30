@@ -28,4 +28,16 @@ public class Duel {
         player1 = new DuelPlayer(user1.getNickname(), Objects.requireNonNull(User.getActiveDeck(user1.getUsername())).copy());
         player2 = new DuelPlayer(user2.getNickname(), Objects.requireNonNull(User.getActiveDeck(user2.getUsername())).copy());
     }
+
+    public DuelPlayer getPlayer1() {
+        return player1;
+    }
+
+    public DuelPlayer getPlayer2() {
+        return player2;
+    }
+
+    public int getNumberOfRounds() {
+        return numberOfRounds;
+    }
 }
