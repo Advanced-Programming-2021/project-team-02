@@ -1,5 +1,7 @@
 package model.game;
 
+import model.User;
+
 public class Duel {
     private int numberOfRounds;
     private DuelPlayer player1;
@@ -7,9 +9,10 @@ public class Duel {
     private int[] lifePointsPlayer1;
     private int[] lifePointsPlayer2;
 
-    public Duel(String nicknamePlayer1, String nickNamePlayer2, int numberOfRounds) {
-        player1 = new DuelPlayer(nicknamePlayer1);
-        player2 = new DuelPlayer(nickNamePlayer2);
+    public Duel(String username1, String username2, int numberOfRounds) {
+        User user1 = User.getUserByUsername(username1);
+        User user2 = User.getUserByUsername(username2);
+
         this.numberOfRounds = numberOfRounds;
         lifePointsPlayer1 = new int[numberOfRounds];
         lifePointsPlayer2 = new int[numberOfRounds];

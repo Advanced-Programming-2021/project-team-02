@@ -9,7 +9,7 @@ public class DuelPlayer {
     private Deck playDeck;
     private PlayerBoard playerBoard;
 
-    public DuelPlayer(String nickname) {
+    public DuelPlayer(String nickname, Deck deck) {
         setNickname(nickname);
         playerBoard = new PlayerBoard();
         lifePoint = 8000;
