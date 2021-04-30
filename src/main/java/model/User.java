@@ -7,6 +7,8 @@ import model.card.Trap;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 public class User implements Comparable<User> {
     private static final ArrayList<User> allUsers;
@@ -71,6 +73,14 @@ public class User implements Comparable<User> {
 
     public boolean getHasActiveDeck() {
         return true;
+    }
+
+    public static Deck getActiveDeck(String username){
+        List<Deck> decks = Objects.requireNonNull(Objects.requireNonNull(Assets.getAssetsByUsername(username)).getAllDecks());
+        for (Deck deck: decks) {
+            if (deck.isActivated()) return deck;
+        }
+        return null;
     }
 
     public static ArrayList<User> getAllUsers() {

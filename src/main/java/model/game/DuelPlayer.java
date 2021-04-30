@@ -13,6 +13,7 @@ public class DuelPlayer {
         setNickname(nickname);
         playerBoard = new PlayerBoard();
         lifePoint = 8000;
+        setPlayDeck(deck);
     }
 
     private void setNickname(String nickname) {

@@ -1,13 +1,9 @@
 package controller;
 
-import model.Assets;
-import model.Deck;
 import model.User;
 import model.game.Duel;
 import view.DuelMenuView;
 import view.messages.Error;
-
-import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 
@@ -30,13 +26,16 @@ public class DuelMenuController {
         this.loggedInUser = loggedInUser;
     }
 
-    public void startDuelWithOtherPlayer(Matcher matcher) {
+    public void startDuelWithOtherPlayer(Matcher matcher) throws CloneNotSupportedException {
         if (!isPlayerValidToStartDuel(matcher.group("secondPlayerNickName"))) {
             view.showError(Error.PLAYER_DOES_NOT_EXIST);
         } else if (!areRoundsNumberValid(Integer.parseInt(matcher.group("roundNumber")))) {
             view.showError(Error.WRONG_ROUNDS_NUMBER);
         } else if (arePlayersDecksActive(matcher.group("secondPlayerNickName"))) {
-            arePlayersDecksValid(matcher.group("secondPlayerNickName"));
+            if (arePlayersDecksValid(matcher.group("secondPlayerNickName"))) {
+                duel = new Duel(loggedInUser.getUsername(),matcher.group("" +
+                        "secondPlayerNickName"),Integer.parseInt(matcher.group("roundNumber")));
+            }
         }
     }
 
@@ -67,22 +66,14 @@ public class DuelMenuController {
         return true;
     }
 
-    public void arePlayersDecksValid(String secondPlayerUsername) {
-        List<Deck> getPlayersDecks = Objects.requireNonNull(Assets.getAssetsByUsername(loggedInUser.getUsername())).getAllDecks();
-        for (Deck firstPlayerDeck : getPlayersDecks) {
-            if (firstPlayerDeck.isActivated()) {
-                if (!firstPlayerDeck.isValidDeck()) {
-                    view.showDynamicError(Error.FORBIDDEN_DECK, loggedInUser.getUsername());
-                }
-            }
+    public boolean arePlayersDecksValid(String secondPlayerUsername) {
+        if (!Objects.requireNonNull(User.getActiveDeck(loggedInUser.getUsername())).isValidDeck()) {
+            view.showDynamicError(Error.FORBIDDEN_DECK, loggedInUser.getUsername());
+            return false;
+        } else if (!Objects.requireNonNull(User.getActiveDeck(secondPlayerUsername)).isValidDeck()) {
+            view.showDynamicError(Error.FORBIDDEN_DECK, secondPlayerUsername);
+            return false;
         }
-        getPlayersDecks = Objects.requireNonNull(Assets.getAssetsByUsername(secondPlayerUsername)).getAllDecks();
-        for (Deck secondPlayerDeck : getPlayersDecks) {
-            if (secondPlayerDeck.isActivated()) {
-                if (!secondPlayerDeck.isValidDeck()) {
-                    view.showDynamicError(Error.FORBIDDEN_DECK, secondPlayerUsername);
-                }
-            }
-        }
+        return true;
     }
 }
