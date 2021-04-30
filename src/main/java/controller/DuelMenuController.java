@@ -4,6 +4,7 @@ import model.Assets;
 import model.Deck;
 import model.User;
 import model.game.Duel;
+import view.DuelMenuView;
 import view.messages.Error;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.regex.Matcher;
 
 public class DuelMenuController {
     private static final DuelMenuController instance;
+    private final DuelMenuView view = DuelMenuView.getInstance();
     private User loggedInUser;
     private Duel duel;
 
@@ -58,7 +60,7 @@ public class DuelMenuController {
             return false;
         }
         User user = Objects.requireNonNull(User.getUserByUsername(secondPlayerUserName));
-        if (!user.getHasActiveDeck()){
+        if (!user.getHasActiveDeck()) {
             view.showDynamicError(Error.INACTIVATED_DECK, secondPlayerUserName);
             return false;
         }
@@ -68,21 +70,19 @@ public class DuelMenuController {
     public void arePlayersDecksValid(String secondPlayerUsername) {
         List<Deck> getPlayersDecks = Objects.requireNonNull(Assets.getAssetsByUsername(loggedInUser.getUsername())).getAllDecks();
         for (Deck firstPlayerDeck : getPlayersDecks) {
-            if (firstPlayerDeck.isActivated()){
-                if (!firstPlayerDeck.isValidDeck()){
+            if (firstPlayerDeck.isActivated()) {
+                if (!firstPlayerDeck.isValidDeck()) {
                     view.showDynamicError(Error.FORBIDDEN_DECK, loggedInUser.getUsername());
                 }
             }
         }
         getPlayersDecks = Objects.requireNonNull(Assets.getAssetsByUsername(secondPlayerUsername)).getAllDecks();
         for (Deck secondPlayerDeck : getPlayersDecks) {
-            if (secondPlayerDeck.isActivated()){
-                if (!secondPlayerDeck.isValidDeck()){
+            if (secondPlayerDeck.isActivated()) {
+                if (!secondPlayerDeck.isValidDeck()) {
                     view.showDynamicError(Error.FORBIDDEN_DECK, secondPlayerUsername);
                 }
             }
         }
     }
-
-
 }
