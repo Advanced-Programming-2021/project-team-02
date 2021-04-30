@@ -65,6 +65,11 @@ public abstract class Card {
         }
         return null;
     }
+
+//    @Override
+//    protected Object clone() throws CloneNotSupportedException {
+//        this.
+//    }
 }
 /*
 user create --password ramz --username mhdsdt --nickname mahdis
