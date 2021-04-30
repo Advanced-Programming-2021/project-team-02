@@ -53,4 +53,9 @@ public class Monster extends Card {
                 "\nDEF: " + this.defensePower +
                 "\nDescription: " + this.description;
     }
+
+//    @Override
+//    public Object clone() throws CloneNotSupportedException {
+//        return super.clone();
+//    }
 }

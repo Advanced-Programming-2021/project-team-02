@@ -5,6 +5,8 @@ import view.input.Input;
 import view.messages.Error;
 import view.messages.SuccessMessage;
 
+import java.util.regex.Matcher;
+
 public class DuelMenuView {
     private static DuelMenuView instance = null;
 
@@ -33,6 +35,10 @@ public class DuelMenuView {
     }
 
     public void showError(Error error) {
+
+    }
+
+    public void showDynamicError(Error error, String dynamicPart) {
 
     }
 

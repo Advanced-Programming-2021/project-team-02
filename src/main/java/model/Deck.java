@@ -1,6 +1,8 @@
 package model;
 
 import model.card.Card;
+import model.card.Monster;
+import model.card.informationofcards.CardType;
 
 import java.util.ArrayList;
 
@@ -99,5 +101,20 @@ public class Deck {
 
     public void shuffleDeck() {
 
+    }
+
+    public Deck copy() {
+        Deck deck = new Deck(this.name);
+        for (Card card : this.mainCards) {
+            if (card.getCardType().equals(CardType.MONSTER)) {
+                //    Monster monster = (Monster) card.clone();
+                //deck.addCardToMainDeck(monster);
+            } else if (card.getCardType().equals(CardType.SPELL)) {
+
+            } else {
+            
+            }
+        }
+        return deck;
     }
 }
