@@ -35,12 +35,14 @@ public class DuelGameController {
     public void starterSpecifier() {
         if (flipCoin() == 1) {
             setSpecifier(duel.getPlayer1().getNickname());
+            RoundGameController.getInstance().setRoundInfo(duel.getPlayer1(), duel.getPlayer2());
         } else {
             setSpecifier(duel.getPlayer2().getNickname());
+            RoundGameController.getInstance().setRoundInfo(duel.getPlayer2(), duel.getPlayer1());
         }
     }
 
-    public void checkGameResult() {
+    public void checkGameResult(DuelPlayer winner) {
 
         updateScoreAndCoin(duel.getPlayer1(), duel.getPlayer2());
     }
@@ -71,8 +73,10 @@ public class DuelGameController {
         Deck deckSecondPlayer = duelPlayer2.getPlayDeck().shuffleDeck();
         RoundGameController roundGameController = RoundGameController.getInstance();
         for (int i = 0; i < 5; i++) {
-            roundGameController.setFirstPlayerHand(deckFirstPlayer.getMainCards().get(i));
-            roundGameController.setSecondPlayerHand(deckSecondPlayer.getMainCards().get(i));
+            roundGameController.addCardToFirstPlayerHand(deckFirstPlayer.getMainCards().get(i));
+            deckFirstPlayer.getMainCards().remove(i);
+            roundGameController.addCardToSecondPlayerHand(deckSecondPlayer.getMainCards().get(i));
+            deckSecondPlayer.getMainCards().remove(i);
         }
     }
 
