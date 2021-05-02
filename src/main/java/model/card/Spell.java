@@ -38,4 +38,9 @@ public class Spell extends Card {
     public boolean getIsLimited() {
         return isLimited;
     }
+
+    public Spell clone() throws CloneNotSupportedException {
+        return new Spell(cardType, name, id, spellEffect, attribute,
+                description, spellType, isLimited);
+    }
 }

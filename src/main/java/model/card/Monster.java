@@ -53,4 +53,10 @@ public class Monster extends Card {
                 "\nDEF: " + this.defensePower +
                 "\nDescription: " + this.description;
     }
+
+    @Override
+    public Monster clone() throws CloneNotSupportedException {
+        return new Monster(cardType, name, id, monsterActionType, monsterEffect, level, attribute,
+                description, attackPower, defensePower, monsterType);
+    }
 }

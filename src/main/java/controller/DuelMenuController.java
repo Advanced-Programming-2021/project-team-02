@@ -1,11 +1,12 @@
 package controller;
 
+import controller.playgame.DuelGameController;
 import model.User;
 import model.game.Duel;
 import view.DuelMenuView;
-import view.ProfileMenuView;
+import view.MenusManager;
 import view.messages.Error;
-
+import java.util.Objects;
 import java.util.regex.Matcher;
 
 public class DuelMenuController {
@@ -27,33 +28,56 @@ public class DuelMenuController {
         this.loggedInUser = loggedInUser;
     }
 
-    public void startDuelWithOtherPlayer(Matcher matcher) {
-        String secondPlayerUsername = matcher.group ("secondPlayerUsername");
-        int numberOfRounds = Integer.parseInt (matcher.group ("roundNumber"));
-        if (!checkExistenceOfSecondPlayer (secondPlayerUsername)) {
-            view.showError (Error.PLAYER_DOES_NOT_EXIST);
-            return;
+    public void startDuelWithOtherPlayer(Matcher matcher) throws CloneNotSupportedException {
+        if (!isPlayerValidToStartDuel(matcher.group("secondPlayerNickName"))) {
+            view.showError(Error.PLAYER_DOES_NOT_EXIST);
+        } else if (!areRoundsNumberValid(Integer.parseInt(matcher.group("roundNumber")))) {
+            view.showError(Error.WRONG_ROUNDS_NUMBER);
+        } else if (arePlayersDecksActive(matcher.group("secondPlayerNickName"))) {
+            if (arePlayersDecksValid(matcher.group("secondPlayerNickName"))) {
+                duel = new Duel(loggedInUser.getUsername(),matcher.group("" +
+                        "secondPlayerNickName"),Integer.parseInt(matcher.group("roundNumber")));
+                DuelGameController.getInstance().startDuel(duel);
+            }
         }
-        if (!instance.loggedInUser.getHasActiveDeck ()) {
-            view.showDynamicErrorForInactiveDeck (Error.INACTIVATED_DECK, instance.loggedInUser.getUsername ());
-            return;
-        }
-        if (!User.getUserByUsername (secondPlayerUsername).getHasActiveDeck ()) {
-            view.showDynamicErrorForInactiveDeck (Error.INACTIVATED_DECK, secondPlayerUsername);
-            return;
-        }
-        if (numberOfRounds != 1 && numberOfRounds != 3) view.showError (Error.WRONG_ROUNDS_NUMBER);
     }
 
     public void startDuelWithAI(Matcher matcher) {
-
+        if (!areRoundsNumberValid(Integer.parseInt(matcher.group("roundNumber"))))
+            view.showError(Error.WRONG_ROUNDS_NUMBER);
     }
 
     private boolean isPlayerValidToStartDuel(String username) {
+        User user = User.getUserByUsername(username);
+        return user != null;
+    }
+
+    public boolean areRoundsNumberValid(int roundsNumber) {
+        return roundsNumber != 3 && roundsNumber != 1;
+    }
+
+    public boolean arePlayersDecksActive(String secondPlayerUserName) {
+        if (!loggedInUser.getHasActiveDeck()) {
+            view.showDynamicError(Error.INACTIVATED_DECK, loggedInUser.getUsername());
+            return false;
+        }
+        User user = Objects.requireNonNull(User.getUserByUsername(secondPlayerUserName));
+        if (!user.getHasActiveDeck()) {
+            view.showDynamicError(Error.INACTIVATED_DECK, secondPlayerUserName);
+            return false;
+        }
         return true;
     }
 
-    public boolean checkExistenceOfSecondPlayer(String username) {
-        return User.getUserByUsername(username) != null;
+    public boolean arePlayersDecksValid(String secondPlayerUsername) {
+        if (!Objects.requireNonNull(User.getActiveDeck(loggedInUser.getUsername())).isValidDeck()) {
+            view.showDynamicError(Error.FORBIDDEN_DECK, loggedInUser.getUsername());
+            return false;
+        } else if (!Objects.requireNonNull(User.getActiveDeck(secondPlayerUsername)).isValidDeck()) {
+            view.showDynamicError(Error.FORBIDDEN_DECK, secondPlayerUsername);
+            return false;
+        }
+        return true;
     }
+
 }

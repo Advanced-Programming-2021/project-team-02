@@ -4,20 +4,27 @@ import model.card.Card;
 import model.game.DuelPlayer;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 
 public class RoundGameController {
-    private static final RoundGameController instance;
+    private static RoundGameController instance;
     private DuelPlayer firstPlayer;
     private DuelPlayer secondPlayer;
     private Card selectedCard;
-    private Phase phase;
-    private ArrayList<Card> firstPlayerHand;
-    private ArrayList<Card> secondPlayerHand;
+    private Phase currentPhase;
+    private List<Card> firstPlayerHand = new ArrayList<>();
+    private List<Card> secondPlayerHand = new ArrayList<>();
     private int turn = 1; // 1 : firstPlayer, 2 : secondPlayer
+    private DuelGameController duelGameController = DuelGameController.getInstance();
 
     static {
         instance = new RoundGameController();
+    }
+
+    public static RoundGameController getInstance() {
+        if (instance == null) instance = new RoundGameController();
+        return instance;
     }
 
     public void run() {
@@ -28,8 +35,8 @@ public class RoundGameController {
         return turn;
     }
 
-    public Phase getPhase() {
-        return phase;
+    public Phase getCurrentPhase() {
+        return currentPhase;
     }
 
     public void setRoundInfo(DuelPlayer firstPlayer, DuelPlayer secondPlayer) {
@@ -37,70 +44,115 @@ public class RoundGameController {
     }
 
     private void changeTurn() {
+        selectedCard = null;
+        turn = (turn == 1) ? 2 : 1;
+    }
+
+    public void selectCard(Matcher matcher) {
 
     }
 
-    private void selectCard(Matcher matcher) {
+    private void selectCardInHand() {
 
     }
 
-    private void deselectCard() {
+    public void deselectCard() {
 
     }
 
-    private void summonMonster() {
+    public void summonMonster() {
 
     }
 
-    private void setMonster() {
+    public void setMonster() {
 
     }
 
-    private void changeCardPosition() {
+    public void changeCardPosition() {
 
     }
 
-    private void setSpellOrTrap() {
+    public void setSpellOrTrap() {
 
     }
 
-    private void faceUpSpellOrTrap() {
+    public void faceUpSpellOrTrap() {
 
     }
 
-    private void activateEffect() {
+    public void activateEffect() {
 
     }
 
-    private void monsterEffect(Card card) {
+    public void monsterEffect(Card card) {
 
     }
 
-    private void spellEffect(Card card) {
+    public void spellEffect(Card card) {
 
     }
 
-    private void attackToCard(Matcher matcher) {
+    public void attackToCard(Matcher matcher) {
 
     }
 
-    private void drawCardFromDeck() {
+    public void drawCardFromDeck() {
+        DuelPlayer currentPlayer = getCurrentPlayer();
+        Card card;
+        if ((card = currentPlayer.getPlayDeck().getMainCards().get(0)) != null) {
+            currentPlayer.getPlayDeck().getMainCards().remove(0);
+            addCardToFirstPlayerHand(card);
+        } else {
+            duelGameController.checkGameResult(currentPlayer);// no card so this is loser!
+        }
+    }
+
+    public void flipSummon() {
 
     }
 
-    private void flipSummon() {
+    public void directAttack() {
 
     }
 
-    private void directAttack() {
+    public void killCard() {
 
     }
 
-    private void killCard() {
-
+    public void nextPhase() {
+        if (currentPhase.equals(Phase.DRAW_PHASE)) {
+            currentPhase = Phase.STAND_BY_PHASE;
+        } else if (currentPhase.equals(Phase.STAND_BY_PHASE)) {
+            currentPhase = Phase.MAIN_PHASE_1;
+        } else if (currentPhase == Phase.MAIN_PHASE_1) {
+            currentPhase = Phase.BATTLE_PHASE;
+        } else if (currentPhase == Phase.BATTLE_PHASE) {
+            currentPhase = Phase.MAIN_PHASE_2;
+        } else if (currentPhase == Phase.MAIN_PHASE_2) {
+            currentPhase = Phase.DRAW_PHASE;
+            changeTurn();
+        }
     }
 
-    private void changePhase() {
+    public List<Card> getFirstPlayerHand() {
+        return firstPlayerHand;
+    }
 
+    public List<Card> getSecondPlayerHand() {
+        return secondPlayerHand;
+    }
+
+    public void addCardToFirstPlayerHand(Card card) {
+        firstPlayerHand.add(card);
+    }
+
+    public void addCardToSecondPlayerHand(Card card) {
+        secondPlayerHand.add(card);
+    }
+
+    private DuelPlayer getCurrentPlayer() {
+        if (getTurn() == 1)
+            return firstPlayer;
+        return secondPlayer;
     }
 }

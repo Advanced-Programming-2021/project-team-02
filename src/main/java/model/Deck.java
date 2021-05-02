@@ -1,6 +1,10 @@
 package model;
 
 import model.card.Card;
+import model.card.Monster;
+import model.card.Spell;
+import model.card.Trap;
+import model.card.informationofcards.CardType;
 
 import java.util.ArrayList;
 
@@ -97,7 +101,29 @@ public class Deck {
         sideCards.remove(card);
     }
 
-    public void shuffleDeck() {
+    public Deck copy() throws CloneNotSupportedException {
+        Deck deck = new Deck(this.name);
+        for (Card card : this.mainCards)
+            addCardInCopyDeckSideOrMain(deck, card);
+        for (Card card : this.sideCards)
+            addCardInCopyDeckSideOrMain(deck, card);
+        return deck;
+    }
 
+    private void addCardInCopyDeckSideOrMain(Deck deck, Card card) throws CloneNotSupportedException {
+        if (card.getCardType().equals(CardType.MONSTER)) {
+            Monster monster = ((Monster) card).clone();
+            deck.addCardToMainDeck(monster);
+        } else if (card.getCardType().equals(CardType.SPELL)) {
+            Spell spell = ((Spell) card).clone();
+            deck.addCardToMainDeck(spell);
+        } else {
+            Trap trap = ((Trap) card).clone();
+            deck.addCardToMainDeck(trap);
+        }
+    }
+
+    public Deck shuffleDeck() {
+        return null;
     }
 }

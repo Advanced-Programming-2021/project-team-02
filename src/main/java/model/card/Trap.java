@@ -37,4 +37,8 @@ public class Trap extends Card {
     public boolean getIsLimited(){
         return isLimited;
     }
+    public Trap clone() throws CloneNotSupportedException {
+        return new Trap( cardType,  name, id,  trapEffect,
+                 attribute,  description,  trapType,  isLimited);
+    }
 }
