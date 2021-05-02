@@ -16,16 +16,37 @@ public class PlayerBoard {
         graveYard = new GraveYard();
         fieldZone = new FieldZone();
     }
-    public void addMonsterToBoard(Monster monster,CellStatus status){
+
+    public void addMonsterToBoard(Monster monster, CellStatus status) {
+        monsterZone.addCard(monster, status);
+    }
+
+    public void addSpellOrTrapToBoard(Card card, CellStatus status) {
 
     }
-    public void addSpellOrTrapToBoard(Card card, CellStatus status){
+
+    public void addCardToGraveYard(Card card) {
 
     }
-    public void addCardToGraveYard(Card card){
+
+    public void changeCartPosition(Card card) {
 
     }
-    public void changeCartPosition(Card card){
 
+    public boolean isMonsterZoneFull() {
+        for (Cell cell : monsterZone.getMonsterCells()) {
+            if (cell.getCellStatus().equals(CellStatus.EMPTY))
+                return false;
+        }
+        return true;
+    }
+
+    public Cell getACellOfBoard(Zone zone, int index) {
+        if (zone.equals(Zone.MONSTER_ZONE)) {
+            return monsterZone.getCellWithAddress(index);
+        } else if (zone.equals(Zone.SPELL_ZONE)) {
+            return spellZone.getCellWithAddress(index);
+        }
+        return null;
     }
 }

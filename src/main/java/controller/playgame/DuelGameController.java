@@ -4,7 +4,7 @@ import model.Deck;
 import model.card.Card;
 import model.game.Duel;
 import model.game.DuelPlayer;
-import view.gameview.DuelGameView;
+import view.gameview.GameView;
 import view.messages.Error;
 
 import java.util.Random;
@@ -13,7 +13,7 @@ import java.util.regex.Matcher;
 
 public class DuelGameController {
     private static DuelGameController instance;
-    private final DuelGameView view = DuelGameView.getInstance();
+    private final GameView view = GameView.getInstance();
     private Duel duel;
     private String specifier;
 

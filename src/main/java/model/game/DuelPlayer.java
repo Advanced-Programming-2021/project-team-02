@@ -35,4 +35,5 @@ public class DuelPlayer {
     public String getNickname() {
         return nickname;
     }
+
 }

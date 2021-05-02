@@ -9,7 +9,12 @@ public class SpellZone {
     public void addCard(Card card) {
 
     }
-    public void removeCard(Card card){
 
+    public void removeCard(Card card) {
+
+    }
+
+    public Cell getCellWithAddress(int address) {
+        return spellCells[address];
     }
 }

@@ -44,6 +44,14 @@ public class Monster extends Card {
         this.level = level;
     }
 
+    public int getLevel() {
+        return level;
+    }
+
+    public MonsterActionType getMonsterActionType() {
+        return monsterActionType;
+    }
+
     @Override
     public String toString() {
         return "Name: " + this.name +
