@@ -30,6 +30,7 @@ public class DuelGameController {
         this.duel = duel;
         starterSpecifier();
         setStartHandCards(duel.getPlayer1(), duel.getPlayer2());
+        RoundGameController.getInstance().setRoundInfo(duel.getPlayer1(), duel.getPlayer2());
     }
 
     public void starterSpecifier() {
