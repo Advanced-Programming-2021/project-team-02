@@ -40,7 +40,7 @@ public class Regex {
     public static final String BOARD_GAME_SELECT_DELETE = "^select -d$";
     public static final String BOARD_GAME_SUMMON = "^summon$";
     public static final String BOARD_GAME_SET_MONSTER_SPELL_TRAP = "^set$";
-    public static final String BOARD_GAME_SET_POSITION = "^set -- position (?<position>attack|defense)$";
+    public static final String BOARD_GAME_SET_POSITION = "^set --position (?<position>attack|defense)$";
     public static final String BOARD_GAME_FLIP_SUMMON = "^flip-summon$";
     public static final String BOARD_GAME_ATTACK = "^attack (?<monsterZoneNumber>\\d)$";
     public static final String BOARD_GAME_ATTACK_DIRECT = "^attack direct$";
@@ -137,10 +137,10 @@ public class Regex {
         DECK_SHOW_SIDE_DECK.add("^deck show -s --d-n (?<deckName>[a-zA-Z0-9 -]+?)$");
         DECK_SHOW_SIDE_DECK.add("^deck show --d-n (?<deckName>[a-zA-Z0-9 -]+?) -s$");
         DUEL_NEW_SECOND_PLAYER = new ArrayList<>();
-        DUEL_NEW_SECOND_PLAYER.add("^duel new --second-player (?<secondPlayerNickName>\\w+?) --rounds (?<roundNumber>\\d+)$");
-        DUEL_NEW_SECOND_PLAYER.add("^duel new --rounds (?<roundNumber>\\d+) --second-player (?<secondPlayerNickName>\\w+?)$");
-        DUEL_NEW_SECOND_PLAYER.add("^duel new --s-p (?<secondPlayerNickName>\\w+?) -r (?<roundNumber>\\d+)$");
-        DUEL_NEW_SECOND_PLAYER.add("^duel new -r (?<roundNumber>\\d+) --s-p (?<secondPlayerNickName>\\w+?)$");
+        DUEL_NEW_SECOND_PLAYER.add("^duel new --second-player (?<secondPlayerUsername>\\w+?) --rounds (?<roundNumber>\\d+)$");
+        DUEL_NEW_SECOND_PLAYER.add("^duel new --rounds (?<roundNumber>\\d+) --second-player (?<secondPlayerUsername>\\w+?)$");
+        DUEL_NEW_SECOND_PLAYER.add("^duel new --s-p (?<secondPlayerUsername>\\w+?) -r (?<roundNumber>\\d+)$");
+        DUEL_NEW_SECOND_PLAYER.add("^duel new -r (?<roundNumber>\\d+) --s-p (?<secondPlayerUsername>\\w+?)$");
         DUEL_NEW_AI = new ArrayList<>();
         DUEL_NEW_AI.add("^duel --new --ai --rounds (?<roundNumber>\\d+)$");
         DUEL_NEW_AI.add("^duel --new --rounds (?<roundNumber>\\d+) --ai$");

@@ -19,12 +19,6 @@ public class DuelGameView {
     public void run() {
     }
 
-    public void getCommand() {
-        while (true) {
-            Input.getInput();
-        }
-    }
-
     public void commandRecognition(String command) {
 
     }

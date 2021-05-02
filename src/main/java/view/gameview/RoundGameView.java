@@ -9,7 +9,6 @@ import java.util.regex.Matcher;
 public class RoundGameView {
     private static final RoundGameView instance;
 
-
     static {
         instance = new RoundGameView();
     }

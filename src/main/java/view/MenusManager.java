@@ -18,7 +18,6 @@ public class MenusManager {
         return instance;
     }
 
-
     public void run() {
         String command;
         while (currentMenu != Menu.EXIT) {
@@ -34,7 +33,7 @@ public class MenusManager {
             } else if (currentMenu.equals(Menu.SHOP_MENU)) {
                 ShopMenuView.getInstance().run(command);
             } else if (currentMenu.equals (Menu.DUEL_MENU)) {
-                DuelMenuView.getInstance ().run ();
+                DuelMenuView.getInstance ().run (command);
             } else if (currentMenu.equals (Menu.SCOREBOARD_MENU)) {
                 ScoreBoardView.getInstance ().run (command);
             }
