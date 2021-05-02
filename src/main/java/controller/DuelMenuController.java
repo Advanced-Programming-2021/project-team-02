@@ -4,7 +4,6 @@ import controller.playgame.DuelGameController;
 import model.User;
 import model.game.Duel;
 import view.DuelMenuView;
-import view.MenusManager;
 import view.messages.Error;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -58,12 +57,12 @@ public class DuelMenuController {
 
     public boolean arePlayersDecksActive(String secondPlayerUserName) {
         if (!loggedInUser.getHasActiveDeck()) {
-            view.showDynamicError(Error.INACTIVATED_DECK, loggedInUser.getUsername());
+            view.showDynamicErrorForInactiveDeck (Error.INACTIVATED_DECK, loggedInUser.getUsername());
             return false;
         }
         User user = Objects.requireNonNull(User.getUserByUsername(secondPlayerUserName));
         if (!user.getHasActiveDeck()) {
-            view.showDynamicError(Error.INACTIVATED_DECK, secondPlayerUserName);
+            view.showDynamicErrorForInactiveDeck (Error.INACTIVATED_DECK, secondPlayerUserName);
             return false;
         }
         return true;
@@ -71,10 +70,10 @@ public class DuelMenuController {
 
     public boolean arePlayersDecksValid(String secondPlayerUsername) {
         if (!Objects.requireNonNull(User.getActiveDeck(loggedInUser.getUsername())).isValidDeck()) {
-            view.showDynamicError(Error.FORBIDDEN_DECK, loggedInUser.getUsername());
+            view.showDynamicErrorForInactiveDeck (Error.FORBIDDEN_DECK, loggedInUser.getUsername());
             return false;
         } else if (!Objects.requireNonNull(User.getActiveDeck(secondPlayerUsername)).isValidDeck()) {
-            view.showDynamicError(Error.FORBIDDEN_DECK, secondPlayerUsername);
+            view.showDynamicErrorForInactiveDeck (Error.FORBIDDEN_DECK, secondPlayerUsername);
             return false;
         }
         return true;

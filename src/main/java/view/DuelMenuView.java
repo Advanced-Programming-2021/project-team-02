@@ -1,11 +1,6 @@
 package view;
 
-import controller.DeckMenuController;
 import controller.DuelMenuController;
-import controller.ShopMenuController;
-import model.User;
-import model.game.Duel;
-import view.input.Input;
 import view.input.Regex;
 import view.messages.Error;
 import view.messages.SuccessMessage;
@@ -26,11 +21,11 @@ public class DuelMenuView {
         return instance;
     }
 
-    public void run(String command) {
+    public void run(String command) throws CloneNotSupportedException {
         commandRecognition(command);
     }
 
-    public void commandRecognition(String command) {
+    public void commandRecognition(String command) throws CloneNotSupportedException {
         Matcher matcher;
         if ((matcher = Regex.getMatcher(Regex.MENU_ENTER, command)).matches()) {
             if (matcher.group ("menuName").toLowerCase(Locale.ROOT).equals ("duel"))
