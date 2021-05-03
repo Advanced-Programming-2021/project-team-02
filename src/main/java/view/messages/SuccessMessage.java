@@ -21,10 +21,12 @@ public enum SuccessMessage {
     SET_SUCCESSFULLY("set successfully"),
     POSITION_CHANGED_SUCCESSFULLY("monster card position changed successfully"),
     FLIP_SUMMON_SUCCESSFUL("flip summoned successfully"),
-    //OPPONENT_RECEIVE_DAMAGE_AFTER_ATTACK
+    OPPONENT_RECEIVE_DAMAGE_AFTER_ATTACK("your opponent’s monster is destroyed and your opponent receives" +
+            "%d battle damage"),
     NO_DAMAGE_TO_ANYONE("both you and your opponent monster cards are destroyed and no" +
             "one receives damage"),
-    //CURRENT_PLAYER_RECEIVE_DAMAGE_AFTER_ATTACK,
+    CURRENT_PLAYER_RECEIVE_DAMAGE_AFTER_ATTACK("Your monster card is destroyed and you received %d battle" +
+            "damage"),
     DEFENSIVE_MONSTER_DESTROYED("the defense position monster is destroyed"),
     NO_CARD_DESTROYED("no card is destroyed"),
     //DAMAGE_TO_CURRENT_PLAYER_AFTER_ATTACK_TI_HIGHER_DEFENSIVE_DO_MONSTER,

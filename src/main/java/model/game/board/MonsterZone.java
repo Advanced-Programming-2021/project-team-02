@@ -22,8 +22,9 @@ public class MonsterZone {
         }
     }
 
-    public void removeCard(Card card) {
-
+    public void removeCard(int address) {
+        monsterCells[address] = null;
+        monsterCells[address].setCellStatus(CellStatus.EMPTY);
     }
 
     public Cell getCellWithAddress(int address) {

@@ -10,7 +10,7 @@ public class SpellZone {
 
     }
 
-    public void removeCard(Card card) {
+    public void removeCard(int address) {
 
     }
 

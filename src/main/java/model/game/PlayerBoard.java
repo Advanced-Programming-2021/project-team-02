@@ -25,11 +25,19 @@ public class PlayerBoard {
 
     }
 
+    public void removeMonsterFromBoard(int address) {
+        monsterZone.removeCard(address);
+    }
+
+    public void removeSpellOrTrapFromBoard() {
+
+    }
+
     public void addCardToGraveYard(Card card) {
 
     }
 
-    public void changeCartPosition(Card card) {
+    public void changeCardPosition(Card card) {
 
     }
 

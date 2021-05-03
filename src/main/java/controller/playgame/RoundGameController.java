@@ -22,12 +22,14 @@ public class RoundGameController {
     private DuelPlayer secondPlayer;
     private Cell selectedCell = null;
     private Zone selectedCellZone = Zone.NONE;
+    private int selectedCellAddress;
     private boolean isSummonOrSetOfMonsterUsed = false;
     private Phase currentPhase;
     private List<Card> firstPlayerHand = new ArrayList<>();
     private List<Card> secondPlayerHand = new ArrayList<>();
     private int turn = 1; // 1 : firstPlayer, 2 : secondPlayer
     private DuelGameController duelGameController = DuelGameController.getInstance();
+    private List<Integer> usedCellsToAttackNumbers = new ArrayList<>();
 
     static {
         instance = new RoundGameController();
@@ -51,7 +53,10 @@ public class RoundGameController {
     }
 
     public void setRoundInfo(DuelPlayer firstPlayer, DuelPlayer secondPlayer) {
-
+        this.firstPlayer = firstPlayer;
+        this.secondPlayer = secondPlayer;
+        firstPlayer.setLifePoint(8000);
+        secondPlayer.setLifePoint(8000);
     }
 
     private void changeTurn() {
@@ -64,7 +69,7 @@ public class RoundGameController {
     }
 
     private void selectCardInHand(Matcher matcher) {
-        int address = Integer.parseInt(matcher.group("address"));
+        int address = Integer.parseInt(matcher.group("address")); //name of group?
         //errors to check
         ArrayList<Card> hand = (ArrayList<Card>) (getTurn() == 1 ? firstPlayerHand : secondPlayerHand);
         selectedCellZone = Zone.HAND;
@@ -75,7 +80,7 @@ public class RoundGameController {
     }
 
     private void selectCardInMonsterZone(Matcher matcher) {
-        int address = Integer.parseInt(matcher.group("address"));
+        int address = Integer.parseInt(matcher.group("address")); //name of group?
         //errors to check
         selectedCellZone = Zone.MONSTER_ZONE;
         selectedCell = getCurrentPlayer().getPlayerBoard().getACellOfBoard(selectedCellZone, address);
@@ -83,7 +88,7 @@ public class RoundGameController {
     }
 
     private void selectCardInSpellZone(Matcher matcher) {
-        int address = Integer.parseInt(matcher.group("address"));
+        int address = Integer.parseInt(matcher.group("cardNumber")); //name of group?
         //errors to check
         selectedCellZone = Zone.SPELL_ZONE;
         selectedCell = getCurrentPlayer().getPlayerBoard().getACellOfBoard(selectedCellZone, address);
@@ -193,7 +198,88 @@ public class RoundGameController {
     }
 
     public void attackToCard(Matcher matcher) {
+        if (!isValidAttack(matcher))
+            return;
+        int address = Integer.parseInt(matcher.group("monsterZoneNumber"));
+        CellStatus opponentCellStatus = getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, address).getCellStatus();
+        if (opponentCellStatus.equals(CellStatus.DEFENSIVE_HIDDEN)) {
+            attackToDHCard(address);
+        } else if (opponentCellStatus.equals(CellStatus.DEFENSIVE_OCCUPIED)) {
+            attackToDOCard(address);
+        } else {
+            attackToOOCard(address);
+        }
 
+    }
+
+    private void attackToDHCard(int address) {
+        Cell opponentCellToBeAttacked = getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, address);
+    }
+
+    private void attackToDOCard(int address) {
+
+    }
+
+    private void attackToOOCard(int address) {
+        DuelPlayer opponent = getOpponentPlayer();
+        DuelPlayer player = getCurrentPlayer();
+        Cell opponentCellToBeAttacked = opponent.getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, address);
+        Monster playerCard = (Monster) selectedCell.getCardInCell();
+        Monster opponentCard = (Monster) opponentCellToBeAttacked.getCardInCell();
+        int damage = playerCard.getAttackPower() - opponentCard.getAttackPower();
+        if (damage > 0) {
+            view.showSuccessMessageWithAnInteger(SuccessMessage.OPPONENT_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
+            opponent.decreaseLP(damage);
+            opponent.getPlayerBoard().addCardToGraveYard(opponentCellToBeAttacked.getCardInCell());
+            opponent.getPlayerBoard().removeMonsterFromBoard(address);
+        } else if (damage < 0) {
+            view.showSuccessMessageWithAnInteger(SuccessMessage.CURRENT_PLAYER_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
+            player.decreaseLP(-damage);
+            player.getPlayerBoard().addCardToGraveYard(opponentCellToBeAttacked.getCardInCell());
+            player.getPlayerBoard().removeMonsterFromBoard(selectedCellAddress);
+        } else {
+            view.showSuccessMessage(SuccessMessage.NO_DAMAGE_TO_ANYONE);
+            opponent.getPlayerBoard().addCardToGraveYard(opponentCellToBeAttacked.getCardInCell());
+            player.getPlayerBoard().addCardToGraveYard(opponentCellToBeAttacked.getCardInCell());
+            opponent.getPlayerBoard().removeMonsterFromBoard(address);
+            player.getPlayerBoard().removeMonsterFromBoard(selectedCellAddress);
+        }
+    }
+
+    private boolean isValidAttack(Matcher matcher) {
+        int address = Integer.parseInt(matcher.group("monsterZoneNumber"));
+        if (address > 5) {
+            view.showError(Error.INVALID_NUMBER);
+            return false;
+        }
+        if (selectedCell == null) {
+            view.showError(Error.NO_CARD_SELECTED_YET);
+            return false;
+        } else if (!selectedCellZone.equals(Zone.MONSTER_ZONE)) {
+            view.showError(Error.CAN_NOT_ATTACK);
+            return false;
+        } else if (!currentPhase.equals(Phase.BATTLE_PHASE)) {
+            view.showError(Error.ACTION_NOT_ALLOWED);
+            return false;
+        }
+        if (hasCardUsedItsAttack(address)) {
+            view.showError(Error.ALREADY_ATTACKED);
+            return false;
+        }
+        Cell opponentCell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, address);
+        if (opponentCell.getCellStatus().equals(CellStatus.EMPTY)) {
+            view.showError(Error.NO_CARD_TO_BE_ATTACKED);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean hasCardUsedItsAttack(int cellNumber) {
+        for (Integer cell : usedCellsToAttackNumbers) {
+            if (cell == cellNumber)
+                return true;
+        }
+        return false;
     }
 
     public void drawCardFromDeck() {
@@ -217,10 +303,6 @@ public class RoundGameController {
 
     }
 
-    public void killCard() {
-
-    }
-
     public void nextPhase() {
         if (currentPhase.equals(Phase.DRAW_PHASE)) {
             currentPhase = Phase.STAND_BY_PHASE;
@@ -236,6 +318,7 @@ public class RoundGameController {
             isSummonOrSetOfMonsterUsed = false;
             selectedCell = null;
             selectedCellZone = Zone.NONE;
+            usedCellsToAttackNumbers.clear();
             changeTurn();
         }
     }
@@ -257,8 +340,14 @@ public class RoundGameController {
     }
 
     private DuelPlayer getCurrentPlayer() {
-        if (getTurn() == 1)
+        if (turn == 1)
             return firstPlayer;
         return secondPlayer;
+    }
+
+    private DuelPlayer getOpponentPlayer() {
+        if (turn == 1)
+            return secondPlayer;
+        return firstPlayer;
     }
 }

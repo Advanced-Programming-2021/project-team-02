@@ -36,4 +36,13 @@ public class DuelPlayer {
         return nickname;
     }
 
+    public void decreaseLP(int number) {
+        lifePoint -= number;
+        if (lifePoint < 0)
+            lifePoint = 0;
+    }
+
+    public void setLifePoint(int lifePoint) {
+        this.lifePoint = lifePoint;
+    }
 }

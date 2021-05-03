@@ -52,6 +52,14 @@ public class Monster extends Card {
         return monsterActionType;
     }
 
+    public int getAttackPower() {
+        return attackPower;
+    }
+
+    public int getDefensePower() {
+        return defensePower;
+    }
+
     @Override
     public String toString() {
         return "Name: " + this.name +

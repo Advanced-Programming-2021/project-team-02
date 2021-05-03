@@ -34,6 +34,7 @@ public class GameView {
     public void showDynamicError(Error error, Matcher matcher) {
 
     }
+
     public void showDynamicErrorWithAString(Error error, String string) {
 
     }
@@ -41,7 +42,12 @@ public class GameView {
     public void showSuccessMessage(SuccessMessage message) {
 
     }
-    public void showSuccessMessageWithAString(SuccessMessage message, String string){
+
+    public void showSuccessMessageWithAString(SuccessMessage message, String string) {
+
+    }
+
+    public void showSuccessMessageWithAnInteger(SuccessMessage message, int number) {
 
     }
 
