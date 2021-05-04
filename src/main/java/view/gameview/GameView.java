@@ -19,10 +19,6 @@ public class GameView {
     public void run() {
     }
 
-    public void getCommand() {
-
-    }
-
     public void commandRecognition(String command) {
 
     }
@@ -65,5 +61,10 @@ public class GameView {
 
     public void showCard() {
 
+    }
+    public Matcher getTributeAddress(){
+        //here you should get an address and check it if it is for monster address, else you show invalid command and take input again
+        Matcher matcher;
+        return null;
     }
 }

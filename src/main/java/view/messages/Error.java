@@ -58,7 +58,8 @@ public enum Error {
     CHANGE_CARDS_IN_ONE_ROUND_DUEL("you can not do this action"),
     CARD_IS_NOT_IN_MAIN_DECK_TO_CHANGE("card does not exist in main deck"),
     CARD_IS_NOT_IN_SIDE_DECK_TO_CHANGE("card does not exist in side deck"),
-    INVALID_NUMBER("input number is not valid");
+    INVALID_NUMBER("input number is not valid"),
+    CHOOSE_AGAIN("choose again please");
     private String value;
 
     Error(String value) {

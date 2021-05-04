@@ -7,6 +7,7 @@ import model.card.Trap;
 import model.card.informationofcards.CardType;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Deck {
     private final ArrayList<Card> mainCards;
@@ -123,7 +124,8 @@ public class Deck {
         }
     }
 
-    public Deck shuffleDeck() {
-        return null;
+    public void shuffleDeck() {
+         Collections.shuffle(mainCards);
+         Collections.shuffle(sideCards);
     }
 }

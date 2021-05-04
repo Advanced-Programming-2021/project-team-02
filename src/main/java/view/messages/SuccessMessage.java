@@ -38,8 +38,9 @@ public enum SuccessMessage {
     TRAP_ACTIVATED("spell/trap activated"),
     COMPLETE_RITUAL_SUMMON("you should ritual summon right now"),
     COMPLETE_SPECIAL_SUMMON("you should special summon right now"),
-    EMPTY_GRAVEYARD("graveyard empty");
+    EMPTY_GRAVEYARD("graveyard empty"),
     //SURRENDER_MESSAGES (2_MESSAGES),
+    TRIBUTE_SUMMON_ENTER_ADDRESS("Enter address Of Cards to Tribute");
     private String value;
 
     SuccessMessage(String value) {

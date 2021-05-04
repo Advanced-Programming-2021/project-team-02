@@ -69,8 +69,10 @@ public class DuelGameController {
     }
 
     private void setStartHandCards(DuelPlayer duelPlayer1, DuelPlayer duelPlayer2) {
-        Deck deckFirstPlayer = duelPlayer1.getPlayDeck().shuffleDeck();
-        Deck deckSecondPlayer = duelPlayer2.getPlayDeck().shuffleDeck();
+        Deck deckFirstPlayer = duelPlayer1.getPlayDeck();
+        deckFirstPlayer.shuffleDeck();
+        Deck deckSecondPlayer = duelPlayer2.getPlayDeck();
+        deckSecondPlayer.shuffleDeck();
         RoundGameController roundGameController = RoundGameController.getInstance();
         for (int i = 0; i < 5; i++) {
             roundGameController.addCardToFirstPlayerHand(deckFirstPlayer.getMainCards().get(i));

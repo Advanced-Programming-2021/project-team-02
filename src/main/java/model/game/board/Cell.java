@@ -6,10 +6,6 @@ public class Cell {
     private CellStatus cellStatus = CellStatus.EMPTY;
     private Card cardInCell;
 
-    public void putCardInCell(Card card) {
-        this.cardInCell = card;
-    }
-
     public void setCardInCell(Card cardInCell) {
         this.cardInCell = cardInCell;
     }

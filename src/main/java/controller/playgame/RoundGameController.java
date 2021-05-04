@@ -101,8 +101,8 @@ public class RoundGameController {
             return;
         }
         selectedCell = null;
+        selectedCellZone = Zone.NONE;
         view.showSuccessMessage(SuccessMessage.CARD_DESELECTED);
-
     }
 
     public void summonMonster() {
@@ -133,10 +133,49 @@ public class RoundGameController {
         getCurrentPlayer().getPlayerBoard().addMonsterToBoard((Monster) selectedCell.getCardInCell(), CellStatus.OFFENSIVE_OCCUPIED);
         isSummonOrSetOfMonsterUsed = true;
         view.showSuccessMessage(SuccessMessage.SUMMONED_SUCCESSFULLY);
+        selectedCell = null;
+        selectedCellZone = Zone.NONE;
     }
 
     private void tributeSummon() {
+        if (((Monster) selectedCell.getCardInCell()).getLevel() >= 7) {
+            if (didTribute(2)) {
+                normalSummon();
+            } else view.showError(Error.NOT_ENOUGH_CARDS_TO_TRIBUTE);
+        } else if (((Monster) selectedCell.getCardInCell()).getLevel() >= 5) {
+            if (didTribute(1)) {
+                normalSummon();
+            } else view.showError(Error.NOT_ENOUGH_CARDS_TO_TRIBUTE);
+        }
+    }
 
+    private boolean didTribute(int number) {
+        view.showSuccessMessage(SuccessMessage.TRIBUTE_SUMMON_ENTER_ADDRESS);
+        int[] address = new int[number];
+        for (int i = 1; i <= number; i++) {
+            Matcher matcher = view.getTributeAddress();
+            address[i - 1] = Integer.parseInt(matcher.group("monsterZoneNumber"));
+        }
+        for (int i : address) {
+            if (i > 5 || i < 1) {
+                view.showError(Error.INVALID_SELECTION);
+                return false;
+            }
+            if (getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i).getCellStatus().equals(CellStatus.EMPTY)) {
+                view.showError(Error.WRONG_MONSTER_ADDRESS);
+                return false;
+            }
+        }
+        if (number == 2) {
+            if (address[0] == address[1]) {
+                view.showError(Error.INVALID_SELECTION);
+                return false;
+            }
+        }
+        for (int i : address) {
+            getCurrentPlayer().getPlayerBoard().removeMonsterFromBoard(i);
+        }
+        return true;
     }
 
     private void ritualSummon() {
@@ -173,8 +212,13 @@ public class RoundGameController {
         return true;
     }
 
-    public void changeCardPosition() {
+    public void changeCardPosition(Matcher matcher) {
+        String position = matcher.group("position");
+        if (position.equals("attack")){
 
+        } else {
+
+        }
     }
 
     public void setSpellOrTrap() {
@@ -349,5 +393,9 @@ public class RoundGameController {
         if (turn == 1)
             return secondPlayer;
         return firstPlayer;
+    }
+    public void cancel(){
+        selectedCell = null;
+        selectedCellZone = Zone.NONE;
     }
 }
