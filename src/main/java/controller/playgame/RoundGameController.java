@@ -105,7 +105,7 @@ public class RoundGameController {
         view.showSuccessMessage(SuccessMessage.CARD_DESELECTED);
     }
 
-    public void summonMonster() {
+    public void summonMonster() { // might have effect
         if (!isValidSelectionForSummonOrSet()) {
             return;
         }
@@ -212,9 +212,9 @@ public class RoundGameController {
         return true;
     }
 
-    public void changeCardPosition(Matcher matcher) {
+    public void changeMonsterPosition(Matcher matcher) {
         String position = matcher.group("position");
-        if (position.equals("attack")){
+        if (position.equals("attack")) {
 
         } else {
 
@@ -253,7 +253,6 @@ public class RoundGameController {
         } else {
             attackToOOCard(toBeAttackedCardAddress);
         }
-
     }
 
     private void attackToDHCard(int address) {
@@ -363,6 +362,7 @@ public class RoundGameController {
             selectedCell = null;
             selectedCellZone = Zone.NONE;
             usedCellsToAttackNumbers.clear();
+            getCurrentPlayer().getPlayerBoard().resetCellsChanged();
             changeTurn();
         }
     }
@@ -394,7 +394,8 @@ public class RoundGameController {
             return secondPlayer;
         return firstPlayer;
     }
-    public void cancel(){
+
+    public void cancel() {
         selectedCell = null;
         selectedCellZone = Zone.NONE;
     }

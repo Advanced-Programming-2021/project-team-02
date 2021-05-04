@@ -5,6 +5,7 @@ import model.card.Card;
 public class Cell {
     private CellStatus cellStatus = CellStatus.EMPTY;
     private Card cardInCell;
+    private boolean hasStatusChanged = false;
 
     public void setCardInCell(Card cardInCell) {
         this.cardInCell = cardInCell;
@@ -24,5 +25,9 @@ public class Cell {
 
     public void changeCellStatus(CellStatus newStatus) {
         this.cellStatus = newStatus;
+    }
+
+    public void changedStatus(boolean change) {
+        hasStatusChanged = change;
     }
 }

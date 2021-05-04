@@ -14,6 +14,10 @@ public class SpellZone {
 
     }
 
+    public void reset() {
+
+    }
+
     public Cell getCellWithAddress(int address) {
         return spellCells[address];
     }

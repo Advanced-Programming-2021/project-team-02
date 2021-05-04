@@ -34,4 +34,7 @@ public class MonsterZone {
     public Cell[] getMonsterCells() {
         return monsterCells;
     }
+    public void reset(){
+
+    }
 }

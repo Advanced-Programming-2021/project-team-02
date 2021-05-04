@@ -61,4 +61,8 @@ public class PlayerBoard {
     public MonsterZone returnMonsterZone(){
         return monsterZone;
     }
+    public void resetCellsChanged(){
+        monsterZone.reset();
+        spellZone.reset();
+    }
 }

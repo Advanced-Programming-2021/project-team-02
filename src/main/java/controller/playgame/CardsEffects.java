@@ -19,7 +19,7 @@ public class CardsEffects {
         Card defenseCard = Objects.requireNonNull(Card.getCardByName(matcher.group(1)));
         if (attackerCard.getCardType().equals(CardType.MONSTER)) {
             if (defenseCard.getCardType().equals(CardType.MONSTER)) {
-                if (MonsterEffect.getMonsterEffectByName(matcher.group(2)).equals("Yomi_Ship")) {
+                if (MonsterEffect.getMonsterEffectByName(matcher.group(2)).equals(MonsterEffect.YOMI_SHIP_EFFECT)) {
                     YomiShip(starter, getAttack, matcher);
                 }
             } else if (defenseCard.getCardType().equals(CardType.SPELL)) {
