@@ -5,7 +5,7 @@ import model.card.informationofcards.CardType;
 import model.card.informationofcards.MonsterEffect;
 import model.game.DuelPlayer;
 import model.game.board.Cell;
-import model.game.board.MonsterZone;
+import model.game.board.*;
 import model.game.board.Zone;
 
 import java.util.List;

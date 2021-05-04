@@ -244,14 +244,14 @@ public class RoundGameController {
     public void attackToCard(Matcher matcher) {
         if (!isValidAttack(matcher))
             return;
-        int address = Integer.parseInt(matcher.group("monsterZoneNumber"));
-        CellStatus opponentCellStatus = getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, address).getCellStatus();
+        int toBeAttackedCardAddress = Integer.parseInt(matcher.group("monsterZoneNumber"));
+        CellStatus opponentCellStatus = getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, toBeAttackedCardAddress).getCellStatus();
         if (opponentCellStatus.equals(CellStatus.DEFENSIVE_HIDDEN)) {
-            attackToDHCard(address);
+            attackToDHCard(toBeAttackedCardAddress);
         } else if (opponentCellStatus.equals(CellStatus.DEFENSIVE_OCCUPIED)) {
-            attackToDOCard(address);
+            attackToDOCard(toBeAttackedCardAddress);
         } else {
-            attackToOOCard(address);
+            attackToOOCard(toBeAttackedCardAddress);
         }
 
     }
@@ -264,10 +264,10 @@ public class RoundGameController {
 
     }
 
-    private void attackToOOCard(int address) {
+    private void attackToOOCard(int toBeAttackedCardAddress) {
         DuelPlayer opponent = getOpponentPlayer();
         DuelPlayer player = getCurrentPlayer();
-        Cell opponentCellToBeAttacked = opponent.getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, address);
+        Cell opponentCellToBeAttacked = opponent.getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, toBeAttackedCardAddress);
         Monster playerCard = (Monster) selectedCell.getCardInCell();
         Monster opponentCard = (Monster) opponentCellToBeAttacked.getCardInCell();
         int damage = playerCard.getAttackPower() - opponentCard.getAttackPower();
@@ -275,7 +275,7 @@ public class RoundGameController {
             view.showSuccessMessageWithAnInteger(SuccessMessage.OPPONENT_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
             opponent.decreaseLP(damage);
             opponent.getPlayerBoard().addCardToGraveYard(opponentCellToBeAttacked.getCardInCell());
-            opponent.getPlayerBoard().removeMonsterFromBoard(address);
+            opponent.getPlayerBoard().removeMonsterFromBoard(toBeAttackedCardAddress);
         } else if (damage < 0) {
             view.showSuccessMessageWithAnInteger(SuccessMessage.CURRENT_PLAYER_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
             player.decreaseLP(-damage);
@@ -285,7 +285,7 @@ public class RoundGameController {
             view.showSuccessMessage(SuccessMessage.NO_DAMAGE_TO_ANYONE);
             opponent.getPlayerBoard().addCardToGraveYard(opponentCellToBeAttacked.getCardInCell());
             player.getPlayerBoard().addCardToGraveYard(opponentCellToBeAttacked.getCardInCell());
-            opponent.getPlayerBoard().removeMonsterFromBoard(address);
+            opponent.getPlayerBoard().removeMonsterFromBoard(toBeAttackedCardAddress);
             player.getPlayerBoard().removeMonsterFromBoard(selectedCellAddress);
         }
     }

@@ -26,7 +26,7 @@ public class PlayerBoard {
     }
 
     public void removeMonsterFromBoard(int address) {
-        monsterZone.removeCard(address);
+        monsterZone.removeCard(address - 1);
     }
 
     public void removeSpellOrTrapFromBoard() {
