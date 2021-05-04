@@ -57,4 +57,8 @@ public class PlayerBoard {
         }
         return null;
     }
+
+    public MonsterZone returnMonsterZone(){
+        return monsterZone;
+    }
 }
