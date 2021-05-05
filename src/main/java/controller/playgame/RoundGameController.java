@@ -30,6 +30,7 @@ public class RoundGameController {
     private int turn = 1; // 1 : firstPlayer, 2 : secondPlayer
     private DuelGameController duelGameController = DuelGameController.getInstance();
     private List<Integer> usedCellsToAttackNumbers = new ArrayList<>();
+    private List<Integer> changedPositionCards = new ArrayList<>();
 
     static {
         instance = new RoundGameController();
@@ -248,13 +249,14 @@ public class RoundGameController {
         } else if (!(matcher.group("position").equals("attack") && selectedCell.getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED ||
                 matcher.group("position").equals("defense") && selectedCell.getCellStatus() == CellStatus.OFFENSIVE_OCCUPIED)) {
             view.showError(Error.CURRENTLY_IN_POSITION);
-        } else if (selectedCell.isHasStatusChanged()) {
+        } else if (hasCardChangedPosition()) {
             view.showError(Error.ALREADY_CHANGED_POSITION);
         } else {
             if (matcher.group("position").equals("attack")) selectedCell.setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
             else if (matcher.group("position").equals("defense"))
                 selectedCell.setCellStatus(CellStatus.DEFENSIVE_OCCUPIED);
             view.showSuccessMessage(SuccessMessage.POSITION_CHANGED_SUCCESSFULLY);
+            changePositionUsed();
         }
     }
 
@@ -268,7 +270,7 @@ public class RoundGameController {
             view.showError(Error.ACTION_CAN_NOT_WORK_IN_THIS_PHASE);
         } else if (getCurrentPlayer().getPlayerBoard().isSpellZoneFull()) {
             view.showError(Error.SPELL_ZONE_IS_FULL);
-        } else {
+        } else { // we can change place of this for ,,, you know...
             SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
             for (int i = 0; i < 5; i++) {
                 if (spellZone.getCellWithAddress(i).getCellStatus() == CellStatus.EMPTY) {
@@ -318,7 +320,7 @@ public class RoundGameController {
         } else {
             attackToOOCard(getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, toBeAttackedCardAddress), toBeAttackedCardAddress);
         }
-        attackUsed(selectedCellAddress);
+        attackUsed();
     }
 
     private void attackToDHCard(Cell opponentCellToBeAttacked, int toBeAttackedCardAddress) { //might have effect
@@ -387,7 +389,7 @@ public class RoundGameController {
             view.showError(Error.ACTION_NOT_ALLOWED);
             return false;
         }
-        if (hasCardUsedItsAttack(address)) {
+        if (hasCardUsedItsAttack()) {
             view.showError(Error.ALREADY_ATTACKED);
             return false;
         }
@@ -399,16 +401,28 @@ public class RoundGameController {
         return true;
     }
 
-    private boolean hasCardUsedItsAttack(int cellNumber) {
+    private boolean hasCardUsedItsAttack() {
         for (Integer cell : usedCellsToAttackNumbers) {
-            if (cell == cellNumber)
+            if (cell == selectedCellAddress)
                 return true;
         }
         return false;
     }
 
-    private void attackUsed(int address) {
-        usedCellsToAttackNumbers.add(address);
+    private void attackUsed() {
+        usedCellsToAttackNumbers.add(selectedCellAddress);
+    }
+
+    private boolean hasCardChangedPosition() {
+        for (Integer positionCard : changedPositionCards) {
+            if (positionCard.equals(selectedCellAddress))
+                return true;
+        }
+        return false;
+    }
+
+    private void changePositionUsed() {
+        usedCellsToAttackNumbers.add(selectedCellAddress);
     }
 
     public void drawCardFromDeck() {
@@ -460,7 +474,7 @@ public class RoundGameController {
             view.showError(Error.CANT_DIRECT_ATTACK);
             return;
         }
-        if (hasCardUsedItsAttack(selectedCellAddress)) {
+        if (hasCardUsedItsAttack()) {
             view.showError(Error.ALREADY_ATTACKED);
             return;
         }
@@ -485,6 +499,7 @@ public class RoundGameController {
             selectedCell = null;
             selectedCellZone = Zone.NONE;
             usedCellsToAttackNumbers.clear();
+            changedPositionCards.clear();
             getCurrentPlayer().getPlayerBoard().resetCellsChanged();
             changeTurn();
         }

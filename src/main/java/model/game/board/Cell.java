@@ -31,7 +31,7 @@ public class Cell {
         hasStatusChanged = change;
     }
 
-    public boolean isHasStatusChanged() {
+    public boolean hasStatusChanged() {
         return hasStatusChanged;
     }
 }
