@@ -5,16 +5,14 @@ import model.card.Monster;
 import model.card.informationofcards.CardType;
 import model.card.informationofcards.MonsterActionType;
 import model.game.DuelPlayer;
-import model.game.board.Cell;
-import model.game.board.CellStatus;
-import model.game.board.SpellZone;
-import model.game.board.Zone;
+import model.game.board.*;
 import view.gameview.GameView;
 import view.messages.Error;
 import view.messages.SuccessMessage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 
 public class RoundGameController {
@@ -180,8 +178,34 @@ public class RoundGameController {
         return true;
     }
 
-    private void ritualSummon(Matcher matcher) {
+//    private void ritualSummon(Matcher matcher) {
+//        List<Card> currentPlayerHand = getCurrentPlayerHand();
+//        if (!isRitualCardInHand()) {
+//            view.showError(Error.CAN_NOT_RITUAL_SUMMON);
+//        } else if (!sumOfSubsequences("cardName")) {
+//            view.showError(Error.CAN_NOT_RITUAL_SUMMON);
+//        } else if ()
+//    }
 
+    private boolean isRitualCardInHand() {
+        List<Card> currentPlayerHand = getCurrentPlayerHand();
+        for (Card card : currentPlayerHand) {
+            if (card.getCardType() == CardType.MONSTER) {
+                if (MonsterActionType.getActionTypeByName(card.getName()) == MonsterActionType.RITUAL) return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean sumOfSubsequences(String cardName) {
+        MonsterZone monsterZone = getCurrentPlayer().getPlayerBoard().returnMonsterZone();
+        int sum = 0;
+        for (int i = 0; i < 5; i++) {
+            Monster cardNumberI = (Monster) monsterZone.getCellWithAddress(i).getCardInCell();
+            sum += cardNumberI.getLevel();
+        }
+        Monster ritualCard = (Monster) Card.getCardByName(cardName);
+        return sum >= Objects.requireNonNull(ritualCard).getLevel();
     }
 
     public void setMonster() {
@@ -237,7 +261,7 @@ public class RoundGameController {
     public void setSpellOrTrap(Matcher matcher) {
         if (selectedCell == null) {
             view.showError(Error.NO_CARD_SELECTED_YET);
-        } else if (!isSpellOrTrapInHand()) {
+        } else if (!isCardInHand()) {
             view.showError(Error.CAN_NOT_SET);
         } else if (!(selectedCell.getCardInCell().getCardType() == CardType.SPELL &&
                 (currentPhase == Phase.MAIN_PHASE_1 || currentPhase == Phase.MAIN_PHASE_2))) {
@@ -257,24 +281,23 @@ public class RoundGameController {
         }
     }
 
-    public boolean isSpellOrTrapInHand() {
-        if (getCurrentPlayer() == firstPlayer) {
-            List<Card> playerHand = getFirstPlayerHand();
-            for (Card card : playerHand) {
-                if (card.getName().equals(selectedCell.getCardInCell().getName())) {
-                    return true;
-                }
+    public boolean isCardInHand() {
+        List<Card> playerHand = getCurrentPlayerHand();
+        for (Card card : playerHand) {
+            if (card.getName().equals(selectedCell.getCardInCell().getName())) {
+                return true;
             }
-            return false;
-        } else if (getCurrentPlayer() == secondPlayer) {
-            List<Card> playerHand = getSecondPlayerHand();
-            for (Card card : playerHand) {
-                if (card.getName().equals(selectedCell.getCardInCell().getName()))
-                    return true;
-            }
-            return false;
         }
         return false;
+    }
+
+    public List<Card> getCurrentPlayerHand() {
+        if (getCurrentPlayer() == firstPlayer) {
+            return getFirstPlayerHand();
+        } else if (getCurrentPlayer() == secondPlayer) {
+            return getSecondPlayerHand();
+        }
+        return null;
     }
 
     public void faceUpSpellOrTrap() {
