@@ -36,7 +36,6 @@ public enum SuccessMessage {
     //SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL(AFTER,BEFORE),
     WANTS_ACTIVE_SPELL("do you want to activate your trap and spell?"),
     TRAP_ACTIVATED("spell/trap activated"),
-    COMPLETE_RITUAL_SUMMON("you should ritual summon right now"),
     COMPLETE_SPECIAL_SUMMON("you should special summon right now"),
     EMPTY_GRAVEYARD("graveyard empty"),
     //SURRENDER_MESSAGES (2_MESSAGES),

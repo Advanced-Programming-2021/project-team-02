@@ -178,14 +178,66 @@ public class RoundGameController {
         return true;
     }
 
-//    private void ritualSummon(Matcher matcher) {
-//        List<Card> currentPlayerHand = getCurrentPlayerHand();
-//        if (!isRitualCardInHand()) {
-//            view.showError(Error.CAN_NOT_RITUAL_SUMMON);
-//        } else if (!sumOfSubsequences("cardName")) {
-//            view.showError(Error.CAN_NOT_RITUAL_SUMMON);
-//        } else if ()
-//    }
+    private void ritualSummon(Matcher matcher) {
+        List<Card> currentPlayerHand = getCurrentPlayerHand();
+        if (!isRitualCardInHand()) {
+            view.showError(Error.CAN_NOT_RITUAL_SUMMON);
+        } else if (!sumOfSubsequences("cardName")) {
+            view.showError(Error.CAN_NOT_RITUAL_SUMMON);
+        } else {
+            while (true) {
+                Monster monster = (Monster) selectedCell.getCardInCell();
+                if (Objects.requireNonNull(monster).getMonsterActionType() == MonsterActionType.RITUAL) break;
+                else {
+                    view.showError(Error.RITUAL_SUMMON_NOW);
+                    view.getSummonOrderForRitual();
+                }
+            }
+            while (true) {
+                if (areCardsLevelsEnoughToSummonRitualMonster()) break;
+                else view.showError(Error.LEVEL_DOES_NOT_MATCH);
+            }
+            Matcher matcherOfPosition = view.getPositionForSetRitualMonster();
+            setRitualMonster(matcher, matcherOfPosition);
+        }
+    }
+
+    public void setRitualMonster(Matcher order, Matcher matcherOfPosition) {
+        MonsterZone monsterZone = getCurrentPlayer().getPlayerBoard().returnMonsterZone();
+        if (matcherOfPosition.group().equals("attack")) {
+            for (int i = 0; i < 5; i++) {
+                if (monsterZone.getCellWithAddress(i).getCellStatus() == CellStatus.EMPTY) {
+                    Card card = Card.getCardByName(order.group(1));
+                    monsterZone.getCellWithAddress(i).setCardInCell(card);
+                    monsterZone.getCellWithAddress(i).setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
+                }
+            }
+            selectedCell.setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
+        } else if (matcherOfPosition.group().equals("defense")) {
+            for (int i = 0; i < 5; i++) {
+                if (monsterZone.getCellWithAddress(i).getCellStatus() == CellStatus.EMPTY) {
+                    Card card = Card.getCardByName(order.group(1));
+                    monsterZone.getCellWithAddress(i).setCardInCell(card);
+                    monsterZone.getCellWithAddress(i).setCellStatus(CellStatus.DEFENSIVE_OCCUPIED);
+                }
+            }
+            selectedCell.setCellStatus(CellStatus.DEFENSIVE_OCCUPIED);
+        }
+        view.showSuccessMessage(SuccessMessage.SUMMONED_SUCCESSFULLY);
+    }
+
+    public boolean areCardsLevelsEnoughToSummonRitualMonster() {
+        Matcher addresses = view.getMonstersAddressesToBringRitual();
+        String[] split = addresses.pattern().split("\\s+");
+        int sum = 0;
+        MonsterZone monsterZone = getCurrentPlayer().getPlayerBoard().returnMonsterZone();
+        for (String s : split) {
+            Monster monster = (Monster) monsterZone.getCellWithAddress(Integer.parseInt(s)).getCardInCell();
+            sum += monster.getLevel();
+        }
+        Monster monster = (Monster) selectedCell.getCardInCell();
+        return sum >= monster.getLevel();
+    }
 
     private boolean isRitualCardInHand() {
         List<Card> currentPlayerHand = getCurrentPlayerHand();
@@ -261,7 +313,7 @@ public class RoundGameController {
     public void setSpellOrTrap(Matcher matcher) {
         if (selectedCell == null) {
             view.showError(Error.NO_CARD_SELECTED_YET);
-        } else if (!isCardInHand()) {
+        } else if (!selectedCellZone.equals(Zone.HAND)) {
             view.showError(Error.CAN_NOT_SET);
         } else if (!(selectedCell.getCardInCell().getCardType() == CardType.SPELL &&
                 (currentPhase == Phase.MAIN_PHASE_1 || currentPhase == Phase.MAIN_PHASE_2))) {
@@ -279,16 +331,6 @@ public class RoundGameController {
             }
             view.showSuccessMessage(SuccessMessage.SET_SUCCESSFULLY);
         }
-    }
-
-    public boolean isCardInHand() {
-        List<Card> playerHand = getCurrentPlayerHand();
-        for (Card card : playerHand) {
-            if (card.getName().equals(selectedCell.getCardInCell().getName())) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public List<Card> getCurrentPlayerHand() {

@@ -62,9 +62,29 @@ public class GameView {
     public void showCard() {
 
     }
-    public Matcher getTributeAddress(){
+
+    public Matcher getTributeAddress() {
         //here you should get an address and check it if it is for monster address, else you show invalid command and take input again
         Matcher matcher;
         return null;
+    }
+
+    public Matcher getSummonOrderForRitual() {
+        //here you should make him to write summon a ritual monster
+        Matcher matcher;
+        return null;
+    }
+
+    public Matcher getMonstersAddressesToBringRitual() {
+        // here you should tell him to write addresses for summon ritual monster with (next line)
+        // one integer and then space one integer and then space .... except the last integer
+        Matcher matcher;
+        return null;
+    }
+
+    public Matcher getPositionForSetRitualMonster() {
+        // you should ask him about position of ritual summon (can be only OO or DO)
+        Matcher matcher;
+        return  null;
     }
 }
