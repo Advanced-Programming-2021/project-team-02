@@ -30,4 +30,8 @@ public class Cell {
     public void changedStatus(boolean change) {
         hasStatusChanged = change;
     }
+
+    public boolean isHasStatusChanged() {
+        return hasStatusChanged;
+    }
 }

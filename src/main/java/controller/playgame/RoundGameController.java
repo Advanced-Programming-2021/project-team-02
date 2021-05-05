@@ -119,7 +119,7 @@ public class RoundGameController {
         }
         Monster monster = ((Monster) selectedCell.getCardInCell());
         if (monster.getMonsterActionType().equals(MonsterActionType.RITUAL)) {
-            ritualSummon();
+            //ritualSummon();
             return;
         }
         if (monster.getLevel() > 4) {
@@ -178,8 +178,23 @@ public class RoundGameController {
         return true;
     }
 
-    private void ritualSummon() {
-
+    private void ritualSummon(Matcher matcher) {
+        if (selectedCell == null) {
+            view.showError(Error.NO_CARD_SELECTED_YET);
+        } else if (!(selectedCellZone == Zone.MONSTER_ZONE)) {
+            view.showError(Error.CAN_NOT_CHANGE_POSITION);
+        } else if (!(currentPhase == Phase.MAIN_PHASE_1 || currentPhase == Phase.MAIN_PHASE_2)) {
+            view.showError(Error.ACTION_CAN_NOT_WORK);
+        } else if (!(matcher.group("position").equals("attack") && selectedCell.getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED ||
+                matcher.group("position").equals("defense") && selectedCell.getCellStatus() == CellStatus.OFFENSIVE_OCCUPIED)) {
+            view.showError(Error.CURRENTLY_IN_POSITION);
+        } else if (selectedCell.isHasStatusChanged()) {
+            view.showError(Error.ALREADY_CHANGED_POSITION);
+        } else {
+            if (matcher.group("position").equals("attack")) selectedCell.setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
+            else if (matcher.group("position").equals("defense")) selectedCell.setCellStatus(CellStatus.DEFENSIVE_OCCUPIED);
+            view.showSuccessMessage(SuccessMessage.POSITION_CHANGED_SUCCESSFULLY);
+        }
     }
 
     public void setMonster() {
@@ -339,7 +354,18 @@ public class RoundGameController {
     }
 
     public void flipSummon() {
-
+        if (selectedCell == null) {
+            view.showError(Error.NO_CARD_SELECTED_YET);
+        } else if (!(selectedCellZone == Zone.MONSTER_ZONE)) {
+            view.showError(Error.CAN_NOT_CHANGE_POSITION);
+        } else if (!(currentPhase == Phase.MAIN_PHASE_1 || currentPhase == Phase.MAIN_PHASE_2)) {
+            view.showError(Error.ACTION_CAN_NOT_WORK);
+        } else if (selectedCell.getCellStatus() == CellStatus.DEFENSIVE_HIDDEN) {
+            view.showError(Error.FLIP_SUMMON_NOT_ALLOWED);
+        } else {
+            selectedCell.setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
+            view.showSuccessMessage(SuccessMessage.FLIP_SUMMON_SUCCESSFUL);
+        }
     }
 
     public void directAttack() {
