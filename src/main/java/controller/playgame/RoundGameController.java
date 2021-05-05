@@ -2,10 +2,12 @@ package controller.playgame;
 
 import model.card.Card;
 import model.card.Monster;
+import model.card.informationofcards.CardType;
 import model.card.informationofcards.MonsterActionType;
 import model.game.DuelPlayer;
 import model.game.board.Cell;
 import model.game.board.CellStatus;
+import model.game.board.SpellZone;
 import model.game.board.Zone;
 import view.gameview.GameView;
 import view.messages.Error;
@@ -179,22 +181,7 @@ public class RoundGameController {
     }
 
     private void ritualSummon(Matcher matcher) {
-        if (selectedCell == null) {
-            view.showError(Error.NO_CARD_SELECTED_YET);
-        } else if (!(selectedCellZone == Zone.MONSTER_ZONE)) {
-            view.showError(Error.CAN_NOT_CHANGE_POSITION);
-        } else if (!(currentPhase == Phase.MAIN_PHASE_1 || currentPhase == Phase.MAIN_PHASE_2)) {
-            view.showError(Error.ACTION_CAN_NOT_WORK);
-        } else if (!(matcher.group("position").equals("attack") && selectedCell.getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED ||
-                matcher.group("position").equals("defense") && selectedCell.getCellStatus() == CellStatus.OFFENSIVE_OCCUPIED)) {
-            view.showError(Error.CURRENTLY_IN_POSITION);
-        } else if (selectedCell.isHasStatusChanged()) {
-            view.showError(Error.ALREADY_CHANGED_POSITION);
-        } else {
-            if (matcher.group("position").equals("attack")) selectedCell.setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
-            else if (matcher.group("position").equals("defense")) selectedCell.setCellStatus(CellStatus.DEFENSIVE_OCCUPIED);
-            view.showSuccessMessage(SuccessMessage.POSITION_CHANGED_SUCCESSFULLY);
-        }
+
     }
 
     public void setMonster() {
@@ -228,16 +215,66 @@ public class RoundGameController {
     }
 
     public void changeMonsterPosition(Matcher matcher) {
-        String position = matcher.group("position");
-        if (position.equals("attack")) {
-
+        if (selectedCell == null) {
+            view.showError(Error.NO_CARD_SELECTED_YET);
+        } else if (!(selectedCellZone == Zone.MONSTER_ZONE)) {
+            view.showError(Error.CAN_NOT_CHANGE_POSITION);
+        } else if (!(currentPhase == Phase.MAIN_PHASE_1 || currentPhase == Phase.MAIN_PHASE_2)) {
+            view.showError(Error.ACTION_CAN_NOT_WORK);
+        } else if (!(matcher.group("position").equals("attack") && selectedCell.getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED ||
+                matcher.group("position").equals("defense") && selectedCell.getCellStatus() == CellStatus.OFFENSIVE_OCCUPIED)) {
+            view.showError(Error.CURRENTLY_IN_POSITION);
+        } else if (selectedCell.isHasStatusChanged()) {
+            view.showError(Error.ALREADY_CHANGED_POSITION);
         } else {
-
+            if (matcher.group("position").equals("attack")) selectedCell.setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
+            else if (matcher.group("position").equals("defense"))
+                selectedCell.setCellStatus(CellStatus.DEFENSIVE_OCCUPIED);
+            view.showSuccessMessage(SuccessMessage.POSITION_CHANGED_SUCCESSFULLY);
         }
     }
 
-    public void setSpellOrTrap() {
+    public void setSpellOrTrap(Matcher matcher) {
+        if (selectedCell == null) {
+            view.showError(Error.NO_CARD_SELECTED_YET);
+        } else if (!isSpellOrTrapInHand()) {
+            view.showError(Error.CAN_NOT_SET);
+        } else if (!(selectedCell.getCardInCell().getCardType() == CardType.SPELL &&
+                (currentPhase == Phase.MAIN_PHASE_1 || currentPhase == Phase.MAIN_PHASE_2))) {
+            view.showError(Error.ACTION_CAN_NOT_WORK);
+        } else if (getCurrentPlayer().getPlayerBoard().isSpellZoneFull()) {
+            view.showError(Error.SPELL_ZONE_IS_FULL);
+        } else {
+            SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
+            for (int i = 0; i < 5; i++) {
+                if (spellZone.getCellWithAddress(i).getCellStatus() == CellStatus.EMPTY) {
+                    Card card = Card.getCardByName(matcher.group(1));
+                    spellZone.getCellWithAddress(i).setCardInCell(card);
+                    spellZone.getCellWithAddress(i).setCellStatus(CellStatus.HIDDEN);
+                }
+            }
+            view.showSuccessMessage(SuccessMessage.SET_SUCCESSFULLY);
+        }
+    }
 
+    public boolean isSpellOrTrapInHand() {
+        if (getCurrentPlayer() == firstPlayer) {
+            List<Card> playerHand = getFirstPlayerHand();
+            for (Card card : playerHand) {
+                if (card.getName().equals(selectedCell.getCardInCell().getName())) {
+                    return true;
+                }
+            }
+            return false;
+        } else if (getCurrentPlayer() == secondPlayer) {
+            List<Card> playerHand = getSecondPlayerHand();
+            for (Card card : playerHand) {
+                if (card.getName().equals(selectedCell.getCardInCell().getName()))
+                    return true;
+            }
+            return false;
+        }
+        return false;
     }
 
     public void faceUpSpellOrTrap() {

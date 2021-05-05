@@ -49,6 +49,15 @@ public class PlayerBoard {
         return true;
     }
 
+    public boolean isSpellZoneFull() {
+        for (int i = 0; i < 5; i++) {
+            if (spellZone.getCellWithAddress(i).getCellStatus() == CellStatus.EMPTY) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public Cell getACellOfBoard(Zone zone, int index) {
         if (zone.equals(Zone.MONSTER_ZONE)) {
             return monsterZone.getCellWithAddress(index);
@@ -58,10 +67,15 @@ public class PlayerBoard {
         return null;
     }
 
-    public MonsterZone returnMonsterZone(){
+    public MonsterZone returnMonsterZone() {
         return monsterZone;
     }
-    public void resetCellsChanged(){
+
+    public SpellZone returnSpellZone() {
+        return spellZone;
+    }
+
+    public void resetCellsChanged() {
         monsterZone.reset();
         spellZone.reset();
     }
