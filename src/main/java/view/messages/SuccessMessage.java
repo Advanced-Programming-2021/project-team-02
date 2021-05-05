@@ -29,9 +29,9 @@ public enum SuccessMessage {
             "damage"),
     DEFENSIVE_MONSTER_DESTROYED("the defense position monster is destroyed"),
     NO_CARD_DESTROYED("no card is destroyed"),
-    //DAMAGE_TO_CURRENT_PLAYER_AFTER_ATTACK_TI_HIGHER_DEFENSIVE_DO_MONSTER,
-    //DAMAGE_TO_CURRENT_PLAYER_AFTER_ATTACK_TI_HIGHER_DEFENSIVE_DH_MONSTER,
-    //OPPONENT_RECEIVE_DAMAGE_AFTER_DIRECT_ATTACK
+    DAMAGE_TO_CURRENT_PLAYER_AFTER_ATTACK_TI_HIGHER_DEFENSIVE_DO_OR_DH_MONSTER("no card is destroyed and you received %d battle damage"),
+    DH_CARD_BECOMES_DO("opponent’s monster card was %s"),
+    OPPONENT_RECEIVE_DAMAGE_AFTER_DIRECT_ATTACK("you opponent receives %d battle damage"),
     SPELL_ACTIVATED("spell activated"),
     //SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL(AFTER,BEFORE),
     WANTS_ACTIVE_SPELL("do you want to activate your trap and spell?"),

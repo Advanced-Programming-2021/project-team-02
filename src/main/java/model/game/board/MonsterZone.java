@@ -31,9 +31,6 @@ public class MonsterZone {
         return monsterCells[address];
     }
 
-    public Cell[] getMonsterCells() {
-        return monsterCells;
-    }
     public void reset(){
 
     }

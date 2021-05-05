@@ -4,12 +4,13 @@ import model.card.Card;
 import model.card.Monster;
 import model.game.board.*;
 
+import java.util.ArrayList;
+
 public class PlayerBoard {
     private MonsterZone monsterZone;
     private SpellZone spellZone;
     private GraveYard graveYard;
     private FieldZone fieldZone;
-
     public PlayerBoard() {
         monsterZone = new MonsterZone();
         spellZone = new SpellZone();
@@ -26,7 +27,9 @@ public class PlayerBoard {
     }
 
     public void removeMonsterFromBoard(int address) {
+        graveYard.addCard(monsterZone.getCellWithAddress(address).getCardInCell());
         monsterZone.removeCard(address - 1);
+
     }
 
     public void removeSpellOrTrapFromBoard() {
@@ -42,20 +45,42 @@ public class PlayerBoard {
     }
 
     public boolean isMonsterZoneFull() {
-        for (Cell cell : monsterZone.getMonsterCells()) {
-            if (cell.getCellStatus().equals(CellStatus.EMPTY))
-                return false;
-        }
-        return true;
+        if (howManyEmptyCellsWeHaveInZone(Zone.MONSTER_ZONE) == 0)
+            return true;
+        return false;
     }
 
     public boolean isSpellZoneFull() {
-        for (int i = 0; i < 5; i++) {
-            if (spellZone.getCellWithAddress(i).getCellStatus() == CellStatus.EMPTY) {
-                return false;
+        if (howManyEmptyCellsWeHaveInZone(Zone.SPELL_ZONE) == 0)
+            return true;
+        return false;
+    }
+
+    public boolean isMonsterZoneEmpty() {
+        if (howManyEmptyCellsWeHaveInZone(Zone.MONSTER_ZONE) == 5)
+            return true;
+        return false;
+    }
+
+    public int howManyEmptyCellsWeHaveInZone(Zone zone) {
+        if (zone.equals(Zone.MONSTER_ZONE)) {
+            int counter = 0;
+            for (int i = 0; i < 5; i++) {
+                if (monsterZone.getCellWithAddress(i).getCellStatus().equals(CellStatus.EMPTY)) {
+                    counter++;
+                }
+            }
+            return counter;
+        } else if (zone.equals(Zone.SPELL_ZONE)) {
+            int counter = 0;
+            for (int i = 0; i < 5; i++) {
+                if (spellZone.getCellWithAddress(i).getCellStatus().equals(CellStatus.EMPTY)) {
+                    counter++;
+                }
+                return counter;
             }
         }
-        return true;
+        return 0;
     }
 
     public Cell getACellOfBoard(Zone zone, int index) {
@@ -79,4 +104,5 @@ public class PlayerBoard {
         monsterZone.reset();
         spellZone.reset();
     }
+
 }

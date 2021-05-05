@@ -14,7 +14,7 @@ public enum Error {
     DECK_NOT_EXIST("deck with name %s does not exist\n"),
     INCORRECT_CARD_NAME("card with name %s does not exist\n"),
     MAIN_DECK_IS_FULL("main deck is full"),
-    EXCESSIVE_NUMBER_IN_DECK ("there are already three cards with name %s in deck %s\n"),
+    EXCESSIVE_NUMBER_IN_DECK("there are already three cards with name %s in deck %s\n"),
     CARD_LIMITED_IN_DECK("card %s is limited, you have used it once\n"),
     DONT_HAVE_ENOUGH_OF_THIS_CARD("you don't have more of this card to use"),//added by erfan - not in doc
     CARD_DOES_NOT_EXIST_IN_MAIN_DECK("card with name %s does not exist in main deck\n"),
@@ -36,7 +36,7 @@ public enum Error {
     WRONG_MONSTER_ADDRESS("there no monsters one this address"),
     WRONG_MONSTERS_ADDRESSES("there is no monster on one of these addresses"),
     CAN_NOT_SET("you can’t set this card"),
-    ACTION_CAN_NOT_WORK("you can’t do this action in this phase"),
+    ACTION_CAN_NOT_WORK_IN_THIS_PHASE("you can’t do this action in this phase"),
     CAN_NOT_CHANGE_POSITION("you can’t change this card position"),
     CURRENTLY_IN_POSITION("this card is already in the wanted position"),
     ALREADY_CHANGED_POSITION("you already changed this card position in this turn"),
@@ -59,7 +59,7 @@ public enum Error {
     CARD_IS_NOT_IN_MAIN_DECK_TO_CHANGE("card does not exist in main deck"),
     CARD_IS_NOT_IN_SIDE_DECK_TO_CHANGE("card does not exist in side deck"),
     INVALID_NUMBER("input number is not valid"),
-    CHOOSE_AGAIN("choose again please");
+    CANT_DIRECT_ATTACK("you can't direct attack now");
     private String value;
 
     Error(String value) {
