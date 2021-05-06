@@ -85,6 +85,7 @@ public class RoundGameController {
         //errors to check
         selectedCellZone = Zone.MONSTER_ZONE;
         selectedCell = getCurrentPlayer().getPlayerBoard().getACellOfBoard(selectedCellZone, address);
+        selectedCellAddress = address;
         view.showSuccessMessage(SuccessMessage.CARD_SELECTED);
     }
 
@@ -130,7 +131,6 @@ public class RoundGameController {
             return;
         }
         normalSummon();
-
     }
 
     private void normalSummon() {
@@ -396,7 +396,7 @@ public class RoundGameController {
     private void attackToDOCard(Cell opponentCellToBeAttacked, int toBeAttackedCardAddress) { // might have effect
         Monster playerCard = (Monster) selectedCell.getCardInCell();
         Monster opponentCard = (Monster) opponentCellToBeAttacked.getCardInCell();
-        int damage = playerCard.getAttackPower() - opponentCard.getAttackPower();
+        int damage = playerCard.getAttackPower() - opponentCard.getDefensePower();
         if (damage > 0) {
             view.showSuccessMessage(SuccessMessage.DEFENSIVE_MONSTER_DESTROYED);
             getOpponentPlayer().getPlayerBoard().removeMonsterFromBoard(toBeAttackedCardAddress);
