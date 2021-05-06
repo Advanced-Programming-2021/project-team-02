@@ -36,6 +36,8 @@ public class Regex {
     public static final List<String> BOARD_GAME_SELECT_MONSTER_OPPONENT;
     public static final String BOARD_GAME_SELECT_SPELL = "^select --spell (?<spellZoneNumber>\\d)$";
     public static final List<String> BOARD_GAME_SELECT_SPELL_OPPONENT;
+    public static final String BOARD_GAME_SELECT_FIELD = "^select --field$";
+    public static final List<String> BOARD_GAME_SELECT_FIELD_OPPONENT;
     public static final String BOARD_GAME_SELECT_CARD = "^select (?<cardAddress>.+?)$";
     public static final String BOARD_GAME_SELECT_DELETE = "^select -d$";
     public static final String BOARD_GAME_SUMMON = "^summon$";
@@ -166,6 +168,11 @@ public class Regex {
         BOARD_GAME_SELECT_SPELL_OPPONENT.add("^select --opponent --spell (?<spellZoneNumber>\\d+)$");
         BOARD_GAME_SELECT_SPELL_OPPONENT.add("^select -s (?<spellZoneNumber>\\d+) -o$");
         BOARD_GAME_SELECT_SPELL_OPPONENT.add("^select -o -s (?<spellZoneNumber>\\d+)$");
+        BOARD_GAME_SELECT_FIELD_OPPONENT = new ArrayList<> ();
+        BOARD_GAME_SELECT_FIELD_OPPONENT.add ("^select --field --opponent$");
+        BOARD_GAME_SELECT_FIELD_OPPONENT.add ("^select --opponent --field$");
+        BOARD_GAME_SELECT_FIELD_OPPONENT.add ("^select -f -o$");
+        BOARD_GAME_SELECT_FIELD_OPPONENT.add ("^select -o -f$");
     }
 
     public static Matcher getMatcher(String regex, String command) {
