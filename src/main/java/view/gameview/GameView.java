@@ -16,7 +16,8 @@ public class GameView {
         return instance;
     }
 
-    public void run() {
+    public void run(String command) {
+        commandRecognition(command);
     }
 
     public void commandRecognition(String command) {

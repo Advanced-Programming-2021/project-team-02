@@ -2,6 +2,7 @@ package view;
 
 import model.User;
 import view.*;
+import view.gameview.GameView;
 import view.input.Input;
 
 public class MenusManager {
@@ -18,7 +19,7 @@ public class MenusManager {
         return instance;
     }
 
-    public void run() {
+    public void run() throws CloneNotSupportedException {
         String command;
         while (currentMenu != Menu.EXIT) {
             command = Input.getInput();
@@ -36,6 +37,8 @@ public class MenusManager {
                 DuelMenuView.getInstance ().run (command);
             } else if (currentMenu.equals (Menu.SCOREBOARD_MENU)) {
                 ScoreBoardView.getInstance ().run (command);
+            } else if (currentMenu.equals(Menu.ONGOING_GAME)){
+                GameView.getInstance().run(command);
             }
         }
     }

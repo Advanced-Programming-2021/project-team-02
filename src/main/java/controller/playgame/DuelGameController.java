@@ -4,6 +4,8 @@ import model.Deck;
 import model.card.Card;
 import model.game.Duel;
 import model.game.DuelPlayer;
+import view.Menu;
+import view.MenusManager;
 import view.gameview.GameView;
 import view.messages.Error;
 
@@ -30,6 +32,7 @@ public class DuelGameController {
         this.duel = duel;
         starterSpecifier();
         setStartHandCards(duel.getPlayer1(), duel.getPlayer2());
+        MenusManager.getInstance().changeMenu(Menu.ONGOING_GAME);
     }
 
     public void starterSpecifier() {
