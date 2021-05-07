@@ -1,5 +1,7 @@
 package view.gameview;
 
+import controller.playgame.RoundGameController;
+import view.input.Input;
 import view.messages.Error;
 import view.messages.SuccessMessage;
 
@@ -86,6 +88,13 @@ public class GameView {
     public Matcher getPositionForSetRitualMonster() {
         // you should ask him about position of ritual summon (can be only OO or DO)
         Matcher matcher;
-        return  null;
+        return null;
+    }
+
+    public boolean yesNoQuestion() {
+        if (Input.getInput().equals("yes")) {
+            return true;
+        }
+        return false;
     }
 }

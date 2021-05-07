@@ -11,7 +11,6 @@ import java.util.ArrayList;
 public class CardsDatabase {
     private static CardsDatabase dataBase;
     private static final ArrayList<Card> allCards;
-
     static {
         allCards = new ArrayList<>();
     }
@@ -31,23 +30,23 @@ public class CardsDatabase {
 
     public static void makeCardMonster(CardType cardType, String name, String id, MonsterActionType monsterActionType, MonsterEffect monsterEffect,
                                        int level, Attribute attribute, String description, int attackPower, int defensePower, MonsterType monsterType, int price) {
-        Card card = new Monster(cardType, name, id, monsterActionType, monsterEffect, level, attribute, description, attackPower, defensePower, monsterType);
-        allCards.add(card);
-        Shop.getInstance().addCardToShop(card, price);
+        Monster monster = new Monster(cardType, name, id, monsterActionType, monsterEffect, level, attribute, description, attackPower, defensePower, monsterType);
+        allCards.add(monster);
+        Shop.getInstance().addCardToShop(monster, price);
     }
 
     public static void makeCardSpell(CardType cardType, String name, String id, SpellEffect spellEffect,
                                      Attribute attribute, String description, SpellType spellType, boolean isLimited, int price) {
-        Card card = new Spell(cardType, name, id, spellEffect, attribute, description, spellType, isLimited);
-        allCards.add(card);
-        Shop.getInstance().addCardToShop(card, price);
+        Spell spell = new Spell(cardType, name, id, spellEffect, attribute, description, spellType, isLimited);
+        allCards.add(spell);
+        Shop.getInstance().addCardToShop(spell, price);
     }
 
     public static void makeTrapCard(CardType cardType, String name, String id, TrapEffect trapEffect,
                                     Attribute attribute, String description, TrapType trapType, boolean isLimited, int price) {
-        Card card = new Trap(cardType, name, id, trapEffect, attribute, description, trapType, isLimited);
-        allCards.add(card);
-        Shop.getInstance().addCardToShop(card, price);
+        Trap trap = new Trap(cardType, name, id, trapEffect, attribute, description, trapType, isLimited);
+        allCards.add(trap);
+        Shop.getInstance().addCardToShop(trap, price);
     }
 
 
@@ -90,5 +89,4 @@ public class CardsDatabase {
         }
         csvReader.close();
     }
-
 }
