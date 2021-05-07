@@ -101,6 +101,7 @@ public class RoundGameController {
     }
 
     public void deselectCard(int code) {
+        //code 0 : we(programmers) deselect something in game - code 1 : player deselect something in game
         if (code == 1) {
             if (selectedCell == null) {
                 view.showError(Error.NO_CARD_SELECTED_YET);
@@ -136,10 +137,118 @@ public class RoundGameController {
         normalSummon();
     }
 
+    private boolean isTrapToBeActivatedInSummonSituation() { // TODO haven't added it to flip summon , special summon and ritual summon yet
+        for (int i = 1; i <= 5; i++) {
+            Cell cell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.SPELL_ZONE, i);
+            if (cell.getCellStatus().equals(CellStatus.EMPTY)) {
+                continue;
+            } else if (cell.getCardInCell().getCardType().equals(CardType.SPELL)) {
+                continue;
+            }
+            Trap trap = (Trap) cell.getCardInCell();
+            switch (trap.getTrapEffect()) {
+                case SOLEMN_WARNING_EFFECT:
+                case TORRENTIAL_TRIBUTE_EFFECT:
+                    view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL, getOpponentPlayer().getNickname());
+                    if (view.yesNoQuestion("do you want to activate your trap and spell?")) {
+                        return true;
+                    } else {
+                        view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL, getCurrentPlayer().getNickname());
+                        return false;
+                    }
+                case TRAP_HOLE_EFFECT:
+                    if (isValidSituationForTrapHoleTrapEffect()) {
+                        view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL, getOpponentPlayer().getNickname());
+                        if (view.yesNoQuestion("do you want to activate your trap and spell?")) {
+                            return true;
+                        } else {
+                            view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL, getCurrentPlayer().getNickname());
+                            return false;
+                        }
+                    }
+            }
+        }
+        return false;
+    }
+
+    private boolean isValidSituationForTrapHoleTrapEffect() {
+        if (((Monster) selectedCell.getCardInCell()).getAttackPower() > 1000)
+            return true;
+        return false;
+    }
+
+
+    private boolean isTrapOrSpellInSummonSituationActivated() {//TODO destroy trap or spell after using
+        while (true) {
+            int address = view.getAddressForTrapOrSpell();
+            if (address == -1) {
+                return false;
+            } else if (address >= 1 && address <= 5) {
+                Cell cell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.SPELL_ZONE, address);
+                if (cell.getCardInCell().getCardType().equals(CardType.SPELL)) {
+                    Spell spell = (Spell) cell.getCardInCell();
+                    // davood !
+                } else {
+                    Trap trap = (Trap) cell.getCardInCell();
+                    if (isValidActivateTrapEffectInSummonSituationToDo(trap.getTrapEffect()))
+                        view.showSuccessMessage(SuccessMessage.TRAP_ACTIVATED);
+                    return true;
+                }
+            } else
+                view.showError(Error.INVALID_NUMBER);
+        }
+    }
+
+    private boolean isValidActivateTrapEffectInSummonSituationToDo(TrapEffect trapEffect) {
+        switch (trapEffect) {
+            case TORRENTIAL_TRIBUTE_EFFECT:
+                torrentialTributeEffect();
+                return true;
+            case TRAP_HOLE_EFFECT:
+                if (isValidSituationForTrapHoleTrapEffect()) {
+                    trapHoleEffect();
+                    return true;
+                }
+            case SOLEMN_WARNING_EFFECT:
+                solemnWarningEffect();
+                return true;
+            default:
+                view.showError(Error.PREPARATIONS_IS_NOT_DONE);
+                return false;
+        }
+    }
+
+    private void torrentialTributeEffect() {
+        for (int i = 1; i <= 5; i++) {
+            if (!getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i).getCellStatus().equals(CellStatus.EMPTY))
+                getCurrentPlayer().getPlayerBoard().removeMonsterFromBoard(i);
+            if (!getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i).getCellStatus().equals(CellStatus.EMPTY))
+                getOpponentPlayer().getPlayerBoard().removeMonsterFromBoard(i);
+        }
+    }
+
+    private void trapHoleEffect() {
+        if (isValidSituationForTrapHoleTrapEffect()) {
+            getOpponentPlayer().getPlayerBoard().removeMonsterFromBoard(selectedCellAddress);
+            deselectCard(0);
+        }
+    }
+
+    private void solemnWarningEffect() {
+        getCurrentPlayer().decreaseLP(2000);
+        getCurrentPlayer().getPlayerBoard().removeMonsterFromBoard(selectedCellAddress);
+        deselectCard(0);
+    }
+
     private void normalSummon() {
         getCurrentPlayer().getPlayerBoard().addMonsterToBoard((Monster) selectedCell.getCardInCell(), CellStatus.OFFENSIVE_OCCUPIED);
         isSummonOrSetOfMonsterUsed = true;
         view.showSuccessMessage(SuccessMessage.SUMMONED_SUCCESSFULLY);
+        if (isTrapToBeActivatedInSummonSituation()) {
+            if (isTrapOrSpellInSummonSituationActivated()) {
+                view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL, getCurrentPlayer().getNickname());
+            }
+        }
         deselectCard(0);
     }
 
@@ -267,6 +376,7 @@ public class RoundGameController {
         Monster ritualCard = (Monster) Card.getCardByName(cardName);
         return sum >= Objects.requireNonNull(ritualCard).getLevel();
     }
+
 
     public void setMonster() {
         if (!isValidSelectionForSummonOrSet()) {
@@ -515,7 +625,7 @@ public class RoundGameController {
         return true;
     }
 
-    private boolean isTrapToBeActivatedInAttackSituation() {
+    private boolean isTrapToBeActivatedInAttackSituation() {//TODO destroy trap or spell after using
         for (int i = 1; i <= 5; i++) {
             Cell cell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.SPELL_ZONE, i);
             if (cell.getCellStatus().equals(CellStatus.EMPTY)) {
@@ -580,7 +690,7 @@ public class RoundGameController {
     }
 
     private void TrapMagicCylinderEffect() {
-        getCurrentPlayer().decreaseLP(-((Monster) selectedCell.getCardInCell()).getAttackPower());
+        getCurrentPlayer().decreaseLP(((Monster) selectedCell.getCardInCell()).getAttackPower());
         getCurrentPlayer().getPlayerBoard().removeMonsterFromBoard(selectedCellAddress);
     }
 
@@ -593,7 +703,8 @@ public class RoundGameController {
     }
 
     private void TrapNegateAttackEffect() {
-
+        deselectCard(0);
+        nextPhase();
     }
 
     private boolean hasCardUsedItsAttack() {
