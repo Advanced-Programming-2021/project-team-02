@@ -2,10 +2,10 @@ package controller.playgame;
 
 import model.card.Card;
 import model.card.Monster;
+import model.card.Spell;
 import model.card.Trap;
 import model.card.informationofcards.CardType;
 import model.card.informationofcards.MonsterActionType;
-import model.card.informationofcards.SpellEffect;
 import model.card.informationofcards.TrapEffect;
 import model.game.DuelPlayer;
 import model.game.board.*;
@@ -16,7 +16,6 @@ import view.messages.SuccessMessage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.TransferQueue;
 import java.util.regex.Matcher;
 
 public class RoundGameController {
@@ -161,8 +160,8 @@ public class RoundGameController {
         view.showSuccessMessage(SuccessMessage.TRIBUTE_SUMMON_ENTER_ADDRESS);
         int[] address = new int[number];
         for (int i = 1; i <= number; i++) {
-            Matcher matcher = view.getTributeAddress();
-            address[i - 1] = Integer.parseInt(matcher.group("monsterZoneNumber"));
+            int tributeAddress = view.getTributeAddress();
+            address[i - 1] = tributeAddress;
         }
         for (int i : address) {
             if (i > 5 || i < 1) {
@@ -214,7 +213,7 @@ public class RoundGameController {
     public void setRitualMonster(Matcher order, Matcher matcherOfPosition) {
         MonsterZone monsterZone = getCurrentPlayer().getPlayerBoard().returnMonsterZone();
         if (matcherOfPosition.group().equals("attack")) {
-            for (int i = 0; i < 5; i++) {
+            for (int i = 1; i <= 5; i++) {
                 if (monsterZone.getCellWithAddress(i).getCellStatus() == CellStatus.EMPTY) {
                     Card card = Card.getCardByName(order.group(1));
                     monsterZone.getCellWithAddress(i).setCardInCell(card);
@@ -223,7 +222,7 @@ public class RoundGameController {
             }
             selectedCell.setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
         } else if (matcherOfPosition.group().equals("defense")) {
-            for (int i = 0; i < 5; i++) {
+            for (int i = 1; i <= 5; i++) {
                 if (monsterZone.getCellWithAddress(i).getCellStatus() == CellStatus.EMPTY) {
                     Card card = Card.getCardByName(order.group(1));
                     monsterZone.getCellWithAddress(i).setCardInCell(card);
@@ -261,7 +260,7 @@ public class RoundGameController {
     public boolean sumOfSubsequences(String cardName) {
         MonsterZone monsterZone = getCurrentPlayer().getPlayerBoard().returnMonsterZone();
         int sum = 0;
-        for (int i = 0; i < 5; i++) {
+        for (int i = 1; i <= 5; i++) {
             Monster cardNumberI = (Monster) monsterZone.getCellWithAddress(i).getCardInCell();
             sum += cardNumberI.getLevel();
         }
@@ -336,7 +335,7 @@ public class RoundGameController {
             view.showError(Error.SPELL_ZONE_IS_FULL);
         } else { // we can change place of this for ,,, you know...
             SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
-            for (int i = 0; i < 5; i++) {
+            for (int i = 1; i <= 5; i++) {
                 if (spellZone.getCellWithAddress(i).getCellStatus() == CellStatus.EMPTY) {
                     Card card = Card.getCardByName(matcher.group(1));
                     spellZone.getCellWithAddress(i).setCardInCell(card);
@@ -458,8 +457,12 @@ public class RoundGameController {
         Monster playerCard = (Monster) selectedCell.getCardInCell();
         Monster opponentCard = (Monster) opponentCellToBeAttacked.getCardInCell();
         if (isTrapToBeActivatedInAttackSituation()) {
-            return;
+            if (isTrapOrSpellInAttackSituationActivated()) {
+                view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL, getCurrentPlayer().getNickname());
+                return;
+            }
         }
+        view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL, getCurrentPlayer().getNickname());
         int damage = playerCard.getAttackPower() - opponentCard.getAttackPower();
         if (damage > 0) {
             view.showSuccessMessageWithAnInteger(SuccessMessage.OPPONENT_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
@@ -513,7 +516,7 @@ public class RoundGameController {
     }
 
     private boolean isTrapToBeActivatedInAttackSituation() {
-        for (int i = 0; i <= 4; i++) {
+        for (int i = 1; i <= 5; i++) {
             Cell cell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.SPELL_ZONE, i);
             if (cell.getCellStatus().equals(CellStatus.EMPTY)) {
                 continue;
@@ -523,57 +526,70 @@ public class RoundGameController {
             Trap trap = (Trap) cell.getCardInCell();
             switch (trap.getTrapEffect()) {
                 case MAGIC_CYLINDER_EFFECT:
-                    view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL, getOpponentPlayer().getNickname());
-                    if (view.yesNoQuestion()) {
-                        activateTrapEffectInAttackSituation(TrapEffect.MAGIC_CYLINDER_EFFECT);
-                        return true;
-                    } else {
-                        view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL, getCurrentPlayer().getNickname());
-                        continue;
-                    }
                 case MIRROR_FORCE_EFFECT:
-                    view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL, getOpponentPlayer().getNickname());
-                    if (view.yesNoQuestion()) {
-                        activateTrapEffectInAttackSituation(TrapEffect.MIRROR_FORCE_EFFECT);
-                        return true;
-                    } else {
-                        view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL, getCurrentPlayer().getNickname());
-                        continue;
-                    }
                 case NEGATE_ATTACK_EFFECT:
                     view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL, getOpponentPlayer().getNickname());
-                    if (view.yesNoQuestion()) {
-                        activateTrapEffectInAttackSituation(TrapEffect.NEGATE_ATTACK_EFFECT);
+                    if (view.yesNoQuestion("do you want to activate your trap and spell?")) {
                         return true;
                     } else {
                         view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL, getCurrentPlayer().getNickname());
-                        continue;
+                        return false;
                     }
             }
         }
         return false;
     }
 
-    private void activateTrapEffectInAttackSituation(TrapEffect effect) {
-        switch (effect) {
+    private boolean isTrapOrSpellInAttackSituationActivated() {
+        while (true) {
+            int address = view.getAddressForTrapOrSpell();
+            if (address == -1) {
+                return false;
+            } else if (address >= 1 && address <= 5) {
+                Cell cell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.SPELL_ZONE, address);
+                if (cell.getCardInCell().getCardType().equals(CardType.SPELL)) {
+                    Spell spell = (Spell) cell.getCardInCell();
+                    // davood !
+                } else {
+                    Trap trap = (Trap) cell.getCardInCell();
+                    if (activateTrapEffectInAttackSituation(trap.getTrapEffect()))
+                        view.showSuccessMessage(SuccessMessage.TRAP_ACTIVATED);
+                    return true;
+                }
+            } else
+                view.showError(Error.INVALID_NUMBER);
+        }
+    }
+
+
+    private boolean activateTrapEffectInAttackSituation(TrapEffect trapEffect) {
+        switch (trapEffect) {
             case MAGIC_CYLINDER_EFFECT:
                 TrapMagicCylinderEffect();
-                return;
+                return true;
             case MIRROR_FORCE_EFFECT:
                 TrapMirrorForceEffect();
-                return;
+                return true;
             case NEGATE_ATTACK_EFFECT:
                 TrapNegateAttackEffect();
-                return;
+                return true;
+            default:
+                view.showError(Error.PREPARATIONS_IS_NOT_DONE);
+                return false;
         }
     }
 
     private void TrapMagicCylinderEffect() {
-
+        getCurrentPlayer().decreaseLP(-((Monster) selectedCell.getCardInCell()).getAttackPower());
+        getCurrentPlayer().getPlayerBoard().removeMonsterFromBoard(selectedCellAddress);
     }
 
     private void TrapMirrorForceEffect() {
-
+        for (int i = 1; i <= 5; i++) {
+            if (getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i).getCellStatus().equals(CellStatus.OFFENSIVE_OCCUPIED))
+                getCurrentPlayer().getPlayerBoard().removeMonsterFromBoard(i);
+        }
+        view.showSuccessMessage(SuccessMessage.TRAP_ACTIVATED);
     }
 
     private void TrapNegateAttackEffect() {
