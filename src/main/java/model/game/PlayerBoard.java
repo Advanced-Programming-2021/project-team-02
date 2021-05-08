@@ -118,4 +118,7 @@ public class PlayerBoard {
         return graveYard.getGraveYardCards().size() == 0;
     }
 
+    public void removeFieldSpell() {
+        fieldZone.setCard(null);
+    }
 }

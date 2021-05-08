@@ -36,6 +36,8 @@ public class RoundGameController {
     private DuelGameController duelGameController = DuelGameController.getInstance();
     private List<Integer> usedCellsToAttackNumbers = new ArrayList<>();
     private List<Integer> changedPositionCards = new ArrayList<>();
+    private Spell fieldZoneSpell = null;
+    private int isFieldActivated = 0; // 0 : no - 1 : firstPlayed activated it- 2 : secondPlayer activated it
 
     static {
         instance = new RoundGameController();
@@ -515,14 +517,60 @@ public class RoundGameController {
             view.showError(Error.PREPARATIONS_IS_NOT_DONE);
             return;
         }
-        if (selectedCell.getCardInCell().getCardType() == CardType.SPELL)
-            normalSpellActivate();
-        else
+        if (selectedCell.getCardInCell().getCardType() == CardType.SPELL) {
+            if (!((Spell) selectedCell.getCardInCell()).getSpellType().equals(SpellType.FIELD)) normalSpellActivate();
+            else fieldZoneSpellActivate();
+        } else
             normalTrapActivate();
     }
 
     private void normalSpellActivate() {
 
+    }
+
+    private void fieldZoneSpellActivate() {
+        if (fieldZoneSpell == null) {
+            if (turn == 1) {
+                isFieldActivated = 1;
+            } else {
+                isFieldActivated = 2;
+
+            }
+        } else {
+            reverseFieldZoneSpellEffectAndRemoveIt();
+            isFieldActivated = getTurn();
+
+        }
+    }
+
+    private void reverseFieldZoneSpellEffectAndRemoveIt() {
+        switch (fieldZoneSpell.getSpellEffect()) {
+            case YAMI_EFFECT:
+
+            case FOREST_EFFECT:
+
+            case CLOSED_FOREST_EFFECT:
+
+            case UMIIRUKA_EFFECT:
+        }
+        fieldZoneSpell = null;
+        if (isFieldActivated == 1) {
+            firstPlayer.getPlayerBoard().removeFieldSpell();
+        } else {
+            secondPlayer.getPlayerBoard().removeFieldSpell();
+        }
+    }
+
+    private void activateFieldZoneCard() {
+        switch (fieldZoneSpell.getSpellEffect()) {
+            case YAMI_EFFECT:
+
+            case FOREST_EFFECT:
+
+            case CLOSED_FOREST_EFFECT:
+
+            case UMIIRUKA_EFFECT:
+        }
     }
 
     private void normalTrapActivate() {
@@ -1097,5 +1145,4 @@ public class RoundGameController {
         }
         return firstPlayerHand;
     }
-
 }

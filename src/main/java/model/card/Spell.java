@@ -39,6 +39,14 @@ public class Spell extends Card {
         return isLimited;
     }
 
+    public SpellEffect getSpellEffect() {
+        return spellEffect;
+    }
+
+    public SpellType getSpellType() {
+        return spellType;
+    }
+
     public Spell clone() throws CloneNotSupportedException {
         return new Spell(cardType, name, id, spellEffect, attribute,
                 description, spellType, isLimited);
