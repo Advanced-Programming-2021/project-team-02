@@ -42,6 +42,10 @@ public class DuelPlayer {
             lifePoint = 0;
     }
 
+    public void increaseLP(int amount) {
+        lifePoint += amount;
+    }
+
     public void setLifePoint(int lifePoint) {
         this.lifePoint = lifePoint;
     }

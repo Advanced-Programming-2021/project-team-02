@@ -4,6 +4,7 @@ import model.card.Card;
 import model.card.Monster;
 import model.card.Spell;
 import model.card.Trap;
+import model.card.informationofcards.*;
 import model.card.informationofcards.CardType;
 import model.card.informationofcards.MonsterActionType;
 import model.card.informationofcards.TrapEffect;
@@ -19,6 +20,7 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 
 public class RoundGameController {
+    private int swordsOfRevealingLightRounds = 3;
     private static RoundGameController instance;
     private final GameView view = GameView.getInstance();
     private DuelPlayer firstPlayer;
@@ -101,7 +103,6 @@ public class RoundGameController {
     }
 
     public void deselectCard(int code) {
-        //code 0 : we(programmers) deselect something in game - code 1 : player deselect something in game
         if (code == 1) {
             if (selectedCell == null) {
                 view.showError(Error.NO_CARD_SELECTED_YET);
@@ -244,11 +245,6 @@ public class RoundGameController {
         getCurrentPlayer().getPlayerBoard().addMonsterToBoard((Monster) selectedCell.getCardInCell(), CellStatus.OFFENSIVE_OCCUPIED);
         isSummonOrSetOfMonsterUsed = true;
         view.showSuccessMessage(SuccessMessage.SUMMONED_SUCCESSFULLY);
-        if (isTrapToBeActivatedInSummonSituation()) {
-            if (isTrapOrSpellInSummonSituationActivated()) {
-                view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL, getCurrentPlayer().getNickname());
-            }
-        }
         deselectCard(0);
     }
 
@@ -294,7 +290,7 @@ public class RoundGameController {
         return true;
     }
 
-    private void ritualSummon(Matcher matcher) {
+    private void ritualSummon() {
         List<Card> currentPlayerHand = getCurrentPlayerHand();
         if (!isRitualCardInHand()) {
             view.showError(Error.CAN_NOT_RITUAL_SUMMON);
@@ -314,17 +310,17 @@ public class RoundGameController {
                 else view.showError(Error.LEVEL_DOES_NOT_MATCH);
             }
             Matcher matcherOfPosition = view.getPositionForSetRitualMonster();
-            setRitualMonster(matcher, matcherOfPosition);
+            setRitualMonster(matcherOfPosition);
         }
         deselectCard(0);
     }
 
-    public void setRitualMonster(Matcher order, Matcher matcherOfPosition) {
+    public void setRitualMonster(Matcher matcherOfPosition) {
         MonsterZone monsterZone = getCurrentPlayer().getPlayerBoard().returnMonsterZone();
         if (matcherOfPosition.group().equals("attack")) {
             for (int i = 1; i <= 5; i++) {
                 if (monsterZone.getCellWithAddress(i).getCellStatus() == CellStatus.EMPTY) {
-                    Card card = Card.getCardByName(order.group(1));
+                    Card card = Card.getCardByName(selectedCell.getCardInCell().getName());
                     monsterZone.getCellWithAddress(i).setCardInCell(card);
                     monsterZone.getCellWithAddress(i).setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
                 }
@@ -333,7 +329,7 @@ public class RoundGameController {
         } else if (matcherOfPosition.group().equals("defense")) {
             for (int i = 1; i <= 5; i++) {
                 if (monsterZone.getCellWithAddress(i).getCellStatus() == CellStatus.EMPTY) {
-                    Card card = Card.getCardByName(order.group(1));
+                    Card card = Card.getCardByName(selectedCell.getCardInCell().getName());
                     monsterZone.getCellWithAddress(i).setCardInCell(card);
                     monsterZone.getCellWithAddress(i).setCellStatus(CellStatus.DEFENSIVE_OCCUPIED);
                 }
@@ -353,7 +349,7 @@ public class RoundGameController {
             sum += monster.getLevel();
         }
         Monster monster = (Monster) selectedCell.getCardInCell();
-        return sum >= monster.getLevel();
+        return sum == monster.getLevel();
     }
 
     private boolean isRitualCardInHand() {
@@ -369,12 +365,28 @@ public class RoundGameController {
     public boolean sumOfSubsequences(String cardName) {
         MonsterZone monsterZone = getCurrentPlayer().getPlayerBoard().returnMonsterZone();
         int sum = 0;
-        for (int i = 1; i <= 5; i++) {
+        int[] levels = new int[5];
+        for (int i = 0; i < 5; i++) {
             Monster cardNumberI = (Monster) monsterZone.getCellWithAddress(i).getCardInCell();
-            sum += cardNumberI.getLevel();
+            levels[i] = cardNumberI.getLevel();
         }
+        ArrayList<Integer> sumOfSubset = new ArrayList<>();
+        sumOfSubset = subsetSums(levels, 0, levels.length - 1, 0, sumOfSubset);
         Monster ritualCard = (Monster) Card.getCardByName(cardName);
-        return sum >= Objects.requireNonNull(ritualCard).getLevel();
+        for (int i = 0; i < sumOfSubset.size(); i++) {
+            if (sumOfSubset.get(i) == Objects.requireNonNull(ritualCard).getLevel()) return true;
+        }
+        return false;
+    }
+
+    public ArrayList subsetSums(int[] arr, int l, int r, int sum, ArrayList<Integer> sumOfSubsets) {
+        if (l > r) {
+            sumOfSubsets.add(sum);
+            return sumOfSubsets;
+        }
+        subsetSums(arr, l + 1, r, sum + arr[l], sumOfSubsets);
+        subsetSums(arr, l + 1, r, sum, sumOfSubsets);
+        return sumOfSubsets;
     }
 
 
@@ -842,5 +854,157 @@ public class RoundGameController {
     public void cancel() {
         selectedCell = null;
         selectedCellZone = Zone.NONE;
+    }
+
+    public void monsterReborn() {
+        Matcher matcher;
+        while (true) {
+            matcher = view.monsterReborn();
+            if (matcher == null) return;
+            else if (Card.getCardByName(matcher.group(2)) == null) view.showError(Error.WRONG_CARD_NAME);
+            else break;
+        }
+        ArrayList<Card> currentPlayer = getCurrentPlayer().getPlayerBoard().returnGraveYard().getGraveYard();
+        ArrayList<Card> opponentPlayer = getOpponentPlayer().getPlayerBoard().returnGraveYard().getGraveYard();
+        if (matcher.group(1).equals("opponent") && selectedCellZone == Zone.GRAVEYARD) {
+            for (Card card : opponentPlayer) {
+                if (card.getName().equals(matcher.group(2))) {
+                    ritualSummon();
+                }
+            }
+        } else {
+            for (Card card : currentPlayer) {
+                if (card.getName().equals(matcher.group(2))) {
+                    ritualSummon();
+                }
+            }
+        }
+    }
+
+    private void terraForming() {
+        // show deck
+        String cardName = view.getCardNameForTerraForming();
+        while (true) {
+            if (cardName.equals("cancel")) return;
+            else if (Card.getCardByName(cardName) == null) view.showError(Error.WRONG_CARD_NAME);
+            else break;
+        }
+        List<Card> deckCards = getCurrentPlayer().getPlayDeck().getMainCards();
+        while (true) {
+            for (Card card : deckCards) {
+                if (SpellType.getSpellTypeByTypeName(selectedCell.getCardInCell().getName()) == SpellType.FIELD) {
+                    getCurrentPlayerHand().add(selectedCell.getCardInCell());
+                    break;
+                }
+            }
+            // shuffle deck
+        }
+    }
+
+    private void potOfGreed() {
+        List<Card> deckCards = getCurrentPlayer().getPlayDeck().getMainCards();
+        getSecondPlayerHand().add(deckCards.get(1));
+        getSecondPlayerHand().add(deckCards.get(2));
+    }
+
+    private void raigeki() {
+        MonsterZone monsterZone = getOpponentPlayer().getPlayerBoard().returnMonsterZone();
+        int i = 0;
+        while (monsterZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i >= 5) {
+            monsterZone.removeCard(i);
+            i++;
+        }
+    }
+
+    public void changeOfHeart() {
+        String cardName = view.getCardNameForChangeOfHeart();
+        while (true) {
+            if (cardName.equals("cancel")) return;
+            else if (Card.getCardByName(cardName) == null) view.showError(Error.WRONG_CARD_NAME);
+            else break;
+        }
+        MonsterZone monsterZone = getOpponentPlayer().getPlayerBoard().returnMonsterZone();
+        int i = 0;
+        while (monsterZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i >= 5) {
+            if (monsterZone.getCellWithAddress(i).getCardInCell().getName().equals(cardName)) {
+                getOpponentPlayer().getPlayerBoard().removeMonsterFromBoard(i);
+                getCurrentPlayer().getPlayerBoard().addMonsterToBoard((Monster) Card.getCardByName(cardName), CellStatus.OFFENSIVE_OCCUPIED);
+                break;
+            }
+            i++;
+        }
+    }
+
+    private void removeChangeOfHearts(CellStatus cellStatus, String cardName) {
+        getCurrentPlayer().getPlayerBoard().addMonsterToBoard((Monster) Card.getCardByName(cardName), cellStatus);
+        int i = 0;
+        while (getOpponentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY) {
+            if (getOpponentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).getCardInCell().getName().equals(cardName))
+                getOpponentPlayer().getPlayerBoard().removeMonsterFromBoard(i);
+            i++;
+        }
+    }
+
+    private void HarpiesFeatherDuster() {
+        int i = 0;
+        while (getOpponentPlayer().getPlayerBoard().returnSpellZone().getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY) {
+            getOpponentPlayer().getPlayerBoard().returnSpellZone().removeCard(i);
+            i++;
+        }
+    }
+
+    public void swordsOfRevealingLight() {
+    }
+
+    public void darkHole() {
+        int i = 0;
+        while (getOpponentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i >= 5) {
+            getOpponentPlayer().getPlayerBoard().removeMonsterFromBoard(i);
+            i++;
+        }
+        i = 0;
+        while (getCurrentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i >= 5) {
+            getCurrentPlayer().getPlayerBoard().returnMonsterZone().removeCard(i);
+            i++;
+        }
+    }
+
+    public void spellAbsorption() {
+        // call it each time you active an effect
+        getCurrentPlayer().increaseLP(500);
+    }
+
+    public void twinTwisters() {
+        Matcher matcher = view.getCardsNameTwinTwister();
+        while (true) {
+            if (matcher == null) return;
+            else if (Card.getCardByName(matcher.group(1)) == null || Card.getCardByName(matcher.group(2)) == null
+            || Card.getCardByName(matcher.group(3)) == null) view.showError(Error.WRONG_CARD_NAME);
+            else break;
+        }
+        getCurrentPlayerHand().remove(Card.getCardByName(matcher.group(1)));
+        getOpponentPlayer().getPlayerBoard().returnSpellZone().removeCard(Integer.parseInt(matcher.group(2)));
+        getOpponentPlayer().getPlayerBoard().returnSpellZone().removeCard(Integer.parseInt(matcher.group(3)));
+    }
+
+    public void mysticalSpaceTyphoon() {
+        int cardPlace = view.mysticalSpaceTyphoon();
+        getOpponentPlayer().getPlayerBoard().returnSpellZone().removeCard(cardPlace);
+    }
+
+    public void ringOfDefense() {
+
+    }
+
+    private void swordOfDarkDestruction() {
+
+    }
+
+    public int getSwordsOfRevealingLightRounds() {
+        return swordsOfRevealingLightRounds;
+    }
+
+    public void setSwordsOfRevealingLightRounds(int swordsOfRevealingLightRounds) {
+        this.swordsOfRevealingLightRounds = swordsOfRevealingLightRounds;
     }
 }

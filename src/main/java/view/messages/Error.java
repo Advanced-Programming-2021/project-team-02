@@ -60,7 +60,8 @@ public enum Error {
     CARD_IS_NOT_IN_MAIN_DECK_TO_CHANGE("card does not exist in main deck"),
     CARD_IS_NOT_IN_SIDE_DECK_TO_CHANGE("card does not exist in side deck"),
     INVALID_NUMBER("input number is not valid"),
-    CANT_DIRECT_ATTACK("you can't direct attack now");
+    CANT_DIRECT_ATTACK("you can't direct attack now"),
+    WRONG_CARD_NAME("there is no card with name you entered");
     private String value;
 
     Error(String value) {

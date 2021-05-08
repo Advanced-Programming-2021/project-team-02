@@ -23,7 +23,7 @@ public class PlayerBoard {
     }
 
     public void addSpellOrTrapToBoard(Card card, CellStatus status) {
-
+        spellZone.addCard(card, status);
     }
 
     public void removeMonsterFromBoard(int address) {
@@ -98,6 +98,14 @@ public class PlayerBoard {
 
     public SpellZone returnSpellZone() {
         return spellZone;
+    }
+
+    public GraveYard returnGraveYard() {
+        return graveYard;
+    }
+
+    public FieldZone returnFieldZone() {
+        return fieldZone;
     }
 
     public void resetCellsChanged() {

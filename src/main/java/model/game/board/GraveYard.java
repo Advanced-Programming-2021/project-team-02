@@ -15,6 +15,10 @@ public class GraveYard {
         cards.add(card);
     }
 
+    public ArrayList<Card> getGraveYard(){
+        return cards;
+    }
+
     @Override
     public String toString() {
         return "GraveYard{" +
