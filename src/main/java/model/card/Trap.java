@@ -27,6 +27,10 @@ public class Trap extends Card {
         this.trapEffect = trapEffect;
     }
 
+    public TrapEffect getTrapEffect() {
+        return trapEffect;
+    }
+
     @Override
     public String toString() {
         return "Name: " + this.name +

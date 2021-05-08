@@ -1,8 +1,12 @@
 package view.gameview;
 
+import controller.playgame.RoundGameController;
+import view.input.Input;
+import view.input.Regex;
 import view.messages.Error;
 import view.messages.SuccessMessage;
 
+import java.util.Map;
 import java.util.regex.Matcher;
 
 public class GameView {
@@ -64,10 +68,17 @@ public class GameView {
 
     }
 
-    public Matcher getTributeAddress() {
-        //here you should get an address and check it if it is for monster address, else you show invalid command and take input again
-        Matcher matcher;
-        return null;
+    public int getTributeAddress() {
+        System.out.println("Enter 2 numbers of monsters to tribute in 2 lines:");
+        String command;
+        while (true) {
+            command = Input.getInput();
+            if (command.matches("\\d")) {
+                return Integer.parseInt(command);
+            } else {
+                System.out.println(Error.INVALID_COMMAND.getValue());
+            }
+        }
     }
 
     public Matcher getSummonOrderForRitual() {
@@ -86,6 +97,26 @@ public class GameView {
     public Matcher getPositionForSetRitualMonster() {
         // you should ask him about position of ritual summon (can be only OO or DO)
         Matcher matcher;
-        return  null;
+        return null;
+    }
+
+    public int getAddressForTrapOrSpell() {
+        System.out.println("enter address(number of cell between 1 to 5) of spell to be activated or write cancel if you dont want to activate anything");
+        while (true) {
+            String command = Input.getInput();
+            if (command.equals("cancel")) {
+                return -1;
+            } else if (command.matches("[^-]\\d")) {
+                return Integer.parseInt(command);
+            } else System.out.println(Error.INVALID_COMMAND);
+        }
+    }
+
+    public boolean yesNoQuestion(String question) {
+        System.out.println(question);
+        if (Input.getInput().equals("yes")) {
+            return true;
+        }
+        return false;
     }
 }

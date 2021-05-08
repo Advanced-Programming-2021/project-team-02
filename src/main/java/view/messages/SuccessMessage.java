@@ -33,7 +33,7 @@ public enum SuccessMessage {
     DH_CARD_BECOMES_DO("opponent’s monster card was %s"),
     OPPONENT_RECEIVE_DAMAGE_AFTER_DIRECT_ATTACK("you opponent receives %d battle damage"),
     SPELL_ACTIVATED("spell activated"),
-    //SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL(AFTER,BEFORE),
+    SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL("now it will be %s’s turn(middle game turn change)"),
     WANTS_ACTIVE_SPELL("do you want to activate your trap and spell?"),
     TRAP_ACTIVATED("spell/trap activated"),
     COMPLETE_SPECIAL_SUMMON("you should special summon right now"),
