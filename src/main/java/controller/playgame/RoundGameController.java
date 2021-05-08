@@ -191,8 +191,10 @@ public class RoundGameController {
                     // davood !
                 } else {
                     Trap trap = (Trap) cell.getCardInCell();
-                    if (isValidActivateTrapEffectInSummonSituationToDo(trap.getTrapEffect()))
+                    if (isValidActivateTrapEffectInSummonSituationToDo(trap.getTrapEffect())) {
                         view.showSuccessMessage(SuccessMessage.TRAP_ACTIVATED);
+                        getCurrentPlayer().getPlayerBoard().removeSpellOrTrapFromBoard(address); //CHECK correctly removed ?
+                    }
                     return true;
                 }
             } else
@@ -556,6 +558,7 @@ public class RoundGameController {
                     getCurrentPlayerHand().remove(0);
                 }
                 view.showSuccessMessage(SuccessMessage.TRAP_ACTIVATED);
+                getCurrentPlayer().getPlayerBoard().removeSpellOrTrapFromBoard(selectedCellAddress);
                 return;
 
             }
@@ -593,6 +596,7 @@ public class RoundGameController {
                 } else {
                     getCurrentPlayer().getPlayerBoard().addMonsterToBoard((Monster) selectedCardToSummon, CellStatus.OFFENSIVE_OCCUPIED);
                     view.showSuccessMessage(SuccessMessage.SPELL_ACTIVATED); // not spell actually!!!!!!!!!!!;
+                    getCurrentPlayer().getPlayerBoard().removeSpellOrTrapFromBoard(selectedCellAddress);
                     return;
                 }
 
@@ -752,8 +756,10 @@ public class RoundGameController {
                     // davood !
                 } else {
                     Trap trap = (Trap) cell.getCardInCell();
-                    if (activateTrapEffectInAttackSituation(trap.getTrapEffect()))
+                    if (activateTrapEffectInAttackSituation(trap.getTrapEffect())) {
                         view.showSuccessMessage(SuccessMessage.TRAP_ACTIVATED);
+                        getCurrentPlayer().getPlayerBoard().removeSpellOrTrapFromBoard(address); //CHECK correctly removed ?
+                    }
                     return true;
                 }
             } else
