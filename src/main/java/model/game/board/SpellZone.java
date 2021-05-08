@@ -21,9 +21,6 @@ public class SpellZone {
         spellCells[address].setCellStatus(CellStatus.EMPTY);
     }
 
-    public void reset() {
-
-    }
 
     public Cell getCellWithAddress(int address) {
         return spellCells[address];

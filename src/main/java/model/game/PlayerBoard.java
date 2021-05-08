@@ -11,6 +11,7 @@ public class PlayerBoard {
     private SpellZone spellZone;
     private GraveYard graveYard;
     private FieldZone fieldZone;
+
     public PlayerBoard() {
         monsterZone = new MonsterZone();
         spellZone = new SpellZone();
@@ -26,7 +27,7 @@ public class PlayerBoard {
         spellZone.addCard(card, status);
     }
 
-    public void removeMonsterFromBoard(int address) {
+    public void removeMonsterFromBoardAndAddToGraveYard(int address) {
         graveYard.addCard(monsterZone.getCellWithAddress(address).getCardInCell());
         monsterZone.removeCard(address - 1);
 
@@ -37,7 +38,11 @@ public class PlayerBoard {
     }
 
     public void addCardToGraveYard(Card card) {
+        graveYard.addCard(card);
+    }
 
+    public Card getCardInGraveYard(int address) {
+        return graveYard.getGraveYardCards().get(address);
     }
 
     public void changeCardPosition(Card card) {
@@ -108,9 +113,8 @@ public class PlayerBoard {
         return fieldZone;
     }
 
-    public void resetCellsChanged() {
-        monsterZone.reset();
-        spellZone.reset();
+    public boolean isGraveYardEmpty() {
+        return graveYard.getGraveYardCards().size() == 0;
     }
 
 }

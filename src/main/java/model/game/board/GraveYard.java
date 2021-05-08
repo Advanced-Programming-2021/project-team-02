@@ -15,7 +15,7 @@ public class GraveYard {
         cards.add(card);
     }
 
-    public ArrayList<Card> getGraveYard(){
+    public ArrayList<Card> getGraveYardCards(){
         return cards;
     }
 

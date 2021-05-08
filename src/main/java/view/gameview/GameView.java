@@ -167,4 +167,18 @@ public class GameView {
         }
         return false;
     }
+
+    public String askCardName() {
+        return Input.getInput();
+    }
+
+    public int getNumberOfCardForCallOfTheHaunted() {
+        System.out.println("enter number of the monster to be special summoned");
+        while (true) {
+            String command = Input.getInput();
+            if (command.matches("\\d")) {
+                return Integer.parseInt(command);
+            } else System.out.println(Error.INVALID_COMMAND.getValue());
+        }
+    }
 }
