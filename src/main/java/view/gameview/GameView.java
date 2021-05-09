@@ -8,11 +8,13 @@ import view.messages.Error;
 import view.messages.SuccessMessage;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GameView {
     private static final GameView instance;
+    private final RoundGameController controller = RoundGameController.getInstance ();
 
     static {
         instance = new GameView();
@@ -27,6 +29,29 @@ public class GameView {
     }
 
     public void commandRecognition(String command) {
+        Matcher matcher;
+        if ((matcher = Regex.getMatcher (Regex.BOARD_GAME_SELECT_MONSTER, command)).matches ())
+            controller.selectCardInMonsterZone (matcher);
+        else if ((Objects.requireNonNull (matcher = Regex.getMatcherFromAllPermutations (Regex.BOARD_GAME_SELECT_MONSTER_OPPONENT, command))).matches ())
+            controller.selectOpponentCardMonsterZone (matcher);
+        else if ((matcher = Regex.getMatcher (Regex.BOARD_GAME_SELECT_SPELL, command)).matches ())
+            controller.selectCardInSpellZone (matcher);
+        else if ((Objects.requireNonNull (matcher = Regex.getMatcherFromAllPermutations (Regex.BOARD_GAME_SELECT_SPELL_OPPONENT, command))).matches ())
+            controller.selectOpponentCardSpellZone (matcher);
+        else if (Regex.getMatcher (Regex.BOARD_GAME_SELECT_FIELD, command).matches ())
+            controller.selectPlayerFieldCard ();
+        else if (Objects.requireNonNull (Regex.getMatcherFromAllPermutations (Regex.BOARD_GAME_SELECT_FIELD_OPPONENT, command)).matches ())
+            controller.selectOpponentFieldCard ();
+        else if (Regex.getMatcher (Regex.BOARD_GAME_SELECT_DESELECT, command).matches ())
+            controller.deselectCard (1);
+        else if (Regex.getMatcher (Regex.BOARD_GAME_SELECT_GRAVEYARD, command).matches ())
+            controller.selectPlayerGraveYard ();
+        else if (Objects.requireNonNull (Regex.getMatcherFromAllPermutations (Regex.BOARD_GAME_SELECT_GRAVEYARD_OPPONENT, command)).matches ())
+            controller.selectOpponentGraveYard ();
+        else if ((matcher = Regex.getMatcher (Regex.BOARD_GAME_SELECT_HAND, command)).matches ())
+            controller.selectCardInHand (matcher);
+        else if ((matcher = Regex.getMatcher (Regex.BOARD_GAME_SELECT_HAND, command)).matches ())
+            controller.selectCardInHand (matcher);
 
     }
 

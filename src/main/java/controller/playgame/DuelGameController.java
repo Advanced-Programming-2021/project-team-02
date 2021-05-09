@@ -46,7 +46,6 @@ public class DuelGameController {
     }
 
     public void checkGameResult(DuelPlayer winner) {
-
         updateScoreAndCoin(duel.getPlayer1(), duel.getPlayer2());
     }
 
