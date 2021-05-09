@@ -117,7 +117,12 @@ public class RoundGameController {
         selectedCellZone = Zone.NONE;
         view.showSuccessMessage(SuccessMessage.CARD_DESELECTED);
     }
+    public void selectPlayerFieldCard(){
 
+    }
+    public void selectOpponentFieldCard(){
+
+    }
     public void selectOpponentCardMonsterZone() {
 
     }
@@ -536,7 +541,7 @@ public class RoundGameController {
             view.showError(Error.ACTION_CAN_NOT_WORK_IN_THIS_PHASE);
         } else if (getCurrentPlayer().getPlayerBoard().isSpellZoneFull()) {
             view.showError(Error.SPELL_ZONE_IS_FULL);
-        } else if (((Spell) selectedCell.getCardInCell()).getSpellType().equals(SpellType.FIELD)) {
+        } else if (((Spell) selectedCell.getCardInCell()).getSpellType().equals(SpellType.FIELD)) {//TODO
 
         } else { // we can change place of this for ,,, you know...
             SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
@@ -674,8 +679,13 @@ public class RoundGameController {
     private void umirukaEffectReverse() {
         for (Card card : fieldEffectedCards) {
             if (((Monster) card).getMonsterType().equals(MonsterType.AQUA)) {
-                ((Monster) card).changeAttackPower(-500);
-                ((Monster) card).changeDefensePower(400);
+                if (((Monster) card).getMonsterType().equals(MonsterType.FIEND) || ((Monster) card).getMonsterType().equals(MonsterType.SPELLCASTER)) {
+                    ((Monster) card).changeAttackPower(200);
+                    ((Monster) card).changeDefensePower(200);
+                } else {
+                    ((Monster) card).changeAttackPower(-200);
+                    ((Monster) card).changeDefensePower(-200);
+                }
             }
         }
         fieldEffectedCards.clear();
@@ -694,6 +704,14 @@ public class RoundGameController {
     }
 
     private void yamiFieldEffect() {
+        addYamiFieldCardsToBeEffected();
+        for (Card card : fieldEffectedCards) {
+            ((Monster) card).changeDefensePower(200);
+            ((Monster) card).changeAttackPower(200);
+        }
+    }
+
+    private void addYamiFieldCardsToBeEffected() {
 
     }
 
