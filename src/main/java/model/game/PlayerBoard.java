@@ -120,5 +120,14 @@ public class PlayerBoard {
 
     public void removeFieldSpell() {
         fieldZone.setCard(null);
+        fieldZone.setCellStatus(CellStatus.EMPTY);
+    }
+
+    public boolean isFieldZoneEmpty() {
+        return fieldZone.getCellStatus().equals(CellStatus.EMPTY);
+    }
+
+    public FieldZone getFieldZone() {
+        return fieldZone;
     }
 }

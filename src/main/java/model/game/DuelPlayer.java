@@ -49,4 +49,5 @@ public class DuelPlayer {
     public void setLifePoint(int lifePoint) {
         this.lifePoint = lifePoint;
     }
+
 }

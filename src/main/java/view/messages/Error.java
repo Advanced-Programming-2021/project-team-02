@@ -63,7 +63,9 @@ public enum Error {
     CANT_DIRECT_ATTACK("you can't direct attack now"),
     WRONG_CARD_NAME("there is no card with name you entered"),
     CHOOSE_FIELD_SPELL("you should choose field spell"),
-    TYPE_FIEND_OT_SPELL_CASTER("your monster type should be fiend or spell caster");
+    TYPE_FIEND_OT_SPELL_CASTER("your monster type should be fiend or spell caster"),
+    ONLY_CAN_SHOW_OPPONENT_CARD("you only can show opponentCard");
+
     private String value;
 
     Error(String value) {

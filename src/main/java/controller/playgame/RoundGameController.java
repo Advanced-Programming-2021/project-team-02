@@ -40,6 +40,7 @@ public class RoundGameController {
     private Spell fieldZoneSpell = null;
     private ArrayList<Card> fieldEffectedCards = new ArrayList<>();
     private int isFieldActivated = 0; // 0 : no - 1 : firstPlayed activated it- 2 : secondPlayer activated it
+    private Cell opponentSelectedCell;
 
     static {
         instance = new RoundGameController();
@@ -76,30 +77,48 @@ public class RoundGameController {
 
     public void selectCardInHand(Matcher matcher) {
         int address = Integer.parseInt(matcher.group("cardNumber")); //name of group?
-        //TODO errors to check
-        ArrayList<Card> hand = (ArrayList<Card>) (getTurn() == 1 ? firstPlayerHand : secondPlayerHand);
+        if (address > getCurrentPlayerHand().size()) {
+            view.showError(Error.INVALID_SELECTION);
+            return;
+        }
+        ArrayList<Card> hand = (ArrayList<Card>) (getCurrentPlayerHand());
+        selectedCell = new Cell();
         selectedCellZone = Zone.HAND;
         selectedCell.setCardInCell(hand.get(address));
         selectedCell.setCellStatus(CellStatus.IN_HAND);
         view.showSuccessMessage(SuccessMessage.CARD_SELECTED);
-        //???????????????????????//
+        opponentSelectedCell = null;
     }
 
     public void selectCardInMonsterZone(Matcher matcher) {
         int address = Integer.parseInt(matcher.group("monsterZoneNumber")); //name of group?
-        //TODO errors to check
+        if (address > 5 || address < 1) {
+            view.showError(Error.INVALID_SELECTION);
+            return;
+        } else if (getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, address).getCellStatus().equals(CellStatus.EMPTY)) {
+            view.showError(Error.CARD_NOT_FOUND);
+            return;
+        }
         selectedCellZone = Zone.MONSTER_ZONE;
         selectedCell = getCurrentPlayer().getPlayerBoard().getACellOfBoard(selectedCellZone, address);
         selectedCellAddress = address;
         view.showSuccessMessage(SuccessMessage.CARD_SELECTED);
+        opponentSelectedCell = null;
     }
 
     public void selectCardInSpellZone(Matcher matcher) {
         int address = Integer.parseInt(matcher.group("spellZoneNumber")); //name of group?
-        //TODO errors to check
+        if (address > 5 || address < 1) {
+            view.showError(Error.INVALID_SELECTION);
+            return;
+        } else if (getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.SPELL_ZONE, address).getCellStatus().equals(CellStatus.EMPTY)) {
+            view.showError(Error.CARD_NOT_FOUND);
+            return;
+        }
         selectedCellZone = Zone.SPELL_ZONE;
         selectedCell = getCurrentPlayer().getPlayerBoard().getACellOfBoard(selectedCellZone, address);
         view.showSuccessMessage(SuccessMessage.CARD_SELECTED);
+        opponentSelectedCell = null;
     }
 
     public void deselectCard(int code) {
@@ -115,19 +134,51 @@ public class RoundGameController {
     }
 
     public void selectPlayerFieldCard() {
-
+        if (getCurrentPlayer().getPlayerBoard().isFieldZoneEmpty()) {
+            view.showError(Error.CARD_NOT_FOUND);
+            return;
+        }
+        selectedCell = getCurrentPlayer().getPlayerBoard().getFieldZone().getFieldCell();
+        view.showSuccessMessage(SuccessMessage.CARD_SELECTED);
+        opponentSelectedCell = null;
     }
 
     public void selectOpponentFieldCard() {
-
+        if (getOpponentPlayer().getPlayerBoard().isFieldZoneEmpty()) {
+            view.showError(Error.CARD_NOT_FOUND);
+            return;
+        }
+        selectedCell = getOpponentPlayer().getPlayerBoard().getFieldZone().getFieldCell();
+        view.showSuccessMessage(SuccessMessage.CARD_SELECTED);
     }
 
     public void selectOpponentCardMonsterZone(Matcher matcher) {
-
+        int address = Integer.parseInt(matcher.group("monsterZoneNumber")); //name of group?
+        if (address > 5 || address < 1) {
+            view.showError(Error.INVALID_SELECTION);
+            return;
+        } else if (getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, address).getCellStatus().equals(CellStatus.EMPTY)) {
+            view.showError(Error.CARD_NOT_FOUND);
+            return;
+        }
+        selectedCellZone = Zone.MONSTER_ZONE;
+        selectedCell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(selectedCellZone, address);
+        selectedCellAddress = address;
+        view.showSuccessMessage(SuccessMessage.CARD_SELECTED);
     }
 
     public void selectOpponentCardSpellZone(Matcher matcher) {
-
+        int address = Integer.parseInt(matcher.group("spellZoneNumber")); //name of group?
+        if (address > 5 || address < 1) {
+            view.showError(Error.INVALID_SELECTION);
+            return;
+        } else if (getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.SPELL_ZONE, address).getCellStatus().equals(CellStatus.EMPTY)) {
+            view.showError(Error.CARD_NOT_FOUND);
+            return;
+        }
+        selectedCellZone = Zone.SPELL_ZONE;
+        selectedCell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(selectedCellZone, address);
+        view.showSuccessMessage(SuccessMessage.CARD_SELECTED);
     }
 
     public void selectPlayerGraveYard() {
@@ -139,6 +190,10 @@ public class RoundGameController {
     }
 
     public void summonMonster() { //TODO might have effect
+        if (selectedCell == null && opponentSelectedCell != null) {
+            view.showError(Error.ONLY_CAN_SHOW_OPPONENT_CARD);
+            return;
+        }
         if (!isValidSelectionForSummonOrSet()) {
             return;
         }
@@ -1131,6 +1186,7 @@ public class RoundGameController {
             isSummonOrSetOfMonsterUsed = false;
             selectedCell = null;
             selectedCellZone = Zone.NONE;
+            opponentSelectedCell = null;
             usedCellsToAttackNumbers.clear();
             changedPositionCards.clear();
             changeTurn();
