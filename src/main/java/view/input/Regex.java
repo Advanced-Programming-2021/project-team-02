@@ -36,8 +36,12 @@ public class Regex {
     public static final List<String> BOARD_GAME_SELECT_MONSTER_OPPONENT;
     public static final String BOARD_GAME_SELECT_SPELL = "^select --spell (?<spellZoneNumber>\\d)$";
     public static final List<String> BOARD_GAME_SELECT_SPELL_OPPONENT;
-    public static final String BOARD_GAME_SELECT_CARD = "^select (?<cardAddress>.+?)$";
-    public static final String BOARD_GAME_SELECT_DELETE = "^select -d$";
+    public static final String BOARD_GAME_SELECT_FIELD = "^select --field$";
+    public static final List<String> BOARD_GAME_SELECT_FIELD_OPPONENT;
+    public static final String BOARD_GAME_SELECT_GRAVEYARD = "^select --graveyard$";
+    public static final List<String> BOARD_GAME_SELECT_GRAVEYARD_OPPONENT;
+    public static final String BOARD_GAME_SELECT_HAND = "^select --hand (?<cardNumber>\\d+)$";
+    public static final String BOARD_GAME_SELECT_DESELECT = "^select -d$";
     public static final String BOARD_GAME_SUMMON = "^summon$";
     public static final String BOARD_GAME_SET_MONSTER_SPELL_TRAP = "^set$";
     public static final String BOARD_GAME_SET_POSITION = "^set --position (?<position>attack|defense)$";
@@ -47,7 +51,6 @@ public class Regex {
     public static final String BOARD_GAME_ACTIVATE_EFFECT = "^activate effect$";
     public static final String BOARD_GAME_SURRENDER = "^surrender$";
     public static final String GRAVEYARD_SHOW = "^show graveyard$";
-    public static final String GRAVEYARD_BACK = "^back$";
     public static final String CARD_SHOW_SELECTED = "^card show --selected$";
     public static final String CHEAT_INCREASE_MONEY = "^increase --money (?<moneyAmount>\\d+)$";
     public static final List<String> CHEAT_SELECT_HAND;
@@ -166,6 +169,16 @@ public class Regex {
         BOARD_GAME_SELECT_SPELL_OPPONENT.add("^select --opponent --spell (?<spellZoneNumber>\\d+)$");
         BOARD_GAME_SELECT_SPELL_OPPONENT.add("^select -s (?<spellZoneNumber>\\d+) -o$");
         BOARD_GAME_SELECT_SPELL_OPPONENT.add("^select -o -s (?<spellZoneNumber>\\d+)$");
+        BOARD_GAME_SELECT_FIELD_OPPONENT = new ArrayList<> ();
+        BOARD_GAME_SELECT_FIELD_OPPONENT.add ("^select --field --opponent$");
+        BOARD_GAME_SELECT_FIELD_OPPONENT.add ("^select --opponent --field$");
+        BOARD_GAME_SELECT_FIELD_OPPONENT.add ("^select -f -o$");
+        BOARD_GAME_SELECT_FIELD_OPPONENT.add ("^select -o -f$");
+        BOARD_GAME_SELECT_GRAVEYARD_OPPONENT = new ArrayList<> ();
+        BOARD_GAME_SELECT_GRAVEYARD_OPPONENT.add ("^select --graveyard --opponent$");
+        BOARD_GAME_SELECT_GRAVEYARD_OPPONENT.add ("^select --opponent --graveyard$");
+        BOARD_GAME_SELECT_GRAVEYARD_OPPONENT.add ("^select -gy -o$");
+        BOARD_GAME_SELECT_GRAVEYARD_OPPONENT.add ("^select -o -gy$");
     }
 
     public static Matcher getMatcher(String regex, String command) {
