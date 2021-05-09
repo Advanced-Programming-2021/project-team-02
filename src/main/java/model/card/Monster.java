@@ -74,14 +74,13 @@ public class Monster extends Card {
     }
 
     public static void jsonMonsters(){
-        Writer writer = null;
         try {
-            writer = new FileWriter("test.json");
+            FileWriter fileWriter = new FileWriter("monster.json");
+            fileWriter.write(new Gson().toJson(allMonsters));
+            fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Gson gson = new GsonBuilder().create();
-        gson.toJson(allMonsters, writer);
     }
 
     @Override

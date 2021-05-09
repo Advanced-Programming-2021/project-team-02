@@ -1,8 +1,14 @@
 package model.card;
 
+import com.google.gson.Gson;
 import model.card.informationofcards.*;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class Trap extends Card {
+    private static ArrayList<Trap> allTraps = new ArrayList<>();
     private TrapType trapType;
     private TrapEffect trapEffect;
     private boolean isLimited;
@@ -13,6 +19,7 @@ public class Trap extends Card {
         setTrapType(trapType);
         setTrapEffect(trapEffect);
         setLimited(isLimited);
+        allTraps.add(this);
     }
 
     private void setLimited(boolean limited) {
@@ -29,6 +36,16 @@ public class Trap extends Card {
 
     public TrapEffect getTrapEffect() {
         return trapEffect;
+    }
+
+    public static void trapToJson() {
+        try {
+            FileWriter fileWriter = new FileWriter("trap.json");
+            fileWriter.write(new Gson().toJson(allTraps));
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
