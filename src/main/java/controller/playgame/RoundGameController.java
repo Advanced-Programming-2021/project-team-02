@@ -113,12 +113,15 @@ public class RoundGameController {
         selectedCellZone = Zone.NONE;
         view.showSuccessMessage(SuccessMessage.CARD_DESELECTED);
     }
-    public void selectPlayerFieldCard(){
+
+    public void selectPlayerFieldCard() {
 
     }
-    public void selectOpponentFieldCard(){
+
+    public void selectOpponentFieldCard() {
 
     }
+
     public void selectOpponentCardMonsterZone(Matcher matcher) {
 
     }
@@ -593,14 +596,44 @@ public class RoundGameController {
             return;
         }
         if (selectedCell.getCardInCell().getCardType() == CardType.SPELL) {
-            if (!((Spell) selectedCell.getCardInCell()).getSpellType().equals(SpellType.FIELD)) normalSpellActivate();
+            if (!((Spell) selectedCell.getCardInCell()).getSpellType().equals(SpellType.FIELD))
+                normalSpellActivate(((Spell) selectedCell.getCardInCell()).getSpellEffect());
             else fieldZoneSpellActivate();
         } else
             normalTrapActivate();
     }
 
-    private void normalSpellActivate() {
-
+    private void normalSpellActivate(SpellEffect spellEffect) {
+        switch (spellEffect) {
+            case MONSTER_REBORN_EFFECT:
+                monsterReborn();
+            case TERRAFORMING_EFFECT:
+                terraForming();
+            case POT_OF_GREED_EFFECT:
+                potOfGreed();
+            case RAIGEKI_EFFECT:
+                raigeki();
+            case CHANGE_OF_HEART_EFFECT:
+                changeOfHeart();
+            case HARPIES_FEATHER_DUSTER_EFFECT:
+                harpiesFeatherDuster();
+            case DARK_HOLE_EFFECT:
+                darkHole();
+            case SPELL_ABSORPTION_EFFECT:
+                spellAbsorption();
+            case TWIN_TWISTERS_EFFECT:
+                twinTwisters();
+            case MYSTICAL_SPACE_TYPHOON_EFFECT:
+                mysticalSpaceTyphoon();
+            case SWORD_OF_DARK_DESTRUCTION_EFFECT:
+                swordOfDarkDestruction();
+            case BLACK_PENDANT_EFFECT:
+                blackPendant();
+            case UNITED_WE_STAND_EFFECT:
+                unitedWeStand();
+            case MAGNUM_SHIELD_EFFECT:
+                magnumShield();
+        }
     }
 
     private void fieldZoneSpellActivate() {
@@ -1231,7 +1264,7 @@ public class RoundGameController {
         }
     }
 
-    private void HarpiesFeatherDuster() {
+    private void harpiesFeatherDuster() {
         int i = 0;
         while (getOpponentPlayer().getPlayerBoard().returnSpellZone().getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY) {
             getOpponentPlayer().getPlayerBoard().returnSpellZone().removeCard(i);
@@ -1338,7 +1371,7 @@ public class RoundGameController {
         int i = 0, number = 0;
         while (getCurrentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i >= 5) {
             if (getCurrentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).getCellStatus() == CellStatus.OFFENSIVE_OCCUPIED
-            || getCurrentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED)
+                    || getCurrentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED)
                 number++;
             i++;
         }
@@ -1347,8 +1380,7 @@ public class RoundGameController {
         monster.setDefensePower(monster.getDefensePower() + number * 800);
     }
 
-    public void magnumShield(Card card) {
-        //ask the card for equipped and select it;
+    public void magnumShield() {
         Monster monster;
         String cardName;
         while (true) {
@@ -1377,7 +1409,8 @@ public class RoundGameController {
         SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
         int i = 0;
         while (spellZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i >= 5) {
-            if (card.getName().equals(spellZone.getCellWithAddress(i).getCardInCell().getName())) spellZone.removeCard(i);
+            if (card.getName().equals(spellZone.getCellWithAddress(i).getCardInCell().getName()))
+                spellZone.removeCard(i);
             i++;
         }
     }
