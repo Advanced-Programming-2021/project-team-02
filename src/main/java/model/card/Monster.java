@@ -57,6 +57,10 @@ public class Monster extends Card {
         return level;
     }
 
+    public MonsterType getMonsterType() {
+        return monsterType;
+    }
+
     public MonsterActionType getMonsterActionType() {
         return monsterActionType;
     }
@@ -94,5 +98,13 @@ public class Monster extends Card {
     public Monster clone() throws CloneNotSupportedException {
         return new Monster(cardType, name, id, monsterActionType, monsterEffect, level, attribute,
                 description, attackPower, defensePower, monsterType);
+    }
+
+    public void changeAttackPower(int change) {
+        attackPower += change;
+    }
+
+    public void changeDefensePower(int change) {
+        defensePower += change;
     }
 }
