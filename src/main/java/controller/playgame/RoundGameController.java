@@ -75,7 +75,7 @@ public class RoundGameController {
     }
 
     public void selectCardInHand(Matcher matcher) {
-        int address = Integer.parseInt(matcher.group("address")); //name of group?
+        int address = Integer.parseInt(matcher.group("cardNumber")); //name of group?
         //TODO errors to check
         ArrayList<Card> hand = (ArrayList<Card>) (getTurn() == 1 ? firstPlayerHand : secondPlayerHand);
         selectedCellZone = Zone.HAND;
@@ -86,7 +86,7 @@ public class RoundGameController {
     }
 
     public void selectCardInMonsterZone(Matcher matcher) {
-        int address = Integer.parseInt(matcher.group("address")); //name of group?
+        int address = Integer.parseInt(matcher.group("monsterZoneNumber")); //name of group?
         //TODO errors to check
         selectedCellZone = Zone.MONSTER_ZONE;
         selectedCell = getCurrentPlayer().getPlayerBoard().getACellOfBoard(selectedCellZone, address);
@@ -95,7 +95,7 @@ public class RoundGameController {
     }
 
     public void selectCardInSpellZone(Matcher matcher) {
-        int address = Integer.parseInt(matcher.group("cardNumber")); //name of group?
+        int address = Integer.parseInt(matcher.group("spellZoneNumber")); //name of group?
         //TODO errors to check
         selectedCellZone = Zone.SPELL_ZONE;
         selectedCell = getCurrentPlayer().getPlayerBoard().getACellOfBoard(selectedCellZone, address);
