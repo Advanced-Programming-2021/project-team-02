@@ -51,43 +51,6 @@ public class CardsDatabase {
 
 
     public void readAndMakeCards() throws IOException {
-//        BufferedReader csvReader = new BufferedReader(new FileReader("Monster.csv"));
-//        csvReader.readLine();
-        //       String row;
-        //      int counter = 2;
-//        while ((row = csvReader.readLine()) != null) {
-//            row = row.replaceAll("\"", "");
-//            if (counter == 38)
-//                row += "\n" + csvReader.readLine().replaceAll("\"", "");
-//            String[] data = row.split("[,]+(?=\\S|$)");
-//            makeCardMonster(CardType.MONSTER, data[0], "1", MonsterActionType.getActionTypeByName(data[4]),
-//                    MonsterEffect.getMonsterEffectByName(data[0]), Integer.parseInt(data[1]),
-//                    Attribute.getAttributeByName(data[2]), data[7], Integer.parseInt(data[5]),
-//                    Integer.parseInt(data[6]), MonsterType.getMonsterTypeByName(data[3]), Integer.parseInt(data[8]));
-//            counter++;
-//        }
-//        csvReader = new BufferedReader(new FileReader("SpellTrap.csv"));
-//        csvReader.readLine();
-//        counter = 1;
-//        while (counter != 12) {
-//            row = csvReader.readLine();
-//            row = row.replaceAll("\"", "");
-//            String[] data = row.split("[,]+(?=\\S|$)");
-//            makeTrapCard(CardType.TRAP, data[0], "1", TrapEffect.getTrapEffectByName(data[0]), Attribute.TRAP, data[3],
-//                    TrapType.getTrapTypeByTypeName(data[2]), data[4].equals("Limited"), Integer.parseInt(data[5]));
-//            counter++;
-//        }
-//        counter++;
-//        while ((row = csvReader.readLine()) != null) {
-//            row = row.replaceAll("\"", "");
-//            if (counter == 35)
-//                row += "\n" + csvReader.readLine().replaceAll("\"", "") + "\n" + csvReader.readLine().replaceAll("\"", "");
-//            String[] data = row.split("[,]+(?=\\S|$)");
-//            makeCardSpell(CardType.SPELL, data[0], "1", SpellEffect.getSpellByName(data[0]), Attribute.SPELL, data[3],
-//                    SpellType.getSpellTypeByTypeName(data[2]), data[4].equals("Limited"), Integer.parseInt(data[5]));
-//            counter++;
-//        }
-//        csvReader.close();
 
         FileReader fileReaderMonster = new FileReader("Monster.csv");
         CSVReader csvReaderMonster = new CSVReader(fileReaderMonster);
@@ -120,5 +83,6 @@ public class CardsDatabase {
         }
         Monster.jsonMonsters();
         Spell.spellsToJson();
+        Trap.trapToJson();
     }
 }

@@ -45,14 +45,13 @@ public class Spell extends Card {
     }
 
     public static void spellsToJson() {
-        Writer writer = null;
         try {
-            writer = new FileWriter("spell.json");
+            FileWriter fileWriter = new FileWriter("spell.json");
+            fileWriter.write(new Gson().toJson(allSpells));
+            fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Gson gson = new GsonBuilder().create();
-        gson.toJson(allSpells, writer);
     }
 
     public boolean getIsLimited() {
