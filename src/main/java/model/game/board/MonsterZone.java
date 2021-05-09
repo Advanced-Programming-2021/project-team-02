@@ -30,8 +30,4 @@ public class MonsterZone {
     public Cell getCellWithAddress(int address) {
         return monsterCells[address];
     }
-
-    public void reset(){
-
-    }
 }

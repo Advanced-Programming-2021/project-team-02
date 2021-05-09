@@ -1,18 +1,24 @@
 package model.card;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import model.Shop;
 import model.card.informationofcards.*;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 public class CardsDatabase {
     private static CardsDatabase dataBase;
     private static final ArrayList<Card> allCards;
+    private static final ArrayList<Spell> allSpells;
+    private static final ArrayList<Trap> allTraps;
+
+
     static {
         allCards = new ArrayList<>();
+        allSpells = new ArrayList<>();
+        allTraps = new ArrayList<>();
     }
 
     private CardsDatabase() {
@@ -30,23 +36,28 @@ public class CardsDatabase {
 
     public static void makeCardMonster(CardType cardType, String name, String id, MonsterActionType monsterActionType, MonsterEffect monsterEffect,
                                        int level, Attribute attribute, String description, int attackPower, int defensePower, MonsterType monsterType, int price) {
+        Card card = new Monster(cardType, name, id, monsterActionType, monsterEffect, level, attribute, description, attackPower, defensePower, monsterType);
         Monster monster = new Monster(cardType, name, id, monsterActionType, monsterEffect, level, attribute, description, attackPower, defensePower, monsterType);
-        allCards.add(monster);
-        Shop.getInstance().addCardToShop(monster, price);
+        allCards.add(card);
+        Shop.getInstance().addCardToShop(card, price);
     }
 
     public static void makeCardSpell(CardType cardType, String name, String id, SpellEffect spellEffect,
                                      Attribute attribute, String description, SpellType spellType, boolean isLimited, int price) {
+        Card card = new Spell(cardType, name, id, spellEffect, attribute, description, spellType, isLimited);
         Spell spell = new Spell(cardType, name, id, spellEffect, attribute, description, spellType, isLimited);
-        allCards.add(spell);
-        Shop.getInstance().addCardToShop(spell, price);
+        allSpells.add(spell);
+        allCards.add(card);
+        Shop.getInstance().addCardToShop(card, price);
     }
 
     public static void makeTrapCard(CardType cardType, String name, String id, TrapEffect trapEffect,
                                     Attribute attribute, String description, TrapType trapType, boolean isLimited, int price) {
+        Card card = new Trap(cardType, name, id, trapEffect, attribute, description, trapType, isLimited);
         Trap trap = new Trap(cardType, name, id, trapEffect, attribute, description, trapType, isLimited);
-        allCards.add(trap);
-        Shop.getInstance().addCardToShop(trap, price);
+        allTraps.add(trap);
+        allCards.add(card);
+        Shop.getInstance().addCardToShop(card, price);
     }
 
 
@@ -88,5 +99,7 @@ public class CardsDatabase {
             counter++;
         }
         csvReader.close();
+        Monster.jsonMonsters();
+        Spell.spellsToJson();
     }
 }

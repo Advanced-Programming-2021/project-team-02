@@ -11,6 +11,7 @@ public class PlayerBoard {
     private SpellZone spellZone;
     private GraveYard graveYard;
     private FieldZone fieldZone;
+
     public PlayerBoard() {
         monsterZone = new MonsterZone();
         spellZone = new SpellZone();
@@ -23,21 +24,26 @@ public class PlayerBoard {
     }
 
     public void addSpellOrTrapToBoard(Card card, CellStatus status) {
-
+        spellZone.addCard(card, status);
     }
 
-    public void removeMonsterFromBoard(int address) {
+    public void removeMonsterFromBoardAndAddToGraveYard(int address) {
         graveYard.addCard(monsterZone.getCellWithAddress(address).getCardInCell());
         monsterZone.removeCard(address - 1);
 
     }
 
-    public void removeSpellOrTrapFromBoard() {
-
+    public void removeSpellOrTrapFromBoard(int address) {
+        graveYard.addCard(spellZone.getCellWithAddress(address).getCardInCell());
+        spellZone.removeCard(address - 1);
     }
 
     public void addCardToGraveYard(Card card) {
+        graveYard.addCard(card);
+    }
 
+    public Card getCardInGraveYard(int address) {
+        return graveYard.getGraveYardCards().get(address);
     }
 
     public void changeCardPosition(Card card) {
@@ -100,9 +106,19 @@ public class PlayerBoard {
         return spellZone;
     }
 
-    public void resetCellsChanged() {
-        monsterZone.reset();
-        spellZone.reset();
+    public GraveYard returnGraveYard() {
+        return graveYard;
     }
 
+    public FieldZone returnFieldZone() {
+        return fieldZone;
+    }
+
+    public boolean isGraveYardEmpty() {
+        return graveYard.getGraveYardCards().size() == 0;
+    }
+
+    public void removeFieldSpell() {
+        fieldZone.setCard(null);
+    }
 }

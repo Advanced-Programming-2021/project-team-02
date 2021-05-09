@@ -8,6 +8,7 @@ import view.messages.SuccessMessage;
 
 import java.util.Map;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GameView {
     private static final GameView instance;
@@ -100,6 +101,53 @@ public class GameView {
         return null;
     }
 
+    public Matcher monsterReborn() {
+        System.out.println("Enter message in format :" +
+                "if you want from your grave yard :  card_name" +
+                "if you want from opponent grave yard :opponent card_name");
+        while (true) {
+            String command = Input.getInput();
+            Pattern pattern = Pattern.compile("( |opponent) ([A-Za-z ',-]+?)");
+            Matcher matcher = pattern.matcher(command);
+            if (command.equals("cancel")) return null;
+            else if (matcher.matches()) return matcher;
+            else System.out.println(Error.INVALID_COMMAND);
+        }
+    }
+
+    public String getCardNameForTerraForming() {
+        System.out.println("please enter field_spell name");
+        return Input.getInput();
+    }
+
+    public String getCardNameForChangeOfHeart() {
+        System.out.println("please enter monster name for capturing this turn: ");
+        return Input.getInput();
+    }
+
+    public Matcher getCardsNameTwinTwister() {
+        System.out.println("enter names in this format :" +
+                "your_card_name opponent_card_name opponent_card_name");
+        while (true) {
+            String command = Input.getInput();
+            Pattern pattern = Pattern.compile("([A-Za-z ',-]+?) ([A-Za-z ',-]+?) ([A-Za-z ',-]+?)");
+            Matcher matcher = pattern.matcher(command);
+            if (command.equals("cancel")) return null;
+            if (matcher.matches()) return matcher;
+            else System.out.println(Error.INVALID_COMMAND);
+        }
+    }
+
+    public int mysticalSpaceTyphoon() {
+        System.out.println("please enter address of spell or trap");
+        while (true) {
+            String command = Input.getInput();
+            if (command.equals("cancel")) return -1;
+            else if (command.matches("([12345])")) return Integer.parseInt(command);
+            else System.out.println(Error.INVALID_COMMAND);
+        }
+    }
+
     public int getAddressForTrapOrSpell() {
         System.out.println("enter address(number of cell between 1 to 5) of spell to be activated or write cancel if you dont want to activate anything");
         while (true) {
@@ -118,5 +166,19 @@ public class GameView {
             return true;
         }
         return false;
+    }
+
+    public String askCardName() {
+        return Input.getInput();
+    }
+
+    public int getNumberOfCardForCallOfTheHaunted() {
+        System.out.println("enter number of the monster to be special summoned");
+        while (true) {
+            String command = Input.getInput();
+            if (command.matches("\\d")) {
+                return Integer.parseInt(command);
+            } else System.out.println(Error.INVALID_COMMAND.getValue());
+        }
     }
 }

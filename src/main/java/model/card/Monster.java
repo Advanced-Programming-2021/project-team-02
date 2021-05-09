@@ -1,8 +1,16 @@
 package model.card;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import model.card.informationofcards.*;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.ArrayList;
+
 public class Monster extends Card {
+    private static ArrayList<Monster> allMonsters = new ArrayList<>();
     private int level;
     private int attackPower, defensePower;
     private MonsterType monsterType;
@@ -18,6 +26,7 @@ public class Monster extends Card {
         setLevel(level);
         setMonsterActionType(monsterActionType);
         setMonsterEffect(monsterEffect);
+        allMonsters.add(this);
     }
 
     public void setMonsterActionType(MonsterActionType monsterActionType) {
@@ -28,11 +37,11 @@ public class Monster extends Card {
         this.monsterType = monsterType;
     }
 
-    private void setAttackPower(int attackPower) {
+    public void setAttackPower(int attackPower) {
         this.attackPower = attackPower;
     }
 
-    private void setDefensePower(int defensePower) {
+    public void setDefensePower(int defensePower) {
         this.defensePower = defensePower;
     }
 
@@ -48,6 +57,10 @@ public class Monster extends Card {
         return level;
     }
 
+    public MonsterType getMonsterType() {
+        return monsterType;
+    }
+
     public MonsterActionType getMonsterActionType() {
         return monsterActionType;
     }
@@ -58,6 +71,17 @@ public class Monster extends Card {
 
     public int getDefensePower() {
         return defensePower;
+    }
+
+    public static void jsonMonsters(){
+        Writer writer = null;
+        try {
+            writer = new FileWriter("test.json");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Gson gson = new GsonBuilder().create();
+        gson.toJson(allMonsters, writer);
     }
 
     @Override
@@ -74,5 +98,13 @@ public class Monster extends Card {
     public Monster clone() throws CloneNotSupportedException {
         return new Monster(cardType, name, id, monsterActionType, monsterEffect, level, attribute,
                 description, attackPower, defensePower, monsterType);
+    }
+
+    public void changeAttackPower(int change) {
+        attackPower += change;
+    }
+
+    public void changeDefensePower(int change) {
+        defensePower += change;
     }
 }
