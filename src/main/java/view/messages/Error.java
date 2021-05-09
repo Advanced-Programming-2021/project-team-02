@@ -61,7 +61,8 @@ public enum Error {
     CARD_IS_NOT_IN_SIDE_DECK_TO_CHANGE("card does not exist in side deck"),
     INVALID_NUMBER("input number is not valid"),
     CANT_DIRECT_ATTACK("you can't direct attack now"),
-    WRONG_CARD_NAME("there is no card with name you entered");
+    WRONG_CARD_NAME("there is no card with name you entered"),
+    TYPE_FIEND_OT_SPELL_CASTER("your monster type should be fiend or spell caster");
     private String value;
 
     Error(String value) {
