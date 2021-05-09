@@ -74,6 +74,8 @@ public class DuelMenuView {
                 "select --monster <monsterZoneNumber> --opponent\n" +
                 "select --spell <spellZoneNumber>\n" +
                 "select --spell <spellZoneNumber> --opponent\n" +
+                "select --field\n" +
+                "select --field --opponent\n" +
                 "select <cardAddress>\n" +
                 "select -d\n" +
                 "next phase\n" +

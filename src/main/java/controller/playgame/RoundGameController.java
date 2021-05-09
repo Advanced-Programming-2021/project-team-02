@@ -74,11 +74,7 @@ public class RoundGameController {
         turn = (turn == 1) ? 2 : 1;
     }
 
-    public void selectCard(Matcher matcher) {
-
-    }
-
-    private void selectCardInHand(Matcher matcher) {
+    public void selectCardInHand(Matcher matcher) {
         int address = Integer.parseInt(matcher.group("address")); //name of group?
         //TODO errors to check
         ArrayList<Card> hand = (ArrayList<Card>) (getTurn() == 1 ? firstPlayerHand : secondPlayerHand);
@@ -89,7 +85,7 @@ public class RoundGameController {
         //???????????????????????//
     }
 
-    private void selectCardInMonsterZone(Matcher matcher) {
+    public void selectCardInMonsterZone(Matcher matcher) {
         int address = Integer.parseInt(matcher.group("address")); //name of group?
         //TODO errors to check
         selectedCellZone = Zone.MONSTER_ZONE;
@@ -98,7 +94,7 @@ public class RoundGameController {
         view.showSuccessMessage(SuccessMessage.CARD_SELECTED);
     }
 
-    private void selectCardInSpellZone(Matcher matcher) {
+    public void selectCardInSpellZone(Matcher matcher) {
         int address = Integer.parseInt(matcher.group("cardNumber")); //name of group?
         //TODO errors to check
         selectedCellZone = Zone.SPELL_ZONE;
@@ -123,11 +119,11 @@ public class RoundGameController {
     public void selectOpponentFieldCard(){
 
     }
-    public void selectOpponentCardMonsterZone() {
+    public void selectOpponentCardMonsterZone(Matcher matcher) {
 
     }
 
-    public void selectOpponentCardSpellZone() {
+    public void selectOpponentCardSpellZone(Matcher matcher) {
 
     }
 
