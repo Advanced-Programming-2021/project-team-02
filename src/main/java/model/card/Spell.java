@@ -1,8 +1,16 @@
 package model.card;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import model.card.informationofcards.*;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.ArrayList;
+
 public class Spell extends Card {
+    private static ArrayList<Spell> allSpells = new ArrayList<>();
     private SpellType spellType;
     private SpellEffect spellEffect;
     private boolean isLimited;
@@ -13,6 +21,7 @@ public class Spell extends Card {
         setSpellType(spellType);
         setSpellEffect(spellEffect);
         setLimited(isLimited);
+        allSpells.add(this);
     }
 
     private void setLimited(boolean limited) {
@@ -33,6 +42,17 @@ public class Spell extends Card {
                 "\nSpell" +
                 "\nType :" + this.spellType +
                 "\nDescription: " + this.description;
+    }
+
+    public static void spellsToJson() {
+        Writer writer = null;
+        try {
+            writer = new FileWriter("spell.json");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Gson gson = new GsonBuilder().create();
+        gson.toJson(allSpells, writer);
     }
 
     public boolean getIsLimited() {

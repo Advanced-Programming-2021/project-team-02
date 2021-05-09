@@ -1127,7 +1127,60 @@ public class RoundGameController {
 
     }
 
-    private void swordOfDarkDestruction() {
+    private void swordOfDarkDestruction(Card card) {
+        //ask the card for equipped (fiend or spell caster) make it selected cell
+        // call remove
+        Monster monster = (Monster) card;
+        monster.setAttackPower(monster.getAttackPower() + 400);
+        monster.setDefensePower(monster.getDefensePower() - 200);
+    }
+
+    public void removeSwordOfDarkDestruction(Card card) {
+        Monster monster = (Monster) card;
+        monster.setAttackPower(monster.getAttackPower() - 400);
+        monster.setDefensePower(monster.getDefensePower() + 200);
+    }
+
+    public void blackPendant(Card card) {
+        //ask the card for equipped
+        // call remove
+        Monster monster = (Monster) card;
+        monster.setAttackPower((monster.getAttackPower()));
+    }
+
+    public void removeBlackPendant(Card card) {
+        Monster monster = (Monster) card;
+        monster.setAttackPower(monster.getAttackPower() - 500);
+    }
+
+    public void unitedWeStand(Card card) {
+        //ask the card for equipped
+        int i = 0, number = 0;
+        while (getCurrentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i >= 5) {
+            if (getCurrentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).getCellStatus() == CellStatus.OFFENSIVE_OCCUPIED
+            || getCurrentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED)
+                number++;
+            i++;
+        }
+        Monster monster = (Monster) card;
+        monster.setAttackPower(monster.getAttackPower() + number*800);
+        monster.setDefensePower(monster.getDefensePower() + number*800);
+    }
+
+    public void magnumShield(Card card) {
+        //ask the card for equipped and select it;
+        Monster monster = (Monster) card;
+        if (selectedCell.getCellStatus() == CellStatus.OFFENSIVE_OCCUPIED)
+            monster.setAttackPower(monster.getDefensePower() + monster.getAttackPower());
+        else if (selectedCell.getCellStatus() == CellStatus.DEFENSIVE_HIDDEN || selectedCell.getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED)
+            monster.setDefensePower(monster.getDefensePower() + monster.getAttackPower());
+    }
+
+    public void timeSeal() {
+
+    }
+
+    public void magicJammer() {
 
     }
 
