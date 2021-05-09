@@ -234,6 +234,18 @@ public class GameView {
         return false;
     }
 
+    public String magicJammer() {
+        System.out.println("enter card name to remove from your hand");
+        while (true) {
+            String command = Input.getInput();
+            if (command.equals("cancel")) {
+                return null;
+            } else if (command.matches("([A-Za-z ',-]+?)")) {
+                return command;
+            } else System.out.println(Error.INVALID_COMMAND);
+        }
+    }
+
     public String askCardName() {
         return Input.getInput();
     }

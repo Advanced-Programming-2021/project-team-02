@@ -1194,6 +1194,13 @@ public class RoundGameController {
                 }
             }
         }
+        SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
+        int i = 0;
+        while (spellZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i >= 5) {
+            if (spellZone.getCellWithAddress(i).getCardInCell().getName().equals("Monster Reborn"))
+                spellZone.removeCard(i);
+            i++;
+        }
     }
 
     private void terraForming() {
@@ -1204,15 +1211,18 @@ public class RoundGameController {
             if (cardName.equals("cancel")) return;
             else if (Card.getCardByName(cardName) == null) {
                 view.showError(Error.WRONG_CARD_NAME);
-            } else break;
+            } else if (SpellType.getSpellTypeByTypeName(selectedCell.getCardInCell().getName()) != SpellType.FIELD)
+                view.showError(Error.CHOOSE_FIELD_SPELL);
+            else break;
         }
-        List<Card> deckCards = getCurrentPlayer().getPlayDeck().getMainCards();
-        while (true) {
-            for (Card card : deckCards) {
-                if (SpellType.getSpellTypeByTypeName(selectedCell.getCardInCell().getName()) == SpellType.FIELD) {
-                    getCurrentPlayerHand().add(selectedCell.getCardInCell());
-                    break;
-                }
+        if (SpellType.getSpellTypeByTypeName(selectedCell.getCardInCell().getName()) == SpellType.FIELD) {
+            getCurrentPlayerHand().add(selectedCell.getCardInCell());
+            SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
+            int i = 0;
+            while (spellZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i >= 5) {
+                if (spellZone.getCellWithAddress(i).getCardInCell().getName().equals("Terraforming"))
+                    spellZone.removeCard(i);
+                i++;
             }
             //TODO shuffle deck
         }
@@ -1222,6 +1232,8 @@ public class RoundGameController {
         List<Card> deckCards = getCurrentPlayer().getPlayDeck().getMainCards();
         getSecondPlayerHand().add(deckCards.get(1));
         getSecondPlayerHand().add(deckCards.get(2));
+        SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
+        spellZone.removeCard(selectedCellAddress);
     }
 
     private void raigeki() {
@@ -1231,6 +1243,8 @@ public class RoundGameController {
             monsterZone.removeCard(i);
             i++;
         }
+        SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
+        spellZone.removeCard(selectedCellAddress);
     }
 
     public void changeOfHeart() {
@@ -1252,6 +1266,13 @@ public class RoundGameController {
             }
             i++;
         }
+        SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
+        int j = 0;
+        while (spellZone.getCellWithAddress(j).getCellStatus() != CellStatus.EMPTY || j >= 5) {
+            if (spellZone.getCellWithAddress(j).getCardInCell().getName().equals("Change of Heart"))
+                spellZone.removeCard(j);
+            j++;
+        }
     }
 
     private void removeChangeOfHearts(CellStatus cellStatus, String cardName) {
@@ -1270,6 +1291,8 @@ public class RoundGameController {
             getOpponentPlayer().getPlayerBoard().returnSpellZone().removeCard(i);
             i++;
         }
+        SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
+        spellZone.removeCard(selectedCellAddress);
     }
 
     public void swordsOfRevealingLight() {
@@ -1286,6 +1309,8 @@ public class RoundGameController {
             getCurrentPlayer().getPlayerBoard().returnMonsterZone().removeCard(i);
             i++;
         }
+        SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
+        spellZone.removeCard(selectedCellAddress);
     }
 
     public void spellAbsorption() {
@@ -1305,6 +1330,13 @@ public class RoundGameController {
         getCurrentPlayerHand().remove(Card.getCardByName(matcher.group(1)));
         getOpponentPlayer().getPlayerBoard().returnSpellZone().removeCard(Integer.parseInt(matcher.group(2)));
         getOpponentPlayer().getPlayerBoard().returnSpellZone().removeCard(Integer.parseInt(matcher.group(3)));
+        SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
+        int j = 0;
+        while (spellZone.getCellWithAddress(j).getCellStatus() != CellStatus.EMPTY || j >= 5) {
+            if (spellZone.getCellWithAddress(j).getCardInCell().getName().equals("Twin Twisters"))
+                spellZone.removeCard(j);
+            j++;
+        }
     }
 
     public void mysticalSpaceTyphoon() {
@@ -1406,13 +1438,24 @@ public class RoundGameController {
 
     public void magicJammer(Card card) {
         // after enemy activate spell
-        SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
+        String cardName;
+        while (true) {
+            cardName = view.magicJammer();
+            if (cardName == null) return;
+            else if (Card.getCardByName(cardName) == null) view.showError(Error.WRONG_CARD_NAME);
+            else if (getCurrentPlayerHand().contains(Card.getCardByName(cardName))) {
+                getCurrentPlayerHand().remove(Card.getCardByName(cardName));
+                break;
+            }
+        }
+        SpellZone spellZone = getOpponentPlayer().getPlayerBoard().returnSpellZone();
         int i = 0;
         while (spellZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i >= 5) {
             if (card.getName().equals(spellZone.getCellWithAddress(i).getCardInCell().getName()))
                 spellZone.removeCard(i);
             i++;
         }
+
     }
 
     public int getSwordsOfRevealingLightRounds() {
