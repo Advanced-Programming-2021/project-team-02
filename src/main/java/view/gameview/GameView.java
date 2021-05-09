@@ -1,6 +1,7 @@
 package view.gameview;
 
 import controller.playgame.RoundGameController;
+import model.card.Card;
 import view.input.Input;
 import view.input.Regex;
 import view.messages.Error;
@@ -144,6 +145,46 @@ public class GameView {
             String command = Input.getInput();
             if (command.equals("cancel")) return -1;
             else if (command.matches("([12345])")) return Integer.parseInt(command);
+            else System.out.println(Error.INVALID_COMMAND);
+        }
+    }
+
+    public String swordOfDarkDestruction() {
+        System.out.println("please enter card name :");
+        while (true) {
+            String command = Input.getInput();
+            if (command.equals("cancel")) return null;
+            else if (command.matches("([A-Za-z ',-]+?)")) return command;
+            else System.out.println(Error.INVALID_COMMAND);
+        }
+    }
+
+    public String blackPendant() {
+        System.out.println("please enter card name :");
+        while (true) {
+            String command = Input.getInput();
+            if (command.equals("cancel")) return null;
+            else if (command.matches("([A-Za-z ',-]+?)")) return command;
+            else System.out.println(Error.INVALID_COMMAND);
+        }
+    }
+
+    public String unitedWeStand() {
+        System.out.println("please enter card name :");
+        while (true) {
+            String command = Input.getInput();
+            if (command.equals("cancel")) return null;
+            else if (command.matches("([A-Za-z ',-]+?)")) return command;
+            else System.out.println(Error.INVALID_COMMAND);
+        }
+    }
+
+    public String magnumShield() {
+        System.out.println("please enter card name :");
+        while (true) {
+            String command = Input.getInput();
+            if (command.equals("cancel")) return null;
+            else if (command.matches("([A-Za-z ',-]+?)")) return command;
             else System.out.println(Error.INVALID_COMMAND);
         }
     }
