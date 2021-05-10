@@ -189,6 +189,9 @@ public class RoundGameController {
     public void selectOpponentGraveYard() {
 
     }
+    public void showSelectedCard(){
+
+    }
 
     public void summonMonster() { //TODO might have effect
         if (selectedCell == null && opponentSelectedCell != null) {
@@ -868,8 +871,13 @@ public class RoundGameController {
                 ((Monster) card).changeDefensePower(200);
             }
         }
+    }
 
-
+    private void checkFieldCardInMiddleOfGame() {
+        if (fieldZoneSpell == null) {
+            return;
+        }
+        findAndActivateFieldCard();
     }
 
     private void addForestFieldCardsToBeEffected() {
@@ -891,7 +899,7 @@ public class RoundGameController {
     private void closedForestFieldEffect() {//TODO CHECK WHAT BEAST TYPE MEAN
         addClosedForestFieldCardsToBeEffected();
         for (Card card : fieldEffectedCards) {
-            if (((Monster) card).getMonsterType().equals(MonsterType.BEAST)){
+            if (((Monster) card).getMonsterType().equals(MonsterType.BEAST)) {
                 ((Monster) card).changeAttackPower(100);
             }
         }
@@ -938,6 +946,10 @@ public class RoundGameController {
                 view.showError(Error.PREPARATIONS_IS_NOT_DONE);
                 return;
         }
+    }
+
+    public void checkFieldCardInGameProcess() {
+
     }
 
     private void mindCrushTrapEffect() {
