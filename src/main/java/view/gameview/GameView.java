@@ -52,11 +52,12 @@ public class GameView {
             controller.selectCardInHand (matcher);
         else if ((matcher = Regex.getMatcher (Regex.BOARD_GAME_SELECT_HAND, command)).matches ())
             controller.selectCardInHand (matcher);
-
+        else if (Regex.getMatcher (Regex.BOARD_GAME_NEXT_PHASE, command).matches ())
+            controller.nextPhase ();
     }
 
     public void showError(Error error) {
-
+        System.out.println(error.getValue());
     }
 
     public void showDynamicError(Error error, Matcher matcher) {
@@ -68,7 +69,7 @@ public class GameView {
     }
 
     public void showSuccessMessage(SuccessMessage message) {
-
+        System.out.println(message.getValue());
     }
 
     public void showSuccessMessageWithAString(SuccessMessage message, String string) {
@@ -84,7 +85,7 @@ public class GameView {
     }
 
     public void showPhase() {
-
+        System.out.printf (SuccessMessage.PHASE_NAME.getValue (), controller.getCurrentPhase ());
     }
 
     public void showGraveYard() {
