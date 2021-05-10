@@ -42,6 +42,7 @@ public class Regex {
     public static final List<String> BOARD_GAME_SELECT_GRAVEYARD_OPPONENT;
     public static final String BOARD_GAME_SELECT_HAND = "^select --hand (?<cardNumber>\\d+)$";
     public static final String BOARD_GAME_SELECT_DESELECT = "^select -d$";
+    public static final String BOARD_GAME_NEXT_PHASE = "^next phase$";
     public static final String BOARD_GAME_SUMMON = "^summon$";
     public static final String BOARD_GAME_SET_MONSTER_SPELL_TRAP = "^set$";
     public static final String BOARD_GAME_SET_POSITION = "^set --position (?<position>attack|defense)$";

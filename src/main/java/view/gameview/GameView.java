@@ -2,6 +2,11 @@ package view.gameview;
 
 import controller.playgame.RoundGameController;
 import model.card.Card;
+import model.card.Monster;
+import model.card.Spell;
+import model.card.Trap;
+import model.card.informationofcards.CardType;
+import model.game.board.GraveYard;
 import view.input.Input;
 import view.input.Regex;
 import view.messages.Error;
@@ -52,11 +57,18 @@ public class GameView {
             controller.selectCardInHand (matcher);
         else if ((matcher = Regex.getMatcher (Regex.BOARD_GAME_SELECT_HAND, command)).matches ())
             controller.selectCardInHand (matcher);
-
+        else if (Regex.getMatcher (Regex.BOARD_GAME_NEXT_PHASE, command).matches ())
+            controller.nextPhase ();
+        else if (Regex.getMatcher (Regex.BOARD_GAME_SUMMON, command).matches ())
+            controller.summonMonster ();
+        else if (Regex.getMatcher (Regex.GRAVEYARD_SHOW, command).matches ())
+            instance.showGraveYard ();
+        else if ((matcher = Regex.getMatcher (Regex.CARD_SHOW, command)).matches ())
+            instance.showCard (matcher.group ("cardName"));
     }
 
     public void showError(Error error) {
-
+        System.out.println(error.getValue());
     }
 
     public void showDynamicError(Error error, Matcher matcher) {
@@ -68,11 +80,11 @@ public class GameView {
     }
 
     public void showSuccessMessage(SuccessMessage message) {
-
+        System.out.println(message.getValue());
     }
 
     public void showSuccessMessageWithAString(SuccessMessage message, String string) {
-
+        if (message.equals (SuccessMessage.PLAYERS_TURN)) System.out.printf (SuccessMessage.PLAYERS_TURN.getValue (), string);
     }
 
     public void showSuccessMessageWithAnInteger(SuccessMessage message, int number) {
@@ -84,15 +96,33 @@ public class GameView {
     }
 
     public void showPhase() {
-
+        System.out.printf (SuccessMessage.PHASE_NAME.getValue (), controller.getCurrentPhase ());
     }
 
     public void showGraveYard() {
-
+        int counter = 1;
+        if (controller.getCurrentPlayer().getPlayerBoard().isGraveYardEmpty ()) instance.showError (Error.EMPTY_GRAVEYARD);
+        else {
+            for (Card card : controller.getCurrentPlayer ().getPlayerBoard ().returnGraveYard ().getGraveYardCards ()) {
+                System.out.println (counter + ". " + card.getName () + ":" + card.getDescription ());
+                counter++;
+            }
+        }
     }
 
-    public void showCard() {
-
+    public void showCard(String cardName) {
+        Card card = Card.getCardByName (cardName);
+        assert card != null;
+        if (card.getCardType().equals(CardType.MONSTER)) {
+            Monster monster = (Monster) card;
+            System.out.println(monster);
+        } else if (card.getCardType().equals(CardType.SPELL)) {
+            Spell spell = (Spell) card;
+            System.out.println(spell);
+        } else {
+            Trap trap = (Trap) card;
+            System.out.println(trap);
+        }
     }
 
     public int getTributeAddress() {

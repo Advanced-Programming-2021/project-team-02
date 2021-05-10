@@ -52,6 +52,10 @@ public class RoundGameController {
         return instance;
     }
 
+    public DuelPlayer getFirstPlayer() {
+        return firstPlayer;
+    }
+
     public void run() {
 
     }
@@ -77,7 +81,7 @@ public class RoundGameController {
     }
 
     public void selectCardInHand(Matcher matcher) {
-        int address = Integer.parseInt(matcher.group("cardNumber")); //name of group?
+        int address = Integer.parseInt(matcher.group("cardNumber"));
         if (address > getCurrentPlayerHand().size()) {
             view.showError(Error.INVALID_SELECTION);
             return;
@@ -92,7 +96,7 @@ public class RoundGameController {
     }
 
     public void selectCardInMonsterZone(Matcher matcher) {
-        int address = Integer.parseInt(matcher.group("monsterZoneNumber")); //name of group?
+        int address = Integer.parseInt(matcher.group("monsterZoneNumber"));
         if (address > 5 || address < 1) {
             view.showError(Error.INVALID_SELECTION);
             return;
@@ -108,7 +112,7 @@ public class RoundGameController {
     }
 
     public void selectCardInSpellZone(Matcher matcher) {
-        int address = Integer.parseInt(matcher.group("spellZoneNumber")); //name of group?
+        int address = Integer.parseInt(matcher.group("spellZoneNumber"));
         if (address > 5 || address < 1) {
             view.showError(Error.INVALID_SELECTION);
             return;
@@ -154,7 +158,7 @@ public class RoundGameController {
     }
 
     public void selectOpponentCardMonsterZone(Matcher matcher) {
-        int address = Integer.parseInt(matcher.group("monsterZoneNumber")); //name of group?
+        int address = Integer.parseInt(matcher.group("monsterZoneNumber"));
         if (address > 5 || address < 1) {
             view.showError(Error.INVALID_SELECTION);
             return;
@@ -169,7 +173,7 @@ public class RoundGameController {
     }
 
     public void selectOpponentCardSpellZone(Matcher matcher) {
-        int address = Integer.parseInt(matcher.group("spellZoneNumber")); //name of group?
+        int address = Integer.parseInt(matcher.group("spellZoneNumber"));
         if (address > 5 || address < 1) {
             view.showError(Error.INVALID_SELECTION);
             return;
@@ -1336,7 +1340,7 @@ public class RoundGameController {
         secondPlayerHand.add(card);
     }
 
-    private DuelPlayer getCurrentPlayer() {
+    public DuelPlayer getCurrentPlayer() {
         if (turn == 1)
             return firstPlayer;
         return secondPlayer;
