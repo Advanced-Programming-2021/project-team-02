@@ -2,6 +2,10 @@ package view.gameview;
 
 import controller.playgame.RoundGameController;
 import model.card.Card;
+import model.card.Monster;
+import model.card.Spell;
+import model.card.Trap;
+import model.card.informationofcards.CardType;
 import model.game.board.GraveYard;
 import view.input.Input;
 import view.input.Regex;
@@ -59,7 +63,8 @@ public class GameView {
             controller.summonMonster ();
         else if (Regex.getMatcher (Regex.GRAVEYARD_SHOW, command).matches ())
             instance.showGraveYard ();
-
+        else if ((matcher = Regex.getMatcher (Regex.CARD_SHOW, command)).matches ())
+            instance.showCard (matcher.group ("cardName"));
     }
 
     public void showError(Error error) {
@@ -105,8 +110,19 @@ public class GameView {
         }
     }
 
-    public void showCard() {
-
+    public void showCard(String cardName) {
+        Card card = Card.getCardByName (cardName);
+        assert card != null;
+        if (card.getCardType().equals(CardType.MONSTER)) {
+            Monster monster = (Monster) card;
+            System.out.println(monster);
+        } else if (card.getCardType().equals(CardType.SPELL)) {
+            Spell spell = (Spell) card;
+            System.out.println(spell);
+        } else {
+            Trap trap = (Trap) card;
+            System.out.println(trap);
+        }
     }
 
     public int getTributeAddress() {
