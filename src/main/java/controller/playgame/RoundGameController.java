@@ -51,6 +51,10 @@ public class RoundGameController {
         return instance;
     }
 
+    public DuelPlayer getFirstPlayer() {
+        return firstPlayer;
+    }
+
     public void run() {
 
     }
@@ -1209,7 +1213,7 @@ public class RoundGameController {
         secondPlayerHand.add(card);
     }
 
-    private DuelPlayer getCurrentPlayer() {
+    public DuelPlayer getCurrentPlayer() {
         if (turn == 1)
             return firstPlayer;
         return secondPlayer;

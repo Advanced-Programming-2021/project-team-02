@@ -28,6 +28,7 @@ public enum Error {
     INVALID_SELECTION("invalid selection"),
     CARD_NOT_FOUND("no card found in the given position"),
     NO_CARD_SELECTED_YET("no card is selected yet"),
+    EMPTY_GRAVEYARD("graveyard empty"),
     CAN_NOT_SUMMON("you can’t summon this card"),
     ACTION_NOT_ALLOWED("action not allowed in this phase"),
     MONSTER_ZONE_IS_FULL("monster card zone is full"),

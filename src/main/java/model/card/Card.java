@@ -65,11 +65,4 @@ public abstract class Card {
         }
         return null;
     }
-
 }
-/*
-user create --password ramz --username mhdsdt --nickname mahdis
-user login --password ramz --username mhdsdt
-menu enter shop
-
- */

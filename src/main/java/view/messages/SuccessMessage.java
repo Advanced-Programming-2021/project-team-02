@@ -16,7 +16,7 @@ public enum SuccessMessage {
     CARD_DESELECTED("card deselected"),
     PHASE_NAME("phase: %s\n"),
     CARD_ADDED_TO_THE_HAND("new card added to the hand: %s"),
-    PLAYERS_TURN("its %s’s turn"),
+    PLAYERS_TURN("its %s’s turn\n"),
     SUMMONED_SUCCESSFULLY("summoned successfully"),
     SET_SUCCESSFULLY("set successfully"),
     POSITION_CHANGED_SUCCESSFULLY("monster card position changed successfully"),

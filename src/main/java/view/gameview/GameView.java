@@ -2,6 +2,7 @@ package view.gameview;
 
 import controller.playgame.RoundGameController;
 import model.card.Card;
+import model.game.board.GraveYard;
 import view.input.Input;
 import view.input.Regex;
 import view.messages.Error;
@@ -54,6 +55,11 @@ public class GameView {
             controller.selectCardInHand (matcher);
         else if (Regex.getMatcher (Regex.BOARD_GAME_NEXT_PHASE, command).matches ())
             controller.nextPhase ();
+        else if (Regex.getMatcher (Regex.BOARD_GAME_SUMMON, command).matches ())
+            controller.summonMonster ();
+        else if (Regex.getMatcher (Regex.GRAVEYARD_SHOW, command).matches ())
+            instance.showGraveYard ();
+
     }
 
     public void showError(Error error) {
@@ -73,7 +79,7 @@ public class GameView {
     }
 
     public void showSuccessMessageWithAString(SuccessMessage message, String string) {
-
+        if (message.equals (SuccessMessage.PLAYERS_TURN)) System.out.printf (SuccessMessage.PLAYERS_TURN.getValue (), string);
     }
 
     public void showSuccessMessageWithAnInteger(SuccessMessage message, int number) {
@@ -89,7 +95,14 @@ public class GameView {
     }
 
     public void showGraveYard() {
-
+        int counter = 1;
+        if (controller.getCurrentPlayer().getPlayerBoard().isGraveYardEmpty ()) instance.showError (Error.EMPTY_GRAVEYARD);
+        else {
+            for (Card card : controller.getCurrentPlayer ().getPlayerBoard ().returnGraveYard ().getGraveYardCards ()) {
+                System.out.println (counter + ". " + card.getName () + ":" + card.getDescription ());
+                counter++;
+            }
+        }
     }
 
     public void showCard() {
