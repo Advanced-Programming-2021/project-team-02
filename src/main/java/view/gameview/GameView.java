@@ -50,7 +50,7 @@ public class GameView {
         else if (Regex.getMatcher (Regex.BOARD_GAME_SELECT_DESELECT, command).matches ())
             controller.deselectCard (1);
         else if (Regex.getMatcher (Regex.BOARD_GAME_SELECT_GRAVEYARD, command).matches ())
-            controller.selectPlayerGraveYard ();
+            controller.selectPlayerGraveYard();
         else if (Objects.requireNonNull (Regex.getMatcherFromAllPermutations (Regex.BOARD_GAME_SELECT_GRAVEYARD_OPPONENT, command)).matches ())
             controller.selectOpponentGraveYard ();
         else if ((matcher = Regex.getMatcher (Regex.BOARD_GAME_SELECT_HAND, command)).matches ())

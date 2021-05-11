@@ -181,7 +181,12 @@ public class RoundGameController {
         selectedCell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(selectedCellZone, address);
         view.showSuccessMessage(SuccessMessage.CARD_SELECTED);
     }
+    public void selectPlayerGraveYard(){
 
+    }
+    public void selectOpponentGraveYard(){
+
+    }
     public void showSelectedCard() {
         if (selectedCell == null) {
             if (opponentSelectedCell != null) {
