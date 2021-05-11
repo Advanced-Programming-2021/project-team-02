@@ -126,13 +126,15 @@ public class GameView {
     }
 
     public int getTributeAddress() {
-        System.out.println("Enter 2 numbers of monsters to tribute in 2 lines:");
+        System.out.println("Enter number of monster to tribute Or cancel to finish the process:");
         String command;
         while (true) {
             command = Input.getInput();
-            if (command.matches("\\d")) {
+            if (command.matches("[1-9]+")) {
                 return Integer.parseInt(command);
-            } else {
+            }else if (command.equals("cancel")){
+                return -1;
+            }else {
                 System.out.println(Error.INVALID_COMMAND.getValue());
             }
         }
@@ -287,6 +289,30 @@ public class GameView {
             if (command.matches("\\d")) {
                 return Integer.parseInt(command);
             } else System.out.println(Error.INVALID_COMMAND.getValue());
+        }
+    }
+    public int howToSummonBeastKingBarbos(){
+        System.out.println("how do you want to summon this card : " +
+                "1-normal tribute" +
+                ", 2-without tribute, 3-with 3 tributes\n" +
+                "enter the numebr please");
+        while (true){
+            String input = Input.getInput();
+            if (input.matches("[1-3]")){
+                return Integer.parseInt(input);
+            } else {
+                System.out.println(Error.INVALID_COMMAND.getValue());
+            }
+        }
+    }
+    public int chooseCardInHand(){
+        System.out.println("Enter address(number of it in your hand) of card to be set");
+        String input;
+        while (true){
+            input = Input.getInput();
+            if (input.matches("[1-9]+")){
+                return Integer.parseInt(input);
+            } else System.out.println(Error.INVALID_COMMAND);
         }
     }
 }

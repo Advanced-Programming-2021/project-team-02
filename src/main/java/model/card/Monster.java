@@ -106,4 +106,8 @@ public class Monster extends Card {
     public void changeDefensePower(int change) {
         defensePower += change;
     }
+
+    public MonsterEffect getMonsterEffect() {
+        return monsterEffect;
+    }
 }
