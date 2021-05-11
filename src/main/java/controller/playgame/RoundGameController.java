@@ -1667,7 +1667,7 @@ public class RoundGameController {
             checkDeathOfUnderFieldEffectCard((Monster) cell.getCardInCell());
             player.getPlayerBoard().removeMonsterFromBoardAndAddToGraveYard(address);
             return;
-        } else if (cell.getCardInCell().getCardType().equals(CardType.SPELL) || cell.getCardInCell().getCardType().equals(CardType.SPELL) ) {
+        } else if (cell.getCardInCell().getCardType().equals(CardType.SPELL) || cell.getCardInCell().getCardType().equals(CardType.TRAP) ) {
             //check related things
             player.getPlayerBoard().removeSpellOrTrapFromBoard(address);
             return;
