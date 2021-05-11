@@ -283,6 +283,7 @@ public class RoundGameController {
         }
         //getCurrentPlayer().getPlayerBoard().addMonsterToBoard((Monster) selectedCell.getCardInCell(), CellStatus.OFFENSIVE_OCCUPIED);
         //TODO special summon it!
+        deselectCard(0);
         return;
     }
 
@@ -295,10 +296,11 @@ public class RoundGameController {
                 } else {
                     addCardToGraveYard(Zone.HAND, address, getCurrentPlayer());
                     //TODO special summon it
+                    deselectCard(0);
                     return;
                 }
             }
-        } else tributeSummon();
+        }
     }
 
     private boolean isCurrentPlayerTrapToBeActivatedInSummonSituation() {
@@ -313,11 +315,7 @@ public class RoundGameController {
             Trap trap = (Trap) cell.getCardInCell();
             switch (trap.getTrapEffect()) {
                 case TORRENTIAL_TRIBUTE_EFFECT:
-                    if (view.yesNoQuestion("do you want to activate your trap and spell?")) {
-                        return true;
-                    } else {
-                        return false;
-                    }
+                    return view.yesNoQuestion("do you want to activate your trap and spell?");
             }
         }
         return false;
@@ -360,9 +358,7 @@ public class RoundGameController {
 
 
     private boolean isValidSituationForTrapHoleTrapEffect() {
-        if (((Monster) selectedCell.getCardInCell()).getAttackPower() > 1000)
-            return true;
-        return false;
+        return ((Monster) selectedCell.getCardInCell()).getAttackPower() > 1000;
     }
 
 
@@ -376,6 +372,7 @@ public class RoundGameController {
                 if (checkTrapCellToBeActivatedForOpponentInSummonSituation(address, cell))
                     return true;
                 else {
+                    //TODO check it
                 }
             } else
                 view.showError(Error.INVALID_NUMBER);
@@ -406,6 +403,7 @@ public class RoundGameController {
                 if (checkTrapCellToBeActivatedForCurrentPlayerInSummonSituation(address, cell))
                     return true;
                 else {
+                    //TODO check it
                 }
             } else
                 view.showError(Error.INVALID_NUMBER);
@@ -516,6 +514,7 @@ public class RoundGameController {
                             if (monster.getLevel() <= 4) {
                                 addCardToGraveYard(Zone.HAND, address, getCurrentPlayer());
                                 getCurrentPlayer().getPlayerBoard().addMonsterToBoard(monster, CellStatus.DEFENSIVE_HIDDEN);
+                                return;
                             } else view.showError(Error.INVALID_SELECTION);
                         } else view.showError(Error.INVALID_SELECTION);
                     } else view.showError(Error.INVALID_SELECTION);
@@ -666,7 +665,7 @@ public class RoundGameController {
         return false;
     }
 
-    public ArrayList subsetSums(int[] arr, int l, int r, int sum, ArrayList<Integer> sumOfSubsets) {
+    public ArrayList subsetSums(int[] arr, int l, int r, int sum, ArrayList<Integer> sumOfSubsets) {//TODO check --- pashmam ina che  esmaiye : |
         if (l > r) {
             sumOfSubsets.add(sum);
             return sumOfSubsets;
@@ -1375,6 +1374,7 @@ public class RoundGameController {
             } else {
                 manEaterBugMonsterEffectAndFlipSummon(getCurrentPlayer(), getOpponentPlayer());
             }
+            deselectCard(0);
         }
     }
 
