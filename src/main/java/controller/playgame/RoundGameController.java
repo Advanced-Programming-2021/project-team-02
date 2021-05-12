@@ -16,6 +16,7 @@ import view.messages.Error;
 import view.messages.SuccessMessage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -46,6 +47,8 @@ public class RoundGameController {
     private Card secondPlayerChangeOfHeartCard;
     private int firstPlayerUnitedWeStand;
     private int secondPlayerUnitedWeStand;
+    private HashMap<Card, Monster> firstPlayerHashmapForEquipSpells = new HashMap<>();
+    private HashMap<Card, Monster> secondPlayerHashmapForEquipSpells = new HashMap<>();
 
     static {
         instance = new RoundGameController();
@@ -58,6 +61,10 @@ public class RoundGameController {
 
     public DuelPlayer getFirstPlayer() {
         return firstPlayer;
+    }
+
+    public DuelPlayer getSecondPlayer() {
+        return secondPlayer;
     }
 
     public int getTurn() {
@@ -1732,6 +1739,7 @@ public class RoundGameController {
 
     private void swordOfDarkDestructionSpell() {
         // call remove TODO DAVOOD Use  addCardToGraveYard();
+        Card spellCard = selectedCell.getCardInCell();
         Monster monster;
         String cardName;
         while (true) {
@@ -1739,6 +1747,11 @@ public class RoundGameController {
             if (cardName == null) {
                 cancel();
                 return;
+            } else if (selectedCell.getCellStatus() != CellStatus.DEFENSIVE_OCCUPIED ||
+                    selectedCell.getCellStatus() != CellStatus.OFFENSIVE_OCCUPIED) {
+                view.showError(Error.DH_POSITION);
+            } else if (selectedCellZone != Zone.MONSTER_ZONE) {
+                view.showError(Error.CHOOSE_MONSTER_FROM_MONSTER_ZONE);
             } else if (Card.getCardByName(cardName) == null) view.showError(Error.WRONG_CARD_NAME);
             else {
                 monster = (Monster) Card.getCardByName(cardName);
@@ -1749,6 +1762,9 @@ public class RoundGameController {
         }
         monster.setAttackPower(monster.getAttackPower() + 400);
         monster.setDefensePower(monster.getDefensePower() - 200);
+        if (getCurrentPlayer() == firstPlayer) {
+            firstPlayerHashmapForEquipSpells.put(spellCard, monster);
+        } else secondPlayerHashmapForEquipSpells.put(spellCard, monster);
     }
 
     public void removeSwordOfDarkDestruction(Card card) {
@@ -1759,17 +1775,26 @@ public class RoundGameController {
 
     public void blackPendantSpell() {
         // call remove TODO DAVOOD Use  addCardToGraveYard();
+        Card spellCard = selectedCell.getCardInCell();
         String cardName;
         while (true) {
             cardName = view.blackPendant();
             if (cardName == null) {
                 cancel();
                 return;
+            } else if (selectedCell.getCellStatus() != CellStatus.DEFENSIVE_OCCUPIED ||
+                    selectedCell.getCellStatus() != CellStatus.OFFENSIVE_OCCUPIED) {
+                view.showError(Error.DH_POSITION);
+            } else if (selectedCellZone != Zone.MONSTER_ZONE) {
+                view.showError(Error.CHOOSE_MONSTER_FROM_MONSTER_ZONE);
             } else if (Card.getCardByName(cardName) == null) view.showError(Error.WRONG_CARD_NAME);
             else break;
         }
         Monster monster = (Monster) Card.getCardByName(cardName);
         Objects.requireNonNull(monster).setAttackPower((monster.getAttackPower()));
+        if (getCurrentPlayer() == firstPlayer) {
+            firstPlayerHashmapForEquipSpells.put(spellCard, monster);
+        } else secondPlayerHashmapForEquipSpells.put(spellCard, monster);
     }
 
     public void removeBlackPendant(Card card) {
@@ -1779,12 +1804,18 @@ public class RoundGameController {
 
     public void unitedWeStandSpell() {
         // call remove
+        Card spellCard = selectedCell.getCardInCell();
         String cardName;
         while (true) {
             cardName = view.blackPendant();
             if (cardName == null) {
                 cancel();
                 return;
+            } else if (selectedCell.getCellStatus() != CellStatus.DEFENSIVE_OCCUPIED ||
+                    selectedCell.getCellStatus() != CellStatus.OFFENSIVE_OCCUPIED) {
+                view.showError(Error.DH_POSITION);
+            } else if (selectedCellZone != Zone.MONSTER_ZONE) {
+                view.showError(Error.CHOOSE_MONSTER_FROM_MONSTER_ZONE);
             } else if (Card.getCardByName(cardName) == null) view.showError(Error.WRONG_CARD_NAME);
             else break;
         }
@@ -1800,6 +1831,9 @@ public class RoundGameController {
         Monster monster = (Monster) Card.getCardByName(cardName);
         Objects.requireNonNull(monster).setAttackPower(monster.getAttackPower() + number * 800);
         monster.setDefensePower(monster.getDefensePower() + number * 800);
+        if (getCurrentPlayer() == firstPlayer) {
+            firstPlayerHashmapForEquipSpells.put(spellCard, monster);
+        } else secondPlayerHashmapForEquipSpells.put(spellCard, monster);
     }
 
     public void removeUnitedWeStand(Card card) {
@@ -1814,6 +1848,7 @@ public class RoundGameController {
     }
 
     public void magnumShieldSpell() {
+        Card spellCard = selectedCell.getCardInCell();
         Monster monster;
         String cardName;
         while (true) {
@@ -1821,6 +1856,11 @@ public class RoundGameController {
             if (cardName == null) {
                 cancel();
                 return;
+            } else if (selectedCell.getCellStatus() != CellStatus.DEFENSIVE_OCCUPIED ||
+                    selectedCell.getCellStatus() != CellStatus.OFFENSIVE_OCCUPIED) {
+                view.showError(Error.DH_POSITION);
+            } else if (selectedCellZone != Zone.MONSTER_ZONE) {
+                view.showError(Error.CHOOSE_MONSTER_FROM_MONSTER_ZONE);
             } else if (Card.getCardByName(cardName) == null) view.showError(Error.WRONG_CARD_NAME);
             else if (selectedCell.getCellStatus() == CellStatus.DEFENSIVE_HIDDEN) view.showError(Error.DH_POSITION);
             else {
@@ -1834,6 +1874,9 @@ public class RoundGameController {
             monster.setAttackPower(monster.getDefensePower() + monster.getAttackPower());
         else if (selectedCell.getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED)
             monster.setDefensePower(monster.getDefensePower() + monster.getAttackPower());
+        if (getCurrentPlayer() == firstPlayer) {
+            firstPlayerHashmapForEquipSpells.put(spellCard, monster);
+        } else secondPlayerHashmapForEquipSpells.put(spellCard, monster);
     }
 
     public void timeSealTrap() {
@@ -1889,11 +1932,39 @@ public class RoundGameController {
     }
 
     private void addCardToGraveYard(Zone fromZone, int address, DuelPlayer player) {
-
         if (fromZone.equals(Zone.MONSTER_ZONE)) {
             Cell cell = player.getPlayerBoard().getACellOfBoard(fromZone, address);
             checkDeathOfUnderFieldEffectCard((Monster) cell.getCardInCell());
             player.getPlayerBoard().removeMonsterFromBoardAndAddToGraveYard(address);
+            if (player == firstPlayer) {
+                MonsterZone monsterZone = getFirstPlayer().getPlayerBoard().returnMonsterZone();
+                for (Card card : firstPlayerHashmapForEquipSpells.keySet()) {
+                    if (monsterZone.getCellWithAddress(address).getCardInCell().getName().equals(firstPlayerHashmapForEquipSpells.get(card).getName())) {
+                        SpellZone spellZone = getFirstPlayer().getPlayerBoard().returnSpellZone();
+                        int i = 0;
+                        while (spellZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i>= 5) {
+                            if (spellZone.getCellWithAddress(i).getCardInCell() == card) {
+                                addCardToGraveYard(Zone.SPELL_ZONE, i, firstPlayer);
+                            }
+                            i++;
+                        }
+                    }
+                }
+            } else {
+                MonsterZone monsterZone = getSecondPlayer().getPlayerBoard().returnMonsterZone();
+                for (Card card : secondPlayerHashmapForEquipSpells.keySet()) {
+                    if (monsterZone.getCellWithAddress(address).getCardInCell().getName().equals(secondPlayerHashmapForEquipSpells.get(card).getName())) {
+                        SpellZone spellZone = getSecondPlayer().getPlayerBoard().returnSpellZone();
+                        int i = 0;
+                        while (spellZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i>= 5) {
+                            if (spellZone.getCellWithAddress(i).getCardInCell() == card) {
+                                addCardToGraveYard(Zone.SPELL_ZONE, i,secondPlayer);
+                            }
+                            i++;
+                        }
+                    }
+                }
+            }
         } else if (fromZone.equals(Zone.SPELL_ZONE)) {
             Cell cell = player.getPlayerBoard().getACellOfBoard(fromZone, address);
             //check related things

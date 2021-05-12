@@ -215,7 +215,7 @@ public class GameView {
     }
 
     public String swordOfDarkDestruction() {
-        System.out.println("please enter card name :");
+        System.out.println("please enter card name (Card position should be OO or DO) :");
         while (true) {
             String command = Input.getInput();
             if (command.equals("cancel")) return null;

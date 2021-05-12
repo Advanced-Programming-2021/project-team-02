@@ -66,6 +66,7 @@ public enum Error {
     DH_POSITION("your monster is in DH position. please choose the right position"),
     CHOOSE_FIELD_SPELL("you should choose field spell"),
     PLACE_IS_EMPTY("there is no card in this place"),
+    CHOOSE_MONSTER_FROM_MONSTER_ZONE("you should choose monster from monster zone"),
     TYPE_FIEND_OT_SPELL_CASTER("your monster type should be fiend or spell caster"),
     ONLY_CAN_SHOW_OPPONENT_CARD("you only can show opponentCard");
 
