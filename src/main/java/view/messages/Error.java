@@ -63,6 +63,7 @@ public enum Error {
     INVALID_NUMBER("input number is not valid"),
     CANT_DIRECT_ATTACK("you can't direct attack now"),
     WRONG_CARD_NAME("there is no card with name you entered"),
+    DH_POSITION("your monster is in DH position"),
     CHOOSE_FIELD_SPELL("you should choose field spell"),
     TYPE_FIEND_OT_SPELL_CASTER("your monster type should be fiend or spell caster"),
     ONLY_CAN_SHOW_OPPONENT_CARD("you only can show opponentCard");

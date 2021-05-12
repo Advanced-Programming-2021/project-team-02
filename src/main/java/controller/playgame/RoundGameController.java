@@ -716,7 +716,8 @@ public class RoundGameController {
             view.showError(Error.ACTION_CAN_NOT_WORK_IN_THIS_PHASE);
         } else if (!(matcher.group("position").equals("attack") && selectedCell.getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED ||
                 matcher.group("position").equals("defense") && selectedCell.getCellStatus() == CellStatus.OFFENSIVE_OCCUPIED)) {
-            view.showError(Error.CURRENTLY_IN_POSITION);
+            if (selectedCell.getCellStatus() == CellStatus.DEFENSIVE_HIDDEN) view.showError(Error.DH_POSITION);
+            else view.showError(Error.CURRENTLY_IN_POSITION);
         } else if (hasCardChangedPosition()) {
             view.showError(Error.ALREADY_CHANGED_POSITION);
         } else {
