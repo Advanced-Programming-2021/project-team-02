@@ -1941,11 +1941,11 @@ public class RoundGameController {
             }
 
             switch (cardName) {
-                case "Ring of Defense" :
+                case "Ring of Defense":
                     ringOfDefenseSpell();
-                case "Mystical space typhoon" :
+                case "Mystical space typhoon":
                     mysticalSpaceTyphoonSpell();
-                case "Twin Twisters" :
+                case "Twin Twisters":
                     twinTwistersSpell();
             }
         }
@@ -1967,6 +1967,34 @@ public class RoundGameController {
             return secondPlayerHand;
         }
         return firstPlayerHand;
+    }
+
+    public void yomiShipMonster(Card attacker) {
+        MonsterZone monsterZone = getCurrentPlayer().getPlayerBoard().returnMonsterZone();
+        MonsterZone enemyMonsterZone = getOpponentPlayer().getPlayerBoard().returnMonsterZone();
+        for (int i = 0; monsterZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY; i++) {
+            if (monsterZone.getCellWithAddress(i).getCardInCell() == attacker)
+                addCardToGraveYard(Zone.MONSTER_ZONE, i, getCurrentPlayer());
+        }
+        for (int i = 0; enemyMonsterZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY; i++) {
+            if (enemyMonsterZone.getCellWithAddress(i).getCardInCell().getName().equals("Yomi Ship"))
+                addCardToGraveYard(Zone.MONSTER_ZONE, i, getOpponentPlayer());
+        }
+    }
+
+    public void alexandriteDragonMonster() {
+        int sumOfLevels = 0;
+        Monster monster;
+        MonsterZone monsterZone = getCurrentPlayer().getPlayerBoard().returnMonsterZone();
+        for (int i = 0; monsterZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY; i++) {
+            if (monsterZone.getCellWithAddress(i).getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED ||
+            monsterZone.getCellWithAddress(i).getCellStatus() == CellStatus.OFFENSIVE_OCCUPIED) {
+                monster = (Monster) monsterZone.getCellWithAddress(i).getCardInCell();
+                sumOfLevels += monster.getLevel();
+            }
+        }
+        monster = (Monster) selectedCell.getCardInCell();
+        monster.setAttackPower(monster.getAttackPower() + sumOfLevels * 300);
     }
 
     private void addCardToGraveYard(Zone fromZone, int address, DuelPlayer player) {
