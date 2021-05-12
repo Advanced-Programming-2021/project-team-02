@@ -1,6 +1,8 @@
 package controller.playgame;
 
+import model.Assets;
 import model.Deck;
+import model.User;
 import model.card.Card;
 import model.game.Duel;
 import model.game.DuelPlayer;
@@ -8,7 +10,10 @@ import view.Menu;
 import view.MenusManager;
 import view.gameview.GameView;
 import view.messages.Error;
+import view.messages.SuccessMessage;
 
+import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 import java.util.regex.Matcher;
 
@@ -46,11 +51,55 @@ public class DuelGameController {
     }
 
     public void checkGameResult(DuelPlayer winner) {
-        updateScoreAndCoin(duel.getPlayer1(), duel.getPlayer2());
+        if (duel.getNumberOfRounds() == 1) {
+            if (duel.getPlayer1() == winner)
+                updateScoreAndCoinForOneRound(duel.getPlayer1(), duel.getPlayer2());
+            else updateScoreAndCoinForOneRound(duel.getPlayer2(), duel.getPlayer1());
+        } else if (duel.getNumberOfRounds() == 3) {
+            if (duel.getPlayer1() == winner)
+                updateScoreAndCoinForThreeRounds(duel.getPlayer1(), duel.getPlayer2());
+            else updateScoreAndCoinForThreeRounds(duel.getPlayer2(), duel.getPlayer1());
+        }
     }
 
-    public void updateScoreAndCoin(DuelPlayer winner, DuelPlayer loser) {
+    public void updateScoreAndCoinForOneRound(DuelPlayer winner, DuelPlayer loser) {
+        if (winner == duel.getPlayer1()) {
+            Objects.requireNonNull(Assets.getAssetsByUsername(Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
+                    .getUsername())).setCoin(1000 + duel.maximumNumberOfLifePointsPlayer1());
+            Objects.requireNonNull(Assets.getAssetsByUsername(Objects.requireNonNull(User.getUserByNickName(loser.getNickname()))
+                    .getUsername())).setCoin(100);
+        } else if (winner == duel.getPlayer2()) {
+            Objects.requireNonNull(Assets.getAssetsByUsername(Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
+                    .getUsername())).setCoin(1000 + duel.maximumNumberOfLifePointsPlayer2());
+            Objects.requireNonNull(Assets.getAssetsByUsername(Objects.requireNonNull(User.getUserByNickName(loser.getNickname()))
+                    .getUsername())).setCoin(100);
+        }
+        view.showSuccessMessageWithTwoIntegerAndOneString(SuccessMessage.SURRENDER_MESSAGE, Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
+                        .getUsername(), Objects.requireNonNull(User.getUserByNickName(winner.getNickname())).getScore(),
+                Objects.requireNonNull(User.getUserByNickName(loser.getNickname())).getScore());
+    }
 
+    public void updateScoreAndCoinForThreeRounds(DuelPlayer winner, DuelPlayer loser) {
+        if (winner == duel.getPlayer1()) {
+            Objects.requireNonNull(Assets.getAssetsByUsername(Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
+                    .getUsername())).setCoin(3000 + 3 * duel.maximumNumberOfLifePointsPlayer1());
+            Objects.requireNonNull(Assets.getAssetsByUsername(Objects.requireNonNull(User.getUserByNickName(loser.getNickname()))
+                    .getUsername())).setCoin(300);
+        } else if (winner == duel.getPlayer2()) {
+            Objects.requireNonNull(Assets.getAssetsByUsername(Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
+                    .getUsername())).setCoin(3000 + 3 * duel.maximumNumberOfLifePointsPlayer2());
+            Objects.requireNonNull(Assets.getAssetsByUsername(Objects.requireNonNull(User.getUserByNickName(loser.getNickname()))
+                    .getUsername())).setCoin(300);
+        }
+        ArrayList<String> roundsWinner = duel.getWinner();
+        if (roundsWinner.get(0).equals(roundsWinner.get(1))) {
+            view.showSuccessMessageWithTwoIntegerAndOneStringForSeveralWins(SuccessMessage.SURRENDER_MESSAGE_FOR_HOLE_MATCH,
+                    Objects.requireNonNull(Objects.requireNonNull(User.getUserByNickName(winner.getNickname())).getUsername()),
+                    Objects.requireNonNull(User.getUserByNickName(winner.getNickname())).getScore(),
+                    Objects.requireNonNull(User.getUserByNickName(loser.getNickname())).getScore());
+        } else view.showSuccessMessageWithTwoIntegerAndOneString(SuccessMessage.SURRENDER_MESSAGE, Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
+                        .getUsername(), Objects.requireNonNull(User.getUserByNickName(winner.getNickname())).getScore(),
+                Objects.requireNonNull(User.getUserByNickName(loser.getNickname())).getScore());
     }
 
     public void changeCardBetweenDecks(Matcher matcher) {

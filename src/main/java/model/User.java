@@ -96,6 +96,13 @@ public class User implements Comparable<User> {
         return null;
     }
 
+    public static User getUserByNickName(String nickname) {
+        for (User user : allUsers) {
+            if (user.nickname.equals(nickname)) return user;
+        }
+        return null;
+    }
+
     @Override
     public int compareTo(User user) {
         if (score != user.score) return user.score - score;
@@ -117,5 +124,9 @@ public class User implements Comparable<User> {
 
     public void addScoreOfGame(int score) {
 
+    }
+
+    public void setScore(int score) {
+        this.score += score;
     }
 }

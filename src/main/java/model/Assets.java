@@ -32,6 +32,10 @@ public class Assets {
         this.username = username;
     }
 
+    public void setCoin(int coin) {
+        this.coin += coin;
+    }
+
     public Deck getDeckByDeckName(String name) {
         for (Deck deck : allDecks)
             if (deck.getName().equals(name)) return deck;
