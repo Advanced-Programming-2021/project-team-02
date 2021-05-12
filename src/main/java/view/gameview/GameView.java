@@ -63,8 +63,30 @@ public class GameView {
             controller.summonMonster ();
         else if (Regex.getMatcher (Regex.GRAVEYARD_SHOW, command).matches ())
             instance.showGraveYard ();
-        else if ((matcher = Regex.getMatcher (Regex.CARD_SHOW, command)).matches ())
-            instance.showCard (matcher.group ("cardName"));
+        else if (Regex.getMatcher (Regex.CARD_SHOW_SELECTED, command).matches ())
+            instance.showCard (controller.getSelectedCell ().getCardInCell ());
+        else if (Regex.getMatcher (Regex.BOARD_GAME_SUMMON, command).matches ())
+            controller.summonMonster ();
+        else if (Regex.getMatcher (Regex.BOARD_GAME_SET_MONSTER, command).matches ())
+            controller.setMonster ();
+        else if (Regex.getMatcher (Regex.BOARD_GAME_SET_SPELL, command).matches () || Regex.getMatcher (Regex.BOARD_GAME_SET_TRAP, command).matches ())
+            controller.setSpellOrTrap ();
+        else if ((matcher = Regex.getMatcher (Regex.BOARD_GAME_SET_POSITION, command)).matches ())
+            controller.changeMonsterPosition (matcher);
+        else if (Regex.getMatcher (Regex.BOARD_GAME_FLIP_SUMMON, command).matches ())
+            controller.flipSummon ();
+        else if ((matcher = Regex.getMatcher (Regex.BOARD_GAME_ATTACK, command)).matches ())
+            controller.attackToCard (matcher);
+        else if (Regex.getMatcher (Regex.BOARD_GAME_ATTACK_DIRECT, command).matches ())
+            controller.directAttack ();
+        else if (Regex.getMatcher (Regex.BOARD_GAME_ACTIVATE_EFFECT, command).matches ())
+            controller.activateEffectOfSpellOrTrap ();
+//        else if (Regex.getMatcher (Regex.BOARD_GAME_SURRENDER, command).matches ())
+//            controller.
+//        else if ((matcher = Regex.getMatcher (Regex.CHEAT_INCREASE_LP, command)).matches ())
+//            controller.
+        else if (Regex.getMatcher (Regex.COMMAND_CANCEL, command).matches ())
+            controller.cancel ();
     }
 
     public void showError(Error error) {
@@ -92,7 +114,17 @@ public class GameView {
     }
 
     public void showBoard() {
-
+        if (controller.getTurn () == 1) {
+            System.out.println (controller.getSecondPlayer ().getNickname () + ":" + controller.getSecondPlayer ().getLifePoint ());
+            if (controller.getSecondPlayerHand ().size () <= 6) {
+                for (int i = 0; i < 6 - controller.getSecondPlayerHand ().size (); i++) System.out.print ("\t");
+                for (int i = 0; i < controller.getSecondPlayerHand ().size (); i++) System.out.print ("c\t");
+            } else for (int i = 0; i < controller.getSecondPlayerHand ().size (); i++) System.out.print ("c\t");
+            System.out.print ("\n");
+            controller.getSecondPlayer ().getPlayDeck ();
+        } else {
+            System.out.println (controller.getFirstPlayer ().getNickname () + ":" + controller.getFirstPlayer ().getLifePoint ());
+        }
     }
 
     public void showPhase() {
@@ -110,8 +142,7 @@ public class GameView {
         }
     }
 
-    public void showCard(String cardName) {
-        Card card = Card.getCardByName (cardName);
+    public void showCard(Card card) {
         assert card != null;
         if (card.getCardType().equals(CardType.MONSTER)) {
             Monster monster = (Monster) card;

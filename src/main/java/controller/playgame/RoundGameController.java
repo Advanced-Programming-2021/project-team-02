@@ -56,8 +56,16 @@ public class RoundGameController {
         return firstPlayer;
     }
 
+    public DuelPlayer getSecondPlayer() {
+        return secondPlayer;
+    }
+
     public int getTurn() {
         return turn;
+    }
+
+    public Cell getSelectedCell() {
+        return selectedCell;
     }
 
     public Phase getCurrentPhase() {
@@ -193,13 +201,13 @@ public class RoundGameController {
     public void showSelectedCard() {
         if (selectedCell == null) {
             if (opponentSelectedCell != null) {
-                view.showCard(opponentSelectedCell.getCardInCell().getName());
+                view.showCard(opponentSelectedCell.getCardInCell());
             } else {
                 view.showError(Error.NO_CARD_SELECTED_YET);
                 return;
             }
         } else {
-            view.showCard(selectedCell.getCardInCell().getName());
+            view.showCard(selectedCell.getCardInCell());
         }
     }
 

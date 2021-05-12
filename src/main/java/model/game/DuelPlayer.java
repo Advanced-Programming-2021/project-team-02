@@ -50,4 +50,7 @@ public class DuelPlayer {
         this.lifePoint = lifePoint;
     }
 
+    public int getLifePoint() {
+        return lifePoint;
+    }
 }
