@@ -161,11 +161,11 @@ public class GameView {
 
     public Matcher monsterReborn() {
         System.out.println("Enter message in format :" +
-                "if you want from your grave yard :  card_name" +
-                "if you want from opponent grave yard :opponent card_name");
+                "if you want from your grave yard :  card_name card_position(only DO or OO)" +
+                "if you want from opponent grave yard :opponent card_name card_position(only DO or OO)");
         while (true) {
             String command = Input.getInput();
-            Pattern pattern = Pattern.compile("( |opponent) ([A-Za-z ',-]+?)");
+            Pattern pattern = Pattern.compile("( |opponent) ([A-Za-z ',-]+?) (DO|OO)");
             Matcher matcher = pattern.matcher(command);
             if (command.equals("cancel")) return null;
             else if (matcher.matches()) return matcher;
@@ -178,9 +178,17 @@ public class GameView {
         return Input.getInput();
     }
 
-    public String getCardNameForChangeOfHeart() {
-        System.out.println("please enter monster name for capturing this turn: ");
-        return Input.getInput();
+    public Matcher getCardNameForChangeOfHeart() {
+        System.out.println("please enter monster name and position for capturing this turn in this format:" +
+                "card_name card_position(only OO or DO)");
+        while (true) {
+            String command = Input.getInput();
+            Pattern pattern = Pattern.compile("([A-Za-z ',-]+?) (DO|OO)");
+            Matcher matcher = pattern.matcher(command);
+            if (command.equals("cancel")) return null;
+            else if (matcher.matches()) return matcher;
+            else System.out.println(Error.INVALID_COMMAND);
+        }
     }
 
     public Matcher getCardsNameTwinTwister() {
