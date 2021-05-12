@@ -729,7 +729,7 @@ public class RoundGameController {
         deselectCard(0);
     }
 
-    public void setSpellOrTrap(Matcher matcher) {
+    public void setSpellOrTrap() {
         if (selectedCell == null) {
             view.showError(Error.NO_CARD_SELECTED_YET);
         } else if (!selectedCellZone.equals(Zone.HAND)) {
@@ -745,9 +745,7 @@ public class RoundGameController {
             SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
             for (int i = 1; i <= 5; i++) {
                 if (spellZone.getCellWithAddress(i).getCellStatus() == CellStatus.EMPTY) {
-                    Card card = Card.getCardByName(matcher.group(1));
-                    spellZone.getCellWithAddress(i).setCardInCell(card);
-                    spellZone.getCellWithAddress(i).setCellStatus(CellStatus.HIDDEN);
+                    //TODO complete it
                 }
             }
             view.showSuccessMessage(SuccessMessage.SET_SUCCESSFULLY);
