@@ -265,7 +265,7 @@ public class RoundGameController {
     private void gateGaurdianEffect() {
         if (view.yesNoQuestion("do you want to tribute for GateGaurdian Special Summon")) {
             if (didTribute(3)) {
-                //TODO special summon gate gaurdian
+                specialSummon(selectedCell.getCardInCell(),CellStatus.OFFENSIVE_OCCUPIED);
             } else return;
         } else return;
     }
@@ -296,10 +296,8 @@ public class RoundGameController {
         if (fieldZoneSpell != null) {
             reversePreviousFieldZoneSpellEffectAndRemoveIt();
         }
-        //getCurrentPlayer().getPlayerBoard().addMonsterToBoard((Monster) selectedCell.getCardInCell(), CellStatus.OFFENSIVE_OCCUPIED);
-        //TODO special summon it!
+        specialSummon(selectedCell.getCardInCell(),CellStatus.OFFENSIVE_OCCUPIED);
         deselectCard(0);
-        return;
     }
 
     private void theTrickyEffect() {
@@ -310,7 +308,7 @@ public class RoundGameController {
                     view.showError(Error.INVALID_SELECTION);
                 } else {
                     addCardToGraveYard(Zone.HAND, address, getCurrentPlayer());
-                    //TODO special summon it
+                    specialSummon(selectedCell.getCardInCell(),CellStatus.OFFENSIVE_OCCUPIED);
                     deselectCard(0);
                     return;
                 }
@@ -1257,7 +1255,7 @@ public class RoundGameController {
         return true;
     }
 
-    private boolean isTrapToBeActivatedInAttackSituation() {//TODO destroy trap or spell after using
+    private boolean isTrapToBeActivatedInAttackSituation() {
         for (int i = 1; i <= 5; i++) {
             Cell cell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.SPELL_ZONE, i);
             if (cell.getCellStatus().equals(CellStatus.EMPTY)) {
