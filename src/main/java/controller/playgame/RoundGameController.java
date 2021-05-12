@@ -1947,6 +1947,12 @@ public class RoundGameController {
         }
     }
 
+    public void surrender() {
+        if (getCurrentPlayer() == firstPlayer) {
+            duelGameController.checkGameResult(secondPlayer);
+        } else duelGameController.checkGameResult(firstPlayer);
+    }
+
     public void specialSummon(Card card, CellStatus cellStatus) {
         MonsterZone monsterZone = getCurrentPlayer().getPlayerBoard().returnMonsterZone();
         monsterZone.addCard((Monster) card, cellStatus);

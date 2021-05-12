@@ -79,6 +79,14 @@ public class GameView {
 
     }
 
+    public void showSuccessMessageWithTwoIntegerAndOneString(SuccessMessage successMessage, String winnerUserName, int winnerScore, int loserScore) {
+
+    }
+
+    public void showSuccessMessageWithTwoIntegerAndOneStringForSeveralWins(SuccessMessage successMessage, String winnerUserName, int winnerScore, int loserScore) {
+
+    }
+
     public void showSuccessMessage(SuccessMessage message) {
         System.out.println(message.getValue());
     }

@@ -38,7 +38,8 @@ public enum SuccessMessage {
     TRAP_ACTIVATED("spell/trap activated"),
     COMPLETE_SPECIAL_SUMMON("you should special summon right now"),
     EMPTY_GRAVEYARD("graveyard empty"),
-    //SURRENDER_MESSAGES (2_MESSAGES),
+    SURRENDER_MESSAGE ("%s won the game and the score is: %d-%d"),
+    SURRENDER_MESSAGE_FOR_HOLE_MATCH("%s won the whole match with score: %d-%d"),
     TRIBUTE_SUMMON_ENTER_ADDRESS("Enter address Of Cards to Tribute");
     private String value;
 
