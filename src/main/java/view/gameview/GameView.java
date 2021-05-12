@@ -160,7 +160,7 @@ public class GameView {
     }
 
     public Matcher monsterReborn() {
-        System.out.println("Enter message in format :" +
+        System.out.println("Enter message in format and then select card:" +
                 "if you want from your grave yard :  card_name card_position(only DO or OO)" +
                 "if you want from opponent grave yard :opponent card_name card_position(only DO or OO)");
         while (true) {
@@ -174,12 +174,12 @@ public class GameView {
     }
 
     public String getCardNameForTerraForming() {
-        System.out.println("please enter field_spell name");
+        System.out.println("please enter field_spell name and then select card");
         return Input.getInput();
     }
 
     public Matcher getCardNameForChangeOfHeart() {
-        System.out.println("please enter monster name and position for capturing this turn in this format:" +
+        System.out.println("please enter monster name and position for capturing this turn in this format: and then select card" +
                 "card_name card_position(only OO or DO)");
         while (true) {
             String command = Input.getInput();
@@ -205,7 +205,7 @@ public class GameView {
     }
 
     public int mysticalSpaceTyphoon() {
-        System.out.println("please enter address of spell or trap");
+        System.out.println("please enter address of spell or trap and then select card");
         while (true) {
             String command = Input.getInput();
             if (command.equals("cancel")) return -1;
@@ -215,7 +215,7 @@ public class GameView {
     }
 
     public String swordOfDarkDestruction() {
-        System.out.println("please enter card name (Card position should be OO or DO) :");
+        System.out.println("please enter card name (Card position should be OO or DO) and then select card:");
         while (true) {
             String command = Input.getInput();
             if (command.equals("cancel")) return null;
@@ -225,7 +225,7 @@ public class GameView {
     }
 
     public String blackPendant() {
-        System.out.println("please enter card name :");
+        System.out.println("please enter card name and then select card:");
         while (true) {
             String command = Input.getInput();
             if (command.equals("cancel")) return null;
@@ -235,7 +235,7 @@ public class GameView {
     }
 
     public String unitedWeStand() {
-        System.out.println("please enter card name :");
+        System.out.println("please enter card name and then select card:");
         while (true) {
             String command = Input.getInput();
             if (command.equals("cancel")) return null;
@@ -245,9 +245,21 @@ public class GameView {
     }
 
     public String magnumShield() {
-        System.out.println("please enter card name :");
+        System.out.println("please enter card name and then select card:");
         while (true) {
             String command = Input.getInput();
+            if (command.equals("cancel")) return null;
+            else if (command.matches("([A-Za-z ',-]+?)")) return command;
+            else System.out.println(Error.INVALID_COMMAND);
+        }
+    }
+
+    public String quickSpellsSwitchCase() {
+        System.out.println("please enter card name in this format:" +
+                "card_name");;
+        String command;
+        while (true) {
+            command = Input.getInput();
             if (command.equals("cancel")) return null;
             else if (command.matches("([A-Za-z ',-]+?)")) return command;
             else System.out.println(Error.INVALID_COMMAND);

@@ -1807,7 +1807,7 @@ public class RoundGameController {
         Card spellCard = selectedCell.getCardInCell();
         String cardName;
         while (true) {
-            cardName = view.blackPendant();
+            cardName = view.unitedWeStand();
             if (cardName == null) {
                 cancel();
                 return;
@@ -1852,7 +1852,7 @@ public class RoundGameController {
         Monster monster;
         String cardName;
         while (true) {
-            cardName = view.swordOfDarkDestruction();
+            cardName = view.magnumShield();
             if (cardName == null) {
                 cancel();
                 return;
@@ -1919,6 +1919,34 @@ public class RoundGameController {
         this.swordsOfRevealingLightRounds = swordsOfRevealingLightRounds;
     }
 
+    public void quickSpellSwitchCase() {
+        if (view.yesNoQuestion("Do you want activate your quick spells?")) {
+            String cardName;
+            while (true) {
+                cardName = view.quickSpellsSwitchCase();
+                if (cardName == null) {
+                    cancel();
+                    return;
+                } else if (Card.getCardByName(cardName) == null) {
+                    view.showError(Error.WRONG_CARD_NAME);
+                } else if (selectedCellZone != Zone.SPELL_ZONE) {
+                    view.showError(Error.CHOOSE_SPELL_FROM_SPELL_ZONE);
+                } else {
+                    break;
+                }
+            }
+
+            switch (cardName) {
+                case "Ring of Defense" :
+                    ringOfDefenseSpell();
+                case "Mystical space typhoon" :
+                    mysticalSpaceTyphoonSpell();
+                case "Twin Twisters" :
+                    twinTwistersSpell();
+            }
+        }
+    }
+
     public void specialSummon(Card card, CellStatus cellStatus) {
         MonsterZone monsterZone = getCurrentPlayer().getPlayerBoard().returnMonsterZone();
         monsterZone.addCard((Monster) card, cellStatus);
@@ -1942,7 +1970,7 @@ public class RoundGameController {
                     if (monsterZone.getCellWithAddress(address).getCardInCell().getName().equals(firstPlayerHashmapForEquipSpells.get(card).getName())) {
                         SpellZone spellZone = getFirstPlayer().getPlayerBoard().returnSpellZone();
                         int i = 0;
-                        while (spellZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i>= 5) {
+                        while (spellZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i >= 5) {
                             if (spellZone.getCellWithAddress(i).getCardInCell() == card) {
                                 addCardToGraveYard(Zone.SPELL_ZONE, i, firstPlayer);
                             }
@@ -1956,9 +1984,9 @@ public class RoundGameController {
                     if (monsterZone.getCellWithAddress(address).getCardInCell().getName().equals(secondPlayerHashmapForEquipSpells.get(card).getName())) {
                         SpellZone spellZone = getSecondPlayer().getPlayerBoard().returnSpellZone();
                         int i = 0;
-                        while (spellZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i>= 5) {
+                        while (spellZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i >= 5) {
                             if (spellZone.getCellWithAddress(i).getCardInCell() == card) {
-                                addCardToGraveYard(Zone.SPELL_ZONE, i,secondPlayer);
+                                addCardToGraveYard(Zone.SPELL_ZONE, i, secondPlayer);
                             }
                             i++;
                         }
