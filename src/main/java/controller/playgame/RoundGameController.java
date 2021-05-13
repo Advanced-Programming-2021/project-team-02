@@ -1611,7 +1611,7 @@ public class RoundGameController {
                 if (getCurrentPlayer() == firstPlayer)
                     firstPlayerChangeOfHeartCard = Card.getCardByName(matcher.group(1));
                 else secondPlayerChangeOfHeartCard = Card.getCardByName(matcher.group(1));
-                getOpponentPlayer().getPlayerBoard().removeMonsterFromBoardAndAddToGraveYard(i);//TODO DAVOOD Use  addCardToGraveYard();
+                getOpponentPlayer().getPlayerBoard().returnMonsterZone().removeCard(i);
                 if (matcher.group(2).equals("OO"))
                     specialSummon(Card.getCardByName(matcher.group(1)), CellStatus.OFFENSIVE_OCCUPIED);
                 else if (matcher.group(2).equals("DO"))
@@ -1636,7 +1636,7 @@ public class RoundGameController {
             while (getOpponentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY) {
                 if (getOpponentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i)
                         .getCardInCell().getName().equals(firstPlayerChangeOfHeartCard.getName()))
-                    getOpponentPlayer().getPlayerBoard().removeMonsterFromBoardAndAddToGraveYard(i);//TODO DAVOOD Use  addCardToGraveYard();
+                    getOpponentPlayer().getPlayerBoard().returnMonsterZone().removeCard(i);
                 i++;
             }
         } else {
@@ -1645,7 +1645,7 @@ public class RoundGameController {
             while (getOpponentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY) {
                 if (getOpponentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).
                         getCardInCell().getName().equals(secondPlayerChangeOfHeartCard.getName()))
-                    getOpponentPlayer().getPlayerBoard().removeMonsterFromBoardAndAddToGraveYard(i);//TODO DAVOOD Use  addCardToGraveYard();
+                    getOpponentPlayer().getPlayerBoard().returnMonsterZone().removeCard(i);
                 i++;
             }
         }
@@ -1740,7 +1740,6 @@ public class RoundGameController {
     }
 
     private void swordOfDarkDestructionSpell() {
-        // call remove TODO DAVOOD Use  addCardToGraveYard();
         Card spellCard = selectedCell.getCardInCell();
         Monster monster;
         String cardName;
@@ -1776,7 +1775,6 @@ public class RoundGameController {
     }
 
     public void blackPendantSpell() {
-        // call remove TODO DAVOOD Use  addCardToGraveYard();
         Card spellCard = selectedCell.getCardInCell();
         String cardName;
         while (true) {
