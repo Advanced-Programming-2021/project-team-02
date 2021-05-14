@@ -217,51 +217,51 @@ public class GameView {
         return Input.getInput();
     }
 
-    public Matcher getCardNameForChangeOfHeart() {
-        System.out.println("please enter monster name and position for capturing this turn in this format: and then select card" +
-                "card_name card_position(only OO or DO)");
-        while (true) {
-            String command = Input.getInput();
-            Pattern pattern = Pattern.compile("([A-Za-z ',-]+?) (DO|OO)");
-            Matcher matcher = pattern.matcher(command);
-            if (command.equals("cancel")) return null;
-            else if (matcher.matches()) return matcher;
-            else System.out.println(Error.INVALID_COMMAND);
-        }
-    }
+//    public Matcher getCardNameForChangeOfHeart() {
+//        System.out.println("please enter monster name and position for capturing this turn in this format: and then select card" +
+//                "card_name card_position(only OO or DO)");
+//        while (true) {
+//            String command = Input.getInput();
+//            Pattern pattern = Pattern.compile("([A-Za-z ',-]+?) (DO|OO)");
+//            Matcher matcher = pattern.matcher(command);
+//            if (command.equals("cancel")) return null;
+//            else if (matcher.matches()) return matcher;
+//            else System.out.println(Error.INVALID_COMMAND);
+//        }
+//    }
 
-    public Matcher getCardsNameTwinTwister() {
-        System.out.println("enter names in this format :" +
-                "your_card_name opponent_card_name opponent_card_name");
-        while (true) {
-            String command = Input.getInput();
-            Pattern pattern = Pattern.compile("([A-Za-z ',-]+?) ([A-Za-z ',-]+?) ([A-Za-z ',-]+?)");
-            Matcher matcher = pattern.matcher(command);
-            if (command.equals("cancel")) return null;
-            if (matcher.matches()) return matcher;
-            else System.out.println(Error.INVALID_COMMAND);
-        }
-    }
+//    public Matcher getCardsNameTwinTwister() {
+//        System.out.println("enter names in this format :" +
+//                "your_card_name opponent_card_name opponent_card_name");
+//        while (true) {
+//            String command = Input.getInput();
+//            Pattern pattern = Pattern.compile("([A-Za-z ',-]+?) ([A-Za-z ',-]+?) ([A-Za-z ',-]+?)");
+//            Matcher matcher = pattern.matcher(command);
+//            if (command.equals("cancel")) return null;
+//            if (matcher.matches()) return matcher;
+//            else System.out.println(Error.INVALID_COMMAND);
+//        }
+//    }
 
-    public int mysticalSpaceTyphoon() {
-        System.out.println("please enter address of spell or trap and then select card");
-        while (true) {
-            String command = Input.getInput();
-            if (command.equals("cancel")) return -1;
-            else if (command.matches("([12345])")) return Integer.parseInt(command);
-            else System.out.println(Error.INVALID_COMMAND);
-        }
-    }
+//    public int mysticalSpaceTyphoon() {
+//        System.out.println("please enter address of spell or trap and then select card");
+//        while (true) {
+//            String command = Input.getInput();
+//            if (command.equals("cancel")) return -1;
+//            else if (command.matches("([12345])")) return Integer.parseInt(command);
+//            else System.out.println(Error.INVALID_COMMAND);
+//        }
+//    }
 
-    public String swordOfDarkDestruction() {
-        System.out.println("please enter card name (Card position should be OO or DO) and then select card:");
-        while (true) {
-            String command = Input.getInput();
-            if (command.equals("cancel")) return null;
-            else if (command.matches("([A-Za-z ',-]+?)")) return command;
-            else System.out.println(Error.INVALID_COMMAND);
-        }
-    }
+//    public String swordOfDarkDestruction() {
+//        System.out.println("please enter card name (Card position should be OO or DO) and then select card:");
+//        while (true) {
+//            String command = Input.getInput();
+//            if (command.equals("cancel")) return null;
+//            else if (command.matches("([A-Za-z ',-]+?)")) return command;
+//            else System.out.println(Error.INVALID_COMMAND);
+//        }
+//    }
 
     public String blackPendant() {
         System.out.println("please enter card name and then select card:");
@@ -273,37 +273,37 @@ public class GameView {
         }
     }
 
-    public String unitedWeStand() {
-        System.out.println("please enter card name and then select card:");
-        while (true) {
-            String command = Input.getInput();
-            if (command.equals("cancel")) return null;
-            else if (command.matches("([A-Za-z ',-]+?)")) return command;
-            else System.out.println(Error.INVALID_COMMAND);
-        }
-    }
+//    public String unitedWeStand() {
+//        System.out.println("please enter card name and then select card:");
+//        while (true) {
+//            String command = Input.getInput();
+//            if (command.equals("cancel")) return null;
+//            else if (command.matches("([A-Za-z ',-]+?)")) return command;
+//            else System.out.println(Error.INVALID_COMMAND);
+//        }
+//    }
 
-    public String magnumShield() {
-        System.out.println("please enter card name and then select card:");
-        while (true) {
-            String command = Input.getInput();
-            if (command.equals("cancel")) return null;
-            else if (command.matches("([A-Za-z ',-]+?)")) return command;
-            else System.out.println(Error.INVALID_COMMAND);
-        }
-    }
+//    public String magnumShield() {
+//        System.out.println("please enter card name and then select card:");
+//        while (true) {
+//            String command = Input.getInput();
+//            if (command.equals("cancel")) return null;
+//            else if (command.matches("([A-Za-z ',-]+?)")) return command;
+//            else System.out.println(Error.INVALID_COMMAND);
+//        }
+//    }
 
-    public String quickSpellsSwitchCase() {
-        System.out.println("please enter card name in this format:" +
-                "card_name");;
-        String command;
-        while (true) {
-            command = Input.getInput();
-            if (command.equals("cancel")) return null;
-            else if (command.matches("([A-Za-z ',-]+?)")) return command;
-            else System.out.println(Error.INVALID_COMMAND);
-        }
-    }
+//    public String quickSpellsSwitchCase() {
+//        System.out.println("please enter card name in this format:" +
+//                "card_name");;
+//        String command;
+//        while (true) {
+//            command = Input.getInput();
+//            if (command.equals("cancel")) return null;
+//            else if (command.matches("([A-Za-z ',-]+?)")) return command;
+//            else System.out.println(Error.INVALID_COMMAND);
+//        }
+//    }
 
     public int getAddressForTrapOrSpell() {
         System.out.println("enter address(number of cell between 1 to 5) of spell to be activated or write cancel if you dont want to activate anything");
@@ -325,17 +325,17 @@ public class GameView {
         return false;
     }
 
-    public String magicJammer() {
-        System.out.println("enter card name to remove from your hand");
-        while (true) {
-            String command = Input.getInput();
-            if (command.equals("cancel")) {
-                return null;
-            } else if (command.matches("([A-Za-z ',-]+?)")) {
-                return command;
-            } else System.out.println(Error.INVALID_COMMAND);
-        }
-    }
+//    public String magicJammer() {
+//        System.out.println("enter card name to remove from your hand");
+//        while (true) {
+//            String command = Input.getInput();
+//            if (command.equals("cancel")) {
+//                return null;
+//            } else if (command.matches("([A-Za-z ',-]+?)")) {
+//                return command;
+//            } else System.out.println(Error.INVALID_COMMAND);
+//        }
+//    }
 
     public String askCardName() {
         return Input.getInput();

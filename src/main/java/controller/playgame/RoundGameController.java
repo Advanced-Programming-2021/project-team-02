@@ -827,36 +827,36 @@ public class RoundGameController {
             case RAIGEKI_EFFECT:
                 raigekiSpell();
                 break;
-            case CHANGE_OF_HEART_EFFECT:
-                changeOfHeartSpell();
-                break;
+//            case CHANGE_OF_HEART_EFFECT:
+//                changeOfHeartSpell();
+//                break;
             case HARPIES_FEATHER_DUSTER_EFFECT:
                 harpiesFeatherDusterSpell();
                 break;
             case DARK_HOLE_EFFECT:
                 darkHoleSpell();
                 break;
-            case SPELL_ABSORPTION_EFFECT:
-                spellAbsorptionSpell();
-                break;
-            case TWIN_TWISTERS_EFFECT:
-                twinTwistersSpell();
-                break;
-            case MYSTICAL_SPACE_TYPHOON_EFFECT:
-                mysticalSpaceTyphoonSpell();
-                break;
+//            case SPELL_ABSORPTION_EFFECT:
+//                spellAbsorptionSpell();
+//                break;
+//            case TWIN_TWISTERS_EFFECT:
+//                twinTwistersSpell();
+//                break;
+//            case MYSTICAL_SPACE_TYPHOON_EFFECT:
+//                mysticalSpaceTyphoonSpell();
+//                break;
             case SWORD_OF_DARK_DESTRUCTION_EFFECT:
                 swordOfDarkDestructionSpell();
                 break;
             case BLACK_PENDANT_EFFECT:
                 blackPendantSpell();
                 break;
-            case UNITED_WE_STAND_EFFECT:
-                unitedWeStandSpell();
-                break;
-            case MAGNUM_SHIELD_EFFECT:
-                magnumShieldSpell();
-                break;
+//            case UNITED_WE_STAND_EFFECT:
+//                unitedWeStandSpell();
+//                break;
+//            case MAGNUM_SHIELD_EFFECT:
+//                magnumShieldSpell();
+//                break;
         }
     }
 
@@ -1591,65 +1591,65 @@ public class RoundGameController {
         }
     }
 
-    public void changeOfHeartSpell() {
-        Matcher matcher;
-        while (true) {
-            matcher = view.getCardNameForChangeOfHeart();
-            if (matcher.group(1).equals("cancel")) {
-                cancel();
-                return;
-            } else if (matcher.group(1) == null)
-                view.showError(Error.WRONG_CARD_NAME);
-            else if (!(matcher.group(2).equals("OO") || matcher.group(2).equals("DO")))
-                view.showError(Error.DH_POSITION);
-            else break;
-        }
-        MonsterZone monsterZone = getOpponentPlayer().getPlayerBoard().returnMonsterZone();
-        int i = 0;
-        while (monsterZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i >= 5) {
-            if (monsterZone.getCellWithAddress(i).getCardInCell().getName().equals(matcher.group(1))) {
-                if (getCurrentPlayer() == firstPlayer)
-                    firstPlayerChangeOfHeartCard = Card.getCardByName(matcher.group(1));
-                else secondPlayerChangeOfHeartCard = Card.getCardByName(matcher.group(1));
-                getOpponentPlayer().getPlayerBoard().returnMonsterZone().removeCard(i);
-                if (matcher.group(2).equals("OO"))
-                    specialSummon(Card.getCardByName(matcher.group(1)), CellStatus.OFFENSIVE_OCCUPIED);
-                else if (matcher.group(2).equals("DO"))
-                    specialSummon(Card.getCardByName(matcher.group(1)), CellStatus.DEFENSIVE_OCCUPIED);
-                break;
-            }
-            i++;
-        }
-        SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
-        int j = 0;
-        while (spellZone.getCellWithAddress(j).getCellStatus() != CellStatus.EMPTY || j >= 5) {
-            if (spellZone.getCellWithAddress(j).getCardInCell().getName().equals("Change of Heart"))
-                addCardToGraveYard(Zone.SPELL_ZONE, j, getCurrentPlayer());
-            j++;
-        }
-    }
+//    public void changeOfHeartSpell() {
+//        Matcher matcher;
+//        while (true) {
+//            matcher = view.getCardNameForChangeOfHeart();
+//            if (matcher.group(1).equals("cancel")) {
+//                cancel();
+//                return;
+//            } else if (matcher.group(1) == null)
+//                view.showError(Error.WRONG_CARD_NAME);
+//            else if (!(matcher.group(2).equals("OO") || matcher.group(2).equals("DO")))
+//                view.showError(Error.DH_POSITION);
+//            else break;
+//        }
+//        MonsterZone monsterZone = getOpponentPlayer().getPlayerBoard().returnMonsterZone();
+//        int i = 0;
+//        while (monsterZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i >= 5) {
+//            if (monsterZone.getCellWithAddress(i).getCardInCell().getName().equals(matcher.group(1))) {
+//                if (getCurrentPlayer() == firstPlayer)
+//                    firstPlayerChangeOfHeartCard = Card.getCardByName(matcher.group(1));
+//                else secondPlayerChangeOfHeartCard = Card.getCardByName(matcher.group(1));
+//                getOpponentPlayer().getPlayerBoard().returnMonsterZone().removeCard(i);
+//                if (matcher.group(2).equals("OO"))
+//                    specialSummon(Card.getCardByName(matcher.group(1)), CellStatus.OFFENSIVE_OCCUPIED);
+//                else if (matcher.group(2).equals("DO"))
+//                    specialSummon(Card.getCardByName(matcher.group(1)), CellStatus.DEFENSIVE_OCCUPIED);
+//                break;
+//            }
+//            i++;
+//        }
+//        SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
+//        int j = 0;
+//        while (spellZone.getCellWithAddress(j).getCellStatus() != CellStatus.EMPTY || j >= 5) {
+//            if (spellZone.getCellWithAddress(j).getCardInCell().getName().equals("Change of Heart"))
+//                addCardToGraveYard(Zone.SPELL_ZONE, j, getCurrentPlayer());
+//            j++;
+//        }
+//    }
 
-    private void removeChangeOfHearts() {
-        if (getCurrentPlayer() == firstPlayer) {
-            getCurrentPlayer().getPlayerBoard().addMonsterToBoard((Monster) firstPlayerChangeOfHeartCard, CellStatus.OFFENSIVE_OCCUPIED);
-            int i = 0;
-            while (getOpponentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY) {
-                if (getOpponentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i)
-                        .getCardInCell().getName().equals(firstPlayerChangeOfHeartCard.getName()))
-                    getOpponentPlayer().getPlayerBoard().returnMonsterZone().removeCard(i);
-                i++;
-            }
-        } else {
-            getCurrentPlayer().getPlayerBoard().addMonsterToBoard((Monster) secondPlayerChangeOfHeartCard, CellStatus.OFFENSIVE_OCCUPIED);
-            int i = 0;
-            while (getOpponentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY) {
-                if (getOpponentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).
-                        getCardInCell().getName().equals(secondPlayerChangeOfHeartCard.getName()))
-                    getOpponentPlayer().getPlayerBoard().returnMonsterZone().removeCard(i);
-                i++;
-            }
-        }
-    }
+//    private void removeChangeOfHearts() {
+//        if (getCurrentPlayer() == firstPlayer) {
+//            getCurrentPlayer().getPlayerBoard().addMonsterToBoard((Monster) firstPlayerChangeOfHeartCard, CellStatus.OFFENSIVE_OCCUPIED);
+//            int i = 0;
+//            while (getOpponentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY) {
+//                if (getOpponentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i)
+//                        .getCardInCell().getName().equals(firstPlayerChangeOfHeartCard.getName()))
+//                    getOpponentPlayer().getPlayerBoard().returnMonsterZone().removeCard(i);
+//                i++;
+//            }
+//        } else {
+//            getCurrentPlayer().getPlayerBoard().addMonsterToBoard((Monster) secondPlayerChangeOfHeartCard, CellStatus.OFFENSIVE_OCCUPIED);
+//            int i = 0;
+//            while (getOpponentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY) {
+//                if (getOpponentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).
+//                        getCardInCell().getName().equals(secondPlayerChangeOfHeartCard.getName()))
+//                    getOpponentPlayer().getPlayerBoard().returnMonsterZone().removeCard(i);
+//                i++;
+//            }
+//        }
+//    }
 
     private void harpiesFeatherDusterSpell() {
         int i = 0;
@@ -1666,8 +1666,8 @@ public class RoundGameController {
         }
     }
 
-    public void swordsOfRevealingLightSpell() {
-    }
+//    public void swordsOfRevealingLightSpell() {
+//    }
 
     public void darkHoleSpell() {
         int i = 0;
@@ -1689,55 +1689,55 @@ public class RoundGameController {
         }
     }
 
-    public void spellAbsorptionSpell() {
-        // call it each time you active an effect
-        getCurrentPlayer().increaseLP(500);
-    }
+//    public void spellAbsorptionSpell() {
+//        // call it each time you active an effect
+//        getCurrentPlayer().increaseLP(500);
+//    }
 
-    public void twinTwistersSpell() {
-        Matcher matcher;
-        while (true) {
-            matcher = view.getCardsNameTwinTwister();
-            if (matcher == null) {
-                cancel();
-                return;
-            } else if (Card.getCardByName(matcher.group(1)) == null || Card.getCardByName(matcher.group(2)) == null
-                    || Card.getCardByName(matcher.group(3)) == null) view.showError(Error.WRONG_CARD_NAME);
-            else break;
-        }
-        List<Card> playerHand = getCurrentPlayerHand();
-        for (int i = 0; playerHand.get(i) != null; i++) {
-            if (playerHand.get(i).getName().equals(matcher.group(1)))
-                addCardToGraveYard(Zone.HAND, i, getCurrentPlayer());
-        }
-        addCardToGraveYard(Zone.SPELL_ZONE, Integer.parseInt(matcher.group(2)), getOpponentPlayer());
-        addCardToGraveYard(Zone.SPELL_ZONE, Integer.parseInt(matcher.group(3)), getOpponentPlayer());
-        SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
-        int j = 0;
-        while (spellZone.getCellWithAddress(j).getCellStatus() != CellStatus.EMPTY || j >= 5) {
-            if (spellZone.getCellWithAddress(j).getCardInCell().getName().equals("Twin Twisters"))
-                addCardToGraveYard(Zone.SPELL_ZONE, j, getCurrentPlayer());
-            j++;
-        }
-    }
+//    public void twinTwistersSpell() {
+//        Matcher matcher;
+//        while (true) {
+//            matcher = view.getCardsNameTwinTwister();
+//            if (matcher == null) {
+//                cancel();
+//                return;
+//            } else if (Card.getCardByName(matcher.group(1)) == null || Card.getCardByName(matcher.group(2)) == null
+//                    || Card.getCardByName(matcher.group(3)) == null) view.showError(Error.WRONG_CARD_NAME);
+//            else break;
+//        }
+//        List<Card> playerHand = getCurrentPlayerHand();
+//        for (int i = 0; playerHand.get(i) != null; i++) {
+//            if (playerHand.get(i).getName().equals(matcher.group(1)))
+//                addCardToGraveYard(Zone.HAND, i, getCurrentPlayer());
+//        }
+//        addCardToGraveYard(Zone.SPELL_ZONE, Integer.parseInt(matcher.group(2)), getOpponentPlayer());
+//        addCardToGraveYard(Zone.SPELL_ZONE, Integer.parseInt(matcher.group(3)), getOpponentPlayer());
+//        SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
+//        int j = 0;
+//        while (spellZone.getCellWithAddress(j).getCellStatus() != CellStatus.EMPTY || j >= 5) {
+//            if (spellZone.getCellWithAddress(j).getCardInCell().getName().equals("Twin Twisters"))
+//                addCardToGraveYard(Zone.SPELL_ZONE, j, getCurrentPlayer());
+//            j++;
+//        }
+//    }
 
-    public void mysticalSpaceTyphoonSpell() {
-        int cardPlace;
-        while (true) {
-            cardPlace = view.mysticalSpaceTyphoon();
-            if (cardPlace == -1) {
-                cancel();
-                return;
-            } else if (getOpponentPlayer().getPlayerBoard().returnSpellZone().getCellWithAddress(cardPlace)
-                    .getCellStatus() == CellStatus.EMPTY) view.showError(Error.PLACE_IS_EMPTY);
-            else break;
-        }
-        addCardToGraveYard(Zone.SPELL_ZONE, cardPlace, getOpponentPlayer());
-    }
+//    public void mysticalSpaceTyphoonSpell() {
+//        int cardPlace;
+//        while (true) {
+//            cardPlace = view.mysticalSpaceTyphoon();
+//            if (cardPlace == -1) {
+//                cancel();
+//                return;
+//            } else if (getOpponentPlayer().getPlayerBoard().returnSpellZone().getCellWithAddress(cardPlace)
+//                    .getCellStatus() == CellStatus.EMPTY) view.showError(Error.PLACE_IS_EMPTY);
+//            else break;
+//        }
+//        addCardToGraveYard(Zone.SPELL_ZONE, cardPlace, getOpponentPlayer());
+//    }
 
-    public void ringOfDefenseSpell() {
-
-    }
+//    public void ringOfDefenseSpell() {
+//
+//    }
 
     private void swordOfDarkDestructionSpell() {
         Card spellCard = selectedCell.getCardInCell();
@@ -1802,150 +1802,150 @@ public class RoundGameController {
         monster.setAttackPower(monster.getAttackPower() - 500);
     }
 
-    public void unitedWeStandSpell() {
-        // call remove
-        Card spellCard = selectedCell.getCardInCell();
-        String cardName;
-        while (true) {
-            cardName = view.unitedWeStand();
-            if (cardName == null) {
-                cancel();
-                return;
-            } else if (selectedCell.getCellStatus() != CellStatus.DEFENSIVE_OCCUPIED ||
-                    selectedCell.getCellStatus() != CellStatus.OFFENSIVE_OCCUPIED) {
-                view.showError(Error.DH_POSITION);
-            } else if (selectedCellZone != Zone.MONSTER_ZONE) {
-                view.showError(Error.CHOOSE_MONSTER_FROM_MONSTER_ZONE);
-            } else if (Card.getCardByName(cardName) == null) view.showError(Error.WRONG_CARD_NAME);
-            else break;
-        }
-        int i = 0, number = 0;
-        while (getCurrentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i >= 5) {
-            if (getCurrentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).getCellStatus() == CellStatus.OFFENSIVE_OCCUPIED
-                    || getCurrentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED)
-                number++;
-            i++;
-        }
-        if (getCurrentPlayer() == firstPlayer) firstPlayerUnitedWeStand = number;
-        else secondPlayerUnitedWeStand = number;
-        Monster monster = (Monster) Card.getCardByName(cardName);
-        Objects.requireNonNull(monster).setAttackPower(monster.getAttackPower() + number * 800);
-        monster.setDefensePower(monster.getDefensePower() + number * 800);
-        if (getCurrentPlayer() == firstPlayer) {
-            firstPlayerHashmapForEquipSpells.put(spellCard, monster);
-        } else secondPlayerHashmapForEquipSpells.put(spellCard, monster);
-    }
+//    public void unitedWeStandSpell() {
+//        // call remove
+//        Card spellCard = selectedCell.getCardInCell();
+//        String cardName;
+//        while (true) {
+//            cardName = view.unitedWeStand();
+//            if (cardName == null) {
+//                cancel();
+//                return;
+//            } else if (selectedCell.getCellStatus() != CellStatus.DEFENSIVE_OCCUPIED ||
+//                    selectedCell.getCellStatus() != CellStatus.OFFENSIVE_OCCUPIED) {
+//                view.showError(Error.DH_POSITION);
+//            } else if (selectedCellZone != Zone.MONSTER_ZONE) {
+//                view.showError(Error.CHOOSE_MONSTER_FROM_MONSTER_ZONE);
+//            } else if (Card.getCardByName(cardName) == null) view.showError(Error.WRONG_CARD_NAME);
+//            else break;
+//        }
+//        int i = 0, number = 0;
+//        while (getCurrentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i >= 5) {
+//            if (getCurrentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).getCellStatus() == CellStatus.OFFENSIVE_OCCUPIED
+//                    || getCurrentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED)
+//                number++;
+//            i++;
+//        }
+//        if (getCurrentPlayer() == firstPlayer) firstPlayerUnitedWeStand = number;
+//        else secondPlayerUnitedWeStand = number;
+//        Monster monster = (Monster) Card.getCardByName(cardName);
+//        Objects.requireNonNull(monster).setAttackPower(monster.getAttackPower() + number * 800);
+//        monster.setDefensePower(monster.getDefensePower() + number * 800);
+//        if (getCurrentPlayer() == firstPlayer) {
+//            firstPlayerHashmapForEquipSpells.put(spellCard, monster);
+//        } else secondPlayerHashmapForEquipSpells.put(spellCard, monster);
+//    }
 
-    public void removeUnitedWeStand(Card card) {
-        Monster monster = (Monster) card;
-        if (getCurrentPlayer() == firstPlayer) {
-            Objects.requireNonNull(monster).setAttackPower(monster.getAttackPower() - firstPlayerUnitedWeStand * 800);
-            monster.setDefensePower(monster.getDefensePower() - firstPlayerUnitedWeStand * 800);
-        } else {
-            Objects.requireNonNull(monster).setAttackPower(monster.getAttackPower() - secondPlayerUnitedWeStand * 800);
-            monster.setDefensePower(monster.getDefensePower() - secondPlayerUnitedWeStand * 800);
-        }
-    }
+//    public void removeUnitedWeStand(Card card) {
+//        Monster monster = (Monster) card;
+//        if (getCurrentPlayer() == firstPlayer) {
+//            Objects.requireNonNull(monster).setAttackPower(monster.getAttackPower() - firstPlayerUnitedWeStand * 800);
+//            monster.setDefensePower(monster.getDefensePower() - firstPlayerUnitedWeStand * 800);
+//        } else {
+//            Objects.requireNonNull(monster).setAttackPower(monster.getAttackPower() - secondPlayerUnitedWeStand * 800);
+//            monster.setDefensePower(monster.getDefensePower() - secondPlayerUnitedWeStand * 800);
+//        }
+//    }
 
-    public void magnumShieldSpell() {
-        Card spellCard = selectedCell.getCardInCell();
-        Monster monster;
-        String cardName;
-        while (true) {
-            cardName = view.magnumShield();
-            if (cardName == null) {
-                cancel();
-                return;
-            } else if (selectedCell.getCellStatus() != CellStatus.DEFENSIVE_OCCUPIED ||
-                    selectedCell.getCellStatus() != CellStatus.OFFENSIVE_OCCUPIED) {
-                view.showError(Error.DH_POSITION);
-            } else if (selectedCellZone != Zone.MONSTER_ZONE) {
-                view.showError(Error.CHOOSE_MONSTER_FROM_MONSTER_ZONE);
-            } else if (Card.getCardByName(cardName) == null) view.showError(Error.WRONG_CARD_NAME);
-            else if (selectedCell.getCellStatus() == CellStatus.DEFENSIVE_HIDDEN) view.showError(Error.DH_POSITION);
-            else {
-                monster = (Monster) Card.getCardByName(cardName);
-                if (Objects.requireNonNull(monster).getMonsterType() == MonsterType.WARRIOR)
-                    break;
-            }
-            view.showError(Error.TYPE_FIEND_OT_SPELL_CASTER);
-        }
-        if (selectedCell.getCellStatus() == CellStatus.OFFENSIVE_OCCUPIED)
-            monster.setAttackPower(monster.getDefensePower() + monster.getAttackPower());
-        else if (selectedCell.getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED)
-            monster.setDefensePower(monster.getDefensePower() + monster.getAttackPower());
-        if (getCurrentPlayer() == firstPlayer) {
-            firstPlayerHashmapForEquipSpells.put(spellCard, monster);
-        } else secondPlayerHashmapForEquipSpells.put(spellCard, monster);
-    }
+//    public void magnumShieldSpell() {
+//        Card spellCard = selectedCell.getCardInCell();
+//        Monster monster;
+//        String cardName;
+//        while (true) {
+//            cardName = view.magnumShield();
+//            if (cardName == null) {
+//                cancel();
+//                return;
+//            } else if (selectedCell.getCellStatus() != CellStatus.DEFENSIVE_OCCUPIED ||
+//                    selectedCell.getCellStatus() != CellStatus.OFFENSIVE_OCCUPIED) {
+//                view.showError(Error.DH_POSITION);
+//            } else if (selectedCellZone != Zone.MONSTER_ZONE) {
+//                view.showError(Error.CHOOSE_MONSTER_FROM_MONSTER_ZONE);
+//            } else if (Card.getCardByName(cardName) == null) view.showError(Error.WRONG_CARD_NAME);
+//            else if (selectedCell.getCellStatus() == CellStatus.DEFENSIVE_HIDDEN) view.showError(Error.DH_POSITION);
+//            else {
+//                monster = (Monster) Card.getCardByName(cardName);
+//                if (Objects.requireNonNull(monster).getMonsterType() == MonsterType.WARRIOR)
+//                    break;
+//            }
+//            view.showError(Error.TYPE_FIEND_OT_SPELL_CASTER);
+//        }
+//        if (selectedCell.getCellStatus() == CellStatus.OFFENSIVE_OCCUPIED)
+//            monster.setAttackPower(monster.getDefensePower() + monster.getAttackPower());
+//        else if (selectedCell.getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED)
+//            monster.setDefensePower(monster.getDefensePower() + monster.getAttackPower());
+//        if (getCurrentPlayer() == firstPlayer) {
+//            firstPlayerHashmapForEquipSpells.put(spellCard, monster);
+//        } else secondPlayerHashmapForEquipSpells.put(spellCard, monster);
+//    }
 
     public void timeSealTrap() {
 
     }
 
-    public void magicJammerTrap(Card card) {
-        // after enemy activate spell
-        String cardName;
-        while (true) {
-            cardName = view.magicJammer();
-            if (cardName == null) {
-                cancel();
-                return;
-            } else if (Card.getCardByName(cardName) == null) view.showError(Error.WRONG_CARD_NAME);
-            else if (getCurrentPlayerHand().contains(Card.getCardByName(cardName))) {
-                List<Card> playerHand = getCurrentPlayerHand();
-                for (int i = 0; playerHand.get(i) != null; i++) {
-                    if (playerHand.get(i).getName().equals(cardName))
-                        addCardToGraveYard(Zone.HAND, i, getCurrentPlayer());
-                }
-                break;
-            }
-        }
-        SpellZone spellZone = getOpponentPlayer().getPlayerBoard().returnSpellZone();
-        int i = 0;
-        while (spellZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i >= 5) {
-            if (card.getName().equals(spellZone.getCellWithAddress(i).getCardInCell().getName()))
-                addCardToGraveYard(Zone.SPELL_ZONE, i, getCurrentPlayer());
-            i++;
-        }
+//    public void magicJammerTrap(Card card) {
+//        // after enemy activate spell
+//        String cardName;
+//        while (true) {
+//            cardName = view.magicJammer();
+//            if (cardName == null) {
+//                cancel();
+//                return;
+//            } else if (Card.getCardByName(cardName) == null) view.showError(Error.WRONG_CARD_NAME);
+//            else if (getCurrentPlayerHand().contains(Card.getCardByName(cardName))) {
+//                List<Card> playerHand = getCurrentPlayerHand();
+//                for (int i = 0; playerHand.get(i) != null; i++) {
+//                    if (playerHand.get(i).getName().equals(cardName))
+//                        addCardToGraveYard(Zone.HAND, i, getCurrentPlayer());
+//                }
+//                break;
+//            }
+//        }
+//        SpellZone spellZone = getOpponentPlayer().getPlayerBoard().returnSpellZone();
+//        int i = 0;
+//        while (spellZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i >= 5) {
+//            if (card.getName().equals(spellZone.getCellWithAddress(i).getCardInCell().getName()))
+//                addCardToGraveYard(Zone.SPELL_ZONE, i, getCurrentPlayer());
+//            i++;
+//        }
+//
+//    }
 
-    }
+//    public int getSwordsOfRevealingLightRounds() {
+//        return swordsOfRevealingLightRounds;
+//    }
 
-    public int getSwordsOfRevealingLightRounds() {
-        return swordsOfRevealingLightRounds;
-    }
+//    public void setSwordsOfRevealingLightRounds(int swordsOfRevealingLightRounds) {
+//        this.swordsOfRevealingLightRounds = swordsOfRevealingLightRounds;
+//    }
 
-    public void setSwordsOfRevealingLightRounds(int swordsOfRevealingLightRounds) {
-        this.swordsOfRevealingLightRounds = swordsOfRevealingLightRounds;
-    }
-
-    public void quickSpellSwitchCase() {
-        if (view.yesNoQuestion("Do you want activate your quick spells?")) {
-            String cardName;
-            while (true) {
-                cardName = view.quickSpellsSwitchCase();
-                if (cardName == null) {
-                    cancel();
-                    return;
-                } else if (Card.getCardByName(cardName) == null) {
-                    view.showError(Error.WRONG_CARD_NAME);
-                } else if (selectedCellZone != Zone.SPELL_ZONE) {
-                    view.showError(Error.CHOOSE_SPELL_FROM_SPELL_ZONE);
-                } else {
-                    break;
-                }
-            }
-
-            switch (cardName) {
-                case "Ring of Defense":
-                    ringOfDefenseSpell();
-                case "Mystical space typhoon":
-                    mysticalSpaceTyphoonSpell();
-                case "Twin Twisters":
-                    twinTwistersSpell();
-            }
-        }
-    }
+//    public void quickSpellSwitchCase() {
+//        if (view.yesNoQuestion("Do you want activate your quick spells?")) {
+//            String cardName;
+//            while (true) {
+//                cardName = view.quickSpellsSwitchCase();
+//                if (cardName == null) {
+//                    cancel();
+//                    return;
+//                } else if (Card.getCardByName(cardName) == null) {
+//                    view.showError(Error.WRONG_CARD_NAME);
+//                } else if (selectedCellZone != Zone.SPELL_ZONE) {
+//                    view.showError(Error.CHOOSE_SPELL_FROM_SPELL_ZONE);
+//                } else {
+//                    break;
+//                }
+//            }
+//
+//            switch (cardName) {
+//                case "Ring of Defense":
+//                    ringOfDefenseSpell();
+//                case "Mystical space typhoon":
+//                    mysticalSpaceTyphoonSpell();
+//                case "Twin Twisters":
+//                    twinTwistersSpell();
+//            }
+//        }
+//    }
 
     public void surrender() {
         if (getCurrentPlayer() == firstPlayer) {
