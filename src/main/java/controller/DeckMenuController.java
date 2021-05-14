@@ -16,14 +16,16 @@ import java.util.*;
 import java.util.regex.Matcher;
 
 public class DeckMenuController {
-    private static final DeckMenuController instance;
-    private static final DeckMenuView view = DeckMenuView.getInstance();
+    private static  DeckMenuController instance = null;
+    private  final DeckMenuView view = DeckMenuView.getInstance();
 
-    static {
-        instance = new DeckMenuController();
+    private DeckMenuController(){
+
     }
 
     public static DeckMenuController getInstance() {
+        if (instance == null)
+            instance = new DeckMenuController();
         return instance;
     }
 

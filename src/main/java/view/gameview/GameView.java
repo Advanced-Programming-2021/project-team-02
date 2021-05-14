@@ -18,14 +18,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GameView {
-    private static final GameView instance;
+    private static GameView instance = null;
     private final RoundGameController controller = RoundGameController.getInstance ();
 
-    static {
-        instance = new GameView();
-    }
+    private GameView(){}
 
     public static GameView getInstance() {
+        if (instance == null)
+            instance = new GameView();
         return instance;
     }
 
@@ -264,15 +264,7 @@ public class GameView {
 
     public int chooseCardInHand(){
         System.out.println("Enter address(number of it in your hand) of card to be set");
-        String input;
-        while (true){
-            input = Input.getInput();
-            if (input.matches("[1-9]+")){
-                return Integer.parseInt(input);
-            }else if(input.equals("cancel")){
-                return -1;
-            } else System.out.println(Error.INVALID_COMMAND);
-        }
+        return askAddress();
     }
     public int howToSummonBeastKingBarbos(){
         System.out.println("how do you want to summon/set this card : " +
@@ -286,6 +278,22 @@ public class GameView {
             } else {
                 System.out.println(Error.INVALID_COMMAND.getValue());
             }
+        }
+    }
+    public int askAddressForManEaterBug(){
+        System.out.println("Enter address(number of it in your opponent Monster Zone) of card to be killed");
+        return askAddress();
+    }
+
+    private int askAddress() {
+        String input;
+        while (true) {
+            input = Input.getInput();
+            if (input.matches("[1-9]+")) {
+                return Integer.parseInt(input);
+            } else if (input.equals("cancel")) {
+                return -1;
+            } else System.out.println(Error.INVALID_COMMAND);
         }
     }
 }
