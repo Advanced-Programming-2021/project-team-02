@@ -483,9 +483,6 @@ public class RoundGameController {
         getCurrentPlayer().getPlayerBoard().addMonsterToBoard((Monster) selectedCell.getCardInCell(), CellStatus.OFFENSIVE_OCCUPIED);
         isSummonOrSetOfMonsterUsed = true;
         view.showSuccessMessage(SuccessMessage.SUMMONED_SUCCESSFULLY);
-        if (((Monster) selectedCell.getCardInCell()).getMonsterEffect().equals(MonsterEffect.TERRATIGER_THE_EMPOWERED_WARRIOR_EFFECT)) {
-            terraTigerEffect();
-        }
         if (isCurrentPlayerTrapToBeActivatedInSummonSituation()) {
             if (isTrapOfCurrentPlayerInSummonSituationActivated()) {
                 view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL, getCurrentPlayer().getNickname());
@@ -498,33 +495,6 @@ public class RoundGameController {
         }
         checkNewCardToBeBeUnderEffectOfFieldCard((Monster) selectedCell.getCardInCell()); //TODO not sure here is good place for that
         deselectCard(0);
-    }
-
-    private void terraTigerEffect() {
-        if (view.yesNoQuestion("do you want to set a monster of level 4 or less as effect of terratiger?")) {
-            if (getCurrentPlayer().getPlayerBoard().isMonsterZoneFull()) {
-                view.showError(Error.MONSTER_ZONE_IS_FULL);
-                return;
-            }
-            while (true) {
-                int address = view.chooseCardInHand();
-                if (address > 5) {
-                    view.showError(Error.INVALID_NUMBER);
-                } else {
-                    Card card;
-                    if ((card = getCardInHand(address)) != null) {
-                        if (card.getCardType().equals(CardType.MONSTER)) {
-                            Monster monster = (Monster) card;
-                            if (monster.getLevel() <= 4) {
-                                addCardToGraveYard(Zone.HAND, address, getCurrentPlayer());
-                                getCurrentPlayer().getPlayerBoard().addMonsterToBoard(monster, CellStatus.DEFENSIVE_HIDDEN);
-                                return;
-                            } else view.showError(Error.INVALID_SELECTION);
-                        } else view.showError(Error.INVALID_SELECTION);
-                    } else view.showError(Error.INVALID_SELECTION);
-                }
-            }
-        }
     }
 
     private void tributeSummon() {
