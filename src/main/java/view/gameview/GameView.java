@@ -253,15 +253,15 @@ public class GameView {
 //        }
 //    }
 
-//    public String swordOfDarkDestruction() {
-//        System.out.println("please enter card name (Card position should be OO or DO) and then select card:");
-//        while (true) {
-//            String command = Input.getInput();
-//            if (command.equals("cancel")) return null;
-//            else if (command.matches("([A-Za-z ',-]+?)")) return command;
-//            else System.out.println(Error.INVALID_COMMAND);
-//        }
-//    }
+    public String swordOfDarkDestruction() {
+        System.out.println("please enter card name (Card position should be OO or DO) and then select card:");
+        while (true) {
+            String command = Input.getInput();
+            if (command.equals("cancel")) return null;
+            else if (command.matches("([A-Za-z ',-]+?)")) return command;
+            else System.out.println(Error.INVALID_COMMAND);
+        }
+    }
 
     public String blackPendant() {
         System.out.println("please enter card name and then select card:");
@@ -341,29 +341,29 @@ public class GameView {
         return Input.getInput();
     }
 
-    public int getNumberOfCardForCallOfTheHaunted() {
-        System.out.println("enter number of the monster to be special summoned");
-        while (true) {
-            String command = Input.getInput();
-            if (command.matches("\\d")) {
-                return Integer.parseInt(command);
-            } else System.out.println(Error.INVALID_COMMAND.getValue());
-        }
-    }
-    public int howToSummonBeastKingBarbos(){
-        System.out.println("how do you want to summon this card : " +
-                "1-normal tribute" +
-                ", 2-without tribute, 3-with 3 tributes\n" +
-                "enter the numebr please");
-        while (true){
-            String input = Input.getInput();
-            if (input.matches("[1-3]")){
-                return Integer.parseInt(input);
-            } else {
-                System.out.println(Error.INVALID_COMMAND.getValue());
-            }
-        }
-    }
+//    public int getNumberOfCardForCallOfTheHaunted() {
+//        System.out.println("enter number of the monster to be special summoned");
+//        while (true) {
+//            String command = Input.getInput();
+//            if (command.matches("\\d")) {
+//                return Integer.parseInt(command);
+//            } else System.out.println(Error.INVALID_COMMAND.getValue());
+//        }
+//    }
+//    public int howToSummonBeastKingBarbos(){
+//        System.out.println("how do you want to summon this card : " +
+//                "1-normal tribute" +
+//                ", 2-without tribute, 3-with 3 tributes\n" +
+//                "enter the numebr please");
+//        while (true){
+//            String input = Input.getInput();
+//            if (input.matches("[1-3]")){
+//                return Integer.parseInt(input);
+//            } else {
+//                System.out.println(Error.INVALID_COMMAND.getValue());
+//            }
+//        }
+//    }
     public int chooseCardInHand(){
         System.out.println("Enter address(number of it in your hand) of card to be set");
         String input;
