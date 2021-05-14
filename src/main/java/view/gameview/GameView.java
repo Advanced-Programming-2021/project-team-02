@@ -49,10 +49,10 @@ public class GameView {
             controller.selectOpponentFieldCard ();
         else if (Regex.getMatcher (Regex.BOARD_GAME_SELECT_DESELECT, command).matches ())
             controller.deselectCard (1);
-        else if (Regex.getMatcher (Regex.BOARD_GAME_SELECT_GRAVEYARD, command).matches ())
-            controller.selectPlayerGraveYard();
-        else if (Objects.requireNonNull (Regex.getMatcherFromAllPermutations (Regex.BOARD_GAME_SELECT_GRAVEYARD_OPPONENT, command)).matches ())
-            controller.selectOpponentGraveYard ();
+        //else if (Regex.getMatcher (Regex.BOARD_GAME_SELECT_GRAVEYARD, command).matches ())
+        //    controller.selectPlayerGraveYard();
+        //else if (Objects.requireNonNull (Regex.getMatcherFromAllPermutations (Regex.BOARD_GAME_SELECT_GRAVEYARD_OPPONENT, command)).matches ())
+        //    controller.selectOpponentGraveYard ();
         else if ((matcher = Regex.getMatcher (Regex.BOARD_GAME_SELECT_HAND, command)).matches ())
             controller.selectCardInHand (matcher);
         else if ((matcher = Regex.getMatcher (Regex.BOARD_GAME_SELECT_HAND, command)).matches ())
@@ -269,11 +269,13 @@ public class GameView {
             input = Input.getInput();
             if (input.matches("[1-9]+")){
                 return Integer.parseInt(input);
+            }else if(input.equals("cancel")){
+                return -1;
             } else System.out.println(Error.INVALID_COMMAND);
         }
     }
     public int howToSummonBeastKingBarbos(){
-        System.out.println("how do you want to summon this card : " +
+        System.out.println("how do you want to summon/set this card : " +
                 "1-normal tribute" +
                 ", 2-without tribute, 3-with 3 tributes\n" +
                 "enter the numebr please");
