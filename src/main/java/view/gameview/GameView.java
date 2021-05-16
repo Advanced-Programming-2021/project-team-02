@@ -6,7 +6,9 @@ import model.card.Monster;
 import model.card.Spell;
 import model.card.Trap;
 import model.card.informationofcards.CardType;
+import model.game.board.Cell;
 import model.game.board.GraveYard;
+import model.game.board.SpellZone;
 import view.input.Input;
 import view.input.Regex;
 import view.messages.Error;
@@ -138,7 +140,7 @@ public class GameView {
     }
 
     public void showBoard() {
-        if (controller.getTurn () == 1) {
+        if (controller.getCurrentPlayer ().equals (controller.getFirstPlayer ())) {
             System.out.println (controller.getSecondPlayer ().getNickname () + ":" + controller.getSecondPlayer ().getLifePoint ());
             if (controller.getSecondPlayerHand ().size () <= 6) {
                 for (int i = 0; i < 6 - controller.getSecondPlayerHand ().size (); i++) System.out.print ("\t");
@@ -146,9 +148,92 @@ public class GameView {
             } else for (int i = 0; i < controller.getSecondPlayerHand ().size (); i++) System.out.print ("c\t");
             System.out.print ("\n");
             System.out.println (controller.getSecondPlayer ().getPlayDeck ().getMainCards ().size ());
+            System.out.println (
+                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (4)) +
+                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (2)) +
+                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (1)) +
+                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (3)) +
+                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (5)));
+            System.out.println (
+                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (4)) +
+                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (2)) +
+                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (1)) +
+                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (3)) +
+                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (5)));
+            System.out.println (controller.getSecondPlayer ().getPlayerBoard ().returnGraveYard ().getGraveYardCards ().size ()
+                    + "\t\t\t\t\t\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().getFieldZone ().getFieldCell ()));
+            System.out.println ("\n--------------------------\n");
+            System.out.println (getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().getFieldZone ().getFieldCell ())
+                    + "\t\t\t\t\t\t" + controller.getFirstPlayer ().getPlayerBoard ().returnGraveYard ().getGraveYardCards ().size ());
+            System.out.println (
+                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (5)) +
+                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (3)) +
+                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (1)) +
+                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (2)) +
+                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (4)));
+            System.out.println (
+                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (5)) +
+                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (3)) +
+                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (1)) +
+                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (2)) +
+                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (4)));
+            System.out.println ("\t\t\t\t\t\t" + controller.getFirstPlayer ().getPlayDeck ().getMainCards ().size ());
+            for (int i = 0; i < controller.getFirstPlayerHand ().size (); i++) System.out.print ("c\t");
+            System.out.print ("\n");
+            System.out.println (controller.getFirstPlayer ().getNickname () + ":" + controller.getFirstPlayer ().getLifePoint ());
         } else {
             System.out.println (controller.getFirstPlayer ().getNickname () + ":" + controller.getFirstPlayer ().getLifePoint ());
+            if (controller.getFirstPlayerHand ().size () <= 6) {
+                for (int i = 0; i < 6 - controller.getFirstPlayerHand ().size (); i++) System.out.print ("\t");
+                for (int i = 0; i < controller.getFirstPlayerHand ().size (); i++) System.out.print ("c\t");
+            } else for (int i = 0; i < controller.getFirstPlayerHand ().size (); i++) System.out.print ("c\t");
+            System.out.print ("\n");
+            System.out.println (controller.getFirstPlayer ().getPlayDeck ().getMainCards ().size ());
+            System.out.println (
+                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (4)) +
+                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (2)) +
+                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (1)) +
+                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (3)) +
+                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (5)));
+            System.out.println (
+                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (4)) +
+                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (2)) +
+                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (1)) +
+                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (3)) +
+                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (5)));
+            System.out.println (controller.getFirstPlayer ().getPlayerBoard ().returnGraveYard ().getGraveYardCards ().size ()
+                    + "\t\t\t\t\t\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().getFieldZone ().getFieldCell ()));
+            System.out.println ("\n--------------------------\n");
+            System.out.println (getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().getFieldZone ().getFieldCell ())
+                    + "\t\t\t\t\t\t" + controller.getSecondPlayer ().getPlayerBoard ().returnGraveYard ().getGraveYardCards ().size ());
+            System.out.println (
+                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (5)) +
+                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (3)) +
+                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (1)) +
+                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (2)) +
+                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (4)));
+            System.out.println (
+                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (5)) +
+                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (3)) +
+                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (1)) +
+                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (2)) +
+                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (4)));
+            System.out.println ("\t\t\t\t\t\t" + controller.getSecondPlayer ().getPlayDeck ().getMainCards ().size ());
+            for (int i = 0; i < controller.getSecondPlayerHand ().size (); i++) System.out.print ("c\t");
+            System.out.println (controller.getSecondPlayer ().getNickname () + ":" + controller.getSecondPlayer ().getLifePoint ());
         }
+    }
+
+    public String getStatusForCell(Cell cell) {
+        if (cell.getCellStatus ().getLabel ().equals ("E")) return "E";
+        if (cell.getCellStatus ().getLabel ().equals ("O")) return "O";
+        if (cell.getCellStatus ().getLabel ().equals ("H")) return "H";
+        if (cell.getCellStatus ().getLabel ().equals ("DH")) return "DH";
+        if (cell.getCellStatus ().getLabel ().equals ("DO")) return "DO";
+        if (cell.getCellStatus ().getLabel ().equals ("OH")) return "OH";
+        if (cell.getCellStatus ().getLabel ().equals ("OO")) return "OO";
+        if (cell.getCellStatus ().getLabel ().equals ("HAND")) return "HAND";
+        return "";
     }
 
     public void showPhase() {

@@ -15,5 +15,7 @@ public enum CellStatus {
         this.label = label;
     }
 
-
+    public String getLabel() {
+        return label;
+    }
 }
