@@ -22,8 +22,7 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 
 public class RoundGameController {
-    private int swordsOfRevealingLightRounds = 3;
-    private static RoundGameController instance;
+    private static RoundGameController instance = null;
     private final GameView view = GameView.getInstance();
     private DuelPlayer firstPlayer;
     private DuelPlayer secondPlayer;
@@ -43,15 +42,11 @@ public class RoundGameController {
     private ArrayList<Integer> fieldEffectedCardsAddress = new ArrayList<>();
     private int isFieldActivated = 0; // 0 : no - 1 : firstPlayed activated it- 2 : secondPlayer activated it
     private Cell opponentSelectedCell;
-    private Card firstPlayerChangeOfHeartCard;
-    private Card secondPlayerChangeOfHeartCard;
-    private int firstPlayerUnitedWeStand;
-    private int secondPlayerUnitedWeStand;
     private HashMap<Card, Monster> firstPlayerHashmapForEquipSpells = new HashMap<>();
     private HashMap<Card, Monster> secondPlayerHashmapForEquipSpells = new HashMap<>();
 
-    static {
-        instance = new RoundGameController();
+    private RoundGameController() {
+
     }
 
     public static RoundGameController getInstance() {
@@ -86,7 +81,7 @@ public class RoundGameController {
         secondPlayer.setLifePoint(8000);
     }
 
-    private void changeTurn() {
+    public void changeTurn() {
         selectedCell = null;
         turn = (turn == 1) ? 2 : 1;
     }
@@ -197,14 +192,6 @@ public class RoundGameController {
         view.showSuccessMessage(SuccessMessage.CARD_SELECTED);
     }
 
-    public void selectPlayerGraveYard() {
-
-    }
-
-    public void selectOpponentGraveYard() {
-
-    }
-
     public void showSelectedCard() {
         if (selectedCell == null) {
             if (opponentSelectedCell != null) {
@@ -215,253 +202,6 @@ public class RoundGameController {
             }
         } else {
             view.showCard(selectedCell.getCardInCell());
-        }
-    }
-
-    public void summonMonster() { //TODO might have effect
-        if (selectedCell == null && opponentSelectedCell != null) {
-            view.showError(Error.ONLY_CAN_SHOW_OPPONENT_CARD);
-            return;
-        }
-
-        if (!isValidSelectionForSummonOrSet()) {
-            return;
-        }
-        if ((!selectedCellZone.equals(Zone.HAND)) || (selectedCell.getCellStatus().equals(CellStatus.EMPTY))) {
-            view.showError(Error.CAN_NOT_SUMMON);
-            return;
-        }
-        if (!currentPhase.equals(Phase.MAIN_PHASE_1) && !currentPhase.equals(Phase.MAIN_PHASE_2)) {
-            view.showError(Error.ACTION_NOT_ALLOWED);
-            return;
-        }
-        Monster monster = ((Monster) selectedCell.getCardInCell());
-        if (selectedCell.getCardInCell().getCardType().equals(CardType.MONSTER)) {
-            if (monster.getMonsterEffect().equals(MonsterEffect.GATE_GUARDIAN_EFFECT)) {
-                gateGaurdianEffect();
-                return;
-            } else if (monster.getMonsterEffect().equals(MonsterEffect.BEAST_KING_BARBAROS_EFFECT)) {
-                beastKingBarbosEffect();
-                return;
-            } else if (monster.getMonsterEffect().equals(MonsterEffect.THE_TRICKY_EFFECT)) {
-                theTrickyEffect();
-            }
-        }
-        if (isSummonOrSetOfMonsterUsed) {
-            view.showError(Error.ALREADY_SUMMONED_OR_SET);
-            return;
-        }
-        if (monster.getMonsterActionType().equals(MonsterActionType.RITUAL)) {
-            ritualSummon();
-            return;
-        }
-        if (monster.getLevel() > 4 && monster.getLevel() <= 10) {
-            tributeSummon();
-            return;
-        }
-        normalSummon();
-    }
-
-    private void gateGaurdianEffect() {
-        if (view.yesNoQuestion("do you want to tribute for GateGaurdian Special Summon")) {
-            if (didTribute(3)) {
-                specialSummon(selectedCell.getCardInCell(),CellStatus.OFFENSIVE_OCCUPIED);
-            } else return;
-        } else return;
-    }
-
-    private void beastKingBarbosEffect() {
-        int howToSummon = view.howToSummonBeastKingBarbos();//1-normal tribute, 2-without tribute, 3-with 3 tributes\n"
-        if (howToSummon == 1) {
-            if (didTribute(2)) {
-                normalSummon();
-            }
-        } else if (howToSummon == 2) {
-            ((Monster) selectedCell.getCardInCell()).changeAttackPower(-1900);
-            normalSummon();
-        } else {
-            if (didTribute(3)) {
-                beastKingBarbosSpecialSummonEffect();
-            }
-        }
-    }
-
-    private void beastKingBarbosSpecialSummonEffect() {
-        for (int i = 1; i <= 5; i++) {
-            addCardToGraveYard(Zone.MONSTER_ZONE, i, getOpponentPlayer());
-        }
-        for (int i = 1; i <= 5; i++) {
-            addCardToGraveYard(Zone.SPELL_ZONE, i, getOpponentPlayer());
-        }
-        if (fieldZoneSpell != null) {
-            reversePreviousFieldZoneSpellEffectAndRemoveIt();
-        }
-        specialSummon(selectedCell.getCardInCell(),CellStatus.OFFENSIVE_OCCUPIED);
-        deselectCard(0);
-    }
-
-    private void theTrickyEffect() {
-        if (view.yesNoQuestion("do you want to special summon it with a tribute in hand ?")) {
-            while (true) {
-                int address = view.chooseCardInHand();
-                if (getCardInHand(address) == null) {
-                    view.showError(Error.INVALID_SELECTION);
-                } else {
-                    addCardToGraveYard(Zone.HAND, address, getCurrentPlayer());
-                    specialSummon(selectedCell.getCardInCell(),CellStatus.OFFENSIVE_OCCUPIED);
-                    deselectCard(0);
-                    return;
-                }
-            }
-        }
-    }
-
-    private boolean isCurrentPlayerTrapToBeActivatedInSummonSituation() {
-        PlayerBoard board = getCurrentPlayer().getPlayerBoard();
-        for (int i = 1; i <= 5; i++) {
-            Cell cell = board.getACellOfBoard(Zone.SPELL_ZONE, i);
-            if (cell.getCellStatus().equals(CellStatus.EMPTY)) {
-                continue;
-            } else if (cell.getCardInCell().getCardType().equals(CardType.SPELL)) {
-                continue;
-            }
-            Trap trap = (Trap) cell.getCardInCell();
-            switch (trap.getTrapEffect()) {
-                case TORRENTIAL_TRIBUTE_EFFECT:
-                    return view.yesNoQuestion("do you want to activate your trap and spell?");
-            }
-        }
-        return false;
-    }
-
-    private boolean isOpponentTrapToBeActivatedInSummonSituation() { // TODO haven't added it to flip summon , special summon and ritual summon yet
-        PlayerBoard board = getOpponentPlayer().getPlayerBoard();
-        for (int i = 1; i <= 5; i++) {
-            Cell cell = board.getACellOfBoard(Zone.SPELL_ZONE, i);
-            if (cell.getCellStatus().equals(CellStatus.EMPTY)) {
-                continue;
-            } else if (cell.getCardInCell().getCardType().equals(CardType.SPELL)) {
-                continue;
-            }
-            Trap trap = (Trap) cell.getCardInCell();
-            switch (trap.getTrapEffect()) {
-                case SOLEMN_WARNING_EFFECT:
-                case TORRENTIAL_TRIBUTE_EFFECT:
-                    view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL, getOpponentPlayer().getNickname());
-                    if (view.yesNoQuestion("do you want to activate your trap and spell?")) {
-                        return true;
-                    } else {
-                        view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL, getCurrentPlayer().getNickname());
-                        return false;
-                    }
-                case TRAP_HOLE_EFFECT:
-                    if (isValidSituationForTrapHoleTrapEffect()) {
-                        view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL, getOpponentPlayer().getNickname());
-                        if (view.yesNoQuestion("do you want to activate your trap and spell?")) {
-                            return true;
-                        } else {
-                            view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL, getCurrentPlayer().getNickname());
-                            return false;
-                        }
-                    }
-            }
-        }
-        return false;
-    }
-
-
-    private boolean isValidSituationForTrapHoleTrapEffect() {
-        return ((Monster) selectedCell.getCardInCell()).getAttackPower() > 1000;
-    }
-
-
-    private boolean isOpponentTrapInSummonSituationActivated() {
-        while (true) {
-            int address = view.getAddressForTrapOrSpell();
-            if (address == -1) {
-                return false;
-            } else if (address >= 1 && address <= 5) {
-                Cell cell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.SPELL_ZONE, address);
-                if (checkTrapCellToBeActivatedForOpponentInSummonSituation(address, cell))
-                    return true;
-                else {
-                    //TODO check it
-                }
-            } else
-                view.showError(Error.INVALID_NUMBER);
-        }
-    }
-
-    private boolean checkTrapCellToBeActivatedForOpponentInSummonSituation(int address, Cell cell) {
-        if (cell.getCardInCell().getCardType().equals(CardType.SPELL)) {
-            view.showError(Error.ACTION_NOT_ALLOWED); //ritght error ?
-        } else {
-            Trap trap = (Trap) cell.getCardInCell();
-            if (isValidActivateTrapEffectInSummonSituationForOpponentToDo(trap.getTrapEffect())) {
-                view.showSuccessMessage(SuccessMessage.TRAP_ACTIVATED);
-                addCardToGraveYard(Zone.SPELL_ZONE, address, getOpponentPlayer()); //CHECK correctly removed ?
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean isTrapOfCurrentPlayerInSummonSituationActivated() {
-        while (true) {
-            int address = view.getAddressForTrapOrSpell();
-            if (address == -1) {
-                return false;
-            } else if (address >= 1 && address <= 5) {
-                Cell cell = getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.SPELL_ZONE, address);
-                if (checkTrapCellToBeActivatedForCurrentPlayerInSummonSituation(address, cell))
-                    return true;
-                else {
-                    //TODO check it
-                }
-            } else
-                view.showError(Error.INVALID_NUMBER);
-        }
-    }
-
-    private boolean checkTrapCellToBeActivatedForCurrentPlayerInSummonSituation(int address, Cell cell) {
-        if (cell.getCardInCell().getCardType().equals(CardType.SPELL)) {
-            view.showError(Error.ACTION_NOT_ALLOWED); //ritght error ?
-        } else {
-            Trap trap = (Trap) cell.getCardInCell();
-            if (isValidActivateTrapEffectInSummonSituationForCuurentPlayerToDo(trap.getTrapEffect())) {
-                view.showSuccessMessage(SuccessMessage.TRAP_ACTIVATED);
-                addCardToGraveYard(Zone.SPELL_ZONE, address, getCurrentPlayer()); //CHECK correctly removed ?
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean isValidActivateTrapEffectInSummonSituationForOpponentToDo(TrapEffect trapEffect) {
-        switch (trapEffect) {
-            case TORRENTIAL_TRIBUTE_EFFECT:
-                torrentialTributeTrapEffect();
-                return true;
-            case TRAP_HOLE_EFFECT:
-                trapHoleTrapEffect();
-                return true;
-            case SOLEMN_WARNING_EFFECT:
-                solemnWarningTrapEffect();
-                return true;
-            default:
-                view.showError(Error.PREPARATIONS_IS_NOT_DONE);
-                return false;
-        }
-    }
-
-    private boolean isValidActivateTrapEffectInSummonSituationForCuurentPlayerToDo(TrapEffect trapEffect) {
-        switch (trapEffect) {
-            case TORRENTIAL_TRIBUTE_EFFECT:
-                torrentialTributeTrapEffect();
-                return true;
-            default:
-                view.showError(Error.PREPARATIONS_IS_NOT_DONE);
-                return false;
         }
     }
 
@@ -482,269 +222,6 @@ public class RoundGameController {
         }
     }
 
-    private void solemnWarningTrapEffect() {
-        getCurrentPlayer().decreaseLP(2000);
-        addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getCurrentPlayer());
-        deselectCard(0);
-    }
-
-    private void normalSummon() {
-        getCurrentPlayer().getPlayerBoard().addMonsterToBoard((Monster) selectedCell.getCardInCell(), CellStatus.OFFENSIVE_OCCUPIED);
-        isSummonOrSetOfMonsterUsed = true;
-        view.showSuccessMessage(SuccessMessage.SUMMONED_SUCCESSFULLY);
-        if (((Monster) selectedCell.getCardInCell()).getMonsterEffect().equals(MonsterEffect.TERRATIGER_THE_EMPOWERED_WARRIOR_EFFECT)) {
-            terraTigerEffect();
-        }
-        if (isCurrentPlayerTrapToBeActivatedInSummonSituation()) {
-            if (isTrapOfCurrentPlayerInSummonSituationActivated()) {
-                view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL, getCurrentPlayer().getNickname());
-            }
-        }
-        if (isOpponentTrapToBeActivatedInSummonSituation()) {
-            if (isOpponentTrapInSummonSituationActivated()) {
-                view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL, getCurrentPlayer().getNickname());
-            }
-        }
-        checkNewCardToBeBeUnderEffectOfFieldCard((Monster) selectedCell.getCardInCell()); //TODO not sure here is good place for that
-        deselectCard(0);
-    }
-
-    private void terraTigerEffect() {
-        if (view.yesNoQuestion("do you want to set a monster of level 4 or less as effect of terratiger?")) {
-            if (getCurrentPlayer().getPlayerBoard().isMonsterZoneFull()) {
-                view.showError(Error.MONSTER_ZONE_IS_FULL);
-                return;
-            }
-            while (true) {
-                int address = view.chooseCardInHand();
-                if (address > 5) {
-                    view.showError(Error.INVALID_NUMBER);
-                } else {
-                    Card card;
-                    if ((card = getCardInHand(address)) != null) {
-                        if (card.getCardType().equals(CardType.MONSTER)) {
-                            Monster monster = (Monster) card;
-                            if (monster.getLevel() <= 4) {
-                                addCardToGraveYard(Zone.HAND, address, getCurrentPlayer());
-                                getCurrentPlayer().getPlayerBoard().addMonsterToBoard(monster, CellStatus.DEFENSIVE_HIDDEN);
-                                return;
-                            } else view.showError(Error.INVALID_SELECTION);
-                        } else view.showError(Error.INVALID_SELECTION);
-                    } else view.showError(Error.INVALID_SELECTION);
-                }
-            }
-        }
-    }
-
-    private void tributeSummon() {
-        if (((Monster) selectedCell.getCardInCell()).getLevel() >= 7) {
-            if (didTribute(2)) {
-                normalSummon();
-            } else return;
-        } else if (((Monster) selectedCell.getCardInCell()).getLevel() >= 5) {
-            if (didTribute(1)) {
-                normalSummon();
-            } else return;
-        }
-        deselectCard(0);
-    }
-
-    private boolean didTribute(int number) {
-        view.showSuccessMessage(SuccessMessage.TRIBUTE_SUMMON_ENTER_ADDRESS);
-        ArrayList<Integer> address = new ArrayList<>();
-        int counter = 0;
-        for (int i = 0; i <= 4; i++) {
-            if (!getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i).getCellStatus().equals(CellStatus.EMPTY)) {
-                counter++;
-            }
-            if (i == 4) {
-                if (counter >= number) {
-                    break;
-                } else {
-                    view.showError(Error.NOT_ENOUGH_CARDS_TO_TRIBUTE);
-                    return false;
-                }
-            }
-        }
-        int i = 0;
-        while (true) {
-            int input = view.getTributeAddress();
-            if (input == -1) {
-                cancel();
-                return false;
-            } else if (input > 5) {
-                view.showError(Error.INVALID_NUMBER);
-            } else if (getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, input).getCellStatus().equals(CellStatus.EMPTY)) {
-                view.showError(Error.WRONG_MONSTER_ADDRESS);
-            } else {
-                i++;
-                address.add(input);
-                if (i == number)
-                    break;
-            }
-        }
-        for (Integer integer : address) {
-            addCardToGraveYard(Zone.MONSTER_ZONE, integer, getCurrentPlayer());
-        }
-        return true;
-    }
-
-    private void ritualSummon() {
-        List<Card> currentPlayerHand = getCurrentPlayerHand();
-        if (!isRitualCardInHand()) {
-            view.showError(Error.CAN_NOT_RITUAL_SUMMON);
-        } else if (!sumOfSubsequences("cardName")) {
-            view.showError(Error.CAN_NOT_RITUAL_SUMMON);
-        } else {
-            while (true) {
-                Monster monster = (Monster) selectedCell.getCardInCell();
-                if (Objects.requireNonNull(monster).getMonsterActionType() == MonsterActionType.RITUAL) break;
-                else {
-                    view.showError(Error.RITUAL_SUMMON_NOW);
-                    view.getSummonOrderForRitual();
-                }
-            }
-            while (true) {
-                if (areCardsLevelsEnoughToSummonRitualMonster()) break;
-                else view.showError(Error.LEVEL_DOES_NOT_MATCH);
-            }
-            Matcher matcherOfPosition = view.getPositionForSetRitualMonster();
-            setRitualMonster(matcherOfPosition);
-        }
-        deselectCard(0);
-    }
-
-    public void setRitualMonster(Matcher matcherOfPosition) {
-        MonsterZone monsterZone = getCurrentPlayer().getPlayerBoard().returnMonsterZone();
-        if (matcherOfPosition.group().equals("attack")) {
-            for (int i = 1; i <= 5; i++) {
-                if (monsterZone.getCellWithAddress(i).getCellStatus() == CellStatus.EMPTY) {
-                    Card card = Card.getCardByName(selectedCell.getCardInCell().getName());
-                    monsterZone.getCellWithAddress(i).setCardInCell(card);
-                    monsterZone.getCellWithAddress(i).setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
-                }
-            }
-            selectedCell.setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
-        } else if (matcherOfPosition.group().equals("defense")) {
-            for (int i = 1; i <= 5; i++) {
-                if (monsterZone.getCellWithAddress(i).getCellStatus() == CellStatus.EMPTY) {
-                    Card card = Card.getCardByName(selectedCell.getCardInCell().getName());
-                    monsterZone.getCellWithAddress(i).setCardInCell(card);
-                    monsterZone.getCellWithAddress(i).setCellStatus(CellStatus.DEFENSIVE_OCCUPIED);
-                }
-            }
-            selectedCell.setCellStatus(CellStatus.DEFENSIVE_OCCUPIED);
-        }
-        view.showSuccessMessage(SuccessMessage.SUMMONED_SUCCESSFULLY);
-    }
-
-    public boolean areCardsLevelsEnoughToSummonRitualMonster() {
-        Matcher addresses = view.getMonstersAddressesToBringRitual();
-        String[] split = addresses.pattern().split("\\s+");
-        int sum = 0;
-        MonsterZone monsterZone = getCurrentPlayer().getPlayerBoard().returnMonsterZone();
-        for (String s : split) {
-            Monster monster = (Monster) monsterZone.getCellWithAddress(Integer.parseInt(s)).getCardInCell();
-            sum += monster.getLevel();
-        }
-        Monster monster = (Monster) selectedCell.getCardInCell();
-        return sum == monster.getLevel();
-    }
-
-    private boolean isRitualCardInHand() {
-        List<Card> currentPlayerHand = getCurrentPlayerHand();
-        for (Card card : currentPlayerHand) {
-            if (card.getCardType() == CardType.MONSTER) {
-                if (MonsterActionType.getActionTypeByName(card.getName()) == MonsterActionType.RITUAL) return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean sumOfSubsequences(String cardName) {
-        MonsterZone monsterZone = getCurrentPlayer().getPlayerBoard().returnMonsterZone();
-        int sum = 0;
-        int[] levels = new int[5];
-        for (int i = 0; i < 5; i++) {
-            Monster cardNumberI = (Monster) monsterZone.getCellWithAddress(i).getCardInCell();
-            levels[i] = cardNumberI.getLevel();
-        }
-        ArrayList<Integer> sumOfSubset = new ArrayList<>();
-        sumOfSubset = subsetSums(levels, 0, levels.length - 1, 0, sumOfSubset);
-        Monster ritualCard = (Monster) Card.getCardByName(cardName);
-        for (int i = 0; i < sumOfSubset.size(); i++) {
-            if (sumOfSubset.get(i) == Objects.requireNonNull(ritualCard).getLevel()) return true;
-        }
-        return false;
-    }
-
-    public ArrayList<Integer> subsetSums(int[] arr, int l, int r, int sum, ArrayList<Integer> sumOfSubsets) {//TODO check --- pashmam ina che  esmaiye : |
-        if (l > r) {
-            sumOfSubsets.add(sum);
-            return sumOfSubsets;
-        }
-        subsetSums(arr, l + 1, r, sum + arr[l], sumOfSubsets);
-        subsetSums(arr, l + 1, r, sum, sumOfSubsets);
-        return sumOfSubsets;
-    }
-
-
-    public void setMonster() {
-        if (!isValidSelectionForSummonOrSet()) {
-            return;
-        }
-        if ((!selectedCellZone.equals(Zone.HAND)) || (selectedCell.getCellStatus().equals(CellStatus.EMPTY))) {
-            view.showError(Error.CAN_NOT_SET);
-            deselectCard(0);
-            return;
-        }
-        if (!(currentPhase.equals(Phase.MAIN_PHASE_1) || currentPhase.equals(Phase.MAIN_PHASE_2))) {
-            view.showError(Error.ACTION_NOT_ALLOWED);
-            deselectCard(0);
-            return;
-        }
-        Monster monster = (Monster) selectedCell.getCardInCell();
-        getCurrentPlayer().getPlayerBoard().addMonsterToBoard(monster, CellStatus.DEFENSIVE_HIDDEN);
-        checkNewCardToBeBeUnderEffectOfFieldCard((Monster) selectedCell.getCardInCell());
-        deselectCard(0);
-    }
-
-    private boolean isValidSelectionForSummonOrSet() {
-        if (selectedCellZone.equals(Zone.NONE)) {
-            view.showError(Error.NO_CARD_SELECTED_YET);
-            return false;
-        } else if (getCurrentPlayer().getPlayerBoard().isMonsterZoneFull()) {
-            view.showError(Error.MONSTER_ZONE_IS_FULL);
-            return false;
-        }
-        return true;
-    }
-
-    public void changeMonsterPosition(Matcher matcher) {
-        if (selectedCell == null) {
-            view.showError(Error.NO_CARD_SELECTED_YET);
-        } else if (matcher == null) {
-            cancel();
-            return;
-        } else if (!(selectedCellZone == Zone.MONSTER_ZONE)) {
-            view.showError(Error.CAN_NOT_CHANGE_POSITION);
-        } else if (!(currentPhase == Phase.MAIN_PHASE_1 || currentPhase == Phase.MAIN_PHASE_2)) {
-            view.showError(Error.ACTION_CAN_NOT_WORK_IN_THIS_PHASE);
-        } else if (!(matcher.group("position").equals("attack") && selectedCell.getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED ||
-                matcher.group("position").equals("defense") && selectedCell.getCellStatus() == CellStatus.OFFENSIVE_OCCUPIED)) {
-            if (selectedCell.getCellStatus() == CellStatus.DEFENSIVE_HIDDEN) view.showError(Error.DH_POSITION);
-            else view.showError(Error.CURRENTLY_IN_POSITION);
-        } else if (hasCardChangedPosition()) {
-            view.showError(Error.ALREADY_CHANGED_POSITION);
-        } else {
-            if (matcher.group("position").equals("attack")) selectedCell.setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
-            else if (matcher.group("position").equals("defense"))
-                selectedCell.setCellStatus(CellStatus.DEFENSIVE_OCCUPIED);
-            view.showSuccessMessage(SuccessMessage.POSITION_CHANGED_SUCCESSFULLY);
-            changePositionUsed();
-        }
-        deselectCard(0);
-    }
 
     public void setSpellOrTrap() {
         if (selectedCell == null) {
@@ -827,35 +304,17 @@ public class RoundGameController {
             case RAIGEKI_EFFECT:
                 raigekiSpell();
                 break;
-            case CHANGE_OF_HEART_EFFECT:
-                changeOfHeartSpell();
-                break;
             case HARPIES_FEATHER_DUSTER_EFFECT:
                 harpiesFeatherDusterSpell();
                 break;
             case DARK_HOLE_EFFECT:
                 darkHoleSpell();
                 break;
-            case SPELL_ABSORPTION_EFFECT:
-                spellAbsorptionSpell();
-                break;
-            case TWIN_TWISTERS_EFFECT:
-                twinTwistersSpell();
-                break;
-            case MYSTICAL_SPACE_TYPHOON_EFFECT:
-                mysticalSpaceTyphoonSpell();
-                break;
             case SWORD_OF_DARK_DESTRUCTION_EFFECT:
                 swordOfDarkDestructionSpell();
                 break;
             case BLACK_PENDANT_EFFECT:
                 blackPendantSpell();
-                break;
-            case UNITED_WE_STAND_EFFECT:
-                unitedWeStandSpell();
-                break;
-            case MAGNUM_SHIELD_EFFECT:
-                magnumShieldSpell();
                 break;
         }
     }
@@ -1066,16 +525,9 @@ public class RoundGameController {
             case MIND_CRUSH_EFFECT:
                 mindCrushTrapEffect();
                 return;
-            case CALL_OF_THE_HAUNTED_EFFECT:
-                callOfTheHauntedTrapEffect();
-                return;
             default:
                 view.showError(Error.PREPARATIONS_IS_NOT_DONE);
         }
-    }
-
-    public void checkFieldCardInGameProcess() {
-
     }
 
     private void mindCrushTrapEffect() {
@@ -1103,44 +555,6 @@ public class RoundGameController {
         }
     }
 
-    private void callOfTheHauntedTrapEffect() {
-        boolean containsMonster = false;
-        if (getCurrentPlayer().getPlayerBoard().isGraveYardEmpty()) {
-            view.showError(Error.PREPARATIONS_IS_NOT_DONE);
-            return;
-        } else if (!getCurrentPlayer().getPlayerBoard().isGraveYardEmpty()) {
-            for (Card graveYardCard : getCurrentPlayer().getPlayerBoard().returnGraveYard().getGraveYardCards()) {
-                if (graveYardCard.getCardType().equals(CardType.MONSTER))
-                    containsMonster = true;
-            }
-        } else if (getCurrentPlayer().getPlayerBoard().isMonsterZoneFull()) {
-            view.showError(Error.PREPARATIONS_IS_NOT_DONE);
-            return;
-        }
-        if (!containsMonster) { //NOT SURE about error!!!
-            view.showError(Error.PREPARATIONS_IS_NOT_DONE);
-            return;
-        } else view.showGraveYard();
-        while (true) {
-            int address = view.getNumberOfCardForCallOfTheHaunted();
-            if (address < 0 || address > getCurrentPlayer().getPlayerBoard().returnGraveYard().getGraveYardCards().size()) {
-                view.showError(Error.INVALID_NUMBER);
-                continue;
-            } else {
-                Card selectedCardToSummon = getCurrentPlayer().getPlayerBoard().getCardInGraveYard(address);
-                if (!selectedCardToSummon.getCardType().equals(CardType.MONSTER)) {
-                    view.showError(Error.INVALID_SELECTION);
-                    continue;
-                } else {
-                    getCurrentPlayer().getPlayerBoard().addMonsterToBoard((Monster) selectedCardToSummon, CellStatus.OFFENSIVE_OCCUPIED);
-                    view.showSuccessMessage(SuccessMessage.SPELL_ACTIVATED); // not spell actually!!!!!!!!!!!;
-                    addCardToGraveYard(Zone.SPELL_ZONE, selectedCellAddress, getCurrentPlayer());
-                    return;
-                }
-
-            }
-        }
-    }
 
     private boolean isSpellOrTrapReadyToActivate() {
         if (selectedCell.getCardInCell().getCardType().equals(CardType.SPELL)) {
@@ -1151,172 +565,6 @@ public class RoundGameController {
         return false;
     }
 
-    public void attackToCard(Matcher matcher) {
-        if (!isValidAttack(matcher))
-            return;
-        int toBeAttackedCardAddress = Integer.parseInt(matcher.group("monsterZoneNumber"));
-        CellStatus opponentCellStatus = getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, toBeAttackedCardAddress).getCellStatus();
-        if (opponentCellStatus.equals(CellStatus.DEFENSIVE_HIDDEN)) {
-            attackToDHCard(getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, toBeAttackedCardAddress), toBeAttackedCardAddress);
-        } else if (opponentCellStatus.equals(CellStatus.DEFENSIVE_OCCUPIED)) {
-            attackToDOCard(getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, toBeAttackedCardAddress), toBeAttackedCardAddress);
-        } else {
-            attackToOOCard(getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, toBeAttackedCardAddress), toBeAttackedCardAddress);
-        }
-        attackUsed();
-        deselectCard(0);
-    }
-
-    private void attackToDHCard(Cell opponentCellToBeAttacked, int toBeAttackedCardAddress) { //TODO might have effect
-        Monster opponentCard = (Monster) opponentCellToBeAttacked.getCardInCell();
-        view.showSuccessMessageWithAString(SuccessMessage.DH_CARD_BECOMES_DO, opponentCard.getName());
-        opponentCellToBeAttacked.changeCellStatus(CellStatus.DEFENSIVE_OCCUPIED);
-        attackToDOCard(opponentCellToBeAttacked, toBeAttackedCardAddress);
-        //TODO am i sure? i changed it to DO and just used attack to DO card
-        DOFlipSummon();
-    }
-
-    private void DOFlipSummon() {
-        //TODO
-    }
-
-    private void attackToDOCard(Cell opponentCellToBeAttacked, int toBeAttackedCardAddress) { //TODO might have effect
-        Monster playerCard = (Monster) selectedCell.getCardInCell();
-        Monster opponentCard = (Monster) opponentCellToBeAttacked.getCardInCell();
-        int damage = playerCard.getAttackPower() - opponentCard.getDefensePower();
-        if (damage > 0) {
-            view.showSuccessMessage(SuccessMessage.DEFENSIVE_MONSTER_DESTROYED);
-            addCardToGraveYard(Zone.MONSTER_ZONE, toBeAttackedCardAddress, getOpponentPlayer());
-        } else if (damage < 0) {
-            view.showSuccessMessageWithAnInteger(SuccessMessage.DAMAGE_TO_CURRENT_PLAYER_AFTER_ATTACK_TI_HIGHER_DEFENSIVE_DO_OR_DH_MONSTER, damage);
-            getCurrentPlayer().decreaseLP(-damage);
-        } else {
-            view.showSuccessMessage(SuccessMessage.NO_CARD_DESTROYED);
-        }
-    }
-
-    private void attackToOOCard(Cell opponentCellToBeAttacked, int toBeAttackedCardAddress) { // might have effect
-        Monster playerCard = (Monster) selectedCell.getCardInCell();
-        Monster opponentCard = (Monster) opponentCellToBeAttacked.getCardInCell();
-        if (isTrapToBeActivatedInAttackSituation()) {
-            if (isTrapOrSpellInAttackSituationActivated()) {
-                view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL, getCurrentPlayer().getNickname());
-                return;
-            }
-        }
-        view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL, getCurrentPlayer().getNickname());
-        int damage = playerCard.getAttackPower() - opponentCard.getAttackPower();
-        if (damage > 0) {
-            view.showSuccessMessageWithAnInteger(SuccessMessage.OPPONENT_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
-            getOpponentPlayer().decreaseLP(damage);
-            getOpponentPlayer().getPlayerBoard().addCardToGraveYard(opponentCellToBeAttacked.getCardInCell());
-            addCardToGraveYard(Zone.MONSTER_ZONE, toBeAttackedCardAddress, getOpponentPlayer());
-        } else if (damage < 0) {
-            view.showSuccessMessageWithAnInteger(SuccessMessage.CURRENT_PLAYER_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
-            getCurrentPlayer().decreaseLP(-damage);
-            getCurrentPlayer().getPlayerBoard().addCardToGraveYard(opponentCellToBeAttacked.getCardInCell());
-            addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getOpponentPlayer());
-        } else {
-            view.showSuccessMessage(SuccessMessage.NO_DAMAGE_TO_ANYONE);
-            addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getOpponentPlayer());
-            addCardToGraveYard(Zone.MONSTER_ZONE, toBeAttackedCardAddress, getOpponentPlayer());
-        }
-    }
-
-    private boolean isValidAttack(Matcher matcher) {
-        int address = Integer.parseInt(matcher.group("monsterZoneNumber"));
-        if (address > 5 || address < 1) {
-            view.showError(Error.INVALID_NUMBER);
-            return false;
-        }
-        if (selectedCell == null) {
-            view.showError(Error.NO_CARD_SELECTED_YET);
-            return false;
-        } else if (!selectedCellZone.equals(Zone.MONSTER_ZONE)) {
-            view.showError(Error.CAN_NOT_ATTACK);
-            return false;
-        }
-        if (!selectedCell.getCellStatus().equals(CellStatus.OFFENSIVE_OCCUPIED)) { // u sure ?
-            view.showError(Error.CAN_NOT_ATTACK);
-            return false;
-        } else if (!currentPhase.equals(Phase.BATTLE_PHASE)) {
-            view.showError(Error.ACTION_NOT_ALLOWED);
-            return false;
-        }
-        if (hasCardUsedItsAttack()) {
-            view.showError(Error.ALREADY_ATTACKED);
-            return false;
-        }
-        Cell opponentCell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, address);
-        if (opponentCell.getCellStatus().equals(CellStatus.EMPTY)) {
-            view.showError(Error.NO_CARD_TO_BE_ATTACKED);
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isTrapToBeActivatedInAttackSituation() {
-        for (int i = 1; i <= 5; i++) {
-            Cell cell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.SPELL_ZONE, i);
-            if (cell.getCellStatus().equals(CellStatus.EMPTY)) {
-                continue;
-            } else if (cell.getCardInCell().getCardType().equals(CardType.SPELL)) {
-                continue;
-            }
-            Trap trap = (Trap) cell.getCardInCell();
-            switch (trap.getTrapEffect()) {
-                case MAGIC_CYLINDER_EFFECT:
-                case MIRROR_FORCE_EFFECT:
-                case NEGATE_ATTACK_EFFECT:
-                    view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL, getOpponentPlayer().getNickname());
-                    if (view.yesNoQuestion("do you want to activate your trap and spell?")) {
-                        return true;
-                    } else {
-                        view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL, getCurrentPlayer().getNickname());
-                        return false;
-                    }
-            }
-        }
-        return false;
-    }
-
-    private boolean isTrapOrSpellInAttackSituationActivated() {
-        while (true) {
-            int address = view.getAddressForTrapOrSpell();
-            if (address == -1) {
-                return false;
-            } else if (address >= 1 && address <= 5) {
-                Cell cell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.SPELL_ZONE, address);
-                if (cell.getCardInCell().getCardType().equals(CardType.TRAP)) {
-                    Trap trap = (Trap) cell.getCardInCell();
-                    if (activateTrapEffectInAttackSituation(trap.getTrapEffect())) {
-                        view.showSuccessMessage(SuccessMessage.TRAP_ACTIVATED);
-                        addCardToGraveYard(Zone.SPELL_ZONE, address, getOpponentPlayer()); //CHECK correctly removed ?
-                    }
-                    return true;
-                }
-            } else
-                view.showError(Error.INVALID_NUMBER);
-        }
-    }
-
-
-    private boolean activateTrapEffectInAttackSituation(TrapEffect trapEffect) {
-        switch (trapEffect) {
-            case MAGIC_CYLINDER_EFFECT:
-                TrapMagicCylinderEffect();
-                return true;
-            case MIRROR_FORCE_EFFECT:
-                TrapMirrorForceEffect();
-                return true;
-            case NEGATE_ATTACK_EFFECT:
-                TrapNegateAttackEffect();
-                return true;
-            default:
-                view.showError(Error.PREPARATIONS_IS_NOT_DONE);
-                return false;
-        }
-    }
 
     private void TrapMagicCylinderEffect() {
         getCurrentPlayer().decreaseLP(((Monster) selectedCell.getCardInCell()).getAttackPower());
@@ -1373,39 +621,6 @@ public class RoundGameController {
         }
     }
 
-    public void flipSummon() {//TODO might have effect
-        if (selectedCell == null) {
-            view.showError(Error.NO_CARD_SELECTED_YET);
-        } else if (!(selectedCellZone == Zone.MONSTER_ZONE)) {
-            view.showError(Error.CAN_NOT_CHANGE_POSITION);
-        } else if (!(currentPhase == Phase.MAIN_PHASE_1 || currentPhase == Phase.MAIN_PHASE_2)) {
-            view.showError(Error.ACTION_CAN_NOT_WORK_IN_THIS_PHASE);
-        } else if (selectedCell.getCellStatus() == CellStatus.DEFENSIVE_HIDDEN) {
-            view.showError(Error.FLIP_SUMMON_NOT_ALLOWED);
-        } else {
-            if (!((Monster) selectedCell.getCardInCell()).getMonsterEffect().equals(MonsterEffect.MAN_EATER_BUG_EFFECT)) {
-                selectedCell.setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
-                view.showSuccessMessage(SuccessMessage.FLIP_SUMMON_SUCCESSFUL);
-            } else {
-                manEaterBugMonsterEffectAndFlipSummon(getCurrentPlayer(), getOpponentPlayer());
-            }
-            deselectCard(0);
-        }
-    }
-
-    private void manEaterBugMonsterEffectAndFlipSummon(DuelPlayer current, DuelPlayer opponent) {
-        if (view.yesNoQuestion("do you want to activate man eater bug effect?")) {
-            if (didTribute(1)) {
-                view.showSuccessMessage(SuccessMessage.FLIP_SUMMON_SUCCESSFUL);
-                selectedCell.setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
-                return;
-            }
-        } else {
-            selectedCell.setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
-            view.showSuccessMessage(SuccessMessage.FLIP_SUMMON_SUCCESSFUL);
-        }
-
-    }
 
     public void directAttack() { // probably no effect ...
         if (selectedCell == null) {
@@ -1591,66 +806,6 @@ public class RoundGameController {
         }
     }
 
-    public void changeOfHeartSpell() {
-        Matcher matcher;
-        while (true) {
-            matcher = view.getCardNameForChangeOfHeart();
-            if (matcher.group(1).equals("cancel")) {
-                cancel();
-                return;
-            } else if (matcher.group(1) == null)
-                view.showError(Error.WRONG_CARD_NAME);
-            else if (!(matcher.group(2).equals("OO") || matcher.group(2).equals("DO")))
-                view.showError(Error.DH_POSITION);
-            else break;
-        }
-        MonsterZone monsterZone = getOpponentPlayer().getPlayerBoard().returnMonsterZone();
-        int i = 0;
-        while (monsterZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i >= 5) {
-            if (monsterZone.getCellWithAddress(i).getCardInCell().getName().equals(matcher.group(1))) {
-                if (getCurrentPlayer() == firstPlayer)
-                    firstPlayerChangeOfHeartCard = Card.getCardByName(matcher.group(1));
-                else secondPlayerChangeOfHeartCard = Card.getCardByName(matcher.group(1));
-                getOpponentPlayer().getPlayerBoard().returnMonsterZone().removeCard(i);
-                if (matcher.group(2).equals("OO"))
-                    specialSummon(Card.getCardByName(matcher.group(1)), CellStatus.OFFENSIVE_OCCUPIED);
-                else if (matcher.group(2).equals("DO"))
-                    specialSummon(Card.getCardByName(matcher.group(1)), CellStatus.DEFENSIVE_OCCUPIED);
-                break;
-            }
-            i++;
-        }
-        SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
-        int j = 0;
-        while (spellZone.getCellWithAddress(j).getCellStatus() != CellStatus.EMPTY || j >= 5) {
-            if (spellZone.getCellWithAddress(j).getCardInCell().getName().equals("Change of Heart"))
-                addCardToGraveYard(Zone.SPELL_ZONE, j, getCurrentPlayer());
-            j++;
-        }
-    }
-
-    private void removeChangeOfHearts() {
-        if (getCurrentPlayer() == firstPlayer) {
-            getCurrentPlayer().getPlayerBoard().addMonsterToBoard((Monster) firstPlayerChangeOfHeartCard, CellStatus.OFFENSIVE_OCCUPIED);
-            int i = 0;
-            while (getOpponentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY) {
-                if (getOpponentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i)
-                        .getCardInCell().getName().equals(firstPlayerChangeOfHeartCard.getName()))
-                    getOpponentPlayer().getPlayerBoard().returnMonsterZone().removeCard(i);
-                i++;
-            }
-        } else {
-            getCurrentPlayer().getPlayerBoard().addMonsterToBoard((Monster) secondPlayerChangeOfHeartCard, CellStatus.OFFENSIVE_OCCUPIED);
-            int i = 0;
-            while (getOpponentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY) {
-                if (getOpponentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).
-                        getCardInCell().getName().equals(secondPlayerChangeOfHeartCard.getName()))
-                    getOpponentPlayer().getPlayerBoard().returnMonsterZone().removeCard(i);
-                i++;
-            }
-        }
-    }
-
     private void harpiesFeatherDusterSpell() {
         int i = 0;
         while (getOpponentPlayer().getPlayerBoard().returnSpellZone().getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY) {
@@ -1664,9 +819,6 @@ public class RoundGameController {
                 addCardToGraveYard(Zone.SPELL_ZONE, i, getCurrentPlayer());
             i++;
         }
-    }
-
-    public void swordsOfRevealingLightSpell() {
     }
 
     public void darkHoleSpell() {
@@ -1687,56 +839,6 @@ public class RoundGameController {
                 addCardToGraveYard(Zone.SPELL_ZONE, i, getCurrentPlayer());
             i++;
         }
-    }
-
-    public void spellAbsorptionSpell() {
-        // call it each time you active an effect
-        getCurrentPlayer().increaseLP(500);
-    }
-
-    public void twinTwistersSpell() {
-        Matcher matcher;
-        while (true) {
-            matcher = view.getCardsNameTwinTwister();
-            if (matcher == null) {
-                cancel();
-                return;
-            } else if (Card.getCardByName(matcher.group(1)) == null || Card.getCardByName(matcher.group(2)) == null
-                    || Card.getCardByName(matcher.group(3)) == null) view.showError(Error.WRONG_CARD_NAME);
-            else break;
-        }
-        List<Card> playerHand = getCurrentPlayerHand();
-        for (int i = 0; playerHand.get(i) != null; i++) {
-            if (playerHand.get(i).getName().equals(matcher.group(1)))
-                addCardToGraveYard(Zone.HAND, i, getCurrentPlayer());
-        }
-        addCardToGraveYard(Zone.SPELL_ZONE, Integer.parseInt(matcher.group(2)), getOpponentPlayer());
-        addCardToGraveYard(Zone.SPELL_ZONE, Integer.parseInt(matcher.group(3)), getOpponentPlayer());
-        SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
-        int j = 0;
-        while (spellZone.getCellWithAddress(j).getCellStatus() != CellStatus.EMPTY || j >= 5) {
-            if (spellZone.getCellWithAddress(j).getCardInCell().getName().equals("Twin Twisters"))
-                addCardToGraveYard(Zone.SPELL_ZONE, j, getCurrentPlayer());
-            j++;
-        }
-    }
-
-    public void mysticalSpaceTyphoonSpell() {
-        int cardPlace;
-        while (true) {
-            cardPlace = view.mysticalSpaceTyphoon();
-            if (cardPlace == -1) {
-                cancel();
-                return;
-            } else if (getOpponentPlayer().getPlayerBoard().returnSpellZone().getCellWithAddress(cardPlace)
-                    .getCellStatus() == CellStatus.EMPTY) view.showError(Error.PLACE_IS_EMPTY);
-            else break;
-        }
-        addCardToGraveYard(Zone.SPELL_ZONE, cardPlace, getOpponentPlayer());
-    }
-
-    public void ringOfDefenseSpell() {
-
     }
 
     private void swordOfDarkDestructionSpell() {
@@ -1802,150 +904,6 @@ public class RoundGameController {
         monster.setAttackPower(monster.getAttackPower() - 500);
     }
 
-    public void unitedWeStandSpell() {
-        // call remove
-        Card spellCard = selectedCell.getCardInCell();
-        String cardName;
-        while (true) {
-            cardName = view.unitedWeStand();
-            if (cardName == null) {
-                cancel();
-                return;
-            } else if (selectedCell.getCellStatus() != CellStatus.DEFENSIVE_OCCUPIED ||
-                    selectedCell.getCellStatus() != CellStatus.OFFENSIVE_OCCUPIED) {
-                view.showError(Error.DH_POSITION);
-            } else if (selectedCellZone != Zone.MONSTER_ZONE) {
-                view.showError(Error.CHOOSE_MONSTER_FROM_MONSTER_ZONE);
-            } else if (Card.getCardByName(cardName) == null) view.showError(Error.WRONG_CARD_NAME);
-            else break;
-        }
-        int i = 0, number = 0;
-        while (getCurrentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i >= 5) {
-            if (getCurrentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).getCellStatus() == CellStatus.OFFENSIVE_OCCUPIED
-                    || getCurrentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i).getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED)
-                number++;
-            i++;
-        }
-        if (getCurrentPlayer() == firstPlayer) firstPlayerUnitedWeStand = number;
-        else secondPlayerUnitedWeStand = number;
-        Monster monster = (Monster) Card.getCardByName(cardName);
-        Objects.requireNonNull(monster).setAttackPower(monster.getAttackPower() + number * 800);
-        monster.setDefensePower(monster.getDefensePower() + number * 800);
-        if (getCurrentPlayer() == firstPlayer) {
-            firstPlayerHashmapForEquipSpells.put(spellCard, monster);
-        } else secondPlayerHashmapForEquipSpells.put(spellCard, monster);
-    }
-
-    public void removeUnitedWeStand(Card card) {
-        Monster monster = (Monster) card;
-        if (getCurrentPlayer() == firstPlayer) {
-            Objects.requireNonNull(monster).setAttackPower(monster.getAttackPower() - firstPlayerUnitedWeStand * 800);
-            monster.setDefensePower(monster.getDefensePower() - firstPlayerUnitedWeStand * 800);
-        } else {
-            Objects.requireNonNull(monster).setAttackPower(monster.getAttackPower() - secondPlayerUnitedWeStand * 800);
-            monster.setDefensePower(monster.getDefensePower() - secondPlayerUnitedWeStand * 800);
-        }
-    }
-
-    public void magnumShieldSpell() {
-        Card spellCard = selectedCell.getCardInCell();
-        Monster monster;
-        String cardName;
-        while (true) {
-            cardName = view.magnumShield();
-            if (cardName == null) {
-                cancel();
-                return;
-            } else if (selectedCell.getCellStatus() != CellStatus.DEFENSIVE_OCCUPIED ||
-                    selectedCell.getCellStatus() != CellStatus.OFFENSIVE_OCCUPIED) {
-                view.showError(Error.DH_POSITION);
-            } else if (selectedCellZone != Zone.MONSTER_ZONE) {
-                view.showError(Error.CHOOSE_MONSTER_FROM_MONSTER_ZONE);
-            } else if (Card.getCardByName(cardName) == null) view.showError(Error.WRONG_CARD_NAME);
-            else if (selectedCell.getCellStatus() == CellStatus.DEFENSIVE_HIDDEN) view.showError(Error.DH_POSITION);
-            else {
-                monster = (Monster) Card.getCardByName(cardName);
-                if (Objects.requireNonNull(monster).getMonsterType() == MonsterType.WARRIOR)
-                    break;
-            }
-            view.showError(Error.TYPE_FIEND_OT_SPELL_CASTER);
-        }
-        if (selectedCell.getCellStatus() == CellStatus.OFFENSIVE_OCCUPIED)
-            monster.setAttackPower(monster.getDefensePower() + monster.getAttackPower());
-        else if (selectedCell.getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED)
-            monster.setDefensePower(monster.getDefensePower() + monster.getAttackPower());
-        if (getCurrentPlayer() == firstPlayer) {
-            firstPlayerHashmapForEquipSpells.put(spellCard, monster);
-        } else secondPlayerHashmapForEquipSpells.put(spellCard, monster);
-    }
-
-    public void timeSealTrap() {
-
-    }
-
-    public void magicJammerTrap(Card card) {
-        // after enemy activate spell
-        String cardName;
-        while (true) {
-            cardName = view.magicJammer();
-            if (cardName == null) {
-                cancel();
-                return;
-            } else if (Card.getCardByName(cardName) == null) view.showError(Error.WRONG_CARD_NAME);
-            else if (getCurrentPlayerHand().contains(Card.getCardByName(cardName))) {
-                List<Card> playerHand = getCurrentPlayerHand();
-                for (int i = 0; playerHand.get(i) != null; i++) {
-                    if (playerHand.get(i).getName().equals(cardName))
-                        addCardToGraveYard(Zone.HAND, i, getCurrentPlayer());
-                }
-                break;
-            }
-        }
-        SpellZone spellZone = getOpponentPlayer().getPlayerBoard().returnSpellZone();
-        int i = 0;
-        while (spellZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i >= 5) {
-            if (card.getName().equals(spellZone.getCellWithAddress(i).getCardInCell().getName()))
-                addCardToGraveYard(Zone.SPELL_ZONE, i, getCurrentPlayer());
-            i++;
-        }
-
-    }
-
-    public int getSwordsOfRevealingLightRounds() {
-        return swordsOfRevealingLightRounds;
-    }
-
-    public void setSwordsOfRevealingLightRounds(int swordsOfRevealingLightRounds) {
-        this.swordsOfRevealingLightRounds = swordsOfRevealingLightRounds;
-    }
-
-    public void quickSpellSwitchCase() {
-        if (view.yesNoQuestion("Do you want activate your quick spells?")) {
-            String cardName;
-            while (true) {
-                cardName = view.quickSpellsSwitchCase();
-                if (cardName == null) {
-                    cancel();
-                    return;
-                } else if (Card.getCardByName(cardName) == null) {
-                    view.showError(Error.WRONG_CARD_NAME);
-                } else if (selectedCellZone != Zone.SPELL_ZONE) {
-                    view.showError(Error.CHOOSE_SPELL_FROM_SPELL_ZONE);
-                } else {
-                    break;
-                }
-            }
-
-            switch (cardName) {
-                case "Ring of Defense":
-                    ringOfDefenseSpell();
-                case "Mystical space typhoon":
-                    mysticalSpaceTyphoonSpell();
-                case "Twin Twisters":
-                    twinTwistersSpell();
-            }
-        }
-    }
 
     public void surrender() {
         if (getCurrentPlayer() == firstPlayer) {
@@ -1965,37 +923,12 @@ public class RoundGameController {
         return firstPlayerHand;
     }
 
-    public void yomiShipMonster(Card attacker) {
-        MonsterZone monsterZone = getCurrentPlayer().getPlayerBoard().returnMonsterZone();
-        MonsterZone enemyMonsterZone = getOpponentPlayer().getPlayerBoard().returnMonsterZone();
-        for (int i = 0; monsterZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY; i++) {
-            if (monsterZone.getCellWithAddress(i).getCardInCell() == attacker)
-                addCardToGraveYard(Zone.MONSTER_ZONE, i, getCurrentPlayer());
-        }
-        for (int i = 0; enemyMonsterZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY; i++) {
-            if (enemyMonsterZone.getCellWithAddress(i).getCardInCell().getName().equals("Yomi Ship"))
-                addCardToGraveYard(Zone.MONSTER_ZONE, i, getOpponentPlayer());
-        }
-    }
-
-    public void alexandriteDragonMonster() {
-        int sumOfLevels = 0;
-        Monster monster;
-        MonsterZone monsterZone = getCurrentPlayer().getPlayerBoard().returnMonsterZone();
-        for (int i = 0; monsterZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY; i++) {
-            if (monsterZone.getCellWithAddress(i).getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED ||
-            monsterZone.getCellWithAddress(i).getCellStatus() == CellStatus.OFFENSIVE_OCCUPIED) {
-                monster = (Monster) monsterZone.getCellWithAddress(i).getCardInCell();
-                sumOfLevels += monster.getLevel();
-            }
-        }
-        monster = (Monster) selectedCell.getCardInCell();
-        monster.setAttackPower(monster.getAttackPower() + sumOfLevels * 300);
-    }
 
     private void addCardToGraveYard(Zone fromZone, int address, DuelPlayer player) {
         if (fromZone.equals(Zone.MONSTER_ZONE)) {
             Cell cell = player.getPlayerBoard().getACellOfBoard(fromZone, address);
+            if (cell.getCellStatus().equals(CellStatus.EMPTY))
+                return;
             checkDeathOfUnderFieldEffectCard((Monster) cell.getCardInCell());
             player.getPlayerBoard().removeMonsterFromBoardAndAddToGraveYard(address);
             if (player == firstPlayer) {
@@ -2029,7 +962,9 @@ public class RoundGameController {
             }
         } else if (fromZone.equals(Zone.SPELL_ZONE)) {
             Cell cell = player.getPlayerBoard().getACellOfBoard(fromZone, address);
-            //check related things
+            //TODO check related things
+            if (cell.getCellStatus().equals(CellStatus.EMPTY))
+                return;
             player.getPlayerBoard().removeSpellOrTrapFromBoard(address);
         } else if (fromZone.equals(Zone.HAND)) {
             if (player.getNickname().equals(getCurrentPlayer().getNickname())) {
@@ -2038,6 +973,8 @@ public class RoundGameController {
                 getCurrentPlayerHand().remove(address);
             } else {
                 Card card = getCardInHand(address);
+                if (card == null)
+                    return;
                 player.getPlayerBoard().addCardToGraveYard(card);
                 getOpponentHand().remove(address);
             }
@@ -2155,5 +1092,855 @@ public class RoundGameController {
         if ((card = getCurrentPlayerHand().get(address)) == null) {
             return null;
         } else return card;
+    }
+
+    //MONSTER RELATED CODES :
+    public void summonMonster() { //TODO might have effect
+        if (selectedCell == null && opponentSelectedCell != null) {
+            view.showError(Error.ONLY_CAN_SHOW_OPPONENT_CARD);
+            return;
+        }
+        if (!isValidSelectionForSummonOrSet()) {
+            return;
+        }
+        if (!isValidSummon()) {
+            return;
+        }
+        //check special summon
+        Monster monster = ((Monster) selectedCell.getCardInCell());
+        if (selectedCell.getCardInCell().getCardType().equals(CardType.MONSTER)) {
+            if (monster.getMonsterEffect().equals(MonsterEffect.GATE_GUARDIAN_EFFECT)) {
+                gateGaurdianEffect(CellStatus.OFFENSIVE_OCCUPIED);
+                return;
+            } else if (monster.getMonsterEffect().equals(MonsterEffect.BEAST_KING_BARBAROS_EFFECT)) {
+                if (beastKingBarbosEffect(CellStatus.OFFENSIVE_OCCUPIED))
+                    return;
+            } else if (monster.getMonsterEffect().equals(MonsterEffect.THE_TRICKY_EFFECT)) {
+                if (theTrickyEffect(CellStatus.OFFENSIVE_OCCUPIED)) {
+                    return;
+                }
+            }
+        }
+        // check haven't summoned more than once
+        if (!isValidToNormalSummonOrSet()) {
+            return;
+        }
+        if (monster.getMonsterActionType().equals(MonsterActionType.RITUAL)) {
+            ritualSummon();
+            return;
+        }
+        if (monster.getLevel() > 4 && monster.getLevel() <= 10) {
+            tributeSummon();
+            return;
+        }
+        normalSummon();
+    }
+
+    private boolean isValidSummon() {
+        if ((!selectedCellZone.equals(Zone.HAND)) || (!selectedCell.getCardInCell().getCardType().equals(CardType.MONSTER))) {
+            view.showError(Error.CAN_NOT_SUMMON);
+            return false;
+        }
+        if (!currentPhase.equals(Phase.MAIN_PHASE_1) && !currentPhase.equals(Phase.MAIN_PHASE_2)) {
+            view.showError(Error.ACTION_NOT_ALLOWED);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isValidToNormalSummonOrSet() {
+        if (isSummonOrSetOfMonsterUsed) {
+            view.showError(Error.ALREADY_SUMMONED_OR_SET);
+            return false;
+        }
+        return true;
+    }
+
+    private void gateGaurdianEffect(CellStatus status) {
+        if (view.yesNoQuestion("do you want to tribute for GateGaurdian Special Summon?")) {
+            if (didTribute(3, getCurrentPlayer())) {
+                specialSummon(selectedCell.getCardInCell(), status);
+            }
+        }
+    }
+
+    private boolean beastKingBarbosEffect(CellStatus status) {
+        int howToSummon = view.howToSummonBeastKingBarbos();//1-normal tribute, 2-without tribute, 3-with 3 tributes\n"
+        if (howToSummon == 1) {
+            return false;
+        } else if (howToSummon == 2) {
+            ((Monster) selectedCell.getCardInCell()).changeAttackPower(-1900);
+            if (status.equals(CellStatus.OFFENSIVE_OCCUPIED)) {
+                summon();
+            } else set();
+            return true;
+        } else {
+            if (didTribute(3, getCurrentPlayer())) {
+                beastKingBarbosSpecialSummonEffect(status);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void beastKingBarbosSpecialSummonEffect(CellStatus status) {
+        for (int i = 1; i <= 5; i++) {
+            addCardToGraveYard(Zone.MONSTER_ZONE, i, getOpponentPlayer());
+        }
+        for (int i = 1; i <= 5; i++) {
+            addCardToGraveYard(Zone.SPELL_ZONE, i, getOpponentPlayer());
+        }
+        if (fieldZoneSpell != null) {
+            reversePreviousFieldZoneSpellEffectAndRemoveIt();
+        }
+        specialSummon(selectedCell.getCardInCell(), status);
+        deselectCard(0);
+    }
+
+    private boolean theTrickyEffect(CellStatus status) {
+        if (view.yesNoQuestion("do you want to special summon/set it with a tribute in hand ?")) {
+            while (true) {
+                int address = view.chooseCardInHand();
+                if (address == -1) {
+                    return false;
+                } else if (getCardInHand(address) == null) {
+                    view.showError(Error.INVALID_SELECTION);
+                } else {
+                    addCardToGraveYard(Zone.HAND, address, getCurrentPlayer());
+                    specialSummon(selectedCell.getCardInCell(), status);
+                    deselectCard(0);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean isCurrentPlayerTrapToBeActivatedInSummonSituation() {
+        PlayerBoard board = getCurrentPlayer().getPlayerBoard();
+        for (int i = 1; i <= 5; i++) {
+            Cell cell = board.getACellOfBoard(Zone.SPELL_ZONE, i);
+            if (cell.getCellStatus().equals(CellStatus.EMPTY)) {
+                continue;
+            } else if (cell.getCardInCell().getCardType().equals(CardType.SPELL)) {
+                continue;
+            }
+            Trap trap = (Trap) cell.getCardInCell();
+            if (trap.getTrapEffect().equals(TrapEffect.TORRENTIAL_TRIBUTE_EFFECT)) {
+                return view.yesNoQuestion("do you want to activate your trap and spell?");
+            }
+        }
+        return false;
+    }
+
+    private boolean isOpponentTrapToBeActivatedInSummonSituation() { // TODO haven't added it to flip summon , special summon and ritual summon yet
+        PlayerBoard board = getOpponentPlayer().getPlayerBoard();
+        for (int i = 1; i <= 5; i++) {
+            Cell cell = board.getACellOfBoard(Zone.SPELL_ZONE, i);
+            if (cell.getCellStatus().equals(CellStatus.EMPTY)) {
+                continue;
+            } else if (cell.getCardInCell().getCardType().equals(CardType.SPELL)) {
+                continue;
+            }
+            Trap trap = (Trap) cell.getCardInCell();
+            switch (trap.getTrapEffect()) {
+                //case SOLEMN_WARNING_EFFECT:
+                case TORRENTIAL_TRIBUTE_EFFECT:
+                    view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER, getOpponentPlayer().getNickname());
+                    if (view.yesNoQuestion("do you want to activate your trap and spell?")) {
+                        return true;
+                    } else {
+                        view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER, getCurrentPlayer().getNickname());
+                        return false;
+                    }
+                case TRAP_HOLE_EFFECT:
+                    if (isValidSituationForTrapHoleTrapEffect()) {
+                        view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER, getOpponentPlayer().getNickname());
+                        if (view.yesNoQuestion("do you want to activate your trap and spell?")) {
+                            return true;
+                        } else {
+                            view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER, getCurrentPlayer().getNickname());
+                            return false;
+                        }
+                    }
+            }
+        }
+        return false;
+    }
+
+
+    private boolean isValidSituationForTrapHoleTrapEffect() {
+        return ((Monster) selectedCell.getCardInCell()).getAttackPower() > 1000;
+    }
+
+
+    private boolean isOpponentTrapInSummonSituationActivated() {
+        while (true) {
+            int address = view.getAddressForTrapOrSpell();
+            if (address == -1) {
+                return false;
+            } else if (address >= 1 && address <= 5) {
+                Cell cell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.SPELL_ZONE, address);
+                if (checkTrapCellToBeActivatedForOpponentInSummonSituation(address, cell))
+                    return true;
+                else {
+                    //TODO check it
+                }
+            } else
+                view.showError(Error.INVALID_NUMBER);
+        }
+    }
+
+    private boolean checkTrapCellToBeActivatedForOpponentInSummonSituation(int address, Cell cell) {
+        if (cell.getCardInCell().getCardType().equals(CardType.SPELL)) {
+            view.showError(Error.ACTION_NOT_ALLOWED); //ritght error ?
+        } else {
+            Trap trap = (Trap) cell.getCardInCell();
+            if (isValidActivateTrapEffectInSummonSituationForOpponentToDo(trap.getTrapEffect())) {
+                view.showSuccessMessage(SuccessMessage.TRAP_ACTIVATED);
+                addCardToGraveYard(Zone.SPELL_ZONE, address, getOpponentPlayer()); //CHECK correctly removed ?
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isTrapOfCurrentPlayerInSummonSituationActivated() {
+        while (true) {
+            int address = view.getAddressForTrapOrSpell();
+            if (address == -1) {
+                return false;
+            } else if (address >= 1 && address <= 5) {
+                Cell cell = getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.SPELL_ZONE, address);
+                if (checkTrapCellToBeActivatedForCurrentPlayerInSummonSituation(address, cell))
+                    return true;
+                else {
+                    //TODO check it
+                }
+            } else
+                view.showError(Error.INVALID_NUMBER);
+        }
+    }
+
+    private boolean checkTrapCellToBeActivatedForCurrentPlayerInSummonSituation(int address, Cell cell) {
+        if (cell.getCardInCell().getCardType().equals(CardType.SPELL)) {
+            view.showError(Error.ACTION_NOT_ALLOWED); //ritght error ?
+        } else {
+            Trap trap = (Trap) cell.getCardInCell();
+            if (isValidActivateTrapEffectInSummonSituationForCuurentPlayerToDo(trap.getTrapEffect())) {
+                view.showSuccessMessage(SuccessMessage.TRAP_ACTIVATED);
+                addCardToGraveYard(Zone.SPELL_ZONE, address, getCurrentPlayer()); //CHECK correctly removed ?
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isValidActivateTrapEffectInSummonSituationForOpponentToDo(TrapEffect trapEffect) {
+        switch (trapEffect) {
+            case TORRENTIAL_TRIBUTE_EFFECT:
+                torrentialTributeTrapEffect();
+                return true;
+            case TRAP_HOLE_EFFECT:
+                trapHoleTrapEffect();
+                return true;
+            default:
+                view.showError(Error.PREPARATIONS_IS_NOT_DONE);
+                return false;
+        }
+    }
+
+    private boolean isValidActivateTrapEffectInSummonSituationForCuurentPlayerToDo(TrapEffect trapEffect) {
+        switch (trapEffect) {
+            case TORRENTIAL_TRIBUTE_EFFECT:
+                torrentialTributeTrapEffect();
+                return true;
+            default:
+                view.showError(Error.PREPARATIONS_IS_NOT_DONE);
+                return false;
+        }
+    }
+
+    public void yomiShipMonster(Card attacker) {
+        MonsterZone monsterZone = getCurrentPlayer().getPlayerBoard().returnMonsterZone();
+        MonsterZone enemyMonsterZone = getOpponentPlayer().getPlayerBoard().returnMonsterZone();
+        for (int i = 0; monsterZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY; i++) {
+            if (monsterZone.getCellWithAddress(i).getCardInCell() == attacker)
+                addCardToGraveYard(Zone.MONSTER_ZONE, i, getCurrentPlayer());
+        }
+        for (int i = 0; enemyMonsterZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY; i++) {
+            if (enemyMonsterZone.getCellWithAddress(i).getCardInCell().getName().equals("Yomi Ship"))
+                addCardToGraveYard(Zone.MONSTER_ZONE, i, getOpponentPlayer());
+        }
+    }
+
+    public void alexandriteDragonMonster() {
+        int sumOfLevels = 0;
+        Monster monster;
+        MonsterZone monsterZone = getCurrentPlayer().getPlayerBoard().returnMonsterZone();
+        for (int i = 0; monsterZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY; i++) {
+            if (monsterZone.getCellWithAddress(i).getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED ||
+                    monsterZone.getCellWithAddress(i).getCellStatus() == CellStatus.OFFENSIVE_OCCUPIED) {
+                monster = (Monster) monsterZone.getCellWithAddress(i).getCardInCell();
+                sumOfLevels += monster.getLevel();
+            }
+        }
+        monster = (Monster) selectedCell.getCardInCell();
+        monster.setAttackPower(monster.getAttackPower() + sumOfLevels * 300);
+    }
+
+    private void normalSummon() {
+        isSummonOrSetOfMonsterUsed = true;
+        summon();
+        deselectCard(0);
+    }
+
+    private void summon() {
+        getCurrentPlayer().getPlayerBoard().addMonsterToBoard((Monster) selectedCell.getCardInCell(), CellStatus.OFFENSIVE_OCCUPIED);
+        view.showSuccessMessage(SuccessMessage.SUMMONED_SUCCESSFULLY);
+        if (isCurrentPlayerTrapToBeActivatedInSummonSituation()) {
+            if (isTrapOfCurrentPlayerInSummonSituationActivated()) {
+                view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER, getCurrentPlayer().getNickname());
+            }
+        }
+        if (isOpponentTrapToBeActivatedInSummonSituation()) {
+            if (isOpponentTrapInSummonSituationActivated()) {
+                view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER, getCurrentPlayer().getNickname());
+            }
+        }
+        checkNewCardToBeBeUnderEffectOfFieldCard((Monster) selectedCell.getCardInCell());
+    }
+
+    private void tributeSummon() {
+        if (((Monster) selectedCell.getCardInCell()).getLevel() >= 7) {
+            if (didTribute(2, getCurrentPlayer())) {
+                normalSummon();
+                return;
+            }
+        } else if (((Monster) selectedCell.getCardInCell()).getLevel() >= 5) {
+            if (didTribute(1, getCurrentPlayer())) {
+                normalSummon();
+                return;
+            }
+        }
+        deselectCard(0);
+    }
+
+    private boolean didTribute(int number, DuelPlayer player) {
+        //TODO check :
+        // view.showSuccessMessage(SuccessMessage.TRIBUTE_SUMMON_ENTER_ADDRESS);
+        ArrayList<Integer> address = new ArrayList<>();
+        if (!isThereEnoughMonsterToTribute(number, player)) {
+            view.showError(Error.NOT_ENOUGH_CARDS_TO_TRIBUTE);
+            return false;
+        }
+        int i = 0;
+        while (true) {
+            int input = view.getTributeAddress();
+            if (input == -1) {
+                cancel();
+                return false;
+            } else if (input > 5) {
+                view.showError(Error.INVALID_NUMBER);
+            } else if (player.getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, input).getCellStatus().equals(CellStatus.EMPTY)) {
+                view.showError(Error.WRONG_MONSTER_ADDRESS);
+            } else {
+                i++;
+                address.add(input);
+                if (i == number)
+                    break;
+            }
+        }
+        for (Integer integer : address) {
+            addCardToGraveYard(Zone.MONSTER_ZONE, integer, player);
+        }
+        return true;
+    }
+
+    private boolean isThereEnoughMonsterToTribute(int number, DuelPlayer player) {
+        int counter = 0;
+        for (int i = 0; i <= 4; i++) {
+            if (!player.getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i).getCellStatus().equals(CellStatus.EMPTY)) {
+                counter++;
+            }
+            if (i == 4) {
+                if (counter >= number) {
+                    break;
+                } else {
+                    view.showError(Error.NOT_ENOUGH_CARDS_TO_TRIBUTE);
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private void ritualSummon() {
+        List<Card> currentPlayerHand = getCurrentPlayerHand();
+        if (!isRitualCardInHand()) {
+            view.showError(Error.CAN_NOT_RITUAL_SUMMON);
+        } else if (!sumOfSubsequences("cardName")) {
+            view.showError(Error.CAN_NOT_RITUAL_SUMMON);
+        } else {
+            while (true) {
+                Monster monster = (Monster) selectedCell.getCardInCell();
+                if (Objects.requireNonNull(monster).getMonsterActionType() == MonsterActionType.RITUAL) break;
+                else {
+                    view.showError(Error.RITUAL_SUMMON_NOW);
+                    view.getSummonOrderForRitual();
+                }
+            }
+            while (true) {
+                if (areCardsLevelsEnoughToSummonRitualMonster()) break;
+                else view.showError(Error.LEVEL_DOES_NOT_MATCH);
+            }
+            Matcher matcherOfPosition = view.getPositionForSetRitualMonster();
+            setRitualMonster(matcherOfPosition);
+        }
+        deselectCard(0);
+    }
+
+    public void setRitualMonster(Matcher matcherOfPosition) {
+        MonsterZone monsterZone = getCurrentPlayer().getPlayerBoard().returnMonsterZone();
+        if (matcherOfPosition.group().equals("attack")) {
+            for (int i = 1; i <= 5; i++) {
+                if (monsterZone.getCellWithAddress(i).getCellStatus() == CellStatus.EMPTY) {
+                    Card card = Card.getCardByName(selectedCell.getCardInCell().getName());
+                    monsterZone.getCellWithAddress(i).setCardInCell(card);
+                    monsterZone.getCellWithAddress(i).setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
+                }
+            }
+            selectedCell.setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
+        } else if (matcherOfPosition.group().equals("defense")) {
+            for (int i = 1; i <= 5; i++) {
+                if (monsterZone.getCellWithAddress(i).getCellStatus() == CellStatus.EMPTY) {
+                    Card card = Card.getCardByName(selectedCell.getCardInCell().getName());
+                    monsterZone.getCellWithAddress(i).setCardInCell(card);
+                    monsterZone.getCellWithAddress(i).setCellStatus(CellStatus.DEFENSIVE_OCCUPIED);
+                }
+            }
+            selectedCell.setCellStatus(CellStatus.DEFENSIVE_OCCUPIED);
+        }
+        view.showSuccessMessage(SuccessMessage.SUMMONED_SUCCESSFULLY);
+    }
+
+    public boolean areCardsLevelsEnoughToSummonRitualMonster() {
+        Matcher addresses = view.getMonstersAddressesToBringRitual();
+        String[] split = addresses.pattern().split("\\s+");
+        int sum = 0;
+        MonsterZone monsterZone = getCurrentPlayer().getPlayerBoard().returnMonsterZone();
+        for (String s : split) {
+            Monster monster = (Monster) monsterZone.getCellWithAddress(Integer.parseInt(s)).getCardInCell();
+            sum += monster.getLevel();
+        }
+        Monster monster = (Monster) selectedCell.getCardInCell();
+        return sum == monster.getLevel();
+    }
+
+    private boolean isRitualCardInHand() {
+        List<Card> currentPlayerHand = getCurrentPlayerHand();
+        for (Card card : currentPlayerHand) {
+            if (card.getCardType() == CardType.MONSTER) {
+                if (MonsterActionType.getActionTypeByName(card.getName()) == MonsterActionType.RITUAL) return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean sumOfSubsequences(String cardName) {
+        MonsterZone monsterZone = getCurrentPlayer().getPlayerBoard().returnMonsterZone();
+        int sum = 0;
+        int[] levels = new int[5];
+        for (int i = 0; i < 5; i++) {
+            Monster cardNumberI = (Monster) monsterZone.getCellWithAddress(i).getCardInCell();
+            levels[i] = cardNumberI.getLevel();
+        }
+        ArrayList<Integer> sumOfSubset = new ArrayList<>();
+        sumOfSubset = subsetSums(levels, 0, levels.length - 1, 0, sumOfSubset);
+        Monster ritualCard = (Monster) Card.getCardByName(cardName);
+        for (int i = 0; i < sumOfSubset.size(); i++) {
+            if (sumOfSubset.get(i) == Objects.requireNonNull(ritualCard).getLevel()) return true;
+        }
+        return false;
+    }
+
+    public ArrayList<Integer> subsetSums(int[] arr, int l, int r, int sum, ArrayList<Integer> sumOfSubsets) {//TODO check --- pashmam ina che  esmaiye : |
+        if (l > r) {
+            sumOfSubsets.add(sum);
+            return sumOfSubsets;
+        }
+        subsetSums(arr, l + 1, r, sum + arr[l], sumOfSubsets);
+        subsetSums(arr, l + 1, r, sum, sumOfSubsets);
+        return sumOfSubsets;
+    }
+
+
+    public void setMonster() {
+        if (!isValidSelectionForSummonOrSet()) {
+            return;
+        }
+        if ((!selectedCellZone.equals(Zone.HAND))) {
+            view.showError(Error.CAN_NOT_SET);
+            return;
+        } else if (selectedCell.getCardInCell().getCardType().equals(CardType.SPELL) || selectedCell.getCardInCell().getCardType().equals(CardType.TRAP)) {
+            view.showError(Error.INVALID_COMMAND);//TODO change this error
+            return;
+        }
+        if (!(currentPhase.equals(Phase.MAIN_PHASE_1) || currentPhase.equals(Phase.MAIN_PHASE_2))) {
+            view.showError(Error.ACTION_NOT_ALLOWED);
+            return;
+        }
+        //check special Set
+        Monster monster = ((Monster) selectedCell.getCardInCell());
+        if (monster.getMonsterEffect().equals(MonsterEffect.GATE_GUARDIAN_EFFECT)) {
+            gateGaurdianEffect(CellStatus.DEFENSIVE_HIDDEN);
+            return;
+        } else if (monster.getMonsterEffect().equals(MonsterEffect.BEAST_KING_BARBAROS_EFFECT)) {
+            if (beastKingBarbosEffect(CellStatus.DEFENSIVE_HIDDEN))
+                return;
+        } else if (monster.getMonsterEffect().equals(MonsterEffect.THE_TRICKY_EFFECT)) {
+            if (theTrickyEffect(CellStatus.DEFENSIVE_HIDDEN)) {
+                return;
+            }
+        }
+        if (!isValidToNormalSummonOrSet()) {
+            return;
+        }
+        if (monster.getMonsterActionType().equals(MonsterActionType.RITUAL)) {
+            //TODO davood
+            //setRitualMonster();
+            return;
+        }
+        if (monster.getLevel() >= 4 && monster.getLevel() <= 10) {
+            tributeSet();
+            return;
+        }
+        normalSet();
+    }
+
+    private void normalSet() {
+        isSummonOrSetOfMonsterUsed = true;
+        set();
+        deselectCard(0);
+    }
+
+    private void set() {
+        getCurrentPlayer().getPlayerBoard().addMonsterToBoard((Monster) selectedCell.getCardInCell(), CellStatus.DEFENSIVE_HIDDEN);
+        checkNewCardToBeBeUnderEffectOfFieldCard((Monster) selectedCell.getCardInCell());
+    }
+
+    private void tributeSet() {
+        if (((Monster) selectedCell.getCardInCell()).getLevel() >= 7) {
+            if (didTribute(2, getCurrentPlayer())) {
+                normalSet();
+                return;
+            }
+        } else if (((Monster) selectedCell.getCardInCell()).getLevel() >= 5) {
+            if (didTribute(1, getCurrentPlayer())) {
+                normalSet();
+                return;
+            }
+        }
+        deselectCard(0);
+    }
+
+    private boolean isValidSelectionForSummonOrSet() {
+        if (selectedCellZone.equals(Zone.NONE)) {
+            view.showError(Error.NO_CARD_SELECTED_YET);
+            return false;
+        } else if (getCurrentPlayer().getPlayerBoard().isMonsterZoneFull()) {
+            view.showError(Error.MONSTER_ZONE_IS_FULL);
+            return false;
+        }
+        return true;
+    }
+
+    public void changeMonsterPosition(Matcher matcher) {
+        if (selectedCell == null) {
+            view.showError(Error.NO_CARD_SELECTED_YET);
+        } else if (matcher == null) {
+            cancel();
+            return;
+        } else if (!(selectedCellZone == Zone.MONSTER_ZONE)) {
+            view.showError(Error.CAN_NOT_CHANGE_POSITION);
+        } else if (!(currentPhase == Phase.MAIN_PHASE_1 || currentPhase == Phase.MAIN_PHASE_2)) {
+            view.showError(Error.ACTION_CAN_NOT_WORK_IN_THIS_PHASE);
+        } else if (!(matcher.group("position").equals("attack") && selectedCell.getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED ||
+                matcher.group("position").equals("defense") && selectedCell.getCellStatus() == CellStatus.OFFENSIVE_OCCUPIED)) {
+            if (selectedCell.getCellStatus() == CellStatus.DEFENSIVE_HIDDEN) view.showError(Error.DH_POSITION);
+            else view.showError(Error.CURRENTLY_IN_POSITION);
+        } else if (hasCardChangedPosition()) {
+            view.showError(Error.ALREADY_CHANGED_POSITION);
+        } else {
+            if (matcher.group("position").equals("attack")) selectedCell.setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
+            else if (matcher.group("position").equals("defense"))
+                selectedCell.setCellStatus(CellStatus.DEFENSIVE_OCCUPIED);
+            view.showSuccessMessage(SuccessMessage.POSITION_CHANGED_SUCCESSFULLY);
+            changePositionUsed();
+        }
+        deselectCard(0);
+    }
+
+    public void attackToCard(Matcher matcher) {
+        if (!isValidAttack(matcher))
+            return;
+        int toBeAttackedCardAddress = Integer.parseInt(matcher.group("monsterZoneNumber"));
+        CellStatus opponentCellStatus = getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, toBeAttackedCardAddress).getCellStatus();
+        if (opponentCellStatus.equals(CellStatus.DEFENSIVE_HIDDEN)) {
+            attackToDHCard(getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, toBeAttackedCardAddress), toBeAttackedCardAddress);
+        } else if (opponentCellStatus.equals(CellStatus.DEFENSIVE_OCCUPIED)) {
+            attackToDOCard(getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, toBeAttackedCardAddress), toBeAttackedCardAddress);
+        } else {
+            attackToOOCard(getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, toBeAttackedCardAddress), toBeAttackedCardAddress);
+        }
+        attackUsed();
+        deselectCard(0);
+    }
+
+    private void attackToDHCard(Cell opponentCellToBeAttacked, int toBeAttackedCardAddress) { //TODO might have effect
+        Monster opponentCard = (Monster) opponentCellToBeAttacked.getCardInCell();
+        view.showSuccessMessageWithAString(SuccessMessage.DH_CARD_BECOMES_DO, opponentCard.getName());
+        opponentCellToBeAttacked.changeCellStatus(CellStatus.DEFENSIVE_OCCUPIED);
+        attackToDOCard(opponentCellToBeAttacked, toBeAttackedCardAddress);
+        //TODO am i sure? i changed it to DO and just used attack to DO card
+        DOFlipSummon();
+        //TODO TO CHECK ... important for trap hole
+        if (isTrapToBeActivatedInAttackSituation()) {
+            if (isTrapOrSpellInAttackSituationActivated()) {
+                view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER, getCurrentPlayer().getNickname());
+                return;
+            }
+        }
+        Monster playerCard = (Monster) selectedCell.getCardInCell();
+        view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER, getCurrentPlayer().getNickname());
+        int damage = playerCard.getAttackPower() - opponentCard.getAttackPower();
+        if (damage > 0) {
+            view.showSuccessMessageWithAnInteger(SuccessMessage.OPPONENT_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
+            getOpponentPlayer().decreaseLP(damage);
+            checkForYomiShipOrExploderDragonEffect(toBeAttackedCardAddress, opponentCard);
+            checkForManEaterBugAttacked();
+            addCardToGraveYard(Zone.MONSTER_ZONE, toBeAttackedCardAddress, getOpponentPlayer());
+        } else if (damage < 0) {
+            view.showSuccessMessageWithAnInteger(SuccessMessage.CURRENT_PLAYER_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
+            checkForManEaterBugAttacked();
+            getCurrentPlayer().decreaseLP(-damage);
+            getCurrentPlayer().getPlayerBoard().addCardToGraveYard(opponentCellToBeAttacked.getCardInCell());
+            addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getCurrentPlayer());
+        } else {
+            view.showSuccessMessage(SuccessMessage.NO_DAMAGE_TO_ANYONE);
+            checkForManEaterBugAttacked();
+            addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getCurrentPlayer());
+            addCardToGraveYard(Zone.MONSTER_ZONE, toBeAttackedCardAddress, getOpponentPlayer());
+        }
+    }
+
+    private void checkForManEaterBugAttacked() {
+        view.showSuccessMessage(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER);
+        if (view.yesNoQuestion("do you want to activate man eater bug effect?")) {
+            while (true) {
+                int address = view.askAddressForManEaterBug();
+                if (address == -1) {
+                    return;
+                } else if (address >= 1 && address <= 5) {
+                    if (getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, address).getCellStatus().equals(CellStatus.EMPTY)) {
+                        view.showError(Error.INVALID_SELECTION);
+                    } else {
+                        addCardToGraveYard(Zone.MONSTER_ZONE, address, getCurrentPlayer());
+                    }
+                } else view.showError(Error.INVALID_NUMBER);
+            }
+        }
+    }
+
+    private void DOFlipSummon() {
+        //TODO
+    }
+
+    private void attackToDOCard(Cell opponentCellToBeAttacked, int toBeAttackedCardAddress) { //TODO might have effect
+        Monster playerCard = (Monster) selectedCell.getCardInCell();
+        Monster opponentCard = (Monster) opponentCellToBeAttacked.getCardInCell();
+        int damage = playerCard.getAttackPower() - opponentCard.getDefensePower();
+        if (damage > 0) {
+            view.showSuccessMessage(SuccessMessage.DEFENSIVE_MONSTER_DESTROYED);
+            checkForYomiShipOrExploderDragonEffect(toBeAttackedCardAddress, opponentCard);
+        } else if (damage < 0) {
+            view.showSuccessMessageWithAnInteger(SuccessMessage.DAMAGE_TO_CURRENT_PLAYER_AFTER_ATTACK_TI_HIGHER_DEFENSIVE_DO_OR_DH_MONSTER, damage);
+            getCurrentPlayer().decreaseLP(-damage);
+        } else {
+            view.showSuccessMessage(SuccessMessage.NO_CARD_DESTROYED);
+        }
+    }
+
+    private void attackToOOCard(Cell opponentCellToBeAttacked, int toBeAttackedCardAddress) { // might have effect
+        Monster playerCard = (Monster) selectedCell.getCardInCell();
+        Monster opponentCard = (Monster) opponentCellToBeAttacked.getCardInCell();
+        if (isTrapToBeActivatedInAttackSituation()) {
+            if (isTrapOrSpellInAttackSituationActivated()) {
+                view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER, getCurrentPlayer().getNickname());
+                return;
+            }
+        }
+        view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER, getCurrentPlayer().getNickname());
+        int damage = playerCard.getAttackPower() - opponentCard.getAttackPower();
+        if (damage > 0) {
+            view.showSuccessMessageWithAnInteger(SuccessMessage.OPPONENT_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
+            getOpponentPlayer().decreaseLP(damage);
+            checkForYomiShipOrExploderDragonEffect(toBeAttackedCardAddress, opponentCard);
+        } else if (damage < 0) {
+            view.showSuccessMessageWithAnInteger(SuccessMessage.CURRENT_PLAYER_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
+            getCurrentPlayer().decreaseLP(-damage);
+            getCurrentPlayer().getPlayerBoard().addCardToGraveYard(opponentCellToBeAttacked.getCardInCell());
+            addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getOpponentPlayer());
+        } else {
+            view.showSuccessMessage(SuccessMessage.NO_DAMAGE_TO_ANYONE);
+            addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getOpponentPlayer());
+            addCardToGraveYard(Zone.MONSTER_ZONE, toBeAttackedCardAddress, getOpponentPlayer());
+        }
+    }
+
+    private void checkForYomiShipOrExploderDragonEffect(int toBeAttackedCardAddress, Monster opponentCard) {
+        if (opponentCard.getMonsterEffect().equals(MonsterEffect.YOMI_SHIP_EFFECT)) {//yomi ship effect
+            addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getCurrentPlayer());
+        } else if (opponentCard.getMonsterEffect().equals(MonsterEffect.EXPLODER_DRAGON_EFFECT)) {//exploder dragon effect
+            addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getCurrentPlayer());
+            addCardToGraveYard(Zone.MONSTER_ZONE, toBeAttackedCardAddress, getOpponentPlayer());
+            return;
+        }
+        addCardToGraveYard(Zone.MONSTER_ZONE, toBeAttackedCardAddress, getOpponentPlayer());
+    }
+
+    private boolean isValidAttack(Matcher matcher) {
+        int address = Integer.parseInt(matcher.group("monsterZoneNumber"));
+        if (address > 5 || address < 1) {
+            view.showError(Error.INVALID_NUMBER);
+            return false;
+        }
+        if (selectedCell == null) {
+            view.showError(Error.NO_CARD_SELECTED_YET);
+            return false;
+        } else if (!selectedCellZone.equals(Zone.MONSTER_ZONE)) {
+            view.showError(Error.CAN_NOT_ATTACK);
+            return false;
+        }
+        if (!selectedCell.getCellStatus().equals(CellStatus.OFFENSIVE_OCCUPIED)) { // u sure ?
+            view.showError(Error.CAN_NOT_ATTACK);
+            return false;
+        } else if (!currentPhase.equals(Phase.BATTLE_PHASE)) {
+            view.showError(Error.ACTION_NOT_ALLOWED);
+            return false;
+        }
+        if (hasCardUsedItsAttack()) {
+            view.showError(Error.ALREADY_ATTACKED);
+            return false;
+        }
+        Cell opponentCell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, address);
+        if (opponentCell.getCellStatus().equals(CellStatus.EMPTY)) {
+            view.showError(Error.NO_CARD_TO_BE_ATTACKED);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isTrapToBeActivatedInAttackSituation() {
+        for (int i = 1; i <= 5; i++) {
+            Cell cell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.SPELL_ZONE, i);
+            if (cell.getCellStatus().equals(CellStatus.EMPTY)) {
+                continue;
+            } else if (cell.getCardInCell().getCardType().equals(CardType.SPELL)) {
+                continue;
+            }
+            Trap trap = (Trap) cell.getCardInCell();
+            switch (trap.getTrapEffect()) {
+                case MAGIC_CYLINDER_EFFECT:
+                case MIRROR_FORCE_EFFECT:
+                case NEGATE_ATTACK_EFFECT:
+                    view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER, getOpponentPlayer().getNickname());
+                    if (view.yesNoQuestion("do you want to activate your trap and spell?")) {
+                        return true;
+                    } else {
+                        view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER, getCurrentPlayer().getNickname());
+                        return false;
+                    }
+            }
+        }
+        return false;
+    }
+
+    private boolean isTrapOrSpellInAttackSituationActivated() {
+        while (true) {
+            int address = view.getAddressForTrapOrSpell();
+            if (address == -1) {
+                return false;
+            } else if (address >= 1 && address <= 5) {
+                Cell cell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.SPELL_ZONE, address);
+                if (cell.getCardInCell().getCardType().equals(CardType.TRAP)) {
+                    Trap trap = (Trap) cell.getCardInCell();
+                    if (activateTrapEffectInAttackSituation(trap.getTrapEffect())) {
+                        view.showSuccessMessage(SuccessMessage.TRAP_ACTIVATED);
+                        addCardToGraveYard(Zone.SPELL_ZONE, address, getOpponentPlayer()); //CHECK correctly removed ?
+                    }
+                    return true;
+                }
+            } else
+                view.showError(Error.INVALID_NUMBER);
+        }
+    }
+
+
+    private boolean activateTrapEffectInAttackSituation(TrapEffect trapEffect) {
+        switch (trapEffect) {
+            case MAGIC_CYLINDER_EFFECT:
+                TrapMagicCylinderEffect();
+                return true;
+            case MIRROR_FORCE_EFFECT:
+                TrapMirrorForceEffect();
+                return true;
+            case NEGATE_ATTACK_EFFECT:
+                TrapNegateAttackEffect();
+                return true;
+            default:
+                view.showError(Error.PREPARATIONS_IS_NOT_DONE);
+                return false;
+        }
+    }
+
+    public void flipSummon() {//TODO might have effect
+        if (selectedCell == null) {
+            view.showError(Error.NO_CARD_SELECTED_YET);
+        } else if (!(selectedCellZone == Zone.MONSTER_ZONE)) {
+            view.showError(Error.CAN_NOT_CHANGE_POSITION);
+        } else if (!(currentPhase == Phase.MAIN_PHASE_1 || currentPhase == Phase.MAIN_PHASE_2)) {
+            view.showError(Error.ACTION_CAN_NOT_WORK_IN_THIS_PHASE);
+        } else if (selectedCell.getCellStatus() == CellStatus.DEFENSIVE_HIDDEN) {
+            view.showError(Error.FLIP_SUMMON_NOT_ALLOWED);
+        } else {
+            if (!((Monster) selectedCell.getCardInCell()).getMonsterEffect().equals(MonsterEffect.MAN_EATER_BUG_EFFECT)) {
+                selectedCell.setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
+                view.showSuccessMessage(SuccessMessage.FLIP_SUMMON_SUCCESSFUL);
+                deselectCard(0);
+            } else {
+                manEaterBugMonsterEffectAndFlipSummon(getCurrentPlayer(), getOpponentPlayer());
+            }
+        }
+    }
+
+    private void manEaterBugMonsterEffectAndFlipSummon(DuelPlayer current, DuelPlayer opponent) {
+        if (view.yesNoQuestion("do you want to activate man eater bug effect?")) {
+            while (true) {
+                int address = view.askAddressForManEaterBug();
+                if (address == -1) {
+                    return;
+                } else if (address >= 1 && address <= 5) {
+                    if (opponent.getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, address).getCellStatus().equals(CellStatus.EMPTY)) {
+                        view.showError(Error.INVALID_SELECTION);
+                    } else {
+                        addCardToGraveYard(Zone.MONSTER_ZONE, address, opponent);
+                        deselectCard(0);
+                    }
+                } else view.showError(Error.INVALID_NUMBER);
+            }
+        }
+        selectedCell.setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
+        view.showSuccessMessage(SuccessMessage.FLIP_SUMMON_SUCCESSFUL);
     }
 }

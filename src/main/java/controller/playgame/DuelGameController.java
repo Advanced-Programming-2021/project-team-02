@@ -19,15 +19,14 @@ import java.util.regex.Matcher;
 
 
 public class DuelGameController {
-    private static DuelGameController instance;
+    private static DuelGameController instance = null;
     private final GameView view = GameView.getInstance();
     private Duel duel;
     private String specifier;
 
-    static {
-        instance = new DuelGameController();
-    }
+    private DuelGameController(){
 
+    }
     public static DuelGameController getInstance() {
         if (instance == null) instance = new DuelGameController();
         return instance;

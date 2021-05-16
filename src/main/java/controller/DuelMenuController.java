@@ -10,16 +10,17 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 
 public class DuelMenuController {
-    private static final DuelMenuController instance;
-    private final DuelMenuView view = DuelMenuView.getInstance ();
+    private static DuelMenuController instance = null;
+    private final DuelMenuView view = DuelMenuView.getInstance();
     private User loggedInUser;
     private Duel duel;
 
-    static {
-        instance = new DuelMenuController ();
+    private DuelMenuController() {
     }
 
     public static DuelMenuController getInstance() {
+        if (instance == null)
+            instance = new DuelMenuController();
         return instance;
     }
 
@@ -29,26 +30,26 @@ public class DuelMenuController {
     }
 
     public void startDuelWithOtherPlayer(Matcher matcher) throws CloneNotSupportedException {
-        if (!isPlayerValidToStartDuel (matcher.group ("secondPlayerNickName"))) {
-            view.showError (Error.PLAYER_DOES_NOT_EXIST);
-        } else if (!areRoundsNumberValid (Integer.parseInt (matcher.group ("roundNumber")))) {
-            view.showError (Error.WRONG_ROUNDS_NUMBER);
-        } else if (arePlayersDecksActive (matcher.group ("secondPlayerNickName"))) {
-            if (arePlayersDecksValid (matcher.group ("secondPlayerNickName"))) {
-                duel = new Duel (loggedInUser.getUsername (), matcher.group ("" +
-                        "secondPlayerNickName"), Integer.parseInt (matcher.group ("roundNumber")));
-                DuelGameController.getInstance ().startDuel (duel);
+        if (!isPlayerValidToStartDuel(matcher.group("secondPlayerNickName"))) {
+            view.showError(Error.PLAYER_DOES_NOT_EXIST);
+        } else if (!areRoundsNumberValid(Integer.parseInt(matcher.group("roundNumber")))) {
+            view.showError(Error.WRONG_ROUNDS_NUMBER);
+        } else if (arePlayersDecksActive(matcher.group("secondPlayerNickName"))) {
+            if (arePlayersDecksValid(matcher.group("secondPlayerNickName"))) {
+                duel = new Duel(loggedInUser.getUsername(), matcher.group("" +
+                        "secondPlayerNickName"), Integer.parseInt(matcher.group("roundNumber")));
+                DuelGameController.getInstance().startDuel(duel);
             }
         }
     }
 
     public void startDuelWithAI(Matcher matcher) {
-        if (!areRoundsNumberValid (Integer.parseInt (matcher.group ("roundNumber"))))
-            view.showError (Error.WRONG_ROUNDS_NUMBER);
+        if (!areRoundsNumberValid(Integer.parseInt(matcher.group("roundNumber"))))
+            view.showError(Error.WRONG_ROUNDS_NUMBER);
     }
 
     private boolean isPlayerValidToStartDuel(String username) {
-        User user = User.getUserByUsername (username);
+        User user = User.getUserByUsername(username);
         return user != null;
     }
 
@@ -57,24 +58,24 @@ public class DuelMenuController {
     }
 
     public boolean arePlayersDecksActive(String secondPlayerUserName) {
-        if (!loggedInUser.getHasActiveDeck ()) {
-            view.showDynamicErrorForInactiveDeck (Error.INACTIVATED_DECK, loggedInUser.getUsername ());
+        if (!loggedInUser.getHasActiveDeck()) {
+            view.showDynamicErrorForInactiveDeck(Error.INACTIVATED_DECK, loggedInUser.getUsername());
             return false;
         }
-        User user = Objects.requireNonNull (User.getUserByUsername (secondPlayerUserName));
-        if (!user.getHasActiveDeck ()) {
-            view.showDynamicErrorForInactiveDeck (Error.INACTIVATED_DECK, secondPlayerUserName);
+        User user = Objects.requireNonNull(User.getUserByUsername(secondPlayerUserName));
+        if (!user.getHasActiveDeck()) {
+            view.showDynamicErrorForInactiveDeck(Error.INACTIVATED_DECK, secondPlayerUserName);
             return false;
         }
         return true;
     }
 
     public boolean arePlayersDecksValid(String secondPlayerUsername) {
-        if (!Objects.requireNonNull (User.getActiveDeck (loggedInUser.getUsername ())).isValidDeck ()) {
-            view.showDynamicErrorForInactiveDeck (Error.FORBIDDEN_DECK, loggedInUser.getUsername ());
+        if (!Objects.requireNonNull(User.getActiveDeck(loggedInUser.getUsername())).isValidDeck()) {
+            view.showDynamicErrorForInactiveDeck(Error.FORBIDDEN_DECK, loggedInUser.getUsername());
             return false;
-        } else if (!Objects.requireNonNull (User.getActiveDeck (secondPlayerUsername)).isValidDeck ()) {
-            view.showDynamicErrorForInactiveDeck (Error.FORBIDDEN_DECK, secondPlayerUsername);
+        } else if (!Objects.requireNonNull(User.getActiveDeck(secondPlayerUsername)).isValidDeck()) {
+            view.showDynamicErrorForInactiveDeck(Error.FORBIDDEN_DECK, secondPlayerUsername);
             return false;
         }
         return true;
