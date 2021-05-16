@@ -1110,7 +1110,7 @@ public class RoundGameController {
         Monster monster = ((Monster) selectedCell.getCardInCell());
         if (selectedCell.getCardInCell().getCardType().equals(CardType.MONSTER)) {
             if (monster.getMonsterEffect().equals(MonsterEffect.GATE_GUARDIAN_EFFECT)) {
-                gateGaurdianEffect(CellStatus.OFFENSIVE_OCCUPIED);
+                gateGuardianEffect(CellStatus.OFFENSIVE_OCCUPIED);
                 return;
             } else if (monster.getMonsterEffect().equals(MonsterEffect.BEAST_KING_BARBAROS_EFFECT)) {
                 if (beastKingBarbosEffect(CellStatus.OFFENSIVE_OCCUPIED))
@@ -1156,7 +1156,7 @@ public class RoundGameController {
         return true;
     }
 
-    private void gateGaurdianEffect(CellStatus status) {
+    private void gateGuardianEffect(CellStatus status) {
         if (view.yesNoQuestion("do you want to tribute for GateGaurdian Special Summon?")) {
             if (didTribute(3, getCurrentPlayer())) {
                 specialSummon(selectedCell.getCardInCell(), status);
@@ -1593,7 +1593,7 @@ public class RoundGameController {
         //check special Set
         Monster monster = ((Monster) selectedCell.getCardInCell());
         if (monster.getMonsterEffect().equals(MonsterEffect.GATE_GUARDIAN_EFFECT)) {
-            gateGaurdianEffect(CellStatus.DEFENSIVE_HIDDEN);
+            gateGuardianEffect(CellStatus.DEFENSIVE_HIDDEN);
             return;
         } else if (monster.getMonsterEffect().equals(MonsterEffect.BEAST_KING_BARBAROS_EFFECT)) {
             if (beastKingBarbosEffect(CellStatus.DEFENSIVE_HIDDEN))
