@@ -81,12 +81,12 @@ public class GameView {
             controller.directAttack ();
         else if (Regex.getMatcher (Regex.BOARD_GAME_ACTIVATE_EFFECT, command).matches ())
             controller.activateEffectOfSpellOrTrap ();
-//        else if (Regex.getMatcher (Regex.BOARD_GAME_SURRENDER, command).matches ())
-//            controller.
 //        else if ((matcher = Regex.getMatcher (Regex.CHEAT_INCREASE_LP, command)).matches ())
 //            controller.
         else if (Regex.getMatcher (Regex.COMMAND_CANCEL, command).matches ())
             controller.cancel ();
+        else if (Regex.getMatcher (Regex.BOARD_GAME_SURRENDER, command).matches ())
+            controller.surrender ();
     }
 
     public void showError(Error error) {
@@ -102,11 +102,13 @@ public class GameView {
     }
 
     public void showSuccessMessageWithTwoIntegerAndOneString(SuccessMessage successMessage, String winnerUserName, int winnerScore, int loserScore) {
-
+        if (successMessage.equals (SuccessMessage.SURRENDER_MESSAGE))
+            System.out.printf (SuccessMessage.SURRENDER_MESSAGE.getValue (), winnerUserName, winnerScore, loserScore);
     }
 
     public void showSuccessMessageWithTwoIntegerAndOneStringForSeveralWins(SuccessMessage successMessage, String winnerUserName, int winnerScore, int loserScore) {
-
+        if (successMessage.equals (SuccessMessage.SURRENDER_MESSAGE_FOR_HOLE_MATCH))
+            System.out.printf (SuccessMessage.SURRENDER_MESSAGE_FOR_HOLE_MATCH.getValue (), winnerUserName, winnerScore, loserScore);
     }
 
     public void showSuccessMessage(SuccessMessage message) {
@@ -114,11 +116,25 @@ public class GameView {
     }
 
     public void showSuccessMessageWithAString(SuccessMessage message, String string) {
-        if (message.equals (SuccessMessage.PLAYERS_TURN)) System.out.printf (SuccessMessage.PLAYERS_TURN.getValue (), string);
+        if (message.equals (SuccessMessage.PLAYERS_TURN))
+            System.out.printf (SuccessMessage.PLAYERS_TURN.getValue (), string);
+        else if (message.equals (SuccessMessage.CARD_ADDED_TO_THE_HAND))
+            System.out.printf (SuccessMessage.CARD_ADDED_TO_THE_DECK.getValue (), string);
+        else if (message.equals (SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL))
+            System.out.printf (SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL.getValue (), string);
+        else if (message.equals (SuccessMessage.DH_CARD_BECOMES_DO))
+            System.out.printf (SuccessMessage.DH_CARD_BECOMES_DO.getValue (), string);
     }
 
     public void showSuccessMessageWithAnInteger(SuccessMessage message, int number) {
-
+        if (message.equals (SuccessMessage.OPPONENT_RECEIVE_DAMAGE_AFTER_ATTACK))
+            System.out.printf (SuccessMessage.OPPONENT_RECEIVE_DAMAGE_AFTER_ATTACK.getValue (), number);
+        else if (message.equals (SuccessMessage.DAMAGE_TO_CURRENT_PLAYER_AFTER_ATTACK_TI_HIGHER_DEFENSIVE_DO_OR_DH_MONSTER))
+            System.out.printf (SuccessMessage.DAMAGE_TO_CURRENT_PLAYER_AFTER_ATTACK_TI_HIGHER_DEFENSIVE_DO_OR_DH_MONSTER.getValue (), number);
+        else if (message.equals (SuccessMessage.CURRENT_PLAYER_RECEIVE_DAMAGE_AFTER_ATTACK))
+            System.out.printf (SuccessMessage.CURRENT_PLAYER_RECEIVE_DAMAGE_AFTER_ATTACK.getValue (), number);
+        else if (message.equals (SuccessMessage.OPPONENT_RECEIVE_DAMAGE_AFTER_DIRECT_ATTACK))
+            System.out.printf (SuccessMessage.OPPONENT_RECEIVE_DAMAGE_AFTER_DIRECT_ATTACK.getValue (), number);
     }
 
     public void showBoard() {
@@ -129,7 +145,7 @@ public class GameView {
                 for (int i = 0; i < controller.getSecondPlayerHand ().size (); i++) System.out.print ("c\t");
             } else for (int i = 0; i < controller.getSecondPlayerHand ().size (); i++) System.out.print ("c\t");
             System.out.print ("\n");
-            controller.getSecondPlayer ().getPlayDeck ();
+            System.out.println (controller.getSecondPlayer ().getPlayDeck ().getMainCards ().size ());
         } else {
             System.out.println (controller.getFirstPlayer ().getNickname () + ":" + controller.getFirstPlayer ().getLifePoint ());
         }
