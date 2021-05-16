@@ -2,12 +2,14 @@ package view;
 
 import controller.DeckMenuController;
 import controller.ShopMenuController;
+import model.Assets;
 import model.Shop;
 import model.card.Card;
 import view.input.Regex;
 import view.messages.Error;
 
 import java.util.Locale;
+import java.util.Objects;
 import java.util.regex.Matcher;
 
 public class ShopMenuView {
@@ -43,6 +45,8 @@ public class ShopMenuView {
             showAllCards();
         } else if ((matcher = Regex.getMatcher(Regex.CARD_SHOW, command)).matches()) {
             DeckMenuController.getInstance ().showCard (matcher);
+        } else if ((matcher = Regex.getMatcher(Regex.CHEAT_INCREASE_MONEY, command)).matches()) {
+            Objects.requireNonNull (Assets.getAssetsByUsername (controller.getLoggedInUser ().getUsername ())).increaseCoin (Integer.parseInt (matcher.group ("moneyAmount")));
         } else if (Regex.getMatcher(Regex.COMMAND_HELP, command).matches()) {
             help ();
         } else showError(Error.INVALID_COMMAND);

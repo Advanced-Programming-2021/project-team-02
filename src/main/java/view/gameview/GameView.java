@@ -300,9 +300,9 @@ public class GameView {
     }
 
     public Matcher monsterReborn() {
-        System.out.println("Enter message in format and then select card:" +
-                "if you want from your grave yard :  card_name card_position(only DO or OO)" +
-                "if you want from opponent grave yard :opponent card_name card_position(only DO or OO)");
+        System.out.println("Enter message in format and then select card:\n" +
+                "if you want from your grave yard: card_name card_position(only DO or OO)\n" +
+                "if you want from opponent grave yard: opponent card_name card_position(only DO or OO)");
         while (true) {
             String command = Input.getInput();
             Pattern pattern = Pattern.compile("( |opponent) ([A-Za-z ',-]+?) (DO|OO)");

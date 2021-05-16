@@ -32,7 +32,7 @@ public class Assets {
         this.username = username;
     }
 
-    public void setCoin(int coin) {
+    public void increaseCoin(int coin) {
         this.coin += coin;
     }
 

@@ -64,14 +64,14 @@ public class DuelGameController {
     public void updateScoreAndCoinForOneRound(DuelPlayer winner, DuelPlayer loser) {
         if (winner == duel.getPlayer1()) {
             Objects.requireNonNull(Assets.getAssetsByUsername(Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
-                    .getUsername())).setCoin(1000 + duel.maximumNumberOfLifePointsPlayer1());
+                    .getUsername())).increaseCoin (1000 + duel.maximumNumberOfLifePointsPlayer1());
             Objects.requireNonNull(Assets.getAssetsByUsername(Objects.requireNonNull(User.getUserByNickName(loser.getNickname()))
-                    .getUsername())).setCoin(100);
+                    .getUsername())).increaseCoin (100);
         } else if (winner == duel.getPlayer2()) {
             Objects.requireNonNull(Assets.getAssetsByUsername(Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
-                    .getUsername())).setCoin(1000 + duel.maximumNumberOfLifePointsPlayer2());
+                    .getUsername())).increaseCoin (1000 + duel.maximumNumberOfLifePointsPlayer2());
             Objects.requireNonNull(Assets.getAssetsByUsername(Objects.requireNonNull(User.getUserByNickName(loser.getNickname()))
-                    .getUsername())).setCoin(100);
+                    .getUsername())).increaseCoin (100);
         }
         view.showSuccessMessageWithTwoIntegerAndOneString(SuccessMessage.SURRENDER_MESSAGE, Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
                         .getUsername(), Objects.requireNonNull(User.getUserByNickName(winner.getNickname())).getScore(),
@@ -81,14 +81,14 @@ public class DuelGameController {
     public void updateScoreAndCoinForThreeRounds(DuelPlayer winner, DuelPlayer loser) {
         if (winner == duel.getPlayer1()) {
             Objects.requireNonNull(Assets.getAssetsByUsername(Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
-                    .getUsername())).setCoin(3000 + 3 * duel.maximumNumberOfLifePointsPlayer1());
+                    .getUsername())).increaseCoin (3000 + 3 * duel.maximumNumberOfLifePointsPlayer1());
             Objects.requireNonNull(Assets.getAssetsByUsername(Objects.requireNonNull(User.getUserByNickName(loser.getNickname()))
-                    .getUsername())).setCoin(300);
+                    .getUsername())).increaseCoin (300);
         } else if (winner == duel.getPlayer2()) {
             Objects.requireNonNull(Assets.getAssetsByUsername(Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
-                    .getUsername())).setCoin(3000 + 3 * duel.maximumNumberOfLifePointsPlayer2());
+                    .getUsername())).increaseCoin (3000 + 3 * duel.maximumNumberOfLifePointsPlayer2());
             Objects.requireNonNull(Assets.getAssetsByUsername(Objects.requireNonNull(User.getUserByNickName(loser.getNickname()))
-                    .getUsername())).setCoin(300);
+                    .getUsername())).increaseCoin (300);
         }
         ArrayList<String> roundsWinner = duel.getWinner();
         if (roundsWinner.get(0).equals(roundsWinner.get(1))) {
