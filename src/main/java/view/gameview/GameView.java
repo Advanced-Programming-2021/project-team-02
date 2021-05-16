@@ -122,8 +122,8 @@ public class GameView {
             System.out.printf (SuccessMessage.PLAYERS_TURN.getValue (), string);
         else if (message.equals (SuccessMessage.CARD_ADDED_TO_THE_HAND))
             System.out.printf (SuccessMessage.CARD_ADDED_TO_THE_DECK.getValue (), string);
-        else if (message.equals (SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL))
-            System.out.printf (SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL.getValue (), string);
+        else if (message.equals (SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER))
+            System.out.printf (SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER.getValue (), string);
         else if (message.equals (SuccessMessage.DH_CARD_BECOMES_DO))
             System.out.printf (SuccessMessage.DH_CARD_BECOMES_DO.getValue (), string);
     }
