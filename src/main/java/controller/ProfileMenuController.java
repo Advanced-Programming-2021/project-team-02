@@ -44,21 +44,21 @@ public class ProfileMenuController {
             return;
         }
         ProfileMenuController.getInstance ().getLoggedInUser ().changeNickname (newNickname);
-        view.showSuccessMessage (SuccessMessage.NICKNAME_CHANGED);
+        SuccessMessage.showSuccessMessage (SuccessMessage.NICKNAME_CHANGED);
     }
 
     public void changePassword(Matcher matcher) {
         String currentPassword = matcher.group ("currentPassword");
         String newPassword = matcher.group ("newPassword");
         if (!isPasswordCorrect (currentPassword)) {
-            view.showError (Error.INVALID_CURRENT_PASSWORD);
+            Error.showError (Error.INVALID_CURRENT_PASSWORD);
             return;
         }
         if (currentPassword.equals (newPassword)) {
-            view.showError (Error.SAME_PASSWORD);
+            Error.showError (Error.SAME_PASSWORD);
             return;
         }
         ProfileMenuController.getInstance ().getLoggedInUser ().changePassword (newPassword);
-        view.showSuccessMessage (SuccessMessage.PASSWORD_CHANGED);
+        SuccessMessage.showSuccessMessage (SuccessMessage.PASSWORD_CHANGED);
     }
 }

@@ -28,7 +28,7 @@ public class MainMenuView {
     public void commandRecognition(String command) {
         Matcher matcher;
         if (Regex.getMatcher (Regex.MENU_EXIT, command).matches ()) {
-            showSuccessMessage (SuccessMessage.LOGOUT);
+            SuccessMessage.showSuccessMessage (SuccessMessage.LOGOUT);
             MenusManager.getInstance ().setLoggedInUser (null);
             MenusManager.getInstance ().changeMenu (Menu.LOGIN_MENU);
         } else if (Regex.getMatcher (Regex.MENU_SHOW_CURRENT, command).matches ()) {
@@ -38,24 +38,16 @@ public class MainMenuView {
                 showDynamicError (Error.BEING_ON_CURRENT_MENU);
             else controller.menuEnter (matcher);
         } else if (Regex.getMatcher (Regex.USER_LOGOUT, command).matches ()) {
-            showSuccessMessage (SuccessMessage.LOGOUT);
+            SuccessMessage.showSuccessMessage (SuccessMessage.LOGOUT);
             MenusManager.getInstance ().setLoggedInUser (null);
             MenusManager.getInstance ().changeMenu (Menu.LOGIN_MENU);
         } else if (Regex.getMatcher (Regex.COMMAND_HELP, command).matches ()) {
             help ();
-        } else showError (Error.INVALID_COMMAND);
-    }
-
-    public void showError(Error error) {
-        System.out.println (error.getValue ());
+        } else Error.showError (Error.INVALID_COMMAND);
     }
 
     public void showDynamicError(Error error) {
-        System.out.printf (error.getValue (), Menu.MAIN_MENU.getValue ());
-    }
-
-    public void showSuccessMessage(SuccessMessage message) {
-        System.out.println (message.getValue ());
+        System.err.printf (error.getValue (), Menu.MAIN_MENU.getValue ());
     }
 
     public void showCurrentMenu() {

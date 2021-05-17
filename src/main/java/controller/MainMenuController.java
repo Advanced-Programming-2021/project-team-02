@@ -49,7 +49,7 @@ public class MainMenuController {
                 ProfileMenuController.getInstance ().setLoggedInUser (MainMenuController.getInstance ().getLoggedInUser ());
                 MenusManager.getInstance ().changeMenu (Menu.PROFILE_MENU);
                 break;
-            default: view.showError (Error.INVALID_COMMAND);
+            default: Error.showError (Error.INVALID_COMMAND);
         }
     }
 

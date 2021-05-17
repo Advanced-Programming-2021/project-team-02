@@ -28,7 +28,7 @@ public class LoginMenuView {
     public void commandRecognition(String command) {
         Matcher matcher;
         if (Regex.getMatcher (Regex.MENU_ENTER, command).matches ()) {
-            showError (Error.ENTER_MENU_BEFORE_LOGIN);
+            Error.showError (Error.ENTER_MENU_BEFORE_LOGIN);
         } else if (Regex.getMatcher (Regex.MENU_EXIT, command).matches ()) {
             MenusManager.getInstance ().changeMenu (Menu.EXIT);
         } else if (Regex.getMatcher (Regex.MENU_SHOW_CURRENT, command).matches ()) {
@@ -39,22 +39,14 @@ public class LoginMenuView {
             controller.loginUser (matcher);
         } else if (Regex.getMatcher (Regex.COMMAND_HELP, command).matches ()) {
             help ();
-        } else showError (Error.INVALID_COMMAND);
-    }
-
-    public void showError(Error error) {
-        System.out.println (error.getValue ());
+        } else Error.showError (Error.INVALID_COMMAND);
     }
 
     public void showDynamicError(Error error, Matcher matcher) {
         if (error.equals (Error.TAKEN_USERNAME)) {
-            System.out.printf (Error.TAKEN_USERNAME.getValue (), matcher.group ("username"));
+            System.err.printf (Error.TAKEN_USERNAME.getValue (), matcher.group ("username"));
         } else if (error.equals (Error.TAKEN_NICKNAME))
-            System.out.printf (Error.TAKEN_NICKNAME.getValue (), matcher.group ("nickname"));
-    }
-
-    public void showSuccessMessage(SuccessMessage message) {
-        System.out.println (message.getValue ());
+            System.err.printf (Error.TAKEN_NICKNAME.getValue (), matcher.group ("nickname"));
     }
 
     public void showCurrentMenu() {

@@ -9,11 +9,13 @@ import model.card.Trap;
 import model.card.informationofcards.CardType;
 import model.game.board.Cell;
 import model.game.board.GraveYard;
+import model.game.board.SpellZone;
 import view.input.Input;
 import view.input.Regex;
 import view.messages.Error;
 import view.messages.SuccessMessage;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -50,10 +52,6 @@ public class GameView {
             controller.selectOpponentFieldCard ();
         else if (Regex.getMatcher (Regex.BOARD_GAME_SELECT_DESELECT, command).matches ())
             controller.deselectCard (1);
-        //TODO remove these! not needed and not in doc!   else if (Regex.getMatcher (Regex.BOARD_GAME_SELECT_GRAVEYARD, command).matches ())
-        //TODO remove these! not needed and not in doc!       controller.selectPlayerGraveYard();
-        //TODO remove these! not needed and not in doc!   else if (Objects.requireNonNull (Regex.getMatcherFromAllPermutations (Regex.BOARD_GAME_SELECT_GRAVEYARD_OPPONENT, command)).matches ())
-        //TODO remove these! not needed and not in doc!       controller.selectOpponentGraveYard ();
         else if ((matcher = Regex.getMatcher (Regex.BOARD_GAME_SELECT_HAND, command)).matches ())
             controller.selectCardInHand (matcher);
         else if ((matcher = Regex.getMatcher (Regex.BOARD_GAME_SELECT_HAND, command)).matches ())
@@ -82,8 +80,8 @@ public class GameView {
             controller.directAttack ();
         else if (Regex.getMatcher (Regex.BOARD_GAME_ACTIVATE_EFFECT, command).matches ())
             controller.activateEffectOfSpellOrTrap ();
-//        else if ((matcher = Regex.getMatcher (Regex.CHEAT_INCREASE_LP, command)).matches ())
-//            controller.
+        else if ((matcher = Regex.getMatcher (Regex.CHEAT_INCREASE_LP, command)).matches ())
+            controller.getCurrentPlayer ().increaseLP (Integer.parseInt (matcher.group ("LPAmount")));
         else if (Regex.getMatcher (Regex.COMMAND_CANCEL, command).matches ())
             controller.cancel ();
         else if (Regex.getMatcher (Regex.BOARD_GAME_SURRENDER, command).matches ())
@@ -268,7 +266,7 @@ public class GameView {
             }else if (command.equals("cancel")){
                 return -1;
             }else {
-                System.out.println(Error.INVALID_COMMAND.getValue());
+                System.err.println(Error.INVALID_COMMAND.getValue());
             }
         }
     }
@@ -320,7 +318,7 @@ public class GameView {
                 return -1;
             } else if (command.matches("[1-9]+")) {
                 return Integer.parseInt(command);
-            } else System.out.println(Error.INVALID_COMMAND);
+            } else System.err.println(Error.INVALID_COMMAND);
         }
     }
 
@@ -331,7 +329,6 @@ public class GameView {
         }
         return false;
     }
-
     public int chooseCardInHand(String toShow){
         System.out.println(toShow);
         return askAddress();
@@ -346,7 +343,7 @@ public class GameView {
             if (input.matches("[1-3]")){
                 return Integer.parseInt(input);
             } else {
-                System.out.println(Error.INVALID_COMMAND.getValue());
+                System.err.println(Error.INVALID_COMMAND.getValue());
             }
         }
     }
@@ -363,7 +360,7 @@ public class GameView {
                 return Integer.parseInt(input);
             } else if (input.equals("cancel")) {
                 return -1;
-            } else System.out.println(Error.INVALID_COMMAND);
+            } else System.err.println(Error.INVALID_COMMAND);
         }
     }
     public int chooseCardInDeck(Deck deck){

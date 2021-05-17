@@ -36,7 +36,7 @@ public class DeckMenuController {
             return;
         }
         Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
-        view.showSuccessMessage(SuccessMessage.DECK_CREATED);
+        SuccessMessage.showSuccessMessage(SuccessMessage.DECK_CREATED);
         Objects.requireNonNull(assets).createDeck(deckName);
     }
 
@@ -47,7 +47,7 @@ public class DeckMenuController {
             return;
         }
         Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
-        view.showSuccessMessage(SuccessMessage.DECK_DELETED);
+        SuccessMessage.showSuccessMessage(SuccessMessage.DECK_DELETED);
         Objects.requireNonNull(assets).deleteDeck(deckName);
     }
 
@@ -59,7 +59,7 @@ public class DeckMenuController {
             return;
         }
         Objects.requireNonNull(assets).activateDeck(deckName);
-        view.showSuccessMessage(SuccessMessage.DECK_ACTIVATED);
+        SuccessMessage.showSuccessMessage(SuccessMessage.DECK_ACTIVATED);
     }
 
     public void addCardToMainDeck(Matcher matcher) {
@@ -70,12 +70,12 @@ public class DeckMenuController {
         if (!isValidDeckToAddCard(matcher, cardName, deckName)) return;
         Deck deck = Objects.requireNonNull(assets).getDeckByDeckName(deckName);
         if (deck.isMainFull()) {
-            view.showError(Error.MAIN_DECK_IS_FULL);
+            Error.showError(Error.MAIN_DECK_IS_FULL);
             return;
         }
         Card card = Card.getCardByName(cardName);
         if (assets.getNumberOfCards(card) == deck.getNumberOfCardInDeck(card)) {
-            view.showError(Error.DONT_HAVE_ENOUGH_OF_THIS_CARD);
+            Error.showError(Error.DONT_HAVE_ENOUGH_OF_THIS_CARD);
             return;
         }
 
@@ -94,12 +94,12 @@ public class DeckMenuController {
         if (!isValidDeckToAddCard(matcher, cardName, deckName)) return;
         Deck deck = Objects.requireNonNull(assets).getDeckByDeckName(deckName);
         if (deck.isSideFull()) {
-            view.showError(Error.MAIN_DECK_IS_FULL);
+            Error.showError(Error.MAIN_DECK_IS_FULL);
             return;
         }
         Card card = Card.getCardByName(cardName);
         if (assets.getNumberOfCards(card) == deck.getNumberOfCardInDeck(card)) {
-            view.showError(Error.DONT_HAVE_ENOUGH_OF_THIS_CARD);
+            Error.showError(Error.DONT_HAVE_ENOUGH_OF_THIS_CARD);
             return;
         }
         if (Objects.requireNonNull(card).getCardType().equals(CardType.MONSTER)) {
@@ -126,42 +126,42 @@ public class DeckMenuController {
         if (!isValidNumberOfCardInDeck(matcher, false, deck.getNumberOfCardInDeck(monster))) return;
         Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
         Objects.requireNonNull(assets).addCardToMainDeck(monster, deck);
-        view.showSuccessMessage(SuccessMessage.CARD_ADDED_TO_THE_DECK);
+        SuccessMessage.showSuccessMessage(SuccessMessage.CARD_ADDED_TO_THE_DECK);
     }
 
     private void addSpellToMainDeck(Spell spell, Deck deck, Matcher matcher) {
         if (!isValidNumberOfCardInDeck(matcher, spell.getIsLimited(), deck.getNumberOfCardInDeck(spell))) return;
         Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
         Objects.requireNonNull(assets).addCardToMainDeck(spell, deck);
-        view.showSuccessMessage(SuccessMessage.CARD_ADDED_TO_THE_DECK);
+        SuccessMessage.showSuccessMessage(SuccessMessage.CARD_ADDED_TO_THE_DECK);
     }
 
     private void addTrapToMainDeck(Trap trap, Deck deck, Matcher matcher) {
         if (!isValidNumberOfCardInDeck(matcher, trap.getIsLimited(), deck.getNumberOfCardInDeck(trap))) return;
         Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
         Objects.requireNonNull(assets).addCardToMainDeck(trap, deck);
-        view.showSuccessMessage(SuccessMessage.CARD_ADDED_TO_THE_DECK);
+        SuccessMessage.showSuccessMessage(SuccessMessage.CARD_ADDED_TO_THE_DECK);
     }
 
     private void addMonsterToSideDeck(Monster monster, Deck deck, Matcher matcher) {
         if (!isValidNumberOfCardInDeck(matcher, false, deck.getNumberOfCardInDeck(monster))) return;
         Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
         Objects.requireNonNull(assets).addCardToSideDeck(monster, deck);
-        view.showSuccessMessage(SuccessMessage.CARD_ADDED_TO_THE_DECK);
+        SuccessMessage.showSuccessMessage(SuccessMessage.CARD_ADDED_TO_THE_DECK);
     }
 
     private void addSpellToSideDeck(Spell spell, Deck deck, Matcher matcher) {
         if (!isValidNumberOfCardInDeck(matcher, spell.getIsLimited(), deck.getNumberOfCardInDeck(spell))) return;
         Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
         Objects.requireNonNull(assets).addCardToSideDeck(spell, deck);
-        view.showSuccessMessage(SuccessMessage.CARD_ADDED_TO_THE_DECK);
+        SuccessMessage.showSuccessMessage(SuccessMessage.CARD_ADDED_TO_THE_DECK);
     }
 
     private void addTrapToSideDeck(Trap trap, Deck deck, Matcher matcher) {
         if (!isValidNumberOfCardInDeck(matcher, trap.getIsLimited(), deck.getNumberOfCardInDeck(trap))) return;
         Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
         Objects.requireNonNull(assets).addCardToSideDeck(trap, deck);
-        view.showSuccessMessage(SuccessMessage.CARD_ADDED_TO_THE_DECK);
+        SuccessMessage.showSuccessMessage(SuccessMessage.CARD_ADDED_TO_THE_DECK);
     }
 
     private boolean isValidNumberOfCardInDeck(Matcher matcher, boolean isLimited, int numberOfCardInDeck) {
@@ -252,7 +252,7 @@ public class DeckMenuController {
         String cardName = matcher.group("cardName");
         Card card;
         if ((card = Card.getCardByName(cardName)) == null) {
-            view.showError(Error.CARD_DOES_NOT_EXIST);
+            Error.showError(Error.CARD_DOES_NOT_EXIST);
             return;
         }
         if (card.getCardType().equals(CardType.MONSTER)) {
@@ -280,7 +280,7 @@ public class DeckMenuController {
             return;
         }
         assets.removeCardFromMainDeck(Card.getCardByName(cardName), deck);
-        view.showSuccessMessage(SuccessMessage.CARD_REMOVED);
+        SuccessMessage.showSuccessMessage(SuccessMessage.CARD_REMOVED);
     }
 
     public void removeCardFromSideDeck(Matcher matcher) {
@@ -296,7 +296,7 @@ public class DeckMenuController {
             return;
         }
         assets.removeCardFromSideDeck(Card.getCardByName(cardName), deck);
-        view.showSuccessMessage(SuccessMessage.CARD_REMOVED);
+        SuccessMessage.showSuccessMessage(SuccessMessage.CARD_REMOVED);
     }
 
     private boolean doesDeckExist(String deckName) {

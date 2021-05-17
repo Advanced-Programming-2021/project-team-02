@@ -32,7 +32,7 @@ public class ScoreBoardView {
         if ((matcher = Regex.getMatcher(Regex.MENU_ENTER, command)).matches()) {
             if (matcher.group ("menuName").toLowerCase (Locale.ROOT).equals ("scoreboard"))
                 showDynamicError (Error.BEING_ON_CURRENT_MENU);
-            else showError(Error.BEING_ON_A_MENU);
+            else Error.showError(Error.BEING_ON_A_MENU);
         } else if (Regex.getMatcher(Regex.MENU_EXIT, command).matches()) {
             MenusManager.getInstance().changeMenu(Menu.MAIN_MENU);
         } else if (Regex.getMatcher(Regex.MENU_SHOW_CURRENT, command).matches()) {
@@ -41,7 +41,7 @@ public class ScoreBoardView {
             showScoreBoard();
         } else if (Regex.getMatcher (Regex.COMMAND_HELP, command).matches ()) {
             help ();
-        } else showError(Error.INVALID_COMMAND);
+        } else Error.showError(Error.INVALID_COMMAND);
     }
 
     public void showScoreBoard() {
@@ -58,12 +58,8 @@ public class ScoreBoardView {
         }
     }
 
-    public void showError(Error error) {
-        System.out.println(error.getValue());
-    }
-
     public void showDynamicError(Error error) {
-        System.out.printf (error.getValue (), Menu.SCOREBOARD_MENU.getValue ());
+        System.err.printf (error.getValue (), Menu.SCOREBOARD_MENU.getValue ());
     }
 
     public void showCurrentMenu() {

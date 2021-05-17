@@ -31,9 +31,9 @@ public enum SuccessMessage {
     NO_CARD_DESTROYED("no card is destroyed"),
     DAMAGE_TO_CURRENT_PLAYER_AFTER_ATTACK_TI_HIGHER_DEFENSIVE_DO_OR_DH_MONSTER("no card is destroyed and you received %d battle damage"),
     DH_CARD_BECOMES_DO("opponent’s monster card was %s"),
-    OPPONENT_RECEIVE_DAMAGE_AFTER_DIRECT_ATTACK("you opponent receives %d battle damage"),
+    OPPONENT_RECEIVE_DAMAGE_AFTER_DIRECT_ATTACK("your opponent receives %d battle damage"),
     SPELL_ACTIVATED("spell activated"),
-    SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER("now it will be %s’s turn(middle game turn change)"),
+    SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER("now it will be %s’s turn (middle game turn change)"),
     WANTS_ACTIVE_SPELL("do you want to activate your trap and spell?"),
     TRAP_ACTIVATED("spell/trap activated"),
     COMPLETE_SPECIAL_SUMMON("you should special summon right now"),
@@ -53,5 +53,9 @@ public enum SuccessMessage {
 
     public String getValue() {
         return value;
+    }
+
+    public static void showSuccessMessage(SuccessMessage message) {
+        System.out.println (message.getValue ());
     }
 }

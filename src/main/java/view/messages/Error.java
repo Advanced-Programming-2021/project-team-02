@@ -84,4 +84,8 @@ public enum Error {
     public String getValue() {
         return value;
     }
+
+    public static void showError(Error error) {
+        System.err.println (error.getValue ());
+    }
 }

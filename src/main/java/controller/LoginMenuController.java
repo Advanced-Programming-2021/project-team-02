@@ -36,7 +36,7 @@ public class LoginMenuController {
             return;
         }
         new User(username, password, nickname);
-        view.showSuccessMessage(SuccessMessage.REGISTER_SUCCESSFUL);
+        SuccessMessage.showSuccessMessage(SuccessMessage.REGISTER_SUCCESSFUL);
     }
 
     public boolean isUsernameUsed(String username) {
@@ -58,17 +58,17 @@ public class LoginMenuController {
         String username = matcher.group("username");
         String password = matcher.group("password");
         if (!isUsernameUsed(username)) {
-            view.showError(Error.INCORRECT_USERNAME);
+            Error.showError(Error.INCORRECT_USERNAME);
             return;
         }
         if (!doesUsernameAndPasswordMatch(username, password)) {
-            view.showError(Error.INCORRECT_PASSWORD);
+            Error.showError(Error.INCORRECT_PASSWORD);
             return;
         }
         MainMenuController.getInstance().setLoggedInUser(User.getUserByUsername(username));
         assert User.getUserByUsername(username) != null;
         MenusManager.getInstance().setLoggedInUser(User.getUserByUsername(username));
-        view.showSuccessMessage(SuccessMessage.LOGIN_SUCCESSFUL);
+        SuccessMessage.showSuccessMessage(SuccessMessage.LOGIN_SUCCESSFUL);
         MenusManager.getInstance().changeMenu(Menu.MAIN_MENU);
     }
 }
