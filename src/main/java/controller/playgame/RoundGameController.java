@@ -238,6 +238,7 @@ public class RoundGameController {
 
     private void trapMagicCylinderEffect() {
         getCurrentPlayer().decreaseLP(((Monster) selectedCell.getCardInCell()).getAttackPower());
+        duelGameController.checkGameResult(getOpponentPlayer(),getCurrentPlayer(),0);
         addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getCurrentPlayer());
         deselectCard(0);
     }
@@ -288,7 +289,7 @@ public class RoundGameController {
             addCardToFirstPlayerHand(card);
             view.showSuccessMessageWithAString(SuccessMessage.CARD_ADDED_TO_THE_HAND, card.getName());
         } else {
-            duelGameController.checkGameResult(currentPlayer);// no card so this is loser!
+            duelGameController.checkGameResult(currentPlayer,getOpponentPlayer(),1);// no card so this is loser!
         }
     }
 
@@ -320,6 +321,7 @@ public class RoundGameController {
         }
         Monster monster = (Monster) selectedCell.getCardInCell();
         getOpponentPlayer().decreaseLP(monster.getAttackPower());
+        duelGameController.checkGameResult(getCurrentPlayer(),getOpponentPlayer(),0);
         view.showSuccessMessageWithAnInteger(SuccessMessage.OPPONENT_RECEIVE_DAMAGE_AFTER_DIRECT_ATTACK, monster.getAttackPower());
     }
 
@@ -568,8 +570,8 @@ public class RoundGameController {
 
     public void surrender() {
         if (getCurrentPlayer() == firstPlayer) {
-            duelGameController.checkGameResult(secondPlayer);
-        } else duelGameController.checkGameResult(firstPlayer);
+            duelGameController.checkGameResult(secondPlayer,firstPlayer,3);
+        } else duelGameController.checkGameResult(firstPlayer,secondPlayer,3);
     }
 
     public void specialSummon(Card card, CellStatus cellStatus) {
@@ -1302,6 +1304,7 @@ public class RoundGameController {
         if (damage > 0) {
             view.showSuccessMessageWithAnInteger(SuccessMessage.OPPONENT_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
             getOpponentPlayer().decreaseLP(damage);
+            duelGameController.checkGameResult(getCurrentPlayer(),getOpponentPlayer(),0);
             checkForYomiShipOrExploderDragonEffect(toBeAttackedCardAddress, opponentCard);
             checkForManEaterBugAttacked();
             addCardToGraveYard(Zone.MONSTER_ZONE, toBeAttackedCardAddress, getOpponentPlayer());
@@ -1309,6 +1312,7 @@ public class RoundGameController {
             view.showSuccessMessageWithAnInteger(SuccessMessage.CURRENT_PLAYER_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
             checkForManEaterBugAttacked();
             getCurrentPlayer().decreaseLP(-damage);
+            duelGameController.checkGameResult(getOpponentPlayer(),getCurrentPlayer(),0);
             getCurrentPlayer().getPlayerBoard().addCardToGraveYard(opponentCellToBeAttacked.getCardInCell());
             addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getCurrentPlayer());
         } else {
@@ -1357,6 +1361,7 @@ public class RoundGameController {
         } else if (damage < 0) {
             view.showSuccessMessageWithAnInteger(SuccessMessage.DAMAGE_TO_CURRENT_PLAYER_AFTER_ATTACK_TI_HIGHER_DEFENSIVE_DO_OR_DH_MONSTER, damage);
             getCurrentPlayer().decreaseLP(-damage);
+            duelGameController.checkGameResult(getOpponentPlayer(),getCurrentPlayer(),0);
         } else {
             view.showSuccessMessage(SuccessMessage.NO_CARD_DESTROYED);
         }
@@ -1375,13 +1380,15 @@ public class RoundGameController {
         int damage = playerCard.getAttackPower() - opponentCard.getAttackPower();
         if (damage > 0) {
             view.showSuccessMessageWithAnInteger(SuccessMessage.OPPONENT_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
+            addCardToGraveYard(Zone.MONSTER_ZONE, toBeAttackedCardAddress, getOpponentPlayer());
             getOpponentPlayer().decreaseLP(damage);
+            duelGameController.checkGameResult(getCurrentPlayer(),getOpponentPlayer(),0);
             checkForYomiShipOrExploderDragonEffect(toBeAttackedCardAddress, opponentCard);
         } else if (damage < 0) {
             view.showSuccessMessageWithAnInteger(SuccessMessage.CURRENT_PLAYER_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
             getCurrentPlayer().decreaseLP(-damage);
-            getCurrentPlayer().getPlayerBoard().addCardToGraveYard(opponentCellToBeAttacked.getCardInCell());
             addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getOpponentPlayer());
+            duelGameController.checkGameResult(getCurrentPlayer(),getOpponentPlayer(),0);
         } else {
             view.showSuccessMessage(SuccessMessage.NO_DAMAGE_TO_ANYONE);
             addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getOpponentPlayer());
