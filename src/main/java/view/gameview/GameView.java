@@ -210,6 +210,10 @@ public class GameView {
         }
     }
 
+    public void showError(Error error) {
+        System.out.println(error.getValue());
+    }
+
     public String getStatusForCell(Cell cell) {
         if (cell.getCellStatus ().getLabel ().equals ("E")) return "E";
         if (cell.getCellStatus ().getLabel ().equals ("O")) return "O";
