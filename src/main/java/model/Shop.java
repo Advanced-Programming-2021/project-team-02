@@ -3,14 +3,15 @@ package model;
 import model.card.Card;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Shop {
     private static Shop instance = null;
-    private static final Map<Card, Integer> cards;
+    private static final LinkedHashMap<Card, Integer> cards;
 
     static {
-        cards = new HashMap<>();
+        cards = new LinkedHashMap<> ();
     }
 
     private Shop() {}
