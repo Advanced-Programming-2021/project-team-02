@@ -7,6 +7,7 @@ import model.Shop;
 import model.card.Card;
 import view.input.Regex;
 import view.messages.Error;
+import view.messages.SuccessMessage;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -59,6 +60,10 @@ public class ShopMenuView {
 
     public void showDynamicError(Error error) {
         System.err.printf (error.getValue (), Menu.SHOP_MENU.getValue ());
+    }
+
+    public void showDynamicSuccessMessage(SuccessMessage successMessage, String string) {
+        System.out.printf (SuccessMessage.BOUGHT_CARD_SUCCESSFULLY.getValue (), string);
     }
 
     public void showCurrentMenu() {

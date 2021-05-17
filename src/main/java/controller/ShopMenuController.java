@@ -10,6 +10,7 @@ import model.card.Trap;
 import model.card.informationofcards.CardType;
 import view.ShopMenuView;
 import view.messages.Error;
+import view.messages.SuccessMessage;
 
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -48,5 +49,6 @@ public class ShopMenuController {
         }
         Objects.requireNonNull (assets).decreaseCoin (Shop.getCards ().get (card));
         assets.addCard (card);
+        view.showDynamicSuccessMessage (SuccessMessage.BOUGHT_CARD_SUCCESSFULLY, cardName);
     }
 }
