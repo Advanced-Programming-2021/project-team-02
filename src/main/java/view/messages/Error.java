@@ -86,6 +86,6 @@ public enum Error {
     }
 
     public static void showError(Error error) {
-        System.err.println (error.getValue ());
+        System.out.println (error.getValue ());
     }
 }

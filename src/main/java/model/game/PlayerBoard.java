@@ -132,7 +132,12 @@ public class PlayerBoard {
         return fieldZone;
     }
 
-    public void setFieldSpell(Spell spell) {
+    public void faceUpActiveFieldSpell(Spell spell) {
         fieldZone.setCard(spell);
+        fieldZone.setCellStatus(CellStatus.OCCUPIED);
+    }
+    public void setFieldSpell(Spell spell){
+        fieldZone.setCard(spell);
+        fieldZone.setCellStatus(CellStatus.HIDDEN);
     }
 }

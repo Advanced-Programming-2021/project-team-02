@@ -308,7 +308,7 @@ public class DeckMenuController {
         Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
         HashMap<Card, Integer> userCards = Objects.requireNonNull(assets).getAllUserCards();
         for (Card card : userCards.keySet()) {
-            if (card.getName().equals(cardName))
+            if (card.getName().equalsIgnoreCase(cardName))
                 if (userCards.get(card) > 0)
                     return true;
         }

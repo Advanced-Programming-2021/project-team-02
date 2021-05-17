@@ -33,6 +33,7 @@ public class DeckMenuView {
             else Error.showError(Error.BEING_ON_A_MENU);
         } else if (Regex.getMatcher(Regex.MENU_EXIT, command).matches()) {
             MenusManager.getInstance().changeMenu(Menu.MAIN_MENU);
+            return;
         }
         if ((matcher = Regex.getMatcher(Regex.DECK_CREATE, command)).matches()) {
             controller.createDeck(matcher);

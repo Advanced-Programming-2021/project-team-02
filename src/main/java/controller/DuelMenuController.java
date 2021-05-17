@@ -4,6 +4,7 @@ import controller.playgame.DuelGameController;
 import model.User;
 import model.game.Duel;
 import view.DuelMenuView;
+import view.MenusManager;
 import view.messages.Error;
 
 import java.util.Objects;
@@ -12,7 +13,6 @@ import java.util.regex.Matcher;
 public class DuelMenuController {
     private static DuelMenuController instance = null;
     private final DuelMenuView view = DuelMenuView.getInstance();
-    private User loggedInUser;
     private Duel duel;
 
     private DuelMenuController() {
@@ -25,19 +25,15 @@ public class DuelMenuController {
     }
 
 
-    public void setLoggedInUser(User loggedInUser) {
-        this.loggedInUser = loggedInUser;
-    }
-
     public void startDuelWithOtherPlayer(Matcher matcher) throws CloneNotSupportedException {
-        if (!isPlayerValidToStartDuel(matcher.group("secondPlayerNickName"))) {
+        if (!isPlayerValidToStartDuel(matcher.group("secondPlayerUsername"))) {
             Error.showError(Error.PLAYER_DOES_NOT_EXIST);
         } else if (!areRoundsNumberValid(Integer.parseInt(matcher.group("roundNumber")))) {
             Error.showError(Error.WRONG_ROUNDS_NUMBER);
-        } else if (arePlayersDecksActive(matcher.group("secondPlayerNickName"))) {
-            if (arePlayersDecksValid(matcher.group("secondPlayerNickName"))) {
-                duel = new Duel(loggedInUser.getUsername(), matcher.group("" +
-                        "secondPlayerNickName"), Integer.parseInt(matcher.group("roundNumber")));
+        } else if (arePlayersDecksActive(matcher.group("secondPlayerUsername"))) {
+            if (arePlayersDecksValid(matcher.group("secondPlayerUsername"))) {
+                duel = new Duel(MenusManager.getInstance().getLoggedInUser().getUsername(), matcher.group("" +
+                        "secondPlayerUsername"), Integer.parseInt(matcher.group("roundNumber")));
                 DuelGameController.getInstance().startDuel(duel);
             }
         }
@@ -54,12 +50,12 @@ public class DuelMenuController {
     }
 
     public boolean areRoundsNumberValid(int roundsNumber) {
-        return roundsNumber != 3 && roundsNumber != 1;
+        return (roundsNumber == 3 || roundsNumber == 1);
     }
 
     public boolean arePlayersDecksActive(String secondPlayerUserName) {
-        if (!loggedInUser.getHasActiveDeck()) {
-            view.showDynamicErrorForInactiveDeck(Error.INACTIVATED_DECK, loggedInUser.getUsername());
+        if (!MenusManager.getInstance().getLoggedInUser().getHasActiveDeck()) {
+            view.showDynamicErrorForInactiveDeck(Error.INACTIVATED_DECK, MenusManager.getInstance().getLoggedInUser().getUsername());
             return false;
         }
         User user = Objects.requireNonNull(User.getUserByUsername(secondPlayerUserName));
@@ -71,8 +67,8 @@ public class DuelMenuController {
     }
 
     public boolean arePlayersDecksValid(String secondPlayerUsername) {
-        if (!Objects.requireNonNull(User.getActiveDeck(loggedInUser.getUsername())).isValidDeck()) {
-            view.showDynamicErrorForInactiveDeck(Error.FORBIDDEN_DECK, loggedInUser.getUsername());
+        if (!Objects.requireNonNull(User.getActiveDeck(MenusManager.getInstance().getLoggedInUser().getUsername())).isValidDeck()) {
+            view.showDynamicErrorForInactiveDeck(Error.FORBIDDEN_DECK, MenusManager.getInstance().getLoggedInUser().getUsername());
             return false;
         } else if (!Objects.requireNonNull(User.getActiveDeck(secondPlayerUsername)).isValidDeck()) {
             view.showDynamicErrorForInactiveDeck(Error.FORBIDDEN_DECK, secondPlayerUsername);

@@ -40,7 +40,7 @@ public class GameView {
         Matcher matcher;
         if ((matcher = Regex.getMatcher (Regex.BOARD_GAME_SELECT_MONSTER, command)).matches ())
             controller.selectCardInMonsterZone (matcher);
-        else if ((Objects.requireNonNull (matcher = Regex.getMatcherFromAllPermutations (Regex.BOARD_GAME_SELECT_MONSTER_OPPONENT, command))).matches ())
+        else if ((matcher = Regex.getMatcherFromAllPermutations (Regex.BOARD_GAME_SELECT_MONSTER_OPPONENT, command))!=null)//TODO chandtaee haro bayad injori mizadi na ba matches
             controller.selectOpponentCardMonsterZone (matcher);
         else if ((matcher = Regex.getMatcher (Regex.BOARD_GAME_SELECT_SPELL, command)).matches ())
             controller.selectCardInSpellZone (matcher);

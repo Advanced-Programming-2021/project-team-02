@@ -26,7 +26,7 @@ import static model.card.informationofcards.CardType.TRAP;
 
 public class RoundGameController {
     private static RoundGameController instance = null;
-    private final GameView view = GameView.getInstance();
+    private  GameView view ;
     private DuelPlayer firstPlayer;
     private DuelPlayer secondPlayer;
     private Cell selectedCell = null;
@@ -37,7 +37,7 @@ public class RoundGameController {
     private List<Card> firstPlayerHand = new ArrayList<>();
     private List<Card> secondPlayerHand = new ArrayList<>();
     private int turn = 1; // 1 : firstPlayer, 2 : secondPlayer
-    private DuelGameController duelGameController = DuelGameController.getInstance();
+    private DuelGameController duelGameController;
     private List<Integer> usedCellsToAttackNumbers = new ArrayList<>();
     private List<Integer> changedPositionCards = new ArrayList<>();
     private Spell fieldZoneSpell = null;
@@ -77,11 +77,13 @@ public class RoundGameController {
         return currentPhase;
     }
 
-    public void setRoundInfo(DuelPlayer firstPlayer, DuelPlayer secondPlayer) {
+    public void setRoundInfo(DuelPlayer firstPlayer, DuelPlayer secondPlayer,GameView view,DuelGameController duelGameController) {
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
         firstPlayer.setLifePoint(8000);
         secondPlayer.setLifePoint(8000);
+        this.view = view;
+        this.duelGameController = duelGameController;
     }
 
     public void changeTurn() {
@@ -1558,7 +1560,8 @@ public class RoundGameController {
         } else if (getCurrentPlayer().getPlayerBoard().isSpellZoneFull()) {
             Error.showError(Error.SPELL_ZONE_IS_FULL);
         } else if (((Spell) selectedCell.getCardInCell()).getSpellType().equals(SpellType.FIELD)) {//TODO
-
+            setFieldCard();
+            return;
         } else { // we can change place of this for ,,, you know...
             SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
             for (int i = 1; i <= 5; i++) {
@@ -1568,6 +1571,11 @@ public class RoundGameController {
             }
             view.showSuccessMessage(SuccessMessage.SET_SUCCESSFULLY);
         }
+        deselectCard(0);
+    }
+    private void setFieldCard(){
+        getCurrentPlayer().getPlayerBoard().setFieldSpell((Spell) selectedCell.getCardInCell());
+        view.showSuccessMessage(SuccessMessage.SET_SUCCESSFULLY);
         deselectCard(0);
     }
 
@@ -1643,18 +1651,18 @@ public class RoundGameController {
         if (fieldZoneSpell == null) {
             if (turn == 1) {
                 isFieldActivated = 1;
-                firstPlayer.getPlayerBoard().setFieldSpell((Spell) selectedCell.getCardInCell());
+                firstPlayer.getPlayerBoard().faceUpActiveFieldSpell((Spell) selectedCell.getCardInCell());
             } else {
                 isFieldActivated = 2;
-                secondPlayer.getPlayerBoard().setFieldSpell((Spell) selectedCell.getCardInCell());
+                secondPlayer.getPlayerBoard().faceUpActiveFieldSpell((Spell) selectedCell.getCardInCell());
             }
         } else {
             reversePreviousFieldZoneSpellEffectAndRemoveIt();
             isFieldActivated = getTurn();
             if (isFieldActivated == 1) {
-                firstPlayer.getPlayerBoard().setFieldSpell((Spell) selectedCell.getCardInCell());
+                firstPlayer.getPlayerBoard().faceUpActiveFieldSpell((Spell) selectedCell.getCardInCell());
             } else {
-                secondPlayer.getPlayerBoard().setFieldSpell((Spell) selectedCell.getCardInCell());
+                secondPlayer.getPlayerBoard().faceUpActiveFieldSpell((Spell) selectedCell.getCardInCell());
             }
         }
         fieldZoneSpell = (Spell) selectedCell.getCardInCell();
