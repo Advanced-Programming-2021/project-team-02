@@ -60,7 +60,7 @@ public abstract class Card {
     public static Card getCardByName(String cardName) {
         ArrayList<Card> cards = CardsDatabase.getAllCards();
         for (Card card : cards) {
-            if (card.getName().equals(cardName))
+            if (card.getName().equalsIgnoreCase(cardName))
                 return card;
         }
         return null;
