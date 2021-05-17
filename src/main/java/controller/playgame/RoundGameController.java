@@ -138,10 +138,11 @@ public class RoundGameController {
                 view.showError(Error.NO_CARD_SELECTED_YET);
                 return;
             }
+            view.showSuccessMessage(SuccessMessage.CARD_DESELECTED);
         }
         selectedCell = null;
         selectedCellZone = Zone.NONE;
-        view.showSuccessMessage(SuccessMessage.CARD_DESELECTED);
+        selectedCellAddress = 0;
     }
 
     public void selectPlayerFieldCard() {
@@ -159,7 +160,7 @@ public class RoundGameController {
             view.showError(Error.CARD_NOT_FOUND);
             return;
         }
-        selectedCell = getOpponentPlayer().getPlayerBoard().getFieldZone().getFieldCell();
+        opponentSelectedCell = getOpponentPlayer().getPlayerBoard().getFieldZone().getFieldCell();
         view.showSuccessMessage(SuccessMessage.CARD_SELECTED);
     }
 
@@ -172,9 +173,9 @@ public class RoundGameController {
             view.showError(Error.CARD_NOT_FOUND);
             return;
         }
-        selectedCellZone = Zone.MONSTER_ZONE;
-        selectedCell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(selectedCellZone, address);
-        selectedCellAddress = address;
+        //TODO? selectedCellZone = Zone.MONSTER_ZONE;
+        opponentSelectedCell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(selectedCellZone, address);
+        //TODO? selectedCellAddress = address;
         view.showSuccessMessage(SuccessMessage.CARD_SELECTED);
     }
 
@@ -187,8 +188,8 @@ public class RoundGameController {
             view.showError(Error.CARD_NOT_FOUND);
             return;
         }
-        selectedCellZone = Zone.SPELL_ZONE;
-        selectedCell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(selectedCellZone, address);
+        //TODO? selectedCellZone = Zone.SPELL_ZONE;
+        opponentSelectedCell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(selectedCellZone, address);
         view.showSuccessMessage(SuccessMessage.CARD_SELECTED);
     }
 
@@ -931,7 +932,7 @@ public class RoundGameController {
                 return;
             checkDeathOfUnderFieldEffectCard((Monster) cell.getCardInCell());
             player.getPlayerBoard().removeMonsterFromBoardAndAddToGraveYard(address);
-            if (player == firstPlayer) {
+            if (turn == 1) {
                 MonsterZone monsterZone = getFirstPlayer().getPlayerBoard().returnMonsterZone();
                 for (Card card : firstPlayerHashmapForEquipSpells.keySet()) {
                     if (monsterZone.getCellWithAddress(address).getCardInCell().getName().equals(firstPlayerHashmapForEquipSpells.get(card).getName())) {

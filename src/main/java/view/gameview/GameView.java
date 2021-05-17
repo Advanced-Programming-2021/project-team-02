@@ -51,10 +51,10 @@ public class GameView {
             controller.selectOpponentFieldCard ();
         else if (Regex.getMatcher (Regex.BOARD_GAME_SELECT_DESELECT, command).matches ())
             controller.deselectCard (1);
-        //else if (Regex.getMatcher (Regex.BOARD_GAME_SELECT_GRAVEYARD, command).matches ())
-        //    controller.selectPlayerGraveYard();
-        //else if (Objects.requireNonNull (Regex.getMatcherFromAllPermutations (Regex.BOARD_GAME_SELECT_GRAVEYARD_OPPONENT, command)).matches ())
-        //    controller.selectOpponentGraveYard ();
+        //TODO remove these! not needed and not in doc!   else if (Regex.getMatcher (Regex.BOARD_GAME_SELECT_GRAVEYARD, command).matches ())
+        //TODO remove these! not needed and not in doc!       controller.selectPlayerGraveYard();
+        //TODO remove these! not needed and not in doc!   else if (Objects.requireNonNull (Regex.getMatcherFromAllPermutations (Regex.BOARD_GAME_SELECT_GRAVEYARD_OPPONENT, command)).matches ())
+        //TODO remove these! not needed and not in doc!       controller.selectOpponentGraveYard ();
         else if ((matcher = Regex.getMatcher (Regex.BOARD_GAME_SELECT_HAND, command)).matches ())
             controller.selectCardInHand (matcher);
         else if ((matcher = Regex.getMatcher (Regex.BOARD_GAME_SELECT_HAND, command)).matches ())
@@ -89,6 +89,8 @@ public class GameView {
             controller.cancel ();
         else if (Regex.getMatcher (Regex.BOARD_GAME_SURRENDER, command).matches ())
             controller.surrender ();
+        //TODO add invalid command!
+        showBoard();
     }
 
     public void showError(Error error) {
