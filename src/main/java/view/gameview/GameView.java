@@ -346,7 +346,7 @@ public class GameView {
             String command = Input.getInput();
             if (command.equals("cancel")) {
                 return -1;
-            } else if (command.matches("[^-]\\d")) {
+            } else if (command.matches("[1-9]+")) {
                 return Integer.parseInt(command);
             } else System.out.println(Error.INVALID_COMMAND);
         }
