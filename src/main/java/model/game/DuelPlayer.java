@@ -2,6 +2,7 @@ package model.game;
 
 import model.Deck;
 import model.User;
+import model.card.Spell;
 
 public class DuelPlayer {
     private String nickname;
@@ -53,4 +54,5 @@ public class DuelPlayer {
     public int getLifePoint() {
         return lifePoint;
     }
+
 }

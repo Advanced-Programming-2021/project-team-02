@@ -222,32 +222,6 @@ public class RoundGameController {
             deselectCard(0);
         }
     }
-
-
-    public void setSpellOrTrap() {
-        if (selectedCell == null) {
-            view.showError(Error.NO_CARD_SELECTED_YET);
-        } else if (!selectedCellZone.equals(Zone.HAND)) {
-            view.showError(Error.CAN_NOT_SET);
-        } else if (!(selectedCell.getCardInCell().getCardType() == CardType.SPELL &&
-                (currentPhase == Phase.MAIN_PHASE_1 || currentPhase == Phase.MAIN_PHASE_2))) {
-            view.showError(Error.ACTION_CAN_NOT_WORK_IN_THIS_PHASE);
-        } else if (getCurrentPlayer().getPlayerBoard().isSpellZoneFull()) {
-            view.showError(Error.SPELL_ZONE_IS_FULL);
-        } else if (((Spell) selectedCell.getCardInCell()).getSpellType().equals(SpellType.FIELD)) {//TODO
-
-        } else { // we can change place of this for ,,, you know...
-            SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
-            for (int i = 1; i <= 5; i++) {
-                if (spellZone.getCellWithAddress(i).getCellStatus() == CellStatus.EMPTY) {
-                    //TODO complete it
-                }
-            }
-            view.showSuccessMessage(SuccessMessage.SET_SUCCESSFULLY);
-        }
-        deselectCard(0);
-    }
-
     public List<Card> getCurrentPlayerHand() {
         if (getCurrentPlayer() == firstPlayer) {
             return getFirstPlayerHand();
@@ -257,322 +231,14 @@ public class RoundGameController {
         return null;
     }
 
-    public void activateEffectOfSpellOrTrap() {
-        if (selectedCell == null) {
-            view.showError(Error.NO_CARD_SELECTED_YET);
-            return;
-        }
-        if (!selectedCellZone.equals(Zone.SPELL_ZONE) && !selectedCellZone.equals(Zone.HAND)) {
-            view.showError(Error.ONLY_SPELL_CAN_ACTIVE);
-            return;
-        }
-        if (!currentPhase.equals(Phase.MAIN_PHASE_1) && !currentPhase.equals(Phase.MAIN_PHASE_2)) {
-            view.showError(Error.ACTION_CAN_NOT_WORK_IN_THIS_PHASE);
-            return;
-        }
-        if (selectedCellZone.equals(Zone.SPELL_ZONE)) {
-            if (selectedCell.getCellStatus().equals(CellStatus.OCCUPIED)) {
-                view.showError(Error.CARD_ALREADY_ACTIVATED);
-                return;
-            } else if (getCurrentPlayer().getPlayerBoard().isSpellZoneFull()) {
-                view.showError(Error.SPELL_ZONE_IS_FULL);
-                return;
-            }
-        }
-        if (!isSpellOrTrapReadyToActivate()) {
-            view.showError(Error.PREPARATIONS_IS_NOT_DONE);
-            return;
-        }
-        if (selectedCell.getCardInCell().getCardType() == CardType.SPELL) {
-            if (!((Spell) selectedCell.getCardInCell()).getSpellType().equals(SpellType.FIELD))
-                normalSpellActivate(((Spell) selectedCell.getCardInCell()).getSpellEffect());
-            else fieldZoneSpellActivate();
-        } else
-            normalTrapActivate();
-    }
-
-    private void normalSpellActivate(SpellEffect spellEffect) {
-        switch (spellEffect) {
-            case MONSTER_REBORN_EFFECT:
-                monsterRebornSpell();
-                break;
-            case TERRAFORMING_EFFECT:
-                terraFormingSpell();
-                break;
-            case POT_OF_GREED_EFFECT:
-                potOfGreedSpell();
-                break;
-            case RAIGEKI_EFFECT:
-                raigekiSpell();
-                break;
-            case HARPIES_FEATHER_DUSTER_EFFECT:
-                harpiesFeatherDusterSpell();
-                break;
-            case DARK_HOLE_EFFECT:
-                darkHoleSpell();
-                break;
-            case SWORD_OF_DARK_DESTRUCTION_EFFECT:
-                swordOfDarkDestructionSpell();
-                break;
-            case BLACK_PENDANT_EFFECT:
-                blackPendantSpell();
-                break;
-        }
-    }
-
-    private void fieldZoneSpellActivate() {
-        if (fieldZoneSpell == null) {
-            if (turn == 1) {
-                isFieldActivated = 1;
-            } else {
-                isFieldActivated = 2;
-            }
-        } else {
-            reversePreviousFieldZoneSpellEffectAndRemoveIt();
-            isFieldActivated = getTurn();
-        }
-        fieldZoneSpell = (Spell) selectedCell.getCardInCell();
-        deselectCard(0);
-        findAndActivateFieldCard();
-    }
-
-    private void reversePreviousFieldZoneSpellEffectAndRemoveIt() {
-        switch (fieldZoneSpell.getSpellEffect()) {
-            case YAMI_EFFECT:
-                yamiFieldEffectReverse();
-                break;
-            case FOREST_EFFECT:
-                forestFieldEffectReverse();
-                break;
-            case CLOSED_FOREST_EFFECT:
-                closedForestFieldEffectReverse();
-                break;
-            case UMIIRUKA_EFFECT:
-                umirukaEffectReverse();
-        }
-        fieldZoneSpell = null;
-        if (isFieldActivated == 1) {
-            firstPlayer.getPlayerBoard().removeFieldSpell();
-        } else {
-            secondPlayer.getPlayerBoard().removeFieldSpell();
-        }
-    }
-
-    private void yamiFieldEffectReverse() {
-        for (Card card : fieldEffectedCards) {
-            if (((Monster) card).getMonsterType().equals(MonsterType.FIEND) || ((Monster) card).getMonsterType().equals(MonsterType.SPELLCASTER)) {
-                ((Monster) card).changeAttackPower(-200);
-                ((Monster) card).changeDefensePower(-200);
-            } else {
-                ((Monster) card).changeAttackPower(+200);
-                ((Monster) card).changeDefensePower(+200);
-            }
-        }
-        fieldEffectedCards.clear();
-    }
-
-    private void forestFieldEffectReverse() {
-        for (Card card : fieldEffectedCards) {
-            if (((Monster) card).getMonsterType().equals(MonsterType.INSECT) || ((Monster) card).getMonsterType().equals(MonsterType.BEAST) || ((Monster) card).getMonsterType().equals(MonsterType.BEAST_WARRIOR)) {
-                ((Monster) card).changeAttackPower(-200);
-                ((Monster) card).changeDefensePower(-200);
-            }
-        }
-        fieldEffectedCards.clear();
-    }
-
-    private void closedForestFieldEffectReverse() {
-        for (Card card : fieldEffectedCards) {
-            if (((Monster) card).getMonsterType().equals(MonsterType.BEAST_WARRIOR)) {
-                ((Monster) card).changeAttackPower(-100);
-            }
-        }
-        fieldEffectedCards.clear();
-    }
-
-    private void umirukaEffectReverse() {
-        for (Card card : fieldEffectedCards) {
-            if (((Monster) card).getMonsterType().equals(MonsterType.AQUA)) {
-                ((Monster) card).changeAttackPower(-500);
-                ((Monster) card).changeDefensePower(400);
-            }
-        }
-        fieldEffectedCards.clear();
-    }
-
-    private void findAndActivateFieldCard() {
-        switch (fieldZoneSpell.getSpellEffect()) {
-            case YAMI_EFFECT:
-                yamiFieldEffect();
-                break;
-            case FOREST_EFFECT:
-                forestFieldEffect();
-                break;
-            case CLOSED_FOREST_EFFECT:
-                closedForestFieldEffect();
-                break;
-            case UMIIRUKA_EFFECT:
-                umiirukaFieldEffect();
-                break;
-        }
-    }
-
-    private void yamiFieldEffect() {
-        addYamiFieldCardsToBeEffected();
-        for (Card card : fieldEffectedCards) {
-            if (((Monster) card).getMonsterType().equals(MonsterType.FIEND) || ((Monster) card).getMonsterType().equals(MonsterType.SPELLCASTER)) {
-                ((Monster) card).changeAttackPower(200);
-                ((Monster) card).changeDefensePower(200);
-            } else if (((Monster) card).getMonsterType().equals(MonsterType.FAIRY)) {
-                ((Monster) card).changeDefensePower(-200);
-                ((Monster) card).changeAttackPower(-200);
-            }
-        }
-    }
-
-    private void addYamiFieldCardsToBeEffected() {
-        for (int i = 1; i <= 5; i++) {
-            Cell cell = getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i);
-            if (((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.FIEND) || ((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.SPELLCASTER) && !fieldEffectedCardsAddress.contains(10 + i))
-                fieldEffectedCardsAddress.add(10 + i);
-        }
-        for (int i = 1; i <= 5; i++) {
-            Cell cell = getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i);
-            if (((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.FIEND) || ((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.SPELLCASTER) && !fieldEffectedCardsAddress.contains(20 + i))
-                fieldEffectedCardsAddress.add(20 + i);
-        }
-        addFoundCardsToBeEffectedByFieldCardToArrayList();
-    }
-
-    private void addFoundCardsToBeEffectedByFieldCardToArrayList() {
-        for (int i = fieldEffectedCardsAddress.size() - 1; i >= 0; i--) {
-            if (i > 20) {
-                if (!getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i - 20).getCellStatus().equals(CellStatus.EMPTY))
-                    fieldEffectedCards.add(getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i - 20).getCardInCell());
-
-            } else {
-                if (!getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i - 10).getCellStatus().equals(CellStatus.EMPTY))
-                    fieldEffectedCards.add(getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i - 10).getCardInCell());
-            }
-        }
-    }
-
-    private void forestFieldEffect() {
-        addForestFieldCardsToBeEffected();
-        for (Card card : fieldEffectedCards) {
-            if (((Monster) card).getMonsterType().equals(MonsterType.INSECT) || ((Monster) card).getMonsterType().equals(MonsterType.BEAST) || ((Monster) card).getMonsterType().equals(MonsterType.BEAST_WARRIOR)) {
-                ((Monster) card).changeAttackPower(200);
-                ((Monster) card).changeDefensePower(200);
-            }
-        }
-    }
-
-    private void addForestFieldCardsToBeEffected() {
-        for (int i = 1; i <= 5; i++) {
-            Cell cell = getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i);
-            if (((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.INSECT) ||
-                    ((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.BEAST) ||
-                    ((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.BEAST_WARRIOR) && !fieldEffectedCardsAddress.contains(10 + i))
-                fieldEffectedCardsAddress.add(10 + i);
-        }
-        for (int i = 1; i <= 5; i++) {
-            Cell cell = getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i);
-            if (((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.FIEND) && !fieldEffectedCardsAddress.contains(20 + i))
-                fieldEffectedCardsAddress.add(20 + i);
-        }
-        addFoundCardsToBeEffectedByFieldCardToArrayList();
-    }
-
-    private void closedForestFieldEffect() {//TODO CHECK WHAT BEAST TYPE MEAN
-        addClosedForestFieldCardsToBeEffected();
-        for (Card card : fieldEffectedCards) {
-            if (((Monster) card).getMonsterType().equals(MonsterType.BEAST)) {
-                ((Monster) card).changeAttackPower(100);
-            }
-        }
-    }
-
-    private void addClosedForestFieldCardsToBeEffected() {
-        for (int i = 1; i <= 5; i++) {
-            Cell cell = getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i);
-            if (((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.BEAST) && !fieldEffectedCardsAddress.contains(10 + i))
-                fieldEffectedCardsAddress.add(10 + i);
-        }
-        addFoundCardsToBeEffectedByFieldCardToArrayList();
-    }
-
-    private void umiirukaFieldEffect() {
-        addUmiirukaFieldCardsToBeEffected();
-        for (Card card : fieldEffectedCards) {
-            if (((Monster) card).getMonsterType().equals(MonsterType.AQUA)) {
-                ((Monster) card).changeAttackPower(500);
-                ((Monster) card).changeDefensePower(-400);
-            }
-        }
-    }
-
-    private void addUmiirukaFieldCardsToBeEffected() {
-        for (int i = 1; i <= 5; i++) {
-            Cell cell = getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i);
-            if (((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.AQUA) &&
-                    !fieldEffectedCardsAddress.contains(10 + i))
-                fieldEffectedCardsAddress.add(10 + i);
-        }
-        addFoundCardsToBeEffectedByFieldCardToArrayList();
-    }
-
-    private void normalTrapActivate() {
-        switch (((Trap) selectedCell.getCardInCell()).getTrapEffect()) {
-            case MIND_CRUSH_EFFECT:
-                mindCrushTrapEffect();
-                return;
-            default:
-                view.showError(Error.PREPARATIONS_IS_NOT_DONE);
-        }
-    }
-
-    private void mindCrushTrapEffect() {
-        boolean happened = false;
-        while (true) {
-            String cardName = view.askCardName();
-            if (Card.getCardByName(cardName) == null) {
-                view.showError(Error.WRONG_CARD_NAME);
-            } else {
-                Card card = Card.getCardByName(cardName);
-                for (Card handCard : getOpponentHand()) {
-                    if (handCard.getName().equals(cardName)) {
-                        happened = true;
-                        getOpponentHand().remove(handCard);
-                    }
-                }
-                if (!happened) {
-                    getCurrentPlayerHand().remove(0);
-                }
-                view.showSuccessMessage(SuccessMessage.TRAP_ACTIVATED);
-                addCardToGraveYard(Zone.SPELL_ZONE, selectedCellAddress, getCurrentPlayer());
-                return;
-
-            }
-        }
-    }
 
 
-    private boolean isSpellOrTrapReadyToActivate() {
-        if (selectedCell.getCardInCell().getCardType().equals(CardType.SPELL)) {
-
-        } else {
-
-        }
-        return false;
-    }
-
-
-    private void TrapMagicCylinderEffect() {
+    private void trapMagicCylinderEffect() {
         getCurrentPlayer().decreaseLP(((Monster) selectedCell.getCardInCell()).getAttackPower());
         addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getCurrentPlayer());
     }
 
-    private void TrapMirrorForceEffect() {
+    private void trapMirrorForceEffect() {
         for (int i = 1; i <= 5; i++) {
             if (getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i).getCellStatus().equals(CellStatus.OFFENSIVE_OCCUPIED))
                 addCardToGraveYard(Zone.MONSTER_ZONE, i, getCurrentPlayer());
@@ -580,7 +246,7 @@ public class RoundGameController {
         view.showSuccessMessage(SuccessMessage.TRAP_ACTIVATED);
     }
 
-    private void TrapNegateAttackEffect() {
+    private void trapNegateAttackEffect() {
         deselectCard(0);
         nextPhase();
     }
@@ -609,7 +275,7 @@ public class RoundGameController {
         usedCellsToAttackNumbers.add(selectedCellAddress);
     }
 
-    public void drawCardFromDeck() {//TODO TOUSE
+    public void drawCardFromDeck() {//TODO TO USE
         DuelPlayer currentPlayer = getCurrentPlayer();
         Card card;
         if ((card = currentPlayer.getPlayDeck().getMainCards().get(0)) != null) {
@@ -708,7 +374,7 @@ public class RoundGameController {
         selectedCellZone = Zone.NONE;
     }
 
-    public void monsterRebornSpell() {
+    public void monsterRebornSpell() {//TODO
         Matcher matcher;
         while (true) {
             matcher = view.monsterReborn();
@@ -751,7 +417,7 @@ public class RoundGameController {
         }
     }
 
-    private void terraFormingSpell() {
+    private void terraFormingSpell() {//TODO
         // TODO show deck
         String cardName;
         while (true) {
@@ -780,15 +446,10 @@ public class RoundGameController {
 
     private void potOfGreedSpell() {
         List<Card> deckCards = getCurrentPlayer().getPlayDeck().getMainCards();
+        getSecondPlayerHand().add(deckCards.get(0));
         getSecondPlayerHand().add(deckCards.get(1));
-        getSecondPlayerHand().add(deckCards.get(2));
-        SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
-        int i = 0;
-        while (spellZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i >= 5) {
-            if (spellZone.getCellWithAddress(i).getCardInCell().getName().equals("Pot of Greed"))
-                addCardToGraveYard(Zone.SPELL_ZONE, i, getCurrentPlayer());
-            i++;
-        }
+        addCardToGraveYard(Zone.SPELL_ZONE, selectedCellAddress, getCurrentPlayer());
+        deselectCard(0);
     }
 
     private void raigekiSpell() {
@@ -798,13 +459,8 @@ public class RoundGameController {
             addCardToGraveYard(Zone.MONSTER_ZONE, i, getOpponentPlayer());
             i++;
         }
-        SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
-        i = 0;
-        while (spellZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i >= 5) {
-            if (spellZone.getCellWithAddress(i).getCardInCell().getName().equals("Raigeki"))
-                addCardToGraveYard(Zone.SPELL_ZONE, i, getCurrentPlayer());
-            i++;
-        }
+        addCardToGraveYard(Zone.SPELL_ZONE, selectedCellAddress, getCurrentPlayer());
+        deselectCard(0);
     }
 
     private void harpiesFeatherDusterSpell() {
@@ -813,13 +469,13 @@ public class RoundGameController {
             addCardToGraveYard(Zone.SPELL_ZONE, i, getOpponentPlayer());
             i++;
         }
-        SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
-        i = 0;
-        while (spellZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i >= 5) {
-            if (spellZone.getCellWithAddress(i).getCardInCell().getName().equals("Harpie’s Feather Duster"))
-                addCardToGraveYard(Zone.SPELL_ZONE, i, getCurrentPlayer());
-            i++;
+        if (isFieldActivated == 2 && turn == 1){
+            reversePreviousFieldZoneSpellEffectAndRemoveIt();
+        } else if (isFieldActivated == 1 && turn == 3){
+            reversePreviousFieldZoneSpellEffectAndRemoveIt();
         }
+        addCardToGraveYard(Zone.SPELL_ZONE, selectedCellAddress, getCurrentPlayer());
+        deselectCard(0);
     }
 
     public void darkHoleSpell() {
@@ -833,16 +489,11 @@ public class RoundGameController {
             addCardToGraveYard(Zone.MONSTER_ZONE, i, getCurrentPlayer());
             i++;
         }
-        SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
-        i = 0;
-        while (spellZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i >= 5) {
-            if (spellZone.getCellWithAddress(i).getCardInCell().getName().equals("darkHole"))
-                addCardToGraveYard(Zone.SPELL_ZONE, i, getCurrentPlayer());
-            i++;
-        }
+        addCardToGraveYard(Zone.SPELL_ZONE, selectedCellAddress, getCurrentPlayer());
+        deselectCard(0);
     }
 
-    private void swordOfDarkDestructionSpell() {
+    private void swordOfDarkDestructionSpell() {//TODO
         Card spellCard = selectedCell.getCardInCell();
         Monster monster;
         String cardName;
@@ -871,13 +522,13 @@ public class RoundGameController {
         } else secondPlayerHashmapForEquipSpells.put(spellCard, monster);
     }
 
-    public void removeSwordOfDarkDestruction(Card card) {
+    public void removeSwordOfDarkDestruction(Card card) {//TODO func zadi estefade nakardi
         Monster monster = (Monster) card;
         monster.setAttackPower(monster.getAttackPower() - 400);
         monster.setDefensePower(monster.getDefensePower() + 200);
     }
 
-    public void blackPendantSpell() {
+    public void blackPendantSpell() {//TODO
         Card spellCard = selectedCell.getCardInCell();
         String cardName;
         while (true) {
@@ -900,7 +551,7 @@ public class RoundGameController {
         } else secondPlayerHashmapForEquipSpells.put(spellCard, monster);
     }
 
-    public void removeBlackPendant(Card card) {
+    public void removeBlackPendant(Card card) {//TODO func zadi estefade nakardi
         Monster monster = (Monster) card;
         monster.setAttackPower(monster.getAttackPower() - 500);
     }
@@ -961,6 +612,8 @@ public class RoundGameController {
                     }
                 }
             }
+        } else if (fromZone.equals(Zone.FIELD_ZONE)) {
+            player.getPlayerBoard().removeFieldSpell();
         } else if (fromZone.equals(Zone.SPELL_ZONE)) {
             Cell cell = player.getPlayerBoard().getACellOfBoard(fromZone, address);
             //TODO check related things
@@ -982,109 +635,7 @@ public class RoundGameController {
         }
     }
 
-    private void checkDeathOfUnderFieldEffectCard(Monster monster) {
-        if (fieldZoneSpell == null)
-            return;
-        switch (fieldZoneSpell.getSpellEffect()) {
-            case YAMI_EFFECT:
-                reverseYamiFieldEffectOnOneCard(monster);
-                break;
-            case FOREST_EFFECT:
-                reverseForestFieldEffectOnOneCard(monster);
-                break;
-            case CLOSED_FOREST_EFFECT:
-                reverseClosedForestFieldEffecOnOneCard(monster);
-                break;
-            case UMIIRUKA_EFFECT:
-                reverseUmiirukaFieldEffectOnOneCard(monster);
-                break;
-        }
-    }
 
-    private void checkNewCardToBeBeUnderEffectOfFieldCard(Monster monster) {
-        if (fieldZoneSpell == null)
-            return;
-        switch (fieldZoneSpell.getSpellEffect()) {
-            case YAMI_EFFECT:
-                yamiFieldEffectOnOneCard(monster);
-                break;
-            case FOREST_EFFECT:
-                forestFieldEffectOnOneCard(monster);
-                break;
-            case CLOSED_FOREST_EFFECT:
-                closedForestFieldEffectOnOneCard(monster);
-                break;
-            case UMIIRUKA_EFFECT:
-                umiirukaFieldEffectOnOneCard(monster);
-                break;
-        }
-    }
-
-    private void yamiFieldEffectOnOneCard(Monster monster) {
-        if (monster.getMonsterType().equals(MonsterType.INSECT) || monster.getMonsterType().equals(MonsterType.BEAST)
-                || monster.getMonsterType().equals(MonsterType.BEAST_WARRIOR)) {
-            monster.changeAttackPower(200);
-            monster.changeDefensePower(200);
-        } else if (monster.getMonsterType().equals(MonsterType.FAIRY)) {
-            monster.changeDefensePower(-200);
-            monster.changeAttackPower(-200);
-        }
-    }
-
-    private void forestFieldEffectOnOneCard(Monster monster) {
-        if (monster.getMonsterType().equals(MonsterType.INSECT) ||
-                monster.getMonsterType().equals(MonsterType.BEAST) ||
-                monster.getMonsterType().equals(MonsterType.BEAST_WARRIOR)) {
-            monster.changeAttackPower(200);
-            monster.changeDefensePower(200);
-        }
-    }
-
-    private void closedForestFieldEffectOnOneCard(Monster monster) {
-        if (monster.getMonsterType().equals(MonsterType.BEAST)) {
-            monster.changeAttackPower(100);
-        }
-    }
-
-    private void umiirukaFieldEffectOnOneCard(Monster monster) {
-        if (monster.getMonsterType().equals(MonsterType.AQUA)) {
-            monster.changeAttackPower(500);
-            monster.changeDefensePower(-400);
-        }
-    }
-
-    private void reverseYamiFieldEffectOnOneCard(Monster monster) {
-        if (monster.getMonsterType().equals(MonsterType.INSECT) || monster.getMonsterType().equals(MonsterType.BEAST)
-                || monster.getMonsterType().equals(MonsterType.BEAST_WARRIOR)) {
-            monster.changeAttackPower(-200);
-            monster.changeDefensePower(-200);
-        } else if (monster.getMonsterType().equals(MonsterType.FAIRY)) {
-            monster.changeDefensePower(200);
-            monster.changeAttackPower(200);
-        }
-    }
-
-    private void reverseForestFieldEffectOnOneCard(Monster monster) {
-        if (monster.getMonsterType().equals(MonsterType.INSECT) ||
-                monster.getMonsterType().equals(MonsterType.BEAST) ||
-                monster.getMonsterType().equals(MonsterType.BEAST_WARRIOR)) {
-            monster.changeAttackPower(-200);
-            monster.changeDefensePower(-200);
-        }
-    }
-
-    private void reverseClosedForestFieldEffecOnOneCard(Monster monster) {
-        if (monster.getMonsterType().equals(MonsterType.BEAST)) {
-            monster.changeAttackPower(100);
-        }
-    }
-
-    private void reverseUmiirukaFieldEffectOnOneCard(Monster monster) {
-        if (monster.getMonsterType().equals(MonsterType.AQUA)) {
-            monster.changeAttackPower(-500);
-            monster.changeDefensePower(400);
-        }
-    }
 
     private Card getCardInHand(int address) {
         Card card;
@@ -1094,6 +645,7 @@ public class RoundGameController {
             return null;
         } else return card;
     }
+
 
     //MONSTER RELATED CODES :
     public void summonMonster() { //TODO might have effect
@@ -1891,13 +1443,13 @@ public class RoundGameController {
     private boolean activateTrapEffectInAttackSituation(TrapEffect trapEffect) {
         switch (trapEffect) {
             case MAGIC_CYLINDER_EFFECT:
-                TrapMagicCylinderEffect();
+                trapMagicCylinderEffect();
                 return true;
             case MIRROR_FORCE_EFFECT:
-                TrapMirrorForceEffect();
+                trapMirrorForceEffect();
                 return true;
             case NEGATE_ATTACK_EFFECT:
-                TrapNegateAttackEffect();
+                trapNegateAttackEffect();
                 return true;
             default:
                 view.showError(Error.PREPARATIONS_IS_NOT_DONE);
@@ -1943,5 +1495,408 @@ public class RoundGameController {
         }
         selectedCell.setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
         view.showSuccessMessage(SuccessMessage.FLIP_SUMMON_SUCCESSFUL);
+    }
+
+
+    // SPELL RELATED
+    public void setSpellOrTrap() {
+        if (selectedCell == null) {
+            view.showError(Error.NO_CARD_SELECTED_YET);
+        } else if (!selectedCellZone.equals(Zone.HAND)) {
+            view.showError(Error.CAN_NOT_SET);
+        } else if (!(selectedCell.getCardInCell().getCardType() == CardType.SPELL &&
+                (currentPhase == Phase.MAIN_PHASE_1 || currentPhase == Phase.MAIN_PHASE_2))) {
+            view.showError(Error.ACTION_CAN_NOT_WORK_IN_THIS_PHASE);
+        } else if (getCurrentPlayer().getPlayerBoard().isSpellZoneFull()) {
+            view.showError(Error.SPELL_ZONE_IS_FULL);
+        } else if (((Spell) selectedCell.getCardInCell()).getSpellType().equals(SpellType.FIELD)) {//TODO
+
+        } else { // we can change place of this for ,,, you know...
+            SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
+            for (int i = 1; i <= 5; i++) {
+                if (spellZone.getCellWithAddress(i).getCellStatus() == CellStatus.EMPTY) {
+                    //TODO complete it
+                }
+            }
+            view.showSuccessMessage(SuccessMessage.SET_SUCCESSFULLY);
+        }
+        deselectCard(0);
+    }
+
+    public void activateEffectOfSpellOrTrap() {
+        if (opponentSelectedCell != null && selectedCell == null) {
+            view.showError(Error.ONLY_CAN_SHOW_OPPONENT_CARD);
+            return;
+        }
+        if (selectedCell == null) {
+            view.showError(Error.NO_CARD_SELECTED_YET);
+            return;
+        }
+        if (!selectedCellZone.equals(Zone.SPELL_ZONE) && !selectedCellZone.equals(Zone.HAND)) {
+            view.showError(Error.ONLY_SPELL_CAN_ACTIVE);
+            return;
+        }
+        if (!currentPhase.equals(Phase.MAIN_PHASE_1) && !currentPhase.equals(Phase.MAIN_PHASE_2)) {
+            view.showError(Error.ACTION_CAN_NOT_WORK_IN_THIS_PHASE);
+            return;
+        }
+        if (selectedCellZone.equals(Zone.SPELL_ZONE)) {
+            if (selectedCell.getCellStatus().equals(CellStatus.OCCUPIED)) {
+                view.showError(Error.CARD_ALREADY_ACTIVATED);
+                return;
+            }
+        }
+        if (selectedCellZone.equals(Zone.HAND)) {
+            if (getCurrentPlayer().getPlayerBoard().isSpellZoneFull()) {
+                view.showError(Error.SPELL_ZONE_IS_FULL);
+                return;
+            }
+        }
+        if (selectedCell.getCardInCell().getCardType() == CardType.SPELL) {
+            if (!((Spell) selectedCell.getCardInCell()).getSpellType().equals(SpellType.FIELD))
+                normalSpellActivate(((Spell) selectedCell.getCardInCell()).getSpellEffect());
+            else fieldZoneSpellActivate();
+        } else
+            view.showError(Error.PREPARATIONS_IS_NOT_DONE);
+    }
+
+    private void normalSpellActivate(SpellEffect spellEffect) {
+        switch (spellEffect) {
+            case MONSTER_REBORN_EFFECT:
+                monsterRebornSpell();
+                break;
+            case TERRAFORMING_EFFECT:
+                terraFormingSpell();
+                break;
+            case POT_OF_GREED_EFFECT:
+                potOfGreedSpell();
+                break;
+            case RAIGEKI_EFFECT:
+                raigekiSpell();
+                break;
+            case HARPIES_FEATHER_DUSTER_EFFECT:
+                harpiesFeatherDusterSpell();
+                break;
+            case DARK_HOLE_EFFECT:
+                darkHoleSpell();
+                break;
+            case SWORD_OF_DARK_DESTRUCTION_EFFECT:
+                swordOfDarkDestructionSpell();
+                break;
+            case BLACK_PENDANT_EFFECT:
+                blackPendantSpell();
+                break;
+            default:
+                view.showError(Error.PREPARATIONS_IS_NOT_DONE);
+        }
+    }
+
+    private void fieldZoneSpellActivate() {
+        if (fieldZoneSpell == null) {
+            if (turn == 1) {
+                isFieldActivated = 1;
+                firstPlayer.getPlayerBoard().setFieldSpell((Spell) selectedCell.getCardInCell());
+            } else {
+                isFieldActivated = 2;
+                secondPlayer.getPlayerBoard().setFieldSpell((Spell) selectedCell.getCardInCell());
+            }
+        } else {
+            reversePreviousFieldZoneSpellEffectAndRemoveIt();
+            isFieldActivated = getTurn();
+            if (isFieldActivated == 1) {
+                firstPlayer.getPlayerBoard().setFieldSpell((Spell) selectedCell.getCardInCell());
+            } else {
+                secondPlayer.getPlayerBoard().setFieldSpell((Spell) selectedCell.getCardInCell());
+            }
+        }
+        fieldZoneSpell = (Spell) selectedCell.getCardInCell();
+        deselectCard(0);
+        findAndActivateFieldCard();
+    }
+
+    private void reversePreviousFieldZoneSpellEffectAndRemoveIt() {
+        switch (fieldZoneSpell.getSpellEffect()) {
+            case YAMI_EFFECT:
+                yamiFieldEffectReverse();
+                break;
+            case FOREST_EFFECT:
+                forestFieldEffectReverse();
+                break;
+            case CLOSED_FOREST_EFFECT:
+                closedForestFieldEffectReverse();
+                break;
+            case UMIIRUKA_EFFECT:
+                umirukaEffectReverse();
+        }
+        fieldZoneSpell = null;
+        addCardToGraveYard(Zone.FIELD_ZONE, 0, isFieldActivated == 1 ? firstPlayer : secondPlayer);
+        isFieldActivated = 0;
+    }
+
+    private void yamiFieldEffectReverse() {
+        for (Card card : fieldEffectedCards) {
+            if (((Monster) card).getMonsterType().equals(MonsterType.FIEND) || ((Monster) card).getMonsterType().equals(MonsterType.SPELLCASTER)) {
+                ((Monster) card).changeAttackPower(-200);
+                ((Monster) card).changeDefensePower(-200);
+            } else {
+                ((Monster) card).changeAttackPower(+200);
+                ((Monster) card).changeDefensePower(+200);
+            }
+        }
+        fieldEffectedCards.clear();
+    }
+
+    private void forestFieldEffectReverse() {
+        for (Card card : fieldEffectedCards) {
+            if (((Monster) card).getMonsterType().equals(MonsterType.INSECT) || ((Monster) card).getMonsterType().equals(MonsterType.BEAST) || ((Monster) card).getMonsterType().equals(MonsterType.BEAST_WARRIOR)) {
+                ((Monster) card).changeAttackPower(-200);
+                ((Monster) card).changeDefensePower(-200);
+            }
+        }
+        fieldEffectedCards.clear();
+    }
+
+    private void closedForestFieldEffectReverse() {
+        for (Card card : fieldEffectedCards) {
+            if (((Monster) card).getMonsterType().equals(MonsterType.BEAST_WARRIOR)) {
+                ((Monster) card).changeAttackPower(-100);
+            }
+        }
+        fieldEffectedCards.clear();
+    }
+
+    private void umirukaEffectReverse() {
+        for (Card card : fieldEffectedCards) {
+            if (((Monster) card).getMonsterType().equals(MonsterType.AQUA)) {
+                ((Monster) card).changeAttackPower(-500);
+                ((Monster) card).changeDefensePower(400);
+            }
+        }
+        fieldEffectedCards.clear();
+    }
+
+    private void findAndActivateFieldCard() {
+        switch (fieldZoneSpell.getSpellEffect()) {
+            case YAMI_EFFECT:
+                yamiFieldEffect();
+                break;
+            case FOREST_EFFECT:
+                forestFieldEffect();
+                break;
+            case CLOSED_FOREST_EFFECT:
+                closedForestFieldEffect();
+                break;
+            case UMIIRUKA_EFFECT:
+                umiirukaFieldEffect();
+                break;
+        }
+    }
+
+    private void yamiFieldEffect() {
+        addYamiFieldCardsToBeEffected();
+        for (Card card : fieldEffectedCards) {
+            if (((Monster) card).getMonsterType().equals(MonsterType.FIEND) || ((Monster) card).getMonsterType().equals(MonsterType.SPELLCASTER)) {
+                ((Monster) card).changeAttackPower(200);
+                ((Monster) card).changeDefensePower(200);
+            } else if (((Monster) card).getMonsterType().equals(MonsterType.FAIRY)) {
+                ((Monster) card).changeDefensePower(-200);
+                ((Monster) card).changeAttackPower(-200);
+            }
+        }
+    }
+
+    private void addYamiFieldCardsToBeEffected() {
+        for (int i = 1; i <= 5; i++) {
+            Cell cell = getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i);
+            if (((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.FIEND) || ((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.SPELLCASTER) && !fieldEffectedCardsAddress.contains(10 + i))
+                fieldEffectedCardsAddress.add(10 + i);
+        }
+        for (int i = 1; i <= 5; i++) {
+            Cell cell = getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i);
+            if (((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.FIEND) || ((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.SPELLCASTER) && !fieldEffectedCardsAddress.contains(20 + i))
+                fieldEffectedCardsAddress.add(20 + i);
+        }
+        addFoundCardsToBeEffectedByFieldCardToArrayList();
+    }
+
+    private void addFoundCardsToBeEffectedByFieldCardToArrayList() {
+        for (int i = fieldEffectedCardsAddress.size() - 1; i >= 0; i--) {
+            if (i > 20) {
+                if (!getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i - 20).getCellStatus().equals(CellStatus.EMPTY))
+                    fieldEffectedCards.add(getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i - 20).getCardInCell());
+
+            } else {
+                if (!getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i - 10).getCellStatus().equals(CellStatus.EMPTY))
+                    fieldEffectedCards.add(getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i - 10).getCardInCell());
+            }
+        }
+    }
+
+    private void forestFieldEffect() {
+        addForestFieldCardsToBeEffected();
+        for (Card card : fieldEffectedCards) {
+            if (((Monster) card).getMonsterType().equals(MonsterType.INSECT) || ((Monster) card).getMonsterType().equals(MonsterType.BEAST) || ((Monster) card).getMonsterType().equals(MonsterType.BEAST_WARRIOR)) {
+                ((Monster) card).changeAttackPower(200);
+                ((Monster) card).changeDefensePower(200);
+            }
+        }
+    }
+
+    private void addForestFieldCardsToBeEffected() {
+        for (int i = 1; i <= 5; i++) {
+            Cell cell = getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i);
+            if (((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.INSECT) ||
+                    ((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.BEAST) ||
+                    ((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.BEAST_WARRIOR) && !fieldEffectedCardsAddress.contains(10 + i))
+                fieldEffectedCardsAddress.add(10 + i);
+        }
+        for (int i = 1; i <= 5; i++) {
+            Cell cell = getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i);
+            if (((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.FIEND) && !fieldEffectedCardsAddress.contains(20 + i))
+                fieldEffectedCardsAddress.add(20 + i);
+        }
+        addFoundCardsToBeEffectedByFieldCardToArrayList();
+    }
+
+    private void closedForestFieldEffect() {//TODO CHECK WHAT BEAST TYPE MEAN
+        addClosedForestFieldCardsToBeEffected();
+        for (Card card : fieldEffectedCards) {
+            if (((Monster) card).getMonsterType().equals(MonsterType.BEAST)) {
+                ((Monster) card).changeAttackPower(100);
+            }
+        }
+    }
+
+    private void addClosedForestFieldCardsToBeEffected() {
+        for (int i = 1; i <= 5; i++) {
+            Cell cell = getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i);
+            if (((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.BEAST) && !fieldEffectedCardsAddress.contains(10 + i))
+                fieldEffectedCardsAddress.add(10 + i);
+        }
+        addFoundCardsToBeEffectedByFieldCardToArrayList();
+    }
+
+    private void umiirukaFieldEffect() {
+        addUmiirukaFieldCardsToBeEffected();
+        for (Card card : fieldEffectedCards) {
+            if (((Monster) card).getMonsterType().equals(MonsterType.AQUA)) {
+                ((Monster) card).changeAttackPower(500);
+                ((Monster) card).changeDefensePower(-400);
+            }
+        }
+    }
+
+    private void addUmiirukaFieldCardsToBeEffected() {
+        for (int i = 1; i <= 5; i++) {
+            Cell cell = getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i);
+            if (((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.AQUA) &&
+                    !fieldEffectedCardsAddress.contains(10 + i))
+                fieldEffectedCardsAddress.add(10 + i);
+        }
+        addFoundCardsToBeEffectedByFieldCardToArrayList();
+    }
+
+    private void checkDeathOfUnderFieldEffectCard(Monster monster) {
+        if (fieldZoneSpell == null)
+            return;
+        switch (fieldZoneSpell.getSpellEffect()) {
+            case YAMI_EFFECT:
+                reverseYamiFieldEffectOnOneCard(monster);
+                break;
+            case FOREST_EFFECT:
+                reverseForestFieldEffectOnOneCard(monster);
+                break;
+            case CLOSED_FOREST_EFFECT:
+                reverseClosedForestFieldEffecOnOneCard(monster);
+                break;
+            case UMIIRUKA_EFFECT:
+                reverseUmiirukaFieldEffectOnOneCard(monster);
+                break;
+        }
+    }
+
+    private void checkNewCardToBeBeUnderEffectOfFieldCard(Monster monster) {
+        if (fieldZoneSpell == null)
+            return;
+        switch (fieldZoneSpell.getSpellEffect()) {
+            case YAMI_EFFECT:
+                yamiFieldEffectOnOneCard(monster);
+                break;
+            case FOREST_EFFECT:
+                forestFieldEffectOnOneCard(monster);
+                break;
+            case CLOSED_FOREST_EFFECT:
+                closedForestFieldEffectOnOneCard(monster);
+                break;
+            case UMIIRUKA_EFFECT:
+                umiirukaFieldEffectOnOneCard(monster);
+                break;
+        }
+    }
+
+    private void yamiFieldEffectOnOneCard(Monster monster) {
+        if (monster.getMonsterType().equals(MonsterType.INSECT) || monster.getMonsterType().equals(MonsterType.BEAST)
+                || monster.getMonsterType().equals(MonsterType.BEAST_WARRIOR)) {
+            monster.changeAttackPower(200);
+            monster.changeDefensePower(200);
+        } else if (monster.getMonsterType().equals(MonsterType.FAIRY)) {
+            monster.changeDefensePower(-200);
+            monster.changeAttackPower(-200);
+        }
+    }
+
+    private void forestFieldEffectOnOneCard(Monster monster) {
+        if (monster.getMonsterType().equals(MonsterType.INSECT) ||
+                monster.getMonsterType().equals(MonsterType.BEAST) ||
+                monster.getMonsterType().equals(MonsterType.BEAST_WARRIOR)) {
+            monster.changeAttackPower(200);
+            monster.changeDefensePower(200);
+        }
+    }
+
+    private void closedForestFieldEffectOnOneCard(Monster monster) {
+        if (monster.getMonsterType().equals(MonsterType.BEAST)) {
+            monster.changeAttackPower(100);
+        }
+    }
+
+    private void umiirukaFieldEffectOnOneCard(Monster monster) {
+        if (monster.getMonsterType().equals(MonsterType.AQUA)) {
+            monster.changeAttackPower(500);
+            monster.changeDefensePower(-400);
+        }
+    }
+
+    private void reverseYamiFieldEffectOnOneCard(Monster monster) {
+        if (monster.getMonsterType().equals(MonsterType.INSECT) || monster.getMonsterType().equals(MonsterType.BEAST)
+                || monster.getMonsterType().equals(MonsterType.BEAST_WARRIOR)) {
+            monster.changeAttackPower(-200);
+            monster.changeDefensePower(-200);
+        } else if (monster.getMonsterType().equals(MonsterType.FAIRY)) {
+            monster.changeDefensePower(200);
+            monster.changeAttackPower(200);
+        }
+    }
+
+    private void reverseForestFieldEffectOnOneCard(Monster monster) {
+        if (monster.getMonsterType().equals(MonsterType.INSECT) ||
+                monster.getMonsterType().equals(MonsterType.BEAST) ||
+                monster.getMonsterType().equals(MonsterType.BEAST_WARRIOR)) {
+            monster.changeAttackPower(-200);
+            monster.changeDefensePower(-200);
+        }
+    }
+
+    private void reverseClosedForestFieldEffecOnOneCard(Monster monster) {
+        if (monster.getMonsterType().equals(MonsterType.BEAST)) {
+            monster.changeAttackPower(100);
+        }
+    }
+
+    private void reverseUmiirukaFieldEffectOnOneCard(Monster monster) {
+        if (monster.getMonsterType().equals(MonsterType.AQUA)) {
+            monster.changeAttackPower(-500);
+            monster.changeDefensePower(400);
+        }
     }
 }
