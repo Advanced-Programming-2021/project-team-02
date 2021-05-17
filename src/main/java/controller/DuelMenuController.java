@@ -31,9 +31,9 @@ public class DuelMenuController {
 
     public void startDuelWithOtherPlayer(Matcher matcher) throws CloneNotSupportedException {
         if (!isPlayerValidToStartDuel(matcher.group("secondPlayerNickName"))) {
-            view.showError(Error.PLAYER_DOES_NOT_EXIST);
+            Error.showError(Error.PLAYER_DOES_NOT_EXIST);
         } else if (!areRoundsNumberValid(Integer.parseInt(matcher.group("roundNumber")))) {
-            view.showError(Error.WRONG_ROUNDS_NUMBER);
+            Error.showError(Error.WRONG_ROUNDS_NUMBER);
         } else if (arePlayersDecksActive(matcher.group("secondPlayerNickName"))) {
             if (arePlayersDecksValid(matcher.group("secondPlayerNickName"))) {
                 duel = new Duel(loggedInUser.getUsername(), matcher.group("" +
@@ -45,7 +45,7 @@ public class DuelMenuController {
 
     public void startDuelWithAI(Matcher matcher) {
         if (!areRoundsNumberValid(Integer.parseInt(matcher.group("roundNumber"))))
-            view.showError(Error.WRONG_ROUNDS_NUMBER);
+            Error.showError(Error.WRONG_ROUNDS_NUMBER);
     }
 
     private boolean isPlayerValidToStartDuel(String username) {

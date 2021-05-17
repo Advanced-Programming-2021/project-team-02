@@ -30,7 +30,7 @@ public class DeckMenuView {
         if ((matcher = Regex.getMatcher(Regex.MENU_ENTER, command)).matches()) {
             if (matcher.group("menuName").toLowerCase(Locale.ROOT).equals("deck"))
                 showDynamicError(Error.BEING_ON_CURRENT_MENU, matcher);
-            else showError(Error.BEING_ON_A_MENU);
+            else Error.showError(Error.BEING_ON_A_MENU);
         } else if (Regex.getMatcher(Regex.MENU_EXIT, command).matches()) {
             MenusManager.getInstance().changeMenu(Menu.MAIN_MENU);
         }
@@ -63,35 +63,27 @@ public class DeckMenuView {
         } else if (Regex.getMatcher(Regex.COMMAND_HELP, command).matches()) {
             help();
         } else {
-            showError(Error.INVALID_COMMAND);
+            Error.showError(Error.INVALID_COMMAND);
         }
-    }
-
-    public void showError(Error error) {
-        System.out.println(error.getValue());
-    }
-
-    public void showSuccessMessage(SuccessMessage message) {
-        System.out.println(message.getValue());
     }
 
     public void showDynamicError(Error error, Matcher matcher) {
         if (error.equals(Error.DECK_EXIST)) {
-            System.out.printf(Error.DECK_EXIST.getValue(), matcher.group("deckName"));
+            System.err.printf(Error.DECK_EXIST.getValue(), matcher.group("deckName"));
         } else if (error.equals(Error.DECK_NOT_EXIST)) {
-            System.out.printf(Error.DECK_NOT_EXIST.getValue(), matcher.group("deckName"));
+            System.err.printf(Error.DECK_NOT_EXIST.getValue(), matcher.group("deckName"));
         } else if (error.equals(Error.INCORRECT_CARD_NAME)) {
-            System.out.printf(Error.INCORRECT_CARD_NAME.getValue(), matcher.group("cardName"));
+            System.err.printf(Error.INCORRECT_CARD_NAME.getValue(), matcher.group("cardName"));
         } else if (error.equals(Error.EXCESSIVE_NUMBER_IN_DECK)) {
-            System.out.printf(Error.EXCESSIVE_NUMBER_IN_DECK.getValue(), matcher.group("cardName"), matcher.group("deckName"));
+            System.err.printf(Error.EXCESSIVE_NUMBER_IN_DECK.getValue(), matcher.group("cardName"), matcher.group("deckName"));
         } else if (error.equals(Error.CARD_LIMITED_IN_DECK)) {
-            System.out.printf(Error.CARD_LIMITED_IN_DECK.getValue(), matcher.group("cardName"));
+            System.err.printf(Error.CARD_LIMITED_IN_DECK.getValue(), matcher.group("cardName"));
         } else if (error.equals(Error.CARD_DOES_NOT_EXIST_IN_SIDE_DECK)) {
-            System.out.printf(Error.CARD_DOES_NOT_EXIST_IN_SIDE_DECK.getValue(), matcher.group("cardName"));
+            System.err.printf(Error.CARD_DOES_NOT_EXIST_IN_SIDE_DECK.getValue(), matcher.group("cardName"));
         } else if (error.equals(Error.CARD_DOES_NOT_EXIST_IN_MAIN_DECK)) {
-            System.out.printf(Error.CARD_DOES_NOT_EXIST_IN_MAIN_DECK.getValue(), matcher.group("cardName"));
+            System.err.printf(Error.CARD_DOES_NOT_EXIST_IN_MAIN_DECK.getValue(), matcher.group("cardName"));
         } else if (error.equals(Error.BEING_ON_CURRENT_MENU))
-            System.out.printf(error.getValue(), Menu.PROFILE_MENU.getValue());
+            System.err.printf(error.getValue(), Menu.PROFILE_MENU.getValue());
     }
 
     public void showCurrentMenu() {

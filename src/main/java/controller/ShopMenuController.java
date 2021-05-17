@@ -39,11 +39,11 @@ public class ShopMenuController {
         Card card = Card.getCardByName (cardName);
         Assets assets = Assets.getAssetsByUsername (ShopMenuController.getInstance ().getLoggedInUser ().getUsername ());
         if (card == null) {
-            view.showError (Error.CARD_DOES_NOT_EXIST);
+            Error.showError (Error.CARD_DOES_NOT_EXIST);
             return;
         }
         if (Objects.requireNonNull (assets).getCoin () < Shop.getCards ().get (card)) {
-            view.showError (Error.NOT_ENOUGH_MONEY);
+            Error.showError (Error.NOT_ENOUGH_MONEY);
             return;
         }
         Objects.requireNonNull (assets).decreaseCoin (Shop.getCards ().get (card));

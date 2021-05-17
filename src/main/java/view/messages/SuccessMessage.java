@@ -54,4 +54,8 @@ public enum SuccessMessage {
     public String getValue() {
         return value;
     }
+
+    public static void showSuccessMessage(SuccessMessage message) {
+        System.out.println (message.getValue ());
+    }
 }
