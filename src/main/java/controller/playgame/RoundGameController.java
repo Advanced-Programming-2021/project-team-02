@@ -89,7 +89,7 @@ public class RoundGameController {
     public void selectCardInHand(Matcher matcher) {
         int address = Integer.parseInt(matcher.group("cardNumber"));
         if (address > getCurrentPlayerHand().size()) {
-            view.showError(Error.INVALID_SELECTION);
+            Error.showError(Error.INVALID_SELECTION);
             return;
         }
         ArrayList<Card> hand = (ArrayList<Card>) (getCurrentPlayerHand());
@@ -104,10 +104,10 @@ public class RoundGameController {
     public void selectCardInMonsterZone(Matcher matcher) {
         int address = Integer.parseInt(matcher.group("monsterZoneNumber"));
         if (address > 5 || address < 1) {
-            view.showError(Error.INVALID_SELECTION);
+            Error.showError(Error.INVALID_SELECTION);
             return;
         } else if (getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, address).getCellStatus().equals(CellStatus.EMPTY)) {
-            view.showError(Error.CARD_NOT_FOUND);
+            Error.showError(Error.CARD_NOT_FOUND);
             return;
         }
         selectedCellZone = Zone.MONSTER_ZONE;
@@ -120,10 +120,10 @@ public class RoundGameController {
     public void selectCardInSpellZone(Matcher matcher) {
         int address = Integer.parseInt(matcher.group("spellZoneNumber"));
         if (address > 5 || address < 1) {
-            view.showError(Error.INVALID_SELECTION);
+            Error.showError(Error.INVALID_SELECTION);
             return;
         } else if (getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.SPELL_ZONE, address).getCellStatus().equals(CellStatus.EMPTY)) {
-            view.showError(Error.CARD_NOT_FOUND);
+            Error.showError(Error.CARD_NOT_FOUND);
             return;
         }
         selectedCellZone = Zone.SPELL_ZONE;
@@ -135,7 +135,7 @@ public class RoundGameController {
     public void deselectCard(int code) {
         if (code == 1) {
             if (selectedCell == null) {
-                view.showError(Error.NO_CARD_SELECTED_YET);
+                Error.showError(Error.NO_CARD_SELECTED_YET);
                 return;
             }
             view.showSuccessMessage(SuccessMessage.CARD_DESELECTED);
@@ -147,7 +147,7 @@ public class RoundGameController {
 
     public void selectPlayerFieldCard() {
         if (getCurrentPlayer().getPlayerBoard().isFieldZoneEmpty()) {
-            view.showError(Error.CARD_NOT_FOUND);
+            Error.showError(Error.CARD_NOT_FOUND);
             return;
         }
         selectedCell = getCurrentPlayer().getPlayerBoard().getFieldZone().getFieldCell();
@@ -157,7 +157,7 @@ public class RoundGameController {
 
     public void selectOpponentFieldCard() {
         if (getOpponentPlayer().getPlayerBoard().isFieldZoneEmpty()) {
-            view.showError(Error.CARD_NOT_FOUND);
+            Error.showError(Error.CARD_NOT_FOUND);
             return;
         }
         opponentSelectedCell = getOpponentPlayer().getPlayerBoard().getFieldZone().getFieldCell();
@@ -167,10 +167,10 @@ public class RoundGameController {
     public void selectOpponentCardMonsterZone(Matcher matcher) {
         int address = Integer.parseInt(matcher.group("monsterZoneNumber"));
         if (address > 5 || address < 1) {
-            view.showError(Error.INVALID_SELECTION);
+            Error.showError(Error.INVALID_SELECTION);
             return;
         } else if (getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, address).getCellStatus().equals(CellStatus.EMPTY)) {
-            view.showError(Error.CARD_NOT_FOUND);
+            Error.showError(Error.CARD_NOT_FOUND);
             return;
         }
         //TODO? selectedCellZone = Zone.MONSTER_ZONE;
@@ -182,10 +182,10 @@ public class RoundGameController {
     public void selectOpponentCardSpellZone(Matcher matcher) {
         int address = Integer.parseInt(matcher.group("spellZoneNumber"));
         if (address > 5 || address < 1) {
-            view.showError(Error.INVALID_SELECTION);
+            Error.showError(Error.INVALID_SELECTION);
             return;
         } else if (getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.SPELL_ZONE, address).getCellStatus().equals(CellStatus.EMPTY)) {
-            view.showError(Error.CARD_NOT_FOUND);
+            Error.showError(Error.CARD_NOT_FOUND);
             return;
         }
         //TODO? selectedCellZone = Zone.SPELL_ZONE;
@@ -198,7 +198,7 @@ public class RoundGameController {
             if (opponentSelectedCell != null) {
                 view.showCard(opponentSelectedCell.getCardInCell());
             } else {
-                view.showError(Error.NO_CARD_SELECTED_YET);
+                Error.showError(Error.NO_CARD_SELECTED_YET);
                 return;
             }
         } else {
@@ -293,27 +293,27 @@ public class RoundGameController {
 
     public void directAttack() { // probably no effect ...
         if (selectedCell == null) {
-            view.showError(Error.NO_CARD_SELECTED_YET);
+            Error.showError(Error.NO_CARD_SELECTED_YET);
             return;
         }
         if (!selectedCellZone.equals(Zone.MONSTER_ZONE)) {
-            view.showError(Error.CAN_NOT_ATTACK);
+            Error.showError(Error.CAN_NOT_ATTACK);
             return;
         }
         if (!selectedCell.getCellStatus().equals(CellStatus.OFFENSIVE_OCCUPIED)) { // u sure ?
-            view.showError(Error.CAN_NOT_ATTACK);
+            Error.showError(Error.CAN_NOT_ATTACK);
             return;
         }
         if (!getCurrentPhase().equals(Phase.BATTLE_PHASE)) {
-            view.showError(Error.ACTION_CAN_NOT_WORK_IN_THIS_PHASE);
+            Error.showError(Error.ACTION_CAN_NOT_WORK_IN_THIS_PHASE);
             return;
         }
         if (!getCurrentPlayer().getPlayerBoard().isMonsterZoneEmpty()) {
-            view.showError(Error.CANT_DIRECT_ATTACK);
+            Error.showError(Error.CANT_DIRECT_ATTACK);
             return;
         }
         if (hasCardUsedItsAttack()) {
-            view.showError(Error.ALREADY_ATTACKED);
+            Error.showError(Error.ALREADY_ATTACKED);
             return;
         }
         Monster monster = (Monster) selectedCell.getCardInCell();
@@ -384,9 +384,9 @@ public class RoundGameController {
                 cancel();
                 return;
             } else if (Card.getCardByName(matcher.group(2)) == null)
-                view.showError(Error.WRONG_CARD_NAME);
+                Error.showError(Error.WRONG_CARD_NAME);
             else if (!(matcher.group(3).equals("OO") || matcher.group(3).equals("DO")))
-                view.showError(Error.DH_POSITION);
+                Error.showError(Error.DH_POSITION);
             else break;
         }
         ArrayList<Card> currentPlayer = getCurrentPlayer().getPlayerBoard().returnGraveYard().getGraveYardCards();
@@ -428,9 +428,9 @@ public class RoundGameController {
                 cancel();
                 return;
             } else if (Card.getCardByName(cardName) == null) {
-                view.showError(Error.WRONG_CARD_NAME);
+                Error.showError(Error.WRONG_CARD_NAME);
             } else if (SpellType.getSpellTypeByTypeName(selectedCell.getCardInCell().getName()) != SpellType.FIELD)
-                view.showError(Error.CHOOSE_FIELD_SPELL);
+                Error.showError(Error.CHOOSE_FIELD_SPELL);
             else break;
         }
         if (SpellType.getSpellTypeByTypeName(selectedCell.getCardInCell().getName()) == SpellType.FIELD) {
@@ -506,16 +506,16 @@ public class RoundGameController {
                 return;
             } else if (selectedCell.getCellStatus() != CellStatus.DEFENSIVE_OCCUPIED ||
                     selectedCell.getCellStatus() != CellStatus.OFFENSIVE_OCCUPIED) {
-                view.showError(Error.DH_POSITION);
+                Error.showError(Error.DH_POSITION);
             } else if (selectedCellZone != Zone.MONSTER_ZONE) {
-                view.showError(Error.CHOOSE_MONSTER_FROM_MONSTER_ZONE);
-            } else if (Card.getCardByName(cardName) == null) view.showError(Error.WRONG_CARD_NAME);
+                Error.showError(Error.CHOOSE_MONSTER_FROM_MONSTER_ZONE);
+            } else if (Card.getCardByName(cardName) == null) Error.showError(Error.WRONG_CARD_NAME);
             else {
                 monster = (Monster) Card.getCardByName(cardName);
                 if (Objects.requireNonNull(monster).getMonsterType() == MonsterType.FIEND || monster.getMonsterType() == MonsterType.SPELLCASTER)
                     break;
             }
-            view.showError(Error.TYPE_FIEND_OT_SPELL_CASTER);
+            Error.showError(Error.TYPE_FIEND_OT_SPELL_CASTER);
         }
         monster.setAttackPower(monster.getAttackPower() + 400);
         monster.setDefensePower(monster.getDefensePower() - 200);
@@ -540,10 +540,10 @@ public class RoundGameController {
                 return;
             } else if (selectedCell.getCellStatus() != CellStatus.DEFENSIVE_OCCUPIED ||
                     selectedCell.getCellStatus() != CellStatus.OFFENSIVE_OCCUPIED) {
-                view.showError(Error.DH_POSITION);
+                Error.showError(Error.DH_POSITION);
             } else if (selectedCellZone != Zone.MONSTER_ZONE) {
-                view.showError(Error.CHOOSE_MONSTER_FROM_MONSTER_ZONE);
-            } else if (Card.getCardByName(cardName) == null) view.showError(Error.WRONG_CARD_NAME);
+                Error.showError(Error.CHOOSE_MONSTER_FROM_MONSTER_ZONE);
+            } else if (Card.getCardByName(cardName) == null) Error.showError(Error.WRONG_CARD_NAME);
             else break;
         }
         Monster monster = (Monster) Card.getCardByName(cardName);
@@ -651,7 +651,7 @@ public class RoundGameController {
     //MONSTER RELATED CODES :
     public void summonMonster() { //TODO might have effect
         if (selectedCell == null && opponentSelectedCell != null) {
-            view.showError(Error.ONLY_CAN_SHOW_OPPONENT_CARD);
+            Error.showError(Error.ONLY_CAN_SHOW_OPPONENT_CARD);
             return;
         }
         if (!isValidSelectionForSummonOrSet()) {
@@ -692,11 +692,11 @@ public class RoundGameController {
 
     private boolean isValidSummon() {
         if ((!selectedCellZone.equals(Zone.HAND)) || (!selectedCell.getCardInCell().getCardType().equals(CardType.MONSTER))) {
-            view.showError(Error.CAN_NOT_SUMMON);
+            Error.showError(Error.CAN_NOT_SUMMON);
             return false;
         }
         if (!currentPhase.equals(Phase.MAIN_PHASE_1) && !currentPhase.equals(Phase.MAIN_PHASE_2)) {
-            view.showError(Error.ACTION_NOT_ALLOWED);
+            Error.showError(Error.ACTION_NOT_ALLOWED);
             return false;
         }
         return true;
@@ -704,7 +704,7 @@ public class RoundGameController {
 
     private boolean isValidToNormalSummonOrSet() {
         if (isSummonOrSetOfMonsterUsed) {
-            view.showError(Error.ALREADY_SUMMONED_OR_SET);
+            Error.showError(Error.ALREADY_SUMMONED_OR_SET);
             return false;
         }
         return true;
@@ -758,7 +758,7 @@ public class RoundGameController {
                 if (address == -1) {
                     return false;
                 } else if (getCardInHand(address) == null) {
-                    view.showError(Error.INVALID_SELECTION);
+                    Error.showError(Error.INVALID_SELECTION);
                 } else {
                     addCardToGraveYard(Zone.HAND, address, getCurrentPlayer());
                     specialSummon(selectedCell.getCardInCell(), status);
@@ -838,13 +838,13 @@ public class RoundGameController {
                 if (checkTrapCellToBeActivatedForOpponentInSummonSituation(address, cell))
                     return true;
             } else
-                view.showError(Error.INVALID_NUMBER);
+                Error.showError(Error.INVALID_NUMBER);
         }
     }
 
     private boolean checkTrapCellToBeActivatedForOpponentInSummonSituation(int address, Cell cell) {
         if (cell.getCardInCell().getCardType().equals(CardType.SPELL)) {
-            view.showError(Error.ACTION_NOT_ALLOWED); //ritght error ?
+            Error.showError(Error.ACTION_NOT_ALLOWED); //ritght error ?
         } else {
             Trap trap = (Trap) cell.getCardInCell();
             if (isValidActivateTrapEffectInSummonSituationForOpponentToDo(trap.getTrapEffect())) {
@@ -869,13 +869,13 @@ public class RoundGameController {
                     //TODO check it
                 }
             } else
-                view.showError(Error.INVALID_NUMBER);
+                Error.showError(Error.INVALID_NUMBER);
         }
     }
 
     private boolean checkTrapCellToBeActivatedForCurrentPlayerInSummonSituation(int address, Cell cell) {
         if (cell.getCardInCell().getCardType().equals(CardType.SPELL)) {
-            view.showError(Error.ACTION_NOT_ALLOWED); //ritght error ?
+            Error.showError(Error.ACTION_NOT_ALLOWED); //ritght error ?
         } else {
             Trap trap = (Trap) cell.getCardInCell();
             if (isValidActivateTrapEffectInSummonSituationForCuurentPlayerToDo(trap.getTrapEffect())) {
@@ -896,7 +896,7 @@ public class RoundGameController {
                 trapHoleTrapEffect();
                 return true;
             default:
-                view.showError(Error.PREPARATIONS_IS_NOT_DONE);
+                Error.showError(Error.PREPARATIONS_IS_NOT_DONE);
                 return false;
         }
     }
@@ -906,7 +906,7 @@ public class RoundGameController {
             torrentialTributeTrapEffect();
             return true;
         }
-        view.showError(Error.PREPARATIONS_IS_NOT_DONE);
+        Error.showError(Error.PREPARATIONS_IS_NOT_DONE);
         return false;
     }
 
@@ -966,7 +966,7 @@ public class RoundGameController {
         // view.showSuccessMessage(SuccessMessage.TRIBUTE_SUMMON_ENTER_ADDRESS);
         ArrayList<Integer> address = new ArrayList<>();
         if (!isThereEnoughMonsterToTribute(number, player)) {
-            view.showError(Error.NOT_ENOUGH_CARDS_TO_TRIBUTE);
+            Error.showError(Error.NOT_ENOUGH_CARDS_TO_TRIBUTE);
             return false;
         }
         int i = 0;
@@ -976,9 +976,9 @@ public class RoundGameController {
                 cancel();
                 return false;
             } else if (input > 5) {
-                view.showError(Error.INVALID_NUMBER);
+                Error.showError(Error.INVALID_NUMBER);
             } else if (player.getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, input).getCellStatus().equals(CellStatus.EMPTY)) {
-                view.showError(Error.WRONG_MONSTER_ADDRESS);
+                Error.showError(Error.WRONG_MONSTER_ADDRESS);
             } else {
                 i++;
                 address.add(input);
@@ -1002,7 +1002,7 @@ public class RoundGameController {
                 if (counter >= number) {
                     break;
                 } else {
-                    view.showError(Error.NOT_ENOUGH_CARDS_TO_TRIBUTE);
+                    Error.showError(Error.NOT_ENOUGH_CARDS_TO_TRIBUTE);
                     return false;
                 }
             }
@@ -1013,21 +1013,21 @@ public class RoundGameController {
     private void ritualSummon() {
         List<Card> currentPlayerHand = getCurrentPlayerHand();
         if (!isRitualCardInHand()) {
-            view.showError(Error.CAN_NOT_RITUAL_SUMMON);
+            Error.showError(Error.CAN_NOT_RITUAL_SUMMON);
         } else if (!sumOfSubsequences("cardName")) {
-            view.showError(Error.CAN_NOT_RITUAL_SUMMON);
+            Error.showError(Error.CAN_NOT_RITUAL_SUMMON);
         } else {
             while (true) {
                 Monster monster = (Monster) selectedCell.getCardInCell();
                 if (Objects.requireNonNull(monster).getMonsterActionType() == MonsterActionType.RITUAL) break;
                 else {
-                    view.showError(Error.RITUAL_SUMMON_NOW);
+                    Error.showError(Error.RITUAL_SUMMON_NOW);
                     view.getSummonOrderForRitual();
                 }
             }
             while (true) {
                 if (areCardsLevelsEnoughToSummonRitualMonster()) break;
-                else view.showError(Error.LEVEL_DOES_NOT_MATCH);
+                else Error.showError(Error.LEVEL_DOES_NOT_MATCH);
             }
             Matcher matcherOfPosition = view.getPositionForSetRitualMonster();
             setRitualMonster(matcherOfPosition);
@@ -1115,14 +1115,14 @@ public class RoundGameController {
             return;
         }
         if ((!selectedCellZone.equals(Zone.HAND))) {
-            view.showError(Error.CAN_NOT_SET);
+            Error.showError(Error.CAN_NOT_SET);
             return;
         } else if (selectedCell.getCardInCell().getCardType().equals(CardType.SPELL) || selectedCell.getCardInCell().getCardType().equals(CardType.TRAP)) {
-            view.showError(Error.INVALID_COMMAND);//TODO change this error
+            Error.showError(Error.INVALID_COMMAND);//TODO change this error
             return;
         }
         if (!(currentPhase.equals(Phase.MAIN_PHASE_1) || currentPhase.equals(Phase.MAIN_PHASE_2))) {
-            view.showError(Error.ACTION_NOT_ALLOWED);
+            Error.showError(Error.ACTION_NOT_ALLOWED);
             return;
         }
         //check special Set
@@ -1181,10 +1181,10 @@ public class RoundGameController {
 
     private boolean isValidSelectionForSummonOrSet() {
         if (selectedCellZone.equals(Zone.NONE)) {
-            view.showError(Error.NO_CARD_SELECTED_YET);
+            Error.showError(Error.NO_CARD_SELECTED_YET);
             return false;
         } else if (getCurrentPlayer().getPlayerBoard().isMonsterZoneFull()) {
-            view.showError(Error.MONSTER_ZONE_IS_FULL);
+            Error.showError(Error.MONSTER_ZONE_IS_FULL);
             return false;
         }
         return true;
@@ -1192,20 +1192,20 @@ public class RoundGameController {
 
     public void changeMonsterPosition(Matcher matcher) {
         if (selectedCell == null) {
-            view.showError(Error.NO_CARD_SELECTED_YET);
+            Error.showError(Error.NO_CARD_SELECTED_YET);
         } else if (matcher == null) {
             cancel();
             return;
         } else if (!(selectedCellZone == Zone.MONSTER_ZONE)) {
-            view.showError(Error.CAN_NOT_CHANGE_POSITION);
+            Error.showError(Error.CAN_NOT_CHANGE_POSITION);
         } else if (!(currentPhase == Phase.MAIN_PHASE_1 || currentPhase == Phase.MAIN_PHASE_2)) {
-            view.showError(Error.ACTION_CAN_NOT_WORK_IN_THIS_PHASE);
+            Error.showError(Error.ACTION_CAN_NOT_WORK_IN_THIS_PHASE);
         } else if (!(matcher.group("position").equals("attack") && selectedCell.getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED ||
                 matcher.group("position").equals("defense") && selectedCell.getCellStatus() == CellStatus.OFFENSIVE_OCCUPIED)) {
-            if (selectedCell.getCellStatus() == CellStatus.DEFENSIVE_HIDDEN) view.showError(Error.DH_POSITION);
-            else view.showError(Error.CURRENTLY_IN_POSITION);
+            if (selectedCell.getCellStatus() == CellStatus.DEFENSIVE_HIDDEN) Error.showError(Error.DH_POSITION);
+            else Error.showError(Error.CURRENTLY_IN_POSITION);
         } else if (hasCardChangedPosition()) {
-            view.showError(Error.ALREADY_CHANGED_POSITION);
+            Error.showError(Error.ALREADY_CHANGED_POSITION);
         } else {
             if (matcher.group("position").equals("attack")) selectedCell.setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
             else if (matcher.group("position").equals("defense"))
@@ -1278,11 +1278,11 @@ public class RoundGameController {
                     return;
                 } else if (address >= 1 && address <= 5) {
                     if (getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, address).getCellStatus().equals(CellStatus.EMPTY)) {
-                        view.showError(Error.INVALID_SELECTION);
+                        Error.showError(Error.INVALID_SELECTION);
                     } else {
                         addCardToGraveYard(Zone.MONSTER_ZONE, address, getCurrentPlayer());
                     }
-                } else view.showError(Error.INVALID_NUMBER);
+                } else Error.showError(Error.INVALID_NUMBER);
             }
         }
     }
@@ -1353,30 +1353,30 @@ public class RoundGameController {
     private boolean isValidAttack(Matcher matcher) {
         int address = Integer.parseInt(matcher.group("monsterZoneNumber"));
         if (address > 5 || address < 1) {
-            view.showError(Error.INVALID_NUMBER);
+            Error.showError(Error.INVALID_NUMBER);
             return false;
         }
         if (selectedCell == null) {
-            view.showError(Error.NO_CARD_SELECTED_YET);
+            Error.showError(Error.NO_CARD_SELECTED_YET);
             return false;
         } else if (!selectedCellZone.equals(Zone.MONSTER_ZONE)) {
-            view.showError(Error.CAN_NOT_ATTACK);
+            Error.showError(Error.CAN_NOT_ATTACK);
             return false;
         }
         if (!selectedCell.getCellStatus().equals(CellStatus.OFFENSIVE_OCCUPIED)) { // u sure ?
-            view.showError(Error.CAN_NOT_ATTACK);
+            Error.showError(Error.CAN_NOT_ATTACK);
             return false;
         } else if (!currentPhase.equals(Phase.BATTLE_PHASE)) {
-            view.showError(Error.ACTION_NOT_ALLOWED);
+            Error.showError(Error.ACTION_NOT_ALLOWED);
             return false;
         }
         if (hasCardUsedItsAttack()) {
-            view.showError(Error.ALREADY_ATTACKED);
+            Error.showError(Error.ALREADY_ATTACKED);
             return false;
         }
         Cell opponentCell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, address);
         if (opponentCell.getCellStatus().equals(CellStatus.EMPTY)) {
-            view.showError(Error.NO_CARD_TO_BE_ATTACKED);
+            Error.showError(Error.NO_CARD_TO_BE_ATTACKED);
             return false;
         }
         return true;
@@ -1423,7 +1423,7 @@ public class RoundGameController {
                     return true;
                 }
             } else
-                view.showError(Error.INVALID_NUMBER);
+                Error.showError(Error.INVALID_NUMBER);
         }
     }
 
@@ -1440,20 +1440,20 @@ public class RoundGameController {
                 trapNegateAttackEffect();
                 return true;
             default:
-                view.showError(Error.PREPARATIONS_IS_NOT_DONE);
+                Error.showError(Error.PREPARATIONS_IS_NOT_DONE);
                 return false;
         }
     }
 
     public void flipSummon() {//TODO might have effect
         if (selectedCell == null) {
-            view.showError(Error.NO_CARD_SELECTED_YET);
+            Error.showError(Error.NO_CARD_SELECTED_YET);
         } else if (!(selectedCellZone == Zone.MONSTER_ZONE)) {
-            view.showError(Error.CAN_NOT_CHANGE_POSITION);
+            Error.showError(Error.CAN_NOT_CHANGE_POSITION);
         } else if (!(currentPhase == Phase.MAIN_PHASE_1 || currentPhase == Phase.MAIN_PHASE_2)) {
-            view.showError(Error.ACTION_CAN_NOT_WORK_IN_THIS_PHASE);
+            Error.showError(Error.ACTION_CAN_NOT_WORK_IN_THIS_PHASE);
         } else if (selectedCell.getCellStatus() == CellStatus.DEFENSIVE_HIDDEN) {
-            view.showError(Error.FLIP_SUMMON_NOT_ALLOWED);
+            Error.showError(Error.FLIP_SUMMON_NOT_ALLOWED);
         } else {
             if (!((Monster) selectedCell.getCardInCell()).getMonsterEffect().equals(MonsterEffect.MAN_EATER_BUG_EFFECT)) {
                 selectedCell.setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
@@ -1473,12 +1473,12 @@ public class RoundGameController {
                     return;
                 } else if (address >= 1 && address <= 5) {
                     if (opponent.getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, address).getCellStatus().equals(CellStatus.EMPTY)) {
-                        view.showError(Error.INVALID_SELECTION);
+                        Error.showError(Error.INVALID_SELECTION);
                     } else {
                         addCardToGraveYard(Zone.MONSTER_ZONE, address, opponent);
                         deselectCard(0);
                     }
-                } else view.showError(Error.INVALID_NUMBER);
+                } else Error.showError(Error.INVALID_NUMBER);
             }
         }
         selectedCell.setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
@@ -1489,14 +1489,14 @@ public class RoundGameController {
     // SPELL RELATED
     public void setSpellOrTrap() {
         if (selectedCell == null) {
-            view.showError(Error.NO_CARD_SELECTED_YET);
+            Error.showError(Error.NO_CARD_SELECTED_YET);
         } else if (!selectedCellZone.equals(Zone.HAND)) {
-            view.showError(Error.CAN_NOT_SET);
+            Error.showError(Error.CAN_NOT_SET);
         } else if (!(selectedCell.getCardInCell().getCardType() == CardType.SPELL &&
                 (currentPhase == Phase.MAIN_PHASE_1 || currentPhase == Phase.MAIN_PHASE_2))) {
-            view.showError(Error.ACTION_CAN_NOT_WORK_IN_THIS_PHASE);
+            Error.showError(Error.ACTION_CAN_NOT_WORK_IN_THIS_PHASE);
         } else if (getCurrentPlayer().getPlayerBoard().isSpellZoneFull()) {
-            view.showError(Error.SPELL_ZONE_IS_FULL);
+            Error.showError(Error.SPELL_ZONE_IS_FULL);
         } else if (((Spell) selectedCell.getCardInCell()).getSpellType().equals(SpellType.FIELD)) {//TODO
 
         } else { // we can change place of this for ,,, you know...
@@ -1513,30 +1513,30 @@ public class RoundGameController {
 
     public void activateEffectOfSpellOrTrap() {
         if (opponentSelectedCell != null && selectedCell == null) {
-            view.showError(Error.ONLY_CAN_SHOW_OPPONENT_CARD);
+            Error.showError(Error.ONLY_CAN_SHOW_OPPONENT_CARD);
             return;
         }
         if (selectedCell == null) {
-            view.showError(Error.NO_CARD_SELECTED_YET);
+            Error.showError(Error.NO_CARD_SELECTED_YET);
             return;
         }
         if (!selectedCellZone.equals(Zone.SPELL_ZONE) && !selectedCellZone.equals(Zone.HAND)) {
-            view.showError(Error.ONLY_SPELL_CAN_ACTIVE);
+            Error.showError(Error.ONLY_SPELL_CAN_ACTIVE);
             return;
         }
         if (!currentPhase.equals(Phase.MAIN_PHASE_1) && !currentPhase.equals(Phase.MAIN_PHASE_2)) {
-            view.showError(Error.ACTION_CAN_NOT_WORK_IN_THIS_PHASE);
+            Error.showError(Error.ACTION_CAN_NOT_WORK_IN_THIS_PHASE);
             return;
         }
         if (selectedCellZone.equals(Zone.SPELL_ZONE)) {
             if (selectedCell.getCellStatus().equals(CellStatus.OCCUPIED)) {
-                view.showError(Error.CARD_ALREADY_ACTIVATED);
+                Error.showError(Error.CARD_ALREADY_ACTIVATED);
                 return;
             }
         }
         if (selectedCellZone.equals(Zone.HAND)) {
             if (getCurrentPlayer().getPlayerBoard().isSpellZoneFull()) {
-                view.showError(Error.SPELL_ZONE_IS_FULL);
+                Error.showError(Error.SPELL_ZONE_IS_FULL);
                 return;
             }
         }
@@ -1545,7 +1545,7 @@ public class RoundGameController {
                 normalSpellActivate(((Spell) selectedCell.getCardInCell()).getSpellEffect());
             else fieldZoneSpellActivate();
         } else
-            view.showError(Error.PREPARATIONS_IS_NOT_DONE);
+            Error.showError(Error.PREPARATIONS_IS_NOT_DONE);
     }
 
     private void normalSpellActivate(SpellEffect spellEffect) {
@@ -1575,7 +1575,7 @@ public class RoundGameController {
                 blackPendantSpell();
                 break;
             default:
-                view.showError(Error.PREPARATIONS_IS_NOT_DONE);
+                Error.showError(Error.PREPARATIONS_IS_NOT_DONE);
         }
     }
 

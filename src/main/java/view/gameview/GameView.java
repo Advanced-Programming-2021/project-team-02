@@ -51,10 +51,6 @@ public class GameView {
             controller.selectOpponentFieldCard ();
         else if (Regex.getMatcher (Regex.BOARD_GAME_SELECT_DESELECT, command).matches ())
             controller.deselectCard (1);
-        //TODO remove these! not needed and not in doc!   else if (Regex.getMatcher (Regex.BOARD_GAME_SELECT_GRAVEYARD, command).matches ())
-        //TODO remove these! not needed and not in doc!       controller.selectPlayerGraveYard();
-        //TODO remove these! not needed and not in doc!   else if (Objects.requireNonNull (Regex.getMatcherFromAllPermutations (Regex.BOARD_GAME_SELECT_GRAVEYARD_OPPONENT, command)).matches ())
-        //TODO remove these! not needed and not in doc!       controller.selectOpponentGraveYard ();
         else if ((matcher = Regex.getMatcher (Regex.BOARD_GAME_SELECT_HAND, command)).matches ())
             controller.selectCardInHand (matcher);
         else if ((matcher = Regex.getMatcher (Regex.BOARD_GAME_SELECT_HAND, command)).matches ())
@@ -91,18 +87,6 @@ public class GameView {
             controller.surrender ();
         else Error.showError (Error.INVALID_COMMAND);
         showBoard();
-    }
-
-    public void showError(Error error) {
-        System.out.println(error.getValue());
-    }
-
-    public void showDynamicError(Error error, Matcher matcher) {
-
-    }
-
-    public void showDynamicErrorWithAString(Error error, String string) {
-
     }
 
     public void showSuccessMessageWithTwoIntegerAndOneString(SuccessMessage successMessage, String winnerUserName, int winnerScore, int loserScore) {
@@ -244,7 +228,7 @@ public class GameView {
 
     public void showGraveYard() {
         int counter = 1;
-        if (controller.getCurrentPlayer().getPlayerBoard().isGraveYardEmpty ()) instance.showError (Error.EMPTY_GRAVEYARD);
+        if (controller.getCurrentPlayer().getPlayerBoard().isGraveYardEmpty ()) Error.showError (Error.EMPTY_GRAVEYARD);
         else {
             for (Card card : controller.getCurrentPlayer ().getPlayerBoard ().returnGraveYard ().getGraveYardCards ()) {
                 System.out.println (counter + ". " + card.getName () + ":" + card.getDescription ());
