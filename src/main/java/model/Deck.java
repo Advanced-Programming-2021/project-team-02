@@ -125,7 +125,27 @@ public class Deck {
     }
 
     public void shuffleDeck() {
-         Collections.shuffle(mainCards);
-         Collections.shuffle(sideCards);
+        Collections.shuffle(mainCards);
+        Collections.shuffle(sideCards);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder out = new StringBuilder();
+        int i = 1;
+        for (Card card : mainCards) {
+            if (card instanceof Monster) {
+                Monster monster = (Monster) card;
+                out.append(i).append(" - ").append(monster.getName());
+                i++;
+            } else if (card instanceof Spell) {
+                Spell spell = (Spell) card;
+                out.append(i).append(" - ").append(spell.getName());
+            } else {
+                Trap trap = (Trap) card;
+                out.append(i).append(" - ").append(trap.getName());
+            }
+        }
+        return out.toString();
     }
 }

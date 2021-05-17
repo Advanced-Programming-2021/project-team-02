@@ -1,6 +1,7 @@
 package view.gameview;
 
 import controller.playgame.RoundGameController;
+import model.Deck;
 import model.card.Card;
 import model.card.Monster;
 import model.card.Spell;
@@ -8,13 +9,11 @@ import model.card.Trap;
 import model.card.informationofcards.CardType;
 import model.game.board.Cell;
 import model.game.board.GraveYard;
-import model.game.board.SpellZone;
 import view.input.Input;
 import view.input.Regex;
 import view.messages.Error;
 import view.messages.SuccessMessage;
 
-import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -64,7 +63,7 @@ public class GameView {
         else if (Regex.getMatcher (Regex.BOARD_GAME_SUMMON, command).matches ())
             controller.summonMonster ();
         else if (Regex.getMatcher (Regex.GRAVEYARD_SHOW, command).matches ())
-            instance.showGraveYard ();
+            instance.showCurrentGraveYard();
         else if (Regex.getMatcher (Regex.CARD_SHOW_SELECTED, command).matches ())
             instance.showCard (controller.getSelectedCell ().getCardInCell ());
         else if (Regex.getMatcher (Regex.BOARD_GAME_SUMMON, command).matches ())
@@ -95,14 +94,6 @@ public class GameView {
 
     public void showError(Error error) {
         System.out.println(error.getValue());
-    }
-
-    public void showDynamicError(Error error, Matcher matcher) {
-
-    }
-
-    public void showDynamicErrorWithAString(Error error, String string) {
-
     }
 
     public void showSuccessMessageWithTwoIntegerAndOneString(SuccessMessage successMessage, String winnerUserName, int winnerScore, int loserScore) {
@@ -242,7 +233,7 @@ public class GameView {
         System.out.printf (SuccessMessage.PHASE_NAME.getValue (), controller.getCurrentPhase ());
     }
 
-    public void showGraveYard() {
+    public void showCurrentGraveYard() {
         int counter = 1;
         if (controller.getCurrentPlayer().getPlayerBoard().isGraveYardEmpty ()) instance.showError (Error.EMPTY_GRAVEYARD);
         else {
@@ -268,7 +259,7 @@ public class GameView {
     }
 
     public int getTributeAddress() {
-        System.out.println("Enter number of monster to tribute Or cancel to finish the process:");
+        System.out.println("Enter number(address) of monster to tribute Or cancel to finish the process:");
         String command;
         while (true) {
             command = Input.getInput();
@@ -301,41 +292,22 @@ public class GameView {
         return null;
     }
 
-    public Matcher monsterReborn() {
-        System.out.println("Enter message in format and then select card:" +
-                "if you want from your grave yard :  card_name card_position(only DO or OO)" +
-                "if you want from opponent grave yard :opponent card_name card_position(only DO or OO)");
+    public int swordOfDarkDestruction() {
+        System.out.println("please enter card address in monsterZone to be equipped");
         while (true) {
             String command = Input.getInput();
-            Pattern pattern = Pattern.compile("( |opponent) ([A-Za-z ',-]+?) (DO|OO)");
-            Matcher matcher = pattern.matcher(command);
-            if (command.equals("cancel")) return null;
-            else if (matcher.matches()) return matcher;
+            if (command.equals("cancel")) return -1;
+            else if (command.matches("[1-9]+")) return Integer.parseInt(command);
             else System.out.println(Error.INVALID_COMMAND);
         }
     }
 
-    public String getCardNameForTerraForming() {
-        System.out.println("please enter field_spell name and then select card");
-        return Input.getInput();
-    }
-
-    public String swordOfDarkDestruction() {
-        System.out.println("please enter card name (Card position should be OO or DO) and then select card:");
+    public int blackPendant() {
+        System.out.println("please enter card address in monsterZone to be equipped");
         while (true) {
             String command = Input.getInput();
-            if (command.equals("cancel")) return null;
-            else if (command.matches("([A-Za-z ',-]+?)")) return command;
-            else System.out.println(Error.INVALID_COMMAND);
-        }
-    }
-
-    public String blackPendant() {
-        System.out.println("please enter card name and then select card:");
-        while (true) {
-            String command = Input.getInput();
-            if (command.equals("cancel")) return null;
-            else if (command.matches("([A-Za-z ',-]+?)")) return command;
+            if (command.equals("cancel")) return -1;
+            else if (command.matches("[1-9]+")) return Integer.parseInt(command);
             else System.out.println(Error.INVALID_COMMAND);
         }
     }
@@ -360,13 +332,8 @@ public class GameView {
         return false;
     }
 
-
-    public String askCardName() {
-        return Input.getInput();
-    }
-
-    public int chooseCardInHand(){
-        System.out.println("Enter address(number of it in your hand) of card to be set");
+    public int chooseCardInHand(String toShow){
+        System.out.println(toShow);
         return askAddress();
     }
     public int howToSummonBeastKingBarbos(){
@@ -397,6 +364,53 @@ public class GameView {
             } else if (input.equals("cancel")) {
                 return -1;
             } else System.out.println(Error.INVALID_COMMAND);
+        }
+    }
+    public int chooseCardInDeck(Deck deck){
+        System.out.println("Enter number of field spell to be added to you deck or cancel to cancel the command!");
+        System.out.println(deck);
+        while(true){
+            String input = Input.getInput();
+            if (input.matches("[1-9]+")){
+                return Integer.parseInt(input);
+            } else if (input.equals("cancel")){
+                return -1;
+            } else System.err.println(Error.INVALID_COMMAND);
+        }
+    }
+    public int chooseCardInGraveYard(){
+        System.out.println("choose the card, enter the number of it:");
+        while(true){
+            String input = Input.getInput();
+            if (input.matches("[1-9]+")){
+                return Integer.parseInt(input);
+            } else if (input.equals("cancel")){
+                return -1;
+            } else System.err.println(Error.INVALID_COMMAND);
+        }
+    }
+    public int twoChoiceQuestions(String message,String choice1,String choice2){
+        System.out.println(message);
+        System.out.println("chosee one : 1-"+choice1+", 2-"+choice2);
+        while (true){
+            String string = Input.getInput();
+            if (string.equals("cancel")){
+                return -1;
+            } else if (string.matches("[1-9]+")){
+                if (string.equals("1") || string.equals("2")){
+                    return Integer.parseInt(string);
+                } else showError(Error.INVALID_NUMBER);
+            } else showError(Error.INVALID_COMMAND);
+        }
+    }
+    public void showOpponentGraveYard() {
+        int counter = 1;
+        if (controller.getOpponentPlayer().getPlayerBoard().isGraveYardEmpty ()) instance.showError (Error.EMPTY_GRAVEYARD);
+        else {
+            for (Card card : controller.getCurrentPlayer ().getPlayerBoard ().returnGraveYard ().getGraveYardCards ()) {
+                System.out.println (counter + ". " + card.getName () + ":" + card.getDescription ());
+                counter++;
+            }
         }
     }
 }

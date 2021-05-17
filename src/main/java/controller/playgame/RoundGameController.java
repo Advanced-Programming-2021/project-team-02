@@ -1,5 +1,6 @@
 package controller.playgame;
 
+import model.Deck;
 import model.card.Card;
 import model.card.Monster;
 import model.card.Spell;
@@ -365,7 +366,7 @@ public class RoundGameController {
         return secondPlayer;
     }
 
-    private DuelPlayer getOpponentPlayer() {
+    public DuelPlayer getOpponentPlayer() {
         if (turn == 1)
             return secondPlayer;
         return firstPlayer;
@@ -376,74 +377,69 @@ public class RoundGameController {
         selectedCellZone = Zone.NONE;
     }
 
-    public void monsterRebornSpell() {//TODO
-        Matcher matcher;
+    public void monsterRebornSpell() {
+        GraveYard graveYard;
+        int choice = view.twoChoiceQuestions("to summon card from, which you choose :", "your graveyard", "opponent graveyard");
+        if (choice == -1) {
+            cancel();
+            return;
+        }
+        if (choice == 2) {
+            view.showOpponentGraveYard();
+            graveYard = getOpponentPlayer().getPlayerBoard().returnGraveYard();
+        } else {
+            view.showCurrentGraveYard();
+            graveYard = getCurrentPlayer().getPlayerBoard().returnGraveYard();
+        }
         while (true) {
-            matcher = view.monsterReborn();
-            if (matcher == null) {
+            Card card;
+            int address = view.chooseCardInGraveYard();
+            if (address == -1) {
                 cancel();
                 return;
-            } else if (Card.getCardByName(matcher.group(2)) == null)
-                view.showError(Error.WRONG_CARD_NAME);
-            else if (!(matcher.group(3).equals("OO") || matcher.group(3).equals("DO")))
-                view.showError(Error.DH_POSITION);
-            else break;
-        }
-        ArrayList<Card> currentPlayer = getCurrentPlayer().getPlayerBoard().returnGraveYard().getGraveYardCards();
-        ArrayList<Card> opponentPlayer = getOpponentPlayer().getPlayerBoard().returnGraveYard().getGraveYardCards();
-        if (matcher.group(1).equals("opponent") && selectedCellZone == Zone.GRAVEYARD) {
-            for (Card card : opponentPlayer) {
-                if (card.getName().equals(matcher.group(2))) {
-                    if (matcher.group(3).equals("OO"))
-                        specialSummon(selectedCell.getCardInCell(), CellStatus.OFFENSIVE_OCCUPIED);
-                    else if (matcher.group(3).equals("DO"))
-                        specialSummon(selectedCell.getCardInCell(), CellStatus.DEFENSIVE_OCCUPIED);
+            } else if (address - 1 > graveYard.getGraveYardCards().size()) {
+                view.showError(Error.INVALID_NUMBER);
+            } else if ((card = graveYard.getGraveYardCards().get(address - 1)).getCardType().equals(CardType.MONSTER)) {
+                int summonChoice = view.twoChoiceQuestions("chosse what to do:", "summon", "set");
+                if (summonChoice == -1) {
+                    cancel();
+                    return;
+                } else if (summonChoice == 1) {
+                    specialSummon(card, CellStatus.OFFENSIVE_OCCUPIED);
+                    deselectCard(0);
+                    return;
+                } else {
+                    specialSummon(card, CellStatus.DEFENSIVE_HIDDEN);
+                    deselectCard(0);
+                    return;
                 }
-            }
-        } else {
-            for (Card card : currentPlayer) {
-                if (card.getName().equals(matcher.group(2))) {
-                    if (matcher.group(3).equals("OO"))
-                        specialSummon(selectedCell.getCardInCell(), CellStatus.OFFENSIVE_OCCUPIED);
-                    else if (matcher.group(3).equals("DO"))
-                        specialSummon(selectedCell.getCardInCell(), CellStatus.DEFENSIVE_OCCUPIED);
-                }
-            }
+            } else view.showError(Error.INVALID_SELECTION);
         }
-        SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
-        int i = 0;
-        while (spellZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i >= 5) {
-            if (spellZone.getCellWithAddress(i).getCardInCell().getName().equals("Monster Reborn"))
-                addCardToGraveYard(Zone.SPELL_ZONE, i, getCurrentPlayer());
-            i++;
-        }
+
     }
 
     private void terraFormingSpell() {//TODO
         // TODO show deck
-        String cardName;
+
+        Deck deck = getCurrentPlayer().getPlayDeck();
         while (true) {
-            cardName = view.getCardNameForTerraForming();
-            if (cardName.equals("cancel")) {
-                cancel();
+            int address = view.chooseCardInDeck(deck);
+            if (address == -1) {
                 return;
-            } else if (Card.getCardByName(cardName) == null) {
-                view.showError(Error.WRONG_CARD_NAME);
-            } else if (SpellType.getSpellTypeByTypeName(selectedCell.getCardInCell().getName()) != SpellType.FIELD)
-                view.showError(Error.CHOOSE_FIELD_SPELL);
-            else break;
-        }
-        if (SpellType.getSpellTypeByTypeName(selectedCell.getCardInCell().getName()) == SpellType.FIELD) {
-            getCurrentPlayerHand().add(selectedCell.getCardInCell());
-            SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
-            int i = 0;
-            while (spellZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i >= 5) {
-                if (spellZone.getCellWithAddress(i).getCardInCell().getName().equals("Terraforming"))
-                    addCardToGraveYard(Zone.SPELL_ZONE, i, getCurrentPlayer());
-                i++;
+            } else if (address - 1 > deck.getMainCards().size() || address - 1 < deck.getMainCards().size() || deck.getMainCards().get(address - 1) == null) {
+                view.showError(Error.INVALID_NUMBER);
+            } else if (!deck.getMainCards().get(address).getCardType().equals(CardType.SPELL)) {
+                view.showError(Error.INVALID_SELECTION);
+            } else {
+                if (((Spell) deck.getMainCards().get(address - 1)).getSpellType().equals(SpellType.FIELD)) {
+                    addCardToFirstPlayerHand(((Spell) deck.getMainCards().get(address - 1)));
+                    deck.getMainCards().remove(address - 1);
+                    break;
+                } else view.showError(Error.INVALID_SELECTION);
             }
-            getCurrentPlayer().getPlayDeck().shuffleDeck();
         }
+        deck.shuffleDeck();
+        addCardToGraveYard(Zone.SPELL_ZONE, selectedCellAddress, getCurrentPlayer());
     }
 
     private void potOfGreedSpell() {
@@ -495,63 +491,73 @@ public class RoundGameController {
         deselectCard(0);
     }
 
-    private void swordOfDarkDestructionSpell() {//TODO
+    private void swordOfDarkDestructionSpell() {
         Card spellCard = selectedCell.getCardInCell();
-        Monster monster;
-        String cardName;
+        Monster monsterCard;
+        int address;
         while (true) {
-            cardName = view.swordOfDarkDestruction();
-            if (cardName == null) {
-                cancel();
+            address = view.swordOfDarkDestruction();
+            if (!isValidAddress(address)) {
                 return;
-            } else if (selectedCell.getCellStatus() != CellStatus.DEFENSIVE_OCCUPIED ||
-                    selectedCell.getCellStatus() != CellStatus.OFFENSIVE_OCCUPIED) {
-                view.showError(Error.DH_POSITION);
-            } else if (selectedCellZone != Zone.MONSTER_ZONE) {
-                view.showError(Error.CHOOSE_MONSTER_FROM_MONSTER_ZONE);
-            } else if (Card.getCardByName(cardName) == null) view.showError(Error.WRONG_CARD_NAME);
-            else {
-                monster = (Monster) Card.getCardByName(cardName);
-                if (Objects.requireNonNull(monster).getMonsterType() == MonsterType.FIEND || monster.getMonsterType() == MonsterType.SPELLCASTER)
-                    break;
             }
-            view.showError(Error.TYPE_FIEND_OT_SPELL_CASTER);
+            Cell cell = getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, address);
+            if (cell.getCellStatus().equals(CellStatus.EMPTY)) {
+                view.showError(Error.INVALID_SELECTION);
+                continue;
+            } else {
+                monsterCard = (Monster) cell.getCardInCell();
+                if (monsterCard.getMonsterType().equals(MonsterType.FIEND) || monsterCard.getMonsterType().equals(MonsterType.SPELLCASTER)) {
+                    view.showError(Error.TYPE_FIEND_OT_SPELL_CASTER);
+                } else break;
+            }
         }
-        monster.setAttackPower(monster.getAttackPower() + 400);
-        monster.setDefensePower(monster.getDefensePower() - 200);
-        if (getCurrentPlayer() == firstPlayer) {
-            firstPlayerHashmapForEquipSpells.put(spellCard, monster);
-        } else secondPlayerHashmapForEquipSpells.put(spellCard, monster);
+        monsterCard.changeAttackPower(400);
+        monsterCard.changeDefensePower(-200);
+        if (turn == 1) {
+            firstPlayerHashmapForEquipSpells.put(spellCard, monsterCard);
+        } else secondPlayerHashmapForEquipSpells.put(spellCard, monsterCard);
     }
 
     public void removeSwordOfDarkDestruction(Card card) {//TODO func zadi estefade nakardi
         Monster monster = (Monster) card;
-        monster.setAttackPower(monster.getAttackPower() - 400);
-        monster.setDefensePower(monster.getDefensePower() + 200);
+        monster.changeAttackPower(-400);
+        monster.changeDefensePower(+200);
     }
 
     public void blackPendantSpell() {//TODO
         Card spellCard = selectedCell.getCardInCell();
-        String cardName;
+        Monster monsterCard;
+        int address;
         while (true) {
-            cardName = view.blackPendant();
-            if (cardName == null) {
-                cancel();
-                return;
-            } else if (selectedCell.getCellStatus() != CellStatus.DEFENSIVE_OCCUPIED ||
-                    selectedCell.getCellStatus() != CellStatus.OFFENSIVE_OCCUPIED) {
-                view.showError(Error.DH_POSITION);
-            } else if (selectedCellZone != Zone.MONSTER_ZONE) {
-                view.showError(Error.CHOOSE_MONSTER_FROM_MONSTER_ZONE);
-            } else if (Card.getCardByName(cardName) == null) view.showError(Error.WRONG_CARD_NAME);
-            else break;
+            address = view.blackPendant();
+            if (!isValidAddress(address)) return;
+            Cell cell = getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, address);
+            if (cell.getCellStatus().equals(CellStatus.EMPTY)) {
+                view.showError(Error.INVALID_SELECTION);
+            } else {
+                monsterCard = (Monster) cell.getCardInCell();
+                break;
+            }
         }
-        Monster monster = (Monster) Card.getCardByName(cardName);
-        Objects.requireNonNull(monster).setAttackPower((monster.getAttackPower()));
-        if (getCurrentPlayer() == firstPlayer) {
-            firstPlayerHashmapForEquipSpells.put(spellCard, monster);
-        } else secondPlayerHashmapForEquipSpells.put(spellCard, monster);
+        monsterCard.changeAttackPower(400);
+        monsterCard.changeDefensePower(-200);
+        if (turn == 1) {
+            firstPlayerHashmapForEquipSpells.put(spellCard, monsterCard);
+        } else secondPlayerHashmapForEquipSpells.put(spellCard, monsterCard);
     }
+
+    private boolean isValidAddress(int address) {
+        if (address == -1) {
+            cancel();
+            return false;
+        }
+        if (address > 5 || address < 1) {
+            view.showError(Error.INVALID_NUMBER);
+            return false;
+        }
+        return true;
+    }
+
 
     public void removeBlackPendant(Card card) {//TODO func zadi estefade nakardi
         Monster monster = (Monster) card;
@@ -754,7 +760,7 @@ public class RoundGameController {
     private boolean theTrickyEffect(CellStatus status) {
         if (view.yesNoQuestion("do you want to special summon/set it with a tribute in hand ?")) {
             while (true) {
-                int address = view.chooseCardInHand();
+                int address = view.chooseCardInHand("Enter address(number of it in your hand) of card to be set");
                 if (address == -1) {
                     return false;
                 } else if (getCardInHand(address) == null) {
@@ -963,7 +969,7 @@ public class RoundGameController {
 
     private boolean didTribute(int number, DuelPlayer player) {
         //TODO check :
-        // view.showSuccessMessage(SuccessMessage.TRIBUTE_SUMMON_ENTER_ADDRESS);
+        //view.showSuccessMessage(SuccessMessage.TRIBUTE_SUMMON_ENTER_ADDRESS);
         ArrayList<Integer> address = new ArrayList<>();
         if (!isThereEnoughMonsterToTribute(number, player)) {
             view.showError(Error.NOT_ENOUGH_CARDS_TO_TRIBUTE);
