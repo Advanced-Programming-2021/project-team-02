@@ -2,6 +2,7 @@ package model.game;
 
 import model.card.Card;
 import model.card.Monster;
+import model.card.Spell;
 import model.game.board.*;
 
 import java.util.ArrayList;
@@ -129,5 +130,9 @@ public class PlayerBoard {
 
     public FieldZone getFieldZone() {
         return fieldZone;
+    }
+
+    public void setFieldSpell(Spell spell) {
+        fieldZone.setCard(spell);
     }
 }
