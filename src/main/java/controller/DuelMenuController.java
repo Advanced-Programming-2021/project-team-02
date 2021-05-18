@@ -8,7 +8,6 @@ import view.MenusManager;
 import view.messages.Error;
 
 import java.util.Objects;
-import java.util.regex.Matcher;
 
 public class DuelMenuController {
     private static DuelMenuController instance = null;
@@ -25,22 +24,21 @@ public class DuelMenuController {
     }
 
 
-    public void startDuelWithOtherPlayer(Matcher matcher) throws CloneNotSupportedException {
-        if (!isPlayerValidToStartDuel(matcher.group("secondPlayerUsername"))) {
+    public void startDuelWithOtherPlayer(String secondPlayerUsername, int roundNumber) throws CloneNotSupportedException {
+        if (!isPlayerValidToStartDuel(secondPlayerUsername)) {
             Error.showError(Error.PLAYER_DOES_NOT_EXIST);
-        } else if (!areRoundsNumberValid(Integer.parseInt(matcher.group("roundNumber")))) {
+        } else if (!areRoundsNumberValid(roundNumber)) {
             Error.showError(Error.WRONG_ROUNDS_NUMBER);
-        } else if (arePlayersDecksActive(matcher.group("secondPlayerUsername"))) {
-            if (arePlayersDecksValid(matcher.group("secondPlayerUsername"))) {
-                duel = new Duel(MenusManager.getInstance().getLoggedInUser().getUsername(), matcher.group("" +
-                        "secondPlayerUsername"), Integer.parseInt(matcher.group("roundNumber")));
+        } else if (arePlayersDecksActive(secondPlayerUsername)) {
+            if (arePlayersDecksValid(secondPlayerUsername)) {
+                duel = new Duel(MenusManager.getInstance().getLoggedInUser().getUsername(), secondPlayerUsername, roundNumber);
                 DuelGameController.getInstance().startDuel(duel);
             }
         }
     }
 
-    public void startDuelWithAI(Matcher matcher) {
-        if (!areRoundsNumberValid(Integer.parseInt(matcher.group("roundNumber"))))
+    public void startDuelWithAI(int roundNumber) {
+        if (!areRoundsNumberValid(roundNumber))
             Error.showError(Error.WRONG_ROUNDS_NUMBER);
     }
 

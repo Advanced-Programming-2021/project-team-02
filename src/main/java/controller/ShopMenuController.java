@@ -13,7 +13,6 @@ import view.messages.Error;
 import view.messages.SuccessMessage;
 
 import java.util.Objects;
-import java.util.regex.Matcher;
 
 public class ShopMenuController {
     private User loggedInUser;
