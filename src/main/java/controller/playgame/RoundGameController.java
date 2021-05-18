@@ -408,7 +408,7 @@ public class RoundGameController {
             } else if (address - 1 > graveYard.getGraveYardCards().size()) {
                 view.showError(Error.INVALID_NUMBER);
             } else if ((card = graveYard.getGraveYardCards().get(address - 1)).getCardType().equals(CardType.MONSTER)) {
-                int summonChoice = view.twoChoiceQuestions("chosse what to do:", "summon", "set");
+                int summonChoice = view.twoChoiceQuestions("choose what to do:", "summon", "set");
                 if (summonChoice == -1) {
                     cancel();
                     return;
@@ -676,7 +676,7 @@ public class RoundGameController {
         Monster monster = ((Monster) selectedCell.getCardInCell());
         if (selectedCell.getCardInCell().getCardType().equals(CardType.MONSTER)) {
             if (monster.getMonsterEffect().equals(MonsterEffect.GATE_GUARDIAN_EFFECT)) {
-                gateGaurdianEffect(CellStatus.OFFENSIVE_OCCUPIED);
+                gateGuardianEffect (CellStatus.OFFENSIVE_OCCUPIED);
                 return;
             } else if (monster.getMonsterEffect().equals(MonsterEffect.BEAST_KING_BARBAROS_EFFECT)) {
                 if (beastKingBarbosEffect(CellStatus.OFFENSIVE_OCCUPIED))
@@ -722,8 +722,8 @@ public class RoundGameController {
         return true;
     }
 
-    private void gateGaurdianEffect(CellStatus status) {
-        if (view.yesNoQuestion("do you want to tribute for GateGaurdian Special Summon?")) {
+    private void gateGuardianEffect(CellStatus status) {
+        if (view.yesNoQuestion("do you want to tribute for GateGuardian Special Summon?")) {
             if (didTribute(3, getCurrentPlayer())) {
                 specialSummon(selectedCell.getCardInCell(), status);
             }
@@ -856,7 +856,7 @@ public class RoundGameController {
 
     private boolean checkTrapCellToBeActivatedForOpponentInSummonSituation(int address, Cell cell) {
         if (cell.getCardInCell().getCardType().equals(CardType.SPELL)) {
-            Error.showError(Error.ACTION_NOT_ALLOWED); //ritght error ?
+            Error.showError(Error.ACTION_NOT_ALLOWED); //right error ?
         } else {
             Trap trap = (Trap) cell.getCardInCell();
             if (isValidActivateTrapEffectInSummonSituationForOpponentToDo(trap.getTrapEffect())) {
@@ -885,10 +885,10 @@ public class RoundGameController {
 
     private boolean checkTrapCellToBeActivatedForCurrentPlayerInSummonSituation(int address, Cell cell) {
         if (cell.getCardInCell().getCardType().equals(CardType.SPELL)) {
-            Error.showError(Error.ACTION_NOT_ALLOWED); //ritght error ?
+            Error.showError(Error.ACTION_NOT_ALLOWED); //right error ?
         } else {
             Trap trap = (Trap) cell.getCardInCell();
-            if (isValidActivateTrapEffectInSummonSituationForCuurentPlayerToDo(trap.getTrapEffect())) {
+            if (isValidActivateTrapEffectInSummonSituationForCurentPlayerToDo (trap.getTrapEffect())) {
                 view.showSuccessMessage(SuccessMessage.TRAP_ACTIVATED);
                 addCardToGraveYard(Zone.SPELL_ZONE, address, getCurrentPlayer()); //CHECK correctly removed ?
                 return true;
@@ -911,7 +911,7 @@ public class RoundGameController {
         }
     }
 
-    private boolean isValidActivateTrapEffectInSummonSituationForCuurentPlayerToDo(TrapEffect trapEffect) {
+    private boolean isValidActivateTrapEffectInSummonSituationForCurentPlayerToDo(TrapEffect trapEffect) {
         if (trapEffect == TrapEffect.TORRENTIAL_TRIBUTE_EFFECT) {
             torrentialTributeTrapEffect();
             return true;
@@ -1138,7 +1138,7 @@ public class RoundGameController {
         //check special Set
         Monster monster = ((Monster) selectedCell.getCardInCell());
         if (monster.getMonsterEffect().equals(MonsterEffect.GATE_GUARDIAN_EFFECT)) {
-            gateGaurdianEffect(CellStatus.DEFENSIVE_HIDDEN);
+            gateGuardianEffect (CellStatus.DEFENSIVE_HIDDEN);
             return;
         } else if (monster.getMonsterEffect().equals(MonsterEffect.BEAST_KING_BARBAROS_EFFECT)) {
             if (beastKingBarbosEffect(CellStatus.DEFENSIVE_HIDDEN))
@@ -1864,7 +1864,7 @@ public class RoundGameController {
                 reverseForestFieldEffectOnOneCard(monster);
                 break;
             case CLOSED_FOREST_EFFECT:
-                reverseClosedForestFieldEffecOnOneCard(monster);
+                reverseClosedForestFieldEffectOnOneCard (monster);
                 break;
             case UMIIRUKA_EFFECT:
                 reverseUmiirukaFieldEffectOnOneCard(monster);
@@ -1944,7 +1944,7 @@ public class RoundGameController {
         }
     }
 
-    private void reverseClosedForestFieldEffecOnOneCard(Monster monster) {
+    private void reverseClosedForestFieldEffectOnOneCard(Monster monster) {
         if (monster.getMonsterType().equals(MonsterType.BEAST)) {
             monster.changeAttackPower(100);
         }
