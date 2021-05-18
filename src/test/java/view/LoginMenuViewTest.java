@@ -4,7 +4,6 @@ import model.User;
 import org.junit.jupiter.api.*;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,7 +13,7 @@ class LoginMenuViewTest {
     private static ByteArrayOutputStream outContent = new ByteArrayOutputStream ();
 
     @BeforeAll
-    static void beforeAll() throws IOException {
+    static void beforeAll() {
         System.setOut (new PrintStream (outContent));
     }
 

@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import controller.LoginMenuController;
 import view.input.Regex;
 import view.messages.Error;
-import view.messages.SuccessMessage;
 
 import java.util.regex.Matcher;
 
@@ -34,19 +33,24 @@ public class LoginMenuView {
         } else if (Regex.getMatcher (Regex.MENU_SHOW_CURRENT, command).matches ()) {
             showCurrentMenu ();
         } else if ((matcher = Regex.getMatcherFromAllPermutations (Regex.USER_CREATE, command)) != null) {
-            controller.createUser (matcher);
+            String username = matcher.group("username");
+            String nickname = matcher.group("nickname");
+            String password = matcher.group("password");
+            controller.createUser (username, nickname, password);
         } else if ((matcher = Regex.getMatcherFromAllPermutations (Regex.USER_LOGIN, command)) != null) {
-            controller.loginUser (matcher);
+            String username = matcher.group("username");
+            String password = matcher.group("password");
+            controller.loginUser (username, password);
         } else if (Regex.getMatcher (Regex.COMMAND_HELP, command).matches ()) {
             help ();
         } else Error.showError (Error.INVALID_COMMAND);
     }
 
-    public void showDynamicError(Error error, Matcher matcher) {
+    public void showDynamicError(Error error, String string) {
         if (error.equals (Error.TAKEN_USERNAME)) {
-            System.out.printf (Error.TAKEN_USERNAME.getValue (), matcher.group ("username"));
+            System.out.printf (Error.TAKEN_USERNAME.getValue (), string);
         } else if (error.equals (Error.TAKEN_NICKNAME))
-            System.out.printf (Error.TAKEN_NICKNAME.getValue (), matcher.group ("nickname"));
+            System.out.printf (Error.TAKEN_NICKNAME.getValue (), string);
     }
 
     public void showCurrentMenu() {

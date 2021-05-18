@@ -23,16 +23,13 @@ public class LoginMenuController {
         return instance;
     }
 
-    public void createUser(Matcher matcher) {
-        String username = matcher.group("username");
-        String nickname = matcher.group("nickname");
-        String password = matcher.group("password");
+    public void createUser(String username, String nickname, String password) {
         if (isUsernameUsed(username)) {
-            view.showDynamicError(Error.TAKEN_USERNAME, matcher);
+            view.showDynamicError(Error.TAKEN_USERNAME, username);
             return;
         }
         if (isNicknameUsed(nickname)) {
-            view.showDynamicError(Error.TAKEN_NICKNAME, matcher);
+            view.showDynamicError(Error.TAKEN_NICKNAME, nickname);
             return;
         }
         new User(username, password, nickname);
@@ -54,9 +51,7 @@ public class LoginMenuController {
         return User.getUserByUsername(username).getPassword().equals(password);
     }
 
-    public void loginUser(Matcher matcher) {
-        String username = matcher.group("username");
-        String password = matcher.group("password");
+    public void loginUser(String username, String password) {
         if (!isUsernameUsed(username)) {
             Error.showError(Error.INCORRECT_USERNAME);
             return;
