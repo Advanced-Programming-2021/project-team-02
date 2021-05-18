@@ -49,14 +49,16 @@ class LoginMenuViewTest {
 
     @Test
     void help() {
-//        ByteArrayOutputStream outputStream = new ByteArrayOutputStream ();
-//        System.setOut ();
-//        assertEquals ("menu show-current\n" +
-//                "user create --username <username> --nickname <nickname> --password <password>\n" +
-//                "user create -u <username> -n <nickname> -p <password>\n" +
-//                "user login --username <username> --password <password>\n" +
-//                "user login -u <username> -p <password>\n" +
-//                "menu exit\n" +
-//                "help", help ());
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream ();
+        System.setOut (new PrintStream (outContent));
+        String expected = "menu show-current\n" +
+                "user create --username <username> --nickname <nickname> --password <password>\n" +
+                "user create -u <username> -n <nickname> -p <password>\n" +
+                "user login --username <username> --password <password>\n" +
+                "user login -u <username> -p <password>\n" +
+                "menu exit\n" +
+                "help";
+        help ();
+        assertEquals (expected, outContent.toString ());
     }
 }
