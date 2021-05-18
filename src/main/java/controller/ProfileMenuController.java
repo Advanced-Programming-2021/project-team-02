@@ -5,8 +5,6 @@ import view.ProfileMenuView;
 import view.messages.Error;
 import view.messages.SuccessMessage;
 
-import java.util.regex.Matcher;
-
 public class ProfileMenuController {
     private User loggedInUser;
     private static ProfileMenuController instance = null;
@@ -37,19 +35,16 @@ public class ProfileMenuController {
         return loggedInUser;
     }
 
-    public void changeNickname(Matcher matcher) {
-        String newNickname = matcher.group ("nickname");
+    public void changeNickname(String newNickname) {
         if (isNicknameUsed (newNickname)) {
-            view.showDynamicError (Error.TAKEN_NICKNAME, matcher);
+            view.showDynamicError (Error.TAKEN_NICKNAME, newNickname);
             return;
         }
         ProfileMenuController.getInstance ().getLoggedInUser ().changeNickname (newNickname);
         SuccessMessage.showSuccessMessage (SuccessMessage.NICKNAME_CHANGED);
     }
 
-    public void changePassword(Matcher matcher) {
-        String currentPassword = matcher.group ("currentPassword");
-        String newPassword = matcher.group ("newPassword");
+    public void changePassword(String currentPassword, String newPassword) {
         if (!isPasswordCorrect (currentPassword)) {
             Error.showError (Error.INVALID_CURRENT_PASSWORD);
             return;

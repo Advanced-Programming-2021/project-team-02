@@ -33,14 +33,9 @@ public class LoginMenuView {
         } else if (Regex.getMatcher (Regex.MENU_SHOW_CURRENT, command).matches ()) {
             showCurrentMenu ();
         } else if ((matcher = Regex.getMatcherFromAllPermutations (Regex.USER_CREATE, command)) != null) {
-            String username = matcher.group("username");
-            String nickname = matcher.group("nickname");
-            String password = matcher.group("password");
-            controller.createUser (username, nickname, password);
+            controller.createUser (matcher.group("username"), matcher.group("nickname"), matcher.group("password"));
         } else if ((matcher = Regex.getMatcherFromAllPermutations (Regex.USER_LOGIN, command)) != null) {
-            String username = matcher.group("username");
-            String password = matcher.group("password");
-            controller.loginUser (username, password);
+            controller.loginUser (matcher.group("username"), matcher.group("password"));
         } else if (Regex.getMatcher (Regex.COMMAND_HELP, command).matches ()) {
             help ();
         } else Error.showError (Error.INVALID_COMMAND);

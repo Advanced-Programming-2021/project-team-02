@@ -34,9 +34,10 @@ public class MainMenuView {
         } else if (Regex.getMatcher (Regex.MENU_SHOW_CURRENT, command).matches ()) {
             showCurrentMenu ();
         } else if ((matcher = Regex.getMatcher (Regex.MENU_ENTER, command)).matches ()) {
-            if (matcher.group ("menuName").toLowerCase (Locale.ROOT).equals ("main"))
+            String menuName = matcher.group ("menuName");
+            if (menuName.toLowerCase (Locale.ROOT).equals ("main"))
                 showDynamicError (Error.BEING_ON_CURRENT_MENU);
-            else controller.menuEnter (matcher);
+            else controller.menuEnter (menuName);
         } else if (Regex.getMatcher (Regex.USER_LOGOUT, command).matches ()) {
             SuccessMessage.showSuccessMessage (SuccessMessage.LOGOUT);
             MenusManager.getInstance ().setLoggedInUser (null);

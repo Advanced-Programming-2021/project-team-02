@@ -25,8 +25,7 @@ public class MainMenuController {
         MainMenuController.loggedInUser = loggedInUser;
     }
 
-    public void menuEnter(Matcher matcher) {
-        String menuName = matcher.group ("menuName");
+    public void menuEnter(String menuName) {
         menuName = menuName.toLowerCase(Locale.ROOT);
         switch (menuName) {
             case "login":

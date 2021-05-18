@@ -41,11 +41,11 @@ public class ShopMenuView {
         } else if (Regex.getMatcher(Regex.MENU_SHOW_CURRENT, command).matches()) {
             showCurrentMenu();
         } else if ((matcher = Regex.getMatcher(Regex.SHOP_BUY, command)).matches()) {
-            controller.buyCard(matcher);
+            controller.buyCard(matcher.group ("cardName"));
         } else if (Regex.getMatcher(Regex.SHOP_SHOW_ALL, command).matches()) {
             showAllCards();
         } else if ((matcher = Regex.getMatcher(Regex.CARD_SHOW, command)).matches()) {
-            DeckMenuController.getInstance ().showCard (matcher);
+            DeckMenuController.getInstance ().showCard (matcher.group ("cardName"));
         } else if ((matcher = Regex.getMatcher(Regex.CHEAT_INCREASE_MONEY, command)).matches()) {
             Objects.requireNonNull (Assets.getAssetsByUsername (controller.getLoggedInUser ().getUsername ())).increaseCoin (Integer.parseInt (matcher.group ("moneyAmount")));
         } else if (Regex.getMatcher(Regex.COMMAND_HELP, command).matches()) {

@@ -35,8 +35,7 @@ public class ShopMenuController {
         return loggedInUser;
     }
 
-    public void buyCard(Matcher matcher) {
-        String cardName = matcher.group ("cardName");
+    public void buyCard(String cardName) {
         Card card = Card.getCardByName (cardName);
         Assets assets = Assets.getAssetsByUsername (ShopMenuController.getInstance ().getLoggedInUser ().getUsername ());
         if (card == null) {
