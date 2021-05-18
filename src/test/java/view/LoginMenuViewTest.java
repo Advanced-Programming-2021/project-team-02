@@ -30,26 +30,6 @@ class LoginMenuViewTest {
     }
 
     @Test
-    @DisplayName ("Check \"user with username <username> already exists\" error")
-    void userAlreadyExistsWithDuplicateUsername() {
-        outContent.reset ();
-        String expected = "user created successfully!\nuser with username erfan already exists\n";
-        LoginMenuView.getInstance ().run ("user create --username erfan --password ramz --nickname mojibi");
-        LoginMenuView.getInstance ().run ("user create --nickname ali --password ramz --username erfan");
-        Assertions.assertEquals (expected, outContent.toString ());
-    }
-
-    @Test
-    @DisplayName ("Check \"user with username <nickname> already exists\" error")
-    void userAlreadyExistsWithDuplicateNickname() {
-        outContent.reset ();
-        String expected = "user created successfully!\nuser with nickname mahdis already exists\n";
-        LoginMenuView.getInstance ().run ("user create -u mhdsdt -n mahdis -p ramz");
-        LoginMenuView.getInstance ().run ("user create -u ali -p ramz -n mahdis");
-        Assertions.assertEquals (expected, outContent.toString ());
-    }
-
-    @Test
     @DisplayName ("Check \"user logged in successfully!\" message")
     void userLoggedInSuccessfully() {
         outContent.reset ();
@@ -57,7 +37,7 @@ class LoginMenuViewTest {
         LoginMenuView.getInstance ().run ("user create -u naghio -n mmdo -p ramz");
         LoginMenuView.getInstance ().run ("user login -u naghio -p ramz");
         Assertions.assertEquals (expected, outContent.toString ());
-
+        Assertions.assertEquals (MenusManager.getInstance ().getCurrentMenu (), Menu.MAIN_MENU);
     }
 
     @Test
@@ -67,7 +47,6 @@ class LoginMenuViewTest {
         String expected = "Login Menu\n";
         LoginMenuView.getInstance ().run ("menu show-current");
         Assertions.assertEquals (expected, outContent.toString ());
-        assertEquals (MenusManager.getInstance ().getCurrentMenu (), Menu.MAIN_MENU);
     }
 
     @Test
