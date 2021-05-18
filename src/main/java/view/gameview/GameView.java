@@ -10,6 +10,7 @@ import model.card.informationofcards.CardType;
 import model.game.board.Cell;
 import model.game.board.GraveYard;
 import model.game.board.SpellZone;
+import view.DeckMenuView;
 import view.input.Input;
 import view.input.Regex;
 import view.messages.Error;
@@ -64,7 +65,7 @@ public class GameView {
         else if (Regex.getMatcher (Regex.GRAVEYARD_SHOW, command).matches ())
             instance.showCurrentGraveYard ();
         else if (Regex.getMatcher (Regex.CARD_SHOW_SELECTED, command).matches ())
-            Card.checkTypeOfCardAndPrintIt (controller.getSelectedCell ().getCardInCell ());
+            DeckMenuView.getInstance ().checkTypeOfCardAndPrintIt (controller.getSelectedCell ().getCardInCell ());
         else if (Regex.getMatcher (Regex.BOARD_GAME_SUMMON, command).matches ())
             controller.summonMonster ();
         else if (Regex.getMatcher (Regex.BOARD_GAME_SET_MONSTER, command).matches ())

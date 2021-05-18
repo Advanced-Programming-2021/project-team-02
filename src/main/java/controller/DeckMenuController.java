@@ -255,7 +255,7 @@ public class DeckMenuController {
             Error.showError(Error.CARD_DOES_NOT_EXIST);
             return;
         }
-        Card.checkTypeOfCardAndPrintIt(card);
+        view.checkTypeOfCardAndPrintIt(card);
     }
 
     public void removeCardFromMainDeck(Matcher matcher) {

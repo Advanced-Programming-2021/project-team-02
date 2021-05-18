@@ -1,6 +1,11 @@
 package view;
 
 import controller.DeckMenuController;
+import model.card.Card;
+import model.card.Monster;
+import model.card.Spell;
+import model.card.Trap;
+import model.card.informationofcards.CardType;
 import view.input.Regex;
 import view.messages.Error;
 import view.messages.SuccessMessage;
@@ -65,6 +70,19 @@ public class DeckMenuView {
             help();
         } else {
             Error.showError(Error.INVALID_COMMAND);
+        }
+    }
+
+    public void checkTypeOfCardAndPrintIt(Card card) {
+        if (card.getCardType().equals(CardType.MONSTER)) {
+            Monster monster = (Monster) card;
+            System.out.println(monster);
+        } else if (card.getCardType().equals(CardType.SPELL)) {
+            Spell spell = (Spell) card;
+            System.out.println(spell);
+        } else {
+            Trap trap = (Trap) card;
+            System.out.println(trap);
         }
     }
 

@@ -12,6 +12,7 @@ import model.card.informationofcards.TrapEffect;
 import model.game.DuelPlayer;
 import model.game.PlayerBoard;
 import model.game.board.*;
+import view.DeckMenuView;
 import view.gameview.GameView;
 import view.messages.Error;
 import view.messages.SuccessMessage;
@@ -201,13 +202,13 @@ public class RoundGameController {
     public void showSelectedCard() {
         if (selectedCell == null) {
             if (opponentSelectedCell != null) {
-                Card.checkTypeOfCardAndPrintIt (opponentSelectedCell.getCardInCell());
+                DeckMenuView.getInstance ().checkTypeOfCardAndPrintIt (opponentSelectedCell.getCardInCell());
             } else {
                 Error.showError(Error.NO_CARD_SELECTED_YET);
                 return;
             }
         } else {
-            Card.checkTypeOfCardAndPrintIt (selectedCell.getCardInCell());
+            DeckMenuView.getInstance ().checkTypeOfCardAndPrintIt (selectedCell.getCardInCell());
         }
     }
 
