@@ -68,9 +68,7 @@ public class DeckMenuView {
             showCurrentMenu();
         } else if (Regex.getMatcher(Regex.COMMAND_HELP, command).matches()) {
             help();
-        } else {
-            Error.showError(Error.INVALID_COMMAND);
-        }
+        } else Error.showError(Error.INVALID_COMMAND);
     }
 
     public void checkTypeOfCardAndPrintIt(Card card) {
