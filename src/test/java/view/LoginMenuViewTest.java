@@ -2,10 +2,7 @@ package view;
 
 import controller.LoginMenuController;
 import model.card.CardsDatabase;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -23,12 +20,8 @@ class LoginMenuViewTest {
     }
 
     @Test
-    void getInstance() {
-
-    }
-
-    @Test
     void run() {
+
     }
 
     @Test
@@ -37,19 +30,16 @@ class LoginMenuViewTest {
     }
 
     @Test
-    void showError() {
-    }
-
-    @Test
     void showDynamicError() {
     }
 
     @Test
-    void showSuccessMessage() {
-    }
-
-    @Test
     void showCurrentMenu() {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream ();
+        System.setOut (new PrintStream (outContent));
+        String expected = "Login Menu\n";
+        LoginMenuView.getInstance ().showCurrentMenu ();
+        Assertions.assertEquals (expected, outContent.toString ());
     }
 
     @Test
@@ -64,6 +54,6 @@ class LoginMenuViewTest {
                 "menu exit\n" +
                 "help\n";
         LoginMenuView.getInstance ().help ();
-        assertEquals (expected, outContent.toString ());
+        Assertions.assertEquals (expected, outContent.toString ());
     }
 }
