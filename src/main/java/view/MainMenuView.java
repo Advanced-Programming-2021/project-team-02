@@ -47,7 +47,7 @@ public class MainMenuView {
     }
 
     public void showDynamicError(Error error) {
-        System.err.printf (error.getValue (), Menu.MAIN_MENU.getValue ());
+        System.out.printf (error.getValue (), Menu.MAIN_MENU.getValue ());
     }
 
     public void showCurrentMenu() {

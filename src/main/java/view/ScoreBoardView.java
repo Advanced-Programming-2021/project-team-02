@@ -59,7 +59,7 @@ public class ScoreBoardView {
     }
 
     public void showDynamicError(Error error) {
-        System.err.printf (error.getValue (), Menu.SCOREBOARD_MENU.getValue ());
+        System.out.printf (error.getValue (), Menu.SCOREBOARD_MENU.getValue ());
     }
 
     public void showCurrentMenu() {

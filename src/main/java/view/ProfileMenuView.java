@@ -46,11 +46,11 @@ public class ProfileMenuView {
 
     public void showDynamicError(Error error, Matcher matcher) {
         if (error.equals (Error.TAKEN_USERNAME))
-            System.err.printf (Error.TAKEN_USERNAME.getValue (), matcher.group ("username"));
+            System.out.printf (Error.TAKEN_USERNAME.getValue (), matcher.group ("username"));
         else if (error.equals (Error.TAKEN_NICKNAME))
-            System.err.printf (Error.TAKEN_NICKNAME.getValue (), matcher.group ("nickname"));
+            System.out.printf (Error.TAKEN_NICKNAME.getValue (), matcher.group ("nickname"));
         else if (error.equals (Error.BEING_ON_CURRENT_MENU))
-            System.err.printf (error.getValue (), Menu.PROFILE_MENU.getValue ());
+            System.out.printf (error.getValue (), Menu.PROFILE_MENU.getValue ());
     }
 
     public void showCurrentMenu() {

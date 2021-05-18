@@ -258,7 +258,7 @@ public class GameView {
             } else if (command.equals ("cancel")) {
                 return -1;
             } else {
-                System.err.println (Error.INVALID_COMMAND.getValue ());
+                System.out.println (Error.INVALID_COMMAND.getValue ());
             }
         }
     }
@@ -310,7 +310,7 @@ public class GameView {
                 return -1;
             } else if (command.matches ("[1-9]+")) {
                 return Integer.parseInt (command);
-            } else System.err.println (Error.INVALID_COMMAND);
+            } else System.out.println (Error.INVALID_COMMAND);
         }
     }
 
@@ -337,7 +337,7 @@ public class GameView {
             if (input.matches ("[1-3]")) {
                 return Integer.parseInt (input);
             } else {
-                System.err.println (Error.INVALID_COMMAND.getValue ());
+                System.out.println (Error.INVALID_COMMAND.getValue ());
             }
         }
     }
@@ -355,7 +355,7 @@ public class GameView {
                 return Integer.parseInt (input);
             } else if (input.equals ("cancel")) {
                 return -1;
-            } else System.err.println (Error.INVALID_COMMAND);
+            } else System.out.println (Error.INVALID_COMMAND);
         }
     }
 
@@ -368,7 +368,7 @@ public class GameView {
                 return Integer.parseInt (input);
             } else if (input.equals ("cancel")) {
                 return -1;
-            } else System.err.println (Error.INVALID_COMMAND);
+            } else System.out.println (Error.INVALID_COMMAND);
         }
     }
 
@@ -380,7 +380,7 @@ public class GameView {
                 return Integer.parseInt (input);
             } else if (input.equals ("cancel")) {
                 return -1;
-            } else System.err.println (Error.INVALID_COMMAND);
+            } else System.out.println (Error.INVALID_COMMAND);
         }
     }
 

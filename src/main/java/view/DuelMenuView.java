@@ -45,11 +45,11 @@ public class DuelMenuView {
     }
 
     public void showDynamicError(Error error, Matcher matcher) {
-        if (error.equals (Error.BEING_ON_CURRENT_MENU)) System.err.printf (error.getValue (), Menu.DUEL_MENU.getValue ());
+        if (error.equals (Error.BEING_ON_CURRENT_MENU)) System.out.printf (error.getValue (), Menu.DUEL_MENU.getValue ());
     }
 
     public void showDynamicErrorForInactiveDeck(Error error, String username) {
-        System.err.printf (error.getValue (), username);
+        System.out.printf (error.getValue (), username);
     }
 
     public void showCurrentMenu() {

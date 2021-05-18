@@ -59,7 +59,7 @@ public class ShopMenuView {
     }
 
     public void showDynamicError(Error error) {
-        System.err.printf (error.getValue (), Menu.SHOP_MENU.getValue ());
+        System.out.printf (error.getValue (), Menu.SHOP_MENU.getValue ());
     }
 
     public void showDynamicSuccessMessage(SuccessMessage successMessage, String string) {

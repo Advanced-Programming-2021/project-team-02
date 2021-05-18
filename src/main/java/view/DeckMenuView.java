@@ -86,21 +86,21 @@ public class DeckMenuView {
 
     public void showDynamicError(Error error, Matcher matcher) {
         if (error.equals(Error.DECK_EXIST)) {
-            System.err.printf(Error.DECK_EXIST.getValue(), matcher.group("deckName"));
+            System.out.printf(Error.DECK_EXIST.getValue(), matcher.group("deckName"));
         } else if (error.equals(Error.DECK_NOT_EXIST)) {
-            System.err.printf(Error.DECK_NOT_EXIST.getValue(), matcher.group("deckName"));
+            System.out.printf(Error.DECK_NOT_EXIST.getValue(), matcher.group("deckName"));
         } else if (error.equals(Error.INCORRECT_CARD_NAME)) {
-            System.err.printf(Error.INCORRECT_CARD_NAME.getValue(), matcher.group("cardName"));
+            System.out.printf(Error.INCORRECT_CARD_NAME.getValue(), matcher.group("cardName"));
         } else if (error.equals(Error.EXCESSIVE_NUMBER_IN_DECK)) {
-            System.err.printf(Error.EXCESSIVE_NUMBER_IN_DECK.getValue(), matcher.group("cardName"), matcher.group("deckName"));
+            System.out.printf(Error.EXCESSIVE_NUMBER_IN_DECK.getValue(), matcher.group("cardName"), matcher.group("deckName"));
         } else if (error.equals(Error.CARD_LIMITED_IN_DECK)) {
-            System.err.printf(Error.CARD_LIMITED_IN_DECK.getValue(), matcher.group("cardName"));
+            System.out.printf(Error.CARD_LIMITED_IN_DECK.getValue(), matcher.group("cardName"));
         } else if (error.equals(Error.CARD_DOES_NOT_EXIST_IN_SIDE_DECK)) {
-            System.err.printf(Error.CARD_DOES_NOT_EXIST_IN_SIDE_DECK.getValue(), matcher.group("cardName"));
+            System.out.printf(Error.CARD_DOES_NOT_EXIST_IN_SIDE_DECK.getValue(), matcher.group("cardName"));
         } else if (error.equals(Error.CARD_DOES_NOT_EXIST_IN_MAIN_DECK)) {
-            System.err.printf(Error.CARD_DOES_NOT_EXIST_IN_MAIN_DECK.getValue(), matcher.group("cardName"));
+            System.out.printf(Error.CARD_DOES_NOT_EXIST_IN_MAIN_DECK.getValue(), matcher.group("cardName"));
         } else if (error.equals(Error.BEING_ON_CURRENT_MENU))
-            System.err.printf(error.getValue(), Menu.PROFILE_MENU.getValue());
+            System.out.printf(error.getValue(), Menu.PROFILE_MENU.getValue());
     }
 
     public void showCurrentMenu() {
