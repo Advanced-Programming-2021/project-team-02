@@ -22,14 +22,14 @@ class LoginMenuViewTest {
 
     @Test
     @DisplayName ("Check \"user created successfully!\" message")
-    void checkUserCreatedSuccessfully() {
+    void userCreatedSuccessfully() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream ();
         System.setOut (new PrintStream (outContent));
         String expected = "user created successfully!\n";
-        LoginMenuView.getInstance ().run ("user create --username mhdsdt --nickname mahdis --password ramz");
+        LoginMenuView.getInstance ().run ("user create --username mmd --nickname taghi --password ramz");
         Assertions.assertEquals (expected, outContent.toString ());
-        Assertions.assertNotNull (User.getUserByUsername ("mhdsdt"));
-        Assertions.assertNotNull (User.getUserByNickName ("mahdis"));
+        Assertions.assertNotNull (User.getUserByUsername ("mmd"));
+        Assertions.assertNotNull (User.getUserByNickName ("taghi"));
     }
 
     @Test
@@ -37,10 +37,9 @@ class LoginMenuViewTest {
     void userAlreadyExistsWithDuplicateUsername() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream ();
         System.setOut (new PrintStream (outContent));
-        System.setErr (new PrintStream (outContent));
-        String expected = "user created successfully!\nuser with username mhdsdt already exists\n";
-        LoginMenuView.getInstance ().run ("user create --username mhdsdt --password ramz --nickname mahdis");
-        LoginMenuView.getInstance ().run ("user create --nickname ali --password ramz --username mhdsdt");
+        String expected = "user created successfully!\nuser with username erfan already exists\n";
+        LoginMenuView.getInstance ().run ("user create --username erfan --password ramz --nickname mojibi");
+        LoginMenuView.getInstance ().run ("user create --nickname ali --password ramz --username erfan");
         Assertions.assertEquals (expected, outContent.toString ());
     }
 
@@ -49,7 +48,6 @@ class LoginMenuViewTest {
     void userAlreadyExistsWithDuplicateNickname() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream ();
         System.setOut (new PrintStream (outContent));
-        System.setErr (new PrintStream (outContent));
         String expected = "user created successfully!\nuser with nickname mahdis already exists\n";
         LoginMenuView.getInstance ().run ("user create -u mhdsdt -n mahdis -p ramz");
         LoginMenuView.getInstance ().run ("user create -u ali -p ramz -n mahdis");
@@ -57,17 +55,60 @@ class LoginMenuViewTest {
     }
 
     @Test
+    @DisplayName ("Check \"user logged in successfully!\" message")
+    void userLoggedInSuccessfully() {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream ();
+        System.setOut (new PrintStream (outContent));
+        String expected = "user created successfully!\nuser logged in successfully!\n";
+        LoginMenuView.getInstance ().run ("user create -u naghio -n mmdo -p ramz");
+        LoginMenuView.getInstance ().run ("user login -u naghio -p ramz");
+        Assertions.assertEquals (expected, outContent.toString ());
+
+    }
+
+    @Test
+    @DisplayName ("\"show current menu\" message")
+    void showCurrentMenu() {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream ();
+        System.setOut (new PrintStream (outContent));
+        String expected = "Login Menu\n";
+        LoginMenuView.getInstance ().run ("menu show-current");
+        Assertions.assertEquals (expected, outContent.toString ());
+        assertEquals (MenusManager.getInstance ().getCurrentMenu (), Menu.MAIN_MENU);
+    }
+
+    @Test
+    @DisplayName ("Check \"menu exit\" command")
+    void exitCommand() {
+        LoginMenuView.getInstance ().run ("menu exit");
+        assertEquals (MenusManager.getInstance ().getCurrentMenu (), Menu.EXIT);
+    }
+
+    @Test
     @DisplayName ("Check \"please login first\" error")
     void pleaseLoginFirst() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream ();
-        System.setErr (new PrintStream (outContent));
+        System.setOut (new PrintStream (outContent));
         String expected = "please login first\n";
         LoginMenuView.getInstance ().run ("menu enter Main");
         Assertions.assertEquals (expected, outContent.toString ());
     }
 
     @Test
-    void help() {
+    @DisplayName ("invalid command")
+    void invalidCommand() {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream ();
+        System.setOut (new PrintStream (outContent));
+        String expected = "invalid command\ninvalid command\ninvalid command\n";
+        LoginMenuView.getInstance ().run ("salum");
+        LoginMenuView.getInstance ().run ("user create -y mhdsdt -n mahdis -p ramz");
+        LoginMenuView.getInstance ().run ("use create --username erfan --password ramz --nickname mojibi");
+        Assertions.assertEquals (expected, outContent.toString ());
+    }
+
+    @Test
+    @DisplayName ("help command")
+    void helpCommand() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream ();
         System.setOut (new PrintStream (outContent));
         String expected = "menu show-current\n" +
@@ -77,7 +118,7 @@ class LoginMenuViewTest {
                 "user login -u <username> -p <password>\n" +
                 "menu exit\n" +
                 "help\n";
-        LoginMenuView.getInstance ().help ();
+        LoginMenuView.getInstance ().run ("help");
         Assertions.assertEquals (expected, outContent.toString ());
     }
 }

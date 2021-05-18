@@ -24,6 +24,10 @@ public class MenusManager {
         return instance;
     }
 
+    public Menu getCurrentMenu() {
+        return currentMenu;
+    }
+
     public void run() throws CloneNotSupportedException {
         String command;
         //initializeSingleton();
