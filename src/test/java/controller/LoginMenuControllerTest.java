@@ -68,6 +68,7 @@ class LoginMenuControllerTest {
         LoginMenuController.getInstance ().loginUser (matcher.group("username"), matcher.group("password"));
         Assertions.assertEquals (expected, outContent.toString ());
         Assertions.assertEquals (MenusManager.getInstance ().getLoggedInUser (), User.getUserByUsername ("safa"));
+        Assertions.assertEquals (MainMenuController.getInstance ().getLoggedInUser (), User.getUserByUsername ("safa"));
         Assertions.assertEquals (MenusManager.getInstance ().getCurrentMenu (), Menu.MAIN_MENU);
     }
 

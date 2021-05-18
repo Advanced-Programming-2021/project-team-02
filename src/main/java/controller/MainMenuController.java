@@ -5,9 +5,9 @@ import view.MainMenuView;
 import view.Menu;
 import view.MenusManager;
 import view.messages.Error;
+import view.messages.SuccessMessage;
 
 import java.util.Locale;
-import java.util.regex.Matcher;
 
 public class MainMenuController {
     private static User loggedInUser;
@@ -29,10 +29,9 @@ public class MainMenuController {
         menuName = menuName.toLowerCase(Locale.ROOT);
         switch (menuName) {
             case "login":
+                SuccessMessage.showSuccessMessage (SuccessMessage.LOGOUT);
+                MenusManager.getInstance ().setLoggedInUser (null);
                 MenusManager.getInstance ().changeMenu (Menu.LOGIN_MENU);
-                break;
-            case "duel":
-                MenusManager.getInstance ().changeMenu (Menu.DUEL_MENU);
                 break;
             case "deck":
                 MenusManager.getInstance ().changeMenu (Menu.DECK_MENU);
