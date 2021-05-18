@@ -24,31 +24,32 @@ public class GameView {
     private static GameView instance = null;
     private final RoundGameController controller = RoundGameController.getInstance ();
 
-    private GameView(){}
+    private GameView() {
+    }
 
     public static GameView getInstance() {
         if (instance == null)
-            instance = new GameView();
+            instance = new GameView ();
         return instance;
     }
 
     public void run(String command) {
-        commandRecognition(command);
+        commandRecognition (command);
     }
 
     public void commandRecognition(String command) {
         Matcher matcher;
         if ((matcher = Regex.getMatcher (Regex.BOARD_GAME_SELECT_MONSTER, command)).matches ())
             controller.selectCardInMonsterZone (matcher);
-        else if ((matcher = Regex.getMatcherFromAllPermutations (Regex.BOARD_GAME_SELECT_MONSTER_OPPONENT, command))!=null)//TODO chandtaee haro bayad injori mizadi na ba matches
+        else if ((matcher = Regex.getMatcherFromAllPermutations (Regex.BOARD_GAME_SELECT_MONSTER_OPPONENT, command)) != null)
             controller.selectOpponentCardMonsterZone (matcher);
         else if ((matcher = Regex.getMatcher (Regex.BOARD_GAME_SELECT_SPELL, command)).matches ())
             controller.selectCardInSpellZone (matcher);
-        else if ((Objects.requireNonNull (matcher = Regex.getMatcherFromAllPermutations (Regex.BOARD_GAME_SELECT_SPELL_OPPONENT, command))).matches ())
+        else if ((matcher = Regex.getMatcherFromAllPermutations (Regex.BOARD_GAME_SELECT_SPELL_OPPONENT, command)) != null)
             controller.selectOpponentCardSpellZone (matcher);
         else if (Regex.getMatcher (Regex.BOARD_GAME_SELECT_FIELD, command).matches ())
             controller.selectPlayerFieldCard ();
-        else if (Objects.requireNonNull (Regex.getMatcherFromAllPermutations (Regex.BOARD_GAME_SELECT_FIELD_OPPONENT, command)).matches ())
+        else if ((matcher = Regex.getMatcherFromAllPermutations (Regex.BOARD_GAME_SELECT_FIELD_OPPONENT, command)) != null)
             controller.selectOpponentFieldCard ();
         else if (Regex.getMatcher (Regex.BOARD_GAME_SELECT_DESELECT, command).matches ())
             controller.deselectCard (1);
@@ -61,7 +62,7 @@ public class GameView {
         else if (Regex.getMatcher (Regex.BOARD_GAME_SUMMON, command).matches ())
             controller.summonMonster ();
         else if (Regex.getMatcher (Regex.GRAVEYARD_SHOW, command).matches ())
-            instance.showCurrentGraveYard();
+            instance.showCurrentGraveYard ();
         else if (Regex.getMatcher (Regex.CARD_SHOW_SELECTED, command).matches ())
             instance.showCard (controller.getSelectedCell ().getCardInCell ());
         else if (Regex.getMatcher (Regex.BOARD_GAME_SUMMON, command).matches ())
@@ -87,11 +88,11 @@ public class GameView {
         else if (Regex.getMatcher (Regex.BOARD_GAME_SURRENDER, command).matches ())
             controller.surrender ();
         //TODO add invalid command!
-        showBoard();
+        showBoard ();
     }
 
     public void showError(Error error) {
-        System.out.println(error.getValue());
+        System.out.println (error.getValue ());
     }
 
     public void showSuccessMessageWithTwoIntegerAndOneString(SuccessMessage successMessage, String winnerUserName, int winnerScore, int loserScore) {
@@ -105,7 +106,7 @@ public class GameView {
     }
 
     public void showSuccessMessage(SuccessMessage message) {
-        System.out.println(message.getValue());
+        System.out.println (message.getValue ());
     }
 
     public void showSuccessMessageWithAString(SuccessMessage message, String string) {
@@ -141,16 +142,16 @@ public class GameView {
             System.out.println (controller.getSecondPlayer ().getPlayDeck ().getMainCards ().size ());
             System.out.println (
                     "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (4)) +
-                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (2)) +
-                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (1)) +
-                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (3)) +
-                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (5)));
+                            "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (2)) +
+                            "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (1)) +
+                            "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (3)) +
+                            "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (5)));
             System.out.println (
                     "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (4)) +
-                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (2)) +
-                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (1)) +
-                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (3)) +
-                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (5)));
+                            "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (2)) +
+                            "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (1)) +
+                            "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (3)) +
+                            "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (5)));
             System.out.println (controller.getSecondPlayer ().getPlayerBoard ().returnGraveYard ().getGraveYardCards ().size ()
                     + "\t\t\t\t\t\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().getFieldZone ().getFieldCell ()));
             System.out.println ("\n--------------------------\n");
@@ -158,16 +159,16 @@ public class GameView {
                     + "\t\t\t\t\t\t" + controller.getFirstPlayer ().getPlayerBoard ().returnGraveYard ().getGraveYardCards ().size ());
             System.out.println (
                     "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (5)) +
-                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (3)) +
-                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (1)) +
-                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (2)) +
-                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (4)));
+                            "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (3)) +
+                            "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (1)) +
+                            "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (2)) +
+                            "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (4)));
             System.out.println (
                     "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (5)) +
-                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (3)) +
-                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (1)) +
-                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (2)) +
-                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (4)));
+                            "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (3)) +
+                            "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (1)) +
+                            "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (2)) +
+                            "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (4)));
             System.out.println ("\t\t\t\t\t\t" + controller.getFirstPlayer ().getPlayDeck ().getMainCards ().size ());
             for (int i = 0; i < controller.getFirstPlayerHand ().size (); i++) System.out.print ("c\t");
             System.out.print ("\n");
@@ -182,16 +183,16 @@ public class GameView {
             System.out.println (controller.getFirstPlayer ().getPlayDeck ().getMainCards ().size ());
             System.out.println (
                     "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (4)) +
-                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (2)) +
-                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (1)) +
-                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (3)) +
-                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (5)));
+                            "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (2)) +
+                            "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (1)) +
+                            "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (3)) +
+                            "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (5)));
             System.out.println (
                     "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (4)) +
-                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (2)) +
-                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (1)) +
-                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (3)) +
-                    "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (5)));
+                            "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (2)) +
+                            "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (1)) +
+                            "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (3)) +
+                            "\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (5)));
             System.out.println (controller.getFirstPlayer ().getPlayerBoard ().returnGraveYard ().getGraveYardCards ().size ()
                     + "\t\t\t\t\t\t" + getStatusForCell (controller.getFirstPlayer ().getPlayerBoard ().getFieldZone ().getFieldCell ()));
             System.out.println ("\n--------------------------\n");
@@ -199,16 +200,16 @@ public class GameView {
                     + "\t\t\t\t\t\t" + controller.getSecondPlayer ().getPlayerBoard ().returnGraveYard ().getGraveYardCards ().size ());
             System.out.println (
                     "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (5)) +
-                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (3)) +
-                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (1)) +
-                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (2)) +
-                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (4)));
+                            "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (3)) +
+                            "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (1)) +
+                            "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (2)) +
+                            "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnMonsterZone ().getCellWithAddress (4)));
             System.out.println (
                     "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (5)) +
-                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (3)) +
-                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (1)) +
-                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (2)) +
-                    "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (4)));
+                            "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (3)) +
+                            "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (1)) +
+                            "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (2)) +
+                            "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (4)));
             System.out.println ("\t\t\t\t\t\t" + controller.getSecondPlayer ().getPlayDeck ().getMainCards ().size ());
             for (int i = 0; i < controller.getSecondPlayerHand ().size (); i++) System.out.print ("c\t");
             System.out.println (controller.getSecondPlayer ().getNickname () + ":" + controller.getSecondPlayer ().getLifePoint ());
@@ -233,7 +234,8 @@ public class GameView {
 
     public void showCurrentGraveYard() {
         int counter = 1;
-        if (controller.getCurrentPlayer().getPlayerBoard().isGraveYardEmpty ()) instance.showError (Error.EMPTY_GRAVEYARD);
+        if (controller.getCurrentPlayer ().getPlayerBoard ().isGraveYardEmpty ())
+            instance.showError (Error.EMPTY_GRAVEYARD);
         else {
             for (Card card : controller.getCurrentPlayer ().getPlayerBoard ().returnGraveYard ().getGraveYardCards ()) {
                 System.out.println (counter + ". " + card.getName () + ":" + card.getDescription ());
@@ -244,29 +246,29 @@ public class GameView {
 
     public void showCard(Card card) {
         assert card != null;
-        if (card.getCardType().equals(CardType.MONSTER)) {
+        if (card.getCardType ().equals (CardType.MONSTER)) {
             Monster monster = (Monster) card;
-            System.out.println(monster);
-        } else if (card.getCardType().equals(CardType.SPELL)) {
+            System.out.println (monster);
+        } else if (card.getCardType ().equals (CardType.SPELL)) {
             Spell spell = (Spell) card;
-            System.out.println(spell);
+            System.out.println (spell);
         } else {
             Trap trap = (Trap) card;
-            System.out.println(trap);
+            System.out.println (trap);
         }
     }
 
     public int getTributeAddress() {
-        System.out.println("Enter number(address) of monster to tribute Or cancel to finish the process:");
+        System.out.println ("Enter number(address) of monster to tribute Or cancel to finish the process:");
         String command;
         while (true) {
-            command = Input.getInput();
-            if (command.matches("[1-9]+")) {
-                return Integer.parseInt(command);
-            }else if (command.equals("cancel")){
+            command = Input.getInput ();
+            if (command.matches ("[1-9]+")) {
+                return Integer.parseInt (command);
+            } else if (command.equals ("cancel")) {
                 return -1;
-            }else {
-                System.err.println(Error.INVALID_COMMAND.getValue());
+            } else {
+                System.err.println (Error.INVALID_COMMAND.getValue ());
             }
         }
     }
@@ -291,118 +293,126 @@ public class GameView {
     }
 
     public int swordOfDarkDestruction() {
-        System.out.println("please enter card address in monsterZone to be equipped");
+        System.out.println ("please enter card address in monsterZone to be equipped");
         while (true) {
-            String command = Input.getInput();
-            if (command.equals("cancel")) return -1;
-            else if (command.matches("[1-9]+")) return Integer.parseInt(command);
-            else System.out.println(Error.INVALID_COMMAND);
+            String command = Input.getInput ();
+            if (command.equals ("cancel")) return -1;
+            else if (command.matches ("[1-9]+")) return Integer.parseInt (command);
+            else System.out.println (Error.INVALID_COMMAND);
         }
     }
 
     public int blackPendant() {
-        System.out.println("please enter card address in monsterZone to be equipped");
+        System.out.println ("please enter card address in monsterZone to be equipped");
         while (true) {
-            String command = Input.getInput();
-            if (command.equals("cancel")) return -1;
-            else if (command.matches("[1-9]+")) return Integer.parseInt(command);
-            else System.out.println(Error.INVALID_COMMAND);
+            String command = Input.getInput ();
+            if (command.equals ("cancel")) return -1;
+            else if (command.matches ("[1-9]+")) return Integer.parseInt (command);
+            else System.out.println (Error.INVALID_COMMAND);
         }
     }
 
     public int getAddressForTrapOrSpell() {
-        System.out.println("enter address(number of cell between 1 to 5) of spell to be activated or write cancel if you dont want to activate anything");
+        System.out.println ("enter address(number of cell between 1 to 5) of spell to be activated or write cancel if you dont want to activate anything");
         while (true) {
-            String command = Input.getInput();
-            if (command.equals("cancel")) {
+            String command = Input.getInput ();
+            if (command.equals ("cancel")) {
                 return -1;
-            } else if (command.matches("[1-9]+")) {
-                return Integer.parseInt(command);
-            } else System.err.println(Error.INVALID_COMMAND);
+            } else if (command.matches ("[1-9]+")) {
+                return Integer.parseInt (command);
+            } else System.err.println (Error.INVALID_COMMAND);
         }
     }
 
     public boolean yesNoQuestion(String question) {
-        System.out.println(question);
-        if (Input.getInput().equals("yes")) {
+        System.out.println (question);
+        if (Input.getInput ().equals ("yes")) {
             return true;
         }
         return false;
     }
-    public int chooseCardInHand(String toShow){
-        System.out.println(toShow);
-        return askAddress();
+
+    public int chooseCardInHand(String toShow) {
+        System.out.println (toShow);
+        return askAddress ();
     }
-    public int howToSummonBeastKingBarbos(){
-        System.out.println("how do you want to summon/set this card : " +
+
+    public int howToSummonBeastKingBarbos() {
+        System.out.println ("how do you want to summon/set this card : " +
                 "1-normal tribute" +
                 ", 2-without tribute, 3-with 3 tributes\n" +
                 "enter the numebr please");
-        while (true){
-            String input = Input.getInput();
-            if (input.matches("[1-3]")){
-                return Integer.parseInt(input);
+        while (true) {
+            String input = Input.getInput ();
+            if (input.matches ("[1-3]")) {
+                return Integer.parseInt (input);
             } else {
-                System.err.println(Error.INVALID_COMMAND.getValue());
+                System.err.println (Error.INVALID_COMMAND.getValue ());
             }
         }
     }
-    public int askAddressForManEaterBug(){
-        System.out.println("Enter address(number of it in your opponent Monster Zone) of card to be killed");
-        return askAddress();
+
+    public int askAddressForManEaterBug() {
+        System.out.println ("Enter address(number of it in your opponent Monster Zone) of card to be killed");
+        return askAddress ();
     }
 
     private int askAddress() {
         String input;
         while (true) {
-            input = Input.getInput();
-            if (input.matches("[1-9]+")) {
-                return Integer.parseInt(input);
-            } else if (input.equals("cancel")) {
+            input = Input.getInput ();
+            if (input.matches ("[1-9]+")) {
+                return Integer.parseInt (input);
+            } else if (input.equals ("cancel")) {
                 return -1;
-            } else System.err.println(Error.INVALID_COMMAND);
+            } else System.err.println (Error.INVALID_COMMAND);
         }
     }
-    public int chooseCardInDeck(Deck deck){
-        System.out.println("Enter number of field spell to be added to you deck or cancel to cancel the command!");
-        System.out.println(deck);
-        while(true){
-            String input = Input.getInput();
-            if (input.matches("[1-9]+")){
-                return Integer.parseInt(input);
-            } else if (input.equals("cancel")){
+
+    public int chooseCardInDeck(Deck deck) {
+        System.out.println ("Enter number of field spell to be added to you deck or cancel to cancel the command!");
+        System.out.println (deck);
+        while (true) {
+            String input = Input.getInput ();
+            if (input.matches ("[1-9]+")) {
+                return Integer.parseInt (input);
+            } else if (input.equals ("cancel")) {
                 return -1;
-            } else System.err.println(Error.INVALID_COMMAND);
+            } else System.err.println (Error.INVALID_COMMAND);
         }
     }
-    public int chooseCardInGraveYard(){
-        System.out.println("choose the card, enter the number of it:");
-        while(true){
-            String input = Input.getInput();
-            if (input.matches("[1-9]+")){
-                return Integer.parseInt(input);
-            } else if (input.equals("cancel")){
+
+    public int chooseCardInGraveYard() {
+        System.out.println ("choose the card, enter the number of it:");
+        while (true) {
+            String input = Input.getInput ();
+            if (input.matches ("[1-9]+")) {
+                return Integer.parseInt (input);
+            } else if (input.equals ("cancel")) {
                 return -1;
-            } else System.err.println(Error.INVALID_COMMAND);
+            } else System.err.println (Error.INVALID_COMMAND);
         }
     }
-    public int twoChoiceQuestions(String message,String choice1,String choice2){
-        System.out.println(message);
-        System.out.println("chosee one : 1-"+choice1+", 2-"+choice2);
-        while (true){
-            String string = Input.getInput();
-            if (string.equals("cancel")){
+
+    public int twoChoiceQuestions(String message, String choice1, String choice2) {
+        System.out.println (message);
+        System.out.println ("chosee one : 1-" + choice1 + ", 2-" + choice2);
+        while (true) {
+            String string = Input.getInput ();
+            if (string.equals ("cancel")) {
                 return -1;
-            } else if (string.matches("[1-9]+")){
-                if (string.equals("1") || string.equals("2")){
-                    return Integer.parseInt(string);
-                } else showError(Error.INVALID_NUMBER);
-            } else showError(Error.INVALID_COMMAND);
+            } else if (string.matches ("[1-9]+")) {
+                if (string.equals ("1") || string.equals ("2")) {
+                    return Integer.parseInt (string);
+                } else showError (Error.INVALID_NUMBER);
+            } else showError (Error.INVALID_COMMAND);
         }
     }
+
     public void showOpponentGraveYard() {
         int counter = 1;
-        if (controller.getOpponentPlayer().getPlayerBoard().isGraveYardEmpty ()) instance.showError (Error.EMPTY_GRAVEYARD);
+        if (controller.getOpponentPlayer ().getPlayerBoard ().isGraveYardEmpty ())
+            instance.showError (Error.EMPTY_GRAVEYARD);
         else {
             for (Card card : controller.getCurrentPlayer ().getPlayerBoard ().returnGraveYard ().getGraveYardCards ()) {
                 System.out.println (counter + ". " + card.getName () + ":" + card.getDescription ());
