@@ -23,6 +23,11 @@ class LoginMenuViewTest {
     }
 
     @Test
+    void getInstance() {
+
+    }
+
+    @Test
     void run() {
     }
 
@@ -57,8 +62,8 @@ class LoginMenuViewTest {
                 "user login --username <username> --password <password>\n" +
                 "user login -u <username> -p <password>\n" +
                 "menu exit\n" +
-                "help";
-        help ();
+                "help\n";
+        LoginMenuView.getInstance ().help ();
         assertEquals (expected, outContent.toString ());
     }
 }
