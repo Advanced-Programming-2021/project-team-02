@@ -341,7 +341,7 @@ public class GameView {
         System.out.println ("how do you want to summon/set this card : " +
                 "1-normal tribute" +
                 ", 2-without tribute, 3-with 3 tributes\n" +
-                "enter the numebr please");
+                "enter the number please");
         while (true) {
             String input = Input.getInput ();
             if (input.matches ("[1-3]")) {
@@ -396,7 +396,7 @@ public class GameView {
 
     public int twoChoiceQuestions(String message, String choice1, String choice2) {
         System.out.println (message);
-        System.out.println ("chosee one : 1-" + choice1 + ", 2-" + choice2);
+        System.out.println ("choose one : 1-" + choice1 + ", 2-" + choice2);
         while (true) {
             String string = Input.getInput ();
             if (string.equals ("cancel")) {
