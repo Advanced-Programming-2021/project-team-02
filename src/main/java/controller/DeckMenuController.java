@@ -250,21 +250,12 @@ public class DeckMenuController {
 
     public void showCard(Matcher matcher) {
         String cardName = matcher.group("cardName");
-        Card card;
-        if ((card = Card.getCardByName(cardName)) == null) {
+        Card card = Card.getCardByName(cardName);
+        if (card == null) {
             Error.showError(Error.CARD_DOES_NOT_EXIST);
             return;
         }
-        if (card.getCardType().equals(CardType.MONSTER)) {
-            Monster monster = (Monster) card;
-            System.out.println(monster);
-        } else if (card.getCardType().equals(CardType.SPELL)) {
-            Spell spell = (Spell) card;
-            System.out.println(spell);
-        } else {
-            Trap trap = (Trap) card;
-            System.out.println(trap);
-        }
+        Card.checkTypeOfCardAndPrintIt(card);
     }
 
     public void removeCardFromMainDeck(Matcher matcher) {

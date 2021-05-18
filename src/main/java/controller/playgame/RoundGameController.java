@@ -201,13 +201,13 @@ public class RoundGameController {
     public void showSelectedCard() {
         if (selectedCell == null) {
             if (opponentSelectedCell != null) {
-                view.showCard(opponentSelectedCell.getCardInCell());
+                Card.checkTypeOfCardAndPrintIt (opponentSelectedCell.getCardInCell());
             } else {
                 Error.showError(Error.NO_CARD_SELECTED_YET);
                 return;
             }
         } else {
-            view.showCard(selectedCell.getCardInCell());
+            Card.checkTypeOfCardAndPrintIt (selectedCell.getCardInCell());
         }
     }
 

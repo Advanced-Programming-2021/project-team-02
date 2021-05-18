@@ -64,7 +64,7 @@ public class GameView {
         else if (Regex.getMatcher (Regex.GRAVEYARD_SHOW, command).matches ())
             instance.showCurrentGraveYard ();
         else if (Regex.getMatcher (Regex.CARD_SHOW_SELECTED, command).matches ())
-            instance.showCard (controller.getSelectedCell ().getCardInCell ());
+            Card.checkTypeOfCardAndPrintIt (controller.getSelectedCell ().getCardInCell ());
         else if (Regex.getMatcher (Regex.BOARD_GAME_SUMMON, command).matches ())
             controller.summonMonster ();
         else if (Regex.getMatcher (Regex.BOARD_GAME_SET_MONSTER, command).matches ())
@@ -241,20 +241,6 @@ public class GameView {
                 System.out.println (counter + ". " + card.getName () + ":" + card.getDescription ());
                 counter++;
             }
-        }
-    }
-
-    public void showCard(Card card) {
-        assert card != null;
-        if (card.getCardType ().equals (CardType.MONSTER)) {
-            Monster monster = (Monster) card;
-            System.out.println (monster);
-        } else if (card.getCardType ().equals (CardType.SPELL)) {
-            Spell spell = (Spell) card;
-            System.out.println (spell);
-        } else {
-            Trap trap = (Trap) card;
-            System.out.println (trap);
         }
     }
 

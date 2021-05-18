@@ -65,4 +65,17 @@ public abstract class Card {
         }
         return null;
     }
+
+    public static void checkTypeOfCardAndPrintIt(Card card) {
+        if (card.getCardType().equals(CardType.MONSTER)) {
+            Monster monster = (Monster) card;
+            System.out.println(monster);
+        } else if (card.getCardType().equals(CardType.SPELL)) {
+            Spell spell = (Spell) card;
+            System.out.println(spell);
+        } else {
+            Trap trap = (Trap) card;
+            System.out.println(trap);
+        }
+    }
 }
