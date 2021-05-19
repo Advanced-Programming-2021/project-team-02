@@ -88,9 +88,13 @@ public class GameView {
             controller.cancel ();
         else if (Regex.getMatcher (Regex.BOARD_GAME_SURRENDER, command).matches ())
             controller.surrender ();
-        else if (Regex.getMatcher (Regex.BOARD_GAME_SHOW_BOARD, command).matches ())
+        else if (Regex.getMatcher (Regex.BOARD_GAME_SHOW_HAND, command).matches ()) {
+            showHand ();
+            return;
+        } else if (Regex.getMatcher (Regex.BOARD_GAME_SHOW_BOARD, command).matches ()) {
             showBoard ();
-        else {
+            return;
+        } else {
             Error.showError(Error.INVALID_COMMAND);
             return;
         }
@@ -232,6 +236,10 @@ public class GameView {
         if (cell.getCellStatus ().getLabel ().equals ("OO")) return "OO";
         if (cell.getCellStatus ().getLabel ().equals ("HAND")) return "HAND";
         return "";
+    }
+
+    public void showHand() {
+        controller.getCurrentPlayerHand ().stream ().map (card -> card.getName () + " (" + card.getCardType ().name () + ")").forEach (System.out::println);
     }
 
     public void showPhase() {
