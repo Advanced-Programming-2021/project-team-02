@@ -72,7 +72,7 @@ class LoginMenuViewTest {
     @DisplayName ("Check \"menu exit\" command")
     void exitCommand() {
         LoginMenuView.getInstance ().run ("menu exit");
-        assertEquals (MenusManager.getInstance ().getCurrentMenu (), Menu.EXIT);
+        Assertions.assertEquals (MenusManager.getInstance ().getCurrentMenu (), Menu.EXIT);
     }
 
     @Test

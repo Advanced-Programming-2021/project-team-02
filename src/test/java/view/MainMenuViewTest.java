@@ -23,7 +23,7 @@ class MainMenuViewTest {
     @DisplayName ("Check \"menu enter profile\" command")
     void menuEnterProfile() {
         MainMenuView.getInstance ().run ("menu enter profile");
-        assertEquals (MenusManager.getInstance ().getCurrentMenu (), Menu.PROFILE_MENU);
+        Assertions.assertEquals (MenusManager.getInstance ().getCurrentMenu (), Menu.PROFILE_MENU);
     }
 
     @Test

@@ -35,28 +35,28 @@ class MainMenuControllerTest {
     @DisplayName("Check \"menu enter profile\" command")
     void menuEnterProfile() {
         MainMenuController.getInstance ().menuEnter ("profile");
-        assertEquals (MenusManager.getInstance ().getCurrentMenu (), Menu.PROFILE_MENU);
+        Assertions.assertEquals (MenusManager.getInstance ().getCurrentMenu (), Menu.PROFILE_MENU);
     }
 
     @Test
     @DisplayName("Check \"menu enter shop\" command")
     void menuEnterShop() {
         MainMenuController.getInstance ().menuEnter ("shop");
-        assertEquals (MenusManager.getInstance ().getCurrentMenu (), Menu.SHOP_MENU);
+        Assertions.assertEquals (MenusManager.getInstance ().getCurrentMenu (), Menu.SHOP_MENU);
     }
 
     @Test
     @DisplayName("Check \"menu enter scoreboard\" command")
     void menuEnterScoreboard() {
         MainMenuController.getInstance ().menuEnter ("scoreboard");
-        assertEquals (MenusManager.getInstance ().getCurrentMenu (), Menu.SCOREBOARD_MENU);
+        Assertions.assertEquals (MenusManager.getInstance ().getCurrentMenu (), Menu.SCOREBOARD_MENU);
     }
 
     @Test
     @DisplayName("Check \"menu enter deck\" command")
     void menuEnterDeck() {
         MainMenuController.getInstance ().menuEnter ("deck");
-        assertEquals (MenusManager.getInstance ().getCurrentMenu (), Menu.DECK_MENU);
+        Assertions.assertEquals (MenusManager.getInstance ().getCurrentMenu (), Menu.DECK_MENU);
     }
 
     @Test

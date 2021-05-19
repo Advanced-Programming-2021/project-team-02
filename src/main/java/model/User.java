@@ -49,7 +49,6 @@ public class User implements Comparable<User> {
         this.nickname = nickname;
     }
 
-
     public String getNickname() {
         return nickname;
     }
@@ -64,6 +63,10 @@ public class User implements Comparable<User> {
 
     public int getScore() {
         return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public boolean getHasActiveDeck() {
@@ -126,7 +129,7 @@ public class User implements Comparable<User> {
 
     }
 
-    public void setScore(int score) {
+    public void increaseScore(int score) {
         this.score += score;
     }
 }
