@@ -4,7 +4,7 @@ import model.card.Card;
 
 public class FieldZone {
 
-    private Cell fieldCell;
+    private Cell fieldCell = new Cell();
 
     public void addCard(Card card) {
         fieldCell.setCardInCell(card);

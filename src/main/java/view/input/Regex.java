@@ -67,6 +67,7 @@ public class Regex {
     public static final String COMMAND_HELP = "^help$";
     public static final String CHANGE_CARD_BETWEEN_ROUNDS = "^change card (?<cardNameInMainDeck>[A-Za-z ',-]+" +
             ") with (?<cardNameInSideDeck>[A-Za-z ',-]+)$";
+    public static final String BOARD_GAME_SHOW_BOARD = "^show board$";
 
     static {
         USER_CREATE = new ArrayList<>();

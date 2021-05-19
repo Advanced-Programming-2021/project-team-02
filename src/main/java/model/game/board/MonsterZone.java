@@ -9,7 +9,9 @@ public class MonsterZone {
     private Cell[] monsterCells = new Cell[5];
 
     public MonsterZone() {
-
+        for (int i = monsterCells.length - 1; i >= 0; i--) {
+            monsterCells[i] = new Cell();
+        }
     }
 
     public void addCard(Monster monster, CellStatus status) {
@@ -28,6 +30,6 @@ public class MonsterZone {
     }
 
     public Cell getCellWithAddress(int address) {
-        return monsterCells[address];
+        return monsterCells[address-1];
     }
 }

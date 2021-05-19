@@ -47,6 +47,9 @@ public class MainMenuController {
                 ProfileMenuController.getInstance ().setLoggedInUser (MainMenuController.getInstance ().getLoggedInUser ());
                 MenusManager.getInstance ().changeMenu (Menu.PROFILE_MENU);
                 break;
+            case "duel":
+                MenusManager.getInstance ().changeMenu (Menu.DUEL_MENU);
+                break;
             default: Error.showError (Error.INVALID_COMMAND);
         }
     }

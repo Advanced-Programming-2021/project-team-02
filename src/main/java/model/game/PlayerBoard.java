@@ -5,8 +5,6 @@ import model.card.Monster;
 import model.card.Spell;
 import model.game.board.*;
 
-import java.util.ArrayList;
-
 public class PlayerBoard {
     private MonsterZone monsterZone;
     private SpellZone spellZone;
@@ -36,7 +34,7 @@ public class PlayerBoard {
 
     public void removeSpellOrTrapFromBoard(int address) {
         graveYard.addCard(spellZone.getCellWithAddress(address).getCardInCell());
-        spellZone.removeCard(address - 1);
+        spellZone.removewithCard(address);
     }
 
     public void addCardToGraveYard(Card card) {
@@ -72,7 +70,7 @@ public class PlayerBoard {
     public int howManyEmptyCellsWeHaveInZone(Zone zone) {
         if (zone.equals(Zone.MONSTER_ZONE)) {
             int counter = 0;
-            for (int i = 0; i < 5; i++) {
+            for (int i = 1; i <= 5; i++) {
                 if (monsterZone.getCellWithAddress(i).getCellStatus().equals(CellStatus.EMPTY)) {
                     counter++;
                 }
@@ -80,12 +78,12 @@ public class PlayerBoard {
             return counter;
         } else if (zone.equals(Zone.SPELL_ZONE)) {
             int counter = 0;
-            for (int i = 0; i < 5; i++) {
+            for (int i = 1; i <= 5; i++) {
                 if (spellZone.getCellWithAddress(i).getCellStatus().equals(CellStatus.EMPTY)) {
                     counter++;
                 }
-                return counter;
             }
+            return counter;
         }
         return 0;
     }

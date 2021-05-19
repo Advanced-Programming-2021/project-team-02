@@ -34,7 +34,6 @@ public enum SuccessMessage {
     OPPONENT_RECEIVE_DAMAGE_AFTER_DIRECT_ATTACK("your opponent receives %d battle damage\n"),
     SPELL_ACTIVATED("spell activated"),
     SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER("now it will be %s’s turn (middle game turn change)\n"),
-    WANTS_ACTIVE_SPELL("do you want to activate your trap and spell?"),
     TRAP_ACTIVATED("spell/trap activated"),
     COMPLETE_SPECIAL_SUMMON("you should special summon right now"),
     EMPTY_GRAVEYARD("graveyard empty"),

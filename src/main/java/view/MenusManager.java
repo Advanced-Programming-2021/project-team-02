@@ -30,7 +30,6 @@ public class MenusManager {
 
     public void run() throws CloneNotSupportedException {
         String command;
-        //initializeSingleton();
         while (currentMenu != Menu.EXIT) {
             command = Input.getInput();
             if (currentMenu.equals(Menu.LOGIN_MENU)) {
@@ -64,18 +63,5 @@ public class MenusManager {
     public User getLoggedInUser() {
         return loggedInUser;
     }
-//    private void initializeSingleton(){
-//        DuelMenuView.getInstance();
-//        DeckMenuController.getInstance();
-//        LoginMenuView.getInstance();
-//        LoginMenuController.getInstance();
-//        MainMenuView.getInstance();
-//        MainMenuController.getInstance();
-//        ShopMenuView.getInstance();
-//        ScoreBoardView.getInstance();
-//        ShopMenuController.getInstance();
-//        DuelGameController.getInstance();
-//        GameView.getInstance();
-//        RoundGameController.getInstance();
-//    }
+
 }
