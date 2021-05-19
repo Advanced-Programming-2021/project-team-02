@@ -88,6 +88,8 @@ public class GameView {
             controller.cancel ();
         else if (Regex.getMatcher (Regex.BOARD_GAME_SURRENDER, command).matches ())
             controller.surrender ();
+        else if (Regex.getMatcher (Regex.BOARD_GAME_SHOW_BOARD, command).matches ())
+            showBoard ();
         else {
             Error.showError(Error.INVALID_COMMAND);
             return;
