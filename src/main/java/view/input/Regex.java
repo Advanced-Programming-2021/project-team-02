@@ -32,6 +32,8 @@ public class Regex {
     public static final String SHOP_SHOW_ALL = "^shop show --all$";
     public static final List<String> DUEL_NEW_SECOND_PLAYER;
     public static final List<String> DUEL_NEW_AI;
+    public static final String BOARD_GAME_SHOW_BOARD = "^show board$";
+    public static final String BOARD_GAME_SHOW_HAND = "^show hand$";
     public static final String BOARD_GAME_SELECT_MONSTER = "^select --monster (?<monsterZoneNumber>\\d)$";
     public static final List<String> BOARD_GAME_SELECT_MONSTER_OPPONENT;
     public static final String BOARD_GAME_SELECT_SPELL = "^select --spell (?<spellZoneNumber>\\d)$";
