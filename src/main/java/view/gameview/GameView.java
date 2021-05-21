@@ -3,23 +3,14 @@ package view.gameview;
 import controller.playgame.RoundGameController;
 import model.Deck;
 import model.card.Card;
-import model.card.Monster;
-import model.card.Spell;
-import model.card.Trap;
-import model.card.informationofcards.CardType;
 import model.game.board.Cell;
-import model.game.board.GraveYard;
-import model.game.board.SpellZone;
 import view.DeckMenuView;
 import view.input.Input;
 import view.input.Regex;
 import view.messages.Error;
 import view.messages.SuccessMessage;
 
-import java.util.Map;
-import java.util.Objects;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class GameView {
     private static GameView instance = null;
@@ -123,7 +114,7 @@ public class GameView {
         if (message.equals (SuccessMessage.PLAYERS_TURN))
             System.out.printf (SuccessMessage.PLAYERS_TURN.getValue (), string);
         else if (message.equals (SuccessMessage.CARD_ADDED_TO_THE_HAND))
-            System.out.printf (SuccessMessage.CARD_ADDED_TO_THE_DECK.getValue (), string);
+            System.out.printf (SuccessMessage.CARD_ADDED_TO_THE_HAND.getValue (), string);
         else if (message.equals (SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER))
             System.out.printf (SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER.getValue (), string);
         else if (message.equals (SuccessMessage.DH_CARD_BECOMES_DO))
@@ -222,6 +213,7 @@ public class GameView {
                             "\t" + getStatusForCell (controller.getSecondPlayer ().getPlayerBoard ().returnSpellZone ().getCellWithAddress (4)));
             System.out.println ("\t\t\t\t\t\t" + controller.getSecondPlayer ().getPlayDeck ().getMainCards ().size ());
             for (int i = 0; i < controller.getSecondPlayerHand ().size (); i++) System.out.print ("c\t");
+            System.out.println();//added by erfan based on what mahdis said
             System.out.println (controller.getSecondPlayer ().getNickname () + ":" + controller.getSecondPlayer ().getLifePoint ());
         }
     }
