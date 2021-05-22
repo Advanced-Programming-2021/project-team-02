@@ -129,6 +129,10 @@ public class Deck {
         Collections.shuffle(sideCards);
     }
 
+    public static void jsonDecks() {
+
+    }
+
     @Override
     public String toString() {
         StringBuilder out = new StringBuilder();

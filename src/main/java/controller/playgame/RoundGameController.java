@@ -617,7 +617,7 @@ public class RoundGameController {
                         SpellZone spellZone = getFirstPlayer().getPlayerBoard().returnSpellZone();
                         int i = 0;
                         while (spellZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i >= 5) {
-                            if (spellZone.getCellWithAddress(i).getCardInCell() == card) {
+                            if (spellZone.getCellWithAddress(i).getCardInCell().getName().equals(card.getName())) {
                                 addCardToGraveYard(Zone.SPELL_ZONE, i, firstPlayer);
                             }
                             i++;
@@ -631,7 +631,7 @@ public class RoundGameController {
                         SpellZone spellZone = getSecondPlayer().getPlayerBoard().returnSpellZone();
                         int i = 0;
                         while (spellZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i >= 5) {
-                            if (spellZone.getCellWithAddress(i).getCardInCell() == card) {
+                            if (spellZone.getCellWithAddress(i).getCardInCell().getName().equals(card.getName())) {
                                 addCardToGraveYard(Zone.SPELL_ZONE, i, secondPlayer);
                             }
                             i++;
@@ -1035,32 +1035,35 @@ public class RoundGameController {
 
     private void ritualSummon() {
         List<Card> currentPlayerHand = getCurrentPlayerHand();
-        if (!isRitualCardInHand()) {
-            Error.showError(Error.CAN_NOT_RITUAL_SUMMON);
-        } else if (!sumOfSubsequences("cardName")) {
-            Error.showError(Error.CAN_NOT_RITUAL_SUMMON);
-        } else {
-            while (true) {
-                Monster monster = (Monster) selectedCell.getCardInCell();
-                if (Objects.requireNonNull(monster).getMonsterActionType() == MonsterActionType.RITUAL) break;
-                else {
-                    Error.showError(Error.RITUAL_SUMMON_NOW);
-                    view.getSummonOrderForRitual();
+        String cardName;
+        Monster monster;
+        while (true) {
+            cardName = view.ritualCardName();
+            monster = (Monster) Card.getCardByName(cardName);
+            if (!isRitualCardInHand()) {
+                Error.showError(Error.CAN_NOT_RITUAL_SUMMON);
+            } else if (Card.getCardByName(cardName) == null) {
+                view.showError(Error.WRONG_CARD_NAME);
+            } else if (Objects.requireNonNull(monster).getMonsterActionType() != MonsterActionType.RITUAL) {
+                view.showError(Error.WRONG_CARD_NAME);
+                view.showError(Error.RITUAL_SUMMON_NOW);
+            } else if (!sumOfSubsequences(cardName)) {
+                Error.showError(Error.CAN_NOT_RITUAL_SUMMON);
+            } else {
+                if (view.getSummonOrderForRitual()) {
+                    while (true) {
+                        if (areCardsLevelsEnoughToSummonRitualMonster()) break;
+                        else Error.showError(Error.LEVEL_DOES_NOT_MATCH);
+                    }
                 }
             }
-            while (true) {
-                if (areCardsLevelsEnoughToSummonRitualMonster()) break;
-                else Error.showError(Error.LEVEL_DOES_NOT_MATCH);
-            }
-            Matcher matcherOfPosition = view.getPositionForSetRitualMonster();
-            setRitualMonster(matcherOfPosition);
         }
-        deselectCard(0);
     }
 
-    public void setRitualMonster(Matcher matcherOfPosition) {
+    public void setRitualMonster() {
+        String monsterPosition = view.getPositionForSetRitualMonster();
         MonsterZone monsterZone = getCurrentPlayer().getPlayerBoard().returnMonsterZone();
-        if (matcherOfPosition.group().equals("attack")) {
+        if (monsterPosition.equals("attack")) {
             for (int i = 1; i <= 5; i++) {
                 if (monsterZone.getCellWithAddress(i).getCellStatus() == CellStatus.EMPTY) {
                     Card card = Card.getCardByName(selectedCell.getCardInCell().getName());
@@ -1069,7 +1072,7 @@ public class RoundGameController {
                 }
             }
             selectedCell.setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
-        } else if (matcherOfPosition.group().equals("defense")) {
+        } else if (monsterPosition.equals("defense")) {
             for (int i = 1; i <= 5; i++) {
                 if (monsterZone.getCellWithAddress(i).getCellStatus() == CellStatus.EMPTY) {
                     Card card = Card.getCardByName(selectedCell.getCardInCell().getName());
@@ -1083,11 +1086,10 @@ public class RoundGameController {
     }
 
     public boolean areCardsLevelsEnoughToSummonRitualMonster() {
-        Matcher addresses = view.getMonstersAddressesToBringRitual();
-        String[] split = addresses.pattern().split("\\s+");
+        String[] addresses = view.getMonstersAddressesToBringRitual();
         int sum = 0;
         MonsterZone monsterZone = getCurrentPlayer().getPlayerBoard().returnMonsterZone();
-        for (String s : split) {
+        for (String s : addresses) {
             Monster monster = (Monster) monsterZone.getCellWithAddress(Integer.parseInt(s)).getCardInCell();
             sum += monster.getLevel();
         }

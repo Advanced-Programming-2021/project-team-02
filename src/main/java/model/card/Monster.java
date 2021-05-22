@@ -82,6 +82,9 @@ public class Monster extends Card {
             e.printStackTrace();
         }
     }
+    public static void readJsonMonster() {
+
+    }
 
     @Override
     public String toString() {

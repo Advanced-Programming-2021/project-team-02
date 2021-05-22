@@ -1,7 +1,10 @@
 package model;
 
+import com.google.gson.Gson;
 import model.card.Card;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -129,5 +132,14 @@ public class Assets {
             }
         }
         return 0;
+    }
+
+    public static void jsonAssets() {
+        try {
+            FileWriter fileWriter = new FileWriter("asset.json");
+          // :)
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

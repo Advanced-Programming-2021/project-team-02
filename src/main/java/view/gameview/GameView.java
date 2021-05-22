@@ -11,6 +11,7 @@ import view.messages.Error;
 import view.messages.SuccessMessage;
 
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GameView {
     private static GameView instance = null;
@@ -265,23 +266,43 @@ public class GameView {
         }
     }
 
-    public Matcher getSummonOrderForRitual() {
-        //here you should make him to write summon a ritual monster
-        Matcher matcher;
-        return null;
+    public boolean getSummonOrderForRitual() {
+        System.out.println("you should right summon order:");
+        String input;
+        while (true) {
+            input = Input.getInput();
+            if (input.matches("summon")) return true;
+            else System.out.println(Error.INVALID_COMMAND);
+        }
     }
 
-    public Matcher getMonstersAddressesToBringRitual() {
-        // here you should tell him to write addresses for summon ritual monster with (next line)
-        // one integer and then space one integer and then space .... except the last integer
-        Matcher matcher;
-        return null;
+    public String[] getMonstersAddressesToBringRitual() {
+        System.out.println("write card addresses in this format:\n" +
+                "CardAddress CardAddress CardAddress ...\n" +
+                "(... depends on how many are your cards that you should enter their CardAddress)");
+        String input;
+        String[] split;
+        while (true) {
+            input = Input.getInput();
+            if (input.matches("(?<=\\s|^)([12345])(?=\\s|$)")) {
+                split = input.split(" ");
+                return split;
+            } else System.out.println(Error.INVALID_COMMAND);
+        }
     }
 
-    public Matcher getPositionForSetRitualMonster() {
-        // you should ask him about position of ritual summon (can be only OO or DO)
-        Matcher matcher;
-        return null;
+    public String getPositionForSetRitualMonster() {
+        System.out.println("please enter position of ritual summon in this format\n" +
+                "attack\n" +
+                "or\n" +
+                "defense");
+        String input;
+        while (true) {
+            input = Input.getInput();
+            if (input.equals("attack") || input.equals("defense")) {
+                return input;
+            } else System.out.println(Error.INVALID_COMMAND);
+        }
     }
 
     public int swordOfDarkDestruction() {
@@ -341,6 +362,16 @@ public class GameView {
             } else {
                 System.out.println (Error.INVALID_COMMAND.getValue ());
             }
+        }
+    }
+
+    public String ritualCardName() {
+        System.out.println("please enter card name in this format: \n" +
+                "Card_Name");
+        while (true) {
+            String input = Input.getInput();
+            if (input.matches("[a-zA-Z0-9 -]+")) return input;
+            else System.out.println(Error.INVALID_COMMAND);
         }
     }
 

@@ -1,5 +1,9 @@
 package model;
 
+import com.google.gson.Gson;
+
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,6 +31,7 @@ public class User implements Comparable<User> {
         setPassword(password);
         new Assets(username);
         allUsers.add(this);
+        Assets.jsonAssets();
     }
 
     public void activatedDeck() {
@@ -127,6 +132,15 @@ public class User implements Comparable<User> {
 
     public void addScoreOfGame(int score) {
 
+    }
+
+    public static void jsonUsers() {
+        try {
+            FileWriter fileWriter = new FileWriter("user,json");
+            fileWriter.write(new Gson().toJson(allUsers.get(allUsers.size())));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void increaseScore(int score) {
