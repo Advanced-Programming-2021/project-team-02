@@ -30,6 +30,7 @@ public class Regex {
     public static final String DECK_SHOW_ALL_CARDS = "^deck show --cards$";
     public static final String SHOP_BUY = "^shop buy (?<cardName>[A-Za-z ',-]+)$";
     public static final String SHOP_SHOW_ALL = "^shop show --all$";
+    public static final String SHOP_SHOW_MY_CARDS = "^shop show my cards$";
     public static final List<String> DUEL_NEW_SECOND_PLAYER;
     public static final List<String> DUEL_NEW_AI;
     public static final String BOARD_GAME_SHOW_BOARD = "^show board$";

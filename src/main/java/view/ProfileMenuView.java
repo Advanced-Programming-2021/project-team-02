@@ -3,7 +3,6 @@ package view;
 import controller.ProfileMenuController;
 import view.input.Regex;
 import view.messages.Error;
-import view.messages.SuccessMessage;
 
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -60,7 +59,6 @@ public class ProfileMenuView {
     public void help() {
         System.out.println ("menu show-current\n" +
                 "profile change --nickname <nickname>\n" +
-                "profile change -n <nickname>\n" +
                 "profile change --password --current <currentPassword> --new <newPassword>\n" +
                 "profile change -p -c <currentPassword> -n <newPassword>\n" +
                 "menu exit\n" +

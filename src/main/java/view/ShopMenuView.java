@@ -4,6 +4,7 @@ import controller.DeckMenuController;
 import controller.ShopMenuController;
 import model.Assets;
 import model.Shop;
+import model.User;
 import model.card.Card;
 import view.input.Regex;
 import view.messages.Error;
@@ -46,11 +47,21 @@ public class ShopMenuView {
             showAllCards();
         } else if ((matcher = Regex.getMatcher(Regex.CARD_SHOW, command)).matches()) {
             DeckMenuController.getInstance ().showCard (matcher.group ("cardName"));
+        } else if (Regex.getMatcher(Regex.SHOP_SHOW_MY_CARDS, command).matches()) {
+            showMyCards();
         } else if ((matcher = Regex.getMatcher(Regex.CHEAT_INCREASE_MONEY, command)).matches()) {
             Objects.requireNonNull (Assets.getAssetsByUsername (controller.getLoggedInUser ().getUsername ())).increaseCoin (Integer.parseInt (matcher.group ("moneyAmount")));
         } else if (Regex.getMatcher(Regex.COMMAND_HELP, command).matches()) {
             help ();
         } else Error.showError(Error.INVALID_COMMAND);
+    }
+
+    public void showMyCards() {
+        System.out.println ("<cardName>:<number>");
+        Assets assets = Assets.getAssetsByUsername (controller.getLoggedInUser ().getUsername ());
+        assert assets != null;
+        for (Card card : assets.getAllUserCards ().keySet ())
+            System.out.println (card.getName () + ":" + assets.getAllUserCards ().get (card));
     }
 
     public void showAllCards() {
@@ -74,6 +85,7 @@ public class ShopMenuView {
         System.out.println ("menu show-current\n" +
                 "card show <cardName>\n" +
                 "shop show --all\n" +
+                "shop show my cards\n" +
                 "shop buy <cardName>\n" +
                 "menu exit\n" +
                 "help");
