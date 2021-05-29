@@ -86,6 +86,9 @@ public class GameView {
         } else if (Regex.getMatcher (Regex.BOARD_GAME_SHOW_BOARD, command).matches ()) {
             showBoard ();
             return;
+        } else if (Regex.getMatcher (Regex.COMMAND_HELP, command).matches ()) {
+            help ();
+            return;
         } else {
             Error.showError(Error.INVALID_COMMAND);
             return;
@@ -442,5 +445,39 @@ public class GameView {
                 counter++;
             }
         }
+    }
+
+    public void help() {
+        System.out.println ("show board\n" +
+                "show hand\n" +
+                "select --monster <monsterZoneNumber>\n" +
+                "select --monster <monsterZoneNumber> --opponent\n" +
+                "select -m <monsterZoneNumber> -o\n" +
+                "select --spell <spellZoneNumber>\n" +
+                "select --spell <spellZoneNumber> --opponent\n" +
+                "select -s <spellZoneNumber> -o\n" +
+                "select --field\n" +
+                "select --field --opponent\n" +
+                "select -f -o\n" +
+                "select --graveyard\n" +
+                "select --graveyard --opponent\n" +
+                "select -gy -o\n" +
+                "select --hand <cardNumber>\n" +
+                "select -d\n" +
+                "next phase\n" +
+                "summon\n" +
+                "set --monster\n" +
+                "set --spell\n" +
+                "set --trap\n" +
+                "set --position <attack|defense>\n" +
+                "flip-summon\n" +
+                "attack <monsterZoneNumber>\n" +
+                "attack direct\n" +
+                "activate effect\n" +
+                "surrender\n" +
+                "show graveyard\n" +
+                "card show --selected\n" +
+                "cancel\n" +
+                "help");
     }
 }

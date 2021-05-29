@@ -68,7 +68,6 @@ public class Regex {
     public static final String CHANGE_CARD_BETWEEN_ROUNDS = "^change card (?<cardNameInMainDeck>[A-Za-z ',-]+" +
             ") with (?<cardNameInSideDeck>[A-Za-z ',-]+)$";
 
-
     static {
         USER_CREATE = new ArrayList<>();
         USER_CREATE.add("^user create --username (?<username>\\w+) --password (?<password>\\w+) --nickname (?<nickname>\\w+)$");
