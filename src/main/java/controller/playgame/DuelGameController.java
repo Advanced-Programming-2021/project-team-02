@@ -36,38 +36,38 @@ public class DuelGameController {
 
     public void startDuel(Duel duel) {
         this.duel = duel;
-        starterSpecifier();
         setStartHandCards(duel.getPlayer1(), duel.getPlayer2());
+        starterSpecifier();
+
         MenusManager.getInstance().changeMenu(Menu.ONGOING_GAME);
     }
 
     public void starterSpecifier() {
         if (flipCoin() == 1) {
             setSpecifier(duel.getPlayer1().getNickname());
-            RoundGameController.getInstance().setRoundInfo(duel.getPlayer1(), duel.getPlayer2(),view,instance);
+            RoundGameController.getInstance().setRoundInfo(duel.getPlayer1(), duel.getPlayer2(), view, instance);
         } else {
             setSpecifier(duel.getPlayer2().getNickname());
-            RoundGameController.getInstance().setRoundInfo(duel.getPlayer2(), duel.getPlayer1(),view,instance);
+            RoundGameController.getInstance().setRoundInfo(duel.getPlayer2(), duel.getPlayer1(), view, instance);
         }
     }
 
-    public void checkGameResult(DuelPlayer winner, DuelPlayer loser, int code) { //code 0 : lp =0 , code 1 : no card to draw
-        if (code == 0) {
+    public void checkGameResult(DuelPlayer winner, DuelPlayer loser, GameResult resultType) {
+        if (resultType == GameResult.NO_LP) {
             if (duel.getNumberOfRounds() == 1) {
-                if (isOneRoundFinished(winner, loser)) {
+                if (isPlayerDead(winner, loser)) {
                     if (duel.getPlayer1() == winner)
                         updateScoreAndCoinForOneRound(duel.getPlayer1(), duel.getPlayer2());
-
                     else updateScoreAndCoinForOneRound(duel.getPlayer2(), duel.getPlayer1());
                 }
             } else if (duel.getNumberOfRounds() == 3) {
-                if (isOneRoundFinished(winner, loser)) {
+                if (isPlayerDead(winner, loser)) {
                     if (duel.getPlayer1() == winner)
                         updateScoreAndCoinForThreeRounds(duel.getPlayer1(), duel.getPlayer2());
                     else updateScoreAndCoinForThreeRounds(duel.getPlayer2(), duel.getPlayer1());
                 }
             }
-        } else {
+        } else if (resultType == GameResult.SURRENDER || resultType == GameResult.NO_CARDS_TO_DRAW) {
             if (duel.getNumberOfRounds() == 1) {
                 if (duel.getPlayer1() == winner)
                     updateScoreAndCoinForOneRound(duel.getPlayer1(), duel.getPlayer2());
@@ -78,12 +78,11 @@ public class DuelGameController {
                 else updateScoreAndCoinForThreeRounds(duel.getPlayer2(), duel.getPlayer1());
             }
         }
+
     }
 
-    private boolean isOneRoundFinished(DuelPlayer winner, DuelPlayer loser) {
-        if ((winner.getLifePoint() > 0 && loser.getLifePoint() == 0))
-            return true;
-        return false;
+    private boolean isPlayerDead(DuelPlayer winner, DuelPlayer loser) {
+        return winner.getLifePoint() > 0 && loser.getLifePoint() == 0;
     }
 
     public void updateScoreAndCoinForOneRound(DuelPlayer winner, DuelPlayer loser) {

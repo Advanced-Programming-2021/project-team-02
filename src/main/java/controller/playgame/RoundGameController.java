@@ -103,6 +103,7 @@ public class RoundGameController {
         selectedCell.setCardInCell(hand.get(address - 1));
         selectedCell.setCellStatus(CellStatus.IN_HAND);
         selectedCellAddress = address;
+        //getCurrentPlayerHand().remove(selectedCellAddress - 1);//TODO NOT GOOD!
         view.showSuccessMessage(SuccessMessage.CARD_SELECTED);
         opponentSelectedCell = null;
     }
@@ -234,7 +235,7 @@ public class RoundGameController {
 
     private void trapMagicCylinderEffect() {
         getCurrentPlayer().decreaseLP(((Monster) selectedCell.getCardInCell()).getAttackPower());
-        duelGameController.checkGameResult(getOpponentPlayer(), getCurrentPlayer(), 0);
+        duelGameController.checkGameResult(getOpponentPlayer(), getCurrentPlayer(), GameResult.NO_LP);
         addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getCurrentPlayer());
         deselectCard(0);
     }
@@ -280,14 +281,14 @@ public class RoundGameController {
     public void drawCardFromDeck() {
         DuelPlayer currentPlayer = getCurrentPlayer();
         Card card;
-        if ((card = currentPlayer.getPlayDeck().getMainCards().get(0)) != null) {
-            currentPlayer.getPlayDeck().getMainCards().remove(0);
+        if (currentPlayer.getPlayDeck().getMainCards().size() != 0) {
+            card = currentPlayer.getPlayDeck().getMainCards().get(currentPlayer.getPlayDeck().getMainCards().size() - 1);
             if (turn == 1)
                 addCardToFirstPlayerHand(card);
             else addCardToSecondPlayerHand(card);
             view.showSuccessMessageWithAString(SuccessMessage.CARD_ADDED_TO_THE_HAND, card.getName());
         } else {
-            duelGameController.checkGameResult(currentPlayer, getOpponentPlayer(), 1);// no card so this is loser!
+            duelGameController.checkGameResult(currentPlayer, getOpponentPlayer(), GameResult.NO_CARDS_TO_DRAW);// no card so this is loser!
         }
     }
 
@@ -319,7 +320,7 @@ public class RoundGameController {
         }
         Monster monster = (Monster) selectedCell.getCardInCell();
         getOpponentPlayer().decreaseLP(monster.getAttackPower());
-        duelGameController.checkGameResult(getCurrentPlayer(), getOpponentPlayer(), 0);
+        duelGameController.checkGameResult(getCurrentPlayer(), getOpponentPlayer(), GameResult.NO_LP);
         view.showSuccessMessageWithAnInteger(SuccessMessage.OPPONENT_RECEIVE_DAMAGE_AFTER_DIRECT_ATTACK, monster.getAttackPower());
     }
 
@@ -340,9 +341,9 @@ public class RoundGameController {
             currentPhase = Phase.DRAW_PHASE;
             view.showSuccessMessageWithAString(SuccessMessage.PLAYERS_TURN, getOpponentPlayer().getNickname());
             isSummonOrSetOfMonsterUsed = false;
-            if (selectedCellZone.equals(Zone.HAND)) {
-                getCurrentPlayerHand().add(selectedCellAddress - 1, selectedCell.getCardInCell());
-            }
+            //if (selectedCellZone.equals(Zone.HAND)) {
+            //    getCurrentPlayerHand().add(getCurrentPlayerHand().size() - selectedCellAddress + 1, selectedCell.getCardInCell());
+            //}
             selectedCell = null;
             selectedCellZone = Zone.NONE;
             opponentSelectedCell = null;
@@ -574,8 +575,8 @@ public class RoundGameController {
 
     public void surrender() {
         if (getCurrentPlayer() == firstPlayer) {
-            duelGameController.checkGameResult(secondPlayer, firstPlayer, 3);
-        } else duelGameController.checkGameResult(firstPlayer, secondPlayer, 3);
+            duelGameController.checkGameResult(secondPlayer, firstPlayer, GameResult.SURRENDER);
+        } else duelGameController.checkGameResult(firstPlayer, secondPlayer, GameResult.SURRENDER);
     }
 
     public void specialSummon(Card card, CellStatus cellStatus) {
@@ -1025,7 +1026,6 @@ public class RoundGameController {
                 if (counter >= number) {
                     break;
                 } else {
-                    Error.showError(Error.NOT_ENOUGH_CARDS_TO_TRIBUTE);
                     return false;
                 }
             }
@@ -1326,7 +1326,7 @@ public class RoundGameController {
         if (damage > 0) {
             view.showSuccessMessageWithAnInteger(SuccessMessage.OPPONENT_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
             getOpponentPlayer().decreaseLP(damage);
-            duelGameController.checkGameResult(getCurrentPlayer(), getOpponentPlayer(), 0);
+            duelGameController.checkGameResult(getCurrentPlayer(), getOpponentPlayer(), GameResult.NO_LP);
             checkForYomiShipOrExploderDragonEffect(toBeAttackedCardAddress, opponentCard);
             checkForManEaterBugAttacked();
             addCardToGraveYard(Zone.MONSTER_ZONE, toBeAttackedCardAddress, getOpponentPlayer());
@@ -1334,7 +1334,7 @@ public class RoundGameController {
             view.showSuccessMessageWithAnInteger(SuccessMessage.CURRENT_PLAYER_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
             checkForManEaterBugAttacked();
             getCurrentPlayer().decreaseLP(-damage);
-            duelGameController.checkGameResult(getOpponentPlayer(), getCurrentPlayer(), 0);
+            duelGameController.checkGameResult(getOpponentPlayer(), getCurrentPlayer(), GameResult.NO_LP);
             getCurrentPlayer().getPlayerBoard().addCardToGraveYard(opponentCellToBeAttacked.getCardInCell());
             addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getCurrentPlayer());
         } else {
@@ -1383,7 +1383,7 @@ public class RoundGameController {
         } else if (damage < 0) {
             view.showSuccessMessageWithAnInteger(SuccessMessage.DAMAGE_TO_CURRENT_PLAYER_AFTER_ATTACK_TI_HIGHER_DEFENSIVE_DO_OR_DH_MONSTER, damage);
             getCurrentPlayer().decreaseLP(-damage);
-            duelGameController.checkGameResult(getOpponentPlayer(), getCurrentPlayer(), 0);
+            duelGameController.checkGameResult(getOpponentPlayer(), getCurrentPlayer(), GameResult.NO_LP);
         } else {
             view.showSuccessMessage(SuccessMessage.NO_CARD_DESTROYED);
         }
@@ -1404,13 +1404,13 @@ public class RoundGameController {
             view.showSuccessMessageWithAnInteger(SuccessMessage.OPPONENT_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
             addCardToGraveYard(Zone.MONSTER_ZONE, toBeAttackedCardAddress, getOpponentPlayer());
             getOpponentPlayer().decreaseLP(damage);
-            duelGameController.checkGameResult(getCurrentPlayer(), getOpponentPlayer(), 0);
+            duelGameController.checkGameResult(getCurrentPlayer(), getOpponentPlayer(), GameResult.NO_LP);
             checkForYomiShipOrExploderDragonEffect(toBeAttackedCardAddress, opponentCard);
         } else if (damage < 0) {
             view.showSuccessMessageWithAnInteger(SuccessMessage.CURRENT_PLAYER_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
             getCurrentPlayer().decreaseLP(-damage);
             addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getOpponentPlayer());
-            duelGameController.checkGameResult(getCurrentPlayer(), getOpponentPlayer(), 0);
+            duelGameController.checkGameResult(getCurrentPlayer(), getOpponentPlayer(), GameResult.NO_LP);
         } else {
             view.showSuccessMessage(SuccessMessage.NO_DAMAGE_TO_ANYONE);
             addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getOpponentPlayer());

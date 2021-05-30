@@ -137,7 +137,7 @@ public class User implements Comparable<User> {
     public static void jsonUsers() {
         try {
             FileWriter fileWriter = new FileWriter("user,json");
-            fileWriter.write(new Gson().toJson(allUsers.get(allUsers.size())));
+            fileWriter.write(new Gson().toJson(allUsers.get(allUsers.size() - 1)));//TODO erfan : -1 ezafe karmad code run nemishod
         } catch (IOException e) {
             e.printStackTrace();
         }
