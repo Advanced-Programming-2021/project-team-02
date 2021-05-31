@@ -582,6 +582,7 @@ public class RoundGameController {
     public void specialSummon(Card card, CellStatus cellStatus) {
         MonsterZone monsterZone = getCurrentPlayer().getPlayerBoard().returnMonsterZone();
         monsterZone.addCard((Monster) card, cellStatus);
+        view.showBoard();
         //TODO not sure!!!
         if (isCurrentPlayerTrapToBeActivatedInSummonSituation()) {
             if (isTrapOfCurrentPlayerInSummonSituationActivated()) {
@@ -949,7 +950,6 @@ public class RoundGameController {
 
     private void normalSummon() {
         isSummonOrSetOfMonsterUsed = true;
-        getCurrentPlayerHand().remove(selectedCellAddress - 1);
         summon();
         deselectCard(0);
     }
@@ -957,6 +957,8 @@ public class RoundGameController {
     private void summon() {
         getCurrentPlayer().getPlayerBoard().addMonsterToBoard((Monster) selectedCell.getCardInCell(), CellStatus.OFFENSIVE_OCCUPIED);
         view.showSuccessMessage(SuccessMessage.SUMMONED_SUCCESSFULLY);
+        getCurrentPlayerHand().remove(selectedCellAddress - 1);
+        view.showBoard();
         if (isCurrentPlayerTrapToBeActivatedInSummonSituation()) {
             if (isTrapOfCurrentPlayerInSummonSituationActivated()) {
                 return;
@@ -968,6 +970,7 @@ public class RoundGameController {
                 return;
             }
         }
+
         checkNewCardToBeBeUnderEffectOfFieldCard((Monster) selectedCell.getCardInCell());
     }
 
@@ -1196,7 +1199,6 @@ public class RoundGameController {
 
     private void normalSet() {
         isSummonOrSetOfMonsterUsed = true;
-        getCurrentPlayerHand().remove(selectedCellAddress - 1);
         set();
         view.showSuccessMessage(SuccessMessage.SET_SUCCESSFULLY);
         deselectCard(0);
@@ -1204,7 +1206,8 @@ public class RoundGameController {
 
     private void set() {
         getCurrentPlayer().getPlayerBoard().addMonsterToBoard((Monster) selectedCell.getCardInCell(), CellStatus.DEFENSIVE_HIDDEN);
-        checkNewCardToBeBeUnderEffectOfFieldCard((Monster) selectedCell.getCardInCell());
+        getCurrentPlayerHand().remove(selectedCellAddress - 1);
+        view.showBoard();
         //TRAPS :
         if (isTorrentialTributeTrapToActivateInSet(getCurrentPlayer())) {
             if (isTrapOfCurrentPlayerInSummonSituationActivated()) {
@@ -1236,6 +1239,7 @@ public class RoundGameController {
                 }
             }
         }
+        checkNewCardToBeBeUnderEffectOfFieldCard((Monster) selectedCell.getCardInCell());
     }
 
     private void tributeSet() {
@@ -1324,12 +1328,17 @@ public class RoundGameController {
         view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER, getCurrentPlayer().getNickname());
         int damage = playerCard.getAttackPower() - opponentCard.getAttackPower();
         if (damage > 0) {
-            view.showSuccessMessageWithAnInteger(SuccessMessage.OPPONENT_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
-            getOpponentPlayer().decreaseLP(damage);
-            duelGameController.checkGameResult(getCurrentPlayer(), getOpponentPlayer(), GameResult.NO_LP);
-            checkForYomiShipOrExploderDragonEffect(toBeAttackedCardAddress, opponentCard);
-            checkForManEaterBugAttacked();
-            addCardToGraveYard(Zone.MONSTER_ZONE, toBeAttackedCardAddress, getOpponentPlayer());
+
+            if (!checkForYomiShipOrExploderDragonEffect(toBeAttackedCardAddress, opponentCard)) { // exploder stops damage
+                checkForManEaterBugAttacked();
+                getOpponentPlayer().decreaseLP(damage);
+                view.showSuccessMessageWithAnInteger(SuccessMessage.OPPONENT_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
+                duelGameController.checkGameResult(getCurrentPlayer(), getOpponentPlayer(), GameResult.NO_LP);
+                addCardToGraveYard(Zone.MONSTER_ZONE, toBeAttackedCardAddress, getOpponentPlayer());
+            } else {
+                System.out.println("exploder effect");//TODO somwhere else
+
+            }
         } else if (damage < 0) {
             view.showSuccessMessageWithAnInteger(SuccessMessage.CURRENT_PLAYER_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
             checkForManEaterBugAttacked();
@@ -1401,11 +1410,14 @@ public class RoundGameController {
         }
         int damage = playerCard.getAttackPower() - opponentCard.getAttackPower();
         if (damage > 0) {
-            view.showSuccessMessageWithAnInteger(SuccessMessage.OPPONENT_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
-            addCardToGraveYard(Zone.MONSTER_ZONE, toBeAttackedCardAddress, getOpponentPlayer());
-            getOpponentPlayer().decreaseLP(damage);
-            duelGameController.checkGameResult(getCurrentPlayer(), getOpponentPlayer(), GameResult.NO_LP);
-            checkForYomiShipOrExploderDragonEffect(toBeAttackedCardAddress, opponentCard);
+            if (!checkForYomiShipOrExploderDragonEffect(toBeAttackedCardAddress, opponentCard)) {
+                view.showSuccessMessageWithAnInteger(SuccessMessage.OPPONENT_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
+                addCardToGraveYard(Zone.MONSTER_ZONE, toBeAttackedCardAddress, getOpponentPlayer());
+                getOpponentPlayer().decreaseLP(damage);
+                duelGameController.checkGameResult(getCurrentPlayer(), getOpponentPlayer(), GameResult.NO_LP);
+            } else {
+                System.out.println("exploder effect");//TODO somwhere else
+            }
         } else if (damage < 0) {
             view.showSuccessMessageWithAnInteger(SuccessMessage.CURRENT_PLAYER_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
             getCurrentPlayer().decreaseLP(-damage);
@@ -1418,15 +1430,17 @@ public class RoundGameController {
         }
     }
 
-    private void checkForYomiShipOrExploderDragonEffect(int toBeAttackedCardAddress, Monster opponentCard) {
+    private boolean checkForYomiShipOrExploderDragonEffect(int toBeAttackedCardAddress, Monster opponentCard) {
         if (opponentCard.getMonsterEffect().equals(MonsterEffect.YOMI_SHIP_EFFECT)) {//yomi ship effect
+            System.out.println("yomi ship effect");
             addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getCurrentPlayer());
         } else if (opponentCard.getMonsterEffect().equals(MonsterEffect.EXPLODER_DRAGON_EFFECT)) {//exploder dragon effect
             addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getCurrentPlayer());
             addCardToGraveYard(Zone.MONSTER_ZONE, toBeAttackedCardAddress, getOpponentPlayer());
-            return;
+            return true;//to stop damage decreasing
         }
         addCardToGraveYard(Zone.MONSTER_ZONE, toBeAttackedCardAddress, getOpponentPlayer());
+        return false;
     }
 
     private boolean isValidAttack(Matcher matcher) {
