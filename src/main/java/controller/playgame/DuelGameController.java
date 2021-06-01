@@ -43,13 +43,13 @@ public class DuelGameController {
     }
 
     public void starterSpecifier() {
-        if (flipCoin() == 1) {
+//        if (flipCoin() == 1) { TODO remove comment ... i commented them because of testing
             setSpecifier(duel.getPlayer1().getNickname());
             RoundGameController.getInstance().setRoundInfo(duel.getPlayer1(), duel.getPlayer2(), view, instance);
-        } else {
-            setSpecifier(duel.getPlayer2().getNickname());
-            RoundGameController.getInstance().setRoundInfo(duel.getPlayer2(), duel.getPlayer1(), view, instance);
-        }
+//        } else {
+//            setSpecifier(duel.getPlayer2().getNickname());
+//            RoundGameController.getInstance().setRoundInfo(duel.getPlayer2(), duel.getPlayer1(), view, instance);
+//        }
     }
 
     public void checkGameResult(DuelPlayer winner, DuelPlayer loser, GameResult resultType) {

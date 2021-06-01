@@ -283,9 +283,12 @@ public class RoundGameController {
         Card card;
         if (currentPlayer.getPlayDeck().getMainCards().size() != 0) {
             card = currentPlayer.getPlayDeck().getMainCards().get(currentPlayer.getPlayDeck().getMainCards().size() - 1);
-            if (turn == 1)
+            if (turn == 1) {
                 addCardToFirstPlayerHand(card);
-            else addCardToSecondPlayerHand(card);
+            } else {
+                addCardToSecondPlayerHand(card);
+            }
+            currentPlayer.getPlayDeck().getMainCards().remove(currentPlayer.getPlayDeck().getMainCards().size() - 1);
             view.showSuccessMessageWithAString(SuccessMessage.CARD_ADDED_TO_THE_HAND, card.getName());
         } else {
             duelGameController.checkGameResult(currentPlayer, getOpponentPlayer(), GameResult.NO_CARDS_TO_DRAW);// no card so this is loser!
@@ -1356,13 +1359,13 @@ public class RoundGameController {
 
     private void checkForManEaterBugAttacked() {
         view.showSuccessMessage(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER);
-        if (view.yesNoQuestion("do you want to activate man eater bug effect?")) {
+        if (view.yesNoQuestion("do you want to activate man eater bug effect?(yes or no!)")) {
             while (true) {
                 int address = view.askAddressForManEaterBug();
                 if (address == -1) {
                     return;
                 } else if (address >= 1 && address <= 5) {
-                    if (getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, address).getCellStatus().equals(CellStatus.EMPTY)) {
+                    if (getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, address).getCellStatus().equals(CellStatus.EMPTY)) {
                         Error.showError(Error.INVALID_SELECTION);
                     } else {
                         addCardToGraveYard(Zone.MONSTER_ZONE, address, getCurrentPlayer());
@@ -1421,11 +1424,11 @@ public class RoundGameController {
         } else if (damage < 0) {
             view.showSuccessMessageWithAnInteger(SuccessMessage.CURRENT_PLAYER_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
             getCurrentPlayer().decreaseLP(-damage);
-            addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getOpponentPlayer());
+            addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getCurrentPlayer());
             duelGameController.checkGameResult(getCurrentPlayer(), getOpponentPlayer(), GameResult.NO_LP);
         } else {
             view.showSuccessMessage(SuccessMessage.NO_DAMAGE_TO_ANYONE);
-            addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getOpponentPlayer());
+            addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getCurrentPlayer());
             addCardToGraveYard(Zone.MONSTER_ZONE, toBeAttackedCardAddress, getOpponentPlayer());
         }
     }
@@ -1573,22 +1576,23 @@ public class RoundGameController {
 
 
     private void manEaterBugMonsterEffectAndFlipSummon(DuelPlayer current, DuelPlayer opponent) {
-        if (view.yesNoQuestion("do you want to activate man eater bug effect?")) {
+        if (view.yesNoQuestion("do you want to activate man eater bug effect? yes or no")) {
             while (true) {
                 int address = view.askAddressForManEaterBug();
                 if (address == -1) {
-                    return;
+                    break;
                 } else if (address >= 1 && address <= 5) {
                     if (opponent.getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, address).getCellStatus().equals(CellStatus.EMPTY)) {
                         Error.showError(Error.INVALID_SELECTION);
                     } else {
                         addCardToGraveYard(Zone.MONSTER_ZONE, address, opponent);
-                        deselectCard(0);
+                        break;
                     }
                 } else Error.showError(Error.INVALID_NUMBER);
             }
         }
         selectedCell.setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
+        deselectCard(0);
         view.showSuccessMessage(SuccessMessage.FLIP_SUMMON_SUCCESSFUL);
     }
 
