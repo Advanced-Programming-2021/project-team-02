@@ -5,6 +5,9 @@ import model.card.Card;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -136,10 +139,13 @@ public class Assets {
 
     public static void jsonAssets() {
         try {
-            FileWriter fileWriter = new FileWriter("asset.json");
-          // :)
+        Gson gson = new Gson();
+            Writer writer = Files.newBufferedWriter(Paths.get("assets.json"));
+            gson.toJson(allAssets, writer);
+            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 }

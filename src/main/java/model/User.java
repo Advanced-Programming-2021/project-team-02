@@ -2,22 +2,26 @@ package model;
 
 import com.google.gson.Gson;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.io.*;
+import java.lang.reflect.Array;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
 
 public class User implements Comparable<User> {
-    private static final ArrayList<User> allUsers;
+    private static ArrayList<User> allUsers;
     private String username;
     private String password;
     private String nickname;
     private boolean hasActiveDeck;
     private int score;
-
+    static FileWriter fileWriter;
     {
+        try {
+            fileWriter = new FileWriter("user.json");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         hasActiveDeck = false;
     }
 
@@ -92,10 +96,36 @@ public class User implements Comparable<User> {
 
     public void changeNickname(String newNickname) {
         setNickname(newNickname);
+        try {
+            PrintWriter printWriter = new PrintWriter("user.json");
+            printWriter.print("");
+            ArrayList<User> userArrayList = User.getAllUsers();
+            try {
+                fileWriter.write(new Gson().toJson(userArrayList));
+                printWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void changePassword(String newPassword) {
         setPassword(newPassword);
+        try {
+            PrintWriter printWriter = new PrintWriter("user.json");
+            printWriter.print("");
+            ArrayList<User> arrayList = User.getAllUsers();
+            try {
+                fileWriter.write(new Gson().toJson(arrayList));
+                printWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public static User getUserByUsername(String username) {
@@ -136,8 +166,18 @@ public class User implements Comparable<User> {
 
     public static void jsonUsers() {
         try {
-            FileWriter fileWriter = new FileWriter("user,json");
             fileWriter.write(new Gson().toJson(allUsers.get(allUsers.size() - 1)));//TODO erfan : -1 ezafe karmad code run nemishod
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void fromJson() {
+        Gson gson = new Gson();
+        try {
+            Reader reader = Files.newBufferedReader(Paths.get("user.json"));
+            allUsers = (ArrayList<User>) Arrays.asList(gson.fromJson(reader, User[].class));
+            reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

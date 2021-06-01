@@ -1,15 +1,26 @@
 package controller;
 
+import model.Assets;
+import model.Deck;
+import model.User;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.function.Supplier;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class DeckMenuControllerTest {
 
-    {
-        DeckMenuController deckMenuController = DeckMenuController.getInstance();
+    @BeforeEach
+    void setThings() {
+        User user = new User("test", "1234567", "test1");
     }
 
     @Test
