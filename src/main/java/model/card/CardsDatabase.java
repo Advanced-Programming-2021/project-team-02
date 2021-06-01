@@ -85,6 +85,6 @@ public class CardsDatabase {
         Monster.jsonMonsters();
         Spell.spellsToJson();
         Trap.trapToJson();
-        User.fromJson();
+     //   User.fromJson();
     }
 }

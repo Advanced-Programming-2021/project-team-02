@@ -1,20 +1,29 @@
 package model;
 
 import com.google.gson.*;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
-public class User implements Comparable<User> {
-    private static ArrayList<User> allUsers;
+public class User extends ArrayList<User> implements Comparable<User> {
+    private static final ArrayList<User> allUsers;
     private String username;
     private String password;
     private String nickname;
     private boolean hasActiveDeck;
     private int score;
     static FileWriter fileWriter;
+    static Writer writer;
+    static Gson gson = new Gson();
+
+    {
+        try {
+            writer = Files.newBufferedWriter(Paths.get("user.json"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     {
         try {
             fileWriter = new FileWriter("user.json");
@@ -34,8 +43,8 @@ public class User implements Comparable<User> {
         setPassword(password);
         new Assets(username);
         allUsers.add(this);
+        jsonUsers();
         Assets.jsonAssets();
-        this.jsonUsers();
     }
 
     public void activatedDeck() {
@@ -164,34 +173,34 @@ public class User implements Comparable<User> {
 
     }
 
-    public void jsonUsers() {
+    public static void jsonUsers() {
         try {
             Gson gson = new Gson();
             Writer writer = Files.newBufferedWriter(Paths.get("user.json"));
-            gson.toJson(this , writer);
+            gson.toJson(allUsers.get(allUsers.size() - 1) , writer);
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void fromJson() {
+        gson.toJson(allUsers, writer);
         try {
-            Gson gson = new Gson();
-            Reader reader = Files.newBufferedReader(Paths.get("user.json"));
-            JsonParser parser = new JsonParser();
-            JsonElement jsonElement = parser.parse(reader);
-            JsonArray array = jsonElement.getAsJsonArray();
-            for (JsonElement jsonElement1 : array) {
-                if (jsonElement1.isJsonObject()) {
-                    JsonObject user = jsonElement1.getAsJsonObject();
-                    allUsers.add(user);
-                }
-            }
+            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        for (User user : allUsers) {
+            System.out.println(user.username);
+        }
     }
+
+//    public static void fromJson() {
+//        try {
+//            String json = new String(Files.readAllBytes(Paths.get("user.json")));
+//           allUsers = new Gson().fromJson(json, new TypeToken<User>(){}.getType());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public void increaseScore(int score) {
         this.score += score;
