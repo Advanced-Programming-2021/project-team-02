@@ -34,7 +34,6 @@ public class LoginMenuController {
         }
         new User(username, password, nickname);
         SuccessMessage.showSuccessMessage(SuccessMessage.REGISTER_SUCCESSFUL);
-        User.jsonUsers();
     }
 
     public boolean isUsernameUsed(String username) {

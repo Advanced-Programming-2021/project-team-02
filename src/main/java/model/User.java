@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 
 import java.io.*;
 import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -36,6 +37,7 @@ public class User implements Comparable<User> {
         new Assets(username);
         allUsers.add(this);
         Assets.jsonAssets();
+        this.jsonUsers();
     }
 
     public void activatedDeck() {
@@ -164,17 +166,20 @@ public class User implements Comparable<User> {
 
     }
 
-    public static void jsonUsers() {
+    public void jsonUsers() {
         try {
-            fileWriter.write(new Gson().toJson(allUsers.get(allUsers.size() - 1)));//TODO erfan : -1 ezafe karmad code run nemishod
+            Gson gson = new Gson();
+            Writer writer = Files.newBufferedWriter(Paths.get("user.json"));
+            gson.toJson(this , writer);
+            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public static void fromJson() {
-        Gson gson = new Gson();
         try {
+            Gson gson = new Gson();
             Reader reader = Files.newBufferedReader(Paths.get("user.json"));
             allUsers = (ArrayList<User>) Arrays.asList(gson.fromJson(reader, User[].class));
             reader.close();
