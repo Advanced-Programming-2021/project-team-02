@@ -1,10 +1,8 @@
 package model;
 
-import com.google.gson.Gson;
+import com.google.gson.*;
 
 import java.io.*;
-import java.lang.reflect.Array;
-import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -181,8 +179,15 @@ public class User implements Comparable<User> {
         try {
             Gson gson = new Gson();
             Reader reader = Files.newBufferedReader(Paths.get("user.json"));
-            allUsers = (ArrayList<User>) Arrays.asList(gson.fromJson(reader, User[].class));
-            reader.close();
+            JsonParser parser = new JsonParser();
+            JsonElement jsonElement = parser.parse(reader);
+            JsonArray array = jsonElement.getAsJsonArray();
+            for (JsonElement jsonElement1 : array) {
+                if (jsonElement1.isJsonObject()) {
+                    JsonObject user = jsonElement1.getAsJsonObject();
+                    allUsers.add(user);
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
