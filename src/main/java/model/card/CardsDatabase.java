@@ -92,10 +92,11 @@ public class CardsDatabase {
         allCards.addAll(allMonsters);
         allCards.addAll(allSpells);
         allCards.addAll(allTraps);
-        User.fromJson();
-        Monster.fromJson();
-        Spell.fromJson();
-        Trap.fromJson();
-        Assets.fromJson();
+        //TODO for reading information from Gson
+//        User.fromJson();
+//        Monster.fromJson();
+//        Spell.fromJson();
+//        Trap.fromJson();
+//        Assets.fromJson();
     }
 }
