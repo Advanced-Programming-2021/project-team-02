@@ -2,12 +2,16 @@ package model.card;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import model.card.informationofcards.*;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Spell extends Card {
 
@@ -74,5 +78,14 @@ public class Spell extends Card {
 
     public static ArrayList<Spell> getAllSpells() {
         return allSpells;
+    }
+
+    public static void fromJson() {
+        try {
+            String gson = new String(Files.readAllBytes(Paths.get("spell.json")));
+            allSpells = new Gson().fromJson(gson, new TypeToken<List<Spell>>(){}.getType());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

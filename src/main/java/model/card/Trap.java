@@ -1,11 +1,15 @@
 package model.card;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import model.card.informationofcards.*;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Trap extends Card {
 
@@ -66,5 +70,14 @@ public class Trap extends Card {
 
     public static ArrayList<Trap> getAllTraps() {
         return allTraps;
+    }
+
+    public static void fromJson() {
+        try {
+            String gson = new String(Files.readAllBytes(Paths.get("trap.json")));
+            allTraps = new Gson().fromJson(gson, new TypeToken<List<Trap>>(){}.getType());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

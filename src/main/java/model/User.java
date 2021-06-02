@@ -1,6 +1,7 @@
 package model;
 
 import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -8,7 +9,7 @@ import java.nio.file.Paths;
 import java.util.*;
 
 public class User implements Comparable<User> {
-    private static final ArrayList<User> allUsers;
+    private static ArrayList<User> allUsers;
     private String username;
     private String password;
     private String nickname;
@@ -221,14 +222,14 @@ public class User implements Comparable<User> {
         }
     }
 
-//    public static void fromJson() {
-//        try {
-//            String json = new String(Files.readAllBytes(Paths.get("user.json")));
-//           allUsers = new Gson().fromJson(json, new TypeToken<User>(){}.getType());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public static void fromJson() {
+        try {
+            String json = new String(Files.readAllBytes(Paths.get("user.json")));
+           allUsers = new Gson().fromJson(json, new TypeToken<List<User>>(){}.getType());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void increaseScore(int score) {
         this.score += score;

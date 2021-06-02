@@ -1,6 +1,7 @@
 package model;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import model.card.Card;
 
 import java.io.*;
@@ -8,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 public class Assets {
@@ -15,7 +17,7 @@ public class Assets {
     private int coin;
     private final HashMap<Card, Integer> allUserCards;
     private final ArrayList<Deck> allDecks;
-    private static final HashMap<String, Assets> allAssets;
+    private static HashMap<String, Assets> allAssets;
     static Writer writer;
     static Gson gson = new Gson();
 
@@ -76,6 +78,26 @@ public class Assets {
 
     public void createDeck(String name) {
         this.allDecks.add(new Deck(name));
+        try {
+
+            PrintWriter printWriter = new PrintWriter("assets.json");
+            printWriter.print("");
+            Writer writer = null;
+            try {
+                writer = Files.newBufferedWriter(Paths.get("assets.json"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            gson.toJson(allAssets, writer);
+            try {
+                assert writer != null;
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void deleteDeck(String name) {
@@ -93,7 +115,6 @@ public class Assets {
             }
         }
         allDecks.remove(deck);
-        HashMap<String, Assets> allAssets = Assets.allAssets;
         try {
 
             PrintWriter printWriter = new PrintWriter("assets.json");
@@ -129,7 +150,6 @@ public class Assets {
 
     public void addCardToMainDeck(Card card, Deck deck) {
         deck.addCardToMainDeck(card);
-        HashMap<String, Assets> allAssets = Assets.allAssets;
         try {
             PrintWriter printWriter = new PrintWriter("assets.json");
             printWriter.print("");
@@ -153,7 +173,6 @@ public class Assets {
 
     public void addCardToSideDeck(Card card, Deck deck) {
         deck.addCardToSideDeck(card);
-        HashMap<String, Assets> allAssets = Assets.allAssets;
         try {
             PrintWriter printWriter = new PrintWriter("assets.json");
             printWriter.print("");
@@ -177,7 +196,6 @@ public class Assets {
 
     public void removeCardFromMainDeck(Card card, Deck deck) {
         deck.removeCardFromMainDeck(card);
-        HashMap<String, Assets> allAssets = Assets.allAssets;
         try {
             PrintWriter printWriter = new PrintWriter("assets.json");
             printWriter.print("");
@@ -201,7 +219,6 @@ public class Assets {
 
     public void removeCardFromSideDeck(Card card, Deck deck) {
         deck.removeCardFromSideDeck(card);
-        HashMap<String, Assets> allAssets = Assets.allAssets;
         try {
             PrintWriter printWriter = new PrintWriter("assets.json");
             printWriter.print("");
@@ -235,7 +252,6 @@ public class Assets {
             }
         }
         allUserCards.put(card, 1);
-        HashMap<String, Assets> allAssets = Assets.allAssets;
         try {
             PrintWriter printWriter = new PrintWriter("assets.json");
             printWriter.print("");
@@ -270,6 +286,15 @@ public class Assets {
         try {
             gson.toJson(allAssets, writer);
             writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void fromJson() {
+        try {
+            String json = new String(Files.readAllBytes(Paths.get("assets.json")));
+            allAssets = new Gson().fromJson(json, new TypeToken<List<User>>(){}.getType());
         } catch (IOException e) {
             e.printStackTrace();
         }

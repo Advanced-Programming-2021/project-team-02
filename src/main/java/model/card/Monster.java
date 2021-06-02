@@ -2,12 +2,16 @@ package model.card;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import model.card.informationofcards.*;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Monster extends Card {
 
@@ -117,5 +121,14 @@ public class Monster extends Card {
 
     public MonsterEffect getMonsterEffect() {
         return monsterEffect;
+    }
+
+    public static void fromJson() {
+        try {
+            String gson = new String(Files.readAllBytes(Paths.get("monster.json")));
+            allMonsters = new Gson().fromJson(gson, new TypeToken<List<Monster>>(){}.getType());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

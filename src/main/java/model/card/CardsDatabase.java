@@ -2,7 +2,6 @@ package model.card;
 
 import com.opencsv.CSVReader;
 import model.Shop;
-import model.User;
 import model.card.informationofcards.*;
 
 import java.io.*;
@@ -91,6 +90,7 @@ public class CardsDatabase {
         allCards.addAll(allMonsters);
         allCards.addAll(allSpells);
         allCards.addAll(allTraps);
-     //   User.fromJson();
+        //User.fromJson();
+        //Assets.fromJson();
     }
 }
