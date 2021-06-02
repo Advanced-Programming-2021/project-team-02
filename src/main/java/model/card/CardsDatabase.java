@@ -85,6 +85,12 @@ public class CardsDatabase {
         Monster.jsonMonsters();
         Spell.spellsToJson();
         Trap.trapToJson();
+        ArrayList<Monster> allMonsters = Monster.getAllMonsters();
+        ArrayList<Spell> allSpells = Spell.getAllSpells();
+        ArrayList<Trap> allTraps = Trap.getAllTraps();
+        allCards.addAll(allMonsters);
+        allCards.addAll(allSpells);
+        allCards.addAll(allTraps);
      //   User.fromJson();
     }
 }

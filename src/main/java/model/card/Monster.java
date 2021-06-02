@@ -10,6 +10,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 
 public class Monster extends Card {
+
     private static ArrayList<Monster> allMonsters = new ArrayList<>();
     private int level;
     private int attackPower, defensePower;
@@ -100,6 +101,10 @@ public class Monster extends Card {
     public Monster clone() throws CloneNotSupportedException {
         return new Monster(cardType, name, id, monsterActionType, monsterEffect, level, attribute,
                 description, attackPower, defensePower, monsterType);
+    }
+
+    public static ArrayList<Monster> getAllMonsters() {
+        return allMonsters;
     }
 
     public void changeAttackPower(int change) {

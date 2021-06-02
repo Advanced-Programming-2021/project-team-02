@@ -10,6 +10,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 
 public class Spell extends Card {
+
     private static ArrayList<Spell> allSpells = new ArrayList<>();
     private SpellType spellType;
     private SpellEffect spellEffect;
@@ -69,5 +70,9 @@ public class Spell extends Card {
     public Spell clone() throws CloneNotSupportedException {
         return new Spell(cardType, name, id, spellEffect, attribute,
                 description, spellType, isLimited);
+    }
+
+    public static ArrayList<Spell> getAllSpells() {
+        return allSpells;
     }
 }

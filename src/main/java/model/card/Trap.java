@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Trap extends Card {
+
     private static ArrayList<Trap> allTraps = new ArrayList<>();
     private TrapType trapType;
     private TrapEffect trapEffect;
@@ -61,5 +62,9 @@ public class Trap extends Card {
     public Trap clone() throws CloneNotSupportedException {
         return new Trap( cardType,  name, id,  trapEffect,
                  attribute,  description,  trapType,  isLimited);
+    }
+
+    public static ArrayList<Trap> getAllTraps() {
+        return allTraps;
     }
 }
