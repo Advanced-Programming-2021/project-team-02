@@ -7,10 +7,7 @@ import model.card.Card;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Assets {
     private String username;
@@ -294,7 +291,7 @@ public class Assets {
     public static void fromJson() {
         try {
             String json = new String(Files.readAllBytes(Paths.get("assets.json")));
-            allAssets = new Gson().fromJson(json, new TypeToken<List<User>>(){}.getType());
+            allAssets = new Gson().fromJson(json, new TypeToken<HashMap<String, Assets>>(){}.getType());
         } catch (IOException e) {
             e.printStackTrace();
         }
