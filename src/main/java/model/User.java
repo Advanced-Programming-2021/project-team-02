@@ -1,12 +1,13 @@
 package model;
 
 import com.google.gson.*;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
-public class User extends ArrayList<User> implements Comparable<User> {
+public class User implements Comparable<User> {
     private static final ArrayList<User> allUsers;
     private String username;
     private String password;
@@ -14,16 +15,8 @@ public class User extends ArrayList<User> implements Comparable<User> {
     private boolean hasActiveDeck;
     private int score;
     static FileWriter fileWriter;
-    static Writer writer;
     static Gson gson = new Gson();
 
-    {
-        try {
-            writer = Files.newBufferedWriter(Paths.get("user.json"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
     {
         try {
             fileWriter = new FileWriter("user.json");
@@ -43,12 +36,31 @@ public class User extends ArrayList<User> implements Comparable<User> {
         setPassword(password);
         new Assets(username);
         allUsers.add(this);
-        jsonUsers();
+        User.jsonUsers();
         Assets.jsonAssets();
     }
 
     public void activatedDeck() {
         hasActiveDeck = true;
+        try {
+            PrintWriter printWriter = new PrintWriter("user.json");
+            printWriter.print("");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Writer writer = null;
+        try {
+            writer = Files.newBufferedWriter(Paths.get("user.json"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        gson.toJson(allUsers, writer);
+        try {
+            assert writer != null;
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void deactivatedDeck() {
@@ -108,31 +120,45 @@ public class User extends ArrayList<User> implements Comparable<User> {
         try {
             PrintWriter printWriter = new PrintWriter("user.json");
             printWriter.print("");
-            ArrayList<User> userArrayList = User.getAllUsers();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+            Writer writer = null;
             try {
-                fileWriter.write(new Gson().toJson(userArrayList));
-                printWriter.close();
+                writer = Files.newBufferedWriter(Paths.get("user.json"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } catch (FileNotFoundException e) {
+        gson.toJson(allUsers, writer);
+        try {
+            assert writer != null;
+            writer.close();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void changePassword(String newPassword) {
         setPassword(newPassword);
+        PrintWriter printWriter = null;
         try {
-            PrintWriter printWriter = new PrintWriter("user.json");
-            printWriter.print("");
-            ArrayList<User> arrayList = User.getAllUsers();
-            try {
-                fileWriter.write(new Gson().toJson(arrayList));
-                printWriter.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            printWriter = new PrintWriter("user.json");
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        assert printWriter != null;
+        printWriter.print("");
+        Writer writer = null;
+        try {
+            writer = Files.newBufferedWriter(Paths.get("user.json"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        gson.toJson(allUsers, writer);
+        try {
+            assert writer != null;
+            writer.close();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -175,21 +201,23 @@ public class User extends ArrayList<User> implements Comparable<User> {
 
     public static void jsonUsers() {
         try {
-            Gson gson = new Gson();
-            Writer writer = Files.newBufferedWriter(Paths.get("user.json"));
-            gson.toJson(allUsers.get(allUsers.size() - 1) , writer);
-            writer.close();
+            PrintWriter printWriter = new PrintWriter("user.json");
+            printWriter.print("");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Writer writer = null;
+        try {
+            writer = Files.newBufferedWriter(Paths.get("user.json"));
         } catch (IOException e) {
             e.printStackTrace();
         }
         gson.toJson(allUsers, writer);
         try {
+            assert writer != null;
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        for (User user : allUsers) {
-            System.out.println(user.username);
         }
     }
 

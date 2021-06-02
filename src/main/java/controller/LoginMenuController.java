@@ -33,6 +33,7 @@ public class LoginMenuController {
             return;
         }
         new User(username, password, nickname);
+        User.jsonUsers();
         SuccessMessage.showSuccessMessage(SuccessMessage.REGISTER_SUCCESSFUL);
     }
 
