@@ -2007,4 +2007,15 @@ public class RoundGameController {
             monster.changeDefensePower(400);
         }
     }
+
+    public static void aIDeck() {
+        Deck aIDeck = new Deck("aIDeck");
+        ArrayList<Monster> allMonsters = Monster.getAllMonsters();
+        for (int i = 0; i < 3; i++) {
+            for (Monster monster : allMonsters) {
+                if (monster.getMonsterActionType() == MonsterActionType.NORMAL && monster.getLevel() <= 4)
+                    aIDeck.addCardToMainDeck(Card.getCardByName(monster.getName()));
+            }
+        }
+    }
 }
