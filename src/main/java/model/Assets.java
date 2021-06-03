@@ -289,9 +289,22 @@ public class Assets {
     }
 
     public static void fromJson() {
+//        try {
+//            String json = new String(Files.readAllBytes(Paths.get("assets.json")));
+//            allAssets = new Gson().fromJson(json, new TypeToken<Map<String, Assets>>(){}.getType());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        Reader reader = null;
         try {
-            String json = new String(Files.readAllBytes(Paths.get("assets.json")));
-            allAssets = new Gson().fromJson(json, new TypeToken<HashMap<String, Assets>>(){}.getType());
+            reader = Files.newBufferedReader(Paths.get("assets.json"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        assert reader != null;
+        allAssets = gson.fromJson(reader, HashMap.class);
+        try {
+            reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
