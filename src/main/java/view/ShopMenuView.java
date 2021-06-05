@@ -1,6 +1,7 @@
 package view;
 
 import controller.DeckMenuController;
+import controller.MainMenuController;
 import controller.ShopMenuController;
 import model.Assets;
 import model.Shop;
@@ -58,7 +59,7 @@ public class ShopMenuView {
 
     public void showMyCards() {
         System.out.println ("<cardName>:<number>");
-        Assets assets = Assets.getAssetsByUsername (controller.getLoggedInUser ().getUsername ());
+        Assets assets = Assets.getAssetsByUsername (MainMenuController.getInstance ().getLoggedInUser ().getUsername ());
         assert assets != null;
         for (Card card : assets.getAllUserCards ().keySet ())
             System.out.println (card.getName () + ":" + assets.getAllUserCards ().get (card));

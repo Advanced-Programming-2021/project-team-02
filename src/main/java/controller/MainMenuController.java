@@ -10,7 +10,7 @@ import view.messages.SuccessMessage;
 import java.util.Locale;
 
 public class MainMenuController {
-    private static User loggedInUser;
+    private User loggedInUser;
     private static MainMenuController instance = null;
     private final MainMenuView view = MainMenuView.getInstance ();
 
@@ -22,7 +22,7 @@ public class MainMenuController {
     }
 
     public void setLoggedInUser(User loggedInUser) {
-        MainMenuController.loggedInUser = loggedInUser;
+        this.loggedInUser = loggedInUser;
     }
 
     public void menuEnter(String menuName) {
@@ -40,11 +40,9 @@ public class MainMenuController {
                 MenusManager.getInstance ().changeMenu (Menu.SCOREBOARD_MENU);
                 break;
             case "shop":
-                ShopMenuController.getInstance ().setLoggedInUser (loggedInUser);
                 MenusManager.getInstance ().changeMenu (Menu.SHOP_MENU);
                 break;
             case "profile":
-                ProfileMenuController.getInstance ().setLoggedInUser (MainMenuController.getInstance ().getLoggedInUser ());
                 MenusManager.getInstance ().changeMenu (Menu.PROFILE_MENU);
                 break;
             case "duel":

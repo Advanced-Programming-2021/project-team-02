@@ -17,6 +17,7 @@ class MainMenuViewTest {
     @BeforeAll
     static void beforeAll() {
         System.setOut (new PrintStream (outContent));
+        outContent.reset ();
     }
 
     @Test
@@ -29,7 +30,6 @@ class MainMenuViewTest {
     @Test
     @DisplayName ("Check \"menu enter main\" command")
     void menuEnterMain() {
-        outContent.reset ();
         String expected = "you are in MainMenu!\n";
         MainMenuView.getInstance ().run ("menu enter main");
         Assertions.assertEquals (expected, outContent.toString ());
@@ -38,7 +38,6 @@ class MainMenuViewTest {
     @Test
     @DisplayName ("Check \"user logout\" command")
     void userLogout() {
-        outContent.reset ();
         String expected = "user logged out successfully!\n";
         MainMenuView.getInstance ().run ("user logout");
         Assertions.assertEquals (MenusManager.getInstance ().getCurrentMenu (), Menu.LOGIN_MENU);
@@ -49,7 +48,6 @@ class MainMenuViewTest {
     @Test
     @DisplayName("\"show current menu\" message")
     void showCurrentMenu() {
-        outContent.reset ();
         String expected = "Main Menu\n";
         MainMenuView.getInstance ().run ("menu show-current");
         Assertions.assertEquals (expected, outContent.toString ());
@@ -58,7 +56,6 @@ class MainMenuViewTest {
     @Test
     @DisplayName ("help command")
     void helpCommand() {
-        outContent.reset ();
         String expected = "menu show-current\n" +
                 "menu enter <menuName>\n" +
                 "user logout\n" +
@@ -71,7 +68,6 @@ class MainMenuViewTest {
     @Test
     @DisplayName ("Check \"menu exit\" command")
     void exitCommand() {
-        outContent.reset ();
         String expected = "user logged out successfully!\n";
         MainMenuView.getInstance ().run ("menu exit");
         Assertions.assertEquals (MenusManager.getInstance ().getCurrentMenu (), Menu.LOGIN_MENU);
@@ -82,7 +78,6 @@ class MainMenuViewTest {
     @Test
     @DisplayName ("invalid command")
     void invalidCommand() {
-        outContent.reset ();
         String expected = "invalid command\ninvalid command\n";
         MainMenuView.getInstance ().run ("salum");
         MainMenuView.getInstance ().run ("men enter scoreboard");

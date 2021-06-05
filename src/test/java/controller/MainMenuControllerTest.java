@@ -20,12 +20,12 @@ class MainMenuControllerTest {
     @BeforeAll
     static void beforeAll() {
         System.setOut (new PrintStream (outContent));
+        outContent.reset ();
     }
 
     @Test
     @DisplayName ("Check \"menu enter main\" command")
     void menuEnterMain() {
-        outContent.reset ();
         String expected = "you are in MainMenu!\n";
         MainMenuView.getInstance ().run ("menu enter main");
         Assertions.assertEquals (expected, outContent.toString ());
@@ -62,7 +62,6 @@ class MainMenuControllerTest {
     @Test
     @DisplayName("Check \"menu enter login\" command")
     void menuEnterLogin() {
-        outContent.reset ();
         String expected = "user logged out successfully!\n";
         MainMenuController.getInstance ().menuEnter ("login");;
         Assertions.assertEquals (MenusManager.getInstance ().getCurrentMenu (), Menu.LOGIN_MENU);
@@ -73,7 +72,6 @@ class MainMenuControllerTest {
     @Test
     @DisplayName ("invalid command")
     void invalidCommand() {
-        outContent.reset ();
         String expected = "invalid command\ninvalid command\n";
         MainMenuController.getInstance ().menuEnter ("salum");
         MainMenuController.getInstance ().menuEnter ("men enter scoreboard");

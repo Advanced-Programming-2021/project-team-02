@@ -6,7 +6,6 @@ import view.messages.Error;
 import view.messages.SuccessMessage;
 
 public class ProfileMenuController {
-    private User loggedInUser;
     private static ProfileMenuController instance = null;
     private final ProfileMenuView view = ProfileMenuView.getInstance ();
 
@@ -17,10 +16,6 @@ public class ProfileMenuController {
         return instance;
     }
 
-    public void setLoggedInUser(User loggedInUser) {
-        this.loggedInUser = loggedInUser;
-    }
-
     public boolean isNicknameUsed(String nickname) {
         for (User user : User.getAllUsers ())
             if (user.getNickname ().equals (nickname)) return true;
@@ -28,11 +23,7 @@ public class ProfileMenuController {
     }
 
     public boolean isPasswordCorrect(String password) {
-        return ProfileMenuController.getInstance ().getLoggedInUser ().getPassword ().equals (password);
-    }
-
-    public User getLoggedInUser() {
-        return loggedInUser;
+        return MainMenuController.getInstance ().getLoggedInUser ().getPassword ().equals (password);
     }
 
     public void changeNickname(String newNickname) {
@@ -40,7 +31,7 @@ public class ProfileMenuController {
             view.showDynamicError (Error.TAKEN_NICKNAME, newNickname);
             return;
         }
-        ProfileMenuController.getInstance ().getLoggedInUser ().changeNickname (newNickname);
+        MainMenuController.getInstance ().getLoggedInUser ().changeNickname (newNickname);
         SuccessMessage.showSuccessMessage (SuccessMessage.NICKNAME_CHANGED);
     }
 
@@ -53,7 +44,7 @@ public class ProfileMenuController {
             Error.showError (Error.SAME_PASSWORD);
             return;
         }
-        ProfileMenuController.getInstance ().getLoggedInUser ().changePassword (newPassword);
+        MainMenuController.getInstance ().getLoggedInUser ().changePassword (newPassword);
         SuccessMessage.showSuccessMessage (SuccessMessage.PASSWORD_CHANGED);
     }
 }

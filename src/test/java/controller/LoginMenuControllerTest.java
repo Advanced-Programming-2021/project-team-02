@@ -19,12 +19,12 @@ class LoginMenuControllerTest {
     @BeforeAll
     static void beforeAll() {
         System.setOut (new PrintStream (outContent));
+        outContent.reset ();
     }
 
     @Test
     @DisplayName ("Check \"user with username <username> already exists\" error")
     void userAlreadyExistsWithDuplicateUsername() {
-        outContent.reset ();
         String expected = "user created successfully!\nuser with username erfan already exists\n";
         Matcher matcher = Regex.getMatcherFromAllPermutations (Regex.USER_CREATE,
                 "user create --username erfan --password ramz --nickname mojibi");
@@ -40,7 +40,6 @@ class LoginMenuControllerTest {
     @Test
     @DisplayName ("Check \"user with username <nickname> already exists\" error")
     void userAlreadyExistsWithDuplicateNickname() {
-        outContent.reset ();
         String expected = "user created successfully!\nuser with nickname mahdis already exists\n";
         Matcher matcher = Regex.getMatcherFromAllPermutations (Regex.USER_CREATE,
                 "user create -u mhdsdt -n mahdis -p ramz");
@@ -56,7 +55,6 @@ class LoginMenuControllerTest {
     @Test
     @DisplayName ("Check \"user logged in successfully!\" message")
     void userLoggedInSuccessfully() {
-        outContent.reset ();
         String expected = "user created successfully!\nuser logged in successfully!\n";
         Matcher matcher = Regex.getMatcherFromAllPermutations (Regex.USER_CREATE,
                 "user create -u safa -n kabir -p ramz");
@@ -75,7 +73,6 @@ class LoginMenuControllerTest {
     @Test
     @DisplayName ("wrong password error")
     void wrongPasswordError() {
-        outContent.reset ();
         String expected = "user created successfully!\nUsername and password didn't match!\n";
         Matcher matcher = Regex.getMatcherFromAllPermutations (Regex.USER_CREATE,
                 "user create -u naghio -n mmdo -p ramz");
@@ -91,7 +88,6 @@ class LoginMenuControllerTest {
     @Test
     @DisplayName ("wrong username error")
     void wrongUsernameError() {
-        outContent.reset ();
         String expected = "user created successfully!\nUsername and password didn't match!\n";
         Matcher matcher = Regex.getMatcherFromAllPermutations (Regex.USER_CREATE,
                 "user create -u alis -n hakir -p ramz");

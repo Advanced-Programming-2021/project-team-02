@@ -36,7 +36,7 @@ public class ShopMenuController {
 
     public void buyCard(String cardName) {
         Card card = Card.getCardByName (cardName);
-        Assets assets = Assets.getAssetsByUsername (ShopMenuController.getInstance ().getLoggedInUser ().getUsername ());
+        Assets assets = Assets.getAssetsByUsername (MainMenuController.getInstance ().getLoggedInUser ().getUsername ());
         if (card == null) {
             Error.showError (Error.CARD_DOES_NOT_EXIST);
             return;
