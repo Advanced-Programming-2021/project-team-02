@@ -22,7 +22,7 @@ public class SpellZone {
         }
     }
 
-    public void removewithCard(int address) {
+    public void removeWithCardAddress(int address) {
         spellCells[address - 1].setCardInCell(null);
         spellCells[address - 1].setCellStatus(CellStatus.EMPTY);
     }

@@ -1,9 +1,7 @@
 package model.card;
 
 import com.opencsv.CSVReader;
-import model.Assets;
 import model.Shop;
-import model.User;
 import model.card.informationofcards.*;
 
 import java.io.*;
@@ -76,7 +74,7 @@ public class CardsDatabase {
                     TrapType.getTrapTypeByTypeName(spellsTrapsLines[2]), spellsTrapsLines[4].equals("Limited"),
                     Integer.parseInt(spellsTrapsLines[5]));
             counter++;
-            if (counter == 12) break;
+            if (counter == 5) break;
         }
         while ((spellsTrapsLines = csvReaderSpellTrap.readNext()) != null) {
             makeCardSpell(CardType.SPELL, spellsTrapsLines[0], "1", SpellEffect.getSpellByName(spellsTrapsLines[0]),

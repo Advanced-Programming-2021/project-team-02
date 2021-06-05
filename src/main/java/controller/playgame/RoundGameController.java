@@ -135,6 +135,7 @@ public class RoundGameController {
         }
         selectedCellZone = Zone.SPELL_ZONE;
         selectedCell = getCurrentPlayer().getPlayerBoard().getACellOfBoard(selectedCellZone, address);
+        selectedCellAddress = address;
         view.showSuccessMessage(SuccessMessage.CARD_SELECTED);
         opponentSelectedCell = null;
     }
@@ -182,6 +183,7 @@ public class RoundGameController {
         }
         //TODO? selectedCellZone = Zone.MONSTER_ZONE;
         opponentSelectedCell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(selectedCellZone, address);
+        selectedCell = opponentSelectedCell;
         //TODO? selectedCellAddress = address;
         view.showSuccessMessage(SuccessMessage.CARD_SELECTED);
     }
@@ -197,6 +199,7 @@ public class RoundGameController {
         }
         //TODO? selectedCellZone = Zone.SPELL_ZONE;
         opponentSelectedCell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(selectedCellZone, address);
+        selectedCell = opponentSelectedCell;
         view.showSuccessMessage(SuccessMessage.CARD_SELECTED);
     }
 
@@ -420,10 +423,12 @@ public class RoundGameController {
                 } else if (summonChoice == 1) {
                     specialSummon(card, CellStatus.OFFENSIVE_OCCUPIED);
                     deselectCard(0);
+                    addCardToGraveYard(Zone.SPELL_ZONE, selectedCellAddress, getCurrentPlayer());
                     return;
                 } else {
                     specialSummon(card, CellStatus.DEFENSIVE_HIDDEN);
                     deselectCard(0);
+                    addCardToGraveYard(Zone.SPELL_ZONE, selectedCellAddress, getCurrentPlayer());
                     return;
                 }
             } else view.showError(Error.INVALID_SELECTION);
@@ -433,13 +438,26 @@ public class RoundGameController {
 
     private void terraFormingSpell() {
         Deck deck = getCurrentPlayer().getPlayDeck();
+        ArrayList<Card> cards = deck.getMainCards();
+        boolean flagOfExistence = false;
+        for (Card card : cards) {
+            if (card.getCardType() == CardType.SPELL) {
+                if (((Spell) card).getSpellType() == SpellType.FIELD) {
+                    flagOfExistence = true;
+                }
+            }
+        }
+        if (!flagOfExistence) {
+            view.showError(Error.PREPARATIONS_IS_NOT_DONE);//No Field Card
+            return;
+        }
         while (true) {
             int address = view.chooseCardInDeck(deck);
             if (address == -1) {
                 return;
-            } else if (address - 1 > deck.getMainCards().size() || address - 1 < deck.getMainCards().size() || deck.getMainCards().get(address - 1) == null) {
+            } else if (address - 1 > deck.getMainCards().size() || address - 1 < 0 || deck.getMainCards().get(address - 1) == null) {
                 view.showError(Error.INVALID_NUMBER);
-            } else if (!deck.getMainCards().get(address).getCardType().equals(CardType.SPELL)) {
+            } else if (!deck.getMainCards().get(address - 1).getCardType().equals(CardType.SPELL)) {
                 view.showError(Error.INVALID_SELECTION);
             } else {
                 if (((Spell) deck.getMainCards().get(address - 1)).getSpellType().equals(SpellType.FIELD)) {
@@ -451,25 +469,39 @@ public class RoundGameController {
         }
         deck.shuffleDeck();
         addCardToGraveYard(Zone.SPELL_ZONE, selectedCellAddress, getCurrentPlayer());
+        System.out.println("TerraForming effect"); //TODO somewhere else
     }
 
 
     private void potOfGreedSpell() {
         List<Card> deckCards = getCurrentPlayer().getPlayDeck().getMainCards();
-        getSecondPlayerHand().add(deckCards.get(0));
-        getSecondPlayerHand().add(deckCards.get(1));
+        int size = deckCards.size();
+        if (size < 2) {
+            view.showError(Error.PREPARATIONS_IS_NOT_DONE);
+            return;
+        }
+        getCurrentPlayerHand().add(deckCards.get(size - 1));
+        deckCards.remove(size - 1);
+        size = deckCards.size();
+        getCurrentPlayerHand().add(deckCards.get(size - 1));
+        deckCards.remove(size - 1);
         addCardToGraveYard(Zone.SPELL_ZONE, selectedCellAddress, getCurrentPlayer());
+        System.out.println("pot of greed effect");//TODO somewhere else
         deselectCard(0);
     }
 
     private void raigekiSpell() {
         MonsterZone monsterZone = getOpponentPlayer().getPlayerBoard().returnMonsterZone();
         int i = 1;
-        while (monsterZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY || i >= 5) {
-            addCardToGraveYard(Zone.MONSTER_ZONE, i, getOpponentPlayer());
+        int counter = 1;
+        while (counter <= 5) {
+            if (monsterZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY)
+                addCardToGraveYard(Zone.MONSTER_ZONE, i, getOpponentPlayer());
             i++;
+            counter++;
         }
         addCardToGraveYard(Zone.SPELL_ZONE, selectedCellAddress, getCurrentPlayer());
+        System.out.println("raigekiSpell effect"); //TODO Somewhere else
         deselectCard(0);
     }
 
@@ -481,10 +513,11 @@ public class RoundGameController {
         }
         if (isFieldActivated == 2 && turn == 1) {
             reversePreviousFieldZoneSpellEffectAndRemoveIt();
-        } else if (isFieldActivated == 1 && turn == 3) {
+        } else if (isFieldActivated == 1 && turn == 2) {
             reversePreviousFieldZoneSpellEffectAndRemoveIt();
         }
         addCardToGraveYard(Zone.SPELL_ZONE, selectedCellAddress, getCurrentPlayer());
+        System.out.println("harpiesFeatherDuster effect");
         deselectCard(0);
     }
 
@@ -500,6 +533,7 @@ public class RoundGameController {
             i++;
         }
         addCardToGraveYard(Zone.SPELL_ZONE, selectedCellAddress, getCurrentPlayer());
+        System.out.println("dark hole effect");
         deselectCard(0);
     }
 
@@ -827,8 +861,9 @@ public class RoundGameController {
                 continue;
             }
             Trap trap = (Trap) cell.getCardInCell();
+            if (trap.getTrapEffect() == null)//TODO pshmam inja null khordim no idea
+                continue;//TODO pshmam inja null khordim no idea
             switch (trap.getTrapEffect()) {
-                //case SOLEMN_WARNING_EFFECT:
                 case TORRENTIAL_TRIBUTE_EFFECT:
                     view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER, getOpponentPlayer().getNickname());
                     if (view.yesNoQuestion("do you want to activate your trap and spell?")) {
@@ -1328,10 +1363,8 @@ public class RoundGameController {
             }
         }
         Monster playerCard = (Monster) selectedCell.getCardInCell();
-        view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER, getCurrentPlayer().getNickname());
         int damage = playerCard.getAttackPower() - opponentCard.getAttackPower();
         if (damage > 0) {
-
             if (!checkForYomiShipOrExploderDragonEffect(toBeAttackedCardAddress, opponentCard)) { // exploder stops damage
                 checkForManEaterBugAttacked();
                 getOpponentPlayer().decreaseLP(damage);
@@ -1343,32 +1376,34 @@ public class RoundGameController {
 
             }
         } else if (damage < 0) {
-            view.showSuccessMessageWithAnInteger(SuccessMessage.CURRENT_PLAYER_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
             checkForManEaterBugAttacked();
+            view.showSuccessMessageWithAnInteger(SuccessMessage.CURRENT_PLAYER_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
             getCurrentPlayer().decreaseLP(-damage);
             duelGameController.checkGameResult(getOpponentPlayer(), getCurrentPlayer(), GameResult.NO_LP);
             getCurrentPlayer().getPlayerBoard().addCardToGraveYard(opponentCellToBeAttacked.getCardInCell());
             addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getCurrentPlayer());
         } else {
-            view.showSuccessMessage(SuccessMessage.NO_DAMAGE_TO_ANYONE);
             checkForManEaterBugAttacked();
+            view.showSuccessMessage(SuccessMessage.NO_DAMAGE_TO_ANYONE);
             addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getCurrentPlayer());
             addCardToGraveYard(Zone.MONSTER_ZONE, toBeAttackedCardAddress, getOpponentPlayer());
         }
     }
 
     private void checkForManEaterBugAttacked() {
-        view.showSuccessMessage(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER);
+        view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER, getCurrentPlayer().getNickname());
         if (view.yesNoQuestion("do you want to activate man eater bug effect?(yes or no!)")) {
             while (true) {
                 int address = view.askAddressForManEaterBug();
                 if (address == -1) {
                     return;
                 } else if (address >= 1 && address <= 5) {
-                    if (getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, address).getCellStatus().equals(CellStatus.EMPTY)) {
+                    if (getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, address).getCellStatus().equals(CellStatus.EMPTY)) {
                         Error.showError(Error.INVALID_SELECTION);
                     } else {
                         addCardToGraveYard(Zone.MONSTER_ZONE, address, getCurrentPlayer());
+                        System.out.println("Man eater bug effect : destroy " + address + "card of you!");//TODO somewhere else
+                        break;
                     }
                 } else Error.showError(Error.INVALID_NUMBER);
             }
@@ -1586,6 +1621,7 @@ public class RoundGameController {
                         Error.showError(Error.INVALID_SELECTION);
                     } else {
                         addCardToGraveYard(Zone.MONSTER_ZONE, address, opponent);
+                        System.out.println("Man eater bug effect : destroy " + address + "card of opponent!");//TODO somewhere else
                         break;
                     }
                 } else Error.showError(Error.INVALID_NUMBER);
@@ -1614,14 +1650,22 @@ public class RoundGameController {
             if (((Spell) selectedCell.getCardInCell()).getSpellType().equals(SpellType.FIELD)) {
                 setFieldCard();
                 return;
+            } else {
+                SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
+                spellZone.addCard(selectedCell.getCardInCell(), CellStatus.HIDDEN);
+                getCurrentPlayerHand().remove(selectedCellAddress - 1);
+                view.showSuccessMessage(SuccessMessage.SET_SUCCESSFULLY);
+
             }
-        } else { // we can change place of this for ,,, you know...
+            deselectCard(0);
+        } else {
             SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
             spellZone.addCard(selectedCell.getCardInCell(), CellStatus.HIDDEN);
             getCurrentPlayerHand().remove(selectedCellAddress - 1);
             view.showSuccessMessage(SuccessMessage.SET_SUCCESSFULLY);
+            deselectCard(0);
         }
-        deselectCard(0);
+
     }
 
     private void setFieldCard() {
@@ -1661,9 +1705,12 @@ public class RoundGameController {
             }
         }
         if (selectedCell.getCardInCell().getCardType() == CardType.SPELL) {
-            if (!((Spell) selectedCell.getCardInCell()).getSpellType().equals(SpellType.FIELD))
+            if (selectedCellZone == Zone.HAND) {
+                getCurrentPlayerHand().remove(selectedCellAddress - 1);
+            }
+            if (!((Spell) selectedCell.getCardInCell()).getSpellType().equals(SpellType.FIELD)) {
                 normalSpellActivate(((Spell) selectedCell.getCardInCell()).getSpellEffect());
-            else fieldZoneSpellActivate();
+            } else fieldZoneSpellActivate();
         } else
             Error.showError(Error.PREPARATIONS_IS_NOT_DONE);
     }
@@ -1816,26 +1863,31 @@ public class RoundGameController {
     private void addYamiFieldCardsToBeEffected() {
         for (int i = 1; i <= 5; i++) {
             Cell cell = getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i);
-            if (((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.FIEND) || ((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.SPELLCASTER) && !fieldEffectedCardsAddress.contains(10 + i))
-                fieldEffectedCardsAddress.add(10 + i);
+            if (cell.getCellStatus() != CellStatus.EMPTY) {
+                if (((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.FIEND) || ((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.SPELLCASTER) && !fieldEffectedCardsAddress.contains(10 + i))
+                    fieldEffectedCardsAddress.add(10 + i);
+            }
         }
         for (int i = 1; i <= 5; i++) {
-            Cell cell = getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i);
-            if (((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.FIEND) || ((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.SPELLCASTER) && !fieldEffectedCardsAddress.contains(20 + i))
-                fieldEffectedCardsAddress.add(20 + i);
+            Cell cell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i);
+            if (cell.getCellStatus() != CellStatus.EMPTY) {
+                if (((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.FIEND) || ((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.SPELLCASTER) && !fieldEffectedCardsAddress.contains(20 + i))
+                    fieldEffectedCardsAddress.add(20 + i);
+            }
         }
         addFoundCardsToBeEffectedByFieldCardToArrayList();
     }
 
     private void addFoundCardsToBeEffectedByFieldCardToArrayList() {
-        for (int i = fieldEffectedCardsAddress.size() - 1; i >= 0; i--) {
-            if (i > 20) {
-                if (!getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i - 20).getCellStatus().equals(CellStatus.EMPTY))
-                    fieldEffectedCards.add(getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i - 20).getCardInCell());
+        for (Integer address : fieldEffectedCardsAddress) {
+
+            if (address > 20) {
+                if (!getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, address - 20).getCellStatus().equals(CellStatus.EMPTY))
+                    fieldEffectedCards.add(getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, address - 20).getCardInCell());
 
             } else {
-                if (!getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i - 10).getCellStatus().equals(CellStatus.EMPTY))
-                    fieldEffectedCards.add(getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i - 10).getCardInCell());
+                if (!getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, address - 10).getCellStatus().equals(CellStatus.EMPTY))
+                    fieldEffectedCards.add(getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, address - 10).getCardInCell());
             }
         }
     }
@@ -1853,15 +1905,21 @@ public class RoundGameController {
     private void addForestFieldCardsToBeEffected() {
         for (int i = 1; i <= 5; i++) {
             Cell cell = getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i);
-            if (((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.INSECT) ||
-                    ((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.BEAST) ||
-                    ((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.BEAST_WARRIOR) && !fieldEffectedCardsAddress.contains(10 + i))
-                fieldEffectedCardsAddress.add(10 + i);
+            if (cell.getCellStatus() != CellStatus.EMPTY) {
+                if (((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.INSECT) ||
+                        ((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.BEAST) ||
+                        ((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.BEAST_WARRIOR) && !fieldEffectedCardsAddress.contains(10 + i))
+                    fieldEffectedCardsAddress.add(10 + i);
+            }
         }
         for (int i = 1; i <= 5; i++) {
-            Cell cell = getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i);
-            if (((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.FIEND) && !fieldEffectedCardsAddress.contains(20 + i))
-                fieldEffectedCardsAddress.add(20 + i);
+            Cell cell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i);
+            if (cell.getCellStatus() != CellStatus.EMPTY) {
+                if (((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.FIEND) ||
+                        ((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.BEAST) ||
+                        ((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.BEAST_WARRIOR) && !fieldEffectedCardsAddress.contains(20 + i))
+                    fieldEffectedCardsAddress.add(20 + i);
+            }
         }
         addFoundCardsToBeEffectedByFieldCardToArrayList();
     }
@@ -1878,8 +1936,10 @@ public class RoundGameController {
     private void addClosedForestFieldCardsToBeEffected() {
         for (int i = 1; i <= 5; i++) {
             Cell cell = getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i);
-            if (((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.BEAST) && !fieldEffectedCardsAddress.contains(10 + i))
-                fieldEffectedCardsAddress.add(10 + i);
+            if (cell.getCellStatus() != CellStatus.EMPTY) {
+                if (((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.BEAST) && !fieldEffectedCardsAddress.contains(10 + i))
+                    fieldEffectedCardsAddress.add(10 + i);
+            }
         }
         addFoundCardsToBeEffectedByFieldCardToArrayList();
     }
@@ -1897,9 +1957,11 @@ public class RoundGameController {
     private void addUmiirukaFieldCardsToBeEffected() {
         for (int i = 1; i <= 5; i++) {
             Cell cell = getCurrentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i);
-            if (((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.AQUA) &&
-                    !fieldEffectedCardsAddress.contains(10 + i))
-                fieldEffectedCardsAddress.add(10 + i);
+            if (cell.getCellStatus() != CellStatus.EMPTY) {
+                if (((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.AQUA) &&
+                        !fieldEffectedCardsAddress.contains(10 + i))
+                    fieldEffectedCardsAddress.add(10 + i);
+            }
         }
         addFoundCardsToBeEffectedByFieldCardToArrayList();
     }

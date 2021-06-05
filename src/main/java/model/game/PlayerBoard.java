@@ -34,7 +34,7 @@ public class PlayerBoard {
 
     public void removeSpellOrTrapFromBoard(int address) {
         graveYard.addCard(spellZone.getCellWithAddress(address).getCardInCell());
-        spellZone.removewithCard(address);
+        spellZone.removeWithCardAddress(address);
     }
 
     public void addCardToGraveYard(Card card) {

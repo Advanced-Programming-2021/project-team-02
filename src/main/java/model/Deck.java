@@ -141,7 +141,6 @@ public class Deck {
             if (card instanceof Monster) {
                 Monster monster = (Monster) card;
                 out.append(i).append(" - ").append(monster.getName());
-                i++;
             } else if (card instanceof Spell) {
                 Spell spell = (Spell) card;
                 out.append(i).append(" - ").append(spell.getName());
@@ -149,6 +148,8 @@ public class Deck {
                 Trap trap = (Trap) card;
                 out.append(i).append(" - ").append(trap.getName());
             }
+            out.append(" ");
+            i++;
         }
         return out.toString();
     }
