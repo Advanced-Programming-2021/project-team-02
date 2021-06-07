@@ -3,6 +3,7 @@ package view;
 import controller.DeckMenuController;
 import controller.MainMenuController;
 import controller.ShopMenuController;
+import javafx.scene.layout.GridPane;
 import model.Assets;
 import model.Shop;
 import model.User;

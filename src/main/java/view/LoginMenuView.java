@@ -2,6 +2,7 @@ package view;
 
 import com.google.gson.Gson;
 import controller.LoginMenuController;
+import javafx.application.Application;
 import view.input.Regex;
 import view.messages.Error;
 

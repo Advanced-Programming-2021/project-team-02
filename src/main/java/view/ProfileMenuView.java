@@ -1,19 +1,36 @@
 package view;
 
 import controller.ProfileMenuController;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import view.input.Regex;
 import view.messages.Error;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.regex.Matcher;
 
-public class ProfileMenuView {
+public class ProfileMenuView extends Application {
     private static ProfileMenuView instance = null;
     private static final ProfileMenuController controller = ProfileMenuController.getInstance ();
+    private static Stage stage;
 
-    private ProfileMenuView(){
-
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        stage = primaryStage;
+        URL urlMain = getClass().getResource("fxml/ProfileMenuView.fxml");
+        System.out.println(urlMain);
+        Parent root = FXMLLoader.load(Objects.requireNonNull(urlMain));
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();
     }
+
+
 
     public static ProfileMenuView getInstance() {
         if (instance == null) instance = new ProfileMenuView ();
