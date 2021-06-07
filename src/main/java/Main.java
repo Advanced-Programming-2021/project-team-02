@@ -5,6 +5,7 @@ import java.io.IOException;
 
 /**
  * Salam da
+ * salam dobare
  */
 public class Main {
     public static void main(String[] args) throws IOException, CloneNotSupportedException {
