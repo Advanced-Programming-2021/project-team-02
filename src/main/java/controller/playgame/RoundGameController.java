@@ -182,7 +182,7 @@ public class RoundGameController {
             return;
         }
         //TODO? selectedCellZone = Zone.MONSTER_ZONE;
-        opponentSelectedCell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(selectedCellZone, address);
+        opponentSelectedCell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, address);
         selectedCell = opponentSelectedCell;
         //TODO? selectedCellAddress = address;
         view.showSuccessMessage(SuccessMessage.CARD_SELECTED);
@@ -198,7 +198,7 @@ public class RoundGameController {
             return;
         }
         //TODO? selectedCellZone = Zone.SPELL_ZONE;
-        opponentSelectedCell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(selectedCellZone, address);
+        opponentSelectedCell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.SPELL_ZONE, address);
         selectedCell = opponentSelectedCell;
         view.showSuccessMessage(SuccessMessage.CARD_SELECTED);
     }
@@ -620,6 +620,7 @@ public class RoundGameController {
         MonsterZone monsterZone = getCurrentPlayer().getPlayerBoard().returnMonsterZone();
         monsterZone.addCard((Monster) card, cellStatus);
         view.showBoard();
+        checkNewCardToBeBeUnderEffectOfFieldCard((Monster) card);
         //TODO not sure!!!
         if (isCurrentPlayerTrapToBeActivatedInSummonSituation()) {
             if (isTrapOfCurrentPlayerInSummonSituationActivated()) {
@@ -1008,7 +1009,6 @@ public class RoundGameController {
                 return;
             }
         }
-
         checkNewCardToBeBeUnderEffectOfFieldCard((Monster) selectedCell.getCardInCell());
     }
 
@@ -1963,6 +1963,14 @@ public class RoundGameController {
                     fieldEffectedCardsAddress.add(10 + i);
             }
         }
+        for (int i = 1; i <= 5; i++) {
+            Cell cell = getOpponentPlayer().getPlayerBoard().getACellOfBoard(Zone.MONSTER_ZONE, i);
+            if (cell.getCellStatus() != CellStatus.EMPTY) {
+                if (((Monster) cell.getCardInCell()).getMonsterType().equals(MonsterType.AQUA) &&
+                        !fieldEffectedCardsAddress.contains(10 + i))
+                    fieldEffectedCardsAddress.add(20 + i);
+            }
+        }
         addFoundCardsToBeEffectedByFieldCardToArrayList();
     }
 
@@ -2005,13 +2013,15 @@ public class RoundGameController {
     }
 
     private void yamiFieldEffectOnOneCard(Monster monster) {
-        if (monster.getMonsterType().equals(MonsterType.INSECT) || monster.getMonsterType().equals(MonsterType.BEAST)
-                || monster.getMonsterType().equals(MonsterType.BEAST_WARRIOR)) {
+        if (monster.getMonsterType().equals(MonsterType.FIEND) || monster.getMonsterType().equals(MonsterType.BEAST)
+                || monster.getMonsterType().equals(MonsterType.SPELLCASTER)) {
             monster.changeAttackPower(200);
             monster.changeDefensePower(200);
+            fieldEffectedCards.add(monster);
         } else if (monster.getMonsterType().equals(MonsterType.FAIRY)) {
             monster.changeDefensePower(-200);
             monster.changeAttackPower(-200);
+            fieldEffectedCards.add(monster);
         }
     }
 
@@ -2021,12 +2031,14 @@ public class RoundGameController {
                 monster.getMonsterType().equals(MonsterType.BEAST_WARRIOR)) {
             monster.changeAttackPower(200);
             monster.changeDefensePower(200);
+            fieldEffectedCards.add(monster);
         }
     }
 
     private void closedForestFieldEffectOnOneCard(Monster monster) {
         if (monster.getMonsterType().equals(MonsterType.BEAST)) {
             monster.changeAttackPower(100);
+            fieldEffectedCards.add(monster);
         }
     }
 
@@ -2034,6 +2046,7 @@ public class RoundGameController {
         if (monster.getMonsterType().equals(MonsterType.AQUA)) {
             monster.changeAttackPower(500);
             monster.changeDefensePower(-400);
+            fieldEffectedCards.add(monster);
         }
     }
 
@@ -2042,9 +2055,11 @@ public class RoundGameController {
                 || monster.getMonsterType().equals(MonsterType.BEAST_WARRIOR)) {
             monster.changeAttackPower(-200);
             monster.changeDefensePower(-200);
+            fieldEffectedCards.remove(monster);
         } else if (monster.getMonsterType().equals(MonsterType.FAIRY)) {
             monster.changeDefensePower(200);
             monster.changeAttackPower(200);
+            fieldEffectedCards.remove(monster);
         }
     }
 
@@ -2054,12 +2069,14 @@ public class RoundGameController {
                 monster.getMonsterType().equals(MonsterType.BEAST_WARRIOR)) {
             monster.changeAttackPower(-200);
             monster.changeDefensePower(-200);
+            fieldEffectedCards.remove(monster);
         }
     }
 
     private void reverseClosedForestFieldEffectOnOneCard(Monster monster) {
         if (monster.getMonsterType().equals(MonsterType.BEAST)) {
             monster.changeAttackPower(100);
+            fieldEffectedCards.remove(monster);
         }
     }
 
@@ -2067,6 +2084,7 @@ public class RoundGameController {
         if (monster.getMonsterType().equals(MonsterType.AQUA)) {
             monster.changeAttackPower(-500);
             monster.changeDefensePower(400);
+            fieldEffectedCards.remove(monster);
         }
     }
 
