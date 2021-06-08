@@ -1,7 +1,6 @@
 package view;
 
 import controller.MainMenuController;
-import controller.ProfileMenuController;
 import model.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -10,8 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ProfileMenuViewTest {
 

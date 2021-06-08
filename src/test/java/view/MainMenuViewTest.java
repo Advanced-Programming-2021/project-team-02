@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class MainMenuViewTest {
 
     private static ByteArrayOutputStream outContent = new ByteArrayOutputStream ();
@@ -48,7 +46,7 @@ class MainMenuViewTest {
     @Test
     @DisplayName("\"show current menu\" message")
     void showCurrentMenu() {
-        String expected = "Main Menu\n";
+        String expected = "view.Main Menu\n";
         MainMenuView.getInstance ().run ("menu show-current");
         Assertions.assertEquals (expected, outContent.toString ());
     }

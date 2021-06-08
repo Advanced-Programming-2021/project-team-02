@@ -1,3 +1,5 @@
+package view;
+
 import model.card.CardsDatabase;
 import view.MenusManager;
 

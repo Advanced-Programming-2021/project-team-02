@@ -1,7 +1,6 @@
 package view;
 
 import model.User;
-import view.input.Input;
 import view.input.Regex;
 import view.messages.Error;
 

@@ -3,7 +3,6 @@ package view;
 import controller.DuelMenuController;
 import view.input.Regex;
 import view.messages.Error;
-import view.messages.SuccessMessage;
 
 import java.util.Locale;
 import java.util.regex.Matcher;

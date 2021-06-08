@@ -8,7 +8,6 @@ import model.card.Trap;
 import model.card.informationofcards.CardType;
 import view.input.Regex;
 import view.messages.Error;
-import view.messages.SuccessMessage;
 
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -59,7 +58,7 @@ public class DeckMenuView {
         } else if ((matcher = Regex.getMatcherFromAllPermutations (Regex.DECK_SHOW_SIDE_DECK, command)) != null) {
             controller.showDeck (matcher.group("deckName"), "Side");
         } else if ((matcher = Regex.getMatcher (Regex.DECK_SHOW_MAIN_DECK, command)).matches ()) {
-            controller.showDeck (matcher.group("deckName"), "Main");
+            controller.showDeck (matcher.group("deckName"), "view.Main");
         } else if (Regex.getMatcher (Regex.DECK_SHOW_ALL_CARDS, command).matches ()) {
             controller.showAllCards ();
         } else if ((matcher = Regex.getMatcher (Regex.CARD_SHOW, command)).matches ()) {

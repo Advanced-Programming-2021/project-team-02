@@ -11,7 +11,6 @@ import view.messages.Error;
 import view.messages.SuccessMessage;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class GameView {
     private static GameView instance = null;
@@ -42,7 +41,7 @@ public class GameView {
             controller.selectOpponentCardSpellZone(matcher);
         else if (Regex.getMatcher(Regex.BOARD_GAME_SELECT_FIELD, command).matches())
             controller.selectPlayerFieldCard();
-        else if ((matcher = Regex.getMatcherFromAllPermutations(Regex.BOARD_GAME_SELECT_FIELD_OPPONENT, command)) != null)
+        else if (Regex.getMatcherFromAllPermutations(Regex.BOARD_GAME_SELECT_FIELD_OPPONENT, command) != null)
             controller.selectOpponentFieldCard();
         else if (Regex.getMatcher(Regex.BOARD_GAME_SELECT_DESELECT, command).matches())
             controller.deselectCard(1);

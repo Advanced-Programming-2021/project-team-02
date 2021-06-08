@@ -203,7 +203,7 @@ public class DeckMenuController {
         List<Card> monsters = new ArrayList<>();
         List<Card> spellsAndTraps = new ArrayList<>();
         List<Card> cards;
-        if (deckType.equals("Main")) {
+        if (deckType.equals("view.Main")) {
             cards = Objects.requireNonNull(Assets.getAssetsByUsername(MenusManager.getInstance().
                     getLoggedInUser().getUsername())).getDeckByDeckName(deckName).getMainCards();
         } else {

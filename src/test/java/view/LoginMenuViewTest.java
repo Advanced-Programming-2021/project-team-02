@@ -73,7 +73,7 @@ class LoginMenuViewTest {
     @DisplayName ("Check \"please login first\" error")
     void pleaseLoginFirst() {
         String expected = "please login first\n";
-        LoginMenuView.getInstance ().run ("menu enter Main");
+        LoginMenuView.getInstance ().run ("menu enter view.Main");
         Assertions.assertEquals (expected, outContent.toString ());
     }
 

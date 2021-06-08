@@ -8,8 +8,6 @@ import view.MenusManager;
 import view.messages.Error;
 import view.messages.SuccessMessage;
 
-import java.util.regex.Matcher;
-
 
 public class LoginMenuController {
     private static LoginMenuController instance = null;

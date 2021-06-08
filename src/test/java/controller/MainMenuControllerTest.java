@@ -11,8 +11,6 @@ import view.MenusManager;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class MainMenuControllerTest {
 
     private static ByteArrayOutputStream outContent = new ByteArrayOutputStream ();
@@ -63,7 +61,7 @@ class MainMenuControllerTest {
     @DisplayName("Check \"menu enter login\" command")
     void menuEnterLogin() {
         String expected = "user logged out successfully!\n";
-        MainMenuController.getInstance ().menuEnter ("login");;
+        MainMenuController.getInstance ().menuEnter ("login");
         Assertions.assertEquals (MenusManager.getInstance ().getCurrentMenu (), Menu.LOGIN_MENU);
         Assertions.assertNull (MenusManager.getInstance ().getLoggedInUser ());
         Assertions.assertEquals (expected, outContent.toString ());

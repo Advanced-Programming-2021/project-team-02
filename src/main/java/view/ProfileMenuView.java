@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 import view.input.Regex;
 import view.messages.Error;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
 import java.util.Objects;

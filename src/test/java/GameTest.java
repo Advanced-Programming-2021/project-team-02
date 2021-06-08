@@ -1,20 +1,6 @@
-import controller.DeckMenuController;
 import controller.playgame.DuelGameController;
 import controller.playgame.RoundGameController;
-import model.User;
-import model.card.Card;
-import model.card.CardsDatabase;
-import model.game.DuelPlayer;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import view.DeckMenuView;
-import view.MenusManager;
 import view.gameview.GameView;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
 
 public class GameTest { //test doesnt work fuckingly . . .
     private static DuelGameController duelGameController;
