@@ -16,13 +16,13 @@ class ScoreBoardViewTest {
     @BeforeAll
     static void beforeAll() {
         System.setOut (new PrintStream(outContent));
+        outContent.reset ();
     }
 
     @Test
     @DisplayName("Check \"menu enter profile\" command")
     void menuEnterProfile() {
-        outContent.reset ();
-        String expected = "menu navigation is not possible\r\n";
+        String expected = "menu navigation is not possible\n";
         ScoreBoardView.getInstance ().run ("menu enter profile");
         Assertions.assertEquals (expected, outContent.toString ());
     }
@@ -30,7 +30,6 @@ class ScoreBoardViewTest {
     @Test
     @DisplayName ("Check \"menu enter scoreboard\" command")
     void menuEnterScoreboard() {
-        outContent.reset ();
         String expected = "you are in ScoreboardMenu!\n";
         ScoreBoardView.getInstance ().run ("menu enter scoreboard");
         Assertions.assertEquals (expected, outContent.toString ());
@@ -39,11 +38,10 @@ class ScoreBoardViewTest {
     @Test
     @DisplayName("\"scoreboard show\" message")
     void showScoreBoard() {
-        outContent.reset ();
-        String expected = "1- mahdis: 100\r\n" +
-                "2- 3rfan: 90\r\n" +
-                "2- alis: 90\r\n" +
-                "4- davood: 70\r\n";
+        String expected = "1- mahdis: 100\n" +
+                "2- 3rfan: 90\n" +
+                "2- alis: 90\n" +
+                "4- davood: 70\n";
         User mahdi = new User("mhdsdt", "ramz", "mahdis");
         User erfan = new User("mojibi", "pass", "3rfan");
         User davud = new User("lover", "ramz", "davood");
@@ -59,8 +57,7 @@ class ScoreBoardViewTest {
     @Test
     @DisplayName("\"show current menu\" message")
     void showCurrentMenu() {
-        outContent.reset ();
-        String expected = "Scoreboard Menu\r\n";
+        String expected = "Scoreboard Menu\n";
         ScoreBoardView.getInstance ().run ("menu show-current");
         Assertions.assertEquals (expected, outContent.toString ());
     }
@@ -68,11 +65,10 @@ class ScoreBoardViewTest {
     @Test
     @DisplayName("help command")
     void helpCommand() {
-        outContent.reset ();
-        String expected = "menu show-current\r" +
-                "scoreboard show\r" +
-                "menu exit\r" +
-                "help\r";
+        String expected = "menu show-current\n" +
+                "scoreboard show\n" +
+                "menu exit\n" +
+                "help\n";
         ScoreBoardView.getInstance ().run ("help");
         Assertions.assertEquals (expected, outContent.toString ());
     }
@@ -87,8 +83,7 @@ class ScoreBoardViewTest {
     @Test
     @DisplayName ("invalid command")
     void invalidCommand() {
-        outContent.reset ();
-        String expected = "invalid command\r\ninvalid command\r\n";
+        String expected = "invalid command\ninvalid command\n";
         ScoreBoardView.getInstance ().run ("salum");
         ScoreBoardView.getInstance ().run ("show scoboard");
         Assertions.assertEquals (expected, outContent.toString ());
