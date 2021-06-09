@@ -1,23 +1,41 @@
 package project.view;
 
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.scene.control.Button;
 import project.controller.ProfileMenuController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import project.view.input.Regex;
-import project.view.messages.Error;
+import project.model.User;
 
+import java.awt.*;
 import java.net.URL;
-import java.util.Locale;
 import java.util.Objects;
-import java.util.regex.Matcher;
+
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 public class ProfileMenuView extends Application {
-    private static ProfileMenuView instance = null;
-    private static final ProfileMenuController controller = ProfileMenuController.getInstance ();
+    private static final ProfileMenuController controller = ProfileMenuController.getInstance();
+    @FXML
+    public Label userNameLabel;
+    @FXML
+    public Label nickNameLabel;
+    @FXML
+    public AnchorPane anchorPane = new AnchorPane();
+
     private static Stage stage;
+    private final User user = new User("mahdi", "12345", "test");
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -25,59 +43,41 @@ public class ProfileMenuView extends Application {
         URL urlMain = getClass().getResource("/project/fxml/ProfileMenuView.fxml");
         System.out.println(urlMain);
         Parent root = FXMLLoader.load(Objects.requireNonNull(urlMain));
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
-
-
-    public static ProfileMenuView getInstance() {
-        if (instance == null) instance = new ProfileMenuView ();
-        return instance;
+    @FXML
+    public void initialize() {
+        System.out.println("gfsgd");
+        userNameLabel.setText("Username : " + user.getUsername());
+        nickNameLabel.setText("Nickname : " + user.getNickname());
     }
 
-//    public void run(String command) {
-//        commandRecognition(command);
-//    }
-//
-//    public void commandRecognition(String command) {
-//        Matcher matcher;
-//        if ((matcher = Regex.getMatcher (Regex.MENU_ENTER, command)).matches ()) {
-//            if (matcher.group ("menuName").toLowerCase(Locale.ROOT).equals ("profile")) {}
-////                showDynamicError (Error.BEING_ON_CURRENT_MENU, Menu.PROFILE_MENU.getValue ());
-//            else Error.showError (Error.BEING_ON_A_MENU);
-//        } else if (Regex.getMatcher (Regex.MENU_EXIT, command).matches ()) {
-////            MenusManager.getInstance().changeMenu(Menu.MAIN_MENU);
-//        } else if ((Regex.getMatcher (Regex.MENU_SHOW_CURRENT, command)).matches ()) {
-//            showCurrentMenu ();
-//        } else if ((matcher = Regex.getMatcher (Regex.PROFILE_CHANGE_NICKNAME, command)).matches ()) {
-//            controller.changeNickname (matcher.group ("nickname"));
-//        } else if ((matcher = Regex.getMatcherFromAllPermutations (Regex.PROFILE_CHANGE_PASSWORD, command)) != null) {
-//            controller.changePassword (matcher.group ("currentPassword"), matcher.group ("newPassword"));
-//        } else if (Regex.getMatcher (Regex.COMMAND_HELP, command).matches ()) {
-//            help ();
-//        } else Error.showError (Error.INVALID_COMMAND);
-//    }
+    public void back() {
+        System.exit(0);
+    }
 
-//    public void showDynamicError(Error error, String string) {
-//        if (error.equals (Error.TAKEN_USERNAME))
-//            System.out.printf (Error.TAKEN_USERNAME.getValue (), string);
-//        else if (error.equals (Error.TAKEN_NICKNAME))
-//            System.out.printf (Error.TAKEN_NICKNAME.getValue (), string);
-//        else if (error.equals (Error.BEING_ON_CURRENT_MENU))
-//            System.out.printf (error.getValue (), string);
-//    }
-
-//    public void showCurrentMenu() {
-//        System.out.println ("Profile Menu");
-//    }
-
-//    public void help() {
-//        System.out.println ("menu show-current\n" +
-//                "profile change --nickname <nickname>\n" +
-//                "profile change --password --current <currentPassword> --new <newPassword>\n" +
-//                "profile change -p -c <currentPassword> -n <newPassword>\n" +
-//                "menu exit\n" +
-//                "help");
-//    }
+    public void changePassword(ActionEvent actionEvent) {
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Change Password");
+        Label currentPasswordLabel = new Label();
+        currentPasswordLabel.setText("current password :");
+        TextField currentPasswordField = new TextField();
+        Label newPasswordLabel = new Label();
+        newPasswordLabel.setText("current password :");
+        TextField newPasswordField = new TextField();
+        Button changePasswordButton = new Button();
+        changePasswordButton.setText("Change Password");
+        VBox layout = new VBox(10);
+        layout.setMinSize(200, 200);
+        layout.getChildren().addAll(currentPasswordLabel, currentPasswordField,
+                newPasswordLabel, newPasswordField);
+        layout.getChildren().add(changePasswordButton);
+        layout.setAlignment(Pos.BASELINE_LEFT);
+        Scene scene = new Scene(layout);
+        window.setScene(scene);
+        window.showAndWait();
+    }
 }
