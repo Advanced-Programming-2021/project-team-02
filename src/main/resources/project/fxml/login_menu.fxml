@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.LoginMenuView">
+   <VBox alignment="CENTER" layoutX="240.0" layoutY="240.0" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #00062b; -fx-background-radius: 30;">
+      <Label id="FirstTitle" alignment="CENTER" contentDisplay="CENTER" text="Yu☆Gi☆Oh!" textAlignment="CENTER" textFill="WHITE" />
+      <HBox alignment="CENTER" prefHeight="391.0" prefWidth="750.0" spacing="100.0">
+         <VBox alignment="CENTER" prefHeight="300.0" prefWidth="275.0" spacing="20.0" style="-fx-background-color: #103188; -fx-background-radius: 15;">
+            <Label id="SecondTitle" alignment="CENTER" contentDisplay="CENTER" text="Sign Up" textAlignment="CENTER" textFill="WHITE" />
+            <TextField fx:id="usernameFieldSignUp" promptText="Username" style="-fx-background-color: #00062b; -fx-text-inner-color: white;" />
+            <TextField fx:id="nicknameFieldSignUp" promptText="Nickname" style="-fx-background-color: #00062b; -fx-text-inner-color: white;" />
+            <PasswordField fx:id="passwordFieldSignUp" promptText="Password" style="-fx-background-color: #00062b; -fx-text-inner-color: white;" />
+            <PasswordField fx:id="secondPasswordField" promptText="Confirm Password" style="-fx-background-color: #00062b; -fx-text-inner-color: white;" />
+            <Button id="Button" onMouseClicked="#registerUser" style="-fx-background-color: #bb792d; -fx-background-radius: 10;" text="Sign up" textAlignment="CENTER" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+            <padding>
+               <Insets left="35.0" right="35.0" />
+            </padding>
+         </VBox>
+         <VBox alignment="CENTER" prefHeight="239.0" prefWidth="275.0" spacing="20.0" style="-fx-background-color: #103188; -fx-background-radius: 15;">
+            <Label id="SecondTitle" alignment="CENTER" contentDisplay="CENTER" text="Login" textAlignment="CENTER" textFill="WHITE" />
+            <TextField fx:id="usernameFieldLogin" promptText="Username" style="-fx-background-color: #00062b; -fx-text-inner-color: white;" />
+            <PasswordField fx:id="passwordFieldLogin" promptText="Password" style="-fx-background-color: #00062b; -fx-text-inner-color: white;" />
+            <Button id="Button" onMouseClicked="#loginUser" style="-fx-background-color: #bb792d; -fx-background-radius: 10;" text="Login" textAlignment="CENTER" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+            <padding>
+               <Insets left="35.0" right="35.0" />
+            </padding>
+            <HBox.margin>
+               <Insets bottom="40.0" top="40.0" />
+            </HBox.margin>
+         </VBox>
+         <padding>
+            <Insets bottom="35.0" top="35.0" />
+         </padding>
+      </HBox>
+      <Button id="Button" onMouseClicked="#exit" style="-fx-background-color: #9e376c; -fx-background-radius: 10;" text="Exit" textAlignment="CENTER" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+   </VBox>
+   <stylesheets>
+      <URL value="@../CSS/login_menu_style.css" />
+   </stylesheets>
+   <padding>
+      <Insets bottom="240.0" top="240.0" />
+   </padding>
+</AnchorPane>

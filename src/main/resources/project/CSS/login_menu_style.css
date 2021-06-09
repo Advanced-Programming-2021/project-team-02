@@ -1,0 +1,34 @@
+@font-face {
+    font-family: 'Matrix II';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Matrix II'), url('../font/MatrixII/MatrixIIRegular.otf') format('otf');
+}
+
+@font-face {
+    font-family: 'Matrix II Bold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Matrix II'), url('../font/MatrixII/MatrixIIBold.otf') format('otf');
+}
+
+.root {
+    -fx-font-family: Matrix II;
+    -fx-font-size: 20.0;
+    -fx-background-image: url(../image/main_background.jpg);
+}
+
+#FirstTitle {
+    -fx-font-family: Matrix II;
+    -fx-font-size: 64.0;
+}
+
+#SecondTitle {
+    -fx-font-family: Matrix II;
+    -fx-font-size: 40.0;
+}
+
+#Button {
+    -fx-font-family: Matrix II;
+    -fx-font-size: 24.0;
+}

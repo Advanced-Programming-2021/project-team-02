@@ -1,6 +1,6 @@
-import controller.playgame.DuelGameController;
-import controller.playgame.RoundGameController;
-import view.gameview.GameView;
+import project.controller.playgame.DuelGameController;
+import project.controller.playgame.RoundGameController;
+import project.view.gameview.GameView;
 
 public class GameTest { //test doesnt work fuckingly . . .
     private static DuelGameController duelGameController;
@@ -11,7 +11,7 @@ public class GameTest { //test doesnt work fuckingly . . .
 //   @BeforeAll
 //   static void init() throws IOException {
 //       duelGameController = DuelGameController.getInstance();
-//       view = GameView.getInstance();
+//       project.view = GameView.getInstance();
 //       controller = RoundGameController.getInstance();
 //       CardsDatabase.getInstance().readAndMakeCards();
 //       User user1 = new User("ali", "1234", "ali");
@@ -22,7 +22,7 @@ public class GameTest { //test doesnt work fuckingly . . .
 //       DuelPlayer firstPlayer = new DuelPlayer("ali", null);
 //       DuelPlayer secondPlayer = new DuelPlayer("erfan", null);
 //
-//       controller.setRoundInfo(firstPlayer,secondPlayer,view,duelGameController);
+//       controller.setRoundInfo(firstPlayer,secondPlayer,project.view,duelGameController);
 //       controller.addCardToFirstPlayerHand(Card.getCardByName("Yomi Ship"));
 //       controller.addCardToFirstPlayerHand(Card.getCardByName("Horn Imp"));
 //       controller.addCardToFirstPlayerHand(Card.getCardByName("Fireyarou"));
@@ -33,11 +33,11 @@ public class GameTest { //test doesnt work fuckingly . . .
 //   public void yomiShipTest(){
 //       ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 //       System.setOut(new PrintStream(outContent));
-//       view.commandRecognition("select --hand 1");
+//       project.view.commandRecognition("select --hand 1");
 //       DeckMenuView.getInstance().checkTypeOfCardAndPrintIt(controller.getSelectedCell().getCardInCell());
 //       controller.summonMonster();
 //       controller.changeTurn();
-//       view.commandRecognition("select --hand 1");
+//       project.view.commandRecognition("select --hand 1");
 //       DeckMenuView.getInstance().checkTypeOfCardAndPrintIt(controller.getSelectedCell().getCardInCell());
 //       Assertions.assertEquals("Name: Yomi Ship\r\n" +
 //               "Level: 3\r\n" +

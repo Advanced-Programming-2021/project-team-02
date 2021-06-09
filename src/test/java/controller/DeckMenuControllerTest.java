@@ -1,20 +1,8 @@
 package controller;
 
-import model.Assets;
-import model.Deck;
-import model.User;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
+import project.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.function.Supplier;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class DeckMenuControllerTest {
 

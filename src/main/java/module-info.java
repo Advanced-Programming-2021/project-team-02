@@ -8,11 +8,13 @@ module AP.Project {
     requires java.sql;
     requires opencsv;
 
-    opens view to javafx.fxml;
-    exports view;
-    opens model to gson;
-    exports model;
-    opens model.card to gson;
-    exports model.card;
-    exports view.messages;
+    opens project.view to javafx.fxml;
+    exports project.view;
+    opens project.model to gson;
+    exports project.model;
+    opens project.model.card to gson;
+    exports project.model.card;
+    exports project.view.messages;
+    opens project to javafx.fxml;
+    exports project;
 }
