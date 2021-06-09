@@ -3,10 +3,7 @@ package project.view;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.scene.control.Button;
@@ -18,7 +15,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import project.model.User;
 
-import java.awt.*;
 import java.net.URL;
 import java.util.Objects;
 
@@ -26,13 +22,19 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class ProfileMenuView extends Application {
-    private static final ProfileMenuController controller = ProfileMenuController.getInstance();
+    private static ProfileMenuController controller = null;
     @FXML
     public Label userNameLabel;
     @FXML
     public Label nickNameLabel;
     @FXML
     public AnchorPane anchorPane = new AnchorPane();
+    @FXML
+    TextField currentPasswordField = new TextField();
+    @FXML
+    TextField newPasswordField = new TextField();
+    @FXML
+    TextField nickNameTextField = new TextField();
 
     private static Stage stage;
     private final User user = new User("mahdi", "12345", "test");
@@ -49,7 +51,7 @@ public class ProfileMenuView extends Application {
 
     @FXML
     public void initialize() {
-        System.out.println("gfsgd");
+         controller = ProfileMenuController.getInstance();
         userNameLabel.setText("Username : " + user.getUsername());
         nickNameLabel.setText("Nickname : " + user.getNickname());
     }
@@ -64,12 +66,16 @@ public class ProfileMenuView extends Application {
         window.setTitle("Change Password");
         Label currentPasswordLabel = new Label();
         currentPasswordLabel.setText("current password :");
-        TextField currentPasswordField = new TextField();
         Label newPasswordLabel = new Label();
-        newPasswordLabel.setText("current password :");
-        TextField newPasswordField = new TextField();
+        newPasswordLabel.setText("new password :");
         Button changePasswordButton = new Button();
         changePasswordButton.setText("Change Password");
+        changePasswordButton.setOnAction(event -> {
+            System.out.println(currentPasswordField.getText());
+            System.out.println(newPasswordField.getText());
+            if (controller == null) System.out.println("nulle baba");
+            controller.changePassword(currentPasswordField.getText(), newPasswordField.getText());
+        });
         VBox layout = new VBox(10);
         layout.setMinSize(200, 200);
         layout.getChildren().addAll(currentPasswordLabel, currentPasswordField,
@@ -79,5 +85,40 @@ public class ProfileMenuView extends Application {
         Scene scene = new Scene(layout);
         window.setScene(scene);
         window.showAndWait();
+    }
+
+//    @Override
+//    public void handle(ActionEvent actionEvent) {
+//    }
+
+    public void changeNickName(ActionEvent actionEvent) {
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Change Nickname");
+        Label currentNickNameLabel = new Label();
+        currentNickNameLabel.setText("New nickname :");
+        Button changeNicknameButton = new Button();
+        changeNicknameButton.setText("Change Nickname");
+        changeNicknameButton.setOnAction(event -> {
+            controller.changeNickname(nickNameTextField.getText());
+        });
+        VBox layout = new VBox(10);
+        layout.setMinSize(200, 200);
+        layout.getChildren().addAll(currentNickNameLabel, nickNameTextField);
+        layout.getChildren().add(changeNicknameButton);
+        layout.setAlignment(Pos.BASELINE_LEFT);
+        Scene scene = new Scene(layout);
+        window.setScene(scene);
+        window.showAndWait();
+    }
+
+
+    public void changeProfilePicture(ActionEvent actionEvent) {
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Change profile Picture");
+        Label label = new Label();
+        label.setText("Profile Pictures :");
+
     }
 }

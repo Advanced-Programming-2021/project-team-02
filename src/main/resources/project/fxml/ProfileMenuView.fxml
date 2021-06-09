@@ -30,7 +30,16 @@
             <Insets left="10.0" />
          </padding>
       </VBox>
-      <Button layoutX="5.0" layoutY="373.0" mnemonicParsing="false" onAction="#back" text="Back" />
-      <Button layoutX="5.0" layoutY="258.0" mnemonicParsing="false" onAction="#changePassword" text="Change Password" />
+      <HBox layoutY="368.0" prefHeight="26.0" prefWidth="700.0" spacing="10.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#back" text="Back" />
+            <Button mnemonicParsing="false" onAction="#changePassword" prefHeight="26.0" prefWidth="120.0" text="Change Password" />
+            <Button mnemonicParsing="false" onAction="#changeNickName" prefHeight="26.0" prefWidth="120.0" text="Change Nickname" />
+            <Button mnemonicParsing="false" onAction="#changeProfilePicture" prefHeight="26.0" prefWidth="152.0" text="Change Profile Picture" />
+         </children>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </HBox>
    </children>
 </AnchorPane>
