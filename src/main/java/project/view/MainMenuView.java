@@ -1,49 +1,61 @@
 package project.view;
 
-import project.controller.MainMenuController;
-import project.view.input.Regex;
-import project.view.messages.Error;
-import project.view.messages.SuccessMessage;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.effect.Effect;
+import javafx.scene.input.KeyCombination;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+import project.view.messages.LoginMessage;
+import project.view.messages.PopUpMessage;
 
-import java.util.Locale;
-import java.util.regex.Matcher;
+import java.net.URL;
 
-public class MainMenuView {
-    private static MainMenuView instance = null;
-    private static final MainMenuController controller = MainMenuController.getInstance ();
+public class MainMenuView extends Application {
+    private static Stage stage;
 
-    private MainMenuView() {
+    @Override
+    public void start(Stage stage) throws Exception {
+        MainMenuView.stage = stage;
+        URL fxmlAddress = getClass().getResource("/project/fxml/main_menu.fxml");
+        Parent login = FXMLLoader.load(fxmlAddress);
+        Scene scene = new Scene(login);
+        stage.setFullScreen(true);
+        stage.setResizable(false);
+        stage.setFullScreenExitHint("");
+        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        stage.setScene(scene);
     }
 
-    public static MainMenuView getInstance() {
-        if (instance == null) instance = new MainMenuView ();
-        return instance;
+    public void deckMenu() {
     }
 
-    public void run(String command) {
-        commandRecognition (command);
+    public void duelMenu() {
     }
 
+    public void scoreboardMenu() {
+    }
 
-    public void commandRecognition(String command) {
-        Matcher matcher;
-        if (Regex.getMatcher (Regex.MENU_EXIT, command).matches ()) {
-            SuccessMessage.showSuccessMessage (SuccessMessage.LOGOUT);
-//            MenusManager.getInstance ().setLoggedInUser (null);
-//            MenusManager.getInstance ().changeMenu (Menu.LOGIN_MENU);
-        } else if (Regex.getMatcher (Regex.MENU_SHOW_CURRENT, command).matches ()) {
-//            showCurrentMenu ();
-        } else if ((matcher = Regex.getMatcher (Regex.MENU_ENTER, command)).matches ()) {
-            String menuName = matcher.group ("menuName");
-            if (menuName.toLowerCase (Locale.ROOT).equals ("main")) {}
-//                showDynamicError (Error.BEING_ON_CURRENT_MENU);
-            else controller.menuEnter (menuName);
-        } else if (Regex.getMatcher (Regex.USER_LOGOUT, command).matches ()) {
-            SuccessMessage.showSuccessMessage (SuccessMessage.LOGOUT);
-//            MenusManager.getInstance ().setLoggedInUser (null);
-//            MenusManager.getInstance ().changeMenu (Menu.LOGIN_MENU);
-        } else if (Regex.getMatcher (Regex.COMMAND_HELP, command).matches ()) {
-//            help ();
-        } else Error.showError (Error.INVALID_COMMAND);
+    public void profileMenu() {
+    }
+
+    public void shopMenu() {
+    }
+
+    public void importExportMenu() {
+    }
+
+    public void logout() throws Exception {
+        PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
+        if (popUpMessage.getAlert().getResult().getText().equals("OK")) new LoginMenuView().start(stage);
+    }
+
+    public void exit() {
+        PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
+        if (popUpMessage.getAlert().getResult().getText().equals("OK")) System.exit(0);
     }
 }

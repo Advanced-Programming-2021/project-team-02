@@ -8,7 +8,6 @@ import project.view.messages.Error;
 
 public class DuelMenuController {
     private static DuelMenuController instance = null;
-    private final DuelMenuView view = DuelMenuView.getInstance();
     private Duel duel;
 
     private DuelMenuController() {

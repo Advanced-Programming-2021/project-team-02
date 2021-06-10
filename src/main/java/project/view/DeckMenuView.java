@@ -1,5 +1,6 @@
 package project.view;
 
+import javafx.stage.Stage;
 import project.controller.DeckMenuController;
 import project.model.card.Card;
 import project.model.card.Monster;
@@ -13,17 +14,8 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 
 public class DeckMenuView {
-    private static DeckMenuView instance = null;
     private static final DeckMenuController controller = DeckMenuController.getInstance ();
-
-    private DeckMenuView() {
-    }
-
-    public static DeckMenuView getInstance() {
-        if (instance == null)
-            instance = new DeckMenuView ();
-        return instance;
-    }
+    private static Stage stage;
 
     public void run(String command) {
         commandRecognition (command);

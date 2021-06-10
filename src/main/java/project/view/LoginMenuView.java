@@ -2,6 +2,7 @@ package project.view;
 
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.StageStyle;
 import project.controller.LoginMenuController;
 import javafx.application.Application;
@@ -28,12 +29,15 @@ public class LoginMenuView extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         LoginMenuView.stage = stage;
+        PopUpMessage.setStage(stage);
         URL fxmlAddress = getClass ().getResource ("/project/fxml/login_menu.fxml");
         Parent login = FXMLLoader.load (fxmlAddress);
         Scene scene = new Scene (login);
         stage.setScene(scene);
-        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setFullScreen(true);
         stage.setResizable(false);
+        stage.setFullScreenExitHint("");
+        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setTitle("Yu-Gi-Oh!");
         Image yuGiOhIcon = new Image (String.valueOf (getClass ().getResource (yuGiOhIconPath)));
         stage.getIcons().add(yuGiOhIcon);
@@ -53,11 +57,10 @@ public class LoginMenuView extends Application {
         secondPasswordField.clear();
     }
 
-    public void loginUser() {
+    public void loginUser() throws Exception {
         LoginMessage message = controller.loginUser (usernameFieldLogin.getText (), passwordFieldLogin.getText ());
         new PopUpMessage (message.getAlertType (), message.getLabel ());
-        usernameFieldLogin.clear();
-        passwordFieldLogin.clear();
+        if (message.getAlertType().equals(Alert.AlertType.INFORMATION)) new MainMenuView().start(stage);
     }
 
     public void exit() {

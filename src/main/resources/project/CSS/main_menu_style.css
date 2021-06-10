@@ -1,0 +1,17 @@
+.root {
+    -fx-font-family: "Matrix II Regular";
+    -fx-font-size: 15;
+    -fx-background-image: url(../image/main_background.jpg);
+    -fx-background-size: cover;
+    -fx-text-fill: white;
+}
+
+#menu {
+    -fx-font-size: 20.0;
+}
+
+#button {
+    -fx-font-size: 24.0;
+    -fx-background-color: #9e376c;
+    -fx-background-radius: 10;
+}

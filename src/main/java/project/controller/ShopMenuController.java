@@ -12,7 +12,6 @@ import java.util.Objects;
 public class ShopMenuController {
     private User loggedInUser;
     private static ShopMenuController instance = null;
-    private final ShopMenuView view = ShopMenuView.getInstance ();
 
     private ShopMenuController() {}
 

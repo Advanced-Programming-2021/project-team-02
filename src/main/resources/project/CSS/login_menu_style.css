@@ -1,39 +1,49 @@
 @font-face {
-    font-family: 'Matrix II';
+    font-family: 'Matrix II Regular';
     font-style: normal;
     font-weight: normal;
     src: local('Matrix II'), url('../font/MatrixII/MatrixIIRegular.otf') format('otf');
 }
 
-@font-face {
-    font-family: 'Matrix II Bold';
-    font-style: normal;
-    font-weight: normal;
-    src: local('Matrix II'), url('../font/MatrixII/MatrixIIBold.otf') format('otf');
+.root {
+    -fx-font-family: "Matrix II Regular";
+    -fx-font-size: 15;
+    -fx-background-image: url(../image/main_background.jpg);
+    -fx-background-size: cover;
 }
 
-.root {
-    -fx-font-family: Matrix II;
-    -fx-font-size: 20.0;
-    -fx-background-image: url(../image/main_background.jpg);
+#firstBox {
+    -fx-background-color: #00062b;
+    -fx-background-radius: 30;
+}
+
+#secondBox {
+    -fx-background-color: #103188;
+    -fx-background-radius: 15;
 }
 
 #FirstTitle {
-    -fx-font-size: 64.0;
+    -fx-font-size: 56.0;
 }
 
 #SecondTitle {
-    -fx-font-size: 40.0;
+    -fx-font-size: 32.0;
 }
 
 #Button {
-    -fx-font-size: 24.0;
+    -fx-font-size: 20.0;
     -fx-background-color: #bb792d;
     -fx-background-radius: 10;
 }
 
 #ExitButton {
-    -fx-font-size: 28.0;
+    -fx-font-size: 24.0;
     -fx-background-color: #9e376c;
+    -fx-background-radius: 10;
+}
+
+#textField {
+    -fx-background-color: #00062b;
+    -fx-text-inner-color: white;
     -fx-background-radius: 10;
 }

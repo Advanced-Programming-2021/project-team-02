@@ -55,8 +55,8 @@ public class GameView {
             controller.summonMonster();
         else if (Regex.getMatcher(Regex.GRAVEYARD_SHOW, command).matches())
             instance.showCurrentGraveYard();
-        else if (Regex.getMatcher(Regex.CARD_SHOW_SELECTED, command).matches())
-            DeckMenuView.getInstance().checkTypeOfCardAndPrintIt(controller.getSelectedCell().getCardInCell());
+        else if (Regex.getMatcher(Regex.CARD_SHOW_SELECTED, command).matches()) {}
+//            DeckMenuView.getInstance().checkTypeOfCardAndPrintIt(controller.getSelectedCell().getCardInCell());
         else if (Regex.getMatcher(Regex.BOARD_GAME_SUMMON, command).matches())
             controller.summonMonster();
         else if (Regex.getMatcher(Regex.BOARD_GAME_SET_MONSTER, command).matches())

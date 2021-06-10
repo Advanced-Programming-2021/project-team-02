@@ -9,7 +9,6 @@ import project.view.messages.SuccessMessage;
 
 public class DeckMenuController {
     private static  DeckMenuController instance = null;
-    private  final DeckMenuView view = DeckMenuView.getInstance();
 
     private DeckMenuController(){
 
