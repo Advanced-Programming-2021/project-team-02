@@ -3,6 +3,7 @@ package project.controller;
 
 import project.model.User;
 import project.view.messages.Error;
+import project.view.messages.LoginMessage;
 import project.view.messages.SuccessMessage;
 
 
@@ -17,26 +18,16 @@ public class LoginMenuController {
         return instance;
     }
 
-    public void createUser(String username, String nickname, String password, String secondPassword) {
-        if (isUsernameUsed(username)) {
-//            project.view.showDynamicError(Error.TAKEN_USERNAME, username);
-            return;
-        }
-        if (isNicknameUsed(nickname)) {
-//            project.view.showDynamicError(Error.TAKEN_NICKNAME, nickname);
-            return;
-        }
-        if (!password.equals(secondPassword)) {
-//            Alert alert = new Alert(Alert.AlertType.WARNING);
-//            alert.setTitle("Password");
-//            alert.setHeaderText("Wrong Password");
-//            alert.setContentText("Passwords are not the same!\nPlease try again");
-//            alert.showAndWait();
-            return;
-        }
+    public LoginMessage createUser(String username, String nickname, String password, String secondPassword) {
+        if (username.length () == 0 || password.length () == 0 || secondPassword.length () == 0 || nickname.length () == 0) return LoginMessage.EMPTY_FIELD;
+        if (username.length () < 6) return LoginMessage.SHORT_USERNAME;
+        if (password.length () < 8) return LoginMessage.SHORT_PASSWORD;
+        if (isUsernameUsed(username)) return LoginMessage.TAKEN_USERNAME;
+        if (isNicknameUsed(nickname)) return LoginMessage.TAKEN_NICKNAME;
+        if (!password.equals(secondPassword)) return LoginMessage.NONIDENTICAL_PASSWORDS;
         new User(username, password, nickname);
         User.jsonUsers();
-        SuccessMessage.showSuccessMessage(SuccessMessage.REGISTER_SUCCESSFUL);
+        return LoginMessage.SUCCESSFUL_SIGN_UP;
     }
 
     public boolean isUsernameUsed(String username) {
@@ -50,21 +41,14 @@ public class LoginMenuController {
     }
 
     public boolean doesUsernameAndPasswordMatch(String username, String password) {
-        assert User.getUserByUsername(username) != null;
         return User.getUserByUsername(username).getPassword().equals(password);
     }
 
-    public void loginUser(String username, String password) {
-        if (!isUsernameUsed(username)) {
-            Error.showError(Error.INCORRECT_USERNAME);
-            return;
-        }
-        if (!doesUsernameAndPasswordMatch(username, password)) {
-            Error.showError(Error.INCORRECT_PASSWORD);
-            return;
-        }
+    public LoginMessage loginUser(String username, String password) {
+        if (username.length () == 0 || password.length () == 0) return LoginMessage.EMPTY_FIELD;
+        if (!isUsernameUsed(username)) return LoginMessage.INCORRECT_USERNAME_PASSWORD;
+        if (!doesUsernameAndPasswordMatch(username, password)) return LoginMessage.INCORRECT_USERNAME_PASSWORD;
         MainMenuController.getInstance().setLoggedInUser(User.getUserByUsername(username));
-        assert User.getUserByUsername(username) != null;
-        SuccessMessage.showSuccessMessage(SuccessMessage.LOGIN_SUCCESSFUL);
+        return LoginMessage.SUCCESSFUL_LOGIN;
     }
 }

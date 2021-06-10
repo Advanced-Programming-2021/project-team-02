@@ -19,16 +19,21 @@
 }
 
 #FirstTitle {
-    -fx-font-family: Matrix II;
     -fx-font-size: 64.0;
 }
 
 #SecondTitle {
-    -fx-font-family: Matrix II;
     -fx-font-size: 40.0;
 }
 
 #Button {
-    -fx-font-family: Matrix II;
     -fx-font-size: 24.0;
+    -fx-background-color: #bb792d;
+    -fx-background-radius: 10;
+}
+
+#ExitButton {
+    -fx-font-size: 28.0;
+    -fx-background-color: #9e376c;
+    -fx-background-radius: 10;
 }

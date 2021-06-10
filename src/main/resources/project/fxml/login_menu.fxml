@@ -16,7 +16,7 @@
             <TextField fx:id="nicknameFieldSignUp" promptText="Nickname" style="-fx-background-color: #00062b; -fx-text-inner-color: white;" />
             <PasswordField fx:id="passwordFieldSignUp" promptText="Password" style="-fx-background-color: #00062b; -fx-text-inner-color: white;" />
             <PasswordField fx:id="secondPasswordField" promptText="Confirm Password" style="-fx-background-color: #00062b; -fx-text-inner-color: white;" />
-            <Button id="Button" onMouseClicked="#registerUser" style="-fx-background-color: #bb792d; -fx-background-radius: 10;" text="Sign up" textAlignment="CENTER" textFill="WHITE">
+            <Button id="Button" onMouseClicked="#registerUser" text="Sign up" textAlignment="CENTER" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
@@ -28,7 +28,7 @@
             <Label id="SecondTitle" alignment="CENTER" contentDisplay="CENTER" text="Login" textAlignment="CENTER" textFill="WHITE" />
             <TextField fx:id="usernameFieldLogin" promptText="Username" style="-fx-background-color: #00062b; -fx-text-inner-color: white;" />
             <PasswordField fx:id="passwordFieldLogin" promptText="Password" style="-fx-background-color: #00062b; -fx-text-inner-color: white;" />
-            <Button id="Button" onMouseClicked="#loginUser" style="-fx-background-color: #bb792d; -fx-background-radius: 10;" text="Login" textAlignment="CENTER" textFill="WHITE">
+            <Button id="Button" onMouseClicked="#loginUser" text="Login" textAlignment="CENTER" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
@@ -43,7 +43,7 @@
             <Insets bottom="35.0" top="35.0" />
          </padding>
       </HBox>
-      <Button id="Button" onMouseClicked="#exit" style="-fx-background-color: #9e376c; -fx-background-radius: 10;" text="Exit" textAlignment="CENTER" textFill="WHITE">
+      <Button id="ExitButton" onMouseClicked="#exit" text="Exit" textAlignment="CENTER" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>

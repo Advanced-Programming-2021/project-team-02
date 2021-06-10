@@ -20,7 +20,7 @@ public class User implements Comparable<User> {
 
     {
         try {
-            fileWriter = new FileWriter("user.json");
+            fileWriter = new FileWriter("json/user.json");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -44,14 +44,14 @@ public class User implements Comparable<User> {
     public void activatedDeck() {
         hasActiveDeck = true;
         try {
-            PrintWriter printWriter = new PrintWriter("user.json");
+            PrintWriter printWriter = new PrintWriter("json/user.json");
             printWriter.print("");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         Writer writer = null;
         try {
-            writer = Files.newBufferedWriter(Paths.get("user.json"));
+            writer = Files.newBufferedWriter(Paths.get("json/user.json"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -119,14 +119,14 @@ public class User implements Comparable<User> {
     public void changeNickname(String newNickname) {
         setNickname(newNickname);
         try {
-            PrintWriter printWriter = new PrintWriter("user.json");
+            PrintWriter printWriter = new PrintWriter("json/user.json");
             printWriter.print("");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
             Writer writer = null;
             try {
-                writer = Files.newBufferedWriter(Paths.get("user.json"));
+                writer = Files.newBufferedWriter(Paths.get("json/user.json"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -143,7 +143,7 @@ public class User implements Comparable<User> {
         setPassword(newPassword);
         PrintWriter printWriter = null;
         try {
-            printWriter = new PrintWriter("user.json");
+            printWriter = new PrintWriter("json/user.json");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -151,7 +151,7 @@ public class User implements Comparable<User> {
         printWriter.print("");
         Writer writer = null;
         try {
-            writer = Files.newBufferedWriter(Paths.get("user.json"));
+            writer = Files.newBufferedWriter(Paths.get("json/user.json"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -202,14 +202,14 @@ public class User implements Comparable<User> {
 
     public static void jsonUsers() {
         try {
-            PrintWriter printWriter = new PrintWriter("user.json");
+            PrintWriter printWriter = new PrintWriter("json/user.json");
             printWriter.print("");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         Writer writer = null;
         try {
-            writer = Files.newBufferedWriter(Paths.get("user.json"));
+            writer = Files.newBufferedWriter(Paths.get("json/user.json"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -224,7 +224,7 @@ public class User implements Comparable<User> {
 
     public static void fromJson() {
         try {
-            String json = new String(Files.readAllBytes(Paths.get("user.json")));
+            String json = new String(Files.readAllBytes(Paths.get("json/user.json")));
            allUsers = new Gson().fromJson(json, new TypeToken<List<User>>(){}.getType());
         } catch (IOException e) {
             e.printStackTrace();
