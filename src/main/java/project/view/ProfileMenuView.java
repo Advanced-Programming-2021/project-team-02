@@ -21,6 +21,8 @@ import java.util.Objects;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import project.view.messages.PopUpMessage;
+import project.view.messages.ProfileMenuMessage;
 
 
 public class ProfileMenuView extends Application {
@@ -75,9 +77,13 @@ public class ProfileMenuView extends Application {
         Button changePasswordButton = new Button();
         changePasswordButton.setText("Change Password");
         changePasswordButton.setOnAction(event -> {
-            System.out.println(currentPasswordField.getText());
-            System.out.println(newPasswordField.getText());
-            controller.changePassword(currentPasswordField.getText(), newPasswordField.getText());
+            if (newPasswordField.getText().length() == 0 || currentPasswordField.getText().length() == 0) {
+                new PopUpMessage(ProfileMenuMessage.INVALID_INPUT.getAlertType(),
+                        ProfileMenuMessage.INVALID_INPUT.getLabel());
+            } else {
+                ProfileMenuMessage profileMenuMessage = controller.changePassword(currentPasswordField.getText(), newPasswordField.getText());
+                new PopUpMessage(profileMenuMessage.getAlertType(), profileMenuMessage.getLabel());
+            }
         });
         VBox layout = new VBox(10);
         layout.setMinSize(200, 200);
@@ -98,7 +104,15 @@ public class ProfileMenuView extends Application {
         currentNickNameLabel.setText("New nickname :");
         Button changeNicknameButton = new Button();
         changeNicknameButton.setText("Change Nickname");
-        changeNicknameButton.setOnAction(event -> controller.changeNickname(nickNameTextField.getText()));
+        changeNicknameButton.setOnAction(event -> {
+            if (nickNameTextField.getText().length() == 0) {
+                new PopUpMessage(ProfileMenuMessage.INVALID_INPUT.getAlertType(),
+                        ProfileMenuMessage.INVALID_INPUT.getLabel());
+            } else {
+                ProfileMenuMessage profileMenuMessage = controller.changeNickname(nickNameTextField.getText());
+                new PopUpMessage(profileMenuMessage.getAlertType(), profileMenuMessage.getLabel());
+            }
+        });
         VBox layout = new VBox(10);
         layout.setMinSize(200, 200);
         layout.getChildren().addAll(currentNickNameLabel, nickNameTextField);
