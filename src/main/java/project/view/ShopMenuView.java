@@ -148,6 +148,7 @@ public class ShopMenuView extends Application {
     @FXML
     public void initialize() {
         new User("mahdi", "123456", "test");
+        C1.setText("hello");
         HashMap<Card, Integer> allUserCards = Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getAllUserCards();
         for (Card card : allUserCards.keySet()) {
             if (card.getName().equals("Alexandrite Dragon")) C1.setText(String.valueOf(allUserCards.get(card)));

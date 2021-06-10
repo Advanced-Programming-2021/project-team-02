@@ -105,7 +105,7 @@
                   <Label fx:id="C9" prefHeight="26.0" prefWidth="78.0" text="Label" />
                </children>
             </HBox>
-            <HBox layoutX="7.0" layoutY="200.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
+            <HBox layoutX="7.0" layoutY="200.0" prefHeight="25.0" prefWidth="123.0" spacing="5.0">
                <children>
                   <Button mnemonicParsing="false" text="Buy" />
                   <Label fx:id="C1" prefHeight="26.0" prefWidth="78.0" text="Label" />
@@ -129,7 +129,7 @@
                   <Label fx:id="C12" prefHeight="26.0" prefWidth="78.0" text="Label" />
                </children>
             </HBox>
-            <HBox layoutX="7.0" layoutY="456.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
+            <HBox layoutX="7.0" layoutY="456.0" prefHeight="28.0" prefWidth="123.0" spacing="5.0">
                <children>
                   <Button mnemonicParsing="false" text="Buy" />
                   <Label fx:id="C11" prefHeight="26.0" prefWidth="78.0" text="Label" />
@@ -556,6 +556,57 @@
                   <Label fx:id="C19" prefHeight="26.0" prefWidth="78.0" text="Label" />
                </children>
             </HBox>
+            <Label layoutX="46.0" layoutY="223.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2600" />
+            <Label layoutX="192.0" layoutY="223.0" prefHeight="23.0" prefWidth="82.0" text="Price : 3100" />
+            <Label layoutX="335.0" layoutY="223.0" prefHeight="23.0" prefWidth="82.0" text="Price : 1600" />
+            <Label layoutX="46.0" layoutY="487.0" prefHeight="23.0" prefWidth="82.0" text="Price : 700" />
+            <Label layoutX="192.0" layoutY="487.0" prefHeight="23.0" prefWidth="82.0" text="Price : 3500" />
+            <Label layoutX="623.0" layoutY="225.0" prefHeight="23.0" prefWidth="82.0" text="Price : 1300" />
+            <Label layoutX="478.0" layoutY="487.0" prefHeight="23.0" prefWidth="82.0" text="Price : 1000" />
+            <Label layoutX="335.0" layoutY="487.0" prefHeight="23.0" prefWidth="82.0" text="Label" />
+            <Label layoutX="478.0" layoutY="225.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2900" />
+            <Label layoutX="762.0" layoutY="485.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2500" />
+            <Label layoutX="767.0" layoutY="225.0" prefHeight="23.0" prefWidth="82.0" text="Price : 9200" />
+            <Label layoutX="623.0" layoutY="487.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2800" />
+            <Label layoutX="912.0" layoutY="225.0" prefHeight="23.0" prefWidth="82.0" text="Price : 1000" />
+            <Label layoutX="1203.0" layoutY="225.0" prefHeight="23.0" prefWidth="82.0" text="Price : 10200" />
+            <Label layoutX="1059.0" layoutY="225.0" prefHeight="23.0" prefWidth="82.0" text="Price : 11300" />
+            <Label layoutX="1346.0" layoutY="225.0" prefHeight="23.0" prefWidth="82.0" text="Price : 3900" />
+            <Label layoutX="1059.0" layoutY="487.0" prefHeight="23.0" prefWidth="82.0" text="Price : 20000" />
+            <Label layoutX="912.0" layoutY="487.0" prefHeight="23.0" prefWidth="82.0" text="Price : 1500" />
+            <Label layoutX="1346.0" layoutY="487.0" prefHeight="23.0" prefWidth="82.0" text="Price : 1700" />
+            <Label layoutX="1203.0" layoutY="487.0" prefHeight="23.0" prefWidth="82.0" text="Price : 600" />
+            <Label layoutX="1346.0" layoutY="750.0" prefHeight="23.0" prefWidth="82.0" text="Price : 5800" />
+            <Label layoutX="1346.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2000" />
+            <Label layoutX="1346.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2500" />
+            <Label layoutX="1203.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2500" />
+            <Label layoutX="1203.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2000" />
+            <Label layoutX="1203.0" layoutY="748.0" prefHeight="23.0" prefWidth="82.0" text="Price : 3400" />
+            <Label layoutX="1059.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price :  2500" />
+            <Label layoutX="1059.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 3000" />
+            <Label layoutX="1059.0" layoutY="748.0" prefHeight="23.0" prefWidth="82.0" text="Price : 4300" />
+            <Label layoutX="912.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2000" />
+            <Label layoutX="912.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price : 4300" />
+            <Label layoutX="912.0" layoutY="750.0" prefHeight="23.0" prefWidth="82.0" text="Price : 11700" />
+            <Label layoutX="767.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2500" />
+            <Label layoutX="767.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2000" />
+            <Label layoutX="767.0" layoutY="750.0" prefHeight="23.0" prefWidth="82.0" text="Price : 7500" />
+            <Label layoutX="630.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price : 4300" />
+            <Label layoutX="630.0" layoutY="750.0" prefHeight="23.0" prefWidth="82.0" text="Price : 7900" />
+            <Label layoutX="797.0" layoutY="780.0" prefHeight="23.0" prefWidth="82.0" text="Label" />
+            <Label layoutX="623.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 4300" />
+            <Label layoutX="486.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 4300" />
+            <Label layoutX="486.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price : 4300" />
+            <Label layoutX="486.0" layoutY="748.0" prefHeight="23.0" prefWidth="82.0" text="Price : 1700" />
+            <Label layoutX="343.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2500" />
+            <Label layoutX="343.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price : 3000" />
+            <Label layoutX="335.0" layoutY="750.0" prefHeight="23.0" prefWidth="82.0" text="Price : 600" />
+            <Label layoutX="54.0" layoutY="750.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2500" />
+            <Label layoutX="54.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price : 1300" />
+            <Label layoutX="192.0" layoutY="748.0" prefHeight="23.0" prefWidth="82.0" text="Price :2500" />
+            <Label layoutX="54.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2500" />
+            <Label layoutX="198.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price : 1700" />
+            <Label layoutX="198.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 4300" />
          </children>
       </AnchorPane>
    </content>
