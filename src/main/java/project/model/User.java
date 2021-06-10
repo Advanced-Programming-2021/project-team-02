@@ -37,8 +37,8 @@ public class User implements Comparable<User> {
         setPassword(password);
         new Assets(username);
         allUsers.add(this);
-        User.jsonUsers();
-        Assets.jsonAssets();
+       // User.jsonUsers();
+       // Assets.jsonAssets();
     }
 
     public void activatedDeck() {
