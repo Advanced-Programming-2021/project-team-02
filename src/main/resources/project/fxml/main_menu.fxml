@@ -1,22 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.net.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
 <AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.MainMenuView">
-    <VBox layoutX="86.0" layoutY="76.0" prefHeight="200.0" prefWidth="100.0">
-        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-        <Label id="menu" onMouseClicked="#deckMenu" text="Deck" />
+    <VBox id="firstBox" alignment="CENTER" layoutX="125.0" layoutY="125.0" prefHeight="500.0" prefWidth="550.0" spacing="15.0">
+        <ImageView fitHeight="137.0" fitWidth="368.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../image/YuGiOhIcon.png" />
+         </image></ImageView>
+        <Label id="menu" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#deckMenu" text="Deck" textAlignment="CENTER" />
         <Label id="menu" onMouseClicked="#duelMenu" text="Duel" />
         <Label id="menu" onMouseClicked="#scoreboardMenu" text="Scoreboard" />
         <Label id="menu" onMouseClicked="#profileMenu" text="Profile" />
         <Label id="menu" onMouseClicked="#shopMenu" text="Shop" />
         <Label id="menu" onMouseClicked="#importExportMenu" text="Import/Export" />
+      <padding>
+         <Insets bottom="35.0" left="35.0" right="35.0" top="35.0" />
+      </padding>
     </VBox>
-    <Button id="button" layoutX="160.0" layoutY="841.0" mnemonicParsing="false" onMouseClicked="#logout" text="Logout" />
-    <Button id="button" layoutX="325.0" layoutY="841.0" mnemonicParsing="false" onMouseClicked="#exit" text="Exit Game" />
+    <Button id="button" layoutX="347.0" layoutY="662.0" mnemonicParsing="false" onMouseClicked="#logout" text="Logout" />
+    <Button id="button" layoutX="331.0" layoutY="739.0" mnemonicParsing="false" onMouseClicked="#exit" text="Exit Game" />
     <stylesheets>
         <URL value="@../CSS/main_menu_style.css" />
     </stylesheets>

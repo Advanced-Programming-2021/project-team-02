@@ -1,5 +1,6 @@
 package project.view;
 
+import javafx.application.Application;
 import javafx.stage.Stage;
 import project.controller.DeckMenuController;
 import project.model.card.Card;
@@ -13,7 +14,7 @@ import project.view.messages.Error;
 import java.util.Locale;
 import java.util.regex.Matcher;
 
-public class DeckMenuView {
+public class DeckMenuView extends Application {
     private static final DeckMenuController controller = DeckMenuController.getInstance ();
     private static Stage stage;
 
@@ -106,5 +107,10 @@ public class DeckMenuView {
                 "deck add-card --card <card name> --deck <deck name>\ndeck add-card --card <card name> --deck <deck name> --" +
                 "side\ndeck rm-card --card <card name> --deck <deck name>\ndeck rm-card --card <card name> --deck <deck name> --side\ndeck show --all\ndeck show --deck-name <deck name>\n" +
                 "deck show --deck-name <deck name> --side\ndeck show --cards\ncard show <card name>");
+    }
+
+    @Override
+    public void start(Stage stage) throws Exception {
+
     }
 }

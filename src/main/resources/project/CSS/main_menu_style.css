@@ -1,17 +1,37 @@
+@font-face {
+    font-family: 'Matrix II Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Matrix II'), url('../font/MatrixII/MatrixIIRegular.otf') format('otf');
+}
+
 .root {
     -fx-font-family: "Matrix II Regular";
     -fx-font-size: 15;
     -fx-background-image: url(../image/main_background.jpg);
     -fx-background-size: cover;
-    -fx-text-fill: white;
+}
+
+#firstBox {
+    -fx-background-color: #00062b;
+    -fx-background-radius: 30;
 }
 
 #menu {
-    -fx-font-size: 20.0;
+    -fx-font-size: 28;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+#menu:hover {
+    -fx-font-size: 35;
+    -fx-underline: true;
 }
 
 #button {
     -fx-font-size: 24.0;
     -fx-background-color: #9e376c;
     -fx-background-radius: 10;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
 }

@@ -24,22 +24,28 @@
 
 #FirstTitle {
     -fx-font-size: 56.0;
+    -fx-text-fill: white;
 }
 
 #SecondTitle {
     -fx-font-size: 32.0;
+    -fx-text-fill: white;
 }
 
 #Button {
     -fx-font-size: 20.0;
     -fx-background-color: #bb792d;
     -fx-background-radius: 10;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
 }
 
 #ExitButton {
     -fx-font-size: 24.0;
     -fx-background-color: #9e376c;
     -fx-background-radius: 10;
+    -fx-cursor: hand;
+    -fx-text-fill: white;
 }
 
 #textField {

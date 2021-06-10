@@ -21,32 +21,39 @@ public class MainMenuView extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         MainMenuView.stage = stage;
+        PopUpMessage.setStage(stage);
         URL fxmlAddress = getClass().getResource("/project/fxml/main_menu.fxml");
-        Parent login = FXMLLoader.load(fxmlAddress);
-        Scene scene = new Scene(login);
+        assert fxmlAddress != null;
+        Parent main = FXMLLoader.load(fxmlAddress);
+        Scene scene = new Scene(main);
+        stage.setScene(scene);
         stage.setFullScreen(true);
         stage.setResizable(false);
-        stage.setFullScreenExitHint("");
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-        stage.setScene(scene);
+        stage.setFullScreenExitHint("");
+        stage.show();
     }
 
-    public void deckMenu() {
+    public void deckMenu() throws Exception {
+        new DeckMenuView().start(stage);
     }
 
-    public void duelMenu() {
+    public void duelMenu() throws Exception {
+        new DuelMenuView().start(stage);
     }
 
-    public void scoreboardMenu() {
+    public void scoreboardMenu() throws Exception {
+        new ScoreBoardView().start(stage);
     }
 
-    public void profileMenu() {
+    public void profileMenu() throws Exception {
+        new ProfileMenuView().start(stage);
     }
 
-    public void shopMenu() {
+    public void shopMenu() throws Exception {
     }
 
-    public void importExportMenu() {
+    public void importExportMenu() throws Exception {
     }
 
     public void logout() throws Exception {
