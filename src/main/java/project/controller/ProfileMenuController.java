@@ -4,7 +4,6 @@ import project.view.messages.ProfileMenuMessage;
 
 public class ProfileMenuController {
     private static ProfileMenuController instance = null;
-    //private final ProfileMenuView view = ProfileMenuView.getInstance ();
 
     private ProfileMenuController() {
     }

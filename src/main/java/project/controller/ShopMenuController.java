@@ -4,9 +4,7 @@ import project.model.Assets;
 import project.model.Shop;
 import project.model.User;
 import project.model.card.Card;
-import project.view.ShopMenuView;
 import project.view.messages.Error;
-
 import java.util.Objects;
 
 public class ShopMenuController {
