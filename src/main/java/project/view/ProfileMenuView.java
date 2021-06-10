@@ -3,7 +3,10 @@ package project.view;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.scene.control.Button;
@@ -14,12 +17,17 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import project.model.User;
-
+import javafx.scene.image.ImageView;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Objects;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+
+import javax.swing.text.Element;
 
 public class ProfileMenuView extends Application {
     private static ProfileMenuController controller = null;
@@ -87,10 +95,6 @@ public class ProfileMenuView extends Application {
         window.showAndWait();
     }
 
-//    @Override
-//    public void handle(ActionEvent actionEvent) {
-//    }
-
     public void changeNickName(ActionEvent actionEvent) {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
@@ -112,13 +116,21 @@ public class ProfileMenuView extends Application {
         window.showAndWait();
     }
 
-
     public void changeProfilePicture(ActionEvent actionEvent) {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Change profile Picture");
+        Pane pane = new HBox(15);
+        Image image = new Image("/project/image/ProfileMenuPictures/2.jpg");
+        pane.getChildren().add(new javafx.scene.image.ImageView(image));
+        ImageView imageView1 = new ImageView(image);
+        pane.getChildren().add(imageView1);
         Label label = new Label();
         label.setText("Profile Pictures :");
+        Scene scene = new Scene(pane);
+        window.setScene(scene);
+        window.showAndWait();
+
 
     }
 }
