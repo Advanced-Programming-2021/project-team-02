@@ -12,14 +12,15 @@ public class SpellZone {
         }
     }
 
-    public void addCard(Card card, CellStatus status) {
-        for (Cell cell : spellCells) {
-            if (cell.getCellStatus().equals(CellStatus.EMPTY)) {
-                cell.setCardInCell(card);
-                cell.setCellStatus(status);
-                return;
+    public int addCard(Card card, CellStatus status) {
+        for (int i = 1; i <= 5; i++) {
+            if (getCellWithAddress(i).getCellStatus() == CellStatus.EMPTY) {
+                getCellWithAddress(i).setCardInCell(card);
+                getCellWithAddress(i).setCellStatus(status);
+                return i;
             }
         }
+        return -1;
     }
 
     public void removeWithCardAddress(int address) {

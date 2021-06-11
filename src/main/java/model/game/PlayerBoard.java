@@ -22,13 +22,13 @@ public class PlayerBoard {
         monsterZone.addCard(monster, status);
     }
 
-    public void addSpellOrTrapToBoard(Card card, CellStatus status) {
-        spellZone.addCard(card, status);
+    public int addSpellOrTrapToBoard(Card card, CellStatus status) {
+        return spellZone.addCard(card, status);
     }
 
     public void removeMonsterFromBoardAndAddToGraveYard(int address) {
         graveYard.addCard(monsterZone.getCellWithAddress(address).getCardInCell());
-        monsterZone.removeCard(address - 1);
+        monsterZone.removeCardWithAddress(address);
 
     }
 
@@ -37,7 +37,7 @@ public class PlayerBoard {
         spellZone.removeWithCardAddress(address);
     }
 
-    public void addCardToGraveYard(Card card) {
+    public void addCardToGraveYardDirectly(Card card) {
         graveYard.addCard(card);
     }
 

@@ -3,7 +3,10 @@ package view.gameview;
 import controller.playgame.RoundGameController;
 import model.Deck;
 import model.card.Card;
+import model.card.Monster;
+import model.card.informationofcards.CardType;
 import model.game.board.Cell;
+import model.game.board.CellStatus;
 import view.DeckMenuView;
 import view.input.Input;
 import view.input.Regex;
@@ -248,7 +251,11 @@ public class GameView {
             instance.showError(Error.EMPTY_GRAVEYARD);
         else {
             for (Card card : controller.getCurrentPlayer().getPlayerBoard().returnGraveYard().getGraveYardCards()) {
-                System.out.println(counter + ". " + card.getName() + ":" + card.getDescription());
+                System.out.print(counter + ". " + card.getName() + ":" + card.getDescription());
+                if (card.getCardType() == CardType.MONSTER) {
+                    System.out.println(" Powers : " + ((Monster) card).getAttackPower() + "," + ((Monster) card).getDefensePower());
+                }
+                System.out.println();
                 counter++;
             }
         }
@@ -281,20 +288,20 @@ public class GameView {
 
     public String[] getMonstersAddressesToBringRitual() {
         System.out.println("write card addresses in this format:\n" +
-                "CardAddress CardAddress CardAddress ...\n" +
-                "(... depends on how many are your cards that you should enter their CardAddress)");
+                "num1-num2-...\n" +
+                "(for example : 1-3-5)");
         String input;
         String[] split;
         while (true) {
             input = Input.getInput();
-            if (input.matches("(?<=\\s|^)([12345])(?=\\s|$)")) {
-                split = input.split(" ");
+            if (input.matches("([12345-]+)")) {
+                split = input.split("-");
                 return split;
             } else System.out.println(Error.INVALID_COMMAND);
         }
     }
 
-    public String getPositionForSetRitualMonster() {
+    public CellStatus getPositionForSetRitualMonster() {
         System.out.println("please enter position of ritual summon in this format\n" +
                 "attack\n" +
                 "or\n" +
@@ -303,7 +310,9 @@ public class GameView {
         while (true) {
             input = Input.getInput();
             if (input.equals("attack") || input.equals("defense")) {
-                return input;
+                if (input.equals("attack")) {
+                    return CellStatus.OFFENSIVE_OCCUPIED;
+                } else return CellStatus.DEFENSIVE_OCCUPIED;
             } else System.out.println(Error.INVALID_COMMAND);
         }
     }
@@ -322,8 +331,7 @@ public class GameView {
         System.out.println("please enter card address in monsterZone to be equipped");
         while (true) {
             String command = Input.getInput();
-            if (command.equals("cancel")) return -1;
-            else if (command.matches("[1-9]+")) return Integer.parseInt(command);
+             if (command.matches("[1-9]+")) return Integer.parseInt(command);
             else System.out.println(Error.INVALID_COMMAND);
         }
     }
@@ -369,11 +377,10 @@ public class GameView {
     }
 
     public String ritualCardName() {
-        System.out.println("please enter card name in this format: \n" +
-                "Card_Name");
+        System.out.println("please enter card address (number) or -1 to cancel");
         while (true) {
             String input = Input.getInput();
-            if (input.matches("[a-zA-Z0-9 -]+")) return input;
+            if (input.matches("[0-9-]+")) return input;
             else System.out.println(Error.INVALID_COMMAND);
         }
     }

@@ -150,10 +150,11 @@ public class DuelGameController {
         //TODO deckSecondPlayer.shuffleDeck(); commented them because of test
         RoundGameController roundGameController = RoundGameController.getInstance();
         for (int i = 0; i < 5; i++) {
-            roundGameController.addCardToFirstPlayerHand(deckFirstPlayer.getMainCards().get(i));
-            deckFirstPlayer.getMainCards().remove(i);
-            roundGameController.addCardToSecondPlayerHand(deckSecondPlayer.getMainCards().get(i));
-            deckSecondPlayer.getMainCards().remove(i);
+            roundGameController.addCardToFirstPlayerHand(deckFirstPlayer.getMainCards().get(0));
+            deckFirstPlayer.getMainCards().remove(0);
+            roundGameController.addCardToSecondPlayerHand(deckSecondPlayer.getMainCards().get(0));
+            deckSecondPlayer.getMainCards().remove(0);
+
         }
     }
 
