@@ -5,6 +5,8 @@ import project.model.Shop;
 import project.model.User;
 import project.model.card.Card;
 import project.view.messages.Error;
+import project.view.messages.ShopMenuMessage;
+
 import java.util.Objects;
 
 public class ShopMenuController {
@@ -26,19 +28,17 @@ public class ShopMenuController {
         return loggedInUser;
     }
 
-    public void buyCard(String cardName) {
+    public ShopMenuMessage buyCard(String cardName) {
         Card card = Card.getCardByName (cardName);
-        Assets assets = Assets.getAssetsByUsername (MainMenuController.getInstance ().getLoggedInUser ().getUsername ());
-        if (card == null) {
-            Error.showError (Error.CARD_DOES_NOT_EXIST);
-            return;
-        }
+        if (Card.getCardByName(cardName) == null) System.out.println("ridi");
+        //Assets assets = Assets.getAssetsByUsername (MainMenuController.getInstance ().getLoggedInUser ().getUsername ());
+        Assets assets = Assets.getAssetsByUsername("mahdi");
         if (Objects.requireNonNull (assets).getCoin () < Shop.getCards ().get (card)) {
-            Error.showError (Error.NOT_ENOUGH_MONEY);
-            return;
+            return ShopMenuMessage.NOT_ENOUGH_MONEY;
         }
         Objects.requireNonNull (assets).decreaseCoin (Shop.getCards ().get (card));
         assets.addCard (card);
+        return ShopMenuMessage.CARD_ADDED;
 //        project.view.showDynamicSuccessMessage (SuccessMessage.BOUGHT_CARD_SUCCESSFULLY, cardName);
     }
 }

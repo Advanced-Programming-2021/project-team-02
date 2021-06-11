@@ -19,19 +19,19 @@
                </image></ImageView>
             <HBox layoutX="1018.0" layoutY="200.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#BEWD" text="Buy" />
                   <Label fx:id="C8" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="152.0" layoutY="200.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#AR" text="Buy" />
                   <Label fx:id="C2" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="295.0" layoutY="200.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#BD" text="Buy" />
                   <Label fx:id="C3" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
@@ -47,7 +47,7 @@
             </ImageView>
             <HBox layoutX="440.0" layoutY="200.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#BO" text="Buy" />
                   <Label fx:id="C4" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
@@ -68,19 +68,19 @@
             </ImageView>
             <HBox layoutX="727.0" layoutY="200.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#BKB" text="Buy" />
                   <Label fx:id="C6" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="583.0" layoutY="200.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#BW" text="Buy" />
                   <Label fx:id="C5" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="872.0" layoutY="200.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#BBBBB" text="Buy" />
                   <Label fx:id="C7" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
@@ -101,49 +101,49 @@
             </ImageView>
             <HBox layoutX="1163.0" layoutY="200.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#CT" text="Buy" />
                   <Label fx:id="C9" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="7.0" layoutY="200.0" prefHeight="25.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#AD" text="Buy" />
                   <Label fx:id="C1" prefHeight="26.0" prefWidth="78.0" text="Label" />
                </children>
             </HBox>
             <HBox layoutX="1309.0" layoutY="200.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#CD" text="Buy" />
                   <Label fx:id="C10" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="295.0" layoutY="456.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#DM" text="Buy" />
                   <Label fx:id="C13" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="152.0" layoutY="456.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#DB" text="Buy" />
                   <Label fx:id="C12" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="7.0" layoutY="456.0" prefHeight="28.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#COTDO" text="Buy" />
                   <Label fx:id="C11" prefHeight="26.0" prefWidth="78.0" text="Label" />
                </children>
             </HBox>
             <HBox layoutX="440.0" layoutY="456.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#ED" text="Buy" />
                   <Label fx:id="C14" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="583.0" layoutY="456.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#FI" text="Buy" />
                   <Label fx:id="C15" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
@@ -198,25 +198,25 @@
             </ImageView>
             <HBox layoutX="725.0" layoutY="456.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#FFFFF" text="Buy" />
                   <Label fx:id="C16" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="874.0" layoutY="456.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#FM" text="Buy" />
                   <Label fx:id="C17" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="1019.0" layoutY="456.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#GG" text="Buy" />
                   <Label fx:id="C18" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="1308.0" layoutY="456.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#HOTE" text="Buy" />
                   <Label fx:id="C20" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
@@ -247,31 +247,31 @@
             </ImageView>
             <HBox layoutX="14.0" layoutY="719.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#HI" text="Buy" />
                   <Label fx:id="C21" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="446.0" layoutY="719.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#SF" text="Buy" />
                   <Label fx:id="C24" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="299.0" layoutY="719.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#MEB" text="Buy" />
                   <Label fx:id="C23" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="158.0" layoutY="719.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#LLLLL" text="Buy" />
                   <Label fx:id="C22" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="590.0" layoutY="719.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#SG" text="Buy" />
                   <Label fx:id="C25" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
@@ -302,31 +302,31 @@
             </ImageView>
             <HBox layoutX="874.0" layoutY="719.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#SS" text="Buy" />
                   <Label fx:id="C27" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="733.0" layoutY="719.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#SM" text="Buy" />
                   <Label fx:id="C26" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="1018.0" layoutY="719.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#TT" text="Buy" />
                   <Label fx:id="C28" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="1164.0" layoutY="719.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#WDG" text="Buy" />
                   <Label fx:id="C29" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="1309.0" layoutY="719.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#WWWWW" text="Buy" />
                   <Label fx:id="C30" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
@@ -357,31 +357,31 @@
             </ImageView>
             <HBox layoutX="158.0" layoutY="984.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#YS" text="Buy" />
                   <Label fx:id="C32" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="12.0" layoutY="984.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#WWWW" text="Buy" />
                   <Label fx:id="C31" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="301.0" layoutY="984.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#ARA" text="Buy" />
                   <Label fx:id="C33" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="590.0" layoutY="984.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#CF" text="Buy" />
                   <Label fx:id="C35" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="446.0" layoutY="984.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#BP" text="Buy" />
                   <Label fx:id="C34" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
@@ -412,31 +412,31 @@
             </ImageView>
             <HBox layoutX="872.0" layoutY="984.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#Forest" text="Buy" />
                   <Label fx:id="C37" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="732.0" layoutY="984.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#DH" text="Buy" />
                   <Label fx:id="C36" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="1307.0" layoutY="984.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#POG" text="Buy" />
                   <Label fx:id="C40" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="1163.0" layoutY="984.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#MR" text="Buy" />
                   <Label fx:id="C39" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="1018.0" layoutY="984.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#HFD" text="Buy" />
                   <Label fx:id="C38" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
@@ -467,31 +467,31 @@
             </ImageView>
             <HBox layoutX="158.0" layoutY="1254.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#SODD" text="Buy" />
                   <Label fx:id="C42" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="14.0" layoutY="1254.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#RRRRR" text="Buy" />
                   <Label fx:id="C41" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="589.0" layoutY="1254.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#YYYYY" text="Buy" />
                   <Label fx:id="C45" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="445.0" layoutY="1254.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#UUUUU" text="Buy" />
                   <Label fx:id="C44" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="301.0" layoutY="1254.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#TTTTT" text="Buy" />
                   <Label fx:id="C43" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
@@ -522,37 +522,37 @@
             </ImageView>
             <HBox layoutX="874.0" layoutY="1254.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#MF" text="Buy" />
                   <Label fx:id="C47" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="733.0" layoutY="1254.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#MC" text="Buy" />
                   <Label fx:id="C46" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="1306.0" layoutY="1254.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#TH" text="Buy" />
                   <Label prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="1164.0" layoutY="1254.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#TTTT" text="Buy" />
                   <Label fx:id="C49" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="1019.0" layoutY="1254.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#NA" text="Buy" />
                   <Label fx:id="C48" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
             <HBox layoutX="1162.0" layoutY="456.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
                <children>
-                  <Button mnemonicParsing="false" text="Buy" />
+                  <Button mnemonicParsing="false" onAction="#HHHHH" text="Buy" />
                   <Label fx:id="C19" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
                </children>
             </HBox>
