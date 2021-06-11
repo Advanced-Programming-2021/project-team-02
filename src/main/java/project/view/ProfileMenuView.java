@@ -114,6 +114,7 @@ public class ProfileMenuView extends Application {
         Scene scene = new Scene(layout, 300, 300);
         scene.getStylesheets().add(String.valueOf(getClass().getResource("/project/CSS/ChangePassword.css")));
         window.setScene(scene);
+        window.setResizable(false);
         window.showAndWait();
     }
 
@@ -144,8 +145,16 @@ public class ProfileMenuView extends Application {
         window.setTitle("Change Nickname");
         Label currentNickNameLabel = new Label();
         currentNickNameLabel.setText("New nickname :");
+        currentNickNameLabel.setFont(Font.font("Cambria", 20));
+        currentNickNameLabel.setTextFill(Color.web("#0076a3"));
         Button changeNicknameButton = new Button();
+        changeNicknameButton.setPrefHeight(30);
+        changeNicknameButton.setStyle("-fx-border-color: red; -fx-text-fill: blue; -fx-border- " +
+                "width: 3px; -fx-font-size: 15px;");
         changeNicknameButton.setText("Change Nickname");
+        nickNameTextField.setMaxSize(200, 60);
+        nickNameTextField.setStyle("-fx-background-insets: 0, 0 0 1 0 ;" +
+                " -fx-background-color: grey; -fx-text-box-border, -fx-background ;");
         changeNicknameButton.setOnAction(event -> {
             if (nickNameTextField.getText().length() == 0) {
                 new PopUpMessage(ProfileMenuMessage.INVALID_INPUT.getAlertType(),
@@ -156,12 +165,14 @@ public class ProfileMenuView extends Application {
             }
         });
         VBox layout = new VBox(10);
+        layout.setPadding(new Insets(10, 50, 50, 50));
         layout.setMinSize(200, 200);
         layout.getChildren().addAll(currentNickNameLabel, nickNameTextField);
         layout.getChildren().add(changeNicknameButton);
         layout.setAlignment(Pos.BASELINE_LEFT);
-        Scene scene = new Scene(layout);
+        Scene scene = new Scene(layout, 300, 300);
         window.setScene(scene);
+        scene.getStylesheets().add(String.valueOf(getClass().getResource("/project/CSS/ChangePassword.css")));
         window.setResizable(false);
         window.showAndWait();
     }
@@ -198,16 +209,22 @@ public class ProfileMenuView extends Application {
         firstPictureButton.setOnAction(event -> profileImageView.setImage(firstImage));
         firstPictureButton.setLayoutX(480);
         firstPictureButton.setLayoutY(200);
+        firstPictureButton.setStyle("-fx-border-color: red; -fx-text-fill: blue; -fx-border- " +
+                "width: 3px; -fx-font-size: 12px;");
 
         Button secondPictureButton = new Button("Select");
         secondPictureButton.setOnAction(event -> profileImageView.setImage(secondImage));
-        secondPictureButton.setLayoutX(280);
+        secondPictureButton.setLayoutX(270);
         secondPictureButton.setLayoutY(200);
+        secondPictureButton.setStyle("-fx-border-color: red; -fx-text-fill: blue; -fx-border- " +
+                "width: 3px; -fx-font-size: 12px;");
 
         Button thirdPictureButton = new Button("Select");
         thirdPictureButton.setOnAction(event -> profileImageView.setImage(thirdImage));
         thirdPictureButton.setLayoutY(200);
-        thirdPictureButton.setLayoutX(80);
+        thirdPictureButton.setLayoutX(75);
+        thirdPictureButton.setStyle("-fx-border-color: red; -fx-text-fill: blue; -fx-border- " +
+                "width: 3px; -fx-font-size: 12px;");
 
         pane.getChildren().add(firstPictureImageView);
         pane.getChildren().add(secondPictureImageView);
