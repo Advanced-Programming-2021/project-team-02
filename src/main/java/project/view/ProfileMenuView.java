@@ -1,11 +1,15 @@
 package project.view;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.*;
+import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.scene.control.Button;
 import project.controller.ProfileMenuController;
@@ -24,6 +28,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import project.view.messages.PopUpMessage;
 import project.view.messages.ProfileMenuMessage;
+
+import static javafx.scene.paint.Paint.valueOf;
 
 
 public class ProfileMenuView extends Application {
@@ -80,10 +86,14 @@ public class ProfileMenuView extends Application {
         window.setTitle("Change Password");
         Label currentPasswordLabel = new Label();
         currentPasswordLabel.setText("current password :");
+        currentPasswordLabel.setId("CP");
         Label newPasswordLabel = new Label();
         newPasswordLabel.setText("new password :");
         Button changePasswordButton = new Button();
         changePasswordButton.setText("Change Password");
+
+        cssForChangePassword(currentPasswordLabel, newPasswordLabel, changePasswordButton);
+
         changePasswordButton.setOnAction(event -> {
             if (newPasswordField.getText().length() == 0 || currentPasswordField.getText().length() == 0) {
                 new PopUpMessage(ProfileMenuMessage.INVALID_INPUT.getAlertType(),
@@ -94,14 +104,36 @@ public class ProfileMenuView extends Application {
             }
         });
         VBox layout = new VBox(10);
+        layout.setPadding(new Insets(10, 50, 50, 50));
         layout.setMinSize(200, 200);
         layout.getChildren().addAll(currentPasswordLabel, currentPasswordField,
                 newPasswordLabel, newPasswordField);
         layout.getChildren().add(changePasswordButton);
         layout.setAlignment(Pos.BASELINE_LEFT);
-        Scene scene = new Scene(layout);
+        layout.setStyle(String.valueOf(Color.web("#81c483")));
+        Scene scene = new Scene(layout, 300, 300);
+        scene.getStylesheets().add(String.valueOf(getClass().getResource("/project/CSS/ChangePassword.css")));
         window.setScene(scene);
         window.showAndWait();
+    }
+
+    public void cssForChangePassword(Label currentPasswordLabel, Label newPasswordLabel, Button changePasswordButton) {
+        currentPasswordLabel.setFont(Font.font("Cambria", 20));
+        currentPasswordLabel.setTextFill(Color.web("#0076a3"));
+        currentPasswordLabel.setWrapText(true);
+        newPasswordLabel.setFont(Font.font("Cambria", 20));
+        newPasswordLabel.setTextFill(Color.web("#0076a3"));
+        newPasswordLabel.setWrapText(true);
+        currentPasswordField.setMaxSize(200, 60);
+        currentPasswordField.setStyle("-fx-background-insets: 0, 0 0 1 0 ;" +
+                " -fx-background-color: grey; -fx-text-box-border, -fx-background ;");
+        newPasswordField.setMaxSize(200,60);
+        newPasswordField.setStyle("-fx-background-insets: 0, 0 0 1 0 ;" +
+                " -fx-background-color: transparent;" +
+                " -fx-background-color: grey; -fx-text-box-border, -fx-background ;");
+        changePasswordButton.setPrefHeight(30);
+        changePasswordButton.setStyle("-fx-border-color: red; -fx-text-fill: blue; -fx-border- " +
+                "width: 3px; -fx-font-size: 15px;");
     }
 
     public void changeNickName() {
@@ -130,6 +162,7 @@ public class ProfileMenuView extends Application {
         layout.setAlignment(Pos.BASELINE_LEFT);
         Scene scene = new Scene(layout);
         window.setScene(scene);
+        window.setResizable(false);
         window.showAndWait();
     }
 
