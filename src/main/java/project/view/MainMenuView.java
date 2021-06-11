@@ -5,11 +5,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.effect.BoxBlur;
-import javafx.scene.effect.Effect;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import project.view.messages.LoginMessage;
 import project.view.messages.PopUpMessage;
 
@@ -53,11 +51,14 @@ public class MainMenuView extends Application {
     public void shopMenu() throws Exception {
     }
 
+    public void createCard(MouseEvent mouseEvent) {
+    }
+
     public void importExportMenu() throws Exception {
     }
 
     public void logout() throws Exception {
-        PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
+        PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.LOGOUT_CONFIRMATION.getLabel());
         if (popUpMessage.getAlert().getResult().getText().equals("OK")) new LoginMenuView().start(stage);
     }
 

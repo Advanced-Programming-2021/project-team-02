@@ -12,6 +12,7 @@ public enum LoginMessage {
     INCORRECT_USERNAME_PASSWORD("Username and password didn't match!", Alert.AlertType.ERROR),
     SUCCESSFUL_SIGN_UP("Sign-up was successful", Alert.AlertType.INFORMATION),
     SUCCESSFUL_LOGIN("Login was successful", Alert.AlertType.INFORMATION),
+    LOGOUT_CONFIRMATION("Are you sure you want to logout?", Alert.AlertType.CONFIRMATION),
     EXIT_CONFIRMATION("Are you sure you want to exit?", Alert.AlertType.CONFIRMATION);
     private final String label;
     private final Alert.AlertType alertType;

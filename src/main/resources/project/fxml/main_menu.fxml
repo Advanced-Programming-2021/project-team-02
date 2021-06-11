@@ -7,23 +7,105 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.MainMenuView">
-    <VBox id="firstBox" alignment="CENTER" layoutX="125.0" layoutY="125.0" prefHeight="500.0" prefWidth="550.0" spacing="15.0">
+    <VBox id="firstBox" alignment="CENTER" layoutX="125.0" layoutY="85.0" prefHeight="555.0" prefWidth="550.0" spacing="30.0">
         <ImageView fitHeight="137.0" fitWidth="368.0" pickOnBounds="true" preserveRatio="true">
-         <image>
             <Image url="@../image/YuGiOhIcon.png" />
-         </image></ImageView>
-        <Label id="menu" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#deckMenu" text="Deck" textAlignment="CENTER" />
-        <Label id="menu" onMouseClicked="#duelMenu" text="Duel" />
-        <Label id="menu" onMouseClicked="#scoreboardMenu" text="Scoreboard" />
-        <Label id="menu" onMouseClicked="#profileMenu" text="Profile" />
-        <Label id="menu" onMouseClicked="#shopMenu" text="Shop" />
-        <Label id="menu" onMouseClicked="#importExportMenu" text="Import/Export" />
+        </ImageView>
+        <VBox prefHeight="282.0" prefWidth="164.0" spacing="10.0">
+            <HBox id="row" onMouseClicked="#deckMenu" spacing="5.0">
+                <ImageView id="icon" fitWidth="22" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../image/main_menu_icon.png" />
+               <HBox.margin>
+                  <Insets top="5.0" />
+               </HBox.margin>
+                </ImageView>
+                <Label id="menu" text="Deck" />
+            <padding>
+               <Insets bottom="2.0" left="5.0" top="2.0" />
+            </padding>
+            </HBox>
+            <HBox id="row" onMouseClicked="#duelMenu" spacing="5.0">
+                <ImageView id="icon" fitWidth="22" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../image/main_menu_icon.png" />
+                    <HBox.margin>
+                        <Insets top="5.0" />
+                    </HBox.margin>
+                </ImageView>
+                <Label id="menu" text="Duel" />
+                <padding>
+                    <Insets bottom="2.0" left="5.0" top="2.0" />
+                </padding>
+            </HBox>
+            <HBox id="row" onMouseClicked="#scoreboardMenu" spacing="5.0">
+                <ImageView id="icon" fitWidth="22" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../image/main_menu_icon.png" />
+                    <HBox.margin>
+                        <Insets top="5.0" />
+                    </HBox.margin>
+                </ImageView>
+                <Label id="menu" text="Scoreboard" />
+                <padding>
+                    <Insets bottom="2.0" left="5.0" top="2.0" />
+                </padding>
+            </HBox>
+            <HBox id="row" onMouseClicked="#profileMenu" spacing="5.0">
+                <ImageView id="icon" fitWidth="22" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../image/main_menu_icon.png" />
+                    <HBox.margin>
+                        <Insets top="5.0" />
+                    </HBox.margin>
+                </ImageView>
+                <Label id="menu" text="Profile" />
+                <padding>
+                    <Insets bottom="2.0" left="5.0" top="2.0" />
+                </padding>
+            </HBox>
+            <HBox id="row" onMouseClicked="#shopMenu" spacing="5.0">
+                <ImageView id="icon" fitWidth="22" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../image/main_menu_icon.png" />
+                    <HBox.margin>
+                        <Insets top="5.0" />
+                    </HBox.margin>
+                </ImageView>
+                <Label id="menu" text="Shop" />
+                <padding>
+                    <Insets bottom="2.0" left="5.0" top="2.0" />
+                </padding>
+            </HBox>
+            <HBox id="row" onMouseClicked="#createCard" spacing="5.0">
+                <ImageView id="icon" fitWidth="22" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../image/main_menu_icon.png" />
+                    <HBox.margin>
+                        <Insets top="5.0" />
+                    </HBox.margin>
+                </ImageView>
+                <Label id="menu" text="Create Card" />
+                <padding>
+                    <Insets bottom="2.0" left="5.0" top="2.0" />
+                </padding>
+            </HBox>
+            <HBox id="row" onMouseClicked="#importExportMenu" spacing="5.0">
+                <ImageView id="icon" fitWidth="22" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../image/main_menu_icon.png" />
+                    <HBox.margin>
+                        <Insets top="5.0" />
+                    </HBox.margin>
+                </ImageView>
+                <Label id="menu" text="Import/Export" />
+                <padding>
+                    <Insets bottom="2.0" left="5.0" top="2.0" />
+                </padding>
+            </HBox>
+         <VBox.margin>
+            <Insets left="80.0" right="150.0" />
+         </VBox.margin>
+        </VBox>
       <padding>
-         <Insets bottom="35.0" left="35.0" right="35.0" top="35.0" />
+         <Insets bottom="35.0" left="35.0" right="35.0" top="20.0" />
       </padding>
     </VBox>
-    <Button id="button" layoutX="347.0" layoutY="662.0" mnemonicParsing="false" onMouseClicked="#logout" text="Logout" />
-    <Button id="button" layoutX="331.0" layoutY="739.0" mnemonicParsing="false" onMouseClicked="#exit" text="Exit Game" />
+    <Button id="button" layoutX="347.0" layoutY="676.0" mnemonicParsing="false" onMouseClicked="#logout" text="Logout" />
+    <Button id="button" layoutX="331.0" layoutY="742.0" mnemonicParsing="false" onMouseClicked="#exit" text="Exit Game" />
     <stylesheets>
         <URL value="@../CSS/main_menu_style.css" />
     </stylesheets>

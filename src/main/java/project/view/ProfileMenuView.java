@@ -3,6 +3,7 @@ package project.view;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -26,6 +27,7 @@ import project.view.messages.ProfileMenuMessage;
 
 
 public class ProfileMenuView extends Application {
+    private static Stage stage;
     private static ProfileMenuController controller = null;
     @FXML
     public Label userNameLabel;
@@ -45,12 +47,16 @@ public class ProfileMenuView extends Application {
     private final User user = new User("mahdi", "12345", "test");
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        URL urlMain = getClass().getResource("/project/fxml/ProfileMenuView.fxml");
-        System.out.println(urlMain);
+    public void start(Stage stage) throws Exception {
+        ProfileMenuView.stage = stage;
+        URL urlMain = getClass().getResource("/project/fxml/profile_menu.fxml");
         Parent root = FXMLLoader.load(Objects.requireNonNull(urlMain));
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
+        stage.setScene(new Scene(root));
+        stage.setFullScreen(true);
+        stage.setResizable(false);
+        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        stage.setFullScreenExitHint("");
+        stage.show();
     }
 
     @FXML
@@ -69,6 +75,8 @@ public class ProfileMenuView extends Application {
     public void changePassword() {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
+        window.initOwner(stage);
+        PopUpMessage.setStage(window);
         window.setTitle("Change Password");
         Label currentPasswordLabel = new Label();
         currentPasswordLabel.setText("current password :");
@@ -99,6 +107,8 @@ public class ProfileMenuView extends Application {
     public void changeNickName() {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
+        window.initOwner(stage);
+        PopUpMessage.setStage(window);
         window.setTitle("Change Nickname");
         Label currentNickNameLabel = new Label();
         currentNickNameLabel.setText("New nickname :");
@@ -126,6 +136,8 @@ public class ProfileMenuView extends Application {
     public void changeProfilePicture() {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
+        window.initOwner(stage);
+        PopUpMessage.setStage(window);
         window.setTitle("Change profile Picture");
         AnchorPane pane = new AnchorPane();
 
