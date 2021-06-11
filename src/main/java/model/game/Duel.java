@@ -12,6 +12,7 @@ public class Duel {
     private ArrayList<String> winner = new ArrayList<>();
     private int[] lifePointsPlayer1;
     private int[] lifePointsPlayer2;
+    private int currentRound;
 
     public Duel(String username1, String username2, int numberOfRounds) throws CloneNotSupportedException {
         User user1 = User.getUserByUsername(username1);
@@ -47,16 +48,16 @@ public class Duel {
         return lifePointsPlayer1;
     }
 
-    public void setLifePointsPlayer1(int[] lifePointsPlayer1) {
-        this.lifePointsPlayer1 = lifePointsPlayer1;
+    public void addLifePointOfPlayer1(int lifePointsPlayer1) {
+        this.lifePointsPlayer1[currentRound - 1] = lifePointsPlayer1;
     }
 
     public int[] getLifePointsPlayer2() {
         return lifePointsPlayer2;
     }
 
-    public void setLifePointsPlayer2(int[] lifePointsPlayer2) {
-        this.lifePointsPlayer2 = lifePointsPlayer2;
+    public void addLifePointOfPlayer2(int lifePointsPlayer2) {
+        this.lifePointsPlayer2[currentRound - 1] = lifePointsPlayer2;
     }
 
     public int maximumNumberOfLifePointsPlayer1() {
@@ -89,5 +90,13 @@ public class Duel {
 
     public void setWinner(String winner) {
         this.winner.add(winner);
+    }
+
+    public void setCurrentRound(int currentRound) {
+        this.currentRound = currentRound;
+    }
+
+    public int getCurrentRound() {
+        return currentRound;
     }
 }

@@ -4,9 +4,11 @@ import controller.DeckMenuController;
 import controller.LoginMenuController;
 import controller.MainMenuController;
 import controller.ShopMenuController;
+import controller.playgame.BetweenRoundController;
 import controller.playgame.DuelGameController;
 import controller.playgame.RoundGameController;
 import model.User;
+import view.gameview.BetweenRoundView;
 import view.gameview.GameView;
 import view.input.Input;
 
@@ -42,12 +44,14 @@ public class MenusManager {
                 DeckMenuView.getInstance().run(command);
             } else if (currentMenu.equals(Menu.SHOP_MENU)) {
                 ShopMenuView.getInstance().run(command);
-            } else if (currentMenu.equals (Menu.DUEL_MENU)) {
-                DuelMenuView.getInstance ().run (command);
-            } else if (currentMenu.equals (Menu.SCOREBOARD_MENU)) {
-                ScoreBoardView.getInstance ().run (command);
-            } else if (currentMenu.equals(Menu.ONGOING_GAME)){
+            } else if (currentMenu.equals(Menu.DUEL_MENU)) {
+                DuelMenuView.getInstance().run(command);
+            } else if (currentMenu.equals(Menu.SCOREBOARD_MENU)) {
+                ScoreBoardView.getInstance().run(command);
+            } else if (currentMenu.equals(Menu.ONGOING_GAME)) {
                 GameView.getInstance().run(command);
+            } else if (currentMenu.equals(Menu.BETWEEN_ROUNDS)) {
+                BetweenRoundView.getInstance().run(command);
             }
         }
     }

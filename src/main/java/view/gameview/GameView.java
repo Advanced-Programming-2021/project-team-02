@@ -126,6 +126,10 @@ public class GameView {
             System.out.printf(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER.getValue(), string);
         else if (message.equals(SuccessMessage.DH_CARD_BECOMES_DO))
             System.out.printf(SuccessMessage.DH_CARD_BECOMES_DO.getValue(), string);
+        else if (message.equals(SuccessMessage.GAME_FINISHED))
+            System.out.printf(SuccessMessage.GAME_FINISHED.getValue(), string);
+        else if (message.equals(SuccessMessage.ROUND_FINISHED))
+            System.out.printf(SuccessMessage.ROUND_FINISHED.getValue(), string);
     }
 
     public void showSuccessMessageWithAnInteger(SuccessMessage message, int number) {
@@ -331,7 +335,7 @@ public class GameView {
         System.out.println("please enter card address in monsterZone to be equipped");
         while (true) {
             String command = Input.getInput();
-             if (command.matches("[1-9]+")) return Integer.parseInt(command);
+            if (command.matches("[1-9]+")) return Integer.parseInt(command);
             else System.out.println(Error.INVALID_COMMAND);
         }
     }

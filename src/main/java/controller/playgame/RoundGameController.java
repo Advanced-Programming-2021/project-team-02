@@ -9,6 +9,8 @@ import model.card.informationofcards.*;
 import model.game.DuelPlayer;
 import model.game.PlayerBoard;
 import model.game.board.*;
+import view.Menu;
+import view.MenusManager;
 import view.gameview.GameView;
 import view.messages.Error;
 import view.messages.SuccessMessage;
@@ -237,9 +239,14 @@ public class RoundGameController {
 
     private void trapMagicCylinderEffect() {
         getCurrentPlayer().decreaseLP(((Monster) selectedCell.getCardInCell()).getAttackPower());
-        duelGameController.checkGameResult(getOpponentPlayer(), getCurrentPlayer(), GameResult.NO_LP);
         addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getCurrentPlayer());
         deselectCard(0);
+        GameResult result = duelGameController.checkGameResult(getOpponentPlayer(), getCurrentPlayer(), GameResultToCheck.NO_LP);
+        if (result == GameResult.GAME_FINISHED) {
+            finishGame(getOpponentPlayer());
+        } else if (result == GameResult.ROUND_FINISHED) {
+            finishRound(getOpponentPlayer());
+        }
     }
 
     private void trapMirrorForceEffect() {
@@ -293,7 +300,12 @@ public class RoundGameController {
             currentPlayer.getPlayDeck().getMainCards().remove(currentPlayer.getPlayDeck().getMainCards().size() - 1);
             view.showSuccessMessageWithAString(SuccessMessage.CARD_ADDED_TO_THE_HAND, card.getName());
         } else {
-            duelGameController.checkGameResult(currentPlayer, getOpponentPlayer(), GameResult.NO_CARDS_TO_DRAW);// no card so this is loser!
+            GameResult result = duelGameController.checkGameResult(currentPlayer, getOpponentPlayer(), GameResultToCheck.NO_CARDS_TO_DRAW);// no card so this is loser!
+            if (result == GameResult.GAME_FINISHED) {
+                finishGame(currentPlayer);
+            } else if (result == GameResult.ROUND_FINISHED) {
+                finishRound(currentPlayer);
+            }
         }
     }
 
@@ -325,8 +337,14 @@ public class RoundGameController {
         }
         Monster monster = (Monster) selectedCell.getCardInCell();
         getOpponentPlayer().decreaseLP(monster.getAttackPower());
-        duelGameController.checkGameResult(getCurrentPlayer(), getOpponentPlayer(), GameResult.NO_LP);
         view.showSuccessMessageWithAnInteger(SuccessMessage.OPPONENT_RECEIVE_DAMAGE_AFTER_DIRECT_ATTACK, monster.getAttackPower());
+        GameResult result = duelGameController.checkGameResult(getCurrentPlayer(), getOpponentPlayer(), GameResultToCheck.NO_LP);
+
+        if (result == GameResult.GAME_FINISHED) {
+            finishGame(getCurrentPlayer());
+        } else if (result == GameResult.ROUND_FINISHED) {
+            finishRound(getCurrentPlayer());
+        }
     }
 
     public void nextPhase() {
@@ -695,9 +713,20 @@ public class RoundGameController {
 
 
     public void surrender() {
+        GameResult result;
+        DuelPlayer winner;
         if (getCurrentPlayer() == firstPlayer) {
-            duelGameController.checkGameResult(secondPlayer, firstPlayer, GameResult.SURRENDER);
-        } else duelGameController.checkGameResult(firstPlayer, secondPlayer, GameResult.SURRENDER);
+            result = duelGameController.checkGameResult(secondPlayer, firstPlayer, GameResultToCheck.SURRENDER);
+            winner = secondPlayer;
+        } else {
+            result = duelGameController.checkGameResult(firstPlayer, secondPlayer, GameResultToCheck.SURRENDER);
+            winner = firstPlayer;
+        }
+        if (result == GameResult.GAME_FINISHED) {
+            finishGame(winner);
+        } else if (result == GameResult.ROUND_FINISHED) {
+            finishRound(winner);
+        }
     }
 
     public void specialSummon(Card card, CellStatus cellStatus) {
@@ -1472,6 +1501,8 @@ public class RoundGameController {
     }
 
     private void attackToDHCard(Cell opponentCellToBeAttacked, int toBeAttackedCardAddress) { //TODO might have effect
+        GameResult result = null;
+        DuelPlayer probableWinner = null;
         Monster opponentCard = (Monster) opponentCellToBeAttacked.getCardInCell();
         view.showSuccessMessageWithAString(SuccessMessage.DH_CARD_BECOMES_DO, opponentCard.getName());
         opponentCellToBeAttacked.changeCellStatus(CellStatus.DEFENSIVE_OCCUPIED);
@@ -1492,8 +1523,9 @@ public class RoundGameController {
                 checkForManEaterBugAttacked();
                 getOpponentPlayer().decreaseLP(damage);
                 view.showSuccessMessageWithAnInteger(SuccessMessage.OPPONENT_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
-                duelGameController.checkGameResult(getCurrentPlayer(), getOpponentPlayer(), GameResult.NO_LP);
                 addCardToGraveYard(Zone.MONSTER_ZONE, toBeAttackedCardAddress, getOpponentPlayer());
+                result = duelGameController.checkGameResult(getCurrentPlayer(), getOpponentPlayer(), GameResultToCheck.NO_LP);
+                probableWinner = getCurrentPlayer();
             } else {
                 System.out.println("exploder effect");//TODO somwhere else
 
@@ -1502,14 +1534,20 @@ public class RoundGameController {
             checkForManEaterBugAttacked();
             view.showSuccessMessageWithAnInteger(SuccessMessage.CURRENT_PLAYER_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
             getCurrentPlayer().decreaseLP(-damage);
-            duelGameController.checkGameResult(getOpponentPlayer(), getCurrentPlayer(), GameResult.NO_LP);
             getCurrentPlayer().getPlayerBoard().addCardToGraveYardDirectly(opponentCellToBeAttacked.getCardInCell());
             addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getCurrentPlayer());
+            result = duelGameController.checkGameResult(getOpponentPlayer(), getCurrentPlayer(), GameResultToCheck.NO_LP);
+            probableWinner = getOpponentPlayer();
         } else {
             checkForManEaterBugAttacked();
             view.showSuccessMessage(SuccessMessage.NO_DAMAGE_TO_ANYONE);
             addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getCurrentPlayer());
             addCardToGraveYard(Zone.MONSTER_ZONE, toBeAttackedCardAddress, getOpponentPlayer());
+        }
+        if (result == GameResult.GAME_FINISHED) {
+            finishGame(probableWinner);
+        } else if (result == GameResult.ROUND_FINISHED) {
+            finishRound(probableWinner);
         }
     }
 
@@ -1535,6 +1573,8 @@ public class RoundGameController {
 
 
     private void attackToDOCard(Cell opponentCellToBeAttacked, int toBeAttackedCardAddress) { //TODO might have effect
+        GameResult result = null;
+        DuelPlayer probableWinner = null;
         Monster playerCard = (Monster) selectedCell.getCardInCell();
         Monster opponentCard = (Monster) opponentCellToBeAttacked.getCardInCell();
         int damage = playerCard.getAttackPower() - opponentCard.getDefensePower();
@@ -1550,13 +1590,21 @@ public class RoundGameController {
         } else if (damage < 0) {
             view.showSuccessMessageWithAnInteger(SuccessMessage.DAMAGE_TO_CURRENT_PLAYER_AFTER_ATTACK_TI_HIGHER_DEFENSIVE_DO_OR_DH_MONSTER, damage);
             getCurrentPlayer().decreaseLP(-damage);
-            duelGameController.checkGameResult(getOpponentPlayer(), getCurrentPlayer(), GameResult.NO_LP);
+            result = duelGameController.checkGameResult(getOpponentPlayer(), getCurrentPlayer(), GameResultToCheck.NO_LP);
+            probableWinner = getOpponentPlayer();
         } else {
             view.showSuccessMessage(SuccessMessage.NO_CARD_DESTROYED);
+        }
+        if (result == GameResult.GAME_FINISHED) {
+            finishGame(probableWinner);
+        } else if (result == GameResult.ROUND_FINISHED) {
+            finishRound(probableWinner);
         }
     }
 
     private void attackToOOCard(Cell opponentCellToBeAttacked, int toBeAttackedCardAddress) { // might have effect
+        GameResult result = null;
+        DuelPlayer probableWinner = null;
         Monster playerCard = (Monster) selectedCell.getCardInCell();
         Monster opponentCard = (Monster) opponentCellToBeAttacked.getCardInCell();
         if (isTrapToBeActivatedInAttackSituation()) {
@@ -1572,7 +1620,8 @@ public class RoundGameController {
                 view.showSuccessMessageWithAnInteger(SuccessMessage.OPPONENT_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
                 addCardToGraveYard(Zone.MONSTER_ZONE, toBeAttackedCardAddress, getOpponentPlayer());
                 getOpponentPlayer().decreaseLP(damage);
-                duelGameController.checkGameResult(getCurrentPlayer(), getOpponentPlayer(), GameResult.NO_LP);
+                result = duelGameController.checkGameResult(getCurrentPlayer(), getOpponentPlayer(), GameResultToCheck.NO_LP);
+                probableWinner = getCurrentPlayer();
             } else {
                 System.out.println("exploder effect");//TODO somwhere else
             }
@@ -1580,11 +1629,17 @@ public class RoundGameController {
             view.showSuccessMessageWithAnInteger(SuccessMessage.CURRENT_PLAYER_RECEIVE_DAMAGE_AFTER_ATTACK, damage);
             getCurrentPlayer().decreaseLP(-damage);
             addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getCurrentPlayer());
-            duelGameController.checkGameResult(getCurrentPlayer(), getOpponentPlayer(), GameResult.NO_LP);
+            result = duelGameController.checkGameResult(getCurrentPlayer(), getOpponentPlayer(), GameResultToCheck.NO_LP);
+            probableWinner = getCurrentPlayer();
         } else {
             view.showSuccessMessage(SuccessMessage.NO_DAMAGE_TO_ANYONE);
             addCardToGraveYard(Zone.MONSTER_ZONE, selectedCellAddress, getCurrentPlayer());
             addCardToGraveYard(Zone.MONSTER_ZONE, toBeAttackedCardAddress, getOpponentPlayer());
+        }
+        if (result == GameResult.GAME_FINISHED) {
+            finishGame(probableWinner);
+        } else if (result == GameResult.ROUND_FINISHED) {
+            finishRound(probableWinner);
         }
     }
 
@@ -2221,4 +2276,13 @@ public class RoundGameController {
 
     }
 
+    private void finishGame(DuelPlayer winner) {
+        view.showSuccessMessageWithAString(SuccessMessage.GAME_FINISHED, winner.getNickname());
+        MenusManager.getInstance().changeMenu(Menu.MAIN_MENU);
+    }
+
+    private void finishRound(DuelPlayer winner) {
+        view.showSuccessMessageWithAString(SuccessMessage.GAME_FINISHED, winner.getNickname());
+        MenusManager.getInstance().changeMenu(Menu.BETWEEN_ROUNDS);
+    }
 }

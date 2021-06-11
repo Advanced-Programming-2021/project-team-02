@@ -9,7 +9,8 @@ public enum Menu {
     SHOP_MENU("ShopMenu"),
     PROFILE_MENU("ProfileMenu"),
     SCOREBOARD_MENU("ScoreboardMenu"),
-    EXIT("Exit");
+    EXIT("Exit"),
+    BETWEEN_ROUNDS("BetweenRoundsMenu");
 
     private String value;
 

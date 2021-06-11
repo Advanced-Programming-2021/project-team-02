@@ -29,6 +29,10 @@ public class DuelGameController {
 
     }
 
+    public Duel getDuel() {
+        return duel;
+    }
+
     public static DuelGameController getInstance() {
         if (instance == null) instance = new DuelGameController();
         return instance;
@@ -36,12 +40,14 @@ public class DuelGameController {
 
     public void startDuel(Duel duel) {
         this.duel = duel;
+        duel.setCurrentRound(1);
         setStartHandCards(duel.getPlayer1(), duel.getPlayer2());
         starterSpecifier();
-
         MenusManager.getInstance().changeMenu(Menu.ONGOING_GAME);
     }
+    public void startNextRound(){
 
+    }
     public void starterSpecifier() {
 //        if (flipCoin() == 1) { TODO remove comment ... i commented them because of testing
         setSpecifier(duel.getPlayer1().getNickname());
@@ -52,22 +58,30 @@ public class DuelGameController {
 //        }
     }
 
-    public void checkGameResult(DuelPlayer winner, DuelPlayer loser, GameResult resultType) {
-        if (resultType == GameResult.NO_LP) {
+    public GameResult checkGameResult(DuelPlayer winner, DuelPlayer loser, GameResultToCheck resultType) {
+        if (resultType == GameResultToCheck.NO_LP) {
             if (duel.getNumberOfRounds() == 1) {
                 if (isPlayerDead(winner, loser)) {
-                    if (duel.getPlayer1() == winner)
+                    if (duel.getPlayer1() == winner) {
                         updateScoreAndCoinForOneRound(duel.getPlayer1(), duel.getPlayer2());
-                    else updateScoreAndCoinForOneRound(duel.getPlayer2(), duel.getPlayer1());
+                    } else updateScoreAndCoinForOneRound(duel.getPlayer2(), duel.getPlayer1());
+                    return GameResult.GAME_FINISHED;
                 }
+                return GameResult.CONTINUE;
             } else if (duel.getNumberOfRounds() == 3) {
                 if (isPlayerDead(winner, loser)) {
-                    if (duel.getPlayer1() == winner)
-                        updateScoreAndCoinForThreeRounds(duel.getPlayer1(), duel.getPlayer2());
-                    else updateScoreAndCoinForThreeRounds(duel.getPlayer2(), duel.getPlayer1());
+                    if (duel.getCurrentRound() == 3) {
+                        updateScoreAndCoinForThreeRounds(winner, loser);
+                        return GameResult.GAME_FINISHED;
+                    } else {
+                        duel.addLifePointOfPlayer1(duel.getPlayer1().getLifePoint());
+                        duel.addLifePointOfPlayer2(duel.getPlayer2().getLifePoint());
+                        return GameResult.ROUND_FINISHED;
+                    }
+
                 }
             }
-        } else if (resultType == GameResult.SURRENDER || resultType == GameResult.NO_CARDS_TO_DRAW) {
+        } else if (resultType == GameResultToCheck.SURRENDER) {
             if (duel.getNumberOfRounds() == 1) {
                 if (duel.getPlayer1() == winner)
                     updateScoreAndCoinForOneRound(duel.getPlayer1(), duel.getPlayer2());
@@ -77,8 +91,32 @@ public class DuelGameController {
                     updateScoreAndCoinForThreeRounds(duel.getPlayer1(), duel.getPlayer2());
                 else updateScoreAndCoinForThreeRounds(duel.getPlayer2(), duel.getPlayer1());
             }
+            view.showSuccessMessageWithTwoIntegerAndOneString(SuccessMessage.SURRENDER_MESSAGE, Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
+                            .getUsername(), Objects.requireNonNull(User.getUserByNickName(winner.getNickname())).getScore(),
+                    Objects.requireNonNull(User.getUserByNickName(loser.getNickname())).getScore());
+            return GameResult.GAME_FINISHED;
+        } else if (resultType == GameResultToCheck.NO_CARDS_TO_DRAW) {
+            if (duel.getNumberOfRounds() == 1) {
+                if (duel.getPlayer1() == winner) {
+                    updateScoreAndCoinForOneRound(duel.getPlayer1(), duel.getPlayer2());
+                } else updateScoreAndCoinForOneRound(duel.getPlayer2(), duel.getPlayer1());
+                return GameResult.GAME_FINISHED;
+            } else {
+                if (duel.getCurrentRound() != 3) {
+                    if (duel.getPlayer1() == winner)
+                        updateScoreAndCoinForThreeRounds(duel.getPlayer1(), duel.getPlayer2());
+                    else updateScoreAndCoinForThreeRounds(duel.getPlayer2(), duel.getPlayer1());
+                    duel.addLifePointOfPlayer1(duel.getPlayer1().getLifePoint());
+                    duel.addLifePointOfPlayer2(duel.getPlayer2().getLifePoint());
+                    setNextRoundDetail();
+                    return GameResult.ROUND_FINISHED;
+                } else {
+                    updateScoreAndCoinForThreeRounds(winner, loser);
+                    return GameResult.GAME_FINISHED;
+                }
+            }
         }
-
+        return null;
     }
 
     private boolean isPlayerDead(DuelPlayer winner, DuelPlayer loser) {
@@ -97,9 +135,7 @@ public class DuelGameController {
             Objects.requireNonNull(Assets.getAssetsByUsername(Objects.requireNonNull(User.getUserByNickName(loser.getNickname()))
                     .getUsername())).increaseCoin(100);
         }
-        view.showSuccessMessageWithTwoIntegerAndOneString(SuccessMessage.SURRENDER_MESSAGE, Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
-                        .getUsername(), Objects.requireNonNull(User.getUserByNickName(winner.getNickname())).getScore(),
-                Objects.requireNonNull(User.getUserByNickName(loser.getNickname())).getScore());
+
     }
 
     public void updateScoreAndCoinForThreeRounds(DuelPlayer winner, DuelPlayer loser) {
@@ -145,9 +181,9 @@ public class DuelGameController {
 
     private void setStartHandCards(DuelPlayer duelPlayer1, DuelPlayer duelPlayer2) {
         Deck deckFirstPlayer = duelPlayer1.getPlayDeck();
-        //TODO deckFirstPlayer.shuffleDeck(); commented them because of test
+        deckFirstPlayer.shuffleDeck();
         Deck deckSecondPlayer = duelPlayer2.getPlayDeck();
-        //TODO deckSecondPlayer.shuffleDeck(); commented them because of test
+        deckSecondPlayer.shuffleDeck();
         RoundGameController roundGameController = RoundGameController.getInstance();
         for (int i = 0; i < 5; i++) {
             roundGameController.addCardToFirstPlayerHand(deckFirstPlayer.getMainCards().get(0));
@@ -169,5 +205,13 @@ public class DuelGameController {
 
     public void setSpecifier(String specifier) {
         this.specifier = specifier;
+    }
+
+    private void setNextRoundDetail() {
+        duel.setCurrentRound(duel.getCurrentRound() + 1);
+    }
+
+    private void clearEveryThing() {
+
     }
 }
