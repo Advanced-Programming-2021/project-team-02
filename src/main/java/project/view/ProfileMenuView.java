@@ -6,7 +6,6 @@ import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.*;
 import javafx.scene.text.Font;
@@ -29,7 +28,6 @@ import javafx.scene.control.TextField;
 import project.view.messages.PopUpMessage;
 import project.view.messages.ProfileMenuMessage;
 
-import static javafx.scene.paint.Paint.valueOf;
 
 
 public class ProfileMenuView extends Application {

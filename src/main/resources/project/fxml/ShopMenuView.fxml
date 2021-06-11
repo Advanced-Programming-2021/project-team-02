@@ -4,9 +4,9 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1500.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.ShopMenuView">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1500.0" prefWidth="1540.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.ShopMenuView">
    <content>
-      <AnchorPane prefHeight="1500.0" prefWidth="1500.0">
+      <AnchorPane prefHeight="1500.0" prefWidth="1540.0">
          <children>
             <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -607,6 +607,8 @@
             <Label layoutX="54.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2500" />
             <Label layoutX="198.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price : 1700" />
             <Label layoutX="198.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 4300" />
+            <Button layoutX="20.0" layoutY="1436.0" mnemonicParsing="false" onAction="#back" prefHeight="43.0" prefWidth="76.0" text="Back" />
+            <Label fx:id="Coin" layoutX="1450.0" layoutY="14.0" text="Label" />
          </children>
       </AnchorPane>
    </content>

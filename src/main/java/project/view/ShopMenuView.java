@@ -1,29 +1,19 @@
 package project.view;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import project.controller.ShopMenuController;
-import javafx.scene.control.ScrollPane;
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import project.model.Assets;
 import project.model.User;
 import project.model.card.Card;
@@ -134,7 +124,8 @@ public class ShopMenuView extends Application {
     @FXML
     public Label C50;
 
-
+    @FXML
+    public Label Coin = new Label();
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -159,7 +150,8 @@ public class ShopMenuView extends Application {
         }
         controller = ShopMenuController.getInstance();
         new User("mahdi", "123456", "test");
-        System.out.println(Assets.getAssetsByUsername("mahdi").getCoin());
+        System.out.println(Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getCoin());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getCoin()));
         C1.setText("hello");
         HashMap<Card, Integer> allUserCards = Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getAllUserCards();
         for (Card card : allUserCards.keySet()) {
@@ -219,253 +211,257 @@ public class ShopMenuView extends Application {
         }
     }
 
-    public void BEWD(ActionEvent actionEvent) {
+    public void BEWD() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Blue-Eyes white dragon");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void AR(ActionEvent actionEvent) {
+    public void AR() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Axe Raider");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void BD(ActionEvent actionEvent) {
+    public void BD() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Baby dragon");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void BO(ActionEvent actionEvent) {
+    public void BO() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Battle OX");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void BKB(ActionEvent actionEvent) {
+    public void BKB() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Beast King Barbaros");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void BW(ActionEvent actionEvent) {
+    public void BW() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Battle warrior");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void CT(ActionEvent actionEvent) {
+    public void CT() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Crab Turtle");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void CD(ActionEvent actionEvent) {
+    public void CD() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Crawling dragon");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void DB(ActionEvent actionEvent) {
+    public void DB() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Dark Blade");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void COTDO(ActionEvent actionEvent) {
+    public void COTDO() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Curtain of the dark ones");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void AD(ActionEvent actionEvent) {
+    public void AD() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Alexandrite Dragon");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void DM(ActionEvent actionEvent) {
+    public void DM() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Dark magician");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void GG(ActionEvent actionEvent) {
+    public void GG() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Gate Guardian");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void FM(ActionEvent actionEvent) {
+    public void FM() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Flame manipulator");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void FI(ActionEvent actionEvent) {
+    public void FI() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Feral Imp");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void ED(ActionEvent actionEvent) {
+    public void ED() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Exploder Dragon");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void HOTE(ActionEvent actionEvent) {
+    public void HOTE() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Hero of the east");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void HI(ActionEvent actionEvent) {
+    public void HI() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Horn Imp");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void SF(ActionEvent actionEvent) {
+    public void SF() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Silver Fang");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void MEB(ActionEvent actionEvent) {
+    public void MEB() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Man-Eater Bug");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void SG(ActionEvent actionEvent) {
+    public void SG() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Skull Guardian");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void SS(ActionEvent actionEvent) {
+    public void SS() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Spiral Serpent");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void WDG(ActionEvent actionEvent) {
+    public void WDG() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Warrior Dai Grepher");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void TT(ActionEvent actionEvent) {
+    public void TT() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("The Tricky");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void SM(ActionEvent actionEvent) {
+    public void SM() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Slot Machine");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void YS(ActionEvent actionEvent) {
+    public void YS() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Yomi Ship");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void ARA(ActionEvent actionEvent) {
+    public void ARA() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Advanced Ritual Art");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void CF(ActionEvent actionEvent) {
+    public void CF() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Closed Forest");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void Forest(ActionEvent actionEvent) {
+    public void Forest() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Forest");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void BP(ActionEvent actionEvent) {
+    public void BP() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Black Pendant");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void DH(ActionEvent actionEvent) {
+    public void DH() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Dark Hole");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void MR(ActionEvent actionEvent) {
+    public void MR() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Monster Reborn");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void POG(ActionEvent actionEvent) {
+    public void POG() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Pot of Greed");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void SODD(ActionEvent actionEvent) {
+    public void SODD() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Sword of dark destruction");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void HFD(ActionEvent actionEvent) {
+    public void HFD() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Harpie's Feather Duster");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void MF(ActionEvent actionEvent) {
+    public void MF() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Mirror Force");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void TH(ActionEvent actionEvent) {
+    public void TH() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Trap Hole");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void NA(ActionEvent actionEvent) {
+    public void NA() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Negate Attack");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void MC(ActionEvent actionEvent) {
+    public void MC() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Magic Cylinder");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void BBBBB(ActionEvent actionEvent) {
+    public void BBBBB() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Bitron");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void FFFFF(ActionEvent actionEvent) {
+    public void FFFFF() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Fireyarou");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void LLLLL(ActionEvent actionEvent) {
+    public void LLLLL() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Leotron ");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void WWWWW(ActionEvent actionEvent) {
+    public void WWWWW() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Wattaildragon");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void WWWW(ActionEvent actionEvent) {
+    public void WWWW() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Wattkid");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void RRRRR(ActionEvent actionEvent) {
+    public void RRRRR() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Raigeki");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void YYYYY(ActionEvent actionEvent) {
+    public void YYYYY() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Yami");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void UUUUU(ActionEvent actionEvent) {
+    public void UUUUU() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Umiiruka");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void TTTTT(ActionEvent actionEvent) {
+    public void TTTTT() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Terraforming");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void HHHHH(ActionEvent actionEvent) {
+    public void HHHHH() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Haniwa");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void TTTT(ActionEvent actionEvent) {
+    public void TTTT() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Torrential Tribute");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+    }
+
+    public void back() {
+        System.exit(0);
     }
 }
