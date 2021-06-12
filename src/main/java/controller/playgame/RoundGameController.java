@@ -2282,10 +2282,11 @@ public class RoundGameController {
     private void finishGame(DuelPlayer winner) {
         view.showSuccessMessageWithAString(SuccessMessage.GAME_FINISHED, winner.getNickname());
         MenusManager.getInstance().changeMenu(Menu.MAIN_MENU);
+        clear();
     }
 
     private void finishRound(DuelPlayer winner) {
-        view.showSuccessMessageWithAString(SuccessMessage.GAME_FINISHED, winner.getNickname());
+        view.showSuccessMessageWithAString(SuccessMessage.ROUND_FINISHED, winner.getNickname());
         MenusManager.getInstance().changeMenu(Menu.BETWEEN_ROUNDS);
         DuelPlayer player1 = DuelGameController.getInstance().getDuel().getPlayer1();
         DuelPlayer player2 = DuelGameController.getInstance().getDuel().getPlayer2();
@@ -2293,5 +2294,27 @@ public class RoundGameController {
         player2.setPlayDeck(User.getActiveDeck(User.getUserByNickName(player2.getNickname()).getUsername()));
         BetweenRoundView.getInstance().setPlayer1(player1);
         BetweenRoundView.getInstance().setPlayer2(player2);
+        DuelGameController.getInstance().setSpecifier(winner.getNickname());
+        clear();
+    }
+
+    private void clear() {
+        selectedCell = null;
+        selectedCellZone = Zone.NONE;
+
+        isSummonOrSetOfMonsterUsed = false;
+        currentPhase = Phase.DRAW_PHASE;
+        firstPlayerHand = new ArrayList<>();
+        secondPlayerHand = new ArrayList<>();
+        turn = 1; // 1 : firstPlayer, 2 : secondPlayer
+        usedCellsToAttackNumbers = new ArrayList<>();
+        changedPositionCards = new ArrayList<>();
+        fieldZoneSpell = null;
+        fieldEffectedCards = new ArrayList<>();
+        fieldEffectedCardsAddress = new ArrayList<>();
+        isFieldActivated = 0; // 0 : no - 1 : firstPlayed activated it- 2 : secondPlayer activated it
+        opponentSelectedCell = null;
+        firstPlayerHashmapForEquipSpells = new HashMap<>();
+        secondPlayerHashmapForEquipSpells = new HashMap<>();
     }
 }

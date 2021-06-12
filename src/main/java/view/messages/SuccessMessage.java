@@ -41,8 +41,8 @@ public enum SuccessMessage {
     SURRENDER_MESSAGE_FOR_HOLE_MATCH("%s won the whole match with score: %d-%d\n"),
     TRIBUTE_SUMMON_ENTER_ADDRESS("Enter address Of Cards to Tribute"),
     BOUGHT_CARD_SUCCESSFULLY("bought %s successfully!\n"),
-    GAME_FINISHED("Game finished :)) %s is winner"),
-    ROUND_FINISHED("Round finished :)) %s is winner of this round"),
+    GAME_FINISHED("Game finished :)) %s is winner\n"),
+    ROUND_FINISHED("Round finished :)) %s is winner of this round\n"),
     CHANGED_CARD("Card changed");
     private String value;
 

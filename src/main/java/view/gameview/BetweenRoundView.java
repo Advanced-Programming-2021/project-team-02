@@ -1,6 +1,7 @@
 package view.gameview;
 
 import controller.playgame.BetweenRoundController;
+import controller.playgame.DuelGameController;
 import model.card.Card;
 import model.game.Duel;
 import model.game.DuelPlayer;
@@ -26,6 +27,7 @@ public class BetweenRoundView {
     public static BetweenRoundView getInstance() {
         if (instance == null)
             instance = new BetweenRoundView();
+
         return instance;
     }
 
@@ -34,6 +36,7 @@ public class BetweenRoundView {
     }
 
     private void commandRecognition(String command) {
+        BetweenRoundController.getInstance().setView(this);
         Matcher matcher;
         if ((matcher = Regex.getMatcher(Regex.CHANGE_CARD_BETWEEN_ROUNDS, command)).matches()) {
             DuelPlayer player = (turn == 1 ? player1 : player2);
@@ -43,6 +46,7 @@ public class BetweenRoundView {
                 turn = 2;
             } else {
                 turn = 1;
+                DuelGameController.getInstance().startNextRound();
                 MenusManager.getInstance().changeMenu(Menu.ONGOING_GAME);
             }
         } else if (command.equals("show deck")) {

@@ -96,7 +96,6 @@ public class GameView {
             Error.showError(Error.INVALID_COMMAND);
             return;
         }
-        showBoard();
     }
 
     public void showError(Error error) {

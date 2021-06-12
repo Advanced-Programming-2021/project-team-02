@@ -9,9 +9,11 @@ public class Duel {
     private int numberOfRounds;
     private DuelPlayer player1;
     private DuelPlayer player2;
-    private ArrayList<String> winner = new ArrayList<>();
+    private ArrayList<String> winnersList = new ArrayList<>();
     private int[] lifePointsPlayer1;
     private int[] lifePointsPlayer2;
+    private DuelPlayer winner;
+    private DuelPlayer loser;
     private int currentRound;
 
     public Duel(String username1, String username2, int numberOfRounds) throws CloneNotSupportedException {
@@ -44,17 +46,11 @@ public class Duel {
         return numberOfRounds;
     }
 
-    public int[] getLifePointsPlayer1() {
-        return lifePointsPlayer1;
-    }
 
     public void addLifePointOfPlayer1(int lifePointsPlayer1) {
         this.lifePointsPlayer1[currentRound - 1] = lifePointsPlayer1;
     }
 
-    public int[] getLifePointsPlayer2() {
-        return lifePointsPlayer2;
-    }
 
     public void addLifePointOfPlayer2(int lifePointsPlayer2) {
         this.lifePointsPlayer2[currentRound - 1] = lifePointsPlayer2;
@@ -84,12 +80,12 @@ public class Duel {
         return lifePointsPlayer2[0];
     }
 
-    public ArrayList<String> getWinner() {
-        return this.winner;
+    public ArrayList<String> getWinners() {
+        return this.winnersList;
     }
 
-    public void setWinner(String winner) {
-        this.winner.add(winner);
+    public void setWinners(String winner) {
+        this.winnersList.add(winner);
     }
 
     public void setCurrentRound(int currentRound) {
@@ -98,5 +94,18 @@ public class Duel {
 
     public int getCurrentRound() {
         return currentRound;
+    }
+
+    public void setWinnerAndLoser(DuelPlayer winner, DuelPlayer loser) {
+        this.winner = winner;
+        this.loser = loser;
+    }
+
+    public DuelPlayer getWinner() {
+        return winner;
+    }
+
+    public DuelPlayer getLoser() {
+        return loser;
     }
 }
