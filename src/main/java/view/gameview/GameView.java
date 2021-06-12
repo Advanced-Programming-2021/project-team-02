@@ -263,6 +263,9 @@ public class GameView {
                 counter++;
             }
         }
+        while(!Input.getInput().equals("back")){
+            System.out.println(Error.INVALID_COMMAND);
+        }
     }
 
     public int getTributeAddress() {
@@ -455,6 +458,9 @@ public class GameView {
                 System.out.println(counter + ". " + card.getName() + ":" + card.getDescription());
                 counter++;
             }
+        }
+        while(!Input.getInput().equals("back")){
+            System.out.println(Error.INVALID_COMMAND);
         }
     }
 

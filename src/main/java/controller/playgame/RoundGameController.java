@@ -1,6 +1,8 @@
 package controller.playgame;
 
+import model.Assets;
 import model.Deck;
+import model.User;
 import model.card.Card;
 import model.card.Monster;
 import model.card.Spell;
@@ -11,6 +13,7 @@ import model.game.PlayerBoard;
 import model.game.board.*;
 import view.Menu;
 import view.MenusManager;
+import view.gameview.BetweenRoundView;
 import view.gameview.GameView;
 import view.messages.Error;
 import view.messages.SuccessMessage;
@@ -2284,5 +2287,11 @@ public class RoundGameController {
     private void finishRound(DuelPlayer winner) {
         view.showSuccessMessageWithAString(SuccessMessage.GAME_FINISHED, winner.getNickname());
         MenusManager.getInstance().changeMenu(Menu.BETWEEN_ROUNDS);
+        DuelPlayer player1 = DuelGameController.getInstance().getDuel().getPlayer1();
+        DuelPlayer player2 = DuelGameController.getInstance().getDuel().getPlayer2();
+        player1.setPlayDeck(User.getActiveDeck(User.getUserByNickName(player1.getNickname()).getUsername()));
+        player2.setPlayDeck(User.getActiveDeck(User.getUserByNickName(player2.getNickname()).getUsername()));
+        BetweenRoundView.getInstance().setPlayer1(player1);
+        BetweenRoundView.getInstance().setPlayer2(player2);
     }
 }

@@ -42,7 +42,8 @@ public enum SuccessMessage {
     TRIBUTE_SUMMON_ENTER_ADDRESS("Enter address Of Cards to Tribute"),
     BOUGHT_CARD_SUCCESSFULLY("bought %s successfully!\n"),
     GAME_FINISHED("Game finished :)) %s is winner"),
-    ROUND_FINISHED("Round finished :)) %s is winner of this round");
+    ROUND_FINISHED("Round finished :)) %s is winner of this round"),
+    CHANGED_CARD("Card changed");
     private String value;
 
     SuccessMessage(String value) {

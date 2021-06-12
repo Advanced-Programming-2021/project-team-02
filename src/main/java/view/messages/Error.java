@@ -69,8 +69,8 @@ public enum Error {
     CHOOSE_MONSTER_FROM_MONSTER_ZONE("you should choose monster from monster zone"),
     CHOOSE_SPELL_FROM_SPELL_ZONE("you should choose spell from spell zone"),
     TYPE_FIEND_OR_SPELL_CASTER("your monster type should be fiend or spell caster"),
-    ONLY_CAN_SHOW_OPPONENT_CARD("you only can show opponentCard");
-
+    ONLY_CAN_SHOW_OPPONENT_CARD("you only can show opponentCard"),
+    WRONG_CARD_CHOICE("Wrong numbers");
     private String value;
 
     Error(String value) {

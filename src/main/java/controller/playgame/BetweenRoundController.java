@@ -1,7 +1,15 @@
 package controller.playgame;
 
+import model.Assets;
+import model.Deck;
+import model.card.Card;
 import model.game.DuelPlayer;
 import view.gameview.BetweenRoundView;
+import view.messages.Error;
+import view.messages.SuccessMessage;
+
+import java.util.ArrayList;
+
 
 public class BetweenRoundController {
     private static BetweenRoundController instance = null;
@@ -17,6 +25,35 @@ public class BetweenRoundController {
     }
 
     public void changeCard(int cardAddressInMainDeck, int cardAddressInSideDeck, DuelPlayer player) {
-
+        Deck deck = player.getPlayDeck();
+        ArrayList<Card> mainCards = player.getPlayDeck().getMainCards();
+        ArrayList<Card> sideCards = player.getPlayDeck().getMainCards();
+        Card inMainCard;
+        Card inSideCard;
+        if (cardAddressInMainDeck > mainCards.size() || cardAddressInSideDeck > sideCards.size() || cardAddressInMainDeck <= 0 || cardAddressInSideDeck <= 0) {
+            view.showError(Error.WRONG_CARD_CHOICE);
+            return;
+        }
+        inMainCard = mainCards.get(cardAddressInMainDeck - 1);
+        inSideCard = sideCards.get(cardAddressInSideDeck - 1);
+        if (!inMainCard.getName().equals(inSideCard.getName())) {
+            if (deck.getNumberOfCardInDeck(inSideCard) == 3) {
+                view.showError(Error.EXCESSIVE_NUMBER_IN_DECK);
+            } else {
+                mainCards.remove(cardAddressInMainDeck - 1);
+                mainCards.add(cardAddressInMainDeck, inSideCard);
+                sideCards.remove(cardAddressInSideDeck - 1);
+                sideCards.add(cardAddressInSideDeck, inMainCard);
+                view.showMessage(SuccessMessage.CHANGED_CARD);
+            }
+        } else {
+            mainCards.remove(cardAddressInMainDeck - 1);
+            mainCards.add(cardAddressInMainDeck, inSideCard);
+            sideCards.remove(cardAddressInSideDeck - 1);
+            sideCards.add(cardAddressInSideDeck, inMainCard);
+            view.showMessage(SuccessMessage.CHANGED_CARD);
+        }
     }
+
+
 }
