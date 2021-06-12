@@ -1,0 +1,51 @@
+@font-face {
+    font-family: 'Matrix II Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Matrix II'), url('../font/MatrixII/MatrixIIRegular.otf') format('otf');
+}
+
+.root {
+    -fx-font-family: "Matrix II Regular";
+    -fx-font-size: 20;
+    -fx-background-image: url(../image/main_background.jpg);
+    -fx-background-size: cover;
+}
+
+#firstBox {
+    -fx-background-color: #00062b;
+    -fx-background-radius: 30;
+}
+
+#secondBox {
+    -fx-background-color: #1b3069;
+    -fx-background-radius: 15;
+}
+
+#menuBar {
+    -fx-border-color: #ffd500;
+    -fx-border-radius: 20;
+}
+
+#menuTitle {
+    -fx-font-size: 36;
+    -fx-text-fill: #ffd500;
+}
+
+#rank {
+    -fx-text-fill: white;
+    -fx-background-color: #323c46;
+    -fx-background-radius: 10;
+}
+
+#nickname {
+    -fx-text-fill: white;
+    -fx-background-color: #323c46;
+    -fx-background-radius: 10;
+}
+
+#score {
+    -fx-text-fill: white;
+    -fx-background-color: #323c46;
+    -fx-background-radius: 10;
+}

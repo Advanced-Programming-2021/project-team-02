@@ -27,7 +27,7 @@
          </VBox>
          <VBox>
          <Label id="textField" text="Profile Picture:" />
-         <ImageView fx:id="image" fitHeight="150.0" fitWidth="223.0" pickOnBounds="true" preserveRatio="true" />
+         <ImageView fx:id="profileImageView" fitHeight="150.0" fitWidth="223.0" pickOnBounds="true" preserveRatio="true" />
          </VBox>
          <padding>
             <Insets left="10.0" />

@@ -72,8 +72,8 @@ public class ProfileMenuView extends Application {
         nickNameLabel.setText("Nickname : " + user.getNickname());
     }
 
-    public void back() {
-        System.exit(0);
+    public void back() throws Exception {
+        new MainMenuView().start(stage);
     }
 
     public void changePassword() {
