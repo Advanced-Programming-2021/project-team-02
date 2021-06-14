@@ -53,6 +53,7 @@ public class DuelGameController {
             first = duel.getPlayer1();
             second = duel.getPlayer2();
         }
+        setStartHandCards(first, second);
         RoundGameController.getInstance().setRoundInfo(first, second, GameView.getInstance(), this);
     }
 
@@ -187,9 +188,8 @@ public class DuelGameController {
                     .getUsername())).increaseCoin(100);
         }
         Objects.requireNonNull(User.getUserByNickName(winner.getNickname())).increaseScore(1000);
-        view.showSuccessMessageWithTwoIntegerAndOneString(SuccessMessage.SURRENDER_MESSAGE, Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
-                        .getUsername(), Objects.requireNonNull(User.getUserByNickName(winner.getNickname())).getScore(),
-                Objects.requireNonNull(User.getUserByNickName(loser.getNickname())).getScore());
+        view.showSuccessMessageWithAString(SuccessMessage.SURRENDER_MESSAGE, Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
+                        .getUsername());
 
     }
 
@@ -213,16 +213,14 @@ public class DuelGameController {
                     Objects.requireNonNull(User.getUserByNickName(winner.getNickname())).getScore(),
                     Objects.requireNonNull(User.getUserByNickName(loser.getNickname())).getScore());
         } else
-            view.showSuccessMessageWithTwoIntegerAndOneString(SuccessMessage.SURRENDER_MESSAGE, Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
-                            .getUsername(), Objects.requireNonNull(User.getUserByNickName(winner.getNickname())).getScore(),
-                    Objects.requireNonNull(User.getUserByNickName(loser.getNickname())).getScore());
-    }
+            view.showSuccessMessageWithAString(SuccessMessage.SURRENDER_MESSAGE, Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
+                    .getUsername());    }
 
     private void setStartHandCards(DuelPlayer duelPlayer1, DuelPlayer duelPlayer2) {
         Deck deckFirstPlayer = duelPlayer1.getPlayDeck();
-        deckFirstPlayer.shuffleDeck();
+        //deckFirstPlayer.shuffleDeck();TODO
         Deck deckSecondPlayer = duelPlayer2.getPlayDeck();
-        deckSecondPlayer.shuffleDeck();
+        //deckSecondPlayer.shuffleDeck();TODO
         RoundGameController roundGameController = RoundGameController.getInstance();
         for (int i = 0; i < 5; i++) {
             roundGameController.addCardToFirstPlayerHand(deckFirstPlayer.getMainCards().get(0));

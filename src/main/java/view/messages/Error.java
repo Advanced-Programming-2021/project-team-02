@@ -55,7 +55,6 @@ public enum Error {
     LEVEL_DOES_NOT_MATCH("selected monsters levels don’t match with ritual monster"),
     RITUAL_SUMMON_NOW("you should ritual summon right now"),
     CAN_NOT_SPECIAL_SUMMON("there is no way you could special summon a monster"),
-    INVISIBLE_CARD("card is not visible"),
     INVALID_COMMAND("invalid command"),
     CHANGE_CARDS_IN_ONE_ROUND_DUEL("you can not do this action"),
     CARD_IS_NOT_IN_MAIN_DECK_TO_CHANGE("card does not exist in main deck"),

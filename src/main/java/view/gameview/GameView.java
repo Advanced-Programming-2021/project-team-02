@@ -129,6 +129,8 @@ public class GameView {
             System.out.printf(SuccessMessage.GAME_FINISHED.getValue(), string);
         else if (message.equals(SuccessMessage.ROUND_FINISHED))
             System.out.printf(SuccessMessage.ROUND_FINISHED.getValue(), string);
+        else if (message == SuccessMessage.SURRENDER_MESSAGE)
+            System.out.printf(SuccessMessage.SURRENDER_MESSAGE.getValue(), string);
     }
 
     public void showSuccessMessageWithAnInteger(SuccessMessage message, int number) {
@@ -251,7 +253,7 @@ public class GameView {
     public void showCurrentGraveYard() {
         int counter = 1;
         if (controller.getCurrentPlayer().getPlayerBoard().isGraveYardEmpty())
-            instance.showError(Error.EMPTY_GRAVEYARD);
+            showError(Error.EMPTY_GRAVEYARD);
         else {
             for (Card card : controller.getCurrentPlayer().getPlayerBoard().returnGraveYard().getGraveYardCards()) {
                 System.out.print(counter + ". " + card.getName() + ":" + card.getDescription());
@@ -262,7 +264,7 @@ public class GameView {
                 counter++;
             }
         }
-        while(!Input.getInput().equals("back")){
+        while (!Input.getInput().equals("back")) {
             System.out.println(Error.INVALID_COMMAND);
         }
     }
@@ -458,7 +460,7 @@ public class GameView {
                 counter++;
             }
         }
-        while(!Input.getInput().equals("back")){
+        while (!Input.getInput().equals("back")) {
             System.out.println(Error.INVALID_COMMAND);
         }
     }

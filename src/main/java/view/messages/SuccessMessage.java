@@ -37,9 +37,8 @@ public enum SuccessMessage {
     TRAP_ACTIVATED("spell/trap activated"),
     COMPLETE_SPECIAL_SUMMON("you should special summon right now"),
     EMPTY_GRAVEYARD("graveyard empty"),
-    SURRENDER_MESSAGE ("%s won the game and the score is: %d-%d\n"),
+    SURRENDER_MESSAGE ("%s won the game \n"),//TODO check it
     SURRENDER_MESSAGE_FOR_HOLE_MATCH("%s won the whole match with score: %d-%d\n"),
-    TRIBUTE_SUMMON_ENTER_ADDRESS("Enter address Of Cards to Tribute"),
     BOUGHT_CARD_SUCCESSFULLY("bought %s successfully!\n"),
     GAME_FINISHED("Game finished :)) %s is winner\n"),
     ROUND_FINISHED("Round finished :)) %s is winner of this round\n"),
