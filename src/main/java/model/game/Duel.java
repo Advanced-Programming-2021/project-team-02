@@ -15,18 +15,21 @@ public class Duel {
     private DuelPlayer winner;
     private DuelPlayer loser;
     private int currentRound;
+    private boolean isWithAi = false;
 
-    public Duel(String username1, String username2, int numberOfRounds) throws CloneNotSupportedException {
+    public Duel(String username1, String username2, int numberOfRounds, boolean isWithAi) throws CloneNotSupportedException {
         User user1 = User.getUserByUsername(username1);
         User user2 = User.getUserByUsername(username2);
         this.numberOfRounds = numberOfRounds;
         lifePointsPlayer1 = new int[numberOfRounds];
         lifePointsPlayer2 = new int[numberOfRounds];
         setDuelPlayers(Objects.requireNonNull(user1), Objects.requireNonNull(user2));
+        this.isWithAi = isWithAi;
     }
 
-    public void saveLifePoints(int lifePointPlayer1, int lifePointPlayer2) {
 
+    public boolean isWithAi() {
+        return isWithAi;
     }
 
     public void setDuelPlayers(User user1, User user2) throws CloneNotSupportedException {

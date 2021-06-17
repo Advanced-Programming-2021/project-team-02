@@ -31,15 +31,21 @@ public class DuelMenuController {
             Error.showError(Error.WRONG_ROUNDS_NUMBER);
         } else if (arePlayersDecksActive(secondPlayerUsername)) {
             if (arePlayersDecksValid(secondPlayerUsername)) {
-                duel = new Duel(MenusManager.getInstance().getLoggedInUser().getUsername(), secondPlayerUsername, roundNumber);
+                duel = new Duel(MenusManager.getInstance().getLoggedInUser().getUsername(), secondPlayerUsername, roundNumber, false);
                 DuelGameController.getInstance().startDuel(duel);
             }
         }
     }
 
-    public void startDuelWithAI(int roundNumber) {
-        if (!areRoundsNumberValid(roundNumber))
+    public void startDuelWithAI(int roundNumber) throws CloneNotSupportedException {
+        if (!areRoundsNumberValid(roundNumber)) {
             Error.showError(Error.WRONG_ROUNDS_NUMBER);
+        } else if (arePlayersDecksActive("ai")) {
+            if (arePlayersDecksValid("ai")) {
+                duel = new Duel(MenusManager.getInstance().getLoggedInUser().getUsername(), "ai", roundNumber, true);
+                DuelGameController.getInstance().startDuel(duel);
+            }
+        }
     }
 
     private boolean isPlayerValidToStartDuel(String username) {

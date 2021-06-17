@@ -88,7 +88,7 @@ public class PlayerBoard {
         return 0;
     }
 
-    public Cell getACellOfBoard(Zone zone, int index) {
+    public Cell getACellOfBoardWithAddress(Zone zone, int index) {
         if (zone.equals(Zone.MONSTER_ZONE)) {
             return monsterZone.getCellWithAddress(index);
         } else if (zone.equals(Zone.SPELL_ZONE)) {

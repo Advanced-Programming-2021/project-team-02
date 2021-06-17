@@ -28,28 +28,30 @@ public class DuelMenuView {
     public void commandRecognition(String command) throws CloneNotSupportedException {
         Matcher matcher;
         if ((matcher = Regex.getMatcher(Regex.MENU_ENTER, command)).matches()) {
-            if (matcher.group ("menuName").toLowerCase(Locale.ROOT).equals ("duel"))
-                showDynamicError (Error.BEING_ON_CURRENT_MENU);
+            if (matcher.group("menuName").toLowerCase(Locale.ROOT).equals("duel"))
+                showDynamicError(Error.BEING_ON_CURRENT_MENU);
             else Error.showError(Error.BEING_ON_A_MENU);
         } else if (Regex.getMatcher(Regex.MENU_EXIT, command).matches()) {
             MenusManager.getInstance().changeMenu(Menu.MAIN_MENU);
         } else if (Regex.getMatcher(Regex.MENU_SHOW_CURRENT, command).matches()) {
             showCurrentMenu();
-        } else if ((matcher = Regex.getMatcherFromAllPermutations (Regex.DUEL_NEW_SECOND_PLAYER, command)) != null) {
-            controller.startDuelWithOtherPlayer (matcher.group("secondPlayerUsername"), Integer.parseInt(matcher.group("roundNumber")));
-        } else if ((matcher = Regex.getMatcherFromAllPermutations (Regex.DUEL_NEW_AI, command)) != null) {
-            controller.startDuelWithAI (Integer.parseInt (matcher.group ("roundNumber")));
+        } else if ((matcher = Regex.getMatcherFromAllPermutations(Regex.DUEL_NEW_SECOND_PLAYER, command)) != null) {
+            controller.startDuelWithOtherPlayer(matcher.group("secondPlayerUsername"), Integer.parseInt(matcher.group("roundNumber")));
+        } else if ((matcher = Regex.getMatcherFromAllPermutations(Regex.DUEL_NEW_AI, command)) != null) {
+            controller.startDuelWithAI(Integer.parseInt(matcher.group("roundNumber")));
+        } else if ((matcher = Regex.getMatcherFromAllPermutations(Regex.DUEL_NEW_AI, command)) != null) {
+            controller.startDuelWithAI(Integer.parseInt(matcher.group("roundNumber")));
         } else if (Regex.getMatcher(Regex.COMMAND_HELP, command).matches()) {
-            help ();
+            help();
         } else Error.showError(Error.INVALID_COMMAND);
     }
 
     public void showDynamicError(Error error) {
-        if (error.equals (Error.BEING_ON_CURRENT_MENU)) System.out.printf (error.getValue (), Menu.DUEL_MENU.getValue ());
+        if (error.equals(Error.BEING_ON_CURRENT_MENU)) System.out.printf(error.getValue(), Menu.DUEL_MENU.getValue());
     }
 
     public void showDynamicErrorForInactiveDeck(Error error, String username) {
-        System.out.printf (error.getValue (), username);
+        System.out.printf(error.getValue(), username);
     }
 
     public void showCurrentMenu() {
@@ -57,7 +59,7 @@ public class DuelMenuView {
     }
 
     public void help() {
-        System.out.println ("menu show-current\n" +
+        System.out.println("menu show-current\n" +
                 "duel new --second-player <secondPlayerUsername> --rounds <1|3>\n" +
                 "duel new --s-p <secondPlayerUsername> -r <1|3>\n" +
                 "duel --new --ai --rounds <1|3>\n" +

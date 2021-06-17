@@ -72,7 +72,7 @@ public class GameView {
         else if (Regex.getMatcher(Regex.BOARD_GAME_FLIP_SUMMON, command).matches())
             controller.flipSummon();
         else if ((matcher = Regex.getMatcher(Regex.BOARD_GAME_ATTACK, command)).matches())
-            controller.attackToCard(matcher);
+            controller.attackToCard(Integer.parseInt(matcher.group("monsterZoneNumber")));
         else if (Regex.getMatcher(Regex.BOARD_GAME_ATTACK_DIRECT, command).matches())
             controller.directAttack();
         else if (Regex.getMatcher(Regex.BOARD_GAME_ACTIVATE_EFFECT, command).matches())
@@ -85,16 +85,12 @@ public class GameView {
             controller.surrender();
         else if (Regex.getMatcher(Regex.BOARD_GAME_SHOW_HAND, command).matches()) {
             showHand();
-            return;
         } else if (Regex.getMatcher(Regex.BOARD_GAME_SHOW_BOARD, command).matches()) {
             showBoard();
-            return;
         } else if (Regex.getMatcher(Regex.COMMAND_HELP, command).matches()) {
             help();
-            return;
         } else {
             Error.showError(Error.INVALID_COMMAND);
-            return;
         }
     }
 

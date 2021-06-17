@@ -2,6 +2,9 @@ package model;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
+import model.card.Card;
+import model.card.Monster;
+import model.card.informationofcards.MonsterActionType;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -29,6 +32,7 @@ public class User implements Comparable<User> {
 
     static {
         allUsers = new ArrayList<>();
+        new User();
     }
 
     public User(String username, String password, String nickname) {
@@ -39,6 +43,25 @@ public class User implements Comparable<User> {
         allUsers.add(this);
         User.jsonUsers();
         Assets.jsonAssets();
+    }
+
+    private User() {
+        this.username = "ai";
+        this.password = "";
+        this.nickname = "ai";
+        allUsers.add(this);
+        Assets assets = new Assets("ai");
+        assets.createDeck("aiDeck");
+        Deck deck = assets.getDeckByDeckName("aiDeck");
+        ArrayList<Monster> allMonsters = Monster.getAllMonsters();
+        for (int i = 0; i < 3; i++) {
+            for (Monster monster : allMonsters) {
+                if (monster.getMonsterActionType() == MonsterActionType.NORMAL && monster.getLevel() <= 4)
+                    deck.addCardToMainDeck(Card.getCardByName(monster.getName()));
+            }
+        }
+        deck.setActivated(true);
+        this.activatedDeck();
     }
 
     public void activatedDeck() {
@@ -124,12 +147,12 @@ public class User implements Comparable<User> {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-            Writer writer = null;
-            try {
-                writer = Files.newBufferedWriter(Paths.get("user.json"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        Writer writer = null;
+        try {
+            writer = Files.newBufferedWriter(Paths.get("user.json"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         gson.toJson(allUsers, writer);
         try {
             assert writer != null;
@@ -225,7 +248,8 @@ public class User implements Comparable<User> {
     public static void fromJson() {
         try {
             String json = new String(Files.readAllBytes(Paths.get("user.json")));
-           allUsers = new Gson().fromJson(json, new TypeToken<List<User>>(){}.getType());
+            allUsers = new Gson().fromJson(json, new TypeToken<List<User>>() {
+            }.getType());
         } catch (IOException e) {
             e.printStackTrace();
         }

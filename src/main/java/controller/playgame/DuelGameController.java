@@ -40,6 +40,11 @@ public class DuelGameController {
         duel.setCurrentRound(1);
         setStartHandCards(duel.getPlayer1(), duel.getPlayer2());
         starterSpecifier();
+        if (duel.isWithAi()) {
+            if (RoundGameController.getInstance().getCurrentPlayer().getNickname().equals("ai")) {
+                RoundGameController.getInstance().aiTurn();
+            }
+        }
         MenusManager.getInstance().changeMenu(Menu.ONGOING_GAME);
     }
 
@@ -54,13 +59,13 @@ public class DuelGameController {
             second = duel.getPlayer2();
         }
         setStartHandCards(first, second);
-        RoundGameController.getInstance().setRoundInfo(first, second, GameView.getInstance(), this);
+        RoundGameController.getInstance().setRoundInfo(first, second, GameView.getInstance(), this, duel.isWithAi());
     }
 
     public void starterSpecifier() {
 //        if (flipCoin() == 1) { TODO remove comment ... i commented them because of testing
         setSpecifier(duel.getPlayer1().getNickname());
-        RoundGameController.getInstance().setRoundInfo(duel.getPlayer1(), duel.getPlayer2(), view, instance);
+        RoundGameController.getInstance().setRoundInfo(duel.getPlayer1(), duel.getPlayer2(), view, instance, duel.isWithAi());
 //        } else {
 //            setSpecifier(duel.getPlayer2().getNickname());
 //            RoundGameController.getInstance().setRoundInfo(duel.getPlayer2(), duel.getPlayer1(), view, instance);
@@ -189,7 +194,7 @@ public class DuelGameController {
         }
         Objects.requireNonNull(User.getUserByNickName(winner.getNickname())).increaseScore(1000);
         view.showSuccessMessageWithAString(SuccessMessage.SURRENDER_MESSAGE, Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
-                        .getUsername());
+                .getUsername());
 
     }
 
@@ -214,7 +219,8 @@ public class DuelGameController {
                     Objects.requireNonNull(User.getUserByNickName(loser.getNickname())).getScore());
         } else
             view.showSuccessMessageWithAString(SuccessMessage.SURRENDER_MESSAGE, Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
-                    .getUsername());    }
+                    .getUsername());
+    }
 
     private void setStartHandCards(DuelPlayer duelPlayer1, DuelPlayer duelPlayer2) {
         Deck deckFirstPlayer = duelPlayer1.getPlayDeck();
