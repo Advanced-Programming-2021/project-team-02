@@ -65,9 +65,9 @@ public class GameView {
         else if (Regex.getMatcher(Regex.BOARD_GAME_SELECT_DESELECT, command).matches())
             controller.deselectCard(1);
         else if ((matcher = Regex.getMatcher(Regex.BOARD_GAME_SELECT_HAND, command)).matches())
-            controller.selectCardInHand(matcher);
+            controller.selectCardInHand(Integer.parseInt(matcher.group("cardNumber")));
         else if ((matcher = Regex.getMatcher(Regex.BOARD_GAME_SELECT_HAND, command)).matches())
-            controller.selectCardInHand(matcher);
+            controller.selectCardInHand(Integer.parseInt(matcher.group("cardNumber")));
         else if (Regex.getMatcher(Regex.BOARD_GAME_NEXT_PHASE, command).matches())
             controller.nextPhase();
         else if (Regex.getMatcher(Regex.BOARD_GAME_SUMMON, command).matches())
