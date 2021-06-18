@@ -11,7 +11,9 @@ public enum Menu {
     SCOREBOARD_MENU("ScoreboardMenu"),
     EXIT("Exit"),
     BETWEEN_ROUNDS("BetweenRoundsMenu"),
-    ONGOING_GAME_WITH_AI("GameWithAI");
+    ONGOING_GAME_WITH_AI("GameWithAI"),
+    IMPORT_EXPORT_MENU("Import/ExportMenu");
+
     private String value;
 
     Menu(String value) {

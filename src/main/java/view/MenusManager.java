@@ -60,6 +60,9 @@ public class MenusManager {
             } else if (currentMenu.equals(Menu.ONGOING_GAME)) {
                 command = Input.getInput();
                 GameView.getInstance().run(command);
+            } else if (currentMenu.equals(Menu.IMPORT_EXPORT_MENU)) {
+                command = Input.getInput();
+                ImportExportMenuView.getInstance().run(command);
             } else if (currentMenu.equals(Menu.BETWEEN_ROUNDS)) {
                 command = Input.getInput();
                 BetweenRoundView.getInstance().run(command);
