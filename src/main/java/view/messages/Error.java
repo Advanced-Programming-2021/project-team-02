@@ -69,6 +69,7 @@ public enum Error {
     WRONG_CARD_CHOICE("Wrong numbers"),
     TYPE_FIEND_OT_SPELL_CASTER("your monster type should be fiend or spell caster"),
     ONLY_CAN_SHOW_OPPONENT_CARD("you only can show opponentCard"),
+    THERE_IS_NO_SUCH_FILE("there is no file with this name"),
     YOU_DO_NOT_HAVE_THIS_CARD("you can only export cards that you have!");
 
     private String value;

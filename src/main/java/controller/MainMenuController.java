@@ -45,6 +45,9 @@ public class MainMenuController {
             case "profile":
                 MenusManager.getInstance ().changeMenu (Menu.PROFILE_MENU);
                 break;
+            case "importexport":
+                MenusManager.getInstance().changeMenu(Menu.IMPORT_EXPORT_MENU);
+                break;
             case "duel":
                 MenusManager.getInstance ().changeMenu (Menu.DUEL_MENU);
                 break;

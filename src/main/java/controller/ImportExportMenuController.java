@@ -1,6 +1,7 @@
 package controller;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import model.Assets;
 import model.User;
 import model.card.Card;
@@ -8,8 +9,8 @@ import model.game.Duel;
 import view.ImportExportMenuView;
 import view.MainMenuView;
 import view.messages.Error;
+import view.messages.SuccessMessage;
 
-import javax.jws.soap.SOAPBinding;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -32,17 +33,24 @@ public class ImportExportMenuController {
         return instance;
     }
 
-    public void importCard(String cardName) {
-
+    public void importCard(String fileName) {
+        try {
+            String json = new String(Files.readAllBytes(Paths.get(fileName)));
+            Card card = new Gson().fromJson(json, new TypeToken<Card>(){}.getType());
+            Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).addCard(card);
+            view.showSuccessMessage(SuccessMessage.SUCCESS_MESSAGE_FOR_IMPORT);
+        } catch (IOException e) {
+            view.showError(Error.THERE_IS_NO_SUCH_FILE);
+        }
     }
 
     private void makeFile(String cardName) {
         try {
-            FileWriter fileWriter = new FileWriter(cardName);
             Gson gson = new Gson();
-            Writer writer = Files.newBufferedWriter(Paths.get(cardName));
+            Writer writer = Files.newBufferedWriter(Paths.get(cardName + ".json"));
             gson.toJson(Card.getCardByName(cardName), writer);
             writer.close();
+            view.showSuccessMessage(SuccessMessage.SUCCESS_MESSAGE_FOR_EXPORT);
         } catch (IOException e) {
             e.printStackTrace();
         }

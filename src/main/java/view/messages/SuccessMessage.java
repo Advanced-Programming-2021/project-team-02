@@ -39,6 +39,10 @@ public enum SuccessMessage {
     EMPTY_GRAVEYARD("graveyard empty"),
     SURRENDER_MESSAGE ("%s won the game \n"),//TODO check it , what does score mean ?
     SURRENDER_MESSAGE_FOR_HOLE_MATCH("%s won the whole match with score: %d-%d\n"),
+    TRIBUTE_SUMMON_ENTER_ADDRESS("Enter address Of Cards to Tribute"),
+    SUCCESS_MESSAGE_FOR_EXPORT("Card export successfully!"),
+    SUCCESS_MESSAGE_FOR_IMPORT("Card import successfully!"),
+    BOUGHT_CARD_SUCCESSFULLY("bought %s successfully!\n"),
     BOUGHT_CARD_SUCCESSFULLY("bought %s successfully!\n"),
     GAME_FINISHED("Game finished :)) %s is winner\n"),
     ROUND_FINISHED("Round finished :)) %s is winner of this round\n"),

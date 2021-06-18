@@ -3,6 +3,7 @@ package view;
 import controller.ImportExportMenuController;
 import view.input.Regex;
 import view.messages.Error;
+import view.messages.SuccessMessage;
 
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -34,9 +35,9 @@ public class ImportExportMenuView {
             MenusManager.getInstance().changeMenu(Menu.MAIN_MENU);
         } else if ((Regex.getMatcher (Regex.MENU_SHOW_CURRENT, command)).matches ()) {
             showCurrentMenu();
-        } else if (Regex.getMatcher(Regex.IMPORT, command).matches()) {
-            controller.importCard(matcher.group("cardName"));
-        } else if (Regex.getMatcher(Regex.EXPORT, command).matches()) {
+        } else if ((matcher = Regex.getMatcher(Regex.IMPORT, command)).matches()) {
+            controller.importCard(matcher.group("fileName"));
+        } else if ((matcher = Regex.getMatcher(Regex.EXPORT, command)).matches()) {
             controller.exportCard(matcher.group("cardName"));
         } else if (Regex.getMatcher(Regex.COMMAND_HELP, command).matches()) {
             help ();
@@ -45,6 +46,10 @@ public class ImportExportMenuView {
 
     private void showDynamicError() {
         if (Error.BEING_ON_CURRENT_MENU.equals (Error.BEING_ON_CURRENT_MENU)) System.out.printf (Error.BEING_ON_CURRENT_MENU.getValue (), Menu.DUEL_MENU.getValue ());
+    }
+
+    public void showSuccessMessage(SuccessMessage successMessage) {
+        System.out.println(successMessage.getValue());
     }
 
     private void showCurrentMenu() {
@@ -57,8 +62,9 @@ public class ImportExportMenuView {
 
 
     public void help() {
-        System.out.println("import card <cardName>\n" +
+        System.out.println("import card <fileName.json>\n" +
                 "export card <cardName>\n" +
+                "menu show-current\n" +
                 "menu exit");
     }
 
