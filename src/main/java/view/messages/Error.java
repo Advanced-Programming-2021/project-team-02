@@ -66,7 +66,11 @@ public enum Error {
     CHOOSE_SPELL_FROM_SPELL_ZONE("you should choose spell from spell zone"),
     TYPE_FIEND_OR_SPELL_CASTER("your monster type should be fiend or spell caster"),
     ONLY_CAN_SHOW_OPPONENT_CARD("you only can show opponentCard"),
-    WRONG_CARD_CHOICE("Wrong numbers");
+    WRONG_CARD_CHOICE("Wrong numbers"),
+    TYPE_FIEND_OT_SPELL_CASTER("your monster type should be fiend or spell caster"),
+    ONLY_CAN_SHOW_OPPONENT_CARD("you only can show opponentCard"),
+    YOU_DO_NOT_HAVE_THIS_CARD("you can only export cards that you have!");
+
     private String value;
 
     Error(String value) {

@@ -51,6 +51,10 @@ public class ImportExportMenuView {
         System.out.println ("Import/Export Menu");
     }
 
+    public void showError(Error error) {
+        System.out.println(error.getValue());
+    }
+
 
     public void help() {
         System.out.println("import card <cardName>\n" +
