@@ -78,10 +78,8 @@ public class GameView {
             DeckMenuView.getInstance().checkTypeOfCardAndPrintIt(controller.getSelectedCell().getCardInCell());
         else if (Regex.getMatcher(Regex.BOARD_GAME_SUMMON, command).matches())
             controller.summonMonster();
-        else if (Regex.getMatcher(Regex.BOARD_GAME_SET_MONSTER, command).matches())
-            controller.setMonster();
-        else if (Regex.getMatcher(Regex.BOARD_GAME_SET_SPELL, command).matches() || Regex.getMatcher(Regex.BOARD_GAME_SET_TRAP, command).matches())
-            controller.setSpellOrTrap();
+        else if (Regex.getMatcher(Regex.BOARD_GAME_SET, command).matches())
+            controller.setCrad();
         else if ((matcher = Regex.getMatcher(Regex.BOARD_GAME_SET_POSITION, command)).matches())
             controller.changeMonsterPosition(matcher);
         else if (Regex.getMatcher(Regex.BOARD_GAME_FLIP_SUMMON, command).matches())

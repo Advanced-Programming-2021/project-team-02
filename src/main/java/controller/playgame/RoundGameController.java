@@ -796,7 +796,6 @@ public class RoundGameController {
             view.showBoard();
         } else if (fromZone.equals(Zone.SPELL_ZONE)) {
             Cell cell = player.getPlayerBoard().getACellOfBoardWithAddress(fromZone, address);
-            //TODO anything to check?
             if (cell.getCellStatus().equals(CellStatus.EMPTY))
                 return;
             player.getPlayerBoard().removeSpellOrTrapFromBoard(address);
@@ -884,7 +883,7 @@ public class RoundGameController {
             return;
         }
         if (monster.getMonsterActionType().equals(MonsterActionType.RITUAL)) {
-            view.showError(Error.CAN_NOT_RITUAL_SUMMON);//TODO maybe not good!
+            view.showError(Error.CAN_NOT_RITUAL_SUMMON);
             return;
         }
         if (monster.getLevel() > 4 && monster.getLevel() <= 10) {
@@ -1001,8 +1000,8 @@ public class RoundGameController {
                 continue;
             }
             Trap trap = (Trap) cell.getCardInCell();
-            if (trap.getTrapEffect() == null)//TODO pshmam inja null khordim no idea
-                continue;//TODO pshmam inja null khordim no idea
+            if (trap.getTrapEffect() == null)//TODO inja null khordim no idea
+                continue;
             switch (trap.getTrapEffect()) {
                 case TORRENTIAL_TRIBUTE_EFFECT:
                     view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER, getOpponentPlayer().getNickname());
@@ -1320,7 +1319,7 @@ public class RoundGameController {
         return false;
     }
 
-    public ArrayList<Integer> subsetSums(int[] arr, int l, int r, int sum, ArrayList<Integer> sumOfSubsets) {//TODO check --- pashmam ina che  esmaiye : |
+    public ArrayList<Integer> subsetSums(int[] arr, int l, int r, int sum, ArrayList<Integer> sumOfSubsets) {
         if (l > r) {
             sumOfSubsets.add(sum);
             return sumOfSubsets;
@@ -1330,6 +1329,13 @@ public class RoundGameController {
         return sumOfSubsets;
     }
 
+    public void setCrad() {
+        if (selectedCell.getCardInCell().getCardType() == MONSTER) {
+            setMonster();
+        } else {
+            setSpellOrTrap();
+        }
+    }
 
     public void setMonster() {
         if (!isValidSelectionForSummonOrSet()) {
@@ -1337,9 +1343,6 @@ public class RoundGameController {
         }
         if ((!selectedCellZone.equals(Zone.HAND))) {
             Error.showError(Error.CAN_NOT_SET);
-            return;
-        } else if (selectedCell.getCardInCell().getCardType().equals(CardType.SPELL) || selectedCell.getCardInCell().getCardType().equals(TRAP)) {
-            Error.showError(Error.INVALID_COMMAND);//TODO change this error
             return;
         }
         if (!(currentPhase.equals(Phase.MAIN_PHASE_1) || currentPhase.equals(Phase.MAIN_PHASE_2))) {
@@ -2191,7 +2194,7 @@ public class RoundGameController {
         addFoundCardsToBeEffectedByFieldCardToArrayList();
     }
 
-    private void closedForestFieldEffect() {//TODO CHECK WHAT BEAST TYPE MEAN
+    private void closedForestFieldEffect() {
         addClosedForestFieldCardsToBeEffected();
         for (Card card : fieldEffectedCards) {
             if (((Monster) card).getMonsterType().equals(MonsterType.BEAST)) {

@@ -48,9 +48,7 @@ public class Regex {
     public static final String BOARD_GAME_SELECT_DESELECT = "^select -d$";
     public static final String BOARD_GAME_NEXT_PHASE = "^next phase$";
     public static final String BOARD_GAME_SUMMON = "^summon$";
-    public static final String BOARD_GAME_SET_MONSTER = "^set --monster$";
-    public static final String BOARD_GAME_SET_SPELL = "^set --spell$";
-    public static final String BOARD_GAME_SET_TRAP = "^set --trap$";
+    public static final String BOARD_GAME_SET = "^set$";
     public static final String BOARD_GAME_SET_POSITION = "^set --position (?<position>attack|defense)$";
     public static final String BOARD_GAME_FLIP_SUMMON = "^flip-summon$";
     public static final String BOARD_GAME_ATTACK = "^attack (?<monsterZoneNumber>\\d)$";
