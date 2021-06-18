@@ -43,7 +43,6 @@ public enum SuccessMessage {
     SUCCESS_MESSAGE_FOR_EXPORT("Card export successfully!"),
     SUCCESS_MESSAGE_FOR_IMPORT("Card import successfully!"),
     BOUGHT_CARD_SUCCESSFULLY("bought %s successfully!\n"),
-    BOUGHT_CARD_SUCCESSFULLY("bought %s successfully!\n"),
     GAME_FINISHED("Game finished :)) %s is winner\n"),
     ROUND_FINISHED("Round finished :)) %s is winner of this round\n"),
     CHANGED_CARD("Card changed"),

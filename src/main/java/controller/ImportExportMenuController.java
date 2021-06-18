@@ -5,6 +5,10 @@ import com.google.gson.reflect.TypeToken;
 import model.Assets;
 import model.User;
 import model.card.Card;
+import model.card.Monster;
+import model.card.Spell;
+import model.card.Trap;
+import model.card.informationofcards.CardType;
 import model.game.Duel;
 import view.ImportExportMenuView;
 import view.MainMenuView;
@@ -13,6 +17,7 @@ import view.messages.SuccessMessage;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -35,9 +40,21 @@ public class ImportExportMenuController {
 
     public void importCard(String fileName) {
         try {
-            String json = new String(Files.readAllBytes(Paths.get(fileName)));
-            Card card = new Gson().fromJson(json, new TypeToken<Card>(){}.getType());
-            Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).addCard(card);
+            String json = new String(Files.readAllBytes(Paths.get(fileName + ".json")));
+            Gson gson = new Gson();
+            if (Objects.requireNonNull(Card.getCardByName(fileName)).getCardType().equals(CardType.MONSTER)) {
+                Monster card = gson.fromJson(json, Monster.class);
+                Objects.requireNonNull(Assets.getAssetsByUsername
+                        (MainMenuController.getInstance().getLoggedInUser().getUsername())).addCard(card);
+            } else if (Objects.requireNonNull(Card.getCardByName(fileName)).getCardType().equals(CardType.SPELL)) {
+                Spell card = gson.fromJson(json, Spell.class);
+                Objects.requireNonNull(Assets.getAssetsByUsername
+                        (MainMenuController.getInstance().getLoggedInUser().getUsername())).addCard(card);
+            } else if (Objects.requireNonNull(Card.getCardByName(fileName)).getCardType().equals(CardType.TRAP)) {
+                Trap card = gson.fromJson(json, Trap.class);
+                Objects.requireNonNull(Assets.getAssetsByUsername
+                        (MainMenuController.getInstance().getLoggedInUser().getUsername())).addCard(card);
+            }
             view.showSuccessMessage(SuccessMessage.SUCCESS_MESSAGE_FOR_IMPORT);
         } catch (IOException e) {
             view.showError(Error.THERE_IS_NO_SUCH_FILE);

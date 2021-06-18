@@ -62,7 +62,7 @@ public class ImportExportMenuView {
 
 
     public void help() {
-        System.out.println("import card <fileName.json>\n" +
+        System.out.println("import card <fileName>\n" +
                 "export card <cardName>\n" +
                 "menu show-current\n" +
                 "menu exit");
