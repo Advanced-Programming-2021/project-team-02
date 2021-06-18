@@ -43,7 +43,8 @@ public enum SuccessMessage {
     GAME_FINISHED("Game finished :)) %s is winner\n"),
     ROUND_FINISHED("Round finished :)) %s is winner of this round\n"),
     CHANGED_CARD("Card changed"),
-    GAME_STARTED("New Round Started");
+    GAME_STARTED("New Round Started"),
+    USERNAME_CHANGED("Username changed");
     private String value;
 
     SuccessMessage(String value) {

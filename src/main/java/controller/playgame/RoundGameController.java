@@ -7,7 +7,7 @@ import model.card.Monster;
 import model.card.Spell;
 import model.card.Trap;
 import model.card.informationofcards.*;
-import model.game.Duel;
+
 import model.game.DuelPlayer;
 import model.game.PlayerBoard;
 import model.game.board.*;
@@ -24,8 +24,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 
-import static model.card.informationofcards.CardType.SPELL;
-import static model.card.informationofcards.CardType.TRAP;
+import static model.card.informationofcards.CardType.*;
 
 public class RoundGameController {
     private static RoundGameController instance = null;
@@ -53,6 +52,8 @@ public class RoundGameController {
     private boolean isWithAi;
     private boolean isFinishedGame = false;
     private boolean isFinishedRound = false;
+    private boolean cantDrawCardBecauseOfTimeSeal = false;
+    private int addressOfTimeSealToRemove;
 
     private RoundGameController() {
 
@@ -295,6 +296,12 @@ public class RoundGameController {
     }
 
     public void drawCardFromDeck() {
+        if (cantDrawCardBecauseOfTimeSeal) {
+            System.out.println("cant draw card because of time seal!");
+            addCardToGraveYard(Zone.SPELL_ZONE, addressOfTimeSealToRemove, getOpponentPlayer());
+            cantDrawCardBecauseOfTimeSeal = false;
+            nextPhase();
+        }
         DuelPlayer currentPlayer = getCurrentPlayer();
         Card card;
         if (currentPlayer.getPlayDeck().getMainCards().size() != 0) {
@@ -439,7 +446,7 @@ public class RoundGameController {
             view.showOpponentGraveYard();
             graveYard = getOpponentPlayer().getPlayerBoard().returnGraveYard();
         } else {
-            view.showCurrentGraveYard();
+            view.showCurrentGraveYard(false);
             graveYard = getCurrentPlayer().getPlayerBoard().returnGraveYard();
         }
         while (true) {
@@ -1671,8 +1678,7 @@ public class RoundGameController {
     }
 
     private boolean isValidAttack(int attackAddress) {
-        int address = attackAddress;
-        if (address > 5 || address < 1) {
+        if (attackAddress > 5 || attackAddress < 1) {
             Error.showError(Error.INVALID_NUMBER);
             return false;
         }
@@ -1694,7 +1700,7 @@ public class RoundGameController {
             Error.showError(Error.ALREADY_ATTACKED);
             return false;
         }
-        Cell opponentCell = getOpponentPlayer().getPlayerBoard().getACellOfBoardWithAddress(Zone.MONSTER_ZONE, address);
+        Cell opponentCell = getOpponentPlayer().getPlayerBoard().getACellOfBoardWithAddress(Zone.MONSTER_ZONE, attackAddress);
         if (opponentCell.getCellStatus().equals(CellStatus.EMPTY)) {
             Error.showError(Error.NO_CARD_TO_BE_ATTACKED);
             return false;
@@ -1910,8 +1916,13 @@ public class RoundGameController {
             if (!((Spell) selectedCell.getCardInCell()).getSpellType().equals(SpellType.FIELD)) {
                 normalSpellActivate(((Spell) selectedCell.getCardInCell()).getSpellEffect());
             } else fieldZoneSpellActivate();
-        } else
-            Error.showError(Error.PREPARATIONS_IS_NOT_DONE);
+        } else if (selectedCell.getCardInCell().getCardType() == TRAP) {
+            if (selectedCellZone == Zone.SPELL_ZONE) {
+                normalTrapActivate(((Trap) selectedCell.getCardInCell()).getTrapEffect());
+            } else {
+                view.showError(Error.CAN_NOT_ACTIVE_EFFECT);
+            }
+        }
     }
 
     private void normalSpellActivate(SpellEffect spellEffect) {
@@ -1943,6 +1954,65 @@ public class RoundGameController {
             default:
                 Error.showError(Error.PREPARATIONS_IS_NOT_DONE);
         }
+    }
+
+    private void normalTrapActivate(TrapEffect trapEffect) {
+        switch (trapEffect) {
+            case CALL_OF_THE_HAUNTED_EFFECT:
+                callOfTheHauntedTrap();
+                break;
+            case TIME_SEAL_EFFECT:
+                timeSealTrap();
+                break;
+            default:
+                view.showError(Error.CAN_NOT_ACTIVE_EFFECT);
+                break;
+        }
+    }
+
+    private void callOfTheHauntedTrap() {
+        if (getCurrentPlayer().getPlayerBoard().isGraveYardEmpty() || getCurrentPlayer().getPlayerBoard().isMonsterZoneFull()) {
+            view.showError(Error.PREPARATIONS_IS_NOT_DONE);
+            return;
+        }
+        GraveYard graveYard = getCurrentPlayer().getPlayerBoard().returnGraveYard();
+        ArrayList<Card> cards = graveYard.getGraveYardCards();
+        boolean flag = false;
+        for (Card card : cards) {
+            if (card.getCardType() == MONSTER) {
+                flag = true;
+                break;
+            }
+        }
+        if (!flag) {
+            view.showError(Error.PREPARATIONS_IS_NOT_DONE);
+            return;
+        }
+        view.showCurrentGraveYard(false);
+        view.showSuccessMessage(SuccessMessage.TRAP_ACTIVATED);
+        selectedCell.setCellStatus(CellStatus.OCCUPIED);
+        view.showBoard();
+        while (true) {
+            Card card;
+            int address = view.chooseCardInGraveYard();
+            if (address == -1) {
+                cancel();
+                return;
+            } else if (address - 1 > graveYard.getGraveYardCards().size()) {
+                view.showError(Error.INVALID_NUMBER);
+            } else if ((card = graveYard.getGraveYardCards().get(address - 1)).getCardType().equals(CardType.MONSTER)) {
+                specialSummon(card, CellStatus.OFFENSIVE_OCCUPIED);
+                addCardToGraveYard(Zone.SPELL_ZONE, selectedCellAddress, getCurrentPlayer());
+            } else view.showError(Error.INVALID_SELECTION);
+        }
+    }
+
+    private void timeSealTrap() {
+        cantDrawCardBecauseOfTimeSeal = true;
+        selectedCell.setCellStatus(CellStatus.OCCUPIED);
+        view.showSuccessMessage(SuccessMessage.TRAP_ACTIVATED);
+        view.showBoard();
+        addressOfTimeSealToRemove = selectedCellAddress;
     }
 
     private void fieldZoneSpellActivate() {

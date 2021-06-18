@@ -14,7 +14,8 @@ public class Regex {
     public static final List<String> USER_LOGIN;
     public static final String USER_LOGOUT = "^user logout$";
     public static final String SCOREBOARD_SHOW = "^scoreboard show$";
-    public static final String PROFILE_CHANGE_NICKNAME = "^profile change --nickname (?<nickname>\\w+)$";
+    public static final ArrayList<String> PROFILE_CHANGE_NICKNAME;
+    public static final ArrayList<String> PROFILE_CHANGE_USERNAME;
     public static final List<String> PROFILE_CHANGE_PASSWORD;
     public static final String CARD_SHOW = "^card show (?<cardName>[A-Za-z ',-]+)$";
     public static final String DECK_CREATE = "^deck create (?<deckName>[a-zA-Z0-9 -]+?)$";
@@ -88,6 +89,12 @@ public class Regex {
         USER_LOGIN.add("^user login --password (?<password>\\w+?) --username (?<username>\\w+?)$");
         USER_LOGIN.add("^user login -u (?<username>\\w+?) -p (?<password>\\w+?)$");
         USER_LOGIN.add("^user login -p (?<password>\\w+?) -u (?<username>\\w+?)$");
+        PROFILE_CHANGE_NICKNAME = new ArrayList<>();
+        PROFILE_CHANGE_NICKNAME.add("^profile change --nickname (?<nickname>\\w+)$");
+        PROFILE_CHANGE_NICKNAME.add("^profile change --n (?<nickname>\\w+)$");
+        PROFILE_CHANGE_USERNAME = new ArrayList<>();
+        PROFILE_CHANGE_USERNAME.add("^profile change --username (?<username>\\w+)$");
+        PROFILE_CHANGE_USERNAME.add("^profile change --u (?<username>\\w+)$");
         PROFILE_CHANGE_PASSWORD = new ArrayList<>();
         PROFILE_CHANGE_PASSWORD.add("^profile change --password --current (?<currentPassword>\\w+) --new (?<newPassword>\\w+)$");
         PROFILE_CHANGE_PASSWORD.add("^profile change --password --new (?<newPassword>\\w+) --current (?<currentPassword>\\w+)$");
@@ -175,16 +182,16 @@ public class Regex {
         BOARD_GAME_SELECT_SPELL_OPPONENT.add("^select --opponent --spell (?<spellZoneNumber>\\d+)$");
         BOARD_GAME_SELECT_SPELL_OPPONENT.add("^select -s (?<spellZoneNumber>\\d+) -o$");
         BOARD_GAME_SELECT_SPELL_OPPONENT.add("^select -o -s (?<spellZoneNumber>\\d+)$");
-        BOARD_GAME_SELECT_FIELD_OPPONENT = new ArrayList<> ();
-        BOARD_GAME_SELECT_FIELD_OPPONENT.add ("^select --field --opponent$");
-        BOARD_GAME_SELECT_FIELD_OPPONENT.add ("^select --opponent --field$");
-        BOARD_GAME_SELECT_FIELD_OPPONENT.add ("^select -f -o$");
-        BOARD_GAME_SELECT_FIELD_OPPONENT.add ("^select -o -f$");
-        BOARD_GAME_SELECT_GRAVEYARD_OPPONENT = new ArrayList<> ();
-        BOARD_GAME_SELECT_GRAVEYARD_OPPONENT.add ("^select --graveyard --opponent$");
-        BOARD_GAME_SELECT_GRAVEYARD_OPPONENT.add ("^select --opponent --graveyard$");
-        BOARD_GAME_SELECT_GRAVEYARD_OPPONENT.add ("^select -gy -o$");
-        BOARD_GAME_SELECT_GRAVEYARD_OPPONENT.add ("^select -o -gy$");
+        BOARD_GAME_SELECT_FIELD_OPPONENT = new ArrayList<>();
+        BOARD_GAME_SELECT_FIELD_OPPONENT.add("^select --field --opponent$");
+        BOARD_GAME_SELECT_FIELD_OPPONENT.add("^select --opponent --field$");
+        BOARD_GAME_SELECT_FIELD_OPPONENT.add("^select -f -o$");
+        BOARD_GAME_SELECT_FIELD_OPPONENT.add("^select -o -f$");
+        BOARD_GAME_SELECT_GRAVEYARD_OPPONENT = new ArrayList<>();
+        BOARD_GAME_SELECT_GRAVEYARD_OPPONENT.add("^select --graveyard --opponent$");
+        BOARD_GAME_SELECT_GRAVEYARD_OPPONENT.add("^select --opponent --graveyard$");
+        BOARD_GAME_SELECT_GRAVEYARD_OPPONENT.add("^select -gy -o$");
+        BOARD_GAME_SELECT_GRAVEYARD_OPPONENT.add("^select -o -gy$");
     }
 
     public static Matcher getMatcher(String regex, String command) {

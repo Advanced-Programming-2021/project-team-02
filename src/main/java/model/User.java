@@ -258,4 +258,8 @@ public class User implements Comparable<User> {
     public void increaseScore(int score) {
         this.score += score;
     }
+    public void changeUsername(String newUsername){
+        setUsername(newUsername);
+        //TODO JSON
+    }
 }

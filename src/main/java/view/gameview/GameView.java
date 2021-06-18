@@ -73,7 +73,7 @@ public class GameView {
         else if (Regex.getMatcher(Regex.BOARD_GAME_SUMMON, command).matches())
             controller.summonMonster();
         else if (Regex.getMatcher(Regex.GRAVEYARD_SHOW, command).matches())
-            instance.showCurrentGraveYard();
+            instance.showCurrentGraveYard(true);
         else if (Regex.getMatcher(Regex.CARD_SHOW_SELECTED, command).matches())
             DeckMenuView.getInstance().checkTypeOfCardAndPrintIt(controller.getSelectedCell().getCardInCell());
         else if (Regex.getMatcher(Regex.BOARD_GAME_SUMMON, command).matches())
@@ -94,10 +94,9 @@ public class GameView {
             controller.activateEffectOfSpellOrTrap();
         else if ((matcher = Regex.getMatcher(Regex.CHEAT_INCREASE_LP, command)).matches())
             controller.getCurrentPlayer().increaseLP(Integer.parseInt(matcher.group("LPAmount")));
-        else if ((matcher = Regex.getMatcher(Regex.CHEAT_DUEL_SET_WINNER,command)).matches()){
+        else if ((matcher = Regex.getMatcher(Regex.CHEAT_DUEL_SET_WINNER, command)).matches()) {
             controller.setWinnerCheat(matcher.group("winnerNickName"));
-        }
-        else if (Regex.getMatcher(Regex.COMMAND_CANCEL, command).matches())
+        } else if (Regex.getMatcher(Regex.COMMAND_CANCEL, command).matches())
             controller.cancel();
         else if (Regex.getMatcher(Regex.BOARD_GAME_SURRENDER, command).matches())
             controller.surrender();
@@ -264,7 +263,7 @@ public class GameView {
         System.out.printf(SuccessMessage.PHASE_NAME.getValue(), controller.getCurrentPhase());
     }
 
-    public void showCurrentGraveYard() {
+    public void showCurrentGraveYard(boolean userAskedForGraveYard) {
         int counter = 1;
         if (controller.getCurrentPlayer().getPlayerBoard().isGraveYardEmpty())
             showError(Error.EMPTY_GRAVEYARD);
@@ -278,9 +277,10 @@ public class GameView {
                 counter++;
             }
         }
-        while (!Input.getInput().equals("back")) {
-            System.out.println(Error.INVALID_COMMAND);
-        }
+        if (userAskedForGraveYard)
+            while (!Input.getInput().equals("back")) {
+                System.out.println(Error.INVALID_COMMAND);
+            }
     }
 
     public int getTributeAddress() {
