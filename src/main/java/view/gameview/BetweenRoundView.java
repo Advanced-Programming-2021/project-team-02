@@ -19,7 +19,8 @@ public class BetweenRoundView {
     private final BetweenRoundController controller = BetweenRoundController.getInstance();
     private DuelPlayer player1;
     private DuelPlayer player2;
-    int turn = 1;
+    private int turn = 1;
+    private boolean isAI;
 
     private BetweenRoundView() {
     }
@@ -42,6 +43,11 @@ public class BetweenRoundView {
             DuelPlayer player = (turn == 1 ? player1 : player2);
             controller.changeCard(Integer.parseInt(matcher.group("cardAddressInMainDeck")), Integer.parseInt(matcher.group("cardAddressInSideDeck")), player);
         } else if (command.equals("start")) {
+            if (isAI) {
+                DuelGameController.getInstance().startNextRound();
+                MenusManager.getInstance().changeMenu(Menu.ONGOING_GAME_WITH_AI);
+                return;
+            }
             if (turn == 1) {
                 turn = 2;
             } else {
@@ -62,8 +68,9 @@ public class BetweenRoundView {
                 "\nhelp\nshow deck\nchange card <cardAddressInMainDeck> with <cardAddressInSideDeck>");
     }
 
-    public void setPlayer1(DuelPlayer player) {
+    public void setPlayer1(DuelPlayer player, boolean isAI) {
         this.player1 = player;
+        this.isAI = isAI;
     }
 
     public void setPlayer2(DuelPlayer player) {

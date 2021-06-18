@@ -10,8 +10,8 @@ public enum Menu {
     PROFILE_MENU("ProfileMenu"),
     SCOREBOARD_MENU("ScoreboardMenu"),
     EXIT("Exit"),
-    BETWEEN_ROUNDS("BetweenRoundsMenu");
-
+    BETWEEN_ROUNDS("BetweenRoundsMenu"),
+    ONGOING_GAME_WITH_AI("GameWithAI");
     private String value;
 
     Menu(String value) {

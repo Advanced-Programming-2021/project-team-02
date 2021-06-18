@@ -14,7 +14,6 @@ import view.messages.Error;
 import view.messages.SuccessMessage;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class GameView {
     private static GameView instance = null;
@@ -27,6 +26,22 @@ public class GameView {
         if (instance == null)
             instance = new GameView();
         return instance;
+    }
+
+    public void runGameWithAi() {
+        String command = "";
+        while (true) {
+            if (controller.isFinishedGame() || controller.isFinishedRound()) {
+                return;
+            }
+            if (controller.getCurrentPlayer().getNickname().equals("ai")) {
+                controller.aiTurn();
+            } else {
+                command = Input.getInput();
+                commandRecognition(command);
+            }
+
+        }
     }
 
     public void run(String command) {

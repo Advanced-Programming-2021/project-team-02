@@ -379,22 +379,6 @@ public class RoundGameController {
             usedCellsToAttackNumbers.clear();
             changedPositionCards.clear();
             changeTurn();
-            if (getCurrentPlayer().getNickname().equals("ai")) {
-                drawCardFromDeck();
-                aiTurn();
-                if (isFinishedRound || isFinishedGame) {
-                    return;
-                }
-                view.showSuccessMessageWithAString(SuccessMessage.PLAYERS_TURN, getOpponentPlayer().getNickname());
-                changeTurn();
-            }
-            isSummonOrSetOfMonsterUsed = false;
-            selectedCell = null;
-            selectedCellZone = Zone.NONE;
-            opponentSelectedCell = null;
-            usedCellsToAttackNumbers.clear();
-            changedPositionCards.clear();
-            changeTurn();
             currentPhase = Phase.DRAW_PHASE;
             drawCardFromDeck();
         }
@@ -1260,31 +1244,6 @@ public class RoundGameController {
         }
     }
 
-
-    //public void setRitualMonster() {
-    //    String monsterPosition = view.getPositionForSetRitualMonster();
-    //    MonsterZone monsterZone = getCurrentPlayer().getPlayerBoard().returnMonsterZone();
-    //    if (monsterPosition.equals("attack")) {
-    //        for (int i = 1; i <= 5; i++) {
-    //            if (monsterZone.getCellWithAddress(i).getCellStatus() == CellStatus.EMPTY) {
-    //                Card card = Card.getCardByName(selectedCell.getCardInCell().getName());
-    //                monsterZone.getCellWithAddress(i).setCardInCell(card);
-    //                monsterZone.getCellWithAddress(i).setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
-    //            }
-    //        }
-    //        selectedCell.setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
-    //    } else if (monsterPosition.equals("defense")) {
-    //        for (int i = 1; i <= 5; i++) {
-    //            if (monsterZone.getCellWithAddress(i).getCellStatus() == CellStatus.EMPTY) {
-    //                Card card = Card.getCardByName(selectedCell.getCardInCell().getName());
-    //                monsterZone.getCellWithAddress(i).setCardInCell(card);
-    //                monsterZone.getCellWithAddress(i).setCellStatus(CellStatus.DEFENSIVE_OCCUPIED);
-    //            }
-    //        }
-    //        selectedCell.setCellStatus(CellStatus.DEFENSIVE_OCCUPIED);
-    //    }
-    //    view.showSuccessMessage(SuccessMessage.SUMMONED_SUCCESSFULLY);
-    //}
 
     public boolean areCardsLevelsEnoughToSummonRitualMonster(Monster ritualMonster) {
         while (true) {
@@ -2332,24 +2291,33 @@ public class RoundGameController {
                 directAttack();
             }
         }
-
+        currentPhase = Phase.MAIN_PHASE_2;
+        nextPhase();
     }
 
     private void finishGame(DuelPlayer winner) {
+        isFinishedGame = true;
         view.showSuccessMessageWithAString(SuccessMessage.GAME_FINISHED, winner.getNickname());
         MenusManager.getInstance().changeMenu(Menu.MAIN_MENU);
         clear();
     }
 
     private void finishRound(DuelPlayer winner) {
+        isFinishedRound = true;
         view.showSuccessMessageWithAString(SuccessMessage.ROUND_FINISHED, winner.getNickname());
         MenusManager.getInstance().changeMenu(Menu.BETWEEN_ROUNDS);
         DuelPlayer player1 = DuelGameController.getInstance().getDuel().getPlayer1();
         DuelPlayer player2 = DuelGameController.getInstance().getDuel().getPlayer2();
         player1.setPlayDeck(User.getActiveDeck(Objects.requireNonNull(User.getUserByNickName(player1.getNickname())).getUsername()));
         player2.setPlayDeck(User.getActiveDeck(Objects.requireNonNull(User.getUserByNickName(player2.getNickname())).getUsername()));
-        BetweenRoundView.getInstance().setPlayer1(player1);
-        BetweenRoundView.getInstance().setPlayer2(player2);
+        if (player1.getNickname().equals("ai"))
+            BetweenRoundView.getInstance().setPlayer1(player2, true);
+        else if (player2.getNickname().equals("ai"))
+            BetweenRoundView.getInstance().setPlayer1(player1, true);
+        else {
+            BetweenRoundView.getInstance().setPlayer1(player1, false);
+            BetweenRoundView.getInstance().setPlayer2(player2);
+        }
         DuelGameController.getInstance().setSpecifier(winner.getNickname());
         clear();
     }
@@ -2372,7 +2340,13 @@ public class RoundGameController {
         opponentSelectedCell = null;
         firstPlayerHashmapForEquipSpells = new HashMap<>();
         secondPlayerHashmapForEquipSpells = new HashMap<>();
-        isFinishedGame = false;
-        isFinishedRound = false;
+    }
+
+    public boolean isFinishedRound() {
+        return isFinishedRound;
+    }
+
+    public boolean isFinishedGame() {
+        return isFinishedGame;
     }
 }

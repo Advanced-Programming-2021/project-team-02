@@ -36,14 +36,14 @@ public class DuelGameController {
     }
 
     public void startDuel(Duel duel) {
+        view.showSuccessMessage(SuccessMessage.GAME_STARTED);
         this.duel = duel;
         duel.setCurrentRound(1);
         setStartHandCards(duel.getPlayer1(), duel.getPlayer2());
         starterSpecifier();
         if (duel.isWithAi()) {
-            if (RoundGameController.getInstance().getCurrentPlayer().getNickname().equals("ai")) {
-                RoundGameController.getInstance().aiTurn();
-            }
+            MenusManager.getInstance().changeMenu(Menu.ONGOING_GAME_WITH_AI);
+            return;
         }
         MenusManager.getInstance().changeMenu(Menu.ONGOING_GAME);
     }
@@ -58,17 +58,20 @@ public class DuelGameController {
             first = duel.getPlayer1();
             second = duel.getPlayer2();
         }
+        view.showSuccessMessage(SuccessMessage.GAME_STARTED);
         setStartHandCards(first, second);
         RoundGameController.getInstance().setRoundInfo(first, second, GameView.getInstance(), this, duel.isWithAi());
+
+
     }
 
     public void starterSpecifier() {
 //        if (flipCoin() == 1) { TODO remove comment ... i commented them because of testing
-        setSpecifier(duel.getPlayer1().getNickname());
-        RoundGameController.getInstance().setRoundInfo(duel.getPlayer1(), duel.getPlayer2(), view, instance, duel.isWithAi());
+    //    setSpecifier(duel.getPlayer1().getNickname());
+    //    RoundGameController.getInstance().setRoundInfo(duel.getPlayer1(), duel.getPlayer2(), view, instance, duel.isWithAi());
 //        } else {
-//            setSpecifier(duel.getPlayer2().getNickname());
-//            RoundGameController.getInstance().setRoundInfo(duel.getPlayer2(), duel.getPlayer1(), view, instance);
+            setSpecifier(duel.getPlayer2().getNickname());
+            RoundGameController.getInstance().setRoundInfo(duel.getPlayer2(), duel.getPlayer1(), view, instance, duel.isWithAi());
 //        }
     }
 
@@ -250,8 +253,4 @@ public class DuelGameController {
         this.specifier = specifier;
     }
 
-
-    private void clearEveryThing() {
-
-    }
 }

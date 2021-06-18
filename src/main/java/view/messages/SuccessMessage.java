@@ -42,7 +42,8 @@ public enum SuccessMessage {
     BOUGHT_CARD_SUCCESSFULLY("bought %s successfully!\n"),
     GAME_FINISHED("Game finished :)) %s is winner\n"),
     ROUND_FINISHED("Round finished :)) %s is winner of this round\n"),
-    CHANGED_CARD("Card changed");
+    CHANGED_CARD("Card changed"),
+    GAME_STARTED("New Round Started");
     private String value;
 
     SuccessMessage(String value) {
