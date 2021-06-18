@@ -39,8 +39,8 @@ public class DuelGameController {
         view.showSuccessMessage(SuccessMessage.GAME_STARTED);
         this.duel = duel;
         duel.setCurrentRound(1);
-        setStartHandCards(duel.getPlayer1(), duel.getPlayer2());
         starterSpecifier();
+        setStartHandCards();
         if (duel.isWithAi()) {
             MenusManager.getInstance().changeMenu(Menu.ONGOING_GAME_WITH_AI);
             return;
@@ -59,7 +59,7 @@ public class DuelGameController {
             second = duel.getPlayer2();
         }
         view.showSuccessMessage(SuccessMessage.GAME_STARTED);
-        setStartHandCards(first, second);
+        setStartHandCards();
         RoundGameController.getInstance().setRoundInfo(first, second, GameView.getInstance(), this, duel.isWithAi());
 
 
@@ -225,10 +225,10 @@ public class DuelGameController {
                     .getUsername());
     }
 
-    private void setStartHandCards(DuelPlayer duelPlayer1, DuelPlayer duelPlayer2) {
-        Deck deckFirstPlayer = duelPlayer1.getPlayDeck();
+    private void setStartHandCards() {
+        Deck deckFirstPlayer = RoundGameController.getInstance().getFirstPlayer().getPlayDeck();
         deckFirstPlayer.shuffleDeck();
-        Deck deckSecondPlayer = duelPlayer2.getPlayDeck();
+        Deck deckSecondPlayer = RoundGameController.getInstance().getSecondPlayer().getPlayDeck();
         deckSecondPlayer.shuffleDeck();
         RoundGameController roundGameController = RoundGameController.getInstance();
         for (int i = 0; i < 5; i++) {
@@ -236,7 +236,6 @@ public class DuelGameController {
             deckFirstPlayer.getMainCards().remove(0);
             roundGameController.addCardToSecondPlayerHand(deckSecondPlayer.getMainCards().get(0));
             deckSecondPlayer.getMainCards().remove(0);
-
         }
     }
 
