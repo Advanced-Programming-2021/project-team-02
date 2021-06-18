@@ -68,7 +68,7 @@ public class Regex {
     public static final String CHANGE_CARD_BETWEEN_ROUNDS = "^change card (?<cardAddressInMainDeck>\\d+" +
             ") with (?<cardAddressInSideDeck>\\d+)$";
     public static final String EXPORT = "^export card (?<cardName>[A-Za-z ',-]+)$";
-    public static final String IMPORT = "^import card (?<fileName>(.+?).json)$";
+    public static final String IMPORT = "^import card (?<fileName>[A-Za-z ',-]+)$";
 
     static {
         USER_CREATE = new ArrayList<>();

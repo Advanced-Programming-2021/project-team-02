@@ -3,6 +3,7 @@ package model;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import model.card.Card;
+import model.card.Card;
 import model.card.Monster;
 import model.card.informationofcards.MonsterActionType;
 
