@@ -94,6 +94,9 @@ public class GameView {
             controller.activateEffectOfSpellOrTrap();
         else if ((matcher = Regex.getMatcher(Regex.CHEAT_INCREASE_LP, command)).matches())
             controller.getCurrentPlayer().increaseLP(Integer.parseInt(matcher.group("LPAmount")));
+        else if ((matcher = Regex.getMatcher(Regex.CHEAT_DUEL_SET_WINNER,command)).matches()){
+            controller.setWinnerCheat(matcher.group("winnerNickName"));
+        }
         else if (Regex.getMatcher(Regex.COMMAND_CANCEL, command).matches())
             controller.cancel();
         else if (Regex.getMatcher(Regex.BOARD_GAME_SURRENDER, command).matches())

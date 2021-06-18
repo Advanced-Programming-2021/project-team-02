@@ -7,6 +7,7 @@ import model.card.Monster;
 import model.card.Spell;
 import model.card.Trap;
 import model.card.informationofcards.*;
+import model.game.Duel;
 import model.game.DuelPlayer;
 import model.game.PlayerBoard;
 import model.game.board.*;
@@ -2309,6 +2310,22 @@ public class RoundGameController {
         }
         currentPhase = Phase.MAIN_PHASE_2;
         nextPhase();
+    }
+
+    public void setWinnerCheat(String winnerNickName) {
+        DuelPlayer winner;
+        DuelPlayer loser;
+        if (firstPlayer.getNickname().equals(winnerNickName)) {
+            winner = firstPlayer;
+            loser = secondPlayer;
+        } else {
+            winner = secondPlayer;
+            loser = firstPlayer;
+        }
+        if (duelGameController.getDuel().getNumberOfRounds() == 3)
+            duelGameController.updateScoreAndCoinForThreeRounds(winner, loser);
+        else duelGameController.updateScoreAndCoinForOneRound(winner, loser);
+        finishGame(winner);
     }
 
     private void finishGame(DuelPlayer winner) {
