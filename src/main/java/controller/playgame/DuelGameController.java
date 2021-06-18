@@ -40,7 +40,6 @@ public class DuelGameController {
         this.duel = duel;
         duel.setCurrentRound(1);
         starterSpecifier();
-        setStartHandCards();
         if (duel.isWithAi()) {
             MenusManager.getInstance().changeMenu(Menu.ONGOING_GAME_WITH_AI);
             return;
@@ -59,9 +58,7 @@ public class DuelGameController {
             second = duel.getPlayer2();
         }
         view.showSuccessMessage(SuccessMessage.GAME_STARTED);
-        setStartHandCards();
         RoundGameController.getInstance().setRoundInfo(first, second, GameView.getInstance(), this, duel.isWithAi());
-
 
     }
 
@@ -225,7 +222,7 @@ public class DuelGameController {
                     .getUsername());
     }
 
-    private void setStartHandCards() {
+    public void setStartHandCards() {
         Deck deckFirstPlayer = RoundGameController.getInstance().getFirstPlayer().getPlayDeck();
         deckFirstPlayer.shuffleDeck();
         Deck deckSecondPlayer = RoundGameController.getInstance().getSecondPlayer().getPlayDeck();

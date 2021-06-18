@@ -95,6 +95,7 @@ public class RoundGameController {
         this.isWithAi = isWithAi;
         isFinishedRound = false;
         isFinishedGame = false;
+        duelGameController.setStartHandCards();
         drawCardFromDeck();
     }
 
