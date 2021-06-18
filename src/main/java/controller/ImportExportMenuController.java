@@ -6,7 +6,6 @@ import view.ImportExportMenuView;
 public class ImportExportMenuController {
     private static ImportExportMenuController instance = null;
     private final ImportExportMenuView view = ImportExportMenuView.getInstance();
-    private Duel duel;
 
     private ImportExportMenuController() {
     }
@@ -15,5 +14,13 @@ public class ImportExportMenuController {
         if (instance == null)
             instance = new ImportExportMenuController();
         return instance;
+    }
+
+    public void importCard(String cardName) {
+
+    }
+
+    public void exportCard(String cardName) {
+
     }
 }

@@ -67,6 +67,10 @@ public class Regex {
     public static final String COMMAND_HELP = "^help$";
     public static final String CHANGE_CARD_BETWEEN_ROUNDS = "^change card (?<cardAddressInMainDeck>\\d+" +
             ") with (?<cardAddressInSideDeck>\\d+)$";
+    public static final String CHANGE_CARD_BETWEEN_ROUNDS = "^change card (?<cardNameInMainDeck>[A-Za-z ',-]+" +
+            ") with (?<cardNameInSideDeck>[A-Za-z ',-]+)$";
+    public static final String IMPORT = "^import card (?<cardName>[A-Za-z ',-]+)$";
+    public static final String EXPORT = "^import card (?<cardName>[A-Za-z ',-]+)$";
 
     static {
         USER_CREATE = new ArrayList<>();
