@@ -3,7 +3,7 @@ package project.view.messages;
 import javafx.scene.control.Alert;
 
 public enum ProfileMenuMessage {
-    CHANGED_SUCCESSFULLY("Username changed!", Alert.AlertType.INFORMATION),
+    NICKNAME_CHANGED("Nickname changed!", Alert.AlertType.INFORMATION),
     USERNAME_TAKEN("Username is taken!", Alert.AlertType.ERROR),
     INVALID_INPUT("Fill the fields!", Alert.AlertType.ERROR),
     CURRENT_PASSWORD("your current password is wrong", Alert.AlertType.ERROR),

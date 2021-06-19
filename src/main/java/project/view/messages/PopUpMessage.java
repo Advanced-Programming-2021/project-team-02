@@ -1,18 +1,23 @@
 package project.view.messages;
 
 import javafx.scene.Cursor;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.DialogPane;
+import javafx.scene.effect.GaussianBlur;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class PopUpMessage {
     private static Stage stage;
+    private static Parent parent;
     private Alert alert;
+
     public PopUpMessage(Alert.AlertType alertType, String label) {
         if (alertType.equals (Alert.AlertType.ERROR)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            this.alert = alert;
+            setAlert(alert);
             DialogPane dialogPane = alert.getDialogPane();
             dialogPane.setHeaderText(null);
             dialogPane.setGraphic(null);
@@ -23,10 +28,13 @@ public class PopUpMessage {
             buttonBar.getButtons().forEach(b->b.setStyle("-fx-background-radius: 10; -fx-background-color: #bb792d; -fx-font-size: 16; -fx-text-fill: white;"));
             buttonBar.getButtons().forEach(b->b.setCursor(Cursor.HAND));
             alert.initOwner(stage);
+            parent.setEffect(new GaussianBlur(20));
+            alert.initStyle(StageStyle.UNDECORATED);
             alert.show();
+            alert.setOnCloseRequest(dialogEvent -> parent.setEffect(null));
         } else if (alertType.equals (Alert.AlertType.INFORMATION)) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            this.alert = alert;
+            setAlert(alert);
             DialogPane dialogPane = alert.getDialogPane();
             dialogPane.setHeaderText(null);
             dialogPane.setGraphic(null);
@@ -37,10 +45,13 @@ public class PopUpMessage {
             buttonBar.getButtons().forEach(b->b.setStyle("-fx-background-radius: 10; -fx-background-color: #bb792d; -fx-font-size: 16; -fx-text-fill: white;"));
             buttonBar.getButtons().forEach(b->b.setCursor(Cursor.HAND));
             alert.initOwner(stage);
+            parent.setEffect(new GaussianBlur(20));
+            alert.initStyle(StageStyle.UNDECORATED);
             alert.show();
+            alert.setOnCloseRequest(dialogEvent -> parent.setEffect(null));
         } else if (alertType.equals (Alert.AlertType.CONFIRMATION)) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            this.alert = alert;
+            setAlert(alert);
             DialogPane dialogPane = alert.getDialogPane();
             dialogPane.setHeaderText(null);
             dialogPane.setGraphic(null);
@@ -51,6 +62,8 @@ public class PopUpMessage {
             buttonBar.getButtons().forEach(b->b.setStyle("-fx-background-radius: 10; -fx-background-color: #bb792d; -fx-font-size: 16; -fx-text-fill: white;"));
             buttonBar.getButtons().forEach(b->b.setCursor(Cursor.HAND));
             alert.initOwner(stage);
+            parent.setEffect(new GaussianBlur(20));
+            alert.initStyle(StageStyle.UNDECORATED);
             alert.showAndWait ();
         }
     }
@@ -65,5 +78,17 @@ public class PopUpMessage {
 
     public static void setStage(Stage stage) {
         PopUpMessage.stage = stage;
+    }
+
+    public static Parent getParent() {
+        return parent;
+    }
+
+    public static void setParent(Parent parent) {
+        PopUpMessage.parent = parent;
+    }
+
+    public void setAlert(Alert alert) {
+        this.alert = alert;
     }
 }

@@ -17,6 +17,11 @@
     -fx-background-radius: 30;
 }
 
+#secondBox {
+    -fx-background-color: #103188;
+    -fx-background-radius: 15;
+}
+
 #menuBar {
     -fx-border-color: #ffd500;
     -fx-border-radius: 20;
@@ -28,8 +33,16 @@
 }
 
 #textField {
-    -fx-font-size: 22;
     -fx-text-fill: #ffd500;
+    -fx-background-color: #323c46;
+    -fx-background-radius: 10;
+}
+
+#label {
+    -fx-font-size: 19;
+    -fx-text-fill: white;
+    -fx-background-color: #323c46;
+    -fx-background-radius: 10;
 }
 
 #button {
@@ -47,17 +60,3 @@
     -fx-text-fill: white;
     -fx-cursor: hand;
 }
-
-/*#row {*/
-/*    -fx-transition: all .2s ease-in-out;*/
-/*    -fx-cursor: hand;*/
-/*}*/
-
-/*#row:hover {*/
-/*    -fx-scale-x: 1.1;*/
-/*    -fx-scale-y: 1.1;*/
-/*    -fx-scale-z: 1.1;*/
-/*    -fx-underline: true;*/
-/*    -fx-border-color: #ffd500;*/
-/*    -fx-border-radius: 10;*/
-/*}*/

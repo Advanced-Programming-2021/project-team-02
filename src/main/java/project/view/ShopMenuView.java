@@ -135,9 +135,9 @@ public class ShopMenuView extends Application {
         stage.setScene(new Scene(root));
         stage.setFullScreen(true);
         stage.setResizable(false);
+        stage.setMaximized(true);
         stage.setFullScreenExitHint("");
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-        stage.show();
     }
 
     @FXML

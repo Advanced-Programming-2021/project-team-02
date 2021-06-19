@@ -3,7 +3,6 @@ package project.view;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCombination;
-import javafx.stage.StageStyle;
 import project.controller.LoginMenuController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -31,11 +30,14 @@ public class LoginMenuView extends Application {
         LoginMenuView.stage = stage;
         PopUpMessage.setStage(stage);
         URL fxmlAddress = getClass ().getResource ("/project/fxml/login_menu.fxml");
-        Parent login = FXMLLoader.load (fxmlAddress);
-        Scene scene = new Scene (login);
+        assert fxmlAddress != null;
+        Parent root = FXMLLoader.load (fxmlAddress);
+        PopUpMessage.setParent(root);
+        Scene scene = new Scene (root);
         stage.setScene(scene);
         stage.setFullScreen(true);
         stage.setResizable(false);
+        stage.setMaximized(true);
         stage.setFullScreenExitHint("");
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setTitle("Yu-Gi-Oh!");
@@ -65,6 +67,9 @@ public class LoginMenuView extends Application {
 
     public void exit() {
         PopUpMessage popUpMessage = new PopUpMessage (Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel ());
-        if (popUpMessage.getAlert ().getResult ().getText ().equals ("OK")) System.exit (0);
+        if (popUpMessage.getAlert ().getResult ().getText ().equals ("OK")) {
+            PopUpMessage.getParent().setEffect(null);
+            System.exit (0);
+        } else PopUpMessage.getParent().setEffect(null);
     }
 }

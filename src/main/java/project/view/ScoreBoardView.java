@@ -16,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import project.controller.MainMenuController;
 import project.model.User;
+import project.view.messages.PopUpMessage;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -33,12 +34,13 @@ public class ScoreBoardView extends Application {
         ScoreBoardView.stage = stage;
         URL urlMain = getClass().getResource("/project/fxml/scoreboard_menu.fxml");
         Parent root = FXMLLoader.load(Objects.requireNonNull(urlMain));
+        PopUpMessage.setParent(root);
         stage.setScene(new Scene(root));
         stage.setResizable(false);
+        stage.setMaximized(true);
         stage.setFullScreen(true);
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setFullScreenExitHint("");
-        stage.show();
     }
 
     @FXML

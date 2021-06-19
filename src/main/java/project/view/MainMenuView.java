@@ -22,11 +22,13 @@ public class MainMenuView extends Application {
         PopUpMessage.setStage(stage);
         URL fxmlAddress = getClass().getResource("/project/fxml/main_menu.fxml");
         assert fxmlAddress != null;
-        Parent main = FXMLLoader.load(fxmlAddress);
-        Scene scene = new Scene(main);
+        Parent root = FXMLLoader.load(fxmlAddress);
+        PopUpMessage.setParent(root);
+        Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.setFullScreen(true);
         stage.setResizable(false);
+        stage.setFullScreen(true);
+        stage.setMaximized(true);
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setFullScreenExitHint("");
         stage.show();
@@ -49,9 +51,10 @@ public class MainMenuView extends Application {
     }
 
     public void shopMenu() throws Exception {
+        new ShopMenuView().start(stage);
     }
 
-    public void createCard(MouseEvent mouseEvent) {
+    public void createCard() throws Exception{
     }
 
     public void importExportMenu() throws Exception {
