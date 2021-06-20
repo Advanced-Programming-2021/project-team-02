@@ -64,26 +64,6 @@ public class DuelMenuView {
                 "duel new --s-p <secondPlayerUsername> -r <1|3>\n" +
                 "duel --new --ai --rounds <1|3>\n" +
                 "duel -n -a -r <1|3>\n" +
-                "select --monster <monsterZoneNumber>\n" +
-                "select --monster <monsterZoneNumber> --opponent\n" +
-                "select --spell <spellZoneNumber>\n" +
-                "select --spell <spellZoneNumber> --opponent\n" +
-                "select --field\n" +
-                "select --field --opponent\n" +
-                "select <cardAddress>\n" +
-                "select -d\n" +
-                "next phase\n" +
-                "summon\n" +
-                "set\n" +
-                "set --position <attack|defense>\n" +
-                "flip-summon\n" +
-                "attack <monsterZoneNumber>\n" +
-                "attack direct\n" +
-                "activate effect\n" +
-                "surrender\n" +
-                "show graveyard\n" +
-                "back\n" +
-                "card show --selected\n" +
                 "menu exit\n" +
                 "help");
     }

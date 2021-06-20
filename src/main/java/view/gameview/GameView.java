@@ -489,9 +489,6 @@ public class GameView {
                 "select --field\n" +
                 "select --field --opponent\n" +
                 "select -f -o\n" +
-                "select --graveyard\n" +
-                "select --graveyard --opponent\n" +
-                "select -gy -o\n" +
                 "select --hand <cardNumber>\n" +
                 "select -d\n" +
                 "next phase\n" +

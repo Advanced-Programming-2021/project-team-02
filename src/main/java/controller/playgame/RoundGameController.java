@@ -2036,6 +2036,7 @@ public class RoundGameController {
             } else {
                 secondPlayer.getPlayerBoard().faceUpActiveFieldSpell((Spell) selectedCell.getCardInCell());
             }
+            view.showBoard();
         }
         fieldZoneSpell = (Spell) selectedCell.getCardInCell();
         deselectCard(0);
