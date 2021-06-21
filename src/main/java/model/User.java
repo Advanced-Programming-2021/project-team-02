@@ -259,8 +259,29 @@ public class User implements Comparable<User> {
     public void increaseScore(int score) {
         this.score += score;
     }
+
     public void changeUsername(String newUsername){
         setUsername(newUsername);
-        //TODO JSON
+        PrintWriter printWriter = null;
+        try {
+            printWriter = new PrintWriter("user.json");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        assert printWriter != null;
+        printWriter.print("");
+        Writer writer = null;
+        try {
+            writer = Files.newBufferedWriter(Paths.get("user.json"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        gson.toJson(allUsers, writer);
+        try {
+            assert writer != null;
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

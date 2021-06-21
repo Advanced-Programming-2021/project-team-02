@@ -28,8 +28,8 @@ public class ImportExportMenuView {
     private void commandRecognition(String command) {
         Matcher matcher;
         if ((matcher = Regex.getMatcher (Regex.MENU_ENTER, command)).matches ()) {
-            if (matcher.group ("menuName").toLowerCase(Locale.ROOT).equals ("profile"))
-                showDynamicError ();
+            if (matcher.group ("menuName").toLowerCase(Locale.ROOT).equals ("importexport"))
+                showDynamicError(Error.BEING_ON_CURRENT_MENU, Menu.IMPORT_EXPORT_MENU.getValue());
             else Error.showError (Error.BEING_ON_A_MENU);
         } else if (Regex.getMatcher (Regex.MENU_EXIT, command).matches ()) {
             MenusManager.getInstance().changeMenu(Menu.MAIN_MENU);
@@ -44,8 +44,8 @@ public class ImportExportMenuView {
         } else Error.showError(Error.INVALID_COMMAND);
     }
 
-    private void showDynamicError() {
-        if (Error.BEING_ON_CURRENT_MENU.equals (Error.BEING_ON_CURRENT_MENU)) System.out.printf (Error.BEING_ON_CURRENT_MENU.getValue (), Menu.DUEL_MENU.getValue ());
+    public void showDynamicError(Error error, String string) {
+        System.out.printf(error.getValue(), string);
     }
 
     public void showSuccessMessage(SuccessMessage successMessage) {
