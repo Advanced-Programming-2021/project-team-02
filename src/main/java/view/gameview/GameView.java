@@ -493,9 +493,7 @@ public class GameView {
                 "select -d\n" +
                 "next phase\n" +
                 "summon\n" +
-                "set --monster\n" +
-                "set --spell\n" +
-                "set --trap\n" +
+                "set \n" +
                 "set --position <attack|defense>\n" +
                 "flip-summon\n" +
                 "attack <monsterZoneNumber>\n" +
