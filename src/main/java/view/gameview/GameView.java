@@ -74,9 +74,13 @@ public class GameView {
             controller.summonMonster();
         else if (Regex.getMatcher(Regex.GRAVEYARD_SHOW, command).matches())
             instance.showCurrentGraveYard(true);
-        else if (Regex.getMatcher(Regex.CARD_SHOW_SELECTED, command).matches())
+        else if (Regex.getMatcher(Regex.CARD_SHOW_SELECTED, command).matches()) {
+            if (controller.getSelectedCell() == null) {
+                showError(Error.NO_CARD_SELECTED_YET);
+                return;
+            }
             DeckMenuView.getInstance().checkTypeOfCardAndPrintIt(controller.getSelectedCell().getCardInCell());
-        else if (Regex.getMatcher(Regex.BOARD_GAME_SUMMON, command).matches())
+        } else if (Regex.getMatcher(Regex.BOARD_GAME_SUMMON, command).matches())
             controller.summonMonster();
         else if (Regex.getMatcher(Regex.BOARD_GAME_SET, command).matches())
             controller.setCrad();

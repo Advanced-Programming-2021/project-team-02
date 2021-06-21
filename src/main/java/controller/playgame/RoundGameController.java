@@ -95,6 +95,7 @@ public class RoundGameController {
         this.isWithAi = isWithAi;
         isFinishedRound = false;
         isFinishedGame = false;
+        view.showSuccessMessageWithAString(SuccessMessage.PLAYERS_TURN, getCurrentPlayer().getNickname());
         duelGameController.setStartHandCards();
         drawCardFromDeck();
     }
@@ -182,6 +183,8 @@ public class RoundGameController {
             return;
         }
         opponentSelectedCell = getOpponentPlayer().getPlayerBoard().getFieldZone().getFieldCell();
+        selectedCell = opponentSelectedCell;
+        selectedCellZone = Zone.NONE;
         view.showSuccessMessage(SuccessMessage.CARD_SELECTED);
     }
 
@@ -196,6 +199,7 @@ public class RoundGameController {
         }
         opponentSelectedCell = getOpponentPlayer().getPlayerBoard().getACellOfBoardWithAddress(Zone.MONSTER_ZONE, address);
         selectedCell = opponentSelectedCell;
+        selectedCellZone = Zone.NONE;
         view.showSuccessMessage(SuccessMessage.CARD_SELECTED);
     }
 
@@ -210,6 +214,7 @@ public class RoundGameController {
         }
         opponentSelectedCell = getOpponentPlayer().getPlayerBoard().getACellOfBoardWithAddress(Zone.SPELL_ZONE, address);
         selectedCell = opponentSelectedCell;
+        selectedCellZone = Zone.NONE;
         view.showSuccessMessage(SuccessMessage.CARD_SELECTED);
     }
 
@@ -855,7 +860,7 @@ public class RoundGameController {
 
     //MONSTER RELATED CODES :
     public void summonMonster() {
-        if (selectedCell == null && opponentSelectedCell != null) {
+        if (selectedCellZone == Zone.NONE && opponentSelectedCell != null) {
             Error.showError(Error.ONLY_CAN_SHOW_OPPONENT_CARD);
             return;
         }
@@ -1332,6 +1337,14 @@ public class RoundGameController {
     }
 
     public void setCrad() {
+        if (selectedCell == null) {
+            view.showError(Error.NO_CARD_SELECTED_YET);
+            return;
+        }
+        if (selectedCellZone == Zone.NONE && opponentSelectedCell != null) {
+            view.showError(Error.ONLY_CAN_SHOW_OPPONENT_CARD);
+            return;
+        }
         if (selectedCell.getCardInCell().getCardType() == MONSTER) {
             setMonster();
         } else {
@@ -1340,6 +1353,10 @@ public class RoundGameController {
     }
 
     public void setMonster() {
+        if (selectedCellZone == Zone.NONE && opponentSelectedCell != null) {
+            Error.showError(Error.ONLY_CAN_SHOW_OPPONENT_CARD);
+            return;
+        }
         if (!isValidSelectionForSummonOrSet()) {
             return;
         }
@@ -1842,6 +1859,10 @@ public class RoundGameController {
 
     // SPELL RELATED
     public void setSpellOrTrap() {
+        if (selectedCellZone == Zone.NONE && opponentSelectedCell != null) {
+            Error.showError(Error.ONLY_CAN_SHOW_OPPONENT_CARD);
+            return;
+        }
         if (selectedCell == null) {
             Error.showError(Error.NO_CARD_SELECTED_YET);
         } else if (!selectedCellZone.equals(Zone.HAND)) {
@@ -1890,6 +1911,10 @@ public class RoundGameController {
         }
         if (selectedCell == null) {
             Error.showError(Error.NO_CARD_SELECTED_YET);
+            return;
+        }
+        if (selectedCell.getCardInCell().getCardType() == MONSTER) {
+            view.showError(Error.ONLY_SPELL_CAN_ACTIVE);
             return;
         }
         if (!selectedCellZone.equals(Zone.SPELL_ZONE) && !selectedCellZone.equals(Zone.HAND) && selectedCellZone.equals(Zone.FIELD_ZONE)) {
@@ -2029,6 +2054,7 @@ public class RoundGameController {
                 isFieldActivated = 2;
                 secondPlayer.getPlayerBoard().faceUpActiveFieldSpell((Spell) selectedCell.getCardInCell());
             }
+            view.showBoard();
         } else {
             reversePreviousFieldZoneSpellEffectAndRemoveIt();
             isFieldActivated = getTurn();

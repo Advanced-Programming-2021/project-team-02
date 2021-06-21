@@ -74,7 +74,7 @@ public class MenusManager {
 
     public void changeMenu(Menu newMenu) {
         currentMenu = newMenu;
-        if (currentMenu == Menu.ONGOING_GAME_WITH_AI || currentMenu == Menu.ONGOING_GAME || currentMenu == Menu.DUEL_MENU)
+        if (currentMenu == Menu.ONGOING_GAME_WITH_AI || currentMenu == Menu.ONGOING_GAME )//|| currentMenu == Menu.DUEL_MENU)
             return;
         System.out.println(currentMenu.getValue());
     }
