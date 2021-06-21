@@ -269,15 +269,16 @@ public class GameView {
             for (Card card : controller.getCurrentPlayer().getPlayerBoard().returnGraveYard().getGraveYardCards()) {
                 System.out.print(counter + ". " + card.getName() + ":" + card.getDescription());
                 if (card.getCardType() == CardType.MONSTER) {
-                    System.out.println(" Powers : " + ((Monster) card).getAttackPower() + "," + ((Monster) card).getDefensePower());
+                    System.out.print("\n Powers : " + ((Monster) card).getAttackPower() + "," + ((Monster) card).getDefensePower());
                 }
+                System.out.println();
                 System.out.println();
                 counter++;
             }
         }
         if (userAskedForGraveYard)
             while (!Input.getInput().equals("back")) {
-                System.out.println(Error.INVALID_COMMAND);
+                System.out.println(Error.INVALID_COMMAND.getValue());
             }
     }
 

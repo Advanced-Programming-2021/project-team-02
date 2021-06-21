@@ -91,10 +91,10 @@ public class Regex {
         USER_LOGIN.add("^user login -p (?<password>\\w+?) -u (?<username>\\w+?)$");
         PROFILE_CHANGE_NICKNAME = new ArrayList<>();
         PROFILE_CHANGE_NICKNAME.add("^profile change --nickname (?<nickname>\\w+)$");
-        PROFILE_CHANGE_NICKNAME.add("^profile change --n (?<nickname>\\w+)$");
+        PROFILE_CHANGE_NICKNAME.add("^profile change -n (?<nickname>\\w+)$");
         PROFILE_CHANGE_USERNAME = new ArrayList<>();
         PROFILE_CHANGE_USERNAME.add("^profile change --username (?<username>\\w+)$");
-        PROFILE_CHANGE_USERNAME.add("^profile change --u (?<username>\\w+)$");
+        PROFILE_CHANGE_USERNAME.add("^profile change -u (?<username>\\w+)$");
         PROFILE_CHANGE_PASSWORD = new ArrayList<>();
         PROFILE_CHANGE_PASSWORD.add("^profile change --password --current (?<currentPassword>\\w+) --new (?<newPassword>\\w+)$");
         PROFILE_CHANGE_PASSWORD.add("^profile change --password --new (?<newPassword>\\w+) --current (?<currentPassword>\\w+)$");
