@@ -208,8 +208,14 @@ public class User implements Comparable<User> {
     }
 
     public static ArrayList<User> sortAllUsers() {
-        Collections.sort(allUsers);
-        return allUsers;
+        ArrayList<User> usersWithoutAi = new ArrayList<>();
+        for (User allUser : allUsers) {
+            if (allUser.getUsername().equals("ai"))
+                continue;
+            usersWithoutAi.add(allUser);
+        }
+        Collections.sort(usersWithoutAi);
+        return usersWithoutAi;
     }
 
     @Override
@@ -220,9 +226,6 @@ public class User implements Comparable<User> {
                 ", nickname='" + nickname + '\'';
     }
 
-    public void addScoreOfGame(int score) {
-
-    }
 
     public static void jsonUsers() {
         try {

@@ -26,13 +26,13 @@ public class DuelGameController {
 
     }
 
-    public Duel getDuel() {
-        return duel;
-    }
-
     public static DuelGameController getInstance() {
         if (instance == null) instance = new DuelGameController();
         return instance;
+    }
+
+    public Duel getDuel() {
+        return duel;
     }
 
     public void startDuel(Duel duel) {
@@ -185,6 +185,7 @@ public class DuelGameController {
                     .getUsername())).increaseCoin(1000 + winner.getLifePoint());
             Objects.requireNonNull(Assets.getAssetsByUsername(Objects.requireNonNull(User.getUserByNickName(loser.getNickname()))
                     .getUsername())).increaseCoin(100);
+
 
         } else if (winner == duel.getPlayer2()) {
             Objects.requireNonNull(Assets.getAssetsByUsername(Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
