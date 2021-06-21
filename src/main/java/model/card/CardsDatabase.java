@@ -2,6 +2,7 @@ package model.card;
 
 import com.opencsv.CSVReader;
 import model.Shop;
+import model.User;
 import model.card.informationofcards.*;
 
 import java.io.*;
