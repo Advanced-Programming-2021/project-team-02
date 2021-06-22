@@ -208,19 +208,15 @@ public class DuelGameController {
             Objects.requireNonNull(Assets.getAssetsByUsername(Objects.requireNonNull(User.getUserByNickName(loser.getNickname()))
                     .getUsername())).increaseCoin(300);
         }
-        ArrayList<String> roundsWinner = duel.getWinners();
-        if (roundsWinner.get(0).equals(roundsWinner.get(1))) {
-            int lost = 0;
-            if (endRoundNum == 2)
-                lost = 0;
-            else lost = 1;
-            view.showSuccessMessageWithTwoIntegerAndOneStringForSeveralWins(SuccessMessage.WIN_MESSAGE_FOR_HOLE_MATCH,
-                    Objects.requireNonNull(Objects.requireNonNull(User.getUserByNickName(winner.getNickname())).getUsername()),
-                    2, lost
-            );
-        } else
-            view.showSuccessMessageWithAString(SuccessMessage.WIN_MESSAGE_ROUND_MATCH, Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
-                    .getUsername());
+        int lost;
+        if (endRoundNum == 2)
+            lost = 0;
+        else lost = 1;
+        view.showSuccessMessageWithTwoIntegerAndOneStringForSeveralWins(SuccessMessage.WIN_MESSAGE_FOR_HOLE_MATCH,
+                Objects.requireNonNull(Objects.requireNonNull(User.getUserByNickName(winner.getNickname())).getUsername()),
+                2, lost
+        );
+
     }
 
     public void setStartHandCards() {

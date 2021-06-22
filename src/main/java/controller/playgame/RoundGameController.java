@@ -2425,7 +2425,7 @@ public class RoundGameController {
             loser = firstPlayer;
         }
         if (duelGameController.getDuel().getNumberOfRounds() == 3)
-            duelGameController.updateScoreAndCoinForThreeRounds(winner, loser,2);
+            duelGameController.updateScoreAndCoinForThreeRounds(winner, loser, 2);
         else duelGameController.updateScoreAndCoinForOneRound(winner, loser);
         finishGame(winner);
     }
@@ -2444,6 +2444,7 @@ public class RoundGameController {
         DuelPlayer player2 = DuelGameController.getInstance().getDuel().getPlayer2();
         player1.setPlayDeck(User.getActiveDeckByUsername(Objects.requireNonNull(User.getUserByNickName(player1.getNickname())).getUsername()));
         player2.setPlayDeck(User.getActiveDeckByUsername(Objects.requireNonNull(User.getUserByNickName(player2.getNickname())).getUsername()));
+        view.showSuccessMessageWithAString(SuccessMessage.ROUND_FINISHED, winner.getNickname());
         if (player1.getNickname().equals("ai"))
             BetweenRoundView.getInstance().setPlayer1(player2, true);
         else if (player2.getNickname().equals("ai"))
@@ -2452,6 +2453,7 @@ public class RoundGameController {
             BetweenRoundView.getInstance().setPlayer1(player1, false);
             BetweenRoundView.getInstance().setPlayer2(player2);
         }
+
         DuelGameController.getInstance().setSpecifier(winner.getNickname());
         clear();
     }
