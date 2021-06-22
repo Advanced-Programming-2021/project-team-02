@@ -50,6 +50,7 @@ public class BetweenRoundView {
             }
             if (turn == 1) {
                 turn = 2;
+                System.out.println("now next player can change cards;");
             } else {
                 turn = 1;
                 DuelGameController.getInstance().startNextRound();

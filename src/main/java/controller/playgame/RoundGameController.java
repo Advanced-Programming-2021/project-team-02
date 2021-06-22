@@ -1502,8 +1502,10 @@ public class RoundGameController {
                 selectedCell.setCellStatus(CellStatus.DEFENSIVE_OCCUPIED);
             view.showSuccessMessage(SuccessMessage.POSITION_CHANGED_SUCCESSFULLY);
             changePositionUsed();
+            view.showBoard();
+            deselectCard(0);
         }
-        deselectCard(0);
+
     }
 
     public void attackToCard(int attackedAddress) {
@@ -2439,12 +2441,13 @@ public class RoundGameController {
     private void finishRound(DuelPlayer winner) {
         duelGameController.getDuel().finishRound();
         isFinishedRound = true;
+        view.showSuccessMessageWithAString(SuccessMessage.ROUND_FINISHED, winner.getNickname());
         MenusManager.getInstance().changeMenu(Menu.BETWEEN_ROUNDS);
         DuelPlayer player1 = DuelGameController.getInstance().getDuel().getPlayer1();
         DuelPlayer player2 = DuelGameController.getInstance().getDuel().getPlayer2();
         player1.setPlayDeck(User.getActiveDeckByUsername(Objects.requireNonNull(User.getUserByNickName(player1.getNickname())).getUsername()));
         player2.setPlayDeck(User.getActiveDeckByUsername(Objects.requireNonNull(User.getUserByNickName(player2.getNickname())).getUsername()));
-        view.showSuccessMessageWithAString(SuccessMessage.ROUND_FINISHED, winner.getNickname());
+
         if (player1.getNickname().equals("ai"))
             BetweenRoundView.getInstance().setPlayer1(player2, true);
         else if (player2.getNickname().equals("ai"))
