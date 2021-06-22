@@ -128,8 +128,15 @@ public class User implements Comparable<User> {
         return hasActiveDeck;
     }
 
-    public static Deck getActiveDeck(String username) {
+    public static Deck getActiveDeckByUsername(String username) {
         List<Deck> decks = Objects.requireNonNull(Objects.requireNonNull(Assets.getAssetsByUsername(username)).getAllDecks());
+        for (Deck deck : decks) {
+            if (deck.isActivated()) return deck;
+        }
+        return null;
+    }
+    public static Deck getActiveDeckByNickName(String nickname) {
+        List<Deck> decks = Objects.requireNonNull(Objects.requireNonNull(Assets.getAssetsByUsername(getUserByNickName(nickname).getUsername())).getAllDecks());
         for (Deck deck : decks) {
             if (deck.isActivated()) return deck;
         }

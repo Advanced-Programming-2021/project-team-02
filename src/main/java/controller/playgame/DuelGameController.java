@@ -107,16 +107,7 @@ public class DuelGameController {
                 } else updateScoreAndCoinForOneRound(duel.getPlayer2(), duel.getPlayer1());
                 return GameResult.GAME_FINISHED;
             } else {
-                if (duel.getCurrentRound() != 3) {
-                    duel.addLifePointOfPlayer1(duel.getPlayer1().getLifePoint());
-                    duel.addLifePointOfPlayer2(duel.getPlayer2().getLifePoint());
-                    duel.setWinners(winner.getNickname());
-                    duel.setCurrentRound(duel.getCurrentRound() + 1);
-                    return GameResult.ROUND_FINISHED;
-                } else {
-                    updateScoreAndCoinForThreeRounds(winner, loser);
-                    return GameResult.GAME_FINISHED;
-                }
+                return matchResultCheck(winner, loser);
             }
         }
         return null;
@@ -128,7 +119,7 @@ public class DuelGameController {
             duel.addLifePointOfPlayer2(duel.getPlayer2().getLifePoint());
             duel.setWinners(winner.getNickname());
             findWinnerOfMatch();
-            updateScoreAndCoinForThreeRounds(duel.getWinner(), duel.getLoser());
+            updateScoreAndCoinForThreeRounds(duel.getWinner(), duel.getLoser(), 3);
             return GameResult.GAME_FINISHED;
         } else {
             duel.addLifePointOfPlayer1(duel.getPlayer1().getLifePoint());
@@ -136,7 +127,7 @@ public class DuelGameController {
             duel.setWinners(winner.getNickname());
             if (duel.getCurrentRound() == 2) {
                 if (isMatchFinished()) {
-                    updateScoreAndCoinForThreeRounds(duel.getWinner(), duel.getLoser());
+                    updateScoreAndCoinForThreeRounds(duel.getWinner(), duel.getLoser(), 2);
                     return GameResult.GAME_FINISHED;
                 }
             }
@@ -180,26 +171,31 @@ public class DuelGameController {
     }
 
     public void updateScoreAndCoinForOneRound(DuelPlayer winner, DuelPlayer loser) {
+        int winnerLife = 0;
+        int loserLife = 0;
         if (winner == duel.getPlayer1()) {
             Objects.requireNonNull(Assets.getAssetsByUsername(Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
                     .getUsername())).increaseCoin(1000 + winner.getLifePoint());
             Objects.requireNonNull(Assets.getAssetsByUsername(Objects.requireNonNull(User.getUserByNickName(loser.getNickname()))
                     .getUsername())).increaseCoin(100);
-
+            winnerLife = duel.getPlayer1().getLifePoint();
+            loserLife = duel.getPlayer2().getLifePoint();
 
         } else if (winner == duel.getPlayer2()) {
             Objects.requireNonNull(Assets.getAssetsByUsername(Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
                     .getUsername())).increaseCoin(1000 + winner.getLifePoint());
             Objects.requireNonNull(Assets.getAssetsByUsername(Objects.requireNonNull(User.getUserByNickName(loser.getNickname()))
                     .getUsername())).increaseCoin(100);
+            loserLife = duel.getPlayer1().getLifePoint();
+            winnerLife = duel.getPlayer2().getLifePoint();
         }
         Objects.requireNonNull(User.getUserByNickName(winner.getNickname())).increaseScore(1000);
-        view.showSuccessMessageWithAString(SuccessMessage.SURRENDER_MESSAGE, Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
-                .getUsername());
+        view.showSuccessMessageWithTwoIntegerAndOneString(SuccessMessage.WIN_MESSAGE_ROUND_MATCH, Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
+                .getUsername(), winnerLife, loserLife);
 
     }
 
-    public void updateScoreAndCoinForThreeRounds(DuelPlayer winner, DuelPlayer loser) {
+    public void updateScoreAndCoinForThreeRounds(DuelPlayer winner, DuelPlayer loser, int endRoundNum) {
         Objects.requireNonNull(User.getUserByNickName(winner.getNickname())).increaseScore(3000);
         if (winner == duel.getPlayer1()) {
             Objects.requireNonNull(Assets.getAssetsByUsername(Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
@@ -214,12 +210,16 @@ public class DuelGameController {
         }
         ArrayList<String> roundsWinner = duel.getWinners();
         if (roundsWinner.get(0).equals(roundsWinner.get(1))) {
-            view.showSuccessMessageWithTwoIntegerAndOneStringForSeveralWins(SuccessMessage.SURRENDER_MESSAGE_FOR_HOLE_MATCH,
+            int lost = 0;
+            if (endRoundNum == 2)
+                lost = 0;
+            else lost = 1;
+            view.showSuccessMessageWithTwoIntegerAndOneStringForSeveralWins(SuccessMessage.WIN_MESSAGE_FOR_HOLE_MATCH,
                     Objects.requireNonNull(Objects.requireNonNull(User.getUserByNickName(winner.getNickname())).getUsername()),
-                    Objects.requireNonNull(User.getUserByNickName(winner.getNickname())).getScore(),
-                    Objects.requireNonNull(User.getUserByNickName(loser.getNickname())).getScore());
+                    2, lost
+            );
         } else
-            view.showSuccessMessageWithAString(SuccessMessage.SURRENDER_MESSAGE, Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
+            view.showSuccessMessageWithAString(SuccessMessage.WIN_MESSAGE_ROUND_MATCH, Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
                     .getUsername());
     }
 

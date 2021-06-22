@@ -59,6 +59,8 @@ public class BetweenRoundView {
             DuelPlayer player = (turn == 1 ? player1 : player2);
             showDeck(player);
         } else if (command.equals("help")) {
+            DuelPlayer player = (turn == 1 ? player1 : player2);
+            System.out.println(player.getNickname() + " turn to change card");
             help();
         } else System.out.println(Error.INVALID_COMMAND);
     }

@@ -33,8 +33,8 @@ public class Duel {
     }
 
     public void setDuelPlayers(User user1, User user2) throws CloneNotSupportedException {
-        player1 = new DuelPlayer(user1.getNickname(), Objects.requireNonNull(User.getActiveDeck(user1.getUsername())).copy());
-        player2 = new DuelPlayer(user2.getNickname(), Objects.requireNonNull(User.getActiveDeck(user2.getUsername())).copy());
+        player1 = new DuelPlayer(user1.getNickname(), Objects.requireNonNull(User.getActiveDeckByUsername(user1.getUsername())).copy());
+        player2 = new DuelPlayer(user2.getNickname(), Objects.requireNonNull(User.getActiveDeckByUsername(user2.getUsername())).copy());
     }
 
     public DuelPlayer getPlayer1() {
@@ -91,12 +91,12 @@ public class Duel {
         this.winnersList.add(winner);
     }
 
-    public void setCurrentRound(int currentRound) {
-        this.currentRound = currentRound;
-    }
-
     public int getCurrentRound() {
         return currentRound;
+    }
+
+    public void setCurrentRound(int currentRound) {
+        this.currentRound = currentRound;
     }
 
     public void setWinnerAndLoser(DuelPlayer winner, DuelPlayer loser) {
@@ -110,5 +110,14 @@ public class Duel {
 
     public DuelPlayer getLoser() {
         return loser;
+    }
+
+    public void finishRound() {
+        try {
+            player1.setPlayDeck(Objects.requireNonNull(User.getActiveDeckByNickName(player1.getNickname())).copy());
+            player2.setPlayDeck(Objects.requireNonNull(User.getActiveDeckByNickName(player2.getNickname())).copy());
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
     }
 }

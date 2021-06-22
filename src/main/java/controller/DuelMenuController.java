@@ -71,10 +71,10 @@ public class DuelMenuController {
     }
 
     public boolean arePlayersDecksValid(String secondPlayerUsername) {
-        if (!Objects.requireNonNull(User.getActiveDeck(MenusManager.getInstance().getLoggedInUser().getUsername())).isValidDeck()) {
+        if (!Objects.requireNonNull(User.getActiveDeckByUsername(MenusManager.getInstance().getLoggedInUser().getUsername())).isValidDeck()) {
             view.showDynamicErrorForInactiveDeck(Error.FORBIDDEN_DECK, MenusManager.getInstance().getLoggedInUser().getUsername());
             return false;
-        } else if (!Objects.requireNonNull(User.getActiveDeck(secondPlayerUsername)).isValidDeck()) {
+        } else if (!Objects.requireNonNull(User.getActiveDeckByUsername(secondPlayerUsername)).isValidDeck()) {
             view.showDynamicErrorForInactiveDeck(Error.FORBIDDEN_DECK, secondPlayerUsername);
             return false;
         }

@@ -118,13 +118,12 @@ public class GameView {
     }
 
     public void showSuccessMessageWithTwoIntegerAndOneString(SuccessMessage successMessage, String winnerUserName, int winnerScore, int loserScore) {
-        if (successMessage.equals(SuccessMessage.SURRENDER_MESSAGE))
-            System.out.printf(SuccessMessage.SURRENDER_MESSAGE.getValue(), winnerUserName, winnerScore, loserScore);
+            System.out.printf(SuccessMessage.WIN_MESSAGE_ROUND_MATCH.getValue(), winnerUserName, winnerScore, loserScore);
     }
 
     public void showSuccessMessageWithTwoIntegerAndOneStringForSeveralWins(SuccessMessage successMessage, String winnerUserName, int winnerScore, int loserScore) {
-        if (successMessage.equals(SuccessMessage.SURRENDER_MESSAGE_FOR_HOLE_MATCH))
-            System.out.printf(SuccessMessage.SURRENDER_MESSAGE_FOR_HOLE_MATCH.getValue(), winnerUserName, winnerScore, loserScore);
+        if (successMessage.equals(SuccessMessage.WIN_MESSAGE_FOR_HOLE_MATCH))
+            System.out.printf(SuccessMessage.WIN_MESSAGE_FOR_HOLE_MATCH.getValue(), winnerUserName, winnerScore, loserScore);
     }
 
     public void showSuccessMessage(SuccessMessage message) {
@@ -144,8 +143,8 @@ public class GameView {
             System.out.printf(SuccessMessage.GAME_FINISHED.getValue(), string);
         else if (message.equals(SuccessMessage.ROUND_FINISHED))
             System.out.printf(SuccessMessage.ROUND_FINISHED.getValue(), string);
-        else if (message == SuccessMessage.SURRENDER_MESSAGE)
-            System.out.printf(SuccessMessage.SURRENDER_MESSAGE.getValue(), string);
+        else if (message == SuccessMessage.WIN_MESSAGE_ROUND_MATCH)
+            System.out.printf(SuccessMessage.WIN_MESSAGE_ROUND_MATCH.getValue(), string);
     }
 
     public void showSuccessMessageWithAnInteger(SuccessMessage message, int number) {
