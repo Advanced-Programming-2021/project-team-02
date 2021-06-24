@@ -183,6 +183,11 @@ public class RoundGameController {
             return;
         }
         opponentSelectedCell = getOpponentPlayer().getPlayerBoard().getFieldZone().getFieldCell();
+        if (opponentSelectedCell.getCellStatus() == CellStatus.HIDDEN) {
+            view.showError(Error.INVALID_SELECTION);
+            opponentSelectedCell = null;
+            return;
+        }
         selectedCell = opponentSelectedCell;
         selectedCellZone = Zone.NONE;
         view.showSuccessMessage(SuccessMessage.CARD_SELECTED);
@@ -198,6 +203,11 @@ public class RoundGameController {
             return;
         }
         opponentSelectedCell = getOpponentPlayer().getPlayerBoard().getACellOfBoardWithAddress(Zone.MONSTER_ZONE, address);
+        if (opponentSelectedCell.getCellStatus() == CellStatus.DEFENSIVE_HIDDEN) {
+            view.showError(Error.INVALID_SELECTION);
+            opponentSelectedCell = null;
+            return;
+        }
         selectedCell = opponentSelectedCell;
         selectedCellZone = Zone.NONE;
         view.showSuccessMessage(SuccessMessage.CARD_SELECTED);
@@ -213,6 +223,11 @@ public class RoundGameController {
             return;
         }
         opponentSelectedCell = getOpponentPlayer().getPlayerBoard().getACellOfBoardWithAddress(Zone.SPELL_ZONE, address);
+        if (opponentSelectedCell.getCellStatus() == CellStatus.HIDDEN) {
+            view.showError(Error.INVALID_SELECTION);
+            opponentSelectedCell = null;
+            return;
+        }
         selectedCell = opponentSelectedCell;
         selectedCellZone = Zone.NONE;
         view.showSuccessMessage(SuccessMessage.CARD_SELECTED);
@@ -227,18 +242,10 @@ public class RoundGameController {
         }
     }
 
-    private void trapHoleTrapEffect() {
-        if (isValidSituationForTrapHoleTrapEffect()) {
-            int address = 0;//TODO ! risk here!
-            for (int i = 1; i <= 5; i++) {
-                Cell cell = getCurrentPlayer().getPlayerBoard().returnMonsterZone().getCellWithAddress(i);
-                if (cell.getCardInCell() == selectedCell.getCardInCell())
-                    address = i;
-            }
-            addCardToGraveYard(Zone.MONSTER_ZONE, address, getCurrentPlayer());
-            deselectCard(0);
-        } else
-            view.showError(Error.PREPARATIONS_IS_NOT_DONE);
+    private void trapHoleTrapEffect(int addedCardAddress) {
+
+        addCardToGraveYard(Zone.MONSTER_ZONE, addedCardAddress, getCurrentPlayer());
+        deselectCard(0);
     }
 
     public List<Card> getCurrentPlayerHand() {
@@ -756,7 +763,7 @@ public class RoundGameController {
 
     public void specialSummon(Card card, CellStatus cellStatus) {
         MonsterZone monsterZone = getCurrentPlayer().getPlayerBoard().returnMonsterZone();
-        monsterZone.addCard((Monster) card, cellStatus);
+        int addressOfAdd = monsterZone.addCard((Monster) card, cellStatus);
         view.showBoard();
         checkNewCardToBeBeUnderEffectOfFieldCard((Monster) card);
         if (isCurrentPlayerTrapToBeActivatedInSummonSituation()) {
@@ -764,9 +771,9 @@ public class RoundGameController {
                 return;
             }
         }
-        if (isOpponentTrapToBeActivatedInSummonSituation()) {
+        if (isOpponentTrapToBeActivatedInSummonSituation(addressOfAdd)) {
             view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER, getOpponentPlayer().getNickname());
-            if (isOpponentTrapInSummonSituationActivated()) {
+            if (isOpponentTrapInSummonSituationActivated(addressOfAdd)) {
                 return;
             }
         }
@@ -997,7 +1004,7 @@ public class RoundGameController {
         return false;
     }
 
-    private boolean isOpponentTrapToBeActivatedInSummonSituation() {
+    private boolean isOpponentTrapToBeActivatedInSummonSituation(int addressOfSummonedCard) {
         PlayerBoard board = getOpponentPlayer().getPlayerBoard();
         for (int i = 1; i <= 5; i++) {
             Cell cell = board.getACellOfBoardWithAddress(Zone.SPELL_ZONE, i);
@@ -1007,7 +1014,7 @@ public class RoundGameController {
                 continue;
             }
             Trap trap = (Trap) cell.getCardInCell();
-            if (trap.getTrapEffect() == null)//TODO inja null khordim no idea
+            if (trap.getTrapEffect() == null)
                 continue;
             switch (trap.getTrapEffect()) {
                 case TORRENTIAL_TRIBUTE_EFFECT:
@@ -1019,7 +1026,7 @@ public class RoundGameController {
                         return false;
                     }
                 case TRAP_HOLE_EFFECT:
-                    if (isValidSituationForTrapHoleTrapEffect()) {
+                    if (isValidSituationForTrapHoleTrapEffect(getCurrentPlayer().getPlayerBoard().getACellOfBoardWithAddress(Zone.MONSTER_ZONE, addressOfSummonedCard))) {
                         view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER, getOpponentPlayer().getNickname());
                         if (view.yesNoQuestion("do you want to activate your trap and spell?")) {
                             return true;
@@ -1034,31 +1041,32 @@ public class RoundGameController {
     }
 
 
-    private boolean isValidSituationForTrapHoleTrapEffect() {
-        return ((Monster) selectedCell.getCardInCell()).getAttackPower() > 1000;
+    private boolean isValidSituationForTrapHoleTrapEffect(Cell cell) {
+        Monster monster = (Monster) cell.getCardInCell();
+        return monster.getAttackPower() > 1000;
     }
 
 
-    private boolean isOpponentTrapInSummonSituationActivated() {
+    private boolean isOpponentTrapInSummonSituationActivated(int addressOfNewSummonedCard) {
         while (true) {
             int address = view.getAddressForTrapOrSpell();
             if (address == -1) {
                 return false;
             } else if (address >= 1 && address <= 5) {
                 Cell cell = getOpponentPlayer().getPlayerBoard().getACellOfBoardWithAddress(Zone.SPELL_ZONE, address);
-                if (checkTrapCellToBeActivatedForOpponentInSummonSituation(address, cell))
+                if (checkTrapCellToBeActivatedForOpponentInSummonSituation(address, cell, addressOfNewSummonedCard))
                     return true;
             } else
                 Error.showError(Error.INVALID_NUMBER);
         }
     }
 
-    private boolean checkTrapCellToBeActivatedForOpponentInSummonSituation(int address, Cell cell) {
-        if (cell.getCardInCell().getCardType().equals(CardType.SPELL)) {
+    private boolean checkTrapCellToBeActivatedForOpponentInSummonSituation(int address, Cell selectedCellByPlayerToActivate, int addressOfNewSummonedCard) {
+        if (selectedCellByPlayerToActivate.getCardInCell().getCardType().equals(CardType.SPELL)) {
             Error.showError(Error.ACTION_NOT_ALLOWED); //right error ?
         } else {
-            Trap trap = (Trap) cell.getCardInCell();
-            if (isValidActivateTrapEffectInSummonSituationForOpponentToDo(trap.getTrapEffect(), cell)) {
+            Trap trap = (Trap) selectedCellByPlayerToActivate.getCardInCell();
+            if (isValidActivateTrapEffectInSummonSituationForOpponentToDo(trap.getTrapEffect(), selectedCellByPlayerToActivate, addressOfNewSummonedCard)) {
                 addCardToGraveYard(Zone.SPELL_ZONE, address, getOpponentPlayer()); //CHECK correctly removed ?
                 return true;
             }
@@ -1095,7 +1103,7 @@ public class RoundGameController {
         return false;
     }
 
-    private boolean isValidActivateTrapEffectInSummonSituationForOpponentToDo(TrapEffect trapEffect, Cell cell) {
+    private boolean isValidActivateTrapEffectInSummonSituationForOpponentToDo(TrapEffect trapEffect, Cell cell, int addressOfNewSummonedCard) {
         switch (trapEffect) {
             case TORRENTIAL_TRIBUTE_EFFECT:
                 cell.setCellStatus(CellStatus.OCCUPIED);
@@ -1107,7 +1115,7 @@ public class RoundGameController {
                 cell.setCellStatus(CellStatus.OCCUPIED);
                 view.showSuccessMessage(SuccessMessage.TRAP_ACTIVATED);
                 view.showBoard();
-                trapHoleTrapEffect();
+                trapHoleTrapEffect(addressOfNewSummonedCard);
                 return true;
             default:
                 Error.showError(Error.PREPARATIONS_IS_NOT_DONE);
@@ -1134,7 +1142,7 @@ public class RoundGameController {
     }
 
     private void summon() {
-        getCurrentPlayer().getPlayerBoard().addMonsterToBoard((Monster) selectedCell.getCardInCell(), CellStatus.OFFENSIVE_OCCUPIED);
+        int addressOfAdd = getCurrentPlayer().getPlayerBoard().addMonsterToBoard((Monster) selectedCell.getCardInCell(), CellStatus.OFFENSIVE_OCCUPIED);
         if (!isWithAi) view.showSuccessMessage(SuccessMessage.SUMMONED_SUCCESSFULLY);
         getCurrentPlayerHand().remove(selectedCellAddress - 1);
         view.showBoard();
@@ -1143,9 +1151,9 @@ public class RoundGameController {
                 return;
             }
         }
-        if (isOpponentTrapToBeActivatedInSummonSituation()) {
+        if (isOpponentTrapToBeActivatedInSummonSituation(addressOfAdd)) {
             view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER, getOpponentPlayer().getNickname());
-            if (isOpponentTrapInSummonSituationActivated()) {
+            if (isOpponentTrapInSummonSituationActivated(addressOfAdd)) {
                 return;
             }
         }
@@ -1242,7 +1250,7 @@ public class RoundGameController {
                         }
                         view.showBoard();
                         CellStatus status = view.getPositionForSetRitualMonster();
-                        getCurrentPlayer().getPlayerBoard().addMonsterToBoard(monster, status);
+                        int addressOfAdd = getCurrentPlayer().getPlayerBoard().addMonsterToBoard(monster, status);
                         view.showBoard();
                         addCardToGraveYard(Zone.SPELL_ZONE, addAddress, getCurrentPlayer());
                         view.showBoard();
@@ -1251,9 +1259,9 @@ public class RoundGameController {
                                 return;
                             }
                         }
-                        if (isOpponentTrapToBeActivatedInSummonSituation()) {
+                        if (isOpponentTrapToBeActivatedInSummonSituation(addressOfAdd)) {
                             view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER, getOpponentPlayer().getNickname());
-                            if (isOpponentTrapInSummonSituationActivated()) {
+                            if (isOpponentTrapInSummonSituationActivated(addressOfAdd)) {
                                 return;
                             }
                         }
@@ -1817,6 +1825,7 @@ public class RoundGameController {
             if (!((Monster) selectedCell.getCardInCell()).getMonsterEffect().equals(MonsterEffect.MAN_EATER_BUG_EFFECT)) {
                 selectedCell.setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
                 view.showSuccessMessage(SuccessMessage.FLIP_SUMMON_SUCCESSFUL);
+                view.showBoard();
                 deselectCard(0);
             } else {
                 manEaterBugMonsterEffectAndFlipSummon(getCurrentPlayer(), getOpponentPlayer());
@@ -1826,9 +1835,9 @@ public class RoundGameController {
                     return;
                 }
             }
-            if (isOpponentTrapToBeActivatedInSummonSituation()) {
+            if (isOpponentTrapToBeActivatedInSummonSituation(selectedCellAddress)) {
                 view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER, getOpponentPlayer().getNickname());
-                isOpponentTrapInSummonSituationActivated();
+                isOpponentTrapInSummonSituationActivated(selectedCellAddress);
             }
 
         }
@@ -1854,8 +1863,10 @@ public class RoundGameController {
             }
         }
         selectedCell.setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
-        deselectCard(0);
         view.showSuccessMessage(SuccessMessage.FLIP_SUMMON_SUCCESSFUL);
+        view.showBoard();
+        deselectCard(0);
+
     }
 
 

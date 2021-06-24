@@ -18,8 +18,8 @@ public class PlayerBoard {
         fieldZone = new FieldZone();
     }
 
-    public void addMonsterToBoard(Monster monster, CellStatus status) {
-        monsterZone.addCard(monster, status);
+    public int addMonsterToBoard(Monster monster, CellStatus status) {
+        return monsterZone.addCard(monster, status);
     }
 
     public int addSpellOrTrapToBoard(Card card, CellStatus status) {
@@ -41,13 +41,6 @@ public class PlayerBoard {
         graveYard.addCard(card);
     }
 
-    public Card getCardInGraveYard(int address) {
-        return graveYard.getGraveYardCards().get(address);
-    }
-
-    public void changeCardPosition(Card card) {
-
-    }
 
     public boolean isMonsterZoneFull() {
         if (howManyEmptyCellsWeHaveInZone(Zone.MONSTER_ZONE) == 0)
@@ -134,7 +127,8 @@ public class PlayerBoard {
         fieldZone.setCard(spell);
         fieldZone.setCellStatus(CellStatus.OCCUPIED);
     }
-    public void setFieldSpell(Spell spell){
+
+    public void setFieldSpell(Spell spell) {
         fieldZone.setCard(spell);
         fieldZone.setCellStatus(CellStatus.HIDDEN);
     }
