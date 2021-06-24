@@ -37,7 +37,7 @@ public enum SuccessMessage {
     TRAP_ACTIVATED("spell/trap activated"),
     COMPLETE_SPECIAL_SUMMON("you should special summon right now"),
     EMPTY_GRAVEYARD("graveyard empty"),
-    WIN_MESSAGE_ROUND_MATCH("%s won the game with life points : %d - %d \n"),//TODO check it , what does score mean ?
+    WIN_MESSAGE_ROUND_MATCH("%s won the game with life points : %d - %d \n"),
     WIN_MESSAGE_FOR_HOLE_MATCH("%s won the whole match with score: %d-%d\n"),
     TRIBUTE_SUMMON_ENTER_ADDRESS("Enter address Of Cards to Tribute"),
     SUCCESS_MESSAGE_FOR_EXPORT("Card export successfully!"),
