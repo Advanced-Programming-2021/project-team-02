@@ -3,6 +3,8 @@ Trap Hole,Trap,Normal,When your opponent Normal or Flip Summons 1 monster with 1
 Mirror Force,Trap,Normal,When an opponent's monster declares an attack: Destroy all your opponent's Attack Position monsters.,Unlimited,2000
 Magic Cylinder,Trap,Normal,"When an opponent's monster declares an attack: Target the attacking monster; negate the attack, and if you do, inflict damage to your opponent equal to its ATK.",Unlimited,2000
 Torrential Tribute,Trap,Normal,When a monster(s) is Summoned: Destroy all monsters on the field.,Unlimited,2000
+Time Seal,Trap,Normal,Skip the Draw Phase of your opponent's next turn.,Limited,2000
+Call of The Haunted,Trap,Continuous,"Activate this card by targeting 1 monster in your GY; Special Summon that target in Attack Position. When this card leaves the field, destroy that monster. When that monster is destroyed, destroy this card.",Unlimited,3500
 Negate Attack,Trap,Counter,"When an opponent's monster declares an attack: Target the attacking monster; negate the attack, then end the Battle Phase.",Unlimited,3000
 Monster Reborn,Spell,Normal,Target 1 monster in either GY; Special Summon it.,Limited,2500
 Terraforming,Spell,Normal,Add 1 Field Spell from your Deck to your hand.,Limited,2500

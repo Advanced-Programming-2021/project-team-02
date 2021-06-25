@@ -58,13 +58,6 @@ public class Assets {
     }
 
     public static void fromJson() {
-        try {
-            String json = new String(Files.readAllBytes(Paths.get("assets.json")));
-            allAssets = new Gson().fromJson(json, new TypeToken<HashMap<String, Assets>>() {
-            }.getType());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         Reader reader = null;
         try {
             reader = Files.newBufferedReader(Paths.get("assets.json"));

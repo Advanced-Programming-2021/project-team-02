@@ -10,8 +10,8 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class CardsDatabase {
-    private static CardsDatabase dataBase;
     private static final ArrayList<Card> allCards;
+    private static CardsDatabase dataBase;
 
     static {
         allCards = new ArrayList<>();
@@ -76,7 +76,7 @@ public class CardsDatabase {
                     TrapType.getTrapTypeByTypeName(spellsTrapsLines[2]), spellsTrapsLines[4].equals("Limited"),
                     Integer.parseInt(spellsTrapsLines[5]));
             counter++;
-            if (counter == 5) break;
+            if (counter == 7) break;
         }
         while ((spellsTrapsLines = csvReaderSpellTrap.readNext()) != null) {
             makeCardSpell(CardType.SPELL, spellsTrapsLines[0], "1", SpellEffect.getSpellByName(spellsTrapsLines[0]),
@@ -93,10 +93,10 @@ public class CardsDatabase {
         allCards.addAll(allSpells);
         allCards.addAll(allTraps);
         //TODO for reading information from Gson
-   //     User.fromJson();
-   //     Monster.fromJson();
-   //     Spell.fromJson();
-   //     Trap.fromJson();
-   //     Assets.fromJson();
+             User.fromJson();
+        //     Monster.fromJson();
+        //     Spell.fromJson();
+        //     Trap.fromJson();
+            Assets.fromJson();
     }
 }
