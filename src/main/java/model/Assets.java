@@ -10,13 +10,18 @@ import java.nio.file.Paths;
 import java.util.*;
 
 public class Assets {
-    private String username;
-    private int coin;
-    private final HashMap<Card, Integer> allUserCards;
-    private final ArrayList<Deck> allDecks;
     private static HashMap<String, Assets> allAssets;
     private static Writer writer;
     private static Gson gson = new Gson();
+
+    static {
+        allAssets = new HashMap<>();
+    }
+
+    private final HashMap<Card, Integer> allUserCards;
+    private final ArrayList<Deck> allDecks;
+    private String username;
+    private int coin;
 
     {
         try {
@@ -24,10 +29,6 @@ public class Assets {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    static {
-        allAssets = new HashMap<>();
     }
 
     {
@@ -39,6 +40,44 @@ public class Assets {
         allDecks = new ArrayList<>();
         allUserCards = new HashMap<>();
         allAssets.put(username, this);
+    }
+
+    public static Assets getAssetsByUsername(String username) {
+        for (String key : allAssets.keySet())
+            if (key.equals(username)) return allAssets.get(key);
+        return null;
+    }
+
+    public static void jsonAssets() {
+        try {
+            gson.toJson(allAssets, writer);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void fromJson() {
+        try {
+            String json = new String(Files.readAllBytes(Paths.get("assets.json")));
+            allAssets = new Gson().fromJson(json, new TypeToken<HashMap<String, Assets>>() {
+            }.getType());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Reader reader = null;
+        try {
+            reader = Files.newBufferedReader(Paths.get("assets.json"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        assert reader != null;
+        allAssets = gson.fromJson(reader, HashMap.class);
+        try {
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setUsername(String username) {
@@ -65,12 +104,6 @@ public class Assets {
 
     public int getCoin() {
         return coin;
-    }
-
-    public static Assets getAssetsByUsername(String username) {
-        for (String key : allAssets.keySet())
-            if (key.equals(username)) return allAssets.get(key);
-        return null;
     }
 
     public void createDeck(String name) {
@@ -243,7 +276,7 @@ public class Assets {
     public void addCard(Card card) {
         for (Card cardsOfUser : allUserCards.keySet()) {
             if (cardsOfUser.getName().equals(card.getName())) {
-                allUserCards.replace(card, allUserCards.get(card) + 1);
+                allUserCards.replace(cardsOfUser, allUserCards.get(cardsOfUser) + 1);
                 return;
             }
         }
@@ -276,36 +309,5 @@ public class Assets {
             }
         }
         return 0;
-    }
-
-    public static void jsonAssets() {
-        try {
-            gson.toJson(allAssets, writer);
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void fromJson() {
-        try {
-            String json = new String(Files.readAllBytes(Paths.get("assets.json")));
-            allAssets = new Gson().fromJson(json, new TypeToken<HashMap<String, Assets>>(){}.getType());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Reader reader = null;
-        try {
-            reader = Files.newBufferedReader(Paths.get("assets.json"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        assert reader != null;
-        allAssets = gson.fromJson(reader, HashMap.class);
-        try {
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
