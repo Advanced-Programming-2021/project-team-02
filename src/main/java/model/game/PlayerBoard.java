@@ -111,8 +111,10 @@ public class PlayerBoard {
     }
 
     public void removeFieldSpell() {
+        graveYard.addCard(fieldZone.getCard());
         fieldZone.setCard(null);
         fieldZone.setCellStatus(CellStatus.EMPTY);
+
     }
 
     public boolean isFieldZoneEmpty() {

@@ -55,4 +55,7 @@ public class DuelPlayer {
         return lifePoint;
     }
 
+    public void setPlayerBoard(PlayerBoard playerBoard) {
+        this.playerBoard = playerBoard;
+    }
 }

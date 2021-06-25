@@ -2067,7 +2067,6 @@ public class RoundGameController {
                 isFieldActivated = 2;
                 secondPlayer.getPlayerBoard().faceUpActiveFieldSpell((Spell) selectedCell.getCardInCell());
             }
-            view.showBoard();
         } else {
             reversePreviousFieldZoneSpellEffectAndRemoveIt();
             isFieldActivated = getTurn();
@@ -2076,7 +2075,10 @@ public class RoundGameController {
             } else {
                 secondPlayer.getPlayerBoard().faceUpActiveFieldSpell((Spell) selectedCell.getCardInCell());
             }
-            view.showBoard();
+        }
+        view.showBoard();
+        if (selectedCellZone == Zone.HAND) {
+            getCurrentPlayerHand().remove(selectedCellAddress - 1);
         }
         fieldZoneSpell = (Spell) selectedCell.getCardInCell();
         deselectCard(0);
@@ -2456,9 +2458,6 @@ public class RoundGameController {
         MenusManager.getInstance().changeMenu(Menu.BETWEEN_ROUNDS);
         DuelPlayer player1 = DuelGameController.getInstance().getDuel().getPlayer1();
         DuelPlayer player2 = DuelGameController.getInstance().getDuel().getPlayer2();
-        player1.setPlayDeck(User.getActiveDeckByUsername(Objects.requireNonNull(User.getUserByNickName(player1.getNickname())).getUsername()));
-        player2.setPlayDeck(User.getActiveDeckByUsername(Objects.requireNonNull(User.getUserByNickName(player2.getNickname())).getUsername()));
-
         if (player1.getNickname().equals("ai"))
             BetweenRoundView.getInstance().setPlayer1(player2, true);
         else if (player2.getNickname().equals("ai"))

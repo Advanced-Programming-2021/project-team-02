@@ -119,5 +119,7 @@ public class Duel {
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
+        player1.setPlayerBoard(new PlayerBoard());
+        player2.setPlayerBoard(new PlayerBoard());
     }
 }
