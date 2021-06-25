@@ -15,8 +15,8 @@ public class Assets {
     private final HashMap<Card, Integer> allUserCards;
     private final ArrayList<Deck> allDecks;
     private static HashMap<String, Assets> allAssets;
-    static Writer writer;
-    static Gson gson = new Gson();
+    private static Writer writer;
+    private static Gson gson = new Gson();
 
     {
         try {
@@ -76,7 +76,6 @@ public class Assets {
     public void createDeck(String name) {
         this.allDecks.add(new Deck(name));
         try {
-
             PrintWriter printWriter = new PrintWriter("assets.json");
             printWriter.print("");
             Writer writer = null;
@@ -289,12 +288,12 @@ public class Assets {
     }
 
     public static void fromJson() {
-//        try {
-//            String json = new String(Files.readAllBytes(Paths.get("assets.json")));
-//            allAssets = new Gson().fromJson(json, new TypeToken<Map<String, Assets>>(){}.getType());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            String json = new String(Files.readAllBytes(Paths.get("assets.json")));
+            allAssets = new Gson().fromJson(json, new TypeToken<HashMap<String, Assets>>(){}.getType());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Reader reader = null;
         try {
             reader = Files.newBufferedReader(Paths.get("assets.json"));

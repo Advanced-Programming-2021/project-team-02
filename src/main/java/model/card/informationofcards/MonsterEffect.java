@@ -82,44 +82,4 @@ public enum MonsterEffect {
         }
         return null;
     }
-    /*
-
-
-
-
-
-
-
-Wattkid
-Baby dragon
-Hero of the east
-Battle warrior
-Crawling dragon
-Flame manipulator
-Blue-Eyes white dragon
-Crab Turtle
-Skull Guardian
-Slot Machine
-Haniwa
-Man-Eater Bug
-Gate Guardian
-Scanner
-Bitron
-Marshmallon
-Beast King Barbaros
-Texchanger
-Leotron
-The Calculator
-Alexandrite Dragon
-Mirage Dragon
-Herald of Creation
-Exploder Dragon
-Warrior Dai Grepher
-Dark Blade
-Wattaildragon
-Terratiger, the Empowered Warrior
-The Tricky
-Spiral Serpent
-
-     */
 }

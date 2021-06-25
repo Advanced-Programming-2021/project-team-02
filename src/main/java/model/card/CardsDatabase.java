@@ -1,6 +1,7 @@
 package model.card;
 
 import com.opencsv.CSVReader;
+import model.Assets;
 import model.Shop;
 import model.User;
 import model.card.informationofcards.*;
@@ -92,10 +93,10 @@ public class CardsDatabase {
         allCards.addAll(allSpells);
         allCards.addAll(allTraps);
         //TODO for reading information from Gson
-//        User.fromJson();
-//        Monster.fromJson();
-//        Spell.fromJson();
-//        Trap.fromJson();
-//        Assets.fromJson();
+        User.fromJson();
+        Monster.fromJson();
+        Spell.fromJson();
+        Trap.fromJson();
+        Assets.fromJson();
     }
 }
