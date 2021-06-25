@@ -23,7 +23,7 @@ Man-Eater Bug,2,EARTH,Insect,Effect,450,600,FLIP: Target 1 monster on the field;
 Gate Guardian,11,DARK,Warrior,Effect,3750,3400,"Cannot be Normal Summoned/Set. Must first be Special Summoned (from your hand) by Tributing 1 ""Sanga of the Thunder"", ""Kazejin"", and ""Suijin"".",20000
 Bitron,2,EARTH,Cyberse,Normal,200,2000,A new species found in electronic space. There's not much information on it.,1000
 Beast King Barbaros,8,EARTH,Beast-Warrior,Effect,3000,1200,"You can Normal Summon/Set this card without Tributing, but its original ATK becomes 1900. You can Tribute 3 monsters to Tribute Summon (but not Set) this card. If Summoned this way: Destroy all cards your opponent controls.",9200
-Leotron ,4,EARTH,Cyberse,Normal,2000,0,A territorial electronic monster that guards its own domain.,2500
+Leotron,4,EARTH,Cyberse,Normal,2000,0,A territorial electronic monster that guards its own domain.,2500
 Alexandrite Dragon,4,LIGHT,Dragon,Normal,2000,100,"Many of the czars' lost jewels can be found in the scales of this priceless dragon. Its creator remains a mystery, along with how they acquired the imperial treasures. But whosoever finds this dragon has hit the jackpot... whether they know it or not.",2600
 Exploder Dragon,3,EARTH,Dragon,Effect,1000,0,If this card is destroyed by battle and sent to the Graveyard: Destroy the monster that destroyed it. Neither player takes any battle damage from attacks involving this attacking card.,1000
 Warrior Dai Grepher,4,EARTH,Warrior,Normal,1700,1600,The warrior who can manipulate dragons. Nobody knows his mysterious past.,3400
