@@ -111,9 +111,9 @@ public class DeckMenuView {
     }
 
     private void help() {
-        System.out.println ("deck create <deck name>\ndeck create <deck name>\ndeck set-activate <deck name>\n" +
-                "deck add-card --card <card name> --deck <deck name>\ndeck add-card --card <card name> --deck <deck name> --" +
-                "side\ndeck rm-card --card <card name> --deck <deck name>\ndeck rm-card --card <card name> --deck <deck name> --side\ndeck show --all\ndeck show --deck-name <deck name>\n" +
-                "deck show --deck-name <deck name> --side\ndeck show --cards\ncard show <card name>");
+        System.out.println ("deck create <deck name>\ndeck set-activate <deck name>\n" +
+                "deck add-card --card <card name> --deck <deck name>\ndeck add-card -c (?<cardName>[A-Za-z ',-]+?) -d (?<deckName>[a-zA-Z0-9 -]+?)\ndeck add-card --card <card name> --deck <deck name> --" +
+                "side\ndeck add-card -c (?<cardName>[A-Za-z ',-]+?) -d (?<deckName>[a-zA-Z0-9 -]+?) -s\ndeck rm-card --card <card name> --deck <deck name>\ndeck rm-card -c (?<cardName>[A-Za-z ',-]+) -d (?<deckName>[a-zA-Z0-9 -]+?)\ndeck rm-card --card <card name> --deck <deck name> --side\ndeck rm-card -c (?<cardName>[A-Za-z ',-]+) -d (?<deckName>[a-zA-Z0-9 -]+?) -s\ndeck show --all\ndeck show --deck-name <deck name>\n" +
+                "deck show --deck-name <deck name> --side\ndeck show -d-n (?<deckName>[a-zA-Z0-9 -]+?) -s\ndeck show -d-n (?<deckName>[a-zA-Z0-9 -]+?)\ndeck show --cards\ncard show <card name>\ndeck delete <deck name>\nmenu exit");
     }
 }
