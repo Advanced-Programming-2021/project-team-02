@@ -58,25 +58,6 @@ public class User implements Comparable<User> {
         Assets.jsonAssets();
     }
 
-    private User() {
-        this.username = "ai";
-        this.password = "";
-        this.nickname = "ai";
-        allUsers.add(this);
-        Assets assets = new Assets("ai");
-        assets.createDeck("aiDeck");
-        Deck deck = assets.getDeckByDeckName("aiDeck");
-        ArrayList<Monster> allMonsters = Monster.getAllMonsters();
-        for (int i = 0; i < 3; i++) {
-            for (Monster monster : allMonsters) {
-                if (monster.getMonsterActionType() == MonsterActionType.NORMAL && monster.getLevel() <= 4)
-                    deck.addCardToMainDeck(Card.getCardByName(monster.getName()));
-            }
-        }
-        deck.setActivated(true);
-        this.activatedDeck();
-    }
-
     public static Deck getActiveDeckByUsername(String username) {
         List<Deck> decks = Objects.requireNonNull(Objects.requireNonNull(Assets.getAssetsByUsername(username)).getAllDecks());
         for (Deck deck : decks) {
