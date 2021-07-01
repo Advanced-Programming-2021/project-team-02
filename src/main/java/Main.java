@@ -1,5 +1,5 @@
-import model.card.CardsDatabase;
-import view.MenusManager;
+import project.model.card.CardsDatabase;
+import project.view.MenusManager;
 
 import java.io.IOException;
 
