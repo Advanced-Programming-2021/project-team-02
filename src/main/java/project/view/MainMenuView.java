@@ -6,7 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import project.view.messages.LoginMessage;
 import project.view.messages.PopUpMessage;
@@ -15,6 +14,7 @@ import java.net.URL;
 
 public class MainMenuView extends Application {
     private static Stage stage;
+    private static Parent parent;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -22,14 +22,19 @@ public class MainMenuView extends Application {
         PopUpMessage.setStage(stage);
         URL fxmlAddress = getClass().getResource("/project/fxml/main_menu.fxml");
         assert fxmlAddress != null;
-        Parent main = FXMLLoader.load(fxmlAddress);
-        Scene scene = new Scene(main);
+        Parent root = FXMLLoader.load(fxmlAddress);
+        PopUpMessage.setParent(root);
+        Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.setFullScreen(true);
         stage.setResizable(false);
+        stage.setFullScreen(true);
+        stage.setMaximized(true);
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setFullScreenExitHint("");
-        stage.show();
+    }
+
+    public static void setParent(Parent parent) {
+        MainMenuView.parent = parent;
     }
 
     public void deckMenu() throws Exception {
@@ -49,9 +54,10 @@ public class MainMenuView extends Application {
     }
 
     public void shopMenu() throws Exception {
+        new ShopMenuView().start(stage);
     }
 
-    public void createCard(MouseEvent mouseEvent) {
+    public void createCard() throws Exception{
     }
 
     public void importExportMenu() throws Exception {
@@ -59,11 +65,13 @@ public class MainMenuView extends Application {
 
     public void logout() throws Exception {
         PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.LOGOUT_CONFIRMATION.getLabel());
+        popUpMessage.getAlert().setOnCloseRequest(dialogEvent -> parent.setEffect(null));
         if (popUpMessage.getAlert().getResult().getText().equals("OK")) new LoginMenuView().start(stage);
     }
 
     public void exit() {
         PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
+        popUpMessage.getAlert().setOnCloseRequest(dialogEvent -> parent.setEffect(null));
         if (popUpMessage.getAlert().getResult().getText().equals("OK")) System.exit(0);
     }
 }

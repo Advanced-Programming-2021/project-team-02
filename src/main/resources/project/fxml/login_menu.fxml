@@ -7,11 +7,10 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.LoginMenuView">
-   <VBox id="firstBox" alignment="CENTER" layoutX="120.0" layoutY="155.0" prefHeight="620.0" prefWidth="700.0">
+   <VBox id="firstBox" alignment="CENTER" layoutX="120.0" layoutY="120.0" prefHeight="620.0" prefWidth="700.0">
       <ImageView fitHeight="143.0" fitWidth="337.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../image/YuGiOhIcon.png" />
-         </image></ImageView>
+         <Image url="@../image/YuGiOhIcon.png"/>
+      </ImageView>
       <HBox alignment="CENTER" prefHeight="359.0" prefWidth="700.0" spacing="50.0">
          <VBox id="secondBox" alignment="CENTER" prefHeight="300.0" prefWidth="275.0" spacing="20.0">
             <Label id="SecondTitle" alignment="CENTER" contentDisplay="CENTER" text="Sign Up" textAlignment="CENTER" />

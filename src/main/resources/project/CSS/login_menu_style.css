@@ -48,7 +48,7 @@
     -fx-text-fill: white;
 }
 
-#hello {
+#textField {
     -fx-background-color: #00062b;
     -fx-text-inner-color: white;
     -fx-background-radius: 10;

@@ -43,3 +43,7 @@
     -fx-border-color: #ffd500;
     -fx-border-radius: 10;
 }
+
+#row .root:hover {
+    -fx-text-fill: #9e376c;
+}

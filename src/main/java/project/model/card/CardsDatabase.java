@@ -52,7 +52,7 @@ public class CardsDatabase {
 
     public void readAndMakeCards() throws IOException {
 
-        FileReader fileReaderMonster = new FileReader("CSV/Monster.csv");
+        FileReader fileReaderMonster = new FileReader("csv/Monster.csv");
         CSVReader csvReaderMonster = new CSVReader(fileReaderMonster);
         String[] monstersLines;
         csvReaderMonster.readNext();
@@ -63,7 +63,7 @@ public class CardsDatabase {
                     Integer.parseInt(monstersLines[6]), MonsterType.getMonsterTypeByName(monstersLines[3]), Integer.parseInt(monstersLines[8]));
         }
 
-        FileReader fileReaderSpellTrap = new FileReader("json/SpellTrap.csv");
+        FileReader fileReaderSpellTrap = new FileReader("csv/SpellTrap.csv");
         CSVReader csvReaderSpellTrap = new CSVReader(fileReaderSpellTrap);
         String[] spellsTrapsLines;
         csvReaderSpellTrap.readNext();

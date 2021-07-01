@@ -20,16 +20,15 @@ public class ProfileMenuController {
     }
 
     public boolean isPasswordCorrect(String password) {
-        return password.equals("12345");
-        //return MainMenuController.getInstance ().getLoggedInUser ().getPassword ().equals (password);
+        return MainMenuController.getInstance ().getLoggedInUser ().getPassword ().equals (password);
     }
 
     public ProfileMenuMessage changeNickname(String newNickname) {
         if (isNicknameUsed(newNickname)) {
             return ProfileMenuMessage.USERNAME_TAKEN;
         }
-        //MainMenuController.getInstance ().getLoggedInUser ().changeNickname (newNickname);
-        return ProfileMenuMessage.CHANGED_SUCCESSFULLY;
+        MainMenuController.getInstance ().getLoggedInUser ().changeNickname (newNickname);
+        return ProfileMenuMessage.NICKNAME_CHANGED;
     }
 
     public ProfileMenuMessage changePassword(String currentPassword, String newPassword) {
@@ -39,7 +38,7 @@ public class ProfileMenuController {
         if (currentPassword.equals(newPassword)) {
             return ProfileMenuMessage.SAME_PASSWORD;
         }
-//        MainMenuController.getInstance ().getLoggedInUser ().changePassword (newPassword);
+        MainMenuController.getInstance ().getLoggedInUser ().changePassword (newPassword);
         return ProfileMenuMessage.PASSWORD_CHANGED;
     }
 }
