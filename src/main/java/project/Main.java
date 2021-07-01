@@ -1,3 +1,5 @@
+package project;
+
 import project.model.card.CardsDatabase;
 import project.view.MenusManager;
 

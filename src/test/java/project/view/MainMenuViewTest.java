@@ -46,7 +46,7 @@ class MainMenuViewTest {
     @Test
     @DisplayName("\"show current menu\" message")
     void showCurrentMenu() {
-        String expected = "Main Menu\n";
+        String expected = "project.Main Menu\n";
         MainMenuView.getInstance ().run ("menu show-current");
         Assertions.assertEquals (expected, outContent.toString ());
     }

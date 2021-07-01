@@ -52,7 +52,7 @@ public class MainMenuView {
     }
 
     public void showCurrentMenu() {
-        System.out.println ("Main Menu");
+        System.out.println ("project.Main Menu");
     }
 
     public void help() {

@@ -58,7 +58,7 @@ public class DeckMenuView {
         } else if ((matcher = Regex.getMatcherFromAllPermutations (Regex.DECK_SHOW_SIDE_DECK, command)) != null) {
             controller.showDeck (matcher.group("deckName"), "Side");
         } else if ((matcher = Regex.getMatcher (Regex.DECK_SHOW_MAIN_DECK, command)).matches ()) {
-            controller.showDeck (matcher.group("deckName"), "Main");
+            controller.showDeck (matcher.group("deckName"), "project.Main");
         } else if (Regex.getMatcher (Regex.DECK_SHOW_ALL_CARDS, command).matches ()) {
             controller.showAllCards ();
         } else if ((matcher = Regex.getMatcher (Regex.CARD_SHOW, command)).matches ()) {
