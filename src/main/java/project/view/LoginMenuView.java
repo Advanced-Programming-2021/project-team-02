@@ -1,8 +1,10 @@
 package project.view;
 
 import javafx.scene.control.*;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCombination;
+import project.Main;
 import project.controller.LoginMenuController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -32,6 +34,7 @@ public class LoginMenuView extends Application {
         URL fxmlAddress = getClass ().getResource ("/project/fxml/login_menu.fxml");
         assert fxmlAddress != null;
         Parent root = FXMLLoader.load (fxmlAddress);
+        MainMenuView.setParent(root);
         PopUpMessage.setParent(root);
         Scene scene = new Scene (root);
         stage.setScene(scene);
@@ -61,8 +64,12 @@ public class LoginMenuView extends Application {
 
     public void loginUser() throws Exception {
         LoginMessage message = controller.loginUser (usernameFieldLogin.getText (), passwordFieldLogin.getText ());
-        new PopUpMessage (message.getAlertType (), message.getLabel ());
-        if (message.getAlertType().equals(Alert.AlertType.INFORMATION)) new MainMenuView().start(stage);
+        PopUpMessage popUpMessage = new PopUpMessage (message.getAlertType (), message.getLabel ());
+        if (message.getAlertType().equals(Alert.AlertType.INFORMATION)) {
+            new MainMenuView().start(stage);
+            PopUpMessage.getParent().setEffect(new GaussianBlur(20));
+        }
+        if (!popUpMessage.getAlert ().isShowing()) PopUpMessage.getParent().setEffect(null);
     }
 
     public void exit() {
