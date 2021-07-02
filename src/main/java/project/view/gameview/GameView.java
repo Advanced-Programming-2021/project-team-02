@@ -3,7 +3,10 @@ package project.view.gameview;
 import project.controller.playgame.RoundGameController;
 import project.model.Deck;
 import project.model.card.Card;
+import project.model.card.Monster;
+import project.model.card.informationofcards.CardType;
 import project.model.game.board.Cell;
+import project.model.game.board.CellStatus;
 import project.view.DeckMenuView;
 import project.view.input.Input;
 import project.view.input.Regex;
@@ -25,6 +28,22 @@ public class GameView {
         return instance;
     }
 
+    public void runGameWithAi() {
+        String command = "";
+        while (true) {
+            if (controller.isFinishedGame() || controller.isFinishedRound()) {
+                return;
+            }
+            if (controller.getCurrentPlayer().getNickname().equals("ai")) {
+                controller.aiTurn();
+            } else {
+                command = Input.getInput();
+                commandRecognition(command);
+            }
+
+        }
+    }
+
     public void run(String command) {
         commandRecognition(command);
     }
@@ -41,58 +60,57 @@ public class GameView {
             controller.selectOpponentCardSpellZone(matcher);
         else if (Regex.getMatcher(Regex.BOARD_GAME_SELECT_FIELD, command).matches())
             controller.selectPlayerFieldCard();
-        else if (Regex.getMatcherFromAllPermutations(Regex.BOARD_GAME_SELECT_FIELD_OPPONENT, command) != null)
+        else if ((matcher = Regex.getMatcherFromAllPermutations(Regex.BOARD_GAME_SELECT_FIELD_OPPONENT, command)) != null)
             controller.selectOpponentFieldCard();
         else if (Regex.getMatcher(Regex.BOARD_GAME_SELECT_DESELECT, command).matches())
             controller.deselectCard(1);
         else if ((matcher = Regex.getMatcher(Regex.BOARD_GAME_SELECT_HAND, command)).matches())
-            controller.selectCardInHand(matcher);
+            controller.selectCardInHand(Integer.parseInt(matcher.group("cardNumber")));
         else if ((matcher = Regex.getMatcher(Regex.BOARD_GAME_SELECT_HAND, command)).matches())
-            controller.selectCardInHand(matcher);
+            controller.selectCardInHand(Integer.parseInt(matcher.group("cardNumber")));
         else if (Regex.getMatcher(Regex.BOARD_GAME_NEXT_PHASE, command).matches())
             controller.nextPhase();
         else if (Regex.getMatcher(Regex.BOARD_GAME_SUMMON, command).matches())
             controller.summonMonster();
         else if (Regex.getMatcher(Regex.GRAVEYARD_SHOW, command).matches())
-            instance.showCurrentGraveYard();
-        else if (Regex.getMatcher(Regex.CARD_SHOW_SELECTED, command).matches()) {}
-//            DeckMenuView.getInstance().checkTypeOfCardAndPrintIt(controller.getSelectedCell().getCardInCell());
-        else if (Regex.getMatcher(Regex.BOARD_GAME_SUMMON, command).matches())
+            instance.showCurrentGraveYard(true);
+        else if (Regex.getMatcher(Regex.CARD_SHOW_SELECTED, command).matches()) {
+            if (controller.getSelectedCell() == null) {
+                showError(Error.NO_CARD_SELECTED_YET);
+                return;
+            }
+            //TODO DeckMenuView.getInstance().checkTypeOfCardAndPrintIt(controller.getSelectedCell().getCardInCell());
+        } else if (Regex.getMatcher(Regex.BOARD_GAME_SUMMON, command).matches())
             controller.summonMonster();
-        else if (Regex.getMatcher(Regex.BOARD_GAME_SET_MONSTER, command).matches())
-            controller.setMonster();
-        else if (Regex.getMatcher(Regex.BOARD_GAME_SET_SPELL, command).matches() || Regex.getMatcher(Regex.BOARD_GAME_SET_TRAP, command).matches())
-            controller.setSpellOrTrap();
+        else if (Regex.getMatcher(Regex.BOARD_GAME_SET, command).matches())
+            controller.setCrad();
         else if ((matcher = Regex.getMatcher(Regex.BOARD_GAME_SET_POSITION, command)).matches())
             controller.changeMonsterPosition(matcher);
         else if (Regex.getMatcher(Regex.BOARD_GAME_FLIP_SUMMON, command).matches())
             controller.flipSummon();
         else if ((matcher = Regex.getMatcher(Regex.BOARD_GAME_ATTACK, command)).matches())
-            controller.attackToCard(matcher);
+            controller.attackToCard(Integer.parseInt(matcher.group("monsterZoneNumber")));
         else if (Regex.getMatcher(Regex.BOARD_GAME_ATTACK_DIRECT, command).matches())
             controller.directAttack();
         else if (Regex.getMatcher(Regex.BOARD_GAME_ACTIVATE_EFFECT, command).matches())
             controller.activateEffectOfSpellOrTrap();
         else if ((matcher = Regex.getMatcher(Regex.CHEAT_INCREASE_LP, command)).matches())
             controller.getCurrentPlayer().increaseLP(Integer.parseInt(matcher.group("LPAmount")));
-        else if (Regex.getMatcher(Regex.COMMAND_CANCEL, command).matches())
+        else if ((matcher = Regex.getMatcher(Regex.CHEAT_DUEL_SET_WINNER, command)).matches()) {
+            controller.setWinnerCheat(matcher.group("winnerNickName"));
+        } else if (Regex.getMatcher(Regex.COMMAND_CANCEL, command).matches())
             controller.cancel();
         else if (Regex.getMatcher(Regex.BOARD_GAME_SURRENDER, command).matches())
             controller.surrender();
         else if (Regex.getMatcher(Regex.BOARD_GAME_SHOW_HAND, command).matches()) {
             showHand();
-            return;
         } else if (Regex.getMatcher(Regex.BOARD_GAME_SHOW_BOARD, command).matches()) {
             showBoard();
-            return;
         } else if (Regex.getMatcher(Regex.COMMAND_HELP, command).matches()) {
             help();
-            return;
         } else {
             Error.showError(Error.INVALID_COMMAND);
-            return;
         }
-        showBoard();
     }
 
     public void showError(Error error) {
@@ -100,13 +118,12 @@ public class GameView {
     }
 
     public void showSuccessMessageWithTwoIntegerAndOneString(SuccessMessage successMessage, String winnerUserName, int winnerScore, int loserScore) {
-        if (successMessage.equals(SuccessMessage.SURRENDER_MESSAGE))
-            System.out.printf(SuccessMessage.SURRENDER_MESSAGE.getValue(), winnerUserName, winnerScore, loserScore);
+        System.out.printf(SuccessMessage.WIN_MESSAGE_ROUND_MATCH.getValue(), winnerUserName, winnerScore, loserScore);
     }
 
     public void showSuccessMessageWithTwoIntegerAndOneStringForSeveralWins(SuccessMessage successMessage, String winnerUserName, int winnerScore, int loserScore) {
-        if (successMessage.equals(SuccessMessage.SURRENDER_MESSAGE_FOR_HOLE_MATCH))
-            System.out.printf(SuccessMessage.SURRENDER_MESSAGE_FOR_HOLE_MATCH.getValue(), winnerUserName, winnerScore, loserScore);
+        if (successMessage.equals(SuccessMessage.WIN_MESSAGE_FOR_HOLE_MATCH))
+            System.out.printf(SuccessMessage.WIN_MESSAGE_FOR_HOLE_MATCH.getValue(), winnerUserName, winnerScore, loserScore);
     }
 
     public void showSuccessMessage(SuccessMessage message) {
@@ -122,6 +139,12 @@ public class GameView {
             System.out.printf(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER.getValue(), string);
         else if (message.equals(SuccessMessage.DH_CARD_BECOMES_DO))
             System.out.printf(SuccessMessage.DH_CARD_BECOMES_DO.getValue(), string);
+        else if (message.equals(SuccessMessage.GAME_FINISHED))
+            System.out.printf(SuccessMessage.GAME_FINISHED.getValue(), string);
+        else if (message.equals(SuccessMessage.ROUND_FINISHED))
+            System.out.printf(SuccessMessage.ROUND_FINISHED.getValue(), string);
+        else if (message == SuccessMessage.WIN_MESSAGE_ROUND_MATCH)
+            System.out.printf(SuccessMessage.WIN_MESSAGE_ROUND_MATCH.getValue(), string);
     }
 
     public void showSuccessMessageWithAnInteger(SuccessMessage message, int number) {
@@ -241,16 +264,25 @@ public class GameView {
         System.out.printf(SuccessMessage.PHASE_NAME.getValue(), controller.getCurrentPhase());
     }
 
-    public void showCurrentGraveYard() {
+    public void showCurrentGraveYard(boolean userAskedForGraveYard) {
         int counter = 1;
         if (controller.getCurrentPlayer().getPlayerBoard().isGraveYardEmpty())
-            instance.showError(Error.EMPTY_GRAVEYARD);
+            showError(Error.EMPTY_GRAVEYARD);
         else {
             for (Card card : controller.getCurrentPlayer().getPlayerBoard().returnGraveYard().getGraveYardCards()) {
-                System.out.println(counter + ". " + card.getName() + ":" + card.getDescription());
+                System.out.print(counter + ". " + card.getName() + ":" + card.getDescription());
+                if (card.getCardType() == CardType.MONSTER) {
+                    System.out.print("\n Powers : " + ((Monster) card).getAttackPower() + "," + ((Monster) card).getDefensePower());
+                }
+                System.out.println();
+                System.out.println();
                 counter++;
             }
         }
+        if (userAskedForGraveYard)
+            while (!Input.getInput().equals("back")) {
+                System.out.println(Error.INVALID_COMMAND.getValue());
+            }
     }
 
     public int getTributeAddress() {
@@ -280,20 +312,20 @@ public class GameView {
 
     public String[] getMonstersAddressesToBringRitual() {
         System.out.println("write card addresses in this format:\n" +
-                "CardAddress CardAddress CardAddress ...\n" +
-                "(... depends on how many are your cards that you should enter their CardAddress)");
+                "num1-num2-...\n" +
+                "(for example : 1-3-5)");
         String input;
         String[] split;
         while (true) {
             input = Input.getInput();
-            if (input.matches("(?<=\\s|^)([12345])(?=\\s|$)")) {
-                split = input.split(" ");
+            if (input.matches("([12345-]+)")) {
+                split = input.split("-");
                 return split;
             } else System.out.println(Error.INVALID_COMMAND);
         }
     }
 
-    public String getPositionForSetRitualMonster() {
+    public CellStatus getPositionForSetRitualMonster() {
         System.out.println("please enter position of ritual summon in this format\n" +
                 "attack\n" +
                 "or\n" +
@@ -302,7 +334,9 @@ public class GameView {
         while (true) {
             input = Input.getInput();
             if (input.equals("attack") || input.equals("defense")) {
-                return input;
+                if (input.equals("attack")) {
+                    return CellStatus.OFFENSIVE_OCCUPIED;
+                } else return CellStatus.DEFENSIVE_OCCUPIED;
             } else System.out.println(Error.INVALID_COMMAND);
         }
     }
@@ -321,8 +355,7 @@ public class GameView {
         System.out.println("please enter card address in monsterZone to be equipped");
         while (true) {
             String command = Input.getInput();
-            if (command.equals("cancel")) return -1;
-            else if (command.matches("[1-9]+")) return Integer.parseInt(command);
+            if (command.matches("[1-9]+")) return Integer.parseInt(command);
             else System.out.println(Error.INVALID_COMMAND);
         }
     }
@@ -368,11 +401,10 @@ public class GameView {
     }
 
     public String ritualCardName() {
-        System.out.println("please enter card name in this format: \n" +
-                "Card_Name");
+        System.out.println("please enter card address (number) or -1 to cancel");
         while (true) {
             String input = Input.getInput();
-            if (input.matches("[a-zA-Z0-9 -]+")) return input;
+            if (input.matches("[0-9-]+")) return input;
             else System.out.println(Error.INVALID_COMMAND);
         }
     }
@@ -444,6 +476,9 @@ public class GameView {
                 counter++;
             }
         }
+        while (!Input.getInput().equals("back")) {
+            System.out.println(Error.INVALID_COMMAND);
+        }
     }
 
     public void help() {
@@ -458,16 +493,11 @@ public class GameView {
                 "select --field\n" +
                 "select --field --opponent\n" +
                 "select -f -o\n" +
-                "select --graveyard\n" +
-                "select --graveyard --opponent\n" +
-                "select -gy -o\n" +
                 "select --hand <cardNumber>\n" +
                 "select -d\n" +
                 "next phase\n" +
                 "summon\n" +
-                "set --monster\n" +
-                "set --spell\n" +
-                "set --trap\n" +
+                "set \n" +
                 "set --position <attack|defense>\n" +
                 "flip-summon\n" +
                 "attack <monsterZoneNumber>\n" +

@@ -37,10 +37,17 @@ public enum SuccessMessage {
     TRAP_ACTIVATED("spell/trap activated"),
     COMPLETE_SPECIAL_SUMMON("you should special summon right now"),
     EMPTY_GRAVEYARD("graveyard empty"),
-    SURRENDER_MESSAGE ("%s won the game and the score is: %d-%d\n"),
-    SURRENDER_MESSAGE_FOR_HOLE_MATCH("%s won the whole match with score: %d-%d\n"),
+    WIN_MESSAGE_ROUND_MATCH("%s won the game with life points : %d - %d \n"),
+    WIN_MESSAGE_FOR_HOLE_MATCH("%s won the whole match with score: %d-%d\n"),
     TRIBUTE_SUMMON_ENTER_ADDRESS("Enter address Of Cards to Tribute"),
-    BOUGHT_CARD_SUCCESSFULLY("bought %s successfully!\n");
+    SUCCESS_MESSAGE_FOR_EXPORT("Card export successfully!"),
+    SUCCESS_MESSAGE_FOR_IMPORT("Card import successfully!"),
+    BOUGHT_CARD_SUCCESSFULLY("bought %s successfully!\n"),
+    GAME_FINISHED("Game finished :)) %s is winner\n"),
+    ROUND_FINISHED("Round finished :)) %s is winner of this round\n"),
+    CHANGED_CARD("Card changed"),
+    GAME_STARTED("New Round Started"),
+    USERNAME_CHANGED("Username changed");
     private String value;
 
     SuccessMessage(String value) {

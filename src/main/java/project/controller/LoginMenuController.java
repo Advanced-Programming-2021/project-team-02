@@ -26,7 +26,7 @@ public class LoginMenuController {
         if (isNicknameUsed(nickname)) return LoginMessage.TAKEN_NICKNAME;
         if (!password.equals(secondPassword)) return LoginMessage.NONIDENTICAL_PASSWORDS;
         new User(username, password, nickname);
-        User.jsonUsers();
+        //TODO User.jsonUsers();
         return LoginMessage.SUCCESSFUL_SIGN_UP;
     }
 

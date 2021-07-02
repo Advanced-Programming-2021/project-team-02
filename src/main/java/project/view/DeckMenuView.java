@@ -17,6 +17,7 @@ import java.util.regex.Matcher;
 public class DeckMenuView extends Application {
     private static final DeckMenuController controller = DeckMenuController.getInstance ();
     private static Stage stage;
+    private static int a;
 
     public void run(String command) {
         commandRecognition (command);

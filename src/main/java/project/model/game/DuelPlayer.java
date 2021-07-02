@@ -19,7 +19,7 @@ public class DuelPlayer {
         this.nickname = nickname;
     }
 
-    private void setPlayDeck(Deck playDeck) {
+    public void setPlayDeck(Deck playDeck) {
         this.playDeck = playDeck;
     }
 
@@ -53,4 +53,7 @@ public class DuelPlayer {
         return lifePoint;
     }
 
+    public void setPlayerBoard(PlayerBoard playerBoard) {
+        this.playerBoard = playerBoard;
+    }
 }

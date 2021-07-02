@@ -1,5 +1,5 @@
 package project.controller.playgame;
 
 public enum GameResult {
-    SURRENDER,NO_LP,NO_CARDS_TO_DRAW
+    ROUND_FINISHED,CONTINUE,GAME_FINISHED
 }

@@ -9,26 +9,32 @@ public class Duel {
     private int numberOfRounds;
     private DuelPlayer player1;
     private DuelPlayer player2;
-    private ArrayList<String> winner = new ArrayList<>();
+    private ArrayList<String> winnersList = new ArrayList<>();
     private int[] lifePointsPlayer1;
     private int[] lifePointsPlayer2;
+    private DuelPlayer winner;
+    private DuelPlayer loser;
+    private int currentRound;
+    private boolean isWithAi = false;
 
-    public Duel(String username1, String username2, int numberOfRounds) throws CloneNotSupportedException {
+    public Duel(String username1, String username2, int numberOfRounds, boolean isWithAi) throws CloneNotSupportedException {
         User user1 = User.getUserByUsername(username1);
         User user2 = User.getUserByUsername(username2);
         this.numberOfRounds = numberOfRounds;
         lifePointsPlayer1 = new int[numberOfRounds];
         lifePointsPlayer2 = new int[numberOfRounds];
         setDuelPlayers(Objects.requireNonNull(user1), Objects.requireNonNull(user2));
+        this.isWithAi = isWithAi;
     }
 
-    public void saveLifePoints(int lifePointPlayer1, int lifePointPlayer2) {
 
+    public boolean isWithAi() {
+        return isWithAi;
     }
 
     public void setDuelPlayers(User user1, User user2) throws CloneNotSupportedException {
-        player1 = new DuelPlayer(user1.getNickname(), Objects.requireNonNull(User.getActiveDeck(user1.getUsername())).copy());
-        player2 = new DuelPlayer(user2.getNickname(), Objects.requireNonNull(User.getActiveDeck(user2.getUsername())).copy());
+        player1 = new DuelPlayer(user1.getNickname(), Objects.requireNonNull(User.getActiveDeckByUsername(user1.getUsername())).copy());
+        player2 = new DuelPlayer(user2.getNickname(), Objects.requireNonNull(User.getActiveDeckByUsername(user2.getUsername())).copy());
     }
 
     public DuelPlayer getPlayer1() {
@@ -43,20 +49,14 @@ public class Duel {
         return numberOfRounds;
     }
 
-    public int[] getLifePointsPlayer1() {
-        return lifePointsPlayer1;
+
+    public void addLifePointOfPlayer1(int lifePointsPlayer1) {
+        this.lifePointsPlayer1[currentRound - 1] = lifePointsPlayer1;
     }
 
-    public void setLifePointsPlayer1(int[] lifePointsPlayer1) {
-        this.lifePointsPlayer1 = lifePointsPlayer1;
-    }
 
-    public int[] getLifePointsPlayer2() {
-        return lifePointsPlayer2;
-    }
-
-    public void setLifePointsPlayer2(int[] lifePointsPlayer2) {
-        this.lifePointsPlayer2 = lifePointsPlayer2;
+    public void addLifePointOfPlayer2(int lifePointsPlayer2) {
+        this.lifePointsPlayer2[currentRound - 1] = lifePointsPlayer2;
     }
 
     public int maximumNumberOfLifePointsPlayer1() {
@@ -83,11 +83,43 @@ public class Duel {
         return lifePointsPlayer2[0];
     }
 
-    public ArrayList<String> getWinner() {
-        return this.winner;
+    public ArrayList<String> getWinners() {
+        return this.winnersList;
     }
 
-    public void setWinner(String winner) {
-        this.winner.add(winner);
+    public void setWinners(String winner) {
+        this.winnersList.add(winner);
+    }
+
+    public int getCurrentRound() {
+        return currentRound;
+    }
+
+    public void setCurrentRound(int currentRound) {
+        this.currentRound = currentRound;
+    }
+
+    public void setWinnerAndLoser(DuelPlayer winner, DuelPlayer loser) {
+        this.winner = winner;
+        this.loser = loser;
+    }
+
+    public DuelPlayer getWinner() {
+        return winner;
+    }
+
+    public DuelPlayer getLoser() {
+        return loser;
+    }
+
+    public void finishRound() {
+        try {
+            player1.setPlayDeck(Objects.requireNonNull(User.getActiveDeckByNickName(player1.getNickname())).copy());
+            player2.setPlayDeck(Objects.requireNonNull(User.getActiveDeckByNickName(player2.getNickname())).copy());
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        player1.setPlayerBoard(new PlayerBoard());
+        player2.setPlayerBoard(new PlayerBoard());
     }
 }

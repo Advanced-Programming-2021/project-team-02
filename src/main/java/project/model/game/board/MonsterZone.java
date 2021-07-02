@@ -11,23 +11,25 @@ public class MonsterZone {
         }
     }
 
-    public void addCard(Monster monster, CellStatus status) {
-        for (Cell cell : monsterCells) {
+    public int addCard(Monster monster, CellStatus status) {
+        for (int addressOfAdd = 0; addressOfAdd < monsterCells.length; addressOfAdd++) {
+            Cell cell = monsterCells[addressOfAdd];
             if (cell.getCellStatus().equals(CellStatus.EMPTY)) {
                 cell.setCardInCell(monster);
                 cell.setCellStatus(status);
-                return;
+                return (addressOfAdd + 1);
             }
         }
+        return 0;
     }
 
-    public void removeCard(int address) {
-        monsterCells[address].setCellStatus(CellStatus.EMPTY);
-        monsterCells[address].setCardInCell(null);
+    public void removeCardWithAddress(int address) {
+        monsterCells[address - 1].setCellStatus(CellStatus.EMPTY);
+        monsterCells[address - 1].setCardInCell(null);
 
     }
 
     public Cell getCellWithAddress(int address) {
-        return monsterCells[address-1];
+        return monsterCells[address - 1];
     }
 }

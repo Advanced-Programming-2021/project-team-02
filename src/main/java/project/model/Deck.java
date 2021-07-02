@@ -105,13 +105,13 @@ public class Deck {
     public Deck copy() throws CloneNotSupportedException {
         Deck deck = new Deck(this.name);
         for (Card card : this.mainCards)
-            addCardInCopyDeckSideOrMain(deck, card);
+            copyCardInMain(deck, card);
         for (Card card : this.sideCards)
-            addCardInCopyDeckSideOrMain(deck, card);
+            copyCardInSide(deck, card);
         return deck;
     }
 
-    private void addCardInCopyDeckSideOrMain(Deck deck, Card card) throws CloneNotSupportedException {
+    private void copyCardInMain(Deck deck, Card card) throws CloneNotSupportedException {
         if (card.getCardType().equals(CardType.MONSTER)) {
             Monster monster = ((Monster) card).clone();
             deck.addCardToMainDeck(monster);
@@ -121,6 +121,19 @@ public class Deck {
         } else {
             Trap trap = ((Trap) card).clone();
             deck.addCardToMainDeck(trap);
+        }
+    }
+
+    private void copyCardInSide(Deck deck, Card card) throws CloneNotSupportedException {
+        if (card.getCardType().equals(CardType.MONSTER)) {
+            Monster monster = ((Monster) card).clone();
+            deck.addCardToSideDeck(monster);
+        } else if (card.getCardType().equals(CardType.SPELL)) {
+            Spell spell = ((Spell) card).clone();
+            deck.addCardToSideDeck(spell);
+        } else {
+            Trap trap = ((Trap) card).clone();
+            deck.addCardToSideDeck(trap);
         }
     }
 
