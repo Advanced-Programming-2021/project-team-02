@@ -10,12 +10,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import project.model.Assets;
+import project.model.Deck;
 import project.model.Music;
+import project.model.User;
+import project.model.card.Monster;
+import project.model.card.informationofcards.MonsterActionType;
 import project.model.gui.Icon;
 import project.view.messages.LoginMessage;
 import project.view.messages.PopUpMessage;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class LoginMenuView extends Application {
     private static final LoginMenuController controller = LoginMenuController.getInstance ();

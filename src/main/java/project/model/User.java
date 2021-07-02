@@ -2,6 +2,7 @@ package project.model;
 
 import project.model.card.Monster;
 import project.model.card.informationofcards.MonsterActionType;
+
 import java.util.*;
 
 public class User implements Comparable<User> {
@@ -13,13 +14,13 @@ public class User implements Comparable<User> {
         allUsers = new ArrayList<>();
         User ai = new User("ai", "", "ai");
         Assets assets = Assets.getAssetsByUsername("ai");
-        assets.createDeck("aiDeck");
+        Objects.requireNonNull(assets).createDeck("aiDeck");
         Deck deck = assets.getDeckByDeckName("aiDeck");
         ArrayList<Monster> allMonsters = Monster.getAllMonsters();
         for (int i = 0; i < 3; i++) {
             for (Monster monster : allMonsters) {
                 if (monster.getMonsterActionType() == MonsterActionType.NORMAL && monster.getLevel() <= 4)
-                    assets.addCardToMainDeck(monster,deck);
+                    assets.addCardToMainDeck(monster, deck);
             }
         }
         assets.activateDeck("aiDeck");

@@ -56,7 +56,8 @@ public class MainMenuView extends Application {
     public void scoreboardMenu(MouseEvent actionEvent) throws Exception {
         if (actionEvent.getButton() != MouseButton.PRIMARY)
             return;
-        new ScoreBoardView().start(stage);
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/scoreboard_menu.fxml")));
+        Utility.openNewMenu(root, (Node) actionEvent.getSource());
     }
 
     public void profileMenu(MouseEvent actionEvent) throws Exception {
