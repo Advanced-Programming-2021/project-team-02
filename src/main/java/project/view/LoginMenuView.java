@@ -1,23 +1,30 @@
 package project.view;
 
+import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.effect.GaussianBlur;
-import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
-import project.Main;
 import project.controller.LoginMenuController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import project.model.Assets;
+import project.model.Deck;
+import project.model.Music;
+import project.model.User;
+import project.model.card.Monster;
+import project.model.card.informationofcards.MonsterActionType;
+import project.model.gui.Icon;
 import project.view.messages.LoginMessage;
 import project.view.messages.PopUpMessage;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class LoginMenuView extends Application {
-    private static final String yuGiOhIconPath = "/project/image/Yu-Gi-Oh_icon.jpg";
     private static final LoginMenuController controller = LoginMenuController.getInstance ();
     private static Stage stage;
     public TextField usernameFieldSignUp;
@@ -26,6 +33,8 @@ public class LoginMenuView extends Application {
     public PasswordField passwordFieldLogin;
     public PasswordField secondPasswordField;
     public TextField nicknameFieldSignUp;
+    public ImageView playPauseMusicButton;
+    public ImageView muteUnmuteButton;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -34,7 +43,6 @@ public class LoginMenuView extends Application {
         URL fxmlAddress = getClass ().getResource ("/project/fxml/login_menu.fxml");
         assert fxmlAddress != null;
         Parent root = FXMLLoader.load (fxmlAddress);
-        MainMenuView.setParent(root);
         PopUpMessage.setParent(root);
         Scene scene = new Scene (root);
         stage.setScene(scene);
@@ -44,14 +52,23 @@ public class LoginMenuView extends Application {
         stage.setFullScreenExitHint("");
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setTitle("Yu-Gi-Oh!");
-        Image yuGiOhIcon = new Image (String.valueOf (getClass ().getResource (yuGiOhIconPath)));
-        stage.getIcons().add(yuGiOhIcon);
+        stage.getIcons().add(Icon.YU_GI_OH.getImage());
         stage.show ();
     }
 
     public static void main(String[] args) {
+        Music.mediaPlayer.setAutoPlay(true);
         launch(args);
     }
+
+    @FXML
+    public void initialize() {
+        if (Music.mediaPlayer.isAutoPlay()) playPauseMusicButton.setImage(Icon.PAUSE.getImage());
+        else playPauseMusicButton.setImage(Icon.PLAY.getImage());
+        if (Music.mediaPlayer.isMute()) muteUnmuteButton.setImage(Icon.MUTE.getImage());
+        else muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
+    }
+
 
     public void registerUser() {
         LoginMessage message = controller.createUser (usernameFieldSignUp.getText (), nicknameFieldSignUp.getText (), passwordFieldSignUp.getText (), secondPasswordField.getText ());
@@ -67,16 +84,34 @@ public class LoginMenuView extends Application {
         PopUpMessage popUpMessage = new PopUpMessage (message.getAlertType (), message.getLabel ());
         if (message.getAlertType().equals(Alert.AlertType.INFORMATION)) {
             new MainMenuView().start(stage);
-            PopUpMessage.getParent().setEffect(new GaussianBlur(20));
-        }
+        } else PopUpMessage.getParent().setEffect(null);
         if (!popUpMessage.getAlert ().isShowing()) PopUpMessage.getParent().setEffect(null);
     }
 
     public void exit() {
         PopUpMessage popUpMessage = new PopUpMessage (Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel ());
         if (popUpMessage.getAlert ().getResult ().getText ().equals ("OK")) {
-            PopUpMessage.getParent().setEffect(null);
             System.exit (0);
         } else PopUpMessage.getParent().setEffect(null);
+    }
+
+    public void playPauseMusic() {
+        if (playPauseMusicButton.getImage().equals(Icon.PAUSE.getImage())) {
+            playPauseMusicButton.setImage(Icon.PLAY.getImage());
+            Music.mediaPlayer.pause();
+        } else {
+            playPauseMusicButton.setImage(Icon.PAUSE.getImage());
+            Music.mediaPlayer.play();
+        }
+    }
+
+    public void muteUnmuteMusic() {
+        if (Music.mediaPlayer.isMute()) {
+            muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
+            Music.mediaPlayer.setMute(false);
+        } else {
+            muteUnmuteButton.setImage(Icon.MUTE.getImage());
+            Music.mediaPlayer.setMute(true);
+        }
     }
 }

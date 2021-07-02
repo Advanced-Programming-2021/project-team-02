@@ -4,7 +4,11 @@ import project.controller.playgame.DuelGameController;
 import project.model.User;
 import project.model.game.Duel;
 import project.view.DuelMenuView;
+//import project.view.MenusManager;
 import project.view.messages.Error;
+import project.view.messages.StartDuelMessage;
+
+import java.util.Objects;
 
 public class DuelMenuController {
     private static DuelMenuController instance = null;
@@ -27,15 +31,24 @@ public class DuelMenuController {
             Error.showError(Error.WRONG_ROUNDS_NUMBER);
         } else if (arePlayersDecksActive(secondPlayerUsername)) {
             if (arePlayersDecksValid(secondPlayerUsername)) {
-//                duel = new Duel(MenusManager.getInstance().getLoggedInUser().getUsername(), secondPlayerUsername, roundNumber);
+                //TODO duel = new Duel(MenusManager.getInstance().getLoggedInUser().getUsername(), secondPlayerUsername, roundNumber, false);
                 DuelGameController.getInstance().startDuel(duel);
             }
         }
     }
 
-    public void startDuelWithAI(int roundNumber) {
-        if (!areRoundsNumberValid(roundNumber))
-            Error.showError(Error.WRONG_ROUNDS_NUMBER);
+    public StartDuelMessage startDuelWithAI(int roundNumber)  {
+        if (arePlayersDecksActive("ai")) {
+            if (arePlayersDecksValid("ai")) {
+                try {
+                    duel = new Duel(MainMenuController.getInstance().getLoggedInUser().getUsername(), "ai", roundNumber, true);
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+                DuelGameController.getInstance().startDuel(duel);
+            } else return StartDuelMessage.INVALID_DECK;
+        } else return StartDuelMessage.INACTIVE_DECK;
+        return StartDuelMessage.SUCCESS;
     }
 
     private boolean isPlayerValidToStartDuel(String username) {
@@ -48,26 +61,21 @@ public class DuelMenuController {
     }
 
     public boolean arePlayersDecksActive(String secondPlayerUserName) {
-//        if (!MenusManager.getInstance().getLoggedInUser().getHasActiveDeck()) {
-//            project.view.showDynamicErrorForInactiveDeck(Error.INACTIVATED_DECK, MenusManager.getInstance().getLoggedInUser().getUsername());
+        if (!MainMenuController.getInstance().getLoggedInUser().getHasActiveDeck()) {
             return false;
         }
-//        User user = Objects.requireNonNull(User.getUserByUsername(secondPlayerUserName));
-//        if (!user.getHasActiveDeck()) {
-//            project.view.showDynamicErrorForInactiveDeck(Error.INACTIVATED_DECK, secondPlayerUserName);
-//            return false;
-//        }
-//        return true;
-//    }
+        User user = Objects.requireNonNull(User.getUserByUsername(secondPlayerUserName));
+        return user.getHasActiveDeck();
+    }
 
     public boolean arePlayersDecksValid(String secondPlayerUsername) {
-//        if (!Objects.requireNonNull(User.getActiveDeck(MenusManager.getInstance().getLoggedInUser().getUsername())).isValidDeck()) {
-//            project.view.showDynamicErrorForInactiveDeck(Error.FORBIDDEN_DECK, MenusManager.getInstance().getLoggedInUser().getUsername());
-//            return false;
-//        } else if (!Objects.requireNonNull(User.getActiveDeck(secondPlayerUsername)).isValidDeck()) {
-//            project.view.showDynamicErrorForInactiveDeck(Error.FORBIDDEN_DECK, secondPlayerUsername);
-//            return false;
-//        }
+        if (!Objects.requireNonNull(User.getActiveDeckByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).isValidDeck()) {
+            //view.showDynamicErrorForInactiveDeck(Error.FORBIDDEN_DECK, MainMenuController.getInstance().getLoggedInUser().getUsername());
+            return false;
+        } else if (!Objects.requireNonNull(User.getActiveDeckByUsername(secondPlayerUsername)).isValidDeck()) {
+            //view.showDynamicErrorForInactiveDeck(Error.FORBIDDEN_DECK, secondPlayerUsername);
+            return false;
+        }
         return true;
     }
 
