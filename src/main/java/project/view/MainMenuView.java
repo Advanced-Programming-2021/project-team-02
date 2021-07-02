@@ -14,7 +14,6 @@ import java.net.URL;
 
 public class MainMenuView extends Application {
     private static Stage stage;
-    private static Parent parent;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -31,10 +30,7 @@ public class MainMenuView extends Application {
         stage.setMaximized(true);
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setFullScreenExitHint("");
-    }
-
-    public static void setParent(Parent parent) {
-        MainMenuView.parent = parent;
+        stage.show();
     }
 
     public void deckMenu() throws Exception {
@@ -65,13 +61,15 @@ public class MainMenuView extends Application {
 
     public void logout() throws Exception {
         PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.LOGOUT_CONFIRMATION.getLabel());
-        popUpMessage.getAlert().setOnCloseRequest(dialogEvent -> parent.setEffect(null));
-        if (popUpMessage.getAlert().getResult().getText().equals("OK")) new LoginMenuView().start(stage);
+        if (popUpMessage.getAlert().getResult().getText().equals("OK")) {
+            new LoginMenuView().start(stage);
+        } else PopUpMessage.getParent().setEffect(null);
     }
 
     public void exit() {
         PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
-        popUpMessage.getAlert().setOnCloseRequest(dialogEvent -> parent.setEffect(null));
-        if (popUpMessage.getAlert().getResult().getText().equals("OK")) System.exit(0);
+        if (popUpMessage.getAlert().getResult().getText().equals("OK")) {
+            System.exit(0);
+        } else PopUpMessage.getParent().setEffect(null);
     }
 }

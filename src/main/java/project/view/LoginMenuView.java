@@ -34,7 +34,6 @@ public class LoginMenuView extends Application {
         URL fxmlAddress = getClass ().getResource ("/project/fxml/login_menu.fxml");
         assert fxmlAddress != null;
         Parent root = FXMLLoader.load (fxmlAddress);
-        MainMenuView.setParent(root);
         PopUpMessage.setParent(root);
         Scene scene = new Scene (root);
         stage.setScene(scene);
@@ -53,6 +52,10 @@ public class LoginMenuView extends Application {
         launch(args);
     }
 
+    public static Stage getStage() {
+        return stage;
+    }
+
     public void registerUser() {
         LoginMessage message = controller.createUser (usernameFieldSignUp.getText (), nicknameFieldSignUp.getText (), passwordFieldSignUp.getText (), secondPasswordField.getText ());
         new PopUpMessage (message.getAlertType (), message.getLabel ());
@@ -67,15 +70,13 @@ public class LoginMenuView extends Application {
         PopUpMessage popUpMessage = new PopUpMessage (message.getAlertType (), message.getLabel ());
         if (message.getAlertType().equals(Alert.AlertType.INFORMATION)) {
             new MainMenuView().start(stage);
-            PopUpMessage.getParent().setEffect(new GaussianBlur(20));
-        }
+        } else PopUpMessage.getParent().setEffect(null);
         if (!popUpMessage.getAlert ().isShowing()) PopUpMessage.getParent().setEffect(null);
     }
 
     public void exit() {
         PopUpMessage popUpMessage = new PopUpMessage (Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel ());
         if (popUpMessage.getAlert ().getResult ().getText ().equals ("OK")) {
-            PopUpMessage.getParent().setEffect(null);
             System.exit (0);
         } else PopUpMessage.getParent().setEffect(null);
     }

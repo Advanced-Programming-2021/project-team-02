@@ -43,25 +43,7 @@ public class User implements Comparable<User> {
 
     public void activatedDeck() {
         hasActiveDeck = true;
-        try {
-            PrintWriter printWriter = new PrintWriter("json/user.json");
-            printWriter.print("");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        Writer writer = null;
-        try {
-            writer = Files.newBufferedWriter(Paths.get("json/user.json"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        gson.toJson(allUsers, writer);
-        try {
-            assert writer != null;
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        jsonMaker();
     }
 
     public void deactivatedDeck() {
@@ -116,39 +98,28 @@ public class User implements Comparable<User> {
         return allUsers;
     }
 
+    public void changeUsername(String newUsername) {
+        setUsername(newUsername);
+        jsonMaker();
+    }
+
     public void changeNickname(String newNickname) {
         setNickname(newNickname);
+        jsonMaker();
+    }
+
+    public void changePassword(String newPassword) {
+        setPassword(newPassword);
+        jsonMaker();
+    }
+
+    private static void jsonMaker() {
         try {
             PrintWriter printWriter = new PrintWriter("json/user.json");
             printWriter.print("");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-            Writer writer = null;
-            try {
-                writer = Files.newBufferedWriter(Paths.get("json/user.json"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        gson.toJson(allUsers, writer);
-        try {
-            assert writer != null;
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void changePassword(String newPassword) {
-        setPassword(newPassword);
-        PrintWriter printWriter = null;
-        try {
-            printWriter = new PrintWriter("json/user.json");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        assert printWriter != null;
-        printWriter.print("");
         Writer writer = null;
         try {
             writer = Files.newBufferedWriter(Paths.get("json/user.json"));
@@ -162,6 +133,27 @@ public class User implements Comparable<User> {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void addScoreOfGame(int score) {
+
+    }
+
+    public static void jsonUsers() {
+        jsonMaker();
+    }
+
+    public static void fromJson() {
+        try {
+            String json = new String(Files.readAllBytes(Paths.get("json/user.json")));
+            allUsers = new Gson().fromJson(json, new TypeToken<List<User>>(){}.getType());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void increaseScore(int score) {
+        this.score += score;
     }
 
     public static User getUserByUsername(String username) {
@@ -194,44 +186,5 @@ public class User implements Comparable<User> {
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", nickname='" + nickname + '\'';
-    }
-
-    public void addScoreOfGame(int score) {
-
-    }
-
-    public static void jsonUsers() {
-        try {
-            PrintWriter printWriter = new PrintWriter("json/user.json");
-            printWriter.print("");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        Writer writer = null;
-        try {
-            writer = Files.newBufferedWriter(Paths.get("json/user.json"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        gson.toJson(allUsers, writer);
-        try {
-            assert writer != null;
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void fromJson() {
-        try {
-            String json = new String(Files.readAllBytes(Paths.get("json/user.json")));
-           allUsers = new Gson().fromJson(json, new TypeToken<List<User>>(){}.getType());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void increaseScore(int score) {
-        this.score += score;
     }
 }

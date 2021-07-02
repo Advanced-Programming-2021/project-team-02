@@ -38,7 +38,6 @@ import project.view.messages.ProfileMenuMessage;
 
 public class ProfileMenuView extends Application {
     private static Stage stage;
-    private static Parent parent;
     private static ProfileMenuController controller = null;
     @FXML
     public Label userNameLabel;
@@ -63,7 +62,6 @@ public class ProfileMenuView extends Application {
         ProfileMenuView.stage = stage;
         URL urlMain = getClass().getResource("/project/fxml/profile_menu.fxml");
         Parent root = FXMLLoader.load(Objects.requireNonNull(urlMain));
-        setParent(root);
         PopUpMessage.setParent(root);
         stage.setScene(new Scene(root));
         stage.setFullScreen(true);
@@ -85,62 +83,47 @@ public class ProfileMenuView extends Application {
         passwordLabel.setText("●".repeat(MainMenuController.getInstance().getLoggedInUser().getPassword().length()));
     }
 
-    public static void setParent(Parent parent) {
-        ProfileMenuView.parent = parent;
-    }
-
-    public static Parent getParent() {
-        return parent;
-    }
-
     public void back() throws Exception {
         new MainMenuView().start(stage);
     }
 
-    public void changePassword() {
+    public void changeUsername() {
         Stage window = new Stage();
-        window.initModality(Modality.APPLICATION_MODAL);
         window.initOwner(stage);
         window.initStyle(StageStyle.UNDECORATED);
+        window.initModality(Modality.APPLICATION_MODAL);
         PopUpMessage.setStage(window);
-        Label title = new Label("Change Password");
-        Button changePasswordButton = new Button();
-        changePasswordButton.setText("Change");
-        changePasswordButton.setOnAction(event -> {
-            if (newPasswordField.getText().length() == 0 || currentPasswordField.getText().length() == 0) {
+        window.setTitle("Change Username");
+        Label currentNickNameLabel = new Label();
+        currentNickNameLabel.setText("New username:");
+        Button changeUsernameButton = new Button();
+        changeUsernameButton.setPrefHeight(30);
+        changeUsernameButton.setStyle("-fx-border-color: red; -fx-text-fill: blue; -fx-font-size: 15px;");
+        changeUsernameButton.setText("Change Username");
+        nickNameTextField.setMaxSize(200, 60);
+        nickNameTextField.setStyle("-fx-background-insets: 0, 0 0 1 0 ;" +
+                " -fx-background-color: grey;");
+        changeUsernameButton.setOnAction(event -> {
+            if (nickNameTextField.getText().length() == 0) {
                 new PopUpMessage(ProfileMenuMessage.INVALID_INPUT.getAlertType(),
                         ProfileMenuMessage.INVALID_INPUT.getLabel());
             } else {
-                ProfileMenuMessage profileMenuMessage = controller.changePassword(currentPasswordField.getText(), newPasswordField.getText());
+                ProfileMenuMessage profileMenuMessage = controller.changeNickname(nickNameTextField.getText());
                 new PopUpMessage(profileMenuMessage.getAlertType(), profileMenuMessage.getLabel());
-                passwordLabel.setText("●".repeat(MainMenuController.getInstance().getLoggedInUser().getPassword().length()));
+                nickNameLabel.setText(user.getNickname());
             }
         });
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(10, 50, 50, 50));
         layout.setMinSize(200, 200);
-        title.setStyle("-fx-text-fill: white;");
-        currentPasswordField.setPromptText("Current password");
-        newPasswordField.setPromptText("New password");
-        currentPasswordField.setStyle("-fx-background-color: #00062b; -fx-text-inner-color: white; ");
-        newPasswordField.setStyle("-fx-background-color: #00062b; -fx-text-inner-color: white;");
-        layout.getChildren().addAll(title, currentPasswordField, newPasswordField, changePasswordButton);
-        layout.setAlignment(Pos.CENTER);
-        layout.setStyle("-fx-background-radius: 10; -fx-background-color: #323c46; -fx-font-family: \"Matrix II Regular\";");
-        title.setStyle("-fx-font-size: 20");
-        changePasswordButton.setCursor(Cursor.HAND);
-        changePasswordButton.setStyle("-fx-background-color: #bb792d; -fx-background-radius: 10; -fx-text-fill: white;");
-        Scene scene = new Scene(layout, 300, 200);
-        layout.getScene().setFill(Color.TRANSPARENT);
+        layout.getChildren().addAll(currentNickNameLabel, nickNameTextField);
+        layout.getChildren().add(changeUsernameButton);
+        layout.setAlignment(Pos.BASELINE_LEFT);
+        Scene scene = new Scene(layout, 300, 300);
         window.setScene(scene);
+        scene.getStylesheets().add(String.valueOf(getClass().getResource("/project/CSS/ChangePassword.css")));
         window.setResizable(false);
-        parent.setEffect(new GaussianBlur(20));
         window.showAndWait();
-        window.setOnCloseRequest(dialogEvent -> parent.setEffect(null));
-        changePasswordButton.setOnMouseClicked(mouseEvent -> {
-            parent.setEffect(null);
-            window.close();
-        });
     }
 
     public void changeNickName() {
@@ -182,6 +165,51 @@ public class ProfileMenuView extends Application {
         scene.getStylesheets().add(String.valueOf(getClass().getResource("/project/CSS/ChangePassword.css")));
         window.setResizable(false);
         window.showAndWait();
+    }
+
+    public void changePassword() {
+        Stage window = new Stage();
+        window.initOwner(stage);
+        window.initStyle(StageStyle.UNDECORATED);
+        PopUpMessage.setStage(window);
+        Label title = new Label("Change Password");
+        Button changePasswordButton = new Button();
+        changePasswordButton.setText("Change");
+        changePasswordButton.setOnAction(event -> {
+            if (newPasswordField.getText().length() == 0 || currentPasswordField.getText().length() == 0) {
+                new PopUpMessage(ProfileMenuMessage.INVALID_INPUT.getAlertType(),
+                        ProfileMenuMessage.INVALID_INPUT.getLabel());
+            } else {
+                ProfileMenuMessage profileMenuMessage = controller.changePassword(currentPasswordField.getText(), newPasswordField.getText());
+                new PopUpMessage(profileMenuMessage.getAlertType(), profileMenuMessage.getLabel());
+                passwordLabel.setText("●".repeat(MainMenuController.getInstance().getLoggedInUser().getPassword().length()));
+            }
+        });
+        VBox layout = new VBox(10);
+        layout.setPadding(new Insets(10, 50, 50, 50));
+        layout.setMinSize(200, 200);
+        title.setStyle("-fx-text-fill: white;");
+        currentPasswordField.setPromptText("Current password");
+        newPasswordField.setPromptText("New password");
+        currentPasswordField.setStyle("-fx-background-color: #103188; -fx-text-inner-color: white; ");
+        newPasswordField.setStyle("-fx-background-color: #103188; -fx-text-inner-color: white;");
+        layout.getChildren().addAll(title, currentPasswordField, newPasswordField, changePasswordButton);
+        layout.setAlignment(Pos.CENTER);
+        layout.setStyle("-fx-background-radius: 10; -fx-background-color: #00062b; -fx-font-family: \"Matrix II Regular\";");
+        title.setStyle("-fx-font-size: 20");
+        changePasswordButton.setCursor(Cursor.HAND);
+        changePasswordButton.setStyle("-fx-background-color: #bb792d; -fx-background-radius: 10; -fx-text-fill: white;");
+        Scene scene = new Scene(layout, 300, 200);
+        layout.getScene().setFill(Color.TRANSPARENT);
+        window.setScene(scene);
+        window.setResizable(false);
+        PopUpMessage.getParent().setEffect(new GaussianBlur(20));
+        window.showAndWait();
+        window.setOnCloseRequest(dialogEvent -> PopUpMessage.getParent().setEffect(null));
+        changePasswordButton.setOnMouseClicked(mouseEvent -> {
+            PopUpMessage.getParent().setEffect(null);
+            window.close();
+        });
     }
 
     public void changeProfilePicture() {
@@ -243,9 +271,5 @@ public class ProfileMenuView extends Application {
         Scene scene = new Scene(pane, 600, 600);
         window.setScene(scene);
         window.showAndWait();
-    }
-
-    public void changeUsername() {
-
     }
 }
