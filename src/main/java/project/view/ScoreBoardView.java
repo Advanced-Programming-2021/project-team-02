@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -15,7 +16,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import project.controller.MainMenuController;
+import project.model.Music;
 import project.model.User;
+import project.model.gui.Icon;
 import project.view.messages.PopUpMessage;
 
 import java.net.URL;
@@ -27,6 +30,8 @@ public class ScoreBoardView extends Application {
     public VBox secondBox = new VBox();
     public AnchorPane pane = new AnchorPane();
     public VBox firstBox = new VBox();
+    public ImageView playPauseMusicButton;
+    public ImageView muteUnmuteButton;
 
 
     @Override
@@ -143,5 +148,25 @@ public class ScoreBoardView extends Application {
 
     public void back() throws Exception {
         new MainMenuView().start(stage);
+    }
+
+    public void playPauseMusic() {
+        if (playPauseMusicButton.getImage().equals(Icon.PAUSE.getImage())) {
+            playPauseMusicButton.setImage(Icon.PLAY.getImage());
+            Music.mediaPlayer.pause();
+        } else {
+            playPauseMusicButton.setImage(Icon.PAUSE.getImage());
+            Music.mediaPlayer.play();
+        }
+    }
+
+    public void muteUnmuteMusic() {
+        if (Music.mediaPlayer.isMute()) {
+            muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
+            Music.mediaPlayer.setMute(false);
+        } else {
+            muteUnmuteButton.setImage(Icon.MUTE.getImage());
+            Music.mediaPlayer.setMute(true);
+        }
     }
 }

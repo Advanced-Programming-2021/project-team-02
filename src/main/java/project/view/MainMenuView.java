@@ -6,10 +6,13 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import project.model.Music;
+import project.model.gui.Icon;
 import project.view.messages.LoginMessage;
 import project.view.messages.PopUpMessage;
 
@@ -18,11 +21,8 @@ import java.util.Objects;
 
 public class MainMenuView extends Application {
     private static Stage stage;
-    private static Parent parent;
-
-    public static void setParent(Parent parent) {
-        MainMenuView.parent = parent;
-    }
+    public ImageView playPauseMusicButton;
+    public ImageView muteUnmuteButton;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -39,11 +39,10 @@ public class MainMenuView extends Application {
         stage.setMaximized(true);
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setFullScreenExitHint("");
+        stage.show();
     }
 
-    public void deckMenu(MouseEvent actionEvent) throws Exception {
-        if (actionEvent.getButton() != MouseButton.PRIMARY)
-            return;
+    public void deckMenu() throws Exception {
         new DeckMenuView().start(stage);
     }
 
@@ -82,21 +81,39 @@ public class MainMenuView extends Application {
             return;
     }
 
-    public void logout(MouseEvent actionEvent) throws Exception {
-        if (actionEvent.getButton() != MouseButton.PRIMARY)
-            return;
+    public void playPauseMusic() {
+        if (playPauseMusicButton.getImage().equals(Icon.PAUSE.getImage())) {
+            playPauseMusicButton.setImage(Icon.PLAY.getImage());
+            Music.mediaPlayer.pause();
+        } else {
+            playPauseMusicButton.setImage(Icon.PAUSE.getImage());
+            Music.mediaPlayer.play();
+        }
+    }
+
+    public void muteUnmuteMusic() {
+        if (Music.mediaPlayer.isMute()) {
+            muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
+            Music.mediaPlayer.setMute(false);
+        } else {
+            muteUnmuteButton.setImage(Icon.MUTE.getImage());
+            Music.mediaPlayer.setMute(true);
+        }
+    }
+
+    public void logout() throws Exception {
         PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.LOGOUT_CONFIRMATION.getLabel());
-        popUpMessage.getAlert().setOnCloseRequest(dialogEvent -> parent.setEffect(null));
-        if (popUpMessage.getAlert().getResult().getText().equals("OK")) new LoginMenuView().start(stage);
+        if (popUpMessage.getAlert().getResult().getText().equals("OK")) {
+            new LoginMenuView().start(stage);
+        } else PopUpMessage.getParent().setEffect(null);
     }
 
     public void exit(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY)
             return;
         PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
-        popUpMessage.getAlert().setOnCloseRequest(dialogEvent -> parent.setEffect(null));
-        if (popUpMessage.getAlert().getResult().getText().equals("OK")) System.exit(0);
+        if (popUpMessage.getAlert().getResult().getText().equals("OK")) {
+            System.exit(0);
+        } else PopUpMessage.getParent().setEffect(null);
     }
-
-
 }
