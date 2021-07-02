@@ -81,6 +81,7 @@ public class ProfileMenuView extends Application {
         MainMenuController.getInstance().setLoggedInUser(user);
         controller = ProfileMenuController.getInstance();
         Image profileImage = new Image(String.valueOf(getClass().getResource("/project/image/ProfileMenuPictures/1.jpg")));
+        System.out.println(profileImage.getUrl());
         profileImageView.setImage(profileImage);
         userNameLabel.setText(user.getUsername());
         nickNameLabel.setText(user.getNickname());
