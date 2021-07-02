@@ -7,6 +7,7 @@ module AP.Project {
     requires gson;
     requires java.sql;
     requires opencsv;
+    requires javafx.media;
 
     opens project.view to javafx.fxml;
     exports project.view;
