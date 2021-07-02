@@ -3,9 +3,7 @@ package project.controller;
 import project.controller.playgame.DuelGameController;
 import project.model.User;
 import project.model.game.Duel;
-import project.view.DuelMenuView;
 //import project.view.MenusManager;
-import project.view.messages.Error;
 import project.view.messages.StartDuelMessage;
 
 import java.util.Objects;
@@ -24,22 +22,27 @@ public class DuelMenuController {
     }
 
 
-    public void startDuelWithOtherPlayer(String secondPlayerUsername, int roundNumber) throws CloneNotSupportedException {
+    public StartDuelMessage startDuelWithOtherPlayer(String secondPlayerUsername, int roundNumber) {
+        StartDuelMessage message = null;
         if (!isPlayerValidToStartDuel(secondPlayerUsername)) {
-            Error.showError(Error.PLAYER_DOES_NOT_EXIST);
-        } else if (!areRoundsNumberValid(roundNumber)) {
-            Error.showError(Error.WRONG_ROUNDS_NUMBER);
-        } else if (arePlayersDecksActive(secondPlayerUsername)) {
-            if (arePlayersDecksValid(secondPlayerUsername)) {
-                //TODO duel = new Duel(MenusManager.getInstance().getLoggedInUser().getUsername(), secondPlayerUsername, roundNumber, false);
+            return StartDuelMessage.INVALID_USER_TO_PLAY_WITH;
+        } else if ((message = arePlayersDecksActive(secondPlayerUsername)) == StartDuelMessage.SUCCESS) {
+            if ((message = arePlayersDecksValid(secondPlayerUsername)) == StartDuelMessage.SUCCESS) {
+                try {
+                    duel = new Duel(MainMenuController.getInstance().getLoggedInUser().getUsername(), secondPlayerUsername, roundNumber, false);
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
                 DuelGameController.getInstance().startDuel(duel);
+                return StartDuelMessage.SUCCESS;
             }
         }
+        return message;
     }
 
-    public StartDuelMessage startDuelWithAI(int roundNumber)  {
-        if (arePlayersDecksActive("ai")) {
-            if (arePlayersDecksValid("ai")) {
+    public StartDuelMessage startDuelWithAI(int roundNumber) {
+        if (arePlayersDecksActive("ai") == StartDuelMessage.SUCCESS) {
+            if (arePlayersDecksValid("ai") == StartDuelMessage.SUCCESS) {
                 try {
                     duel = new Duel(MainMenuController.getInstance().getLoggedInUser().getUsername(), "ai", roundNumber, true);
                 } catch (CloneNotSupportedException e) {
@@ -53,30 +56,35 @@ public class DuelMenuController {
 
     private boolean isPlayerValidToStartDuel(String username) {
         User user = User.getUserByUsername(username);
-        return user != null;
+        return user != null && !user.getUsername().equals(MainMenuController.getInstance().getLoggedInUser().getUsername());
     }
 
     public boolean areRoundsNumberValid(int roundsNumber) {
         return (roundsNumber == 3 || roundsNumber == 1);
     }
 
-    public boolean arePlayersDecksActive(String secondPlayerUserName) {
+    public StartDuelMessage arePlayersDecksActive(String secondPlayerUserName) {
         if (!MainMenuController.getInstance().getLoggedInUser().getHasActiveDeck()) {
-            return false;
+            return StartDuelMessage.YOUR_INACTIVE_DECK;
         }
         User user = Objects.requireNonNull(User.getUserByUsername(secondPlayerUserName));
-        return user.getHasActiveDeck();
+        if (!user.getHasActiveDeck())
+            return StartDuelMessage.OPPONENT_INACTIVE_DECK;
+        return StartDuelMessage.SUCCESS;
     }
 
-    public boolean arePlayersDecksValid(String secondPlayerUsername) {
+    public StartDuelMessage arePlayersDecksValid(String secondPlayerUsername) {
+        StartDuelMessage message;
         if (!Objects.requireNonNull(User.getActiveDeckByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).isValidDeck()) {
             //view.showDynamicErrorForInactiveDeck(Error.FORBIDDEN_DECK, MainMenuController.getInstance().getLoggedInUser().getUsername());
-            return false;
+            message = StartDuelMessage.YOUR_INVALID_DECK;
+            return message;
         } else if (!Objects.requireNonNull(User.getActiveDeckByUsername(secondPlayerUsername)).isValidDeck()) {
             //view.showDynamicErrorForInactiveDeck(Error.FORBIDDEN_DECK, secondPlayerUsername);
-            return false;
+            message = StartDuelMessage.OPPONENT_INVALID_DECK;
+            return message;
         }
-        return true;
+        return StartDuelMessage.SUCCESS;
     }
 
 }

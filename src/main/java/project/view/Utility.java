@@ -18,5 +18,6 @@ public class Utility {
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setFullScreenExitHint("");
         stage.show();
+
     }
 }
