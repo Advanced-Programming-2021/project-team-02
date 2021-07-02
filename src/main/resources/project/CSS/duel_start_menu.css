@@ -11,6 +11,17 @@
     -fx-background-image: url(../image/main_background.jpg);
     -fx-background-size: cover;
 }
+
+#firstBox {
+    -fx-background-color: #00062b;
+    -fx-background-radius: 30;
+}
+
+#menu {
+    -fx-font-size: 28;
+    -fx-text-fill: #ffd500;
+}
+
 #button {
     -fx-font-size: 24.0;
     -fx-background-color: #9e376c;
@@ -18,6 +29,7 @@
     -fx-text-fill: white;
     -fx-cursor: hand;
 }
+
 #row {
     -fx-transition: all .2s ease-in-out;
     -fx-cursor: hand;
@@ -34,4 +46,21 @@
 
 #row .root:hover {
     -fx-text-fill: #9e376c;
+}
+
+#menuBar {
+    -fx-border-color: #ffd500;
+    -fx-border-radius: 20;
+}
+
+#menuTitle {
+    -fx-font-size: 36;
+    -fx-text-fill: #ffd500;
+}
+
+#label {
+    -fx-font-size: 19;
+    -fx-text-fill: white;
+    -fx-background-color: #323c46;
+    -fx-background-radius: 10;
 }

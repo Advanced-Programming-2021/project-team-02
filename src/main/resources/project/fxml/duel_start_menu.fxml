@@ -1,24 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.AnchorPane?>
-
 <?import java.net.URL?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
-<AnchorPane fx:id="pane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.DuelMenuView">
-    <children>
-        <Button fx:id="singlePlayerButton" layoutX="157.0" layoutY="120.0" mnemonicParsing="false"
-                onAction="#openSinglePlayerChoices" prefHeight="26.0" prefWidth="133.0" text="Single Player">
-        </Button>
-        <Button layoutX="157.0" layoutY="206.0" mnemonicParsing="false" onAction="#openMultiPlayerChoices"
-                prefHeight="26.0" prefWidth="134.0" text="Multi Player">
-        </Button>
-        <Button layoutX="185.0" layoutY="293.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="78.0" text="Back"
-                onAction="#back"/>
-    </children>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane fx:id="pane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.DuelMenuView">
+    <VBox id="firstBox" alignment="CENTER" layoutX="57.0" layoutY="180.0" prefHeight="278.0" prefWidth="587.0" spacing="25.0">
+        <HBox id="menuBar" alignment="CENTER" prefHeight="62.0" prefWidth="400.0" spacing="10.0">
+            <ImageView id="icon" fitHeight="35.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@../image/Icon/main_menu.png" />
+            </ImageView>
+            <Label id="menuTitle" prefHeight="40.0" prefWidth="203.0" text="Duel Menu" />
+            <padding>
+                <Insets bottom="20.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+            <VBox.margin>
+                <Insets left="125.0" right="125.0" />
+            </VBox.margin>
+        </HBox>
+        <VBox prefHeight="148.0" prefWidth="328.0" spacing="10.0">
+            <HBox id="row" onMouseClicked="#openSinglePlayerChoices" spacing="5.0">
+                <ImageView id="icon" fitWidth="22" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../image/Icon/main_menu.png" />
+                    <HBox.margin>
+                        <Insets top="5.0" />
+                    </HBox.margin>
+                </ImageView>
+                <Label id="menu" text="Single Player" />
+                <padding>
+                    <Insets bottom="15.0" left="5.0" top="2.0" />
+                </padding>
+            </HBox>
+            <HBox id="row" onMouseClicked="#openMultiPlayerChoices" spacing="5.0">
+                <ImageView id="icon" fitWidth="22" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../image/Icon/main_menu.png" />
+                    <HBox.margin>
+                        <Insets top="5.0" />
+                    </HBox.margin>
+                </ImageView>
+                <Label id="menu" text="MultiPlayer" />
+                <padding>
+                    <Insets bottom="4.0" left="5.0" top="2.0" />
+                </padding>
+            </HBox>
+            <VBox.margin>
+                <Insets left="80.0" right="150.0" />
+            </VBox.margin>
+        </VBox>
+        <padding>
+            <Insets bottom="35.0" left="35.0" right="35.0" top="30.0" />
+        </padding>
+    </VBox>
+    <Button id="button" layoutX="226.0" layoutY="530.0" mnemonicParsing="false" onMouseClicked="#back" prefHeight="43.0" prefWidth="229.0" text="Back" />
     <stylesheets>
-        <URL value="@../CSS/main_menu_style.css"/>
+        <URL value="@../CSS/duel_start_menu.css" />
     </stylesheets>
 </AnchorPane>
