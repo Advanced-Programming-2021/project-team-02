@@ -64,3 +64,9 @@
     -fx-background-color: #323c46;
     -fx-background-radius: 10;
 }
+
+#textField {
+    -fx-text-fill: #ffd500;
+    -fx-background-color: #323c46;
+    -fx-background-radius: 10;
+}
