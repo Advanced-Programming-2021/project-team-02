@@ -62,6 +62,7 @@ public class MainMenuView extends Application {
     public void profileMenu(MouseEvent actionEvent) throws Exception {
         if (actionEvent.getButton() != MouseButton.PRIMARY)
             return;
+
         new ProfileMenuView().start(stage);
     }
 
