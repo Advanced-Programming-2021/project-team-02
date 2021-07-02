@@ -14,7 +14,8 @@ public class Regex {
     public static final List<String> USER_LOGIN;
     public static final String USER_LOGOUT = "^user logout$";
     public static final String SCOREBOARD_SHOW = "^scoreboard show$";
-    public static final String PROFILE_CHANGE_NICKNAME = "^profile change --nickname (?<nickname>\\w+)$";
+    public static final ArrayList<String> PROFILE_CHANGE_NICKNAME;
+    public static final ArrayList<String> PROFILE_CHANGE_USERNAME;
     public static final List<String> PROFILE_CHANGE_PASSWORD;
     public static final String CARD_SHOW = "^card show (?<cardName>[A-Za-z ',-]+)$";
     public static final String DECK_CREATE = "^deck create (?<deckName>[a-zA-Z0-9 -]+?)$";
@@ -47,9 +48,7 @@ public class Regex {
     public static final String BOARD_GAME_SELECT_DESELECT = "^select -d$";
     public static final String BOARD_GAME_NEXT_PHASE = "^next phase$";
     public static final String BOARD_GAME_SUMMON = "^summon$";
-    public static final String BOARD_GAME_SET_MONSTER = "^set --monster$";
-    public static final String BOARD_GAME_SET_SPELL = "^set --spell$";
-    public static final String BOARD_GAME_SET_TRAP = "^set --trap$";
+    public static final String BOARD_GAME_SET = "^set$";
     public static final String BOARD_GAME_SET_POSITION = "^set --position (?<position>attack|defense)$";
     public static final String BOARD_GAME_FLIP_SUMMON = "^flip-summon$";
     public static final String BOARD_GAME_ATTACK = "^attack (?<monsterZoneNumber>\\d)$";
@@ -66,8 +65,10 @@ public class Regex {
     public static final String EXPORT_CARD = "^export card (?<cardName>[A-Za-z ',-]+)$";
     public static final String COMMAND_CANCEL = "^cancel$";
     public static final String COMMAND_HELP = "^help$";
-    public static final String CHANGE_CARD_BETWEEN_ROUNDS = "^change card (?<cardNameInMainDeck>[A-Za-z ',-]+" +
-            ") with (?<cardNameInSideDeck>[A-Za-z ',-]+)$";
+    public static final String CHANGE_CARD_BETWEEN_ROUNDS = "^change card (?<cardAddressInMainDeck>\\d+" +
+            ") with (?<cardAddressInSideDeck>\\d+)$";
+    public static final String EXPORT = "^export card (?<cardName>[A-Za-z ',-]+)$";
+    public static final String IMPORT = "^import card (?<fileName>[A-Za-z ',-]+)$";
 
     static {
         USER_CREATE = new ArrayList<>();
@@ -88,6 +89,12 @@ public class Regex {
         USER_LOGIN.add("^user login --password (?<password>\\w+?) --username (?<username>\\w+?)$");
         USER_LOGIN.add("^user login -u (?<username>\\w+?) -p (?<password>\\w+?)$");
         USER_LOGIN.add("^user login -p (?<password>\\w+?) -u (?<username>\\w+?)$");
+        PROFILE_CHANGE_NICKNAME = new ArrayList<>();
+        PROFILE_CHANGE_NICKNAME.add("^profile change --nickname (?<nickname>\\w+)$");
+        PROFILE_CHANGE_NICKNAME.add("^profile change -n (?<nickname>\\w+)$");
+        PROFILE_CHANGE_USERNAME = new ArrayList<>();
+        PROFILE_CHANGE_USERNAME.add("^profile change --username (?<username>\\w+)$");
+        PROFILE_CHANGE_USERNAME.add("^profile change -u (?<username>\\w+)$");
         PROFILE_CHANGE_PASSWORD = new ArrayList<>();
         PROFILE_CHANGE_PASSWORD.add("^profile change --password --current (?<currentPassword>\\w+) --new (?<newPassword>\\w+)$");
         PROFILE_CHANGE_PASSWORD.add("^profile change --password --new (?<newPassword>\\w+) --current (?<currentPassword>\\w+)$");
@@ -130,23 +137,23 @@ public class Regex {
         DECK_REMOVE_CARD_MAIN_DECK.add("deck rm-card -c (?<cardName>[A-Za-z ',-]+) -d (?<deckName>[a-zA-Z0-9 -]+?)$");
         DECK_REMOVE_CARD_MAIN_DECK.add("deck rm-card -d (?<deckName>[a-zA-Z0-9 -]+?) -c (?<cardName>[A-Za-z ',-]+)$");
         DECK_REMOVE_CARD_SIDE_DECK = new ArrayList<>();
-        DECK_REMOVE_CARD_SIDE_DECK.add("deck rm-card --card (?<cardName>[A-Za-z ',-]+) --deck (?<deckName>[a-zA-Z0-9 -]+?) --side$");
-        DECK_REMOVE_CARD_SIDE_DECK.add("deck rm-card --deck (?<deckName>[a-zA-Z0-9 -]+?) --card (?<cardName>[A-Za-z ',-]+)$ --side");
-        DECK_REMOVE_CARD_SIDE_DECK.add("deck rm-card --card (?<cardName>[A-Za-z ',-]+) --side --deck (?<deckName>[a-zA-Z0-9 -]+?)$");
-        DECK_REMOVE_CARD_SIDE_DECK.add("deck rm-card --deck (?<deckName>[a-zA-Z0-9 -]+?) --side --card (?<cardName>[A-Za-z ',-]+)$");
-        DECK_REMOVE_CARD_SIDE_DECK.add("deck rm-card --side --card (?<cardName>[A-Za-z ',-]+) --deck (?<deckName>[a-zA-Z0-9 -]+?)$");
-        DECK_REMOVE_CARD_SIDE_DECK.add("deck rm-card --side --deck (?<deckName>[a-zA-Z0-9 -]+?) --card (?<cardName>[A-Za-z ',-]+)$");
-        DECK_REMOVE_CARD_SIDE_DECK.add("deck rm-card -c (?<cardName>[A-Za-z ',-]+) -d (?<deckName>[a-zA-Z0-9 -]+?) -s$");
-        DECK_REMOVE_CARD_SIDE_DECK.add("deck rm-card -d (?<deckName>[a-zA-Z0-9 -]+?) -c (?<cardName>[A-Za-z ',-]+)$ -s");
-        DECK_REMOVE_CARD_SIDE_DECK.add("deck rm-card -c (?<cardName>[A-Za-z ',-]+) -s -d (?<deckName>[a-zA-Z0-9 -]+?)$");
-        DECK_REMOVE_CARD_SIDE_DECK.add("deck rm-card -d (?<deckName>[a-zA-Z0-9 -]+?) -s -c (?<cardName>[A-Za-z ',-]+)$");
-        DECK_REMOVE_CARD_SIDE_DECK.add("deck rm-card -s -c (?<cardName>[A-Za-z ',-]+) -d (?<deckName>[a-zA-Z0-9 -]+?)$");
-        DECK_REMOVE_CARD_SIDE_DECK.add("deck rm-card -s -d (?<deckName>[a-zA-Z0-9 -]+?) -c (?<cardName>[A-Za-z ',-]+)$");
+        DECK_REMOVE_CARD_SIDE_DECK.add("^deck rm-card --card (?<cardName>[A-Za-z ',-]+) --deck (?<deckName>[a-zA-Z0-9 -]+?) --side$");
+        DECK_REMOVE_CARD_SIDE_DECK.add("^deck rm-card --deck (?<deckName>[a-zA-Z0-9 -]+?) --card (?<cardName>[A-Za-z ',-]+)$ --side$");
+        DECK_REMOVE_CARD_SIDE_DECK.add("^deck rm-card --card (?<cardName>[A-Za-z ',-]+) --side --deck (?<deckName>[a-zA-Z0-9 -]+?)$");
+        DECK_REMOVE_CARD_SIDE_DECK.add("^deck rm-card --deck (?<deckName>[a-zA-Z0-9 -]+?) --side --card (?<cardName>[A-Za-z ',-]+)$");
+        DECK_REMOVE_CARD_SIDE_DECK.add("^deck rm-card --side --card (?<cardName>[A-Za-z ',-]+) --deck (?<deckName>[a-zA-Z0-9 -]+?)$");
+        DECK_REMOVE_CARD_SIDE_DECK.add("^deck rm-card --side --deck (?<deckName>[a-zA-Z0-9 -]+?) --card (?<cardName>[A-Za-z ',-]+)$");
+        DECK_REMOVE_CARD_SIDE_DECK.add("^deck rm-card -c (?<cardName>[A-Za-z ',-]+) -d (?<deckName>[a-zA-Z0-9 -]+?) -s$");
+        DECK_REMOVE_CARD_SIDE_DECK.add("^deck rm-card -d (?<deckName>[a-zA-Z0-9 -]+?) -c (?<cardName>[A-Za-z ',-]+)$ -s");
+        DECK_REMOVE_CARD_SIDE_DECK.add("^deck rm-card -c (?<cardName>[A-Za-z ',-]+) -s -d (?<deckName>[a-zA-Z0-9 -]+?)$");
+        DECK_REMOVE_CARD_SIDE_DECK.add("^deck rm-card -d (?<deckName>[a-zA-Z0-9 -]+?) -s -c (?<cardName>[A-Za-z ',-]+)$");
+        DECK_REMOVE_CARD_SIDE_DECK.add("^deck rm-card -s -c (?<cardName>[A-Za-z ',-]+) -d (?<deckName>[a-zA-Z0-9 -]+?)$");
+        DECK_REMOVE_CARD_SIDE_DECK.add("^deck rm-card -s -d (?<deckName>[a-zA-Z0-9 -]+?) -c (?<cardName>[A-Za-z ',-]+)$");
         DECK_SHOW_SIDE_DECK = new ArrayList<>();
         DECK_SHOW_SIDE_DECK.add("^deck show --side --deck-name (?<deckName>[a-zA-Z0-9 -]+?)$");
         DECK_SHOW_SIDE_DECK.add("^deck show --deck-name (?<deckName>[a-zA-Z0-9 -]+?) --side$");
-        DECK_SHOW_SIDE_DECK.add("^deck show -s --d-n (?<deckName>[a-zA-Z0-9 -]+?)$");
-        DECK_SHOW_SIDE_DECK.add("^deck show --d-n (?<deckName>[a-zA-Z0-9 -]+?) -s$");
+        DECK_SHOW_SIDE_DECK.add("^deck show -s -d-n (?<deckName>[a-zA-Z0-9 -]+?)$");
+        DECK_SHOW_SIDE_DECK.add("^deck show -d-n (?<deckName>[a-zA-Z0-9 -]+?) -s$");
         DUEL_NEW_SECOND_PLAYER = new ArrayList<>();
         DUEL_NEW_SECOND_PLAYER.add("^duel new --second-player (?<secondPlayerUsername>\\w+?) --rounds (?<roundNumber>\\d+)$");
         DUEL_NEW_SECOND_PLAYER.add("^duel new --rounds (?<roundNumber>\\d+) --second-player (?<secondPlayerUsername>\\w+?)$");
@@ -175,16 +182,16 @@ public class Regex {
         BOARD_GAME_SELECT_SPELL_OPPONENT.add("^select --opponent --spell (?<spellZoneNumber>\\d+)$");
         BOARD_GAME_SELECT_SPELL_OPPONENT.add("^select -s (?<spellZoneNumber>\\d+) -o$");
         BOARD_GAME_SELECT_SPELL_OPPONENT.add("^select -o -s (?<spellZoneNumber>\\d+)$");
-        BOARD_GAME_SELECT_FIELD_OPPONENT = new ArrayList<> ();
-        BOARD_GAME_SELECT_FIELD_OPPONENT.add ("^select --field --opponent$");
-        BOARD_GAME_SELECT_FIELD_OPPONENT.add ("^select --opponent --field$");
-        BOARD_GAME_SELECT_FIELD_OPPONENT.add ("^select -f -o$");
-        BOARD_GAME_SELECT_FIELD_OPPONENT.add ("^select -o -f$");
-        BOARD_GAME_SELECT_GRAVEYARD_OPPONENT = new ArrayList<> ();
-        BOARD_GAME_SELECT_GRAVEYARD_OPPONENT.add ("^select --graveyard --opponent$");
-        BOARD_GAME_SELECT_GRAVEYARD_OPPONENT.add ("^select --opponent --graveyard$");
-        BOARD_GAME_SELECT_GRAVEYARD_OPPONENT.add ("^select -gy -o$");
-        BOARD_GAME_SELECT_GRAVEYARD_OPPONENT.add ("^select -o -gy$");
+        BOARD_GAME_SELECT_FIELD_OPPONENT = new ArrayList<>();
+        BOARD_GAME_SELECT_FIELD_OPPONENT.add("^select --field --opponent$");
+        BOARD_GAME_SELECT_FIELD_OPPONENT.add("^select --opponent --field$");
+        BOARD_GAME_SELECT_FIELD_OPPONENT.add("^select -f -o$");
+        BOARD_GAME_SELECT_FIELD_OPPONENT.add("^select -o -f$");
+        BOARD_GAME_SELECT_GRAVEYARD_OPPONENT = new ArrayList<>();
+        BOARD_GAME_SELECT_GRAVEYARD_OPPONENT.add("^select --graveyard --opponent$");
+        BOARD_GAME_SELECT_GRAVEYARD_OPPONENT.add("^select --opponent --graveyard$");
+        BOARD_GAME_SELECT_GRAVEYARD_OPPONENT.add("^select -gy -o$");
+        BOARD_GAME_SELECT_GRAVEYARD_OPPONENT.add("^select -o -gy$");
     }
 
     public static Matcher getMatcher(String regex, String command) {

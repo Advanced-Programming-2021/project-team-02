@@ -1,33 +1,28 @@
 package project.model;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import project.model.card.Card;
-
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 
 public class Assets {
-    private String username;
-    private int coin;
-    private final HashMap<Card, Integer> allUserCards;
-    private final ArrayList<Deck> allDecks;
     private static HashMap<String, Assets> allAssets;
-    static Writer writer;
-    static Gson gson = new Gson();
-
-    static {
-        try {
-            writer = Files.newBufferedWriter(Paths.get("json/assets.json"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    //private static Writer writer;
+    //private static Gson gson = new Gson();
 
     static {
         allAssets = new HashMap<>();
+    }
+
+    private final HashMap<Card, Integer> allUserCards;
+    private final ArrayList<Deck> allDecks;
+    private String username;
+    private int coin;
+
+    {
+//        try {
+//            writer = Files.newBufferedWriter(Paths.get("assets.json"));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     {
@@ -40,6 +35,37 @@ public class Assets {
         allUserCards = new HashMap<>();
         allAssets.put(username, this);
     }
+
+    public static Assets getAssetsByUsername(String username) {
+        for (String key : allAssets.keySet())
+            if (key.equals(username)) return allAssets.get(key);
+        return null;
+    }
+
+//    public static void jsonAssets() {
+//        try {
+//            gson.toJson(allAssets, writer);
+//            writer.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+//    public static void fromJson() {
+//        Reader reader = null;
+//        try {
+//            reader = Files.newBufferedReader(Paths.get("assets.json"));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        assert reader != null;
+//        allAssets = gson.fromJson(reader, HashMap.class);
+//        try {
+//            reader.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     private void setUsername(String username) {
         this.username = username;
@@ -67,15 +93,27 @@ public class Assets {
         return coin;
     }
 
-    public static Assets getAssetsByUsername(String username) {
-        for (String key : allAssets.keySet())
-            if (key.equals(username)) return allAssets.get(key);
-        return null;
-    }
-
     public void createDeck(String name) {
         this.allDecks.add(new Deck(name));
-        writeJson ();
+//        try {
+//            PrintWriter printWriter = new PrintWriter("assets.json");
+//            printWriter.print("");
+//            Writer writer = null;
+//            try {
+//                writer = Files.newBufferedWriter(Paths.get("assets.json"));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            gson.toJson(allAssets, writer);
+//            try {
+//                assert writer != null;
+//                writer.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public void deleteDeck(String name) {
@@ -93,7 +131,26 @@ public class Assets {
             }
         }
         allDecks.remove(deck);
-        writeJson ();
+//        try {
+//
+//            PrintWriter printWriter = new PrintWriter("assets.json");
+//            printWriter.print("");
+//            Writer writer = null;
+//            try {
+//                writer = Files.newBufferedWriter(Paths.get("assets.json"));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            gson.toJson(allAssets, writer);
+//            try {
+//                assert writer != null;
+//                writer.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public void activateDeck(String deckName) {
@@ -109,44 +166,94 @@ public class Assets {
 
     public void addCardToMainDeck(Card card, Deck deck) {
         deck.addCardToMainDeck(card);
-        writeJson ();
-    }
-
-    public void writeJson() {
-        try {
-            PrintWriter printWriter = new PrintWriter("json/assets.json");
-            printWriter.print("");
-            Writer writer = null;
-            try {
-                writer = Files.newBufferedWriter(Paths.get("json/assets.json"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            gson.toJson(allAssets, writer);
-            try {
-                assert writer != null;
-                writer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            PrintWriter printWriter = new PrintWriter("assets.json");
+//            printWriter.print("");
+//            Writer writer = null;
+//            try {
+//                writer = Files.newBufferedWriter(Paths.get("assets.json"));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            gson.toJson(allAssets, writer);
+//            try {
+//                assert writer != null;
+//                writer.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public void addCardToSideDeck(Card card, Deck deck) {
         deck.addCardToSideDeck(card);
-        writeJson ();
+//        try {
+//            PrintWriter printWriter = new PrintWriter("assets.json");
+//            printWriter.print("");
+//            Writer writer = null;
+//            try {
+//                writer = Files.newBufferedWriter(Paths.get("assets.json"));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            gson.toJson(allAssets, writer);
+//            try {
+//                assert writer != null;
+//                writer.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public void removeCardFromMainDeck(Card card, Deck deck) {
         deck.removeCardFromMainDeck(card);
-        writeJson ();
+//        try {
+//            PrintWriter printWriter = new PrintWriter("assets.json");
+//            printWriter.print("");
+//            Writer writer = null;
+//            try {
+//                writer = Files.newBufferedWriter(Paths.get("assets.json"));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            gson.toJson(allAssets, writer);
+//            try {
+//                assert writer != null;
+//                writer.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public void removeCardFromSideDeck(Card card, Deck deck) {
         deck.removeCardFromSideDeck(card);
-        writeJson ();
+//        try {
+//            PrintWriter printWriter = new PrintWriter("assets.json");
+//            printWriter.print("");
+//            Writer writer = null;
+//            try {
+//                writer = Files.newBufferedWriter(Paths.get("assets.json"));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            gson.toJson(allAssets, writer);
+//            try {
+//                assert writer != null;
+//                writer.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public void decreaseCoin(int amount) {
@@ -156,12 +263,30 @@ public class Assets {
     public void addCard(Card card) {
         for (Card cardsOfUser : allUserCards.keySet()) {
             if (cardsOfUser.getName().equals(card.getName())) {
-                allUserCards.replace(card, allUserCards.get(card) + 1);
+                allUserCards.replace(cardsOfUser, allUserCards.get(cardsOfUser) + 1);
                 return;
             }
         }
         allUserCards.put(card, 1);
-        writeJson ();
+//        try {
+//            PrintWriter printWriter = new PrintWriter("assets.json");
+//            printWriter.print("");
+//            Writer writer = null;
+//            try {
+//                writer = Files.newBufferedWriter(Paths.get("assets.json"));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            gson.toJson(allAssets, writer);
+//            try {
+//                assert writer != null;
+//                writer.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public int getNumberOfCards(Card card) {
@@ -171,36 +296,5 @@ public class Assets {
             }
         }
         return 0;
-    }
-
-    public static void jsonAssets() {
-        try {
-            gson.toJson(allAssets, writer);
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void fromJson() {
-//        try {
-//            String json = new String(Files.readAllBytes(Paths.get("json/assets.json")));
-//            allAssets = new Gson().fromJson(json, new TypeToken<Map<String, Assets>> (){}.getType());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        Reader reader = null;
-        try {
-            reader = Files.newBufferedReader(Paths.get("json/assets.json"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        assert reader != null;
-        allAssets = gson.fromJson(reader, HashMap.class);
-        try {
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

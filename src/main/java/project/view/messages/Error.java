@@ -46,7 +46,7 @@ public enum Error {
     ALREADY_ATTACKED("this card already attacked"),
     NO_CARD_TO_BE_ATTACKED("there is no card to attack here"),
     ONLY_SPELL_CAN_ACTIVE("activate effect is only for spell cards."),
-    CAN_NOT_ACTIVE_EFFECT("you can’t activate an effect on this turn"),
+    CAN_NOT_ACTIVE_EFFECT("you can’t activate an effect"),
     CARD_ALREADY_ACTIVATED("you have already activated this card"),
     SPELL_ZONE_IS_FULL("spell card zone is full"),
     PREPARATIONS_IS_NOT_DONE("preparations of this spell are not done yet"),
@@ -55,12 +55,8 @@ public enum Error {
     LEVEL_DOES_NOT_MATCH("selected monsters levels don’t match with ritual monster"),
     RITUAL_SUMMON_NOW("you should ritual summon right now"),
     CAN_NOT_SPECIAL_SUMMON("there is no way you could special summon a monster"),
-    INVISIBLE_CARD("card is not visible"),
     INVALID_COMMAND("invalid command"),
-    CHANGE_CARDS_IN_ONE_ROUND_DUEL("you can not do this action"),
-    CARD_IS_NOT_IN_MAIN_DECK_TO_CHANGE("card does not exist in main deck"),
-    CARD_IS_NOT_IN_SIDE_DECK_TO_CHANGE("card does not exist in side deck"),
-    INVALID_NUMBER("input number is not valid"),
+       INVALID_NUMBER("input number is not valid"),
     CANT_DIRECT_ATTACK("you can't direct attack now"),
     WRONG_CARD_NAME("there is no card with name you entered"),
     DH_POSITION("your monster is in DH position. please choose the right position"),
@@ -68,8 +64,12 @@ public enum Error {
     PLACE_IS_EMPTY("there is no card in this place"),
     CHOOSE_MONSTER_FROM_MONSTER_ZONE("you should choose monster from monster zone"),
     CHOOSE_SPELL_FROM_SPELL_ZONE("you should choose spell from spell zone"),
+    TYPE_FIEND_OR_SPELL_CASTER("your monster type should be fiend or spell caster"),
+    ONLY_CAN_SHOW_OPPONENT_CARD("you only can show opponentCard"),
+    WRONG_CARD_CHOICE("Wrong numbers"),
     TYPE_FIEND_OT_SPELL_CASTER("your monster type should be fiend or spell caster"),
-    ONLY_CAN_SHOW_OPPONENT_CARD("you only can show opponentCard");
+    THERE_IS_NO_SUCH_FILE("there is no file with this name"),
+    YOU_DO_NOT_HAVE_THIS_CARD("you can only export cards that you have!");
 
     private String value;
 

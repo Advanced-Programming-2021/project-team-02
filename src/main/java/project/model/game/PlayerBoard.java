@@ -18,17 +18,17 @@ public class PlayerBoard {
         fieldZone = new FieldZone();
     }
 
-    public void addMonsterToBoard(Monster monster, CellStatus status) {
-        monsterZone.addCard(monster, status);
+    public int addMonsterToBoard(Monster monster, CellStatus status) {
+        return monsterZone.addCard(monster, status);
     }
 
-    public void addSpellOrTrapToBoard(Card card, CellStatus status) {
-        spellZone.addCard(card, status);
+    public int addSpellOrTrapToBoard(Card card, CellStatus status) {
+        return spellZone.addCard(card, status);
     }
 
     public void removeMonsterFromBoardAndAddToGraveYard(int address) {
         graveYard.addCard(monsterZone.getCellWithAddress(address).getCardInCell());
-        monsterZone.removeCard(address - 1);
+        monsterZone.removeCardWithAddress(address);
 
     }
 
@@ -37,17 +37,10 @@ public class PlayerBoard {
         spellZone.removeWithCardAddress(address);
     }
 
-    public void addCardToGraveYard(Card card) {
+    public void addCardToGraveYardDirectly(Card card) {
         graveYard.addCard(card);
     }
 
-    public Card getCardInGraveYard(int address) {
-        return graveYard.getGraveYardCards().get(address);
-    }
-
-    public void changeCardPosition(Card card) {
-
-    }
 
     public boolean isMonsterZoneFull() {
         if (howManyEmptyCellsWeHaveInZone(Zone.MONSTER_ZONE) == 0)
@@ -88,7 +81,7 @@ public class PlayerBoard {
         return 0;
     }
 
-    public Cell getACellOfBoard(Zone zone, int index) {
+    public Cell getACellOfBoardWithAddress(Zone zone, int index) {
         if (zone.equals(Zone.MONSTER_ZONE)) {
             return monsterZone.getCellWithAddress(index);
         } else if (zone.equals(Zone.SPELL_ZONE)) {
@@ -118,8 +111,10 @@ public class PlayerBoard {
     }
 
     public void removeFieldSpell() {
+        graveYard.addCard(fieldZone.getCard());
         fieldZone.setCard(null);
         fieldZone.setCellStatus(CellStatus.EMPTY);
+
     }
 
     public boolean isFieldZoneEmpty() {
@@ -134,7 +129,8 @@ public class PlayerBoard {
         fieldZone.setCard(spell);
         fieldZone.setCellStatus(CellStatus.OCCUPIED);
     }
-    public void setFieldSpell(Spell spell){
+
+    public void setFieldSpell(Spell spell) {
         fieldZone.setCard(spell);
         fieldZone.setCellStatus(CellStatus.HIDDEN);
     }
