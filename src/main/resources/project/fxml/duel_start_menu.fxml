@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<?import java.net.URL?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<AnchorPane fx:id="pane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.DuelMenuView">
+    <children>
+        <Button fx:id="singlePlayerButton" layoutX="157.0" layoutY="120.0" mnemonicParsing="false"
+                onAction="#openSinglePlayerChoices" prefHeight="26.0" prefWidth="133.0" text="Single Player">
+        </Button>
+        <Button layoutX="157.0" layoutY="206.0" mnemonicParsing="false" onAction="#openMultiPlayerChoices"
+                prefHeight="26.0" prefWidth="134.0" text="Multi Player">
+        </Button>
+        <Button layoutX="185.0" layoutY="293.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="78.0" text="Back"
+                onAction="#back"/>
+    </children>
+    <stylesheets>
+        <URL value="@../CSS/main_menu_style.css"/>
+    </stylesheets>
+</AnchorPane>
