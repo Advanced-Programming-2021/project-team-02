@@ -1,117 +1,67 @@
 package project.view;
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import project.controller.DeckMenuController;
-import project.model.card.Card;
-import project.model.card.Monster;
-import project.model.card.Spell;
-import project.model.card.Trap;
-import project.model.card.informationofcards.CardType;
-import project.view.input.Regex;
-import project.view.messages.Error;
+import project.model.Assets;
+import project.model.Deck;
+import project.model.User;
 
-import java.util.Locale;
-import java.util.regex.Matcher;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class DeckMenuView extends Application {
     private static final DeckMenuController controller = DeckMenuController.getInstance ();
-    private static Stage stage;
-    private static int a;
-
-    public void run(String command) {
-        commandRecognition (command);
-    }
-
-    public void commandRecognition(String command) {
-        Matcher matcher;
-        if ((matcher = Regex.getMatcher (Regex.MENU_ENTER, command)).matches ()) {
-            if (matcher.group ("menuName").toLowerCase (Locale.ROOT).equals ("deck"))
-                showDynamicError (Error.BEING_ON_CURRENT_MENU, matcher.group ("menuName"));
-            else Error.showError (Error.BEING_ON_A_MENU);
-        } else if (Regex.getMatcher (Regex.MENU_EXIT, command).matches ()) {
-//            MenusManager.getInstance ().changeMenu (Menu.MAIN_MENU);
-            return;
-        }
-        if ((matcher = Regex.getMatcher (Regex.DECK_CREATE, command)).matches ()) {
-            controller.createDeck (matcher.group("deckName"));
-        } else if ((matcher = Regex.getMatcher (Regex.DECK_DELETE, command)).matches ()) {
-            controller.deleteDeck (matcher.group("deckName"));
-        } else if ((matcher = Regex.getMatcher (Regex.DECK_SET_ACTIVATE, command)).matches ()) {
-            controller.activateDeck (matcher.group("deckName"));
-        } else if ((matcher = Regex.getMatcherFromAllPermutations (Regex.DECK_ADD_CARD_TO_SIDE_DECK, command)) != null) {
-            controller.addCardToSideDeck (matcher.group("deckName"), matcher.group("cardName"));
-        } else if ((matcher = Regex.getMatcherFromAllPermutations (Regex.DECK_ADD_CARD_TO_MAIN_DECK, command)) != null) {
-            controller.addCardToMainDeck (matcher.group("deckName"), matcher.group("cardName"));
-        } else if ((matcher = Regex.getMatcherFromAllPermutations (Regex.DECK_REMOVE_CARD_SIDE_DECK, command)) != null) {
-            controller.removeCardFromSideDeck (matcher.group("deckName"), matcher.group("cardName"));
-        } else if ((matcher = Regex.getMatcherFromAllPermutations (Regex.DECK_REMOVE_CARD_MAIN_DECK, command)) != null) {
-//            controller.removeCardFromMainDeck (matcher.group("deckName"), matcher.group("cardName"));
-        } else if (Regex.getMatcher (Regex.DECK_SHOW_ALL_DECKS, command).matches ()) {
-            controller.showAllDecks ();
-        } else if ((matcher = Regex.getMatcherFromAllPermutations (Regex.DECK_SHOW_SIDE_DECK, command)) != null) {
-            controller.showDeck (matcher.group("deckName"), "Side");
-        } else if ((matcher = Regex.getMatcher (Regex.DECK_SHOW_MAIN_DECK, command)).matches ()) {
-            controller.showDeck (matcher.group("deckName"), "project.Main");
-        } else if (Regex.getMatcher (Regex.DECK_SHOW_ALL_CARDS, command).matches ()) {
-            controller.showAllCards ();
-        } else if ((matcher = Regex.getMatcher (Regex.CARD_SHOW, command)).matches ()) {
-            controller.showCard (matcher.group ("cardName"));
-        } else if (Regex.getMatcher (Regex.MENU_SHOW_CURRENT, command).matches ()) {
-            showCurrentMenu ();
-        } else if (Regex.getMatcher (Regex.COMMAND_HELP, command).matches ()) {
-            help ();
-        } else Error.showError (Error.INVALID_COMMAND);
-    }
-
-    public void checkTypeOfCardAndPrintIt(Card card) {
-        if (card.getCardType ().equals (CardType.MONSTER)) {
-            Monster monster = (Monster) card;
-            System.out.println (monster);
-        } else if (card.getCardType ().equals (CardType.SPELL)) {
-            Spell spell = (Spell) card;
-            System.out.println (spell);
-        } else {
-            Trap trap = (Trap) card;
-            System.out.println (trap);
-        }
-    }
-
-    public void showDynamicError(Error error, String string) {
-        if (error.equals (Error.DECK_EXIST)) {
-            System.out.printf (Error.DECK_EXIST.getValue (), string);
-        } else if (error.equals (Error.DECK_NOT_EXIST)) {
-            System.out.printf (Error.DECK_NOT_EXIST.getValue (), string);
-        } else if (error.equals (Error.INCORRECT_CARD_NAME)) {
-            System.out.printf (Error.INCORRECT_CARD_NAME.getValue (), string);
-        } else if (error.equals (Error.CARD_LIMITED_IN_DECK)) {
-            System.out.printf (Error.CARD_LIMITED_IN_DECK.getValue (), string);
-        } else if (error.equals (Error.CARD_DOES_NOT_EXIST_IN_SIDE_DECK)) {
-            System.out.printf (Error.CARD_DOES_NOT_EXIST_IN_SIDE_DECK.getValue (), string);
-        } else if (error.equals (Error.CARD_DOES_NOT_EXIST_IN_MAIN_DECK)) {
-            System.out.printf (Error.CARD_DOES_NOT_EXIST_IN_MAIN_DECK.getValue (), string);
-        } else if (error.equals (Error.BEING_ON_CURRENT_MENU)) {}
-//            System.out.printf (error.getValue (), Menu.PROFILE_MENU.getValue ());
-    }
-
-    public void showDynamicErrorWithTwoStrings(Error error, String firstString, String secondString) {
-        if (error.equals (Error.EXCESSIVE_NUMBER_IN_DECK))
-            System.out.printf (Error.EXCESSIVE_NUMBER_IN_DECK.getValue (), firstString, secondString);
-    }
-
-    public void showCurrentMenu() {
-        System.out.println ("Deck Menu");
-    }
-
-    private void help() {
-        System.out.println ("deck create <deck name>\ndeck create <deck name>\ndeck set-activate <deck name>\n" +
-                "deck add-card --card <card name> --deck <deck name>\ndeck add-card --card <card name> --deck <deck name> --" +
-                "side\ndeck rm-card --card <card name> --deck <deck name>\ndeck rm-card --card <card name> --deck <deck name> --side\ndeck show --all\ndeck show --deck-name <deck name>\n" +
-                "deck show --deck-name <deck name> --side\ndeck show --cards\ncard show <card name>");
-    }
+    private static Stage stageMain;
 
     @Override
     public void start(Stage stage) throws Exception {
+        stageMain = stage;
+        URL urlMain = getClass().getResource("/project/fxml/deck_menu.fxml");
+        System.out.println(urlMain);
+        Parent root = FXMLLoader.load(Objects.requireNonNull(urlMain));
+        stage.setScene(new Scene(root));
+        //stage.show();
+        //stage.setFullScreen(true);
+//        stage.setResizable(false);
+//        stage.setMaximized(true);
+//        stage.setFullScreenExitHint("");
+       // stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        //stage.show();
+    }
 
+    @FXML
+    public void initialize() {
+        User mahdi = new User("mahdi", "12345", "test");
+        Objects.requireNonNull(Assets.getAssetsByUsername(mahdi.getUsername())).createDeck("test1");
+        Objects.requireNonNull(Assets.getAssetsByUsername(mahdi.getUsername())).createDeck("test2");
+        Objects.requireNonNull(Assets.getAssetsByUsername(mahdi.getUsername())).createDeck("test3");
+        Objects.requireNonNull(Assets.getAssetsByUsername(mahdi.getUsername())).createDeck("test4");
+
+        showDecks(mahdi);
+    }
+
+   private void showDecks(User user) {
+        GridPane gridPane = new GridPane();
+        ArrayList<Deck> deckArrayList = Objects.requireNonNull(Assets.getAssetsByUsername(user.getUsername())).getAllDecks();
+       System.out.println(String.valueOf(getClass().getResource("/project/image/DeckMenuPictures/DeckPicture.jpg")));
+        Image decksImage = new Image(String.valueOf(getClass().getResource("/project/image/DeckMenuPictures/DeckPicture.jpg")));
+        //Image firstImage = new Image(String.valueOf(getClass().getResource("/project/image/ProfileMenuPictures/1.jpg")));
+        ImageView deckImageView = new ImageView(decksImage);
+
+        for (int i = 0, j = 0; i < Objects.requireNonNull(Assets.getAssetsByUsername(user.getUsername())).getAllDecks().size(); i++) {
+            gridPane.addRow(i, deckImageView);
+        }
+        Scene scene = new Scene(gridPane);
+        stageMain.setScene(scene);
+        stageMain.show();
     }
 }

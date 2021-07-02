@@ -3,7 +3,7 @@ module AP.Project {
     requires javafx.controls;
     requires javafx.graphics;
     requires java.desktop;
-    requires javafx.media;
+    //requires javafx.media;
     requires gson;
     requires java.sql;
     requires opencsv;

@@ -138,6 +138,7 @@ public class ShopMenuView extends Application {
         stage.setMaximized(true);
         stage.setFullScreenExitHint("");
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        stage.show();
     }
 
     @FXML
