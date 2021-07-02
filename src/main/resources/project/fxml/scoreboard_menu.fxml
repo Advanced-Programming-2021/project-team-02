@@ -16,7 +16,7 @@
                 </HBox.margin>
                 <graphic>
                     <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/back.png" />
+                        <Image url="@../image/Icon/previous.png" />
                     </ImageView>
                 </graphic>
             <cursor>
@@ -25,7 +25,7 @@
             </Button>
             <HBox id="menuBar" alignment="CENTER" prefHeight="62.0" prefWidth="439.0" spacing="10.0">
                 <ImageView id="icon" fitWidth="35" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@../image/main_menu_icon.png" />
+                    <Image url="@../image/Icon/main_menu.png" />
                 </ImageView>
                 <Label id="menuTitle" text="Scoreboard Menu" />
                 <padding>
@@ -42,6 +42,20 @@
          <Insets bottom="50.0" left="50.0" right="50.0" top="25.0" />
       </padding>
     </VBox>
+    <ImageView fx:id="playPauseMusicButton" fitHeight="56.0" fitWidth="56.0" layoutX="1450.0" layoutY="689.0" onMouseClicked="#playPauseMusic" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../image/Icon/pause.png" />
+        <cursor>
+            <Cursor fx:constant="HAND" />
+        </cursor>
+    </ImageView>
+
+    <ImageView fx:id="muteUnmuteButton" fitHeight="56.0" fitWidth="56.0" layoutX="1450.0" layoutY="765.0" onMouseClicked="#muteUnmuteMusic" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../image/Icon/unmute.png" />
+        <cursor>
+            <Cursor fx:constant="HAND" />
+        </cursor>
+    </ImageView>
+
     <stylesheets>
         <URL value="@../CSS/scoreboard_menu_style.css" />
     </stylesheets>

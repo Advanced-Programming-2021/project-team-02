@@ -23,6 +23,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import project.model.Music;
 import project.model.User;
 import javafx.scene.image.ImageView;
 
@@ -31,6 +32,7 @@ import java.util.Objects;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import project.model.gui.Icon;
 import project.view.messages.PopUpMessage;
 import project.view.messages.ProfileMenuMessage;
 
@@ -46,6 +48,8 @@ public class ProfileMenuView extends Application {
     @FXML
     public AnchorPane anchorPane = new AnchorPane();
     public Label passwordLabel;
+    public ImageView playPauseMusicButton;
+    public ImageView muteUnmuteButton;
     @FXML
     PasswordField currentPasswordField = new PasswordField();
     @FXML
@@ -271,5 +275,25 @@ public class ProfileMenuView extends Application {
         Scene scene = new Scene(pane, 600, 600);
         window.setScene(scene);
         window.showAndWait();
+    }
+
+    public void playPauseMusic() {
+        if (playPauseMusicButton.getImage().equals(Icon.PAUSE.getImage())) {
+            playPauseMusicButton.setImage(Icon.PLAY.getImage());
+            Music.mediaPlayer.pause();
+        } else {
+            playPauseMusicButton.setImage(Icon.PAUSE.getImage());
+            Music.mediaPlayer.play();
+        }
+    }
+
+    public void muteUnmuteMusic() {
+        if (Music.mediaPlayer.isMute()) {
+            muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
+            Music.mediaPlayer.setMute(false);
+        } else {
+            muteUnmuteButton.setImage(Icon.MUTE.getImage());
+            Music.mediaPlayer.setMute(true);
+        }
     }
 }

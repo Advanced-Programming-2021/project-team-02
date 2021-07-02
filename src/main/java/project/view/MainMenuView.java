@@ -5,8 +5,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
+import project.model.Music;
+import project.model.gui.Icon;
 import project.view.messages.LoginMessage;
 import project.view.messages.PopUpMessage;
 
@@ -14,6 +17,8 @@ import java.net.URL;
 
 public class MainMenuView extends Application {
     private static Stage stage;
+    public ImageView playPauseMusicButton;
+    public ImageView muteUnmuteButton;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -57,6 +62,26 @@ public class MainMenuView extends Application {
     }
 
     public void importExportMenu() throws Exception {
+    }
+
+    public void playPauseMusic() {
+        if (playPauseMusicButton.getImage().equals(Icon.PAUSE.getImage())) {
+            playPauseMusicButton.setImage(Icon.PLAY.getImage());
+            Music.mediaPlayer.pause();
+        } else {
+            playPauseMusicButton.setImage(Icon.PAUSE.getImage());
+            Music.mediaPlayer.play();
+        }
+    }
+
+    public void muteUnmuteMusic() {
+        if (Music.mediaPlayer.isMute()) {
+            muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
+            Music.mediaPlayer.setMute(false);
+        } else {
+            muteUnmuteButton.setImage(Icon.MUTE.getImage());
+            Music.mediaPlayer.setMute(true);
+        }
     }
 
     public void logout() throws Exception {
