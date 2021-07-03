@@ -5,6 +5,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import project.controller.LoginMenuController;
@@ -74,6 +75,12 @@ public class LoginMenuView extends Application {
         else playPauseMusicButton.setImage(Icon.PLAY.getImage());
         if (Music.mediaPlayer.isMute()) muteUnmuteButton.setImage(Icon.MUTE.getImage());
         else muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
+        usernameFieldSignUp.setOnKeyPressed(k -> {if (k.getCode().equals(KeyCode.ENTER)) registerUser();});
+        nicknameFieldSignUp.setOnKeyPressed(k -> {if (k.getCode().equals(KeyCode.ENTER)) registerUser();});
+        passwordFieldSignUp.setOnKeyPressed(k -> {if (k.getCode().equals(KeyCode.ENTER)) registerUser();});
+        secondPasswordField.setOnKeyPressed(k -> {if (k.getCode().equals(KeyCode.ENTER)) registerUser();});
+//        passwordFieldLogin.setOnKeyPressed(k -> {if (k.getCode().equals(KeyCode.ENTER)) registerUser();});
+//        secondPasswordField.setOnKeyPressed(k -> {if (k.getCode().equals(KeyCode.ENTER)) registerUser();});
     }
 
 

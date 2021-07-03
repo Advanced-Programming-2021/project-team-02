@@ -1,28 +1,21 @@
 package project.view;
 
-import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import project.controller.MainMenuController;
 import project.model.Music;
 import project.model.User;
-import project.model.gui.Icon;
-import project.view.messages.PopUpMessage;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
 

@@ -3,8 +3,11 @@ package project.view;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
+import project.model.Music;
+import project.model.gui.Icon;
 import project.view.messages.PopUpMessage;
 
 public class Utility {
