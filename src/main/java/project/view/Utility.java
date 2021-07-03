@@ -3,18 +3,14 @@ package project.view;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import project.view.messages.PopUpMessage;
-
-import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Utility {
-    private HashMap<String, Image> stringImageHashMap = new HashMap<>();
+    private final HashMap<String, Image> stringImageHashMap = new HashMap<>();
     static void openNewMenu(Parent root, Node source) {
         Scene scene = new Scene(root);
         PopUpMessage.setParent(root);
@@ -83,9 +79,6 @@ public class Utility {
         stringImageHashMap.put ("Torrential Tribute",new Image(String.valueOf(getClass().getResource("/project/image/ShopMenuPictures/Traps/TorrentialTribute.jpg"))));
         stringImageHashMap.put ("Trap Hole",new Image(String.valueOf(getClass().getResource("/project/image/ShopMenuPictures/Traps/TrapHole.jpg"))));
 
-//        for (String s : stringImageHashMap.keySet() ) {
-//            System.out.println(s + "\t" + stringImageHashMap.get(s));
-//        }
     }
 
     public HashMap<String, Image> getStringImageHashMap() {
