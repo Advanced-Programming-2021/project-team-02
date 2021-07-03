@@ -1,7 +1,11 @@
 package project.controller;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import project.model.Assets;
 import project.model.Deck;
+import project.model.card.Card;
 import project.model.card.Monster;
 import project.model.card.Spell;
 import project.model.card.Trap;
@@ -9,9 +13,12 @@ import project.view.DeckMenuView;
 import project.view.messages.DeckMenuMessage;
 import project.view.messages.SuccessMessage;
 
+import java.util.Objects;
+
 public class DeckMenuController {
     private static  DeckMenuController instance = null;
     private Label openedDeck;
+    private Button openedDeckButton;
 
     private DeckMenuController(){
 
@@ -23,13 +30,12 @@ public class DeckMenuController {
         return instance;
     }
 
-    public void createDeck(String deckName) {
+    public DeckMenuMessage createDeck(String deckName) {
         if (doesDeckExist(deckName)) {
-//            view.showDynamicError(Error.DECK_EXIST, deckName);
-            return;
+            return DeckMenuMessage.DECK_ALREADY_EXIST;
         }
 //        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
-        SuccessMessage.showSuccessMessage(SuccessMessage.DECK_CREATED);
+        return DeckMenuMessage.DECK_ADDED;
 //        Objects.requireNonNull(assets).createDeck(deckName);
     }
 
@@ -257,15 +263,14 @@ public class DeckMenuController {
 
     public void removeCardFromSideDeck(String deckName, String cardName) {
 //        Deck deck;
-//        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
+//       // Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
 //        if (!doesDeckExist(deckName)) {
-//            project.view.showDynamicError(Error.DECK_NOT_EXIST, deckName);
-//            return;
+//            return C
 //        } else if (!(deck = Objects.requireNonNull(assets).getDeckByDeckName(deckName)).containsSideCard(cardName)) {
-//            project.view.showDynamicError(Error.CARD_DOES_NOT_EXIST_IN_SIDE_DECK, cardName);
+//        //    project.view.showDynamicError(Error.CARD_DOES_NOT_EXIST_IN_SIDE_DECK, cardName);
 //            return;
 //        }
-//        assets.removeCardFromSideDeck(Card.getCardByName(cardName), deck);
+//        //assets.removeCardFromSideDeck(Card.getCardByName(cardName), deck);
 //        SuccessMessage.showSuccessMessage(SuccessMessage.CARD_REMOVED);
     }
 
@@ -292,5 +297,13 @@ public class DeckMenuController {
 
     public void setOpenedDeck(Label openedDeck) {
         this.openedDeck = openedDeck;
+    }
+
+    public Button getOpenedDeckButton() {
+        return openedDeckButton;
+    }
+
+    public void setOpenedDeckButton(Button openedDeckButton) {
+        this.openedDeckButton = openedDeckButton;
     }
 }

@@ -1,21 +1,23 @@
 package project.view;
 
-import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import project.controller.DeckMenuController;
 import project.model.Assets;
 import project.model.Deck;
@@ -26,6 +28,7 @@ import project.model.card.Card;
 import project.model.card.CardsDatabase;
 import project.view.messages.DeckMenuMessage;
 import project.view.messages.PopUpMessage;
+import project.view.messages.ProfileMenuMessage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -35,8 +38,7 @@ import java.util.Objects;
 
 public class DeckMenuView  {
     private static final DeckMenuController controller = DeckMenuController.getInstance();
-    private static Stage stageMain;
-    Parent parent;
+
     HashMap<String, Image> imageHashMap;
     @FXML
     public GridPane gridPaneAsli;
@@ -80,9 +82,6 @@ public class DeckMenuView  {
 
     private void showDecks(User user) {
         ArrayList<Deck> deckArrayList = Objects.requireNonNull(Assets.getAssetsByUsername(user.getUsername())).getAllDecks();
-        ArrayList<Label> labelsOfDeckName = new ArrayList<>();
-        ArrayList<Button> buttonsForDelete = new ArrayList<>();
-        ArrayList<Button> buttonsForEdit = new ArrayList<>();
 
         int counterJ = 0;
         int counterSize = 0;
@@ -94,7 +93,6 @@ public class DeckMenuView  {
             }
 
             Label labelDeckName = new Label(deckArrayList.get(counterSize).getName());
-            labelsOfDeckName.add(labelDeckName);
             labelDeckName.setFont(Font.font("Cambria", 30));
             labelDeckName.setTextFill(Color.web("#0076a3"));
             labelDeckName.setPrefHeight(30);
@@ -126,14 +124,19 @@ public class DeckMenuView  {
             buttonDelete.setId(deckArrayList.get(i).getName());
             buttonDelete.setPrefHeight(30);
             buttonDelete.setPrefWidth(80);
-            buttonsForDelete.add(buttonDelete);
             buttonDelete.setOnAction(event -> checkDelete(buttonDelete));
 
             Button buttonEdit = new Button("edit deck");
             buttonEdit.setId(deckArrayList.get(i).getName());
             buttonEdit.setPrefHeight(30);
             buttonEdit.setPrefWidth(80);
-            buttonsForEdit.add(buttonEdit);
+            buttonEdit.setOnMouseClicked(event -> {
+                try {
+                    editDeck(event, buttonEdit);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
 
             VBox layout = new VBox(10);
             layout.setPadding(new Insets(30, 10, 10, 10));
@@ -149,9 +152,77 @@ public class DeckMenuView  {
             counterSize++;
         }
 
+        Button createDeck = new Button("Create Deck");
+        createDeck.setOnAction(actionEvent -> addDeck());
+        gridPaneAsli.add(createDeck, 0,7);
+
+//        Button back = new Button("Create Deck");
+//        back.setOnMouseClicked(actionEvent -> {
+//            try {
+//                backToMain(actionEvent);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        });
+//        gridPaneAsli.add(back, 0,7);
+
         gridPaneAsli.setPadding(new Insets(50, 10, 10, 50));
         gridPaneAsli.setVgap(100);
         gridPaneAsli.setHgap(100);
+    }
+
+    private void backToMain(javafx.scene.input.MouseEvent mouseEvent) throws IOException {
+        if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/main_menu.fxml")));
+        Utility.openNewMenu(root, (Node) mouseEvent.getSource());
+    }
+
+    private void editDeck(javafx.scene.input.MouseEvent actionEvent, Button button) throws IOException {
+        controller.setOpenedDeckButton(button);
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        URL urlMain = getClass().getResource("/project/fxml/deck_menu_info.fxml");
+        System.out.println(urlMain);
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/edit_deck_menu.fxml")));
+        Utility.openNewMenu(root, (Node) actionEvent.getSource());
+    }
+
+    private void addDeck() {
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.initStyle(StageStyle.UNDECORATED);
+        PopUpMessage.setStage(window);
+        window.setTitle("Add Deck");
+        Label currentNickNameLabel = new Label();
+        currentNickNameLabel.setText("New Deck Name :");
+        currentNickNameLabel.setFont(Font.font("Cambria", 20));
+        currentNickNameLabel.setTextFill(Color.web("#0076a3"));
+        Button addDeckButton = new Button();
+        addDeckButton.setPrefHeight(30);
+        addDeckButton.setStyle("-fx-border-color: red; -fx-text-fill: blue; -fx-font-size: 15px;");
+        addDeckButton.setText("Create Deck");
+        TextField textField = new TextField();
+        textField.setMaxSize(200, 60);
+        textField.setStyle("-fx-background-insets: 0, 0 0 1 0 ;" +
+                " -fx-background-color: grey;");
+        addDeckButton.setOnAction(event -> {
+            if (textField.getText().length() == 0) {
+                new PopUpMessage(ProfileMenuMessage.INVALID_INPUT.getAlertType(),
+                        ProfileMenuMessage.INVALID_INPUT.getLabel());
+            } else {
+                DeckMenuMessage deckMenuMessage = controller.createDeck(textField.getText());
+                new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
+            }
+        });
+        VBox layout = new VBox(10);
+        layout.setPadding(new Insets(10, 50, 50, 50));
+        layout.setMinSize(200, 200);
+        layout.getChildren().addAll(currentNickNameLabel, textField);
+        layout.getChildren().add(addDeckButton);
+        layout.setAlignment(Pos.BASELINE_LEFT);
+        Scene scene = new Scene(layout, 300, 300);
+        window.setScene(scene);
+        window.setResizable(true);
+        window.showAndWait();
     }
 
     private void showDeckInfoAsli(Label labelDeckName, javafx.scene.input.MouseEvent mouseEvent) throws IOException {
@@ -162,22 +233,6 @@ public class DeckMenuView  {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/deck_menu_info.fxml")));
         Utility.openNewMenu(root, (Node) mouseEvent.getSource());
     }
-
-
-//    private void checkDelete(Button button) {
-//        ArrayList<Deck> arrayList = Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getAllDecks();
-//        for (Deck deck : arrayList) {
-//            if (button.getId().equals(deck.getName())) {
-//                DeckMenuMessage deckMenuMessage = controller.deleteDeck(button.getId());
-//                PopUpMessage popUpMessage = new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
-//                if (popUpMessage.getAlert().getResult().getText().equals("OK")) {
-//                    gridPaneAsli.getChildren().clear();
-//                    Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).deleteDeck(button.getId());
-//                    showDecks(Objects.requireNonNull(User.getUserByUsername("mahdi")));
-//                } else PopUpMessage.getParent().setEffect(null);
-//            }
-//        }
-//    }
 
     private void checkDelete(Button button) {
         ArrayList<Deck> arrayList = Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getAllDecks();

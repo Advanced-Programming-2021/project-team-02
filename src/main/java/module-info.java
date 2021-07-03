@@ -8,7 +8,6 @@ module AP.Project {
     requires java.sql;
     requires opencsv;
     requires AnimateFX;
-    requires javafx.media;
 
     opens project.view to javafx.fxml;
     exports project.view;

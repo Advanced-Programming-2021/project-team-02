@@ -1,6 +1,8 @@
 package project.model;
 
 import project.model.card.Card;
+import project.view.messages.DeckMenuMessage;
+
 import java.util.*;
 
 public class Assets {
@@ -210,8 +212,8 @@ public class Assets {
 //        }
     }
 
-    public void removeCardFromMainDeck(Card card, Deck deck) {
-        deck.removeCardFromMainDeck(card);
+    public DeckMenuMessage removeCardFromMainDeck(int index, Deck deck) {
+        return deck.removeCardFromMainDeck(index);
 //        try {
 //            PrintWriter printWriter = new PrintWriter("assets.json");
 //            printWriter.print("");
@@ -233,8 +235,8 @@ public class Assets {
 //        }
     }
 
-    public void removeCardFromSideDeck(Card card, Deck deck) {
-        deck.removeCardFromSideDeck(card);
+    public DeckMenuMessage removeCardFromSideDeck(int index, Deck deck) {
+        return deck.removeCardFromSideDeck(index);
 //        try {
 //            PrintWriter printWriter = new PrintWriter("assets.json");
 //            printWriter.print("");
