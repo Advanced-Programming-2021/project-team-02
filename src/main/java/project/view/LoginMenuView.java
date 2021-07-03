@@ -1,27 +1,26 @@
 package project.view;
 
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.input.MouseEvent;
 import project.controller.LoginMenuController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import project.model.Assets;
-import project.model.Deck;
 import project.model.Music;
-import project.model.User;
-import project.model.card.Monster;
-import project.model.card.informationofcards.MonsterActionType;
+import project.model.card.CardsDatabase;
 import project.model.gui.Icon;
 import project.view.messages.LoginMessage;
 import project.view.messages.PopUpMessage;
 
+import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class LoginMenuView extends Application {
@@ -56,9 +55,9 @@ public class LoginMenuView extends Application {
         stage.show ();
     }
 
-    public static void main(String[] args) {
-        Music.mediaPlayer.setAutoPlay(true);
+    public static void main(String[] args) throws IOException {
         launch(args);
+        CardsDatabase.getInstance().readAndMakeCards();
     }
 
     @FXML
@@ -79,13 +78,26 @@ public class LoginMenuView extends Application {
         secondPasswordField.clear();
     }
 
-    public void loginUser() throws Exception {
+    public void loginUser(MouseEvent actionEvent) throws Exception {
         LoginMessage message = controller.loginUser (usernameFieldLogin.getText (), passwordFieldLogin.getText ());
-        PopUpMessage popUpMessage = new PopUpMessage (message.getAlertType (), message.getLabel ());
+        new PopUpMessage (message.getAlertType (), message.getLabel ());
         if (message.getAlertType().equals(Alert.AlertType.INFORMATION)) {
-            new MainMenuView().start(stage);
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/main_menu.fxml")));
+            Utility.openNewMenu(root, (Node) actionEvent.getSource());
+            PopUpMessage.getParent().setEffect(new GaussianBlur(20));
         } else PopUpMessage.getParent().setEffect(null);
-        if (!popUpMessage.getAlert ().isShowing()) PopUpMessage.getParent().setEffect(null);
+    }
+
+    public void nextTrack() {
+        Music.nextTrack();
+    }
+
+    public void playPauseMusic() {
+        Music.playPauseMusic(playPauseMusicButton);
+    }
+
+    public void muteUnmuteMusic() {
+        Music.muteUnmuteMusic(muteUnmuteButton);
     }
 
     public void exit() {
@@ -93,25 +105,5 @@ public class LoginMenuView extends Application {
         if (popUpMessage.getAlert ().getResult ().getText ().equals ("OK")) {
             System.exit (0);
         } else PopUpMessage.getParent().setEffect(null);
-    }
-
-    public void playPauseMusic() {
-        if (playPauseMusicButton.getImage().equals(Icon.PAUSE.getImage())) {
-            playPauseMusicButton.setImage(Icon.PLAY.getImage());
-            Music.mediaPlayer.pause();
-        } else {
-            playPauseMusicButton.setImage(Icon.PAUSE.getImage());
-            Music.mediaPlayer.play();
-        }
-    }
-
-    public void muteUnmuteMusic() {
-        if (Music.mediaPlayer.isMute()) {
-            muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
-            Music.mediaPlayer.setMute(false);
-        } else {
-            muteUnmuteButton.setImage(Icon.MUTE.getImage());
-            Music.mediaPlayer.setMute(true);
-        }
     }
 }

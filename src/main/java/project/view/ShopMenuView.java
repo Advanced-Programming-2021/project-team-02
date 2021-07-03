@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import project.controller.ShopMenuController;
 import java.io.IOException;
@@ -21,7 +22,7 @@ import project.model.card.CardsDatabase;
 import project.view.messages.PopUpMessage;
 import project.view.messages.ShopMenuMessage;
 
-public class ShopMenuView extends Application {
+public class ShopMenuView {
     private static ShopMenuController controller = null;
     @FXML
     public Label C1;
@@ -126,20 +127,6 @@ public class ShopMenuView extends Application {
 
     @FXML
     public Label Coin = new Label();
-
-    @Override
-    public void start(Stage stage) throws Exception {
-        URL urlMain = getClass().getResource("/project/fxml/ShopMenuView.fxml");
-        System.out.println(urlMain);
-        Parent root = FXMLLoader.load(Objects.requireNonNull(urlMain));
-        stage.setScene(new Scene(root));
-        stage.setFullScreen(true);
-        stage.setResizable(false);
-        stage.setMaximized(true);
-        stage.setFullScreenExitHint("");
-        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-        stage.show();
-    }
 
     @FXML
     public void initialize() {

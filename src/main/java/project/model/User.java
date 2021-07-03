@@ -8,7 +8,7 @@ import java.util.*;
 public class User implements Comparable<User> {
     //static FileWriter fileWriter;
     //static Gson gson = new Gson();
-    private static ArrayList<User> allUsers;
+    private static final ArrayList<User> allUsers;
 
     static {
         allUsers = new ArrayList<>();
