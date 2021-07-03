@@ -156,15 +156,15 @@ public class DeckMenuView  {
         createDeck.setOnAction(actionEvent -> addDeck());
         gridPaneAsli.add(createDeck, 0,7);
 
-//        Button back = new Button("Create Deck");
-//        back.setOnMouseClicked(actionEvent -> {
-//            try {
-//                backToMain(actionEvent);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        });
-//        gridPaneAsli.add(back, 0,7);
+        Button back = new Button("Back");
+        back.setOnMouseClicked(actionEvent -> {
+            try {
+                backToMain(actionEvent);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        gridPaneAsli.add(back, 3,7);
 
         gridPaneAsli.setPadding(new Insets(50, 10, 10, 50));
         gridPaneAsli.setVgap(100);

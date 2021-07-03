@@ -366,17 +366,23 @@ public class EditDeckMenu {
                 }
 
                 Button button = new Button("Back");
-                button.setOnAction(actionEvent -> System.exit(0));
+                button.setOnMouseClicked(actionEvent -> {
+                    try {
+                        back(actionEvent);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
                 gridScrollPane.add(button, 0, 6);
 
                 Button deleteButton = new Button("delete");
                 deleteButton.setOnAction(event -> deleteCard(deckMenuController));
                 gridScrollPane.add(deleteButton, 0, 7);
 
-                Button addButton = new Button("add");
+                Button addButton = new Button("add Card");
                 addButton.setOnMouseClicked(mouseEvent -> {
                     try {
-                        back(mouseEvent);
+                        addCards(mouseEvent);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -386,6 +392,12 @@ public class EditDeckMenu {
                 gridScrollPane.setPadding(new Insets(0, 0, -700, 0));
             }
         }
+    }
+
+    private void addCards(MouseEvent mouseEvent) throws IOException {
+        if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/deck_menu_add_card.fxml")));
+        Utility.openNewMenu(root, (Node) mouseEvent.getSource());
     }
 
     private void back(MouseEvent mouseEvent) throws IOException {
