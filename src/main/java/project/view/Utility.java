@@ -3,15 +3,19 @@ package project.view;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import project.model.Music;
+import project.model.gui.Icon;
 import project.view.messages.PopUpMessage;
 import java.util.HashMap;
 
 public class Utility {
     private final HashMap<String, Image> stringImageHashMap = new HashMap<>();
-    static void openNewMenu(Parent root, Node source) {
+
+    public static void openNewMenu(Parent root, Node source) {
         Scene scene = new Scene(root);
         PopUpMessage.setParent(root);
         Stage stage = (Stage) source.getScene().getWindow();
@@ -23,6 +27,7 @@ public class Utility {
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setFullScreenExitHint("");
         stage.show();
+
     }
 
     public void addImages() {

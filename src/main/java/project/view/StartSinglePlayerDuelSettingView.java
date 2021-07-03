@@ -13,23 +13,25 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class StartSinglePlayerDuelSettingView {
-    public void oneRoundGameWithAi(MouseEvent mouseEvent) {
+    public void oneRoundGameWithAi(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY)
             return;
         StartDuelMessage message = DuelMenuController.getInstance().startDuelWithAI(1);
         if (message == StartDuelMessage.SUCCESS) {
-//TODO
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/flip_coin_view.fxml")));
+            Utility.openNewMenu(root, (Node) mouseEvent.getSource());
         } else {
             new PopUpMessage(message.getAlertType(), message.getLabel());
         }
     }
 
-    public void matchDuelWithAi(MouseEvent mouseEvent) {
+    public void matchDuelWithAi(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY)
             return;
         StartDuelMessage message = DuelMenuController.getInstance().startDuelWithAI(3);
         if (message == StartDuelMessage.SUCCESS) {
-//TODO
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/flip_coin_view.fxml")));
+            Utility.openNewMenu(root, (Node) mouseEvent.getSource());
         } else {
             new PopUpMessage(message.getAlertType(), message.getLabel());
         }

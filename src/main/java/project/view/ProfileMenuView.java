@@ -8,7 +8,6 @@ import javafx.scene.Node;
 import javafx.scene.control.PasswordField;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -19,7 +18,6 @@ import javafx.scene.control.Button;
 import javafx.stage.StageStyle;
 import project.controller.MainMenuController;
 import project.controller.ProfileMenuController;
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -28,7 +26,6 @@ import project.model.Music;
 import project.model.User;
 import javafx.scene.image.ImageView;
 
-import java.net.URL;
 import java.util.Objects;
 
 import javafx.scene.control.Label;
@@ -36,8 +33,6 @@ import javafx.scene.control.TextField;
 import project.model.gui.Icon;
 import project.view.messages.PopUpMessage;
 import project.view.messages.ProfileMenuMessage;
-
-
 
 public class ProfileMenuView {
     private static Stage stage;
@@ -72,6 +67,7 @@ public class ProfileMenuView {
         userNameLabel.setText(user.getUsername());
         nickNameLabel.setText(user.getNickname());
         passwordLabel.setText("●".repeat(MainMenuController.getInstance().getLoggedInUser().getPassword().length()));
+
         if (Music.mediaPlayer.isAutoPlay()) playPauseMusicButton.setImage(Icon.PAUSE.getImage());
         else playPauseMusicButton.setImage(Icon.PLAY.getImage());
         if (Music.mediaPlayer.isMute()) muteUnmuteButton.setImage(Icon.MUTE.getImage());

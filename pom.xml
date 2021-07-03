@@ -15,6 +15,7 @@
         <javafx.maven.plugin.version>0.0.6</javafx.maven.plugin.version>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -57,7 +58,12 @@
             <artifactId>javafx-media</artifactId>
             <version>17-ea+11</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/io.github.typhon0/AnimateFX -->
+        <dependency>
+            <groupId>io.github.typhon0</groupId>
+            <artifactId>AnimateFX</artifactId>
+            <version>1.2.0</version>
+        </dependency>
     </dependencies>
-
 
 </project>

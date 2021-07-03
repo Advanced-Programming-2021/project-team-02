@@ -17,7 +17,7 @@ import java.util.Random;
 
 public class DuelGameController {
     private static DuelGameController instance = null;
-    private final GameView view = GameView.getInstance();
+    private  GameView view ;//= GameView.getInstance();
 
     private Duel duel;
     private String specifier;
@@ -36,17 +36,14 @@ public class DuelGameController {
     }
 
     public void startDuel(Duel duel) {
-        view.showSuccessMessage(SuccessMessage.GAME_STARTED);
         this.duel = duel;
         duel.setCurrentRound(1);
-        starterSpecifier();
         if (duel.isWithAi()) {
             //TODO MenusManager.getInstance().changeMenu(Menu.ONGOING_GAME_WITH_AI);
             return;
         }
         //TODO MenusManager.getInstance().changeMenu(Menu.ONGOING_GAME);
     }
-
     public void startNextRound() {
         DuelPlayer first;
         DuelPlayer second;
@@ -57,8 +54,8 @@ public class DuelGameController {
             first = duel.getPlayer1();
             second = duel.getPlayer2();
         }
-        view.showSuccessMessage(SuccessMessage.GAME_STARTED);
-        RoundGameController.getInstance().setRoundInfo(first, second, GameView.getInstance(), this, duel.isWithAi());
+        //view.showSuccessMessage(SuccessMessage.GAME_STARTED);
+       // RoundGameController.getInstance().setRoundInfo(first, second, GameView.getInstance(), this, duel.isWithAi());
 
     }
 
@@ -190,8 +187,8 @@ public class DuelGameController {
             winnerLife = duel.getPlayer2().getLifePoint();
         }
         Objects.requireNonNull(User.getUserByNickName(winner.getNickname())).increaseScore(1000);
-        view.showSuccessMessageWithTwoIntegerAndOneString(SuccessMessage.WIN_MESSAGE_ROUND_MATCH, Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
-                .getUsername(), winnerLife, loserLife);
+        //view.showSuccessMessageWithTwoIntegerAndOneString(SuccessMessage.WIN_MESSAGE_ROUND_MATCH, Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
+        //        .getUsername(), winnerLife, loserLife);
 
     }
 
@@ -212,10 +209,10 @@ public class DuelGameController {
         if (endRoundNum == 2)
             lost = 0;
         else lost = 1;
-        view.showSuccessMessageWithTwoIntegerAndOneStringForSeveralWins(SuccessMessage.WIN_MESSAGE_FOR_HOLE_MATCH,
-                Objects.requireNonNull(Objects.requireNonNull(User.getUserByNickName(winner.getNickname())).getUsername()),
-                2, lost
-        );
+        //view.showSuccessMessageWithTwoIntegerAndOneStringForSeveralWins(SuccessMessage.WIN_MESSAGE_FOR_HOLE_MATCH,
+        //        Objects.requireNonNull(Objects.requireNonNull(User.getUserByNickName(winner.getNickname())).getUsername()),
+        //        2, lost
+        //);
 
     }
 
