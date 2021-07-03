@@ -11,7 +11,7 @@ import project.model.gui.Icon;
 import project.view.messages.PopUpMessage;
 
 public class Utility {
-    static void openNewMenu(Parent root, Node source) {
+    public static void openNewMenu(Parent root, Node source) {
         Scene scene = new Scene(root);
         PopUpMessage.setParent(root);
         Stage stage = (Stage) source.getScene().getWindow();
@@ -23,5 +23,6 @@ public class Utility {
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setFullScreenExitHint("");
         stage.show();
+
     }
 }

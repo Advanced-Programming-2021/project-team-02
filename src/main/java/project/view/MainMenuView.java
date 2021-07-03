@@ -1,5 +1,6 @@
 package project.view;
 
+import animatefx.animation.FadeIn;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -38,19 +39,21 @@ public class MainMenuView {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/duel_start_menu.fxml")));
         Utility.openNewMenu(root, (Node) actionEvent.getSource());
+        new FadeIn(root).play();
     }
 
     public void scoreboardMenu(MouseEvent actionEvent) throws Exception {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/scoreboard_menu.fxml")));
         Utility.openNewMenu(root, (Node) actionEvent.getSource());
-//        Utility.initializeMusic(ScoreBoardView.);
+        new FadeIn(root).play();
     }
 
     public void profileMenu(MouseEvent actionEvent) throws Exception {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/profile_menu.fxml")));
         Utility.openNewMenu(root, (Node) actionEvent.getSource());
+        new FadeIn(root).play();
     }
 
     public void shopMenu(MouseEvent actionEvent) throws Exception {

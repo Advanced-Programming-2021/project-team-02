@@ -1,5 +1,9 @@
 package project.view.gameview;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.input.MouseEvent;
 import project.controller.playgame.RoundGameController;
 import project.model.Deck;
 import project.model.card.Card;
@@ -8,25 +12,19 @@ import project.model.card.informationofcards.CardType;
 import project.model.game.board.Cell;
 import project.model.game.board.CellStatus;
 import project.view.DeckMenuView;
+import project.view.Utility;
 import project.view.input.Input;
 import project.view.input.Regex;
 import project.view.messages.Error;
 import project.view.messages.SuccessMessage;
 
+import java.io.IOException;
+import java.util.Objects;
 import java.util.regex.Matcher;
 
 public class GameView {
-    private static GameView instance = null;
     private final RoundGameController controller = RoundGameController.getInstance();
 
-    private GameView() {
-    }
-
-    public static GameView getInstance() {
-        if (instance == null)
-            instance = new GameView();
-        return instance;
-    }
 
     public void runGameWithAi() {
         String command = "";
@@ -73,7 +71,7 @@ public class GameView {
         else if (Regex.getMatcher(Regex.BOARD_GAME_SUMMON, command).matches())
             controller.summonMonster();
         else if (Regex.getMatcher(Regex.GRAVEYARD_SHOW, command).matches())
-            instance.showCurrentGraveYard(true);
+            showCurrentGraveYard(true);
         else if (Regex.getMatcher(Regex.CARD_SHOW_SELECTED, command).matches()) {
             if (controller.getSelectedCell() == null) {
                 showError(Error.NO_CARD_SELECTED_YET);
@@ -469,7 +467,7 @@ public class GameView {
     public void showOpponentGraveYard() {
         int counter = 1;
         if (controller.getOpponentPlayer().getPlayerBoard().isGraveYardEmpty())
-            instance.showError(Error.EMPTY_GRAVEYARD);
+            showError(Error.EMPTY_GRAVEYARD);
         else {
             for (Card card : controller.getCurrentPlayer().getPlayerBoard().returnGraveYard().getGraveYardCards()) {
                 System.out.println(counter + ". " + card.getName() + ":" + card.getDescription());
@@ -508,5 +506,10 @@ public class GameView {
                 "card show --selected\n" +
                 "cancel\n" +
                 "help");
+    }
+
+    public void back(MouseEvent mouseEvent) throws IOException {
+        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/duel_start_menu.fxml")));
+        Utility.openNewMenu(parent, (Node) mouseEvent.getSource());
     }
 }
