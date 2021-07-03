@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="pane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.gameview.FlipCoinView">
+    <stylesheets>
+        <URL value="@../CSS/flip_coin_style.css" />
+    </stylesheets>
+   <children>
+      <VBox alignment="CENTER" layoutX="39.0" layoutY="132.0" prefHeight="344.0" prefWidth="349.0" spacing="10.0">
+         <children>
+            <ImageView fx:id="coinImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+             <Button id="button" onMouseClicked="#flipCoin" layoutX="226.0" layoutY="530.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="214.0" text="Flip coin" />
+             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="firstPlayerCoin" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label fx:id="firstPlayerNickname" alignment="CENTER" prefHeight="150.0" prefWidth="100.0" text="Label" />
+                  <Label fx:id="secondPlayerNickname" alignment="CENTER" prefHeight="150.0" prefWidth="100.0" text="Label" />
+                  <ImageView fx:id="secondPlayerCoin" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" />
+               </children></HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

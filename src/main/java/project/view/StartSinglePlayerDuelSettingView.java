@@ -18,7 +18,7 @@ public class StartSinglePlayerDuelSettingView {
             return;
         StartDuelMessage message = DuelMenuController.getInstance().startDuelWithAI(1);
         if (message == StartDuelMessage.SUCCESS) {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/round_view.fxml")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/flip_coin_view.fxml")));
             Utility.openNewMenu(root, (Node) mouseEvent.getSource());
         } else {
             new PopUpMessage(message.getAlertType(), message.getLabel());
@@ -30,7 +30,7 @@ public class StartSinglePlayerDuelSettingView {
             return;
         StartDuelMessage message = DuelMenuController.getInstance().startDuelWithAI(3);
         if (message == StartDuelMessage.SUCCESS) {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/round_view.fxml")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/flip_coin_view.fxml")));
             Utility.openNewMenu(root, (Node) mouseEvent.getSource());
         } else {
             new PopUpMessage(message.getAlertType(), message.getLabel());

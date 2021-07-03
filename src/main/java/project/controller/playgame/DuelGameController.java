@@ -36,17 +36,14 @@ public class DuelGameController {
     }
 
     public void startDuel(Duel duel) {
-        //view.showSuccessMessage(SuccessMessage.GAME_STARTED);
         this.duel = duel;
         duel.setCurrentRound(1);
-        starterSpecifier();
         if (duel.isWithAi()) {
             //TODO MenusManager.getInstance().changeMenu(Menu.ONGOING_GAME_WITH_AI);
             return;
         }
         //TODO MenusManager.getInstance().changeMenu(Menu.ONGOING_GAME);
     }
-
     public void startNextRound() {
         DuelPlayer first;
         DuelPlayer second;
