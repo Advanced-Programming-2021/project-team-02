@@ -69,9 +69,6 @@ public class LoginMenuView extends Application {
         else muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
     }
 
-    public static Stage getStage() {
-        return stage;
-    }
 
     public void registerUser() {
         LoginMessage message = controller.createUser (usernameFieldSignUp.getText (), nicknameFieldSignUp.getText (), passwordFieldSignUp.getText (), secondPasswordField.getText ());
