@@ -7,6 +7,7 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import project.controller.LoginMenuController;
 import javafx.application.Application;
@@ -46,7 +47,6 @@ public class LoginMenuView extends Application {
         CardsDatabase.getInstance().readAndMakeCards();
         createSomeUser();
         launch(args);
-
     }
 
     @Override
@@ -71,7 +71,7 @@ public class LoginMenuView extends Application {
 
     @FXML
     public void initialize() {
-        if (Music.mediaPlayer.isAutoPlay()) playPauseMusicButton.setImage(Icon.PAUSE.getImage());
+        if (!Music.isMediaPlayerPaused) playPauseMusicButton.setImage(Icon.PAUSE.getImage());
         else playPauseMusicButton.setImage(Icon.PLAY.getImage());
         if (Music.mediaPlayer.isMute()) muteUnmuteButton.setImage(Icon.MUTE.getImage());
         else muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
@@ -115,7 +115,8 @@ public class LoginMenuView extends Application {
         Music.muteUnmuteMusic(muteUnmuteButton);
     }
 
-    public void exit() {
+    public void exit(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
         if (popUpMessage.getAlert().getResult().getText().equals("OK")) {
             System.exit(0);

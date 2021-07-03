@@ -20,6 +20,7 @@ public enum Music {
     public static MediaPlayer mediaPlayer;
     public static ArrayList<Media> playlist = new ArrayList<>();
     public static int counter;
+    public static boolean isMediaPlayerPaused = false;
 
     static {
         playlist.add(A_REMARKABLE_MAN.media);
@@ -61,9 +62,11 @@ public enum Music {
         if (playPauseMusicButton.getImage().equals(Icon.PAUSE.getImage())) {
             playPauseMusicButton.setImage(Icon.PLAY.getImage());
             Music.mediaPlayer.pause();
+            isMediaPlayerPaused = true;
         } else {
             playPauseMusicButton.setImage(Icon.PAUSE.getImage());
             Music.mediaPlayer.play();
+            isMediaPlayerPaused = false;
         }
     }
 

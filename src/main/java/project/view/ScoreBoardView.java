@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 import project.controller.MainMenuController;
 import project.model.Music;
 import project.model.User;
+import project.model.gui.Icon;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -29,6 +30,11 @@ public class ScoreBoardView {
 
     @FXML
     public void initialize() {
+        if (!Music.isMediaPlayerPaused) playPauseMusicButton.setImage(Icon.PAUSE.getImage());
+        else playPauseMusicButton.setImage(Icon.PLAY.getImage());
+        if (Music.mediaPlayer.isMute()) muteUnmuteButton.setImage(Icon.MUTE.getImage());
+        else muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
+
         ArrayList<User> allUsers = User.sortAllUsers();
         secondBox.setPadding(new Insets(10, 10, 10, 10));
         HBox[] hBoxes = new HBox[Math.min(10, allUsers.size())];
