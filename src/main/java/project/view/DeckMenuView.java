@@ -24,6 +24,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import project.model.card.Card;
 import project.model.card.CardsDatabase;
+import project.view.messages.DeckMenuMessage;
+import project.view.messages.PopUpMessage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -31,9 +33,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class DeckMenuView extends Application {
+public class DeckMenuView  {
     private static final DeckMenuController controller = DeckMenuController.getInstance();
     private static Stage stageMain;
+    Parent parent;
     HashMap<String, Image> imageHashMap;
     @FXML
     public GridPane gridPaneAsli;
@@ -44,20 +47,7 @@ public class DeckMenuView extends Application {
 
     @FXML
     public static Label labelDeck;
-    @Override
-    public void start(Stage stage) throws Exception {
-        stageMain = stage;
-        URL urlMain = getClass().getResource("/project/fxml/deck_menu.fxml");
-        System.out.println(urlMain);
-        Parent root = FXMLLoader.load(Objects.requireNonNull(urlMain));
-        stage.setScene(new Scene(root));
-      //  stage.setFullScreen(true);
-       // stage.setResizable(false);
-      //  stage.setMaximized(true);
-      //  stage.setFullScreenExitHint("");
-      //  stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-        stage.show();
-    }
+
 
     @FXML
     public void initialize() {
@@ -165,6 +155,7 @@ public class DeckMenuView extends Application {
     }
 
     private void showDeckInfoAsli(Label labelDeckName, javafx.scene.input.MouseEvent mouseEvent) throws IOException {
+        controller.setOpenedDeck(labelDeckName);
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
         URL urlMain = getClass().getResource("/project/fxml/deck_menu_info.fxml");
         System.out.println(urlMain);
@@ -173,10 +164,34 @@ public class DeckMenuView extends Application {
     }
 
 
+//    private void checkDelete(Button button) {
+//        ArrayList<Deck> arrayList = Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getAllDecks();
+//        for (Deck deck : arrayList) {
+//            if (button.getId().equals(deck.getName())) {
+//                DeckMenuMessage deckMenuMessage = controller.deleteDeck(button.getId());
+//                PopUpMessage popUpMessage = new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
+//                if (popUpMessage.getAlert().getResult().getText().equals("OK")) {
+//                    gridPaneAsli.getChildren().clear();
+//                    Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).deleteDeck(button.getId());
+//                    showDecks(Objects.requireNonNull(User.getUserByUsername("mahdi")));
+//                } else PopUpMessage.getParent().setEffect(null);
+//            }
+//        }
+//    }
+
     private void checkDelete(Button button) {
         ArrayList<Deck> arrayList = Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getAllDecks();
         for (Deck deck : arrayList) {
-            if (button.getId().equals(deck.getName())) System.out.println(deck.getName());
+            if (button.getId().equals(deck.getName())) {
+                DeckMenuMessage deckMenuMessage = controller.deleteDeck(button.getId());
+                PopUpMessage popUpMessage = new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
+                if (popUpMessage.getAlert().getResult().getText().equals("OK")) {
+                    gridPaneAsli.getChildren().clear();
+                    Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).deleteDeck(button.getId());
+                    showDecks(Objects.requireNonNull(User.getUserByUsername("mahdi")));
+                }
+                PopUpMessage.getParent().setEffect(null);
+            }
         }
     }
 }

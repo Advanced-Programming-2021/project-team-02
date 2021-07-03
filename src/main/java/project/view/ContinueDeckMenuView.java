@@ -8,10 +8,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import project.controller.DeckMenuController;
 import project.model.Assets;
 import project.model.Deck;
 import project.model.User;
 import project.model.card.Card;
+import project.view.messages.DeckMenuMessage;
+import project.view.messages.PopUpMessage;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -22,6 +25,8 @@ public class ContinueDeckMenuView {
 
     @FXML
     public void initialize() {
+        DeckMenuController controller = DeckMenuController.getInstance();
+        Label label = controller.getOpenedDeck();
         Utility utility = new Utility();
         utility.addImages();
         for (String s : utility.getStringImageHashMap().keySet()) {
@@ -173,15 +178,126 @@ public class ContinueDeckMenuView {
                 Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test1"));
         Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToSideDeck(Card.getCardByName("Horn Imp"),
                 Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test1"));
-        showDeckInfo(utility);
+
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Leotron "),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Leotron "),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Leotron "),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Leotron "),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Leotron "),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Leotron "),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Leotron "),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Leotron "),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Leotron "),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Leotron "),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Leotron "),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Leotron "),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Leotron "),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Leotron "),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Leotron "),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Leotron "),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Leotron "),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Leotron "),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Leotron "),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Leotron "),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Leotron "),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Leotron "),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Leotron "),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Leotron "),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Leotron "),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Leotron "),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Leotron "),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToSideDeck(Card.getCardByName("Horn Imp"),
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test2"));
+        showDeckInfo(utility, label, controller);
     }
 
-    public void showDeckInfo(Utility utility) {
+    public void showDeckInfo(Utility utility, Label label1, DeckMenuController deckMenuController) {
         ArrayList<Deck> arrayList = Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getAllDecks();
         for (Deck deck : arrayList) {
             int counter = 0;
             int i, j;
-            if (deck.getName().equals("test1")) {
+            if (deck.getName().equals(label1.getText())) {
 
                 for (i = 0, j = 0; counter < deck.getMainCards().size(); ) {
                     if (i >= 15) {
@@ -226,11 +342,19 @@ public class ContinueDeckMenuView {
                 }
                 Button button = new Button("Back");
                 button.setOnAction(actionEvent -> System.exit(0));
-                gridPaneInfo.add(button,0 , k+1);
+                gridPaneInfo.add(button,0 , 6);
                 Button button1 = new Button("Set Deck Active");
-                button1.setOnAction(actionEvent -> System.exit(0));
-                gridPaneInfo.add(button1, 0, k+2);
+                button1.setOnAction(actionEvent -> activateDeck(label, deckMenuController));
+                gridPaneInfo.add(button1, 0, 7);
             }
         }
+    }
+
+    private void activateDeck(Label label, DeckMenuController deckMenuController) {
+        DeckMenuMessage deckMenuMessage = deckMenuController.activateDeck(label.getText());
+        PopUpMessage popUpMessage = new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
+        if (popUpMessage.getAlert().getResult().getText().equals("OK")) {
+            System.exit(0);
+        } else PopUpMessage.getParent().setEffect(null);
     }
 }

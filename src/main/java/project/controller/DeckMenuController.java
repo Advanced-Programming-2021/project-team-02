@@ -1,14 +1,17 @@
 package project.controller;
 
+import javafx.scene.control.Label;
 import project.model.Deck;
 import project.model.card.Monster;
 import project.model.card.Spell;
 import project.model.card.Trap;
 import project.view.DeckMenuView;
+import project.view.messages.DeckMenuMessage;
 import project.view.messages.SuccessMessage;
 
 public class DeckMenuController {
     private static  DeckMenuController instance = null;
+    private Label openedDeck;
 
     private DeckMenuController(){
 
@@ -30,24 +33,22 @@ public class DeckMenuController {
 //        Objects.requireNonNull(assets).createDeck(deckName);
     }
 
-    public void deleteDeck(String deckName) {
+    public DeckMenuMessage deleteDeck(String deckName) {
         if (!doesDeckExist(deckName)) {
-//            view.showDynamicError(Error.DECK_NOT_EXIST, deckName);
-            return;
+            return DeckMenuMessage.DECK_DOES_NOT_EXIST;
         }
 //        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
-        SuccessMessage.showSuccessMessage(SuccessMessage.DECK_DELETED);
+        return DeckMenuMessage.DECK_DELETED;
 //        Objects.requireNonNull(assets).deleteDeck(deckName);
     }
 
-    public void activateDeck(String deckName) {
+    public DeckMenuMessage activateDeck(String deckName) {
 //        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
         if (!doesDeckExist(deckName)) {
-//            view.showDynamicError(Error.DECK_NOT_EXIST, deckName);
-            return;
+            return DeckMenuMessage.DECK_DOES_NOT_EXIST;
         }
 //        Objects.requireNonNull(assets).activateDeck(deckName);
-        SuccessMessage.showSuccessMessage(SuccessMessage.DECK_ACTIVATED);
+        return DeckMenuMessage.DECK_ACTIVATED;
     }
 
     public void addCardToMainDeck(String deckName, String cardName) {
@@ -285,4 +286,11 @@ public class DeckMenuController {
         return false;
     }
 
+    public Label getOpenedDeck() {
+        return openedDeck;
+    }
+
+    public void setOpenedDeck(Label openedDeck) {
+        this.openedDeck = openedDeck;
+    }
 }

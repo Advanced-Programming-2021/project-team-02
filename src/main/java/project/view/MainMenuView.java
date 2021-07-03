@@ -30,7 +30,7 @@ public class MainMenuView {
 
     public void deckMenu(MouseEvent actionEvent) throws IOException {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/duel_start_menu.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/deck_menu.fxml")));
         Utility.openNewMenu(root, (Node) actionEvent.getSource());
     }
 
