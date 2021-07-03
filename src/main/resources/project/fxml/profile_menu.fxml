@@ -167,14 +167,22 @@
          <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
       </padding>
    </VBox>
-   <ImageView fx:id="playPauseMusicButton" fitHeight="56.0" fitWidth="56.0" layoutX="1450.0" layoutY="689.0" onMouseClicked="#playPauseMusic" pickOnBounds="true" preserveRatio="true">
+
+   <ImageView fitHeight="56.0" fitWidth="56.0" layoutX="1450.0" layoutY="625.0" onMouseClicked="#nextTrack" pickOnBounds="true" preserveRatio="true">
+      <Image url="@../image/Icon/next_track.png" />
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
+   </ImageView>
+
+   <ImageView fx:id="playPauseMusicButton" fitHeight="56.0" fitWidth="56.0" layoutX="1450.0" layoutY="700.0" onMouseClicked="#playPauseMusic" pickOnBounds="true" preserveRatio="true">
       <Image url="@../image/Icon/pause.png" />
       <cursor>
          <Cursor fx:constant="HAND" />
       </cursor>
    </ImageView>
 
-   <ImageView fx:id="muteUnmuteButton" fitHeight="56.0" fitWidth="56.0" layoutX="1450.0" layoutY="765.0" onMouseClicked="#muteUnmuteMusic" pickOnBounds="true" preserveRatio="true">
+   <ImageView fx:id="muteUnmuteButton" fitHeight="56.0" fitWidth="56.0" layoutX="1450.0" layoutY="775.0" onMouseClicked="#muteUnmuteMusic" pickOnBounds="true" preserveRatio="true">
       <Image url="@../image/Icon/unmute.png" />
       <cursor>
          <Cursor fx:constant="HAND" />

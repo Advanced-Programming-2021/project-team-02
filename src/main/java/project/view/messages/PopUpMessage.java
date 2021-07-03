@@ -17,8 +17,9 @@ public class PopUpMessage {
     private Alert alert;
 
     public PopUpMessage(Alert.AlertType alertType, String label) {
+        Alert alert;
         if (alertType.equals (Alert.AlertType.ERROR)) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert = new Alert(Alert.AlertType.ERROR);
             setAlert(alert);
             DialogPane dialogPane = alert.getDialogPane();
             dialogPane.setHeaderText(null);
@@ -37,7 +38,7 @@ public class PopUpMessage {
             alert.show();
             alert.setOnCloseRequest(dialogEvent -> parent.setEffect(null));
         } else if (alertType.equals (Alert.AlertType.INFORMATION)) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert = new Alert(Alert.AlertType.INFORMATION);
             setAlert(alert);
             DialogPane dialogPane = alert.getDialogPane();
             dialogPane.setHeaderText(null);
@@ -56,7 +57,7 @@ public class PopUpMessage {
             alert.show();
             alert.setOnCloseRequest(dialogEvent -> parent.setEffect(null));
         } else if (alertType.equals (Alert.AlertType.CONFIRMATION)) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert = new Alert(Alert.AlertType.CONFIRMATION);
             setAlert(alert);
             DialogPane dialogPane = alert.getDialogPane();
             dialogPane.setHeaderText(null);

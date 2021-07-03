@@ -134,28 +134,20 @@ public class ScoreBoardView {
         }
     }
 
-    public void back(MouseEvent actionEvent) throws Exception {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/main_menu.fxml")));
-        Utility.openNewMenu(root, (Node) actionEvent.getSource());
+    public void nextTrack() {
+        Music.nextTrack();
     }
 
     public void playPauseMusic() {
-        if (playPauseMusicButton.getImage().equals(Icon.PAUSE.getImage())) {
-            playPauseMusicButton.setImage(Icon.PLAY.getImage());
-            Music.mediaPlayer.pause();
-        } else {
-            playPauseMusicButton.setImage(Icon.PAUSE.getImage());
-            Music.mediaPlayer.play();
-        }
+        Music.playPauseMusic(playPauseMusicButton);
     }
 
     public void muteUnmuteMusic() {
-        if (Music.mediaPlayer.isMute()) {
-            muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
-            Music.mediaPlayer.setMute(false);
-        } else {
-            muteUnmuteButton.setImage(Icon.MUTE.getImage());
-            Music.mediaPlayer.setMute(true);
-        }
+        Music.muteUnmuteMusic(muteUnmuteButton);
+    }
+
+    public void back(MouseEvent actionEvent) throws Exception {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/main_menu.fxml")));
+        Utility.openNewMenu(root, (Node) actionEvent.getSource());
     }
 }

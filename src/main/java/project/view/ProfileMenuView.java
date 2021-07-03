@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.PasswordField;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
@@ -38,7 +39,7 @@ import project.view.messages.ProfileMenuMessage;
 
 
 
-public class ProfileMenuView extends Application {
+public class ProfileMenuView {
     private static Stage stage;
     private static ProfileMenuController controller = null;
     @FXML
@@ -61,21 +62,6 @@ public class ProfileMenuView extends Application {
 
     private final User user = new User("mahdi", "12345", "test");
 
-    @Override
-    public void start(Stage stage) throws Exception {
-        ProfileMenuView.stage = stage;
-        URL urlMain = getClass().getResource("/project/fxml/profile_menu.fxml");
-        Parent root = FXMLLoader.load(Objects.requireNonNull(urlMain));
-        PopUpMessage.setParent(root);
-        stage.setScene(new Scene(root));
-        stage.setFullScreen(true);
-        stage.setResizable(false);
-        stage.setMaximized(true);
-        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-        stage.setFullScreenExitHint("");
-        stage.show();
-    }
-
     @FXML
     public void initialize() {
         MainMenuController.getInstance().setLoggedInUser(user);
@@ -89,10 +75,6 @@ public class ProfileMenuView extends Application {
         else playPauseMusicButton.setImage(Icon.PLAY.getImage());
         if (Music.mediaPlayer.isMute()) muteUnmuteButton.setImage(Icon.MUTE.getImage());
         else muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
-    }
-
-    public void back() throws Exception {
-        new MainMenuView().start(stage);
     }
 
     public void changeUsername() {
@@ -281,23 +263,20 @@ public class ProfileMenuView extends Application {
         window.showAndWait();
     }
 
+    public void nextTrack() {
+        Music.nextTrack();
+    }
+
     public void playPauseMusic() {
-        if (playPauseMusicButton.getImage().equals(Icon.PAUSE.getImage())) {
-            playPauseMusicButton.setImage(Icon.PLAY.getImage());
-            Music.mediaPlayer.pause();
-        } else {
-            playPauseMusicButton.setImage(Icon.PAUSE.getImage());
-            Music.mediaPlayer.play();
-        }
+        Music.playPauseMusic(playPauseMusicButton);
     }
 
     public void muteUnmuteMusic() {
-        if (Music.mediaPlayer.isMute()) {
-            muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
-            Music.mediaPlayer.setMute(false);
-        } else {
-            muteUnmuteButton.setImage(Icon.MUTE.getImage());
-            Music.mediaPlayer.setMute(true);
-        }
+        Music.muteUnmuteMusic(muteUnmuteButton);
+    }
+
+    public void back(MouseEvent actionEvent) throws Exception {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/main_menu.fxml")));
+        Utility.openNewMenu(root, (Node) actionEvent.getSource());
     }
 }

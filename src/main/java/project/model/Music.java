@@ -1,15 +1,17 @@
 package project.model;
 
+import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import project.model.gui.Icon;
 
 import java.net.URL;
 import java.util.ArrayList;
 
 public enum Music {
-//    A_REMARKABLE_MAN(Music.class.getResource("/project/music/A_Remarkable_Man.mp3")),
-//    A_REMARKABLE_MAN(Music.class.getResource("/project/music/A_Remarkable_Man.mp3")),
-//    A_REMARKABLE_MAN(Music.class.getResource("/project/music/A_Remarkable_Man.mp3")),
+    RUMBLING(Music.class.getResource("/project/music/Rumbling.mp3")),
+    ACCESS_POINT(Music.class.getResource("/project/music/Access_Point.mp3")),
+    NEW_HORIZONS(Music.class.getResource("/project/music/New_Horizons.mp3")),
     CHAOS(Music.class.getResource("/project/music/Chaos.mp3")),
     A_REMARKABLE_MAN(Music.class.getResource("/project/music/A_Remarkable_Man.mp3"));
 
@@ -22,14 +24,17 @@ public enum Music {
     static {
         playlist.add(A_REMARKABLE_MAN.media);
         playlist.add(CHAOS.media);
-        counter = 0;
+        playlist.add(NEW_HORIZONS.media);
+        playlist.add(ACCESS_POINT.media);
+        playlist.add(RUMBLING.media);
         mediaPlayer = new MediaPlayer(playlist.get(counter));
-        mediaPlayer.setOnEndOfMedia(new Runnable() {
-            public void run() {
-                if (counter != playlist.size() - 1) counter++;
-                else counter = 0;
-                mediaPlayer = new MediaPlayer(playlist.get(counter));
-            }
+        mediaPlayer.setAutoPlay(true);
+        counter = 0;
+        mediaPlayer.setOnEndOfMedia(() -> {
+            if (counter != playlist.size() - 1) counter++;
+            else counter = 0;
+            mediaPlayer = new MediaPlayer(playlist.get(counter));
+            mediaPlayer.setAutoPlay(true);
         });
     }
 
@@ -40,5 +45,39 @@ public enum Music {
 
     public void setUrl(URL url) {
         this.url = url;
+    }
+
+    public static void nextTrack() {
+        mediaPlayer.stop();
+        if (counter != playlist.size() - 1) counter++;
+        else counter = 0;
+        mediaPlayer = new MediaPlayer(playlist.get(counter));
+        mediaPlayer.setAutoPlay(true);
+        mediaPlayer.setOnEndOfMedia(() -> {
+            if (counter != playlist.size() - 1) counter++;
+            else counter = 0;
+            mediaPlayer = new MediaPlayer(playlist.get(counter));
+            mediaPlayer.setAutoPlay(true);
+        });
+    }
+
+    public static void playPauseMusic(ImageView playPauseMusicButton) {
+        if (playPauseMusicButton.getImage().equals(Icon.PAUSE.getImage())) {
+            playPauseMusicButton.setImage(Icon.PLAY.getImage());
+            Music.mediaPlayer.pause();
+        } else {
+            playPauseMusicButton.setImage(Icon.PAUSE.getImage());
+            Music.mediaPlayer.play();
+        }
+    }
+
+    public static void muteUnmuteMusic(ImageView muteUnmuteButton) {
+        if (Music.mediaPlayer.isMute()) {
+            muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
+            Music.mediaPlayer.setMute(false);
+        } else {
+            muteUnmuteButton.setImage(Icon.MUTE.getImage());
+            Music.mediaPlayer.setMute(true);
+        }
     }
 }

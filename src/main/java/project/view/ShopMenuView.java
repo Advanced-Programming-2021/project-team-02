@@ -3,10 +3,12 @@ package project.view;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import project.controller.ShopMenuController;
 import java.io.IOException;
@@ -21,7 +23,7 @@ import project.model.card.CardsDatabase;
 import project.view.messages.PopUpMessage;
 import project.view.messages.ShopMenuMessage;
 
-public class ShopMenuView extends Application {
+public class ShopMenuView {
     private static ShopMenuController controller = null;
     @FXML
     public Label C1;
@@ -126,19 +128,6 @@ public class ShopMenuView extends Application {
 
     @FXML
     public Label Coin = new Label();
-
-    @Override
-    public void start(Stage stage) throws Exception {
-        URL urlMain = getClass().getResource("/project/fxml/ShopMenuView.fxml");
-        System.out.println(urlMain);
-        Parent root = FXMLLoader.load(Objects.requireNonNull(urlMain));
-        stage.setScene(new Scene(root));
-        stage.setFullScreen(true);
-        stage.setResizable(false);
-        stage.setMaximized(true);
-        stage.setFullScreenExitHint("");
-        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-    }
 
     @FXML
     public void initialize() {
@@ -461,7 +450,8 @@ public class ShopMenuView extends Application {
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void back() {
-        System.exit(0);
+    public void back(MouseEvent actionEvent) throws Exception {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/main_menu.fxml")));
+        Utility.openNewMenu(root, (Node) actionEvent.getSource());
     }
 }
