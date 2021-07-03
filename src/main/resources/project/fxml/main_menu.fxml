@@ -2,11 +2,11 @@
 
 <?import java.net.*?>
 <?import javafx.geometry.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.scene.Cursor?>
 <AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.MainMenuView">
     <VBox id="firstBox" alignment="CENTER" layoutX="125.0" layoutY="85.0" prefHeight="558.0" prefWidth="550.0" spacing="25.0">
         <ImageView fitHeight="137.0" fitWidth="368.0" pickOnBounds="true" preserveRatio="true">
@@ -105,8 +105,8 @@
          <Insets bottom="35.0" left="35.0" right="35.0" top="30.0" />
       </padding>
     </VBox>
-    <Button id="button" layoutX="347.0" layoutY="667.0" mnemonicParsing="false" onMouseClicked="#logout" text="Logout" />
-    <Button id="button" layoutX="331.0" layoutY="733.0" mnemonicParsing="false" onMouseClicked="#exit" text="Exit Game" />
+    <Button id="button" layoutX="347.0" layoutY="678.0" mnemonicParsing="false" onMouseClicked="#logout" text="Logout" />
+    <Button id="button" alignment="CENTER" contentDisplay="CENTER" layoutX="330.0" layoutY="753.0" mnemonicParsing="false" onMouseClicked="#exit" text="Exit Game" textAlignment="CENTER" />
 
     <ImageView fitHeight="56.0" fitWidth="56.0" layoutX="1450.0" layoutY="625.0" onMouseClicked="#nextTrack" pickOnBounds="true" preserveRatio="true">
         <Image url="@../image/Icon/next_track.png" />

@@ -15,6 +15,7 @@
         <javafx.maven.plugin.version>0.0.6</javafx.maven.plugin.version>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -58,6 +59,5 @@
             <version>17-ea+11</version>
         </dependency>
     </dependencies>
-
 
 </project>

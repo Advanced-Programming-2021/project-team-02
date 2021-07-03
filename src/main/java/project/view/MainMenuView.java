@@ -44,6 +44,7 @@ public class MainMenuView {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/scoreboard_menu.fxml")));
         Utility.openNewMenu(root, (Node) actionEvent.getSource());
+//        Utility.initializeMusic(ScoreBoardView.);
     }
 
     public void profileMenu(MouseEvent actionEvent) throws Exception {

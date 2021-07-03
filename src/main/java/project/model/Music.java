@@ -27,15 +27,8 @@ public enum Music {
         playlist.add(NEW_HORIZONS.media);
         playlist.add(ACCESS_POINT.media);
         playlist.add(RUMBLING.media);
-        mediaPlayer = new MediaPlayer(playlist.get(counter));
-        mediaPlayer.setAutoPlay(true);
         counter = 0;
-        mediaPlayer.setOnEndOfMedia(() -> {
-            if (counter != playlist.size() - 1) counter++;
-            else counter = 0;
-            mediaPlayer = new MediaPlayer(playlist.get(counter));
-            mediaPlayer.setAutoPlay(true);
-        });
+        newMediaPlayer();
     }
 
     Music(URL url) {
@@ -47,18 +40,21 @@ public enum Music {
         this.url = url;
     }
 
-    public static void nextTrack() {
-        mediaPlayer.stop();
-        if (counter != playlist.size() - 1) counter++;
-        else counter = 0;
+    public static void newMediaPlayer() {
         mediaPlayer = new MediaPlayer(playlist.get(counter));
         mediaPlayer.setAutoPlay(true);
         mediaPlayer.setOnEndOfMedia(() -> {
             if (counter != playlist.size() - 1) counter++;
             else counter = 0;
-            mediaPlayer = new MediaPlayer(playlist.get(counter));
-            mediaPlayer.setAutoPlay(true);
+            newMediaPlayer();
         });
+    }
+
+    public static void nextTrack() {
+        mediaPlayer.stop();
+        if (counter != playlist.size() - 1) counter++;
+        else counter = 0;
+        newMediaPlayer();
     }
 
     public static void playPauseMusic(ImageView playPauseMusicButton) {
