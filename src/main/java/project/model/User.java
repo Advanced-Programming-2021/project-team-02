@@ -25,6 +25,7 @@ public class User implements Comparable<User> {
         }
         assets.activateDeck("aiDeck");
 
+
     }
 
     private String username;

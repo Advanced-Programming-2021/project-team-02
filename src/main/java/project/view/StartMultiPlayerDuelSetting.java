@@ -19,7 +19,7 @@ public class StartMultiPlayerDuelSetting {
 
     public TextField username;
 
-    public void oneRoundMultiPlayerGame(MouseEvent mouseEvent) {
+    public void oneRoundMultiPlayerGame(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY)
             return;
         if (username.getText().equals("")) {
@@ -28,13 +28,14 @@ public class StartMultiPlayerDuelSetting {
         }
         StartDuelMessage message = DuelMenuController.getInstance().startDuelWithOtherPlayer(username.getText(), 1);
         if (message == StartDuelMessage.SUCCESS) {
-            //TODO
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/round_view.fxml")));
+            Utility.openNewMenu(root, (Node) mouseEvent.getSource());
         } else {
             new PopUpMessage(message.getAlertType(), message.getLabel());
         }
     }
 
-    public void matchDuelMultiPlayer(MouseEvent mouseEvent) {
+    public void matchDuelMultiPlayer(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY)
             return;
         if (username.getText().equals("")) {
@@ -43,7 +44,8 @@ public class StartMultiPlayerDuelSetting {
         }
         StartDuelMessage message = DuelMenuController.getInstance().startDuelWithOtherPlayer(username.getText(), 3);
         if (message == StartDuelMessage.SUCCESS) {
-            //TODO
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/round_view.fxml")));
+            Utility.openNewMenu(root, (Node) mouseEvent.getSource());
         } else {
             new PopUpMessage(message.getAlertType(), message.getLabel());
         }
