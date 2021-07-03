@@ -23,7 +23,7 @@ public class MainMenuView {
 
     @FXML
     public void initialize() {
-        if (Music.mediaPlayer.isAutoPlay()) playPauseMusicButton.setImage(Icon.PAUSE.getImage());
+        if (!Music.isMediaPlayerPaused) playPauseMusicButton.setImage(Icon.PAUSE.getImage());
         else playPauseMusicButton.setImage(Icon.PLAY.getImage());
         if (Music.mediaPlayer.isMute()) muteUnmuteButton.setImage(Icon.MUTE.getImage());
         else muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
