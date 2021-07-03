@@ -85,6 +85,10 @@ public class ProfileMenuView extends Application {
         userNameLabel.setText(user.getUsername());
         nickNameLabel.setText(user.getNickname());
         passwordLabel.setText("●".repeat(MainMenuController.getInstance().getLoggedInUser().getPassword().length()));
+        if (Music.mediaPlayer.isAutoPlay()) playPauseMusicButton.setImage(Icon.PAUSE.getImage());
+        else playPauseMusicButton.setImage(Icon.PLAY.getImage());
+        if (Music.mediaPlayer.isMute()) muteUnmuteButton.setImage(Icon.MUTE.getImage());
+        else muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
     }
 
     public void back() throws Exception {

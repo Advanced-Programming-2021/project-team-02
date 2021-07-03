@@ -1,6 +1,7 @@
 package project.view;
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -40,6 +41,14 @@ public class MainMenuView extends Application {
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setFullScreenExitHint("");
         stage.show();
+    }
+
+    @FXML
+    public void initialize() {
+        if (Music.mediaPlayer.isAutoPlay()) playPauseMusicButton.setImage(Icon.PAUSE.getImage());
+        else playPauseMusicButton.setImage(Icon.PLAY.getImage());
+        if (Music.mediaPlayer.isMute()) muteUnmuteButton.setImage(Icon.MUTE.getImage());
+        else muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
     }
 
     public void deckMenu() throws Exception {
