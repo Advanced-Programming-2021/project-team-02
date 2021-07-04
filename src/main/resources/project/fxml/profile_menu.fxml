@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.ProfileMenuView">
-   <VBox id="firstBox" alignment="CENTER" layoutX="70.0" layoutY="175.0" prefHeight="521.0" prefWidth="766.0" spacing="30.0">
+   <VBox id="firstBox" alignment="CENTER" layoutX="75.0" layoutY="180.0" prefHeight="521.0" prefWidth="766.0" spacing="30.0">
       <HBox alignment="CENTER_LEFT">
          <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#back" style="-fx-background-color: #00062b" textAlignment="CENTER">
             <HBox.margin>
@@ -37,13 +37,13 @@
          </HBox>
       </HBox>
       <HBox id="secondBox" prefHeight="332.0" prefWidth="706.0" spacing="30.0">
-         <VBox prefHeight="290.0" prefWidth="362.0" spacing="7.0">
-            <HBox id="row" alignment="CENTER_LEFT" spacing="15.0">
+         <VBox alignment="CENTER" prefHeight="286.0" prefWidth="382.0" spacing="7.0">
+            <HBox id="row" alignment="CENTER" spacing="15.0">
                <Label id="textField" text="Username">
                   <padding>
                      <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                   </padding></Label>
-               <Label id="label" fx:id="userNameLabel" prefHeight="36.0" prefWidth="161.0" text="Username Label">
+               <Label id="label" fx:id="userNameLabel" prefHeight="36.0" prefWidth="200.0" text="Username Label">
                   <padding>
                      <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                   </padding>
@@ -69,12 +69,12 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </HBox>
-            <HBox id="row" alignment="CENTER_LEFT" spacing="15.0">
+            <HBox id="row" alignment="CENTER" spacing="15.0">
                <Label id="textField" text="Nickname">
                   <padding>
                      <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                   </padding></Label>
-               <Label id="label" fx:id="nickNameLabel" prefHeight="36.0" prefWidth="161.0" text="Nickname Label">
+               <Label id="label" fx:id="nickNameLabel" prefHeight="36.0" prefWidth="200.0" text="Nickname Label">
                   <padding>
                      <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                   </padding>
@@ -98,12 +98,12 @@
                   <Insets bottom="5.0" left="5.0" top="5.0" />
                </padding>
             </HBox>
-            <HBox id="row" alignment="CENTER_LEFT" spacing="15.0">
+            <HBox id="row" alignment="CENTER" spacing="15.0">
                <Label id="textField" text="Password">
                   <padding>
                      <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                   </padding></Label>
-               <Label id="label" fx:id="passwordLabel" prefHeight="36.0" prefWidth="161.0" text="Password Label">
+               <Label id="label" fx:id="passwordLabel" prefHeight="36.0" prefWidth="200.0" text="Password Label">
                   <padding>
                      <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                   </padding>
@@ -134,12 +134,12 @@
                      <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                   </padding>
          </VBox>
-         <VBox prefHeight="228.0" prefWidth="254.0" spacing="15.0" style="-fx-background-color: #323c46; -fx-background-radius: 15;">
-         <ImageView fx:id="profileImageView" fitHeight="150.0" fitWidth="223.0" pickOnBounds="true" preserveRatio="true" />
+         <VBox prefHeight="223.0" prefWidth="230.0" spacing="15.0" style="-fx-background-color: #323c46; -fx-background-radius: 15;">
+         <ImageView fx:id="profileImageView" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
             <HBox alignment="CENTER_LEFT">
-               <Label style="-fx-text-fill: #ffd500;" text="Profile Picture">
+               <Label prefHeight="18.0" prefWidth="105.0" style="-fx-text-fill: #ffd500;" text="Profile Picture">
                   <HBox.margin>
-                     <Insets right="85.0" />
+                     <Insets right="55.0" />
                   </HBox.margin></Label>
                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#changeProfilePicture" prefHeight="27.0" prefWidth="27.0" style="-fx-background-color: #21282f; -fx-background-radius: 5;" textAlignment="CENTER">
                   <graphic>
@@ -156,11 +156,11 @@
                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
             </padding>
             <HBox.margin>
-               <Insets bottom="70.0" />
+               <Insets />
             </HBox.margin>
          </VBox>
          <padding>
-            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+            <Insets bottom="50.0" left="30.0" right="30.0" top="50.0" />
          </padding>
       </HBox>
       <padding>

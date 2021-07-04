@@ -3,7 +3,6 @@ package project.view;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
@@ -15,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import project.controller.ProfileMenuController;
 import project.model.Assets;
 import project.model.Deck;
 import project.model.Music;
@@ -99,8 +99,7 @@ public class LoginMenuView extends Application {
         if (message.getAlertType().equals(Alert.AlertType.INFORMATION)) {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/main_menu.fxml")));
             Utility.openNewMenu(root, (Node) actionEvent.getSource());
-            PopUpMessage.getParent().setEffect(new GaussianBlur(20));
-        } else PopUpMessage.getParent().setEffect(null);
+        }
     }
 
     public void nextTrack() {
@@ -120,12 +119,11 @@ public class LoginMenuView extends Application {
         PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
         if (popUpMessage.getAlert().getResult().getText().equals("OK")) {
             System.exit(0);
-        } else PopUpMessage.getParent().setEffect(null);
+        }
     }
 
     private static void createSomeUser() {
         ArrayList<Monster> allMonsters = Monster.getAllMonsters();
-        ;
         User erfan = new User("erfanmjb", "erfanmjb", "erfanmjb");
         Assets erfanAsset = Assets.getAssetsByUsername("erfanmjb");
         Objects.requireNonNull(erfanAsset).createDeck("erfan");

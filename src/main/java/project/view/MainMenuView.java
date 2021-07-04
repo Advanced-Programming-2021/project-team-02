@@ -9,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import project.model.Music;
 import project.model.gui.Icon;
 import project.view.messages.LoginMessage;
@@ -88,7 +89,7 @@ public class MainMenuView {
         if (popUpMessage.getAlert().getResult().getText().equals("OK")) {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/login_menu.fxml")));
             Utility.openNewMenu(root, (Node) actionEvent.getSource());
-        } else PopUpMessage.getParent().setEffect(null);
+        }
     }
 
     public void exit(MouseEvent actionEvent) {
@@ -96,6 +97,6 @@ public class MainMenuView {
         PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
         if (popUpMessage.getAlert().getResult().getText().equals("OK")) {
             System.exit(0);
-        } else PopUpMessage.getParent().setEffect(null);
+        }
     }
 }
