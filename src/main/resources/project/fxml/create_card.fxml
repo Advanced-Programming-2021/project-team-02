@@ -26,8 +26,8 @@
       <Button fx:id="submit" layoutX="262.0" layoutY="540.0" mnemonicParsing="false" onAction="#createCard" text="Create Card" />
       <Label fx:id="effect" layoutX="220.0" layoutY="466.0" prefHeight="18.0" prefWidth="163.0" />
       <Label layoutX="14.0" layoutY="25.0" prefHeight="26.0" prefWidth="200.0" text="Effects : " />
-      <Label fx:id="price" layoutX="244.0" layoutY="494.0" prefHeight="36.0" prefWidth="106.0" text="1000" />
+      <Label fx:id="price" layoutX="456.0" layoutY="384.0" prefHeight="36.0" prefWidth="106.0" />
       <TextField fx:id="level" layoutX="223.0" layoutY="170.0" promptText="Level" />
-      <Button fx:id="calculatePrice" layoutX="484.0" layoutY="362.0" mnemonicParsing="false" onAction="#calculatePrice" text="Calculate Price" />
+      <Button fx:id="calculatePrice" layoutX="463.0" layoutY="430.0" mnemonicParsing="false" onAction="#calculatePrice" text="Calculate Price" />
    </children>
 </AnchorPane>

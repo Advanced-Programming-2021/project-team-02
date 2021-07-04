@@ -41,7 +41,7 @@ public class CreateCards {
         level.setVisible(true);
         cardType = "Monster";
         listView.getItems().clear();
-        listView.getItems().addAll("Yomi Ship", "Man-Eater Bug", "Gate Guardian", "Beast King Barbaros", "Exploder Dragon", "The Tricky");
+        listView.getItems().addAll("Yomi Ship", "Man-Eater Bug", "Gate Guardian", "Beast King Barbaros", "Exploder Dragon", "The Tricky", "No Effect");
         //listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
@@ -69,91 +69,153 @@ public class CreateCards {
     }
 
     public void createCard(ActionEvent event) {
+        String effect = String.valueOf(listView.getSelectionModel().getSelectedItems());
+        String replacementForEffect = effect.substring(1, effect.length() - 1);
         if (cardType == null) {
-            new PopUpMessage(CreateCardMessage.FILL_THE_BLANKS.getAlertType(), CreateCardMessage.FILL_THE_BLANKS.getLabel());
+            new PopUpMessage(CreateCardMessage.SELECT_TYPE.getAlertType(), CreateCardMessage.SELECT_TYPE.getLabel());
         } else if (enterCardName.getText().length() == 0 || description.getText().length() == 0) {
             new PopUpMessage(CreateCardMessage.FILL_THE_BLANKS.getAlertType(), CreateCardMessage.FILL_THE_BLANKS.getLabel());
         } else if (cardType.equals("Monster") && (attack.getText().length() == 0 || defense.getText().length() == 0 || level.getText().length() == 0)) {
             new PopUpMessage(CreateCardMessage.FILL_THE_BLANKS.getAlertType(), CreateCardMessage.FILL_THE_BLANKS.getLabel());
+        } else if (replacementForEffect.length() == 0) {
+            new PopUpMessage(CreateCardMessage.SELECT_EFFECT.getAlertType(), CreateCardMessage.SELECT_EFFECT.getLabel());
         } else checkListViewAndMakeCard();
     }
 
     private void checkListViewAndMakeCard() {
+        // effect bracket dare : solve
+        // manfi boodane attack o defense o level :
+        // khali boodan effect : solve
         String effect = String.valueOf(listView.getSelectionModel().getSelectedItems());
+        String replacementForEffect = effect.substring(1, effect.length() - 1);
         if (cardType.equals("Monster")) {
-            if (effect.equals("No Effect")) {
+            if (replacementForEffect.equals("No Effect")) {
                 CardsDatabase.makeCardMonster(CardType.MONSTER, enterCardName.getText(), "ID", MonsterActionType.NORMAL,
                         null, Integer.parseInt(level.getText()), Attribute.DARK, description.getText(),
                         Integer.parseInt(attack.getText()), Integer.parseInt(defense.getText()), MonsterType.PYRO, Integer.parseInt(price.getText()));
             } else {
                 CardsDatabase.makeCardMonster(CardType.MONSTER, enterCardName.getText(), "ID", MonsterActionType.NORMAL,
-                        MonsterEffect.getMonsterEffectByName(effect), Integer.parseInt(level.getText()), Attribute.DARK, description.getText(),
+                        MonsterEffect.getMonsterEffectByName(replacementForEffect), Integer.parseInt(level.getText()), Attribute.DARK, description.getText(),
                         Integer.parseInt(attack.getText()), Integer.parseInt(defense.getText()), MonsterType.PYRO, Integer.parseInt(price.getText()));
             }
         } else if (cardType.equals("Spell")) {
-            CardsDatabase.makeCardSpell(CardType.SPELL, enterCardName.getText(), "ID", SpellEffect.getSpellByName(effect),
-                    Attribute.DARK, description.getText(), SpellType.getSpellTypeByTypeName(effect),
+            CardsDatabase.makeCardSpell(CardType.SPELL, enterCardName.getText(), "ID", SpellEffect.getSpellByName(replacementForEffect),
+                    Attribute.DARK, description.getText(), SpellType.getSpellTypeByTypeName(replacementForEffect),
                     false, Integer.parseInt(price.getText()));
         } else {
-            CardsDatabase.makeTrapCard(CardType.TRAP, enterCardName.getText(), "ID", TrapEffect.getTrapEffectByName(effect),
-                    Attribute.DARK, description.getText(), TrapType.getTrapTypeByTypeName(effect),
+            CardsDatabase.makeTrapCard(CardType.TRAP, enterCardName.getText(), "ID", TrapEffect.getTrapEffectByName(replacementForEffect),
+                    Attribute.DARK, description.getText(), TrapType.getTrapTypeByTypeName(replacementForEffect),
                     false, Integer.parseInt(price.getText()));
         }
-        System.out.println(effect);
+        System.out.println(replacementForEffect);
     }
 
 
     public void calculatePrice(ActionEvent event) {
         String effect = String.valueOf(listView.getSelectionModel().getSelectedItems());
-        System.out.println(effect);
         if (cardType == null) {
-            new PopUpMessage(CreateCardMessage.FILL_THE_BLANKS.getAlertType(), CreateCardMessage.FILL_THE_BLANKS.getLabel());
+            new PopUpMessage(CreateCardMessage.SELECT_TYPE.getAlertType(), CreateCardMessage.SELECT_TYPE.getLabel());
         } else if (cardType.equals("Monster")) {
-
+            if (attack.getText().length() == 0 && defense.getText().length() == 0 && level.getText().length() == 0) {
+                new PopUpMessage(CreateCardMessage.FILL_THE_BLANKS.getAlertType(), CreateCardMessage.FILL_THE_BLANKS.getLabel());
+            } else {
+                int cardPrice = 0;
+                if (level.getText().length() != 0) {
+                    if (Integer.parseInt(level.getText()) > 8) {
+                        cardPrice += (Integer.parseInt(level.getText()) - 8) * 5000 + (Integer.parseInt(level.getText())) * 1200;
+                    } else if (Integer.parseInt(level.getText()) <= 8) {
+                        cardPrice += (Integer.parseInt(level.getText())) * 1200;
+                    }
+                }
+                if (attack.getText().length() != 0) {
+                    if (Integer.parseInt(attack.getText()) > 3500) {
+                        cardPrice += (Integer.parseInt(attack.getText()) - 3500) / 100 * 1000 + (Integer.parseInt(attack.getText()) - 2500) / 100 * 500;
+                    } else if (Integer.parseInt(attack.getText()) <= 3500 && Integer.parseInt(attack.getText()) > 2500) {
+                        cardPrice += (Integer.parseInt(attack.getText()) - 2500) / 100 * 500 + 200;
+                    } else if (Integer.parseInt(attack.getText()) <= 2500) {
+                        cardPrice += 200;
+                    }
+                }
+                if (defense.getText().length() != 0) {
+                    if (Integer.parseInt(defense.getText()) > 3500) {
+                        cardPrice += (Integer.parseInt(defense.getText()) - 3500) / 100 * 1000 + (Integer.parseInt(defense.getText()) - 2500) / 100 * 500;
+                    } else if (Integer.parseInt(defense.getText()) <= 3500 && Integer.parseInt(attack.getText()) > 2500) {
+                        cardPrice += (Integer.parseInt(defense.getText()) - 2500) / 100 * 500 + 200;
+                    } else if (Integer.parseInt(defense.getText()) <= 2500) {
+                        cardPrice += 200;
+                    }
+                }
+                if (!effect.equals("[No Effect]")) {
+                    cardPrice += 2000;
+                }
+                price.setText(String.valueOf(cardPrice));
+            }
         } else if (cardType.equals("Spell") && effect != null) {
             switch (effect) {
                 case "[Advanced Ritual Art]":
                     price.setText("2000");
-                case "Black Pendant":
+                    break;
+                case "[Black Pendant]":
                     price.setText("2250");
-                case "Sword of dark destruction":
+                    break;
+                case "[Sword of dark destruction]":
                     price.setText("2500");
-                case "Umiiruka":
+                    break;
+                case "[Umiiruka]":
                     price.setText("2750");
-                case "Closed Forest":
+                    break;
+                case "[Closed Forest]":
                     price.setText("3000");
-                case "Forest":
+                    break;
+                case "[Forest]":
                     price.setText("3250");
-                case "Yami":
+                    break;
+                case "[Yami]":
                     price.setText("3500");
-                case "Dark Hole":
+                    break;
+                case "[Dark Hole]":
                     price.setText("3750");
-                case "Harpie's Feather Duster":
+                    break;
+                case "[Harpie's Feather Duster]":
                     price.setText("4000");
-                case "Raigeki":
+                    break;
+                case "[Raigeki]":
                     price.setText("4250");
-                case "Pot of Greed":
+                    break;
+                case "[Pot of Greed]":
                     price.setText("4500");
-                case "Terraforming":
+                    break;
+                case "[Terraforming]":
                     price.setText("5000");
-                case "Monster Reborn":
+                    break;
+                case "[Monster Reborn]":
                     price.setText("5250");
+                    break;
+                default:
+                    new PopUpMessage(CreateCardMessage.SELECT_EFFECT.getAlertType(), CreateCardMessage.SELECT_EFFECT.getLabel());
+                    break;
             }
         } else if (cardType.equals("Trap") && effect != null) {
             switch (effect) {
-                case "Trap Hole":
+                case "[Trap Hole]":
                     price.setText("3000");
-                case "Mirror Force":
+                    break;
+                case "[Mirror Force]":
                     price.setText("3500");
-                case "Magic Cylinder":
+                    break;
+                case "[Magic Cylinder]":
                     price.setText("4000");
-                case "Torrential Tribute":
+                    break;
+                case "[Torrential Tribute]":
                     price.setText("4500");
-                case "Negate Attack":
+                    break;
+                case "[Negate Attack]":
                     price.setText("5000");
+                    break;
+                default:
+                    new PopUpMessage(CreateCardMessage.SELECT_EFFECT.getAlertType(), CreateCardMessage.SELECT_EFFECT.getLabel());
+                    break;
             }
-        } else {
-            new PopUpMessage(CreateCardMessage.SELECT_EFFECT.getAlertType(), CreateCardMessage.SELECT_EFFECT.getLabel());
         }
     }
 }
