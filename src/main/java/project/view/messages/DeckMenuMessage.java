@@ -10,6 +10,10 @@ public enum DeckMenuMessage {
     DECK_DOES_NOT_EXIST("there is no deck with this name", Alert.AlertType.ERROR),
     CARD_DOES_NOT_EXIST("there is no card with this name", Alert.AlertType.ERROR),
     CARD_DELETED("ِCard deleted successfully", Alert.AlertType.CONFIRMATION),
+    CARD_ADDED_TO_SIDE("Card successfully added to side deck", Alert.AlertType.CONFIRMATION),
+    CARD_ADDED_TO_MAIN("Card successfully added to main deck", Alert.AlertType.CONFIRMATION),
+    MAXIMUM("you have maximum number of this card", Alert.AlertType.CONFIRMATION),
+    DECK_FULL("deck is full", Alert.AlertType.ERROR),
     YOU_DID_NOT_SELECT_ANY_CARD("you should select a cards first", Alert.AlertType.ERROR);
 
     private final String label;

@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -204,13 +205,18 @@ public class DeckMenuView  {
         textField.setMaxSize(200, 60);
         textField.setStyle("-fx-background-insets: 0, 0 0 1 0 ;" +
                 " -fx-background-color: grey;");
-        addDeckButton.setOnAction(event -> {
+        addDeckButton.setOnMouseClicked(event -> {
             if (textField.getText().length() == 0) {
                 new PopUpMessage(ProfileMenuMessage.INVALID_INPUT.getAlertType(),
                         ProfileMenuMessage.INVALID_INPUT.getLabel());
             } else {
                 DeckMenuMessage deckMenuMessage = controller.createDeck(textField.getText());
                 new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
+                try {
+                    loadAddCard(event);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
         VBox layout = new VBox(10);
@@ -231,6 +237,12 @@ public class DeckMenuView  {
         URL urlMain = getClass().getResource("/project/fxml/deck_menu_info.fxml");
         System.out.println(urlMain);
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/deck_menu_info.fxml")));
+        Utility.openNewMenu(root, (Node) mouseEvent.getSource());
+    }
+
+    private void loadAddCard(MouseEvent mouseEvent) throws IOException {
+        if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/deck_menu.fxml")));
         Utility.openNewMenu(root, (Node) mouseEvent.getSource());
     }
 
