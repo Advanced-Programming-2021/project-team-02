@@ -23,7 +23,6 @@ public class Utility {
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setFullScreenExitHint("");
         stage.show();
-
     }
 
     public static void setCurrentStage(Stage currentStage) {

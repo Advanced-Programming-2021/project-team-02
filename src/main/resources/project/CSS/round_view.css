@@ -19,8 +19,11 @@
 }
 #gamePane{
     -fx-background-color:  #00062b;
+    -fx-background-radius: 15;
 }
+
 #Cell {
     /*-fx-background-color: #444040;*/
     -fx-border-color: white;
+    -fx-border-radius: 5;
 }
