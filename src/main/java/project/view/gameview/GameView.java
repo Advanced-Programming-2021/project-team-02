@@ -36,12 +36,17 @@ public class GameView {
     public GridPane currentPlayerSpellZone;
     public GridPane opponentPlayerMonsterZone;
     public GridPane opponentPlayerSpellZone;
+    public ImageView opponentPlayerAvatar;
+    public ImageView currentPlayerAvatar;
 
     public void initialize() {
         currentPlayerLP.setText("LP : 8000");
         currentPlayerNickname.setText("Nickname : " + RoundGameController.getInstance().getCurrentPlayer().getNickname());
         opponentPlayerLP.setText("LP : 8000");
         opponentPlayerNickname.setText("Nickname : " + RoundGameController.getInstance().getOpponentPlayer().getNickname());
+        currentPlayerAvatar.setImage(new Image(RoundGameController.getInstance().getCurrentPlayer().getAvatar().getUrl().toString()));
+        opponentPlayerAvatar.setImage(new Image(RoundGameController.getInstance().getOpponentPlayer().getAvatar().getUrl().toString()));
+
     }
 
     public void runGameWithAi() {
