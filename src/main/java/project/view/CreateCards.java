@@ -77,6 +77,9 @@ public class CreateCards {
             new PopUpMessage(CreateCardMessage.FILL_THE_BLANKS.getAlertType(), CreateCardMessage.FILL_THE_BLANKS.getLabel());
         } else if (cardType.equals("Monster") && (attack.getText().length() == 0 || defense.getText().length() == 0 || level.getText().length() == 0)) {
             new PopUpMessage(CreateCardMessage.FILL_THE_BLANKS.getAlertType(), CreateCardMessage.FILL_THE_BLANKS.getLabel());
+        } else if (cardType.equals("Monster") && (Integer.parseInt(attack.getText()) < 1000 ||
+                Integer.parseInt(defense.getText()) < 1000 || Integer.parseInt(level.getText()) < 2)) {
+            new PopUpMessage(CreateCardMessage.PAY_ATTENTION_TO_MINIMUMS.getAlertType(), CreateCardMessage.PAY_ATTENTION_TO_MINIMUMS.getLabel());
         } else if (replacementForEffect.length() == 0) {
             new PopUpMessage(CreateCardMessage.SELECT_EFFECT.getAlertType(), CreateCardMessage.SELECT_EFFECT.getLabel());
         } else checkListViewAndMakeCard();
