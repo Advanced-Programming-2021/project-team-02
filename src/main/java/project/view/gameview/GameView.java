@@ -1,7 +1,10 @@
 package project.view.gameview;
 
+import javafx.animation.TranslateTransition;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
@@ -14,6 +17,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
+import javafx.util.Duration;
 import project.controller.playgame.RoundGameController;
 import project.model.Deck;
 import project.model.card.Card;
@@ -26,6 +31,8 @@ import project.view.input.Input;
 import project.view.input.Regex;
 import project.view.messages.Error;
 import project.view.messages.SuccessMessage;
+
+import javafx.geometry.Point2D;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,6 +61,7 @@ public class GameView {
     public GridPane opponentHand;
     public GridPane currentHand;
     public AnchorPane mainGamePane;
+    public Label phaseLabel;
     private Image backCardImage = new Image(getClass().getResource("/project/image/GamePictures/Card Back.png").toString());
 
     public void initialize() {
@@ -67,7 +75,15 @@ public class GameView {
         selectedCardDescriptionLabel.setText("No card selected");
         RoundGameController.getInstance().setView(this);
         loadHandCards();
-
+        currentPlayerDeckPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getButton() != MouseButton.PRIMARY)
+                    return;
+                RoundGameController.getInstance().drawCardFromDeck();
+            }
+        });
+        phaseLabel.setText("Current Phase : Draw");
     }
 
     public Image getCardImageByName(String cardName) {
@@ -75,8 +91,10 @@ public class GameView {
         util.addImages();
         HashMap<String, Image> stringImageHashMap = util.getStringImageHashMap();
         for (String name : stringImageHashMap.keySet()) {
-            if (name.equals(cardName))
+            if (name.equals(cardName)) {
+                System.out.println("card found");
                 return stringImageHashMap.get(name);
+            }
         }
         return null;
     }
@@ -84,15 +102,13 @@ public class GameView {
     private void loadHandCards() {
         ArrayList<Card> currentPlayerHandList = (ArrayList<Card>) RoundGameController.getInstance().getCurrentPlayerHand();
         int counter = 0;
-        ;
         for (Card card : currentPlayerHandList) {
             System.out.println(card.getName());
-//            Pane pane = new Pane();
-//            pane.setPrefWidth(120);
-//            pane.setPrefHeight(126);
             ImageView cardImageView = new ImageView(getCardImageByName(card.getName()));
             cardImageView.setFitHeight(160);
             cardImageView.setFitWidth(116);
+            cardImageView.setCursor(Cursor.HAND);
+
             cardImageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
@@ -102,20 +118,24 @@ public class GameView {
                     selectedCardDescriptionLabel.setText(card.toString());
                 }
             });
-            //pane.getChildren().add(cardImageView);
+            //TODO
+            cardImageView.setOnMouseEntered(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    cardImageView.setStyle("-fx-border-color: #66973b");
+                    cardImageView.hoverProperty();
+                }
+            });
             currentHand.add(cardImageView, counter, 0);
             counter++;
         }
         counter = 0;
         ArrayList<Card> opponentHandList = (ArrayList<Card>) RoundGameController.getInstance().getOpponentPlayerHand();
         for (Card card : opponentHandList) {
-//            Pane pane = new Pane();
-//            pane.setPrefWidth(120);
-//            pane.setPrefHeight(126);
             ImageView cardImageView = new ImageView(backCardImage);
             cardImageView.setFitHeight(160);
             cardImageView.setFitWidth(116);
-            //pane.getChildren().add(cardImageView);
+            cardImageView.setCursor(Cursor.HAND);
             cardImageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
@@ -129,8 +149,78 @@ public class GameView {
             counter++;
         }
         opponentDeckLabel.setText(String.valueOf(RoundGameController.getInstance().getOpponentPlayer().getPlayDeck().getMainCards().size()));
-        currentDeckLabel.setText(String.valueOf(RoundGameController.getInstance().getOpponentPlayer().getPlayDeck().getMainCards().size()));
+        currentDeckLabel.setText(String.valueOf(RoundGameController.getInstance().getCurrentPlayer().getPlayDeck().getMainCards().size()));
+    }
 
+    public void drawCardFromDeckAnimation(String cardName) {
+        Point2D deck = currentPlayerDeckPane.localToScene(new Point2D(0, 0));
+        ImageView cardImageView = new ImageView();
+        cardImageView.setCursor(Cursor.HAND);
+        cardImageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getButton() != MouseButton.PRIMARY)
+                    return;
+                selectedCardImageView.setImage(cardImageView.getImage());
+                selectedCardDescriptionLabel.setText(Card.getCardByName(cardName).toString());
+            }
+        });
+        cardImageView.setFitHeight(160);
+        cardImageView.setFitWidth(116);
+        cardImageView.setImage(getCardImageByName(cardName));
+
+        //Translate transition :
+        TranslateTransition translateTransition = new TranslateTransition();
+        int addressOfAddInGrid = RoundGameController.getInstance().getCurrentPlayerHand().size() - 1;//zero based!
+
+
+        Node node = getNodeInGridPane(currentHand, 0, addressOfAddInGrid - 1);
+        Point2D nodePoint = node.localToScene(new Point2D(0, 0));
+        translateTransition.setNode(cardImageView);
+        translateTransition.setFromX(deck.getX());
+        translateTransition.setFromY(deck.getY());
+        translateTransition.setToX(nodePoint.getX() + 120);
+        translateTransition.setToY(nodePoint.getY());
+        translateTransition.setDuration(Duration.millis(2000));
+        translateTransition.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                translateTransition.setNode(null);
+                ImageView imageView = new ImageView(getCardImageByName(cardName));
+                imageView.setFitHeight(160);
+                imageView.setFitWidth(116);
+                imageView.setCursor(Cursor.HAND);
+                imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        if (mouseEvent.getButton() != MouseButton.PRIMARY)
+                            return;
+                        selectedCardImageView.setImage(cardImageView.getImage());
+                        selectedCardDescriptionLabel.setText(Card.getCardByName(cardName).toString());
+                    }
+                });
+                currentHand.add(imageView, addressOfAddInGrid, 0);
+                mainGamePane.getChildren().remove(cardImageView);
+            }
+        });
+
+
+        mainGamePane.getChildren().add(cardImageView);
+        translateTransition.play();
+        updateCurrentDeckLabel();
+
+    }
+
+    private Node getNodeInGridPane(GridPane gridPane, int row, int column) {
+        for (Node child : gridPane.getChildren()) {
+            if (GridPane.getRowIndex(child) == row && GridPane.getColumnIndex(child) == column)
+                return (Node) child;
+        }
+        return null;
+    }
+
+    private void updateCurrentDeckLabel() {
+        currentDeckLabel.setText(String.valueOf(RoundGameController.getInstance().getCurrentPlayer().getPlayDeck().getMainCards().size()));
     }
 
     public void runGameWithAi() {
@@ -618,5 +708,10 @@ public class GameView {
     public void back(MouseEvent mouseEvent) throws IOException {
         Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/duel_start_menu.fxml")));
         Utility.openNewMenu(parent, (Node) mouseEvent.getSource());
+    }
+
+    public void nextPhase(MouseEvent mouseEvent) {
+        RoundGameController.getInstance().nextPhase();
+        phaseLabel.setText("Current Phase : " + RoundGameController.getInstance().getCurrentPhase().toString());
     }
 }

@@ -133,7 +133,7 @@
                 <Label fx:id="currentDeckLabel" alignment="CENTER" layoutX="10.0" layoutY="46.0" prefHeight="17.0" prefWidth="75.0" text="Label" />
             </children>
         </Pane>
-        <Pane fx:id="opponentPlayerDeckPane" layoutX="85.0" layoutY="77.0" prefHeight="126.0" prefWidth="86.0">
+        <Pane fx:id="opponentPlayerDeckPane" layoutX="85.0" layoutY="85.0" prefHeight="126.0" prefWidth="86.0">
             <children>
                 <ImageView fitHeight="126.0" fitWidth="94.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -197,8 +197,8 @@
     </VBox>
     <VBox id="box" alignment="CENTER" layoutX="1342.0" layoutY="300.0" prefHeight="256.0" prefWidth="175.0" spacing="20.0">
         <children>
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Next Phase" />
-            <Label prefHeight="40.0" prefWidth="150.0" text="Current Phase :" />
+            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Next Phase" onMouseClicked="#nextPhase"/>
+            <Label fx:id="phaseLabel" prefHeight="40.0" prefWidth="150.0" text="Current Phase :" />
             <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Summon/Activate Effect" />
             <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Set" />
         </children>
