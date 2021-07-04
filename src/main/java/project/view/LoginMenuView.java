@@ -21,6 +21,7 @@ import project.model.Music;
 import project.model.User;
 import project.model.card.CardsDatabase;
 import project.model.card.Monster;
+import project.model.card.Spell;
 import project.model.card.informationofcards.MonsterActionType;
 import project.model.gui.Icon;
 import project.view.messages.LoginMessage;
@@ -49,6 +50,47 @@ public class LoginMenuView extends Application {
         launch(args);
     }
 
+    private static void createSomeUser() {
+        ArrayList<Monster> allMonsters = Monster.getAllMonsters();
+        ArrayList<Spell> allSpells = Spell.getAllSpells();
+        User erfan = new User("erfanmjb", "erfanmjb", "erfanmjb");
+        Assets erfanAsset = Assets.getAssetsByUsername("erfanmjb");
+        Objects.requireNonNull(erfanAsset).createDeck("erfan");
+        Deck erfandeck = erfanAsset.getDeckByDeckName("erfan");
+        int counter = 0;
+        outer:
+        for (int i = 0; i < 3; i++) {
+            for (Monster monster : allMonsters) {
+                if (monster.getMonsterActionType() == MonsterActionType.NORMAL && monster.getLevel() <= 4) {
+                    erfanAsset.addCardToMainDeck(monster, erfandeck);
+                    counter++;
+                }
+                if (counter == 27) {
+                    counter = 0;
+                    break outer;
+                }
+            }
+        }
+        for (Spell spell : allSpells) {
+            erfanAsset.addCardToMainDeck(spell, erfandeck);
+            counter++;
+            if (counter == 25)
+                break;
+        }
+        erfanAsset.activateDeck("erfan");
+        User mahdis = new User("mahdis", "mahdis", "mahdis");
+        Assets mahdisAsset = Assets.getAssetsByUsername("mahdis");
+        Objects.requireNonNull(mahdisAsset).createDeck("mahdis");
+        Deck mahdisDeck = mahdisAsset.getDeckByDeckName("mahdis");
+        for (int i = 0; i < 3; i++) {
+            for (Monster monster : allMonsters) {
+                if (monster.getMonsterActionType() == MonsterActionType.NORMAL && monster.getLevel() <= 4)
+                    mahdisAsset.addCardToMainDeck(monster, mahdisDeck);
+            }
+        }
+        mahdisAsset.activateDeck("mahdis");
+    }
+
     @Override
     public void start(Stage stage) throws Exception {
         LoginMenuView.stage = stage;
@@ -75,14 +117,21 @@ public class LoginMenuView extends Application {
         else playPauseMusicButton.setImage(Icon.PLAY.getImage());
         if (Music.mediaPlayer.isMute()) muteUnmuteButton.setImage(Icon.MUTE.getImage());
         else muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
-        usernameFieldSignUp.setOnKeyPressed(k -> {if (k.getCode().equals(KeyCode.ENTER)) registerUser();});
-        nicknameFieldSignUp.setOnKeyPressed(k -> {if (k.getCode().equals(KeyCode.ENTER)) registerUser();});
-        passwordFieldSignUp.setOnKeyPressed(k -> {if (k.getCode().equals(KeyCode.ENTER)) registerUser();});
-        secondPasswordField.setOnKeyPressed(k -> {if (k.getCode().equals(KeyCode.ENTER)) registerUser();});
+        usernameFieldSignUp.setOnKeyPressed(k -> {
+            if (k.getCode().equals(KeyCode.ENTER)) registerUser();
+        });
+        nicknameFieldSignUp.setOnKeyPressed(k -> {
+            if (k.getCode().equals(KeyCode.ENTER)) registerUser();
+        });
+        passwordFieldSignUp.setOnKeyPressed(k -> {
+            if (k.getCode().equals(KeyCode.ENTER)) registerUser();
+        });
+        secondPasswordField.setOnKeyPressed(k -> {
+            if (k.getCode().equals(KeyCode.ENTER)) registerUser();
+        });
 //        passwordFieldLogin.setOnKeyPressed(k -> {if (k.getCode().equals(KeyCode.ENTER)) registerUser();});
 //        secondPasswordField.setOnKeyPressed(k -> {if (k.getCode().equals(KeyCode.ENTER)) registerUser();});
     }
-
 
     public void registerUser() {
         LoginMessage message = controller.createUser(usernameFieldSignUp.getText(), nicknameFieldSignUp.getText(), passwordFieldSignUp.getText(), secondPasswordField.getText());
@@ -120,31 +169,5 @@ public class LoginMenuView extends Application {
         if (popUpMessage.getAlert().getResult().getText().equals("OK")) {
             System.exit(0);
         }
-    }
-
-    private static void createSomeUser() {
-        ArrayList<Monster> allMonsters = Monster.getAllMonsters();
-        User erfan = new User("erfanmjb", "erfanmjb", "erfanmjb");
-        Assets erfanAsset = Assets.getAssetsByUsername("erfanmjb");
-        Objects.requireNonNull(erfanAsset).createDeck("erfan");
-        Deck erfandeck = erfanAsset.getDeckByDeckName("erfan");
-        for (int i = 0; i < 3; i++) {
-            for (Monster monster : allMonsters) {
-                if (monster.getMonsterActionType() == MonsterActionType.NORMAL && monster.getLevel() <= 4)
-                    erfanAsset.addCardToMainDeck(monster, erfandeck);
-            }
-        }
-        erfanAsset.activateDeck("erfan");
-        User mahdis = new User("mahdis", "mahdis", "mahdis");
-        Assets mahdisAsset = Assets.getAssetsByUsername("mahdis");
-        Objects.requireNonNull(mahdisAsset).createDeck("mahdis");
-        Deck mahdisDeck = mahdisAsset.getDeckByDeckName("mahdis");
-        for (int i = 0; i < 3; i++) {
-            for (Monster monster : allMonsters) {
-                if (monster.getMonsterActionType() == MonsterActionType.NORMAL && monster.getLevel() <= 4)
-                    mahdisAsset.addCardToMainDeck(monster, mahdisDeck);
-            }
-        }
-        mahdisAsset.activateDeck("mahdis");
     }
 }

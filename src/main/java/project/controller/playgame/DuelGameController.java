@@ -226,9 +226,9 @@ public class DuelGameController {
         int randomNum = random.nextInt() % 2;
         randomNum = randomNum + 3;
         if (randomNum == 3) {
-            RoundGameController.getInstance().setRoundInfo(duel.getPlayer1(), duel.getPlayer2(), view, instance, duel.isWithAi());
+            RoundGameController.getInstance().setRoundInfo(duel.getPlayer1(), duel.getPlayer2(),  instance, duel.isWithAi());
         } else {
-            RoundGameController.getInstance().setRoundInfo(duel.getPlayer2(), duel.getPlayer1(), view, instance, duel.isWithAi());
+            RoundGameController.getInstance().setRoundInfo(duel.getPlayer2(), duel.getPlayer1(),  instance, duel.isWithAi());
         }
         return randomNum;
     }
