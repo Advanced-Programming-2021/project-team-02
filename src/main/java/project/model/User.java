@@ -9,6 +9,12 @@ public class User implements Comparable<User> {
     //static FileWriter fileWriter;
     //static Gson gson = new Gson();
     private static final ArrayList<User> allUsers;
+    private String username;
+    private String password;
+    private String nickname;
+    private boolean hasActiveDeck;
+    private int score;
+    private Avatar avatar;
 
     static {
         allUsers = new ArrayList<>();
@@ -24,15 +30,7 @@ public class User implements Comparable<User> {
             }
         }
         assets.activateDeck("aiDeck");
-
-
     }
-
-    private String username;
-    private String password;
-    private String nickname;
-    private boolean hasActiveDeck;
-    private int score;
 
     {
 //        try {
@@ -41,6 +39,7 @@ public class User implements Comparable<User> {
 //            e.printStackTrace();
 //        }
         hasActiveDeck = false;
+        setAvatar(Avatar.AVATAR_1);
     }
 
     public User(String username, String password, String nickname) {
@@ -51,6 +50,14 @@ public class User implements Comparable<User> {
         allUsers.add(this);
         //User.jsonUsers();
         //Assets.jsonAssets();
+    }
+
+    public Avatar getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Avatar avatar) {
+        this.avatar = avatar;
     }
 
     public static Deck getActiveDeckByUsername(String username) {

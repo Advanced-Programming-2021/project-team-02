@@ -95,8 +95,8 @@ public class RoundGameController {
         isFinishedRound = false;
         isFinishedGame = false;
         //view.showSuccessMessageWithAString(SuccessMessage.PLAYERS_TURN, getCurrentPlayer().getNickname());
-        duelGameController.setStartHandCards();
-        drawCardFromDeck();
+        //TODO duelGameController.setStartHandCards();
+        //TODO drawCardFromDeck();
     }
 
     public void changeTurn() {
