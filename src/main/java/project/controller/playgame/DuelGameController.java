@@ -8,7 +8,6 @@ import project.model.game.DuelPlayer;
 //import project.view.Menu;
 //import project.view.MenusManager;
 import project.view.gameview.GameView;
-import project.view.messages.SuccessMessage;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -17,7 +16,7 @@ import java.util.Random;
 
 public class DuelGameController {
     private static DuelGameController instance = null;
-    private  GameView view ;//= GameView.getInstance();
+    private GameView view;//= GameView.getInstance();
 
     private Duel duel;
     private String specifier;
@@ -44,6 +43,7 @@ public class DuelGameController {
         }
         //TODO MenusManager.getInstance().changeMenu(Menu.ONGOING_GAME);
     }
+
     public void startNextRound() {
         DuelPlayer first;
         DuelPlayer second;
@@ -55,19 +55,10 @@ public class DuelGameController {
             second = duel.getPlayer2();
         }
         //view.showSuccessMessage(SuccessMessage.GAME_STARTED);
-       // RoundGameController.getInstance().setRoundInfo(first, second, GameView.getInstance(), this, duel.isWithAi());
+        // RoundGameController.getInstance().setRoundInfo(first, second, GameView.getInstance(), this, duel.isWithAi());
 
     }
 
-    public void starterSpecifier() {
-        if (flipCoin() == 1) {
-            setSpecifier(duel.getPlayer1().getNickname());
-            RoundGameController.getInstance().setRoundInfo(duel.getPlayer1(), duel.getPlayer2(), view, instance, duel.isWithAi());
-        } else {
-            setSpecifier(duel.getPlayer2().getNickname());
-            RoundGameController.getInstance().setRoundInfo(duel.getPlayer2(), duel.getPlayer1(), view, instance, duel.isWithAi());
-        }
-    }
 
     public GameResult checkGameResult(DuelPlayer winner, DuelPlayer loser, GameResultToCheck resultType) {
         if (resultType == GameResultToCheck.NO_LP) {
@@ -230,9 +221,16 @@ public class DuelGameController {
         }
     }
 
-    private int flipCoin() {
-        Random randomNum = new Random();
-        return randomNum.nextInt(2);
+    public int flipCoinAndSetStarter() {
+        Random random = new Random();
+        int randomNum = random.nextInt() % 2;
+        randomNum = randomNum + 3;
+        if (randomNum == 3) {
+            RoundGameController.getInstance().setRoundInfo(duel.getPlayer1(), duel.getPlayer2(), view, instance, duel.isWithAi());
+        } else {
+            RoundGameController.getInstance().setRoundInfo(duel.getPlayer2(), duel.getPlayer1(), view, instance, duel.isWithAi());
+        }
+        return randomNum;
     }
 
     public String getSpecifier() {

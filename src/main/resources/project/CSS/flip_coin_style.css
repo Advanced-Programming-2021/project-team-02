@@ -18,3 +18,8 @@
     -fx-text-fill: white;
     -fx-cursor: hand;
 }
+
+#label {
+    -fx-font-size: 15;
+    -fx-text-fill: white;
+}

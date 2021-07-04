@@ -3,7 +3,12 @@ package project.view.gameview;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import project.controller.playgame.RoundGameController;
 import project.model.Deck;
 import project.model.card.Card;
@@ -11,7 +16,6 @@ import project.model.card.Monster;
 import project.model.card.informationofcards.CardType;
 import project.model.game.board.Cell;
 import project.model.game.board.CellStatus;
-import project.view.DeckMenuView;
 import project.view.Utility;
 import project.view.input.Input;
 import project.view.input.Regex;
@@ -24,7 +28,29 @@ import java.util.regex.Matcher;
 
 public class GameView {
     private final RoundGameController controller = RoundGameController.getInstance();
+    public GridPane currentPlayerBoardGridPane;
 
+    public GridPane opponentPlayerBoardGridPane;
+    public Label currentPlayerLP;
+    public Label currentPlayerNickname;
+    public Label opponentPlayerNickname;
+    public Label opponentPlayerLP;
+
+    public void initialize() {
+        Image image = new Image(getClass().getResource("/project/image/GamePictures/100101Parts1.dds.png").toString());
+        for (int row = 0; row < 2; row++) {
+            for (int column = 0; column < 5; column++) {
+                currentPlayerBoardGridPane.add(new ImageView(image), column, row);
+                opponentPlayerBoardGridPane.add(new ImageView(image), column, row);
+            }
+        }
+        currentPlayerLP.setText("LP : 8000");
+        currentPlayerNickname.setText(RoundGameController.getInstance().getCurrentPlayer().getNickname());
+        opponentPlayerLP.setText("LP : 8000");
+        opponentPlayerNickname.setText(RoundGameController.getInstance().getOpponentPlayer().getNickname());
+
+
+    }
 
     public void runGameWithAi() {
         String command = "";

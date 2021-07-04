@@ -2,19 +2,27 @@ package project.view.gameview;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import project.controller.playgame.DuelGameController;
 import project.model.game.Duel;
 import project.model.game.DuelPlayer;
+import project.view.Utility;
 
+import java.io.IOException;
 import java.util.Objects;
-import java.util.Random;
 
 public class FlipCoinView {
     public ImageView coinImage;
@@ -23,6 +31,8 @@ public class FlipCoinView {
     public Label firstPlayerNickname;
     public ImageView firstPlayerCoin;
     public AnchorPane pane;
+    public Button flipCoinButton;
+    public VBox vBox;
     Image image5 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_5.png")).toString());
     Image image6 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_6.png")).toString());
     Image image7 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_7.png")).toString());
@@ -62,23 +72,46 @@ public class FlipCoinView {
     }
 
     public void flipCoin(MouseEvent mouseEvent) {
+        int x = (int) flipCoinButton.getLayoutX();
+        int y = (int) flipCoinButton.getLayoutY();
         if (mouseEvent.getButton() != MouseButton.PRIMARY)
             return;
-        Random random = new Random();
-        int randomNum = random.nextInt() % 2;
-        randomNum += 3;
-        if (randomNum == 3)
+        String starterName;
+        vBox.getChildren().remove(flipCoinButton);
+        int randomNum = DuelGameController.getInstance().flipCoinAndSetStarter();
+        if (randomNum == 3) {
             threeTimeline();
-        else
+            starterName = firstPlayerNickname.getText();
+        } else {
             fourTimeline();
+            starterName = secondPlayerNickname.getText();
+        }
         flipCoinTimeLine.setCycleCount(1);
         flipCoinTimeLine.play();
+        flipCoinTimeLine.setOnFinished((EventHandler) -> {
+            Label label = new Label(starterName + " starts Game!");
+            label.setLayoutX(x);
+            label.setLayoutY(y);
+            label.getStylesheets().add(getClass().getResource("/project/CSS/flip_coin_style.css").toString());
+            label.setId("label");
+            vBox.getChildren().add(label);
 
-        if (randomNum == 3) {
-            //TODO player 1 is starter
-        } else {
-            //TODO player 2 is starter
-        }
+            Button button = new Button("Start Game!");
+            button.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    try {
+                        Parent root = FXMLLoader.load(getClass().getResource("/project/fxml/round_view.fxml"));
+                        Utility.openNewMenu(root, (Node) actionEvent.getSource());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            button.getStylesheets().add(getClass().getResource("/project/CSS/flip_coin_style.css").toString());
+            button.setId("button");
+            vBox.getChildren().add(button);
+        });
     }
 
     private void threeTimeline() {

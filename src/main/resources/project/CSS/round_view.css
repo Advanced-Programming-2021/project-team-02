@@ -5,10 +5,14 @@
     src: local('Matrix II'), url('../font/MatrixII/MatrixIIRegular.otf') format('otf');
 }
 
-#board {
+.root {
     -fx-font-family: "Matrix II Regular";
     -fx-font-size: 15;
-    -fx-background-image: url(../image/GamePictures/fie_normal.bmp);
+    -fx-background-color: #103188;
     -fx-background-size: cover;
 
+}
+#label {
+    -fx-font-size: 15;
+    -fx-text-fill: white;
 }
