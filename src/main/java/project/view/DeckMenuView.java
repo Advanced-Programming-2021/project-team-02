@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class DeckMenuView  {
+public class DeckMenuView {
     private static final DeckMenuController controller = DeckMenuController.getInstance();
 
     HashMap<String, Image> imageHashMap;
@@ -155,7 +155,7 @@ public class DeckMenuView  {
 
         Button createDeck = new Button("Create Deck");
         createDeck.setOnAction(actionEvent -> addDeck());
-        gridPaneAsli.add(createDeck, 0,7);
+        gridPaneAsli.add(createDeck, 0, 7);
 
         Button back = new Button("Back");
         back.setOnMouseClicked(actionEvent -> {
@@ -165,7 +165,7 @@ public class DeckMenuView  {
                 e.printStackTrace();
             }
         });
-        gridPaneAsli.add(back, 3,7);
+        gridPaneAsli.add(back, 3, 7);
 
         gridPaneAsli.setPadding(new Insets(50, 10, 10, 50));
         gridPaneAsli.setVgap(100);
@@ -251,13 +251,10 @@ public class DeckMenuView  {
         for (Deck deck : arrayList) {
             if (button.getId().equals(deck.getName())) {
                 DeckMenuMessage deckMenuMessage = controller.deleteDeck(button.getId());
-                PopUpMessage popUpMessage = new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
-                if (popUpMessage.getAlert().getResult().getText().equals("OK")) {
-                    gridPaneAsli.getChildren().clear();
-                    Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).deleteDeck(button.getId());
-                    showDecks(Objects.requireNonNull(User.getUserByUsername("mahdi")));
-                }
-                PopUpMessage.getParent().setEffect(null);
+                new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
+                gridPaneAsli.getChildren().clear();
+                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).deleteDeck(button.getId());
+                showDecks(Objects.requireNonNull(User.getUserByUsername("mahdi")));
             }
         }
     }

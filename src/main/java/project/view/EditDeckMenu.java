@@ -414,22 +414,15 @@ public class EditDeckMenu {
             if (side.equals("i")) {
                 DeckMenuMessage deckMenuMessage = Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).removeCardFromMainDeck((endOFJ) * 15 + endOFI,
                         Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName(deckMenuController.getOpenedDeckButton().getId()));
-                PopUpMessage popUpMessage = new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
-                if (popUpMessage.getAlert().getResult().getText().equals("OK")) {
-                    gridScrollPane.getChildren().clear();
-                    showEdit(deckMenuController.getOpenedDeckButton().getId());
-                }
-                PopUpMessage.getParent().setEffect(null);
-
+                new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
+                gridScrollPane.getChildren().clear();
+                showEdit(deckMenuController.getOpenedDeckButton().getId());
             } else if (side.equals("k")) {
                 DeckMenuMessage deckMenuMessage = Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).removeCardFromSideDeck(endOFK,
                         Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName(deckMenuController.getOpenedDeckButton().getId()));
-                PopUpMessage popUpMessage = new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
-                if (popUpMessage.getAlert().getResult().getText().equals("OK")) {
-                    gridScrollPane.getChildren().clear();
-                    showEdit(deckMenuController.getOpenedDeckButton().getId());
-                }
-                PopUpMessage.getParent().setEffect(null);
+                new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
+                gridScrollPane.getChildren().clear();
+                showEdit(deckMenuController.getOpenedDeckButton().getId());
             }
         }
     }
