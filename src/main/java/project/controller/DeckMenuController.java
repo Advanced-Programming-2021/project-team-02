@@ -1,14 +1,26 @@
 package project.controller;
 
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import project.model.Assets;
 import project.model.Deck;
+import project.model.card.Card;
 import project.model.card.Monster;
 import project.model.card.Spell;
 import project.model.card.Trap;
+import project.model.card.informationofcards.CardType;
 import project.view.DeckMenuView;
+import project.view.messages.DeckMenuMessage;
 import project.view.messages.SuccessMessage;
+
+import java.util.HashMap;
+import java.util.Objects;
 
 public class DeckMenuController {
     private static  DeckMenuController instance = null;
+    private Label openedDeck;
+    private Button openedDeckButton;
 
     private DeckMenuController(){
 
@@ -20,90 +32,82 @@ public class DeckMenuController {
         return instance;
     }
 
-    public void createDeck(String deckName) {
+    public DeckMenuMessage createDeck(String deckName) {
         if (doesDeckExist(deckName)) {
-//            view.showDynamicError(Error.DECK_EXIST, deckName);
-            return;
+            return DeckMenuMessage.DECK_ALREADY_EXIST;
         }
 //        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
-        SuccessMessage.showSuccessMessage(SuccessMessage.DECK_CREATED);
+        return DeckMenuMessage.DECK_ADDED;
 //        Objects.requireNonNull(assets).createDeck(deckName);
     }
 
-    public void deleteDeck(String deckName) {
+    public DeckMenuMessage deleteDeck(String deckName) {
         if (!doesDeckExist(deckName)) {
-//            view.showDynamicError(Error.DECK_NOT_EXIST, deckName);
-            return;
+            return DeckMenuMessage.DECK_DOES_NOT_EXIST;
         }
 //        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
-        SuccessMessage.showSuccessMessage(SuccessMessage.DECK_DELETED);
+        return DeckMenuMessage.DECK_DELETED;
 //        Objects.requireNonNull(assets).deleteDeck(deckName);
     }
 
-    public void activateDeck(String deckName) {
+    public DeckMenuMessage activateDeck(String deckName) {
 //        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
         if (!doesDeckExist(deckName)) {
-//            view.showDynamicError(Error.DECK_NOT_EXIST, deckName);
-            return;
+            return DeckMenuMessage.DECK_DOES_NOT_EXIST;
         }
 //        Objects.requireNonNull(assets).activateDeck(deckName);
-        SuccessMessage.showSuccessMessage(SuccessMessage.DECK_ACTIVATED);
+        return DeckMenuMessage.DECK_ACTIVATED;
     }
 
-    public void addCardToMainDeck(String deckName, String cardName) {
+    public DeckMenuMessage addCardToMainDeck(String deckName, String cardName) {
 //        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance()
 //                .getLoggedInUser().getUsername());
-//        if (!isValidDeckToAddCard(cardName, deckName)) return;
-//        Deck deck = Objects.requireNonNull(assets).getDeckByDeckName(deckName);
-//        if (deck.isMainFull()) {
-//          Error.showError(Error.MAIN_DECK_IS_FULL);
-//          return;
-//        }
-//        Card card = Card.getCardByName(cardName);
-//        if (assets.getNumberOfCards(card) == deck.getNumberOfCardInDeck(card)) {
-//            Error.showError(Error.DONT_HAVE_ENOUGH_OF_THIS_CARD);
-//            return;
-//        }
-//
-//        if (Objects.requireNonNull(card).getCardType().equals(CardType.MONSTER))
-//            addMonsterToMainDeck((Monster) card, deck, deckName, cardName);
-//        else if (card.getCardType().equals(CardType.SPELL))
-//            addSpellToMainDeck((Spell) card, deck, deckName, cardName);
-//        else
-//            addTrapToMainDeck((Trap) card, deck, deckName, cardName);
+        if (!isValidDeckToAddCard(cardName, deckName)) return DeckMenuMessage.CARD_DOES_NOT_EXIST;
+        Deck deck = Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName(deckName);
+        if (deck.isMainFull()) {
+            return DeckMenuMessage.DECK_FULL;
+        }
+        Card card = Card.getCardByName(cardName);
+        if (Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getNumberOfCards(card) == deck.getNumberOfCardInDeck(card)) {
+            return DeckMenuMessage.MAXIMUM;
+        }
+
+        if (Objects.requireNonNull(card).getCardType().equals(CardType.MONSTER))
+            addMonsterToMainDeck((Monster) card, deck, deckName, cardName);
+        else if (card.getCardType().equals(CardType.SPELL))
+            addSpellToMainDeck((Spell) card, deck, deckName, cardName);
+        else
+            addTrapToMainDeck((Trap) card, deck, deckName, cardName);
+        return DeckMenuMessage.CARD_ADDED_TO_MAIN;
     }
 
-    public void addCardToSideDeck(String deckName, String cardName) {
-//        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
-//        if (!isValidDeckToAddCard(cardName, deckName)) return;
-//        Deck deck = Objects.requireNonNull(assets).getDeckByDeckName(deckName);
-//        if (deck.isSideFull()) {
-//            Error.showError(Error.MAIN_DECK_IS_FULL);
-//            return;
-//        }
-//        Card card = Card.getCardByName(cardName);
-//        if (assets.getNumberOfCards(card) == deck.getNumberOfCardInDeck(card)) {
-//            Error.showError(Error.DONT_HAVE_ENOUGH_OF_THIS_CARD);
-//            return;
-//        }
-//        if (Objects.requireNonNull(card).getCardType().equals(CardType.MONSTER)) {
-//            addMonsterToSideDeck((Monster) card, deck, deckName, cardName);
-//        } else if (card.getCardType().equals(CardType.SPELL)) {
-//            addSpellToSideDeck((Spell) card, deck, deckName, cardName);
-//        } else {
-//            addTrapToSideDeck((Trap) card, deck, deckName, cardName);
-//        }
+    public DeckMenuMessage addCardToSideDeck(String deckName, String cardName) {
+        //Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
+        if (!isValidDeckToAddCard(cardName, deckName)) return DeckMenuMessage.CARD_DOES_NOT_EXIST;
+        Deck deck = Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName(deckName);
+        if (Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName(deckName).isSideFull()) {
+            return DeckMenuMessage.DECK_FULL;
+        }
+        Card card = Card.getCardByName(cardName);
+        if (Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getNumberOfCards(card) == deck.getNumberOfCardInDeck(card)) {
+            return DeckMenuMessage.MAXIMUM;
+        }
+        if (Objects.requireNonNull(card).getCardType().equals(CardType.MONSTER)) {
+            addMonsterToSideDeck((Monster) card, deck, deckName, cardName);
+        } else if (card.getCardType().equals(CardType.SPELL)) {
+            addSpellToSideDeck((Spell) card, deck, deckName, cardName);
+        } else {
+            addTrapToSideDeck((Trap) card, deck, deckName, cardName);
+        }
+        return DeckMenuMessage.CARD_ADDED_TO_SIDE;
     }
 
     private boolean isValidDeckToAddCard(String cardName, String deckName) {
+        //            view.showDynamicError(Error.DECK_NOT_EXIST, deckName);
         if (!doesCardExistInUserCards(cardName)) {
 //            view.showDynamicError(Error.INCORRECT_CARD_NAME, cardName);
             return false;
-        } else if (!doesDeckExist(deckName)) {
-//            view.showDynamicError(Error.DECK_NOT_EXIST, deckName);
-            return false;
-        }
-        return true;
+        } else return doesDeckExist(deckName);
     }
 
     private void addMonsterToMainDeck(Monster monster, Deck deck, String deckName, String cardName) {
@@ -256,33 +260,46 @@ public class DeckMenuController {
 
     public void removeCardFromSideDeck(String deckName, String cardName) {
 //        Deck deck;
-//        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
+//       // Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
 //        if (!doesDeckExist(deckName)) {
-//            project.view.showDynamicError(Error.DECK_NOT_EXIST, deckName);
-//            return;
+//            return C
 //        } else if (!(deck = Objects.requireNonNull(assets).getDeckByDeckName(deckName)).containsSideCard(cardName)) {
-//            project.view.showDynamicError(Error.CARD_DOES_NOT_EXIST_IN_SIDE_DECK, cardName);
+//        //    project.view.showDynamicError(Error.CARD_DOES_NOT_EXIST_IN_SIDE_DECK, cardName);
 //            return;
 //        }
-//        assets.removeCardFromSideDeck(Card.getCardByName(cardName), deck);
+//        //assets.removeCardFromSideDeck(Card.getCardByName(cardName), deck);
 //        SuccessMessage.showSuccessMessage(SuccessMessage.CARD_REMOVED);
     }
 
     private boolean doesDeckExist(String deckName) {
-//        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
-//        return Objects.requireNonNull(assets).getDeckByDeckName(deckName) != null;
-        return true;
+        Assets assets = Assets.getAssetsByUsername("mahdi");
+        return Objects.requireNonNull(assets).getDeckByDeckName(deckName) != null;
     }
 
     private boolean doesCardExistInUserCards(String cardName) {
-//        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
-//        HashMap<Card, Integer> userCards = Objects.requireNonNull(assets).getAllUserCards();
-//        for (Card card : userCards.keySet()) {
-//            if (card.getName().equalsIgnoreCase(cardName))
-//                if (userCards.get(card) > 0)
-//                    return true;
-//        }
+        Assets assets = Assets.getAssetsByUsername("mahdi");
+        HashMap<Card, Integer> userCards = Objects.requireNonNull(assets).getAllUserCards();
+        for (Card card : userCards.keySet()) {
+            if (card.getName().equalsIgnoreCase(cardName))
+                if (userCards.get(card) > 0)
+                    return true;
+        }
         return false;
     }
 
+    public Label getOpenedDeck() {
+        return openedDeck;
+    }
+
+    public void setOpenedDeck(Label openedDeck) {
+        this.openedDeck = openedDeck;
+    }
+
+    public Button getOpenedDeckButton() {
+        return openedDeckButton;
+    }
+
+    public void setOpenedDeckButton(Button openedDeckButton) {
+        this.openedDeckButton = openedDeckButton;
+    }
 }

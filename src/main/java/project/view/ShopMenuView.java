@@ -3,7 +3,6 @@ package project.view;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 
 import javafx.scene.Scene;
@@ -450,8 +449,7 @@ public class ShopMenuView {
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void back(MouseEvent actionEvent) throws Exception {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/main_menu.fxml")));
-        Utility.openNewMenu(root, (Node) actionEvent.getSource());
+    public void back() {
+        System.exit(0);
     }
 }
