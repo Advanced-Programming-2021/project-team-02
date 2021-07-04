@@ -83,20 +83,23 @@ public class RoundGameController {
         return currentPhase;
     }
 
-    public void setRoundInfo(DuelPlayer firstPlayer, DuelPlayer secondPlayer, GameView view, DuelGameController duelGameController, boolean isWithAi) {
+    public void setRoundInfo(DuelPlayer firstPlayer, DuelPlayer secondPlayer, DuelGameController duelGameController, boolean isWithAi) {
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
         firstPlayer.setLifePoint(8000);
         secondPlayer.setLifePoint(8000);
-        this.view = view;
         this.duelGameController = duelGameController;
         currentPhase = Phase.DRAW_PHASE;
         this.isWithAi = isWithAi;
         isFinishedRound = false;
         isFinishedGame = false;
         //view.showSuccessMessageWithAString(SuccessMessage.PLAYERS_TURN, getCurrentPlayer().getNickname());
-        //TODO duelGameController.setStartHandCards();
+         duelGameController.setStartHandCards();
         //TODO drawCardFromDeck();
+    }
+
+    public void setView(GameView view) {
+        this.view = view;
     }
 
     public void changeTurn() {
@@ -252,6 +255,14 @@ public class RoundGameController {
             return getFirstPlayerHand();
         } else if (getCurrentPlayer() == secondPlayer) {
             return getSecondPlayerHand();
+        }
+        return null;
+    }
+    public List<Card> getOpponentPlayerHand() {
+        if (getCurrentPlayer() == firstPlayer) {
+            return getSecondPlayerHand();
+        } else if (getCurrentPlayer() == secondPlayer) {
+            return getFirstPlayerHand();
         }
         return null;
     }

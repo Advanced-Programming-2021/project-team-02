@@ -26,3 +26,21 @@
     -fx-border-color: white;
     -fx-border-radius: 5;
 }
+.label{
+    -fx-text-fill: white;
+    -fx-font-size: 10;
+}
+#description{
+    -fx-text-fill: white;
+    -fx-font-size: 15;
+}
+#box{
+    -fx-background-color:  #00062b;
+    -fx-background-radius: 15;
+}
+.button {
+    -fx-background-color: #bb792d;
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+    -fx-font-size: 10;
+}
