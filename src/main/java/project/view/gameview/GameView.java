@@ -28,28 +28,20 @@ import java.util.regex.Matcher;
 
 public class GameView {
     private final RoundGameController controller = RoundGameController.getInstance();
-    public GridPane currentPlayerBoardGridPane;
-
-    public GridPane opponentPlayerBoardGridPane;
     public Label currentPlayerLP;
     public Label currentPlayerNickname;
     public Label opponentPlayerNickname;
     public Label opponentPlayerLP;
+    public GridPane currentPlayerMonsterZone;
+    public GridPane currentPlayerSpellZone;
+    public GridPane opponentPlayerMonsterZone;
+    public GridPane opponentPlayerSpellZone;
 
     public void initialize() {
-        Image image = new Image(getClass().getResource("/project/image/GamePictures/100101Parts1.dds.png").toString());
-        for (int row = 0; row < 2; row++) {
-            for (int column = 0; column < 5; column++) {
-                currentPlayerBoardGridPane.add(new ImageView(image), column, row);
-                opponentPlayerBoardGridPane.add(new ImageView(image), column, row);
-            }
-        }
         currentPlayerLP.setText("LP : 8000");
-        currentPlayerNickname.setText(RoundGameController.getInstance().getCurrentPlayer().getNickname());
+        currentPlayerNickname.setText("Nickname : " + RoundGameController.getInstance().getCurrentPlayer().getNickname());
         opponentPlayerLP.setText("LP : 8000");
-        opponentPlayerNickname.setText(RoundGameController.getInstance().getOpponentPlayer().getNickname());
-
-
+        opponentPlayerNickname.setText("Nickname : " + RoundGameController.getInstance().getOpponentPlayer().getNickname());
     }
 
     public void runGameWithAi() {

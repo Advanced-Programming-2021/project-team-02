@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.gameview.GameView">
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.gameview.GameView">
     <children>
         <Separator layoutX="572.0" layoutY="450.0" prefHeight="6.0" prefWidth="762.0" />
-        <GridPane fx:id="currentPlayerBoardGridPane" layoutX="679.0" layoutY="453.0" prefHeight="286.0" prefWidth="530.0">
+        <GridPane fx:id="currentPlayerMonsterZone" hgap="5.0" layoutX="679.0" layoutY="469.0" prefHeight="141.0" prefWidth="530.0" vgap="5.0">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -18,9 +25,34 @@
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
+         <children>
+            <Pane id="Cell" prefHeight="200.0" prefWidth="200.0" />
+            <Pane id="Cell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
+            <Pane id="Cell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
+            <Pane id="Cell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" />
+            <Pane id="Cell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" />
+         </children>
         </GridPane>
+      <GridPane fx:id="currentPlayerSpellZone" hgap="5.0" layoutX="679.0" layoutY="618.0" prefHeight="141.0" prefWidth="530.0" vgap="5.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Pane id="Cell" prefHeight="200.0" prefWidth="200.0" />
+            <Pane id="Cell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
+            <Pane id="Cell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
+            <Pane id="Cell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" />
+            <Pane id="Cell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" />
+         </children>
+      </GridPane>
         <HBox layoutX="6.0" layoutY="704.0" prefHeight="180.0" prefWidth="424.0" spacing="10.0">
             <children>
                 <ImageView fitHeight="151.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" />
@@ -43,7 +75,7 @@
                 </VBox>
             </children>
         </HBox>
-      <GridPane fx:id="opponentPlayerBoardGridPane" layoutX="679.0" layoutY="163.0" prefHeight="286.0" prefWidth="530.0">
+      <GridPane fx:id="opponentPlayerMonsterZone" hgap="5.0" layoutX="679.0" layoutY="302.0" prefHeight="141.0" prefWidth="530.0" vgap="5.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -53,8 +85,33 @@
          </columnConstraints>
          <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Pane id="Cell" prefHeight="200.0" prefWidth="200.0" />
+            <Pane id="Cell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
+            <Pane id="Cell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
+            <Pane id="Cell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" />
+            <Pane id="Cell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" />
+         </children>
+      </GridPane>
+      <GridPane fx:id="opponentPlayerSpellZone" hgap="5.0" layoutX="679.0" layoutY="153.0" prefHeight="141.0" prefWidth="530.0" vgap="5.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
+         <children>
+            <Pane id="Cell" prefHeight="200.0" prefWidth="200.0" />
+            <Pane id="Cell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
+            <Pane id="Cell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
+            <Pane id="Cell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" />
+            <Pane id="Cell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" />
+         </children>
       </GridPane>
     </children>
     <stylesheets>
