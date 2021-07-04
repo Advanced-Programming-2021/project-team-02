@@ -65,10 +65,15 @@ public class MainMenuView {
 
     public void createCard(MouseEvent actionEvent) throws Exception {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/create_card.fxml")));
+        Utility.openNewMenu(root, (Node) actionEvent.getSource());
+
     }
 
     public void importExportMenu(MouseEvent actionEvent) throws Exception {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/import_export.fxml")));
+        Utility.openNewMenu(root, (Node) actionEvent.getSource());
     }
 
     public void nextTrack() {
