@@ -5,11 +5,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import project.controller.CreateCardMenuController;
+import project.model.Music;
 import project.model.card.Card;
 import project.model.card.CardsDatabase;
+import project.model.gui.Icon;
 import project.view.messages.CreateCardMessage;
 import project.view.messages.PopUpMessage;
 
@@ -32,12 +35,19 @@ public class CreateCards {
     public Label price;
     public TextField level;
     public Button calculatePrice;
+    public ImageView playPauseMusicButton;
+    public ImageView muteUnmuteButton;
     private String cardType = null;
     CreateCardMenuController createCardMenuController;
 
 
     @FXML
     public void initialize() {
+        if (!Music.isMediaPlayerPaused) playPauseMusicButton.setImage(Icon.PAUSE.getImage());
+        else playPauseMusicButton.setImage(Icon.PLAY.getImage());
+        if (Music.mediaPlayer.isMute()) muteUnmuteButton.setImage(Icon.MUTE.getImage());
+        else muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
+
         createCardMenuController = CreateCardMenuController.getInstance();
         attack.setVisible(false);
         defense.setVisible(false);
@@ -231,6 +241,21 @@ public class CreateCards {
                     break;
             }
         }
+    }
+
+    public void nextTrack(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Music.nextTrack();
+    }
+
+    public void playPauseMusic(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Music.playPauseMusic(playPauseMusicButton);
+    }
+
+    public void muteUnmuteMusic(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Music.muteUnmuteMusic(muteUnmuteButton);
     }
 
     public void back(MouseEvent mouseEvent) throws IOException {

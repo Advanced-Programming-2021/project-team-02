@@ -1,0 +1,112 @@
+@font-face {
+    font-family: 'Matrix II Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Matrix II'), url('../font/MatrixII/MatrixIIRegular.otf') format('otf');
+}
+
+#secondPane {
+    -fx-font-family: "Matrix II Regular";
+    -fx-font-size: 15;
+    -fx-background-image: url(../image/main_background.jpg);
+    -fx-background-size: cover;
+}
+
+#firstBox {
+    -fx-background-color: #00062b;
+    -fx-background-radius: 30;
+}
+
+#button {
+    -fx-font-size: 20.0;
+    -fx-background-color: #bb792d;
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+#menuBar {
+    -fx-border-color: #ffd500;
+    -fx-border-radius: 20;
+}
+
+#menuTitle {
+    -fx-font-size: 36;
+    -fx-text-fill: #ffd500;
+}
+
+#textField {
+    -fx-background-color: #323c46;
+    -fx-text-inner-color: white;
+    -fx-background-radius: 10;
+}
+
+#menuButton {
+    -fx-background-color: #9e376c;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+    -fx-my-menu-font-color: white;
+}
+
+.menu-bar > .container > .menu-button > .label {
+    -fx-background-color: #9e376c;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+    -fx-my-menu-font-color: white;
+}
+
+.menu-item .label {
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+.menu-item:focused {
+    -fx-background-color: darkgray;
+    -fx-cursor: hand;
+}
+
+.menu-item:focused .label {
+    -fx-text-fill: blue;
+    -fx-cursor: hand;
+}
+
+.context-menu {
+    -fx-background-color: black;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 0 6 6 6, 0 5 5 5, 0 4 4 4;
+    -fx-padding: 0.333333em 0.083333em 0.666667em 0.083333em;
+}
+
+.text-area .content{
+    -fx-background-color: #323c46;
+    -fx-text-inner-color: white;
+}
+
+.list-view .list-cell {
+    -fx-cursor: hand;
+    -fx-background-color: #323c46;
+    -fx-text-fill: white;
+}
+
+.list-view .list-cell .label {
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+.list-view .list-cell:focused {
+    -fx-background-color: darkgray;
+    -fx-cursor: hand;
+}
+
+.list-view .list-cell .label:focused {
+    -fx-text-fill: blue;
+    -fx-cursor: hand;
+}
+
+.list-view .scroll-bar:vertical {
+    -fx-background-color: #323c46;
+}
+
+.list-view .scroll-bar:horizontal {
+    -fx-background-color: #323c46;
+}

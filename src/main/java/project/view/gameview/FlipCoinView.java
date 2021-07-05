@@ -4,6 +4,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -17,8 +18,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import project.controller.playgame.DuelGameController;
+import project.model.Music;
 import project.model.game.Duel;
 import project.model.game.DuelPlayer;
+import project.model.gui.Icon;
 import project.view.Utility;
 
 import java.io.IOException;
@@ -33,6 +36,9 @@ public class FlipCoinView {
     public AnchorPane pane;
     public Button flipCoinButton;
     public VBox vBox;
+    public ImageView playPauseMusicButton;
+    public ImageView muteUnmuteButton;
+
     Image image5 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_5.png")).toString());
     Image image6 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_6.png")).toString());
     Image image7 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_7.png")).toString());
@@ -62,13 +68,17 @@ public class FlipCoinView {
         DuelPlayer player2 = duel.getPlayer2();
         secondPlayerNickname.setText(player2.getNickname());
 
-//setting images
         Image imageOne = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_5.png")).toString());
         Image imageTwo = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_21.png")).toString());
 
         firstPlayerCoin.setImage(imageOne);
         secondPlayerCoin.setImage(imageTwo);
         coinImage.setImage(imageOne);
+
+        if (!Music.isMediaPlayerPaused) playPauseMusicButton.setImage(Icon.PAUSE.getImage());
+        else playPauseMusicButton.setImage(Icon.PLAY.getImage());
+        if (Music.mediaPlayer.isMute()) muteUnmuteButton.setImage(Icon.MUTE.getImage());
+        else muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
     }
 
     public void flipCoin(MouseEvent mouseEvent) {
@@ -253,6 +263,21 @@ public class FlipCoinView {
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(6200), (ActionEvent) -> coinImage.setImage(image21)));
 
         flipCoinTimeLine = timeline;
+    }
+
+    public void nextTrack(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Music.nextTrack();
+    }
+
+    public void playPauseMusic(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Music.playPauseMusic(playPauseMusicButton);
+    }
+
+    public void muteUnmuteMusic(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Music.muteUnmuteMusic(muteUnmuteButton);
     }
 
 

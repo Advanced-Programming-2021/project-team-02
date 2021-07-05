@@ -3,6 +3,7 @@ package project.view.gameview;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -21,11 +22,13 @@ import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import project.controller.playgame.RoundGameController;
 import project.model.Deck;
+import project.model.Music;
 import project.model.card.Card;
 import project.model.card.Monster;
 import project.model.card.informationofcards.CardType;
 import project.model.game.board.Cell;
 import project.model.game.board.CellStatus;
+import project.model.gui.Icon;
 import project.view.Utility;
 import project.view.input.Input;
 import project.view.input.Regex;
@@ -62,7 +65,9 @@ public class GameView {
     public GridPane currentHand;
     public AnchorPane mainGamePane;
     public Label phaseLabel;
-    private Image backCardImage = new Image(getClass().getResource("/project/image/GamePictures/Card Back.png").toString());
+    public ImageView playPauseMusicButton;
+    public ImageView muteUnmuteButton;
+    private final Image backCardImage = new Image(getClass().getResource("/project/image/GamePictures/Card Back.png").toString());
 
     public void initialize() {
         currentPlayerLP.setText("LP : 8000");
@@ -84,6 +89,10 @@ public class GameView {
             }
         });
         phaseLabel.setText("Current Phase : Draw");
+        if (!Music.isMediaPlayerPaused) playPauseMusicButton.setImage(Icon.PAUSE.getImage());
+        else playPauseMusicButton.setImage(Icon.PLAY.getImage());
+        if (Music.mediaPlayer.isMute()) muteUnmuteButton.setImage(Icon.MUTE.getImage());
+        else muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
     }
 
     public Image getCardImageByName(String cardName) {
@@ -703,6 +712,21 @@ public class GameView {
                 "card show --selected\n" +
                 "cancel\n" +
                 "help");
+    }
+
+    public void nextTrack(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Music.nextTrack();
+    }
+
+    public void playPauseMusic(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Music.playPauseMusic(playPauseMusicButton);
+    }
+
+    public void muteUnmuteMusic(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Music.muteUnmuteMusic(muteUnmuteButton);
     }
 
     public void back(MouseEvent mouseEvent) throws IOException {
