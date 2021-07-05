@@ -521,6 +521,8 @@ public class ShopMenuView {
         Coin.setText(String.valueOf(coin));
     }
 
-    public void seeOtherCardsCreated(ActionEvent event) {
+    public void seeOtherCardsCreated(MouseEvent mouseEvent) throws IOException {
+        if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
+        Utility.openNewMenu("/project/fxml/shop_other_player_cards.fxml");
     }
 }

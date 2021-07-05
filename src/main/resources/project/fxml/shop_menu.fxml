@@ -410,6 +410,6 @@
       <Button layoutX="20.0" layoutY="1436.0" mnemonicParsing="false" onMouseClicked="#back" prefHeight="43.0" prefWidth="76.0" text="Back" />
       <Label fx:id="Coin" layoutX="137.0" layoutY="1398.0" prefHeight="28.0" prefWidth="106.0" text="Label" />
       <Button layoutX="117.0" layoutY="1436.0" mnemonicParsing="false" onMouseClicked="#showCoins" prefHeight="38.0" prefWidth="72.0" text="See Coins" />
-      <Button fx:id="seeOtherCards" layoutX="218.0" layoutY="1436.0" mnemonicParsing="false" onAction="#seeOtherCardsCreated" prefHeight="31.0" prefWidth="140.0" text="See Player Cards" />
+      <Button fx:id="seeOtherCards" layoutX="218.0" layoutY="1436.0" mnemonicParsing="false" onMouseClicked="#seeOtherCardsCreated" prefHeight="31.0" prefWidth="140.0" text="See Player Cards" />
    </AnchorPane>
 </ScrollPane>
