@@ -14,28 +14,28 @@ public enum TrapEffect {
 
     public static TrapEffect getTrapEffectByName(String trap) {
         switch (trap) {
-            case "Wall of Revealing Light":
-            case "Vanity's Emptiness":
+//            case "Wall of Revealing Light":
+//            case "Vanity's Emptiness":
             case "Trap Hole":
                 return TRAP_HOLE_EFFECT;
             case "Mirror Force":
                 return MIRROR_FORCE_EFFECT;
             case "Magic Cylinder":
                 return MAGIC_CYLINDER_EFFECT;
-            case "Mind Crush":
-                return MIND_CRUSH_EFFECT;
+//            case "Mind Crush":
+//                return MIND_CRUSH_EFFECT;
             case "Torrential Tribute":
                 return TORRENTIAL_TRIBUTE_EFFECT;
-            case "Time Seal":
-                return TIME_SEAL_EFFECT;
+//            case "Time Seal":
+//                return TIME_SEAL_EFFECT;
             case "Negate Attack":
                 return NEGATE_ATTACK_EFFECT;
-            case "Solemn Warning":
-                return SOLEMN_WARNING_EFFECT;
-            case "Magic Jamamer":
-                return MAGIC_JAMMER_EFFECT;
-            case "Call of The Haunted":
-                return CALL_OF_THE_HAUNTED_EFFECT;
+//            case "Solemn Warning":
+//                return SOLEMN_WARNING_EFFECT;
+//            case "Magic Jamamer":
+//                return MAGIC_JAMMER_EFFECT;
+//            case "Call of The Haunted":
+//                return CALL_OF_THE_HAUNTED_EFFECT;
         }
         return null;
     }

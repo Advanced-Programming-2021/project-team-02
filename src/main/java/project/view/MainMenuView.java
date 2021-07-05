@@ -1,6 +1,9 @@
 package project.view;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -12,6 +15,7 @@ import project.view.messages.LoginMessage;
 import project.view.messages.PopUpMessage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class MainMenuView {
     public ImageView playPauseMusicButton;
@@ -52,10 +56,13 @@ public class MainMenuView {
 
     public void createCard(MouseEvent actionEvent) throws Exception {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Utility.openNewMenu("/project/fxml/create_card.fxml");
+
     }
 
     public void importExportMenu(MouseEvent actionEvent) throws Exception {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Utility.openNewMenu("/project/fxml/create_card.fxml");
     }
 
     public void nextTrack(MouseEvent actionEvent) {
