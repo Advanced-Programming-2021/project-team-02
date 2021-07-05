@@ -1,29 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="secondPane" fx:id="pane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.gameview.FlipCoinView">
+<AnchorPane id="secondPane" fx:id="pane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.gameview.FlipCoinView">
     <stylesheets>
-        <URL value="@../CSS/flip_coin_style.css"/>
+        <URL value="@../CSS/flip_coin_style.css" />
     </stylesheets>
-    <VBox fx:id="vBox" alignment="CENTER" layoutX="39.0" layoutY="132.0" prefHeight="365.0" prefWidth="435.0"
-          spacing="10.0">
-        <ImageView fx:id="coinImage" fitHeight="150.0" fitWidth="164.0" pickOnBounds="true" preserveRatio="true"/>
-        <Button id="button" fx:id="flipCoinButton" layoutX="226.0" layoutY="530.0" mnemonicParsing="false"
-                onMouseClicked="#flipCoin" prefHeight="43.0" prefWidth="214.0" text="Flip coin"/>
+    <VBox id="firstBox" fx:id="vBox" alignment="CENTER" layoutX="217.0" layoutY="206.0" prefHeight="417.0" prefWidth="477.0" spacing="10.0">
+        <ImageView fx:id="coinImage" fitHeight="150.0" fitWidth="164.0" pickOnBounds="true" preserveRatio="true" />
+        <Button id="button" fx:id="flipCoinButton" layoutX="226.0" layoutY="530.0" mnemonicParsing="false" onMouseClicked="#flipCoin" prefHeight="43.0" prefWidth="134.0" text="Flip coin" />
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-            <ImageView fx:id="firstPlayerCoin" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true"
-                       preserveRatio="true"/>
-            <Label id="label" fx:id="firstPlayerNickname" alignment="CENTER" prefHeight="150.0" prefWidth="139.0"
-                   text="Label"/>
-            <Label id="label" fx:id="secondPlayerNickname" alignment="CENTER" prefHeight="150.0" prefWidth="132.0"
-                   text="Label"/>
-            <ImageView fx:id="secondPlayerCoin" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true"
-                       preserveRatio="true"/>
+            <ImageView fx:id="firstPlayerCoin" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" />
+            <Label id="label" fx:id="firstPlayerNickname" alignment="CENTER" prefHeight="150.0" prefWidth="139.0" text="Label" />
+            <Label id="label" fx:id="secondPlayerNickname" alignment="CENTER" prefHeight="150.0" prefWidth="132.0" text="Label" />
+            <ImageView fx:id="secondPlayerCoin" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" />
         </HBox>
+      <padding>
+         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+      </padding>
     </VBox>
+    <ImageView fitHeight="56.0" fitWidth="56.0" layoutX="1450.0" layoutY="625.0" onMouseClicked="#nextTrack" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../image/Icon/next_track.png" />
+        <cursor>
+            <Cursor fx:constant="HAND" />
+        </cursor>
+    </ImageView>
+
+    <ImageView fx:id="playPauseMusicButton" fitHeight="56.0" fitWidth="56.0" layoutX="1450.0" layoutY="700.0" onMouseClicked="#playPauseMusic" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../image/Icon/pause.png" />
+        <cursor>
+            <Cursor fx:constant="HAND" />
+        </cursor>
+    </ImageView>
+
+    <ImageView fx:id="muteUnmuteButton" fitHeight="56.0" fitWidth="56.0" layoutX="1450.0" layoutY="775.0" onMouseClicked="#muteUnmuteMusic" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../image/Icon/unmute.png" />
+        <cursor>
+            <Cursor fx:constant="HAND" />
+        </cursor>
+    </ImageView>
 </AnchorPane>

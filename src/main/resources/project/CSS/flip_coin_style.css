@@ -11,6 +11,12 @@
     -fx-background-image: url(../image/main_background.jpg);
     -fx-background-size: cover;
 }
+
+#firstBox {
+    -fx-background-color: #00062b;
+    -fx-background-radius: 30;
+}
+
 #button {
     -fx-font-size: 24.0;
     -fx-background-color: #9e376c;

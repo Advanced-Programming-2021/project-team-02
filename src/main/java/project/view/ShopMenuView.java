@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import project.controller.MainMenuController;
@@ -126,6 +127,7 @@ public class ShopMenuView {
     @FXML
     public Label Coin;
     public Button seeOtherCards;
+    public ScrollPane scrollPane;
 
     HashMap<Card, Integer> allUserCards;
 
@@ -142,8 +144,12 @@ public class ShopMenuView {
                 Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         allUserCards = Objects.requireNonNull(
                 Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllUserCards();
+        scrollPane.setFitToWidth(true);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setPrefWidth(1000000000);
+        scrollPane.setPrefWidth(1525);
+        scrollPane.setPrefHeight(860);
         showNumber();
-
     }
 
     public void showNumber() {

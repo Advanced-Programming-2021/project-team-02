@@ -209,6 +209,8 @@ public class DeckMenuAddCard {
         scrollPane.setFitToWidth(true);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setPrefWidth(1000000000);
+        scrollPane.setPrefWidth(1525);
+        scrollPane.setPrefHeight(860);
         HashMap<Card, Integer> hashMapAllCards = Objects.requireNonNull(
                 Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllUserCards();
         int i = 0, j = 3;

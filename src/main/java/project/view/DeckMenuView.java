@@ -191,6 +191,7 @@ public class DeckMenuView {
     private void addDeck() {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
+        window.initOwner(LoginMenuView.getStage());
         window.initStyle(StageStyle.UNDECORATED);
         PopUpMessage.setStage(window);
         window.setTitle("Add Deck");
@@ -227,6 +228,7 @@ public class DeckMenuView {
         layout.getChildren().add(addDeckButton);
         layout.setAlignment(Pos.BASELINE_LEFT);
         Scene scene = new Scene(layout, 300, 300);
+        window.initStyle(StageStyle.TRANSPARENT);
         window.setScene(scene);
         window.setResizable(true);
         window.showAndWait();

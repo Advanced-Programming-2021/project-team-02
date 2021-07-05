@@ -39,8 +39,8 @@
                 <Insets left="15.0" right="15.0" top="10.0" />
             </VBox.margin>
         </HBox>
-        <HBox id="textField" alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="367.0">
-            <Label id="textField" prefHeight="31.0" prefWidth="108.0" text="Username">
+        <HBox id="textField" alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="361.0">
+            <Label id="textField" prefHeight="31.0" prefWidth="160.0" text="Username">
                 <padding>
                     <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                 </padding></Label>
@@ -49,7 +49,7 @@
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </padding>
          <VBox.margin>
-            <Insets left="30.0" right="30.0" />
+            <Insets left="55.0" right="55.0" />
          </VBox.margin>
         </HBox>
         <VBox prefHeight="130.0" prefWidth="277.0" spacing="10.0">
@@ -111,7 +111,8 @@
         <cursor>
             <Cursor fx:constant="HAND" />
         </cursor>
-    </ImageView><stylesheets>
+    </ImageView>
+    <stylesheets>
         <URL value="@../CSS/duel_start_menu.css" />
     </stylesheets>
 </AnchorPane>
