@@ -62,6 +62,10 @@ public class GameView {
     public GridPane currentHand;
     public AnchorPane mainGamePane;
     public Label phaseLabel;
+    public Pane currentPlayerFieldPane;
+    public Pane currentPlayerGraveYardPane;
+    public Pane opponentFieldPane;
+    public Pane opponentGraveYardPane;
     private Image backCardImage = new Image(getClass().getResource("/project/image/GamePictures/Card Back.png").toString());
 
     public void initialize() {
@@ -74,7 +78,11 @@ public class GameView {
         selectedCardImageView.setImage(backCardImage);
         selectedCardDescriptionLabel.setText("No card selected");
         RoundGameController.getInstance().setView(this);
-        loadHandCards();
+        //loadHandCards();
+        currentPlayerDeckPane.setCursor(Cursor.HAND);
+        currentPlayerGraveYardPane.setCursor(Cursor.HAND);
+        //TODO currentPlayerGraveYardPane.setOnMouseClicked
+        opponentGraveYardPane.setCursor(Cursor.HAND);
         currentPlayerDeckPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -84,6 +92,8 @@ public class GameView {
             }
         });
         phaseLabel.setText("Current Phase : Draw");
+        currentDeckLabel.setCursor(Cursor.HAND);
+
     }
 
     public Image getCardImageByName(String cardName) {
@@ -99,11 +109,10 @@ public class GameView {
         return null;
     }
 
-    private void loadHandCards() {
+    public void loadHandCards() {
         ArrayList<Card> currentPlayerHandList = (ArrayList<Card>) RoundGameController.getInstance().getCurrentPlayerHand();
         int counter = 0;
         for (Card card : currentPlayerHandList) {
-            System.out.println(card.getName());
             ImageView cardImageView = new ImageView(getCardImageByName(card.getName()));
             cardImageView.setFitHeight(160);
             cardImageView.setFitWidth(116);
@@ -147,13 +156,16 @@ public class GameView {
             });
             opponentHand.add(cardImageView, counter, 0);
             counter++;
+
         }
         opponentDeckLabel.setText(String.valueOf(RoundGameController.getInstance().getOpponentPlayer().getPlayDeck().getMainCards().size()));
         currentDeckLabel.setText(String.valueOf(RoundGameController.getInstance().getCurrentPlayer().getPlayDeck().getMainCards().size()));
     }
 
-    public void drawCardFromDeckAnimation(String cardName) {
-        Point2D deck = currentPlayerDeckPane.localToScene(new Point2D(0, 0));
+    public void drawCardFromDeckAnimation(String cardName, boolean isCurrent) {
+        Pane deckPane = isCurrent ? currentPlayerDeckPane : opponentPlayerDeckPane;
+        GridPane handPane = isCurrent ? currentHand : opponentHand;
+        Point2D deck = deckPane.localToScene(new Point2D(0, 0));
         ImageView cardImageView = new ImageView();
         cardImageView.setCursor(Cursor.HAND);
         cardImageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -174,7 +186,7 @@ public class GameView {
         int addressOfAddInGrid = RoundGameController.getInstance().getCurrentPlayerHand().size() - 1;//zero based!
 
 
-        Node node = getNodeInGridPane(currentHand, 0, addressOfAddInGrid - 1);
+        Node node = getNodeInGridPane(handPane, 0, addressOfAddInGrid - 1);
         Point2D nodePoint = node.localToScene(new Point2D(0, 0));
         translateTransition.setNode(cardImageView);
         translateTransition.setFromX(deck.getX());
@@ -199,7 +211,7 @@ public class GameView {
                         selectedCardDescriptionLabel.setText(Card.getCardByName(cardName).toString());
                     }
                 });
-                currentHand.add(imageView, addressOfAddInGrid, 0);
+                handPane.add(imageView, addressOfAddInGrid, 0);
                 mainGamePane.getChildren().remove(cardImageView);
             }
         });
@@ -221,6 +233,10 @@ public class GameView {
 
     private void updateCurrentDeckLabel() {
         currentDeckLabel.setText(String.valueOf(RoundGameController.getInstance().getCurrentPlayer().getPlayDeck().getMainCards().size()));
+    }
+
+    private void showSetHandAnimation() {
+
     }
 
     public void runGameWithAi() {

@@ -344,7 +344,7 @@ public class RoundGameController {
             if (!getCurrentPlayer().getNickname().equals("ai")) ;
             //  TODO view.showSuccessMessageWithAString(SuccessMessage.CARD_ADDED_TO_THE_HAND, card.getName());
             drawUsed = true;
-            view.drawCardFromDeckAnimation(card.getName());
+            view.drawCardFromDeckAnimation(card.getName(),true);
         } else {
             GameResult result = duelGameController.checkGameResult(currentPlayer, getOpponentPlayer(), GameResultToCheck.NO_CARDS_TO_DRAW);// no card so this is loser!
             if (result == GameResult.GAME_FINISHED) {

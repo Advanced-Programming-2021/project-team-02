@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="mainGamePane" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.gameview.GameView">
+<AnchorPane fx:id="mainGamePane" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.gameview.GameView">
     <stylesheets>
         <URL value="@../CSS/round_view.css" />
     </stylesheets>
@@ -95,7 +86,7 @@
             <Pane id="Cell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" />
             <Pane id="Cell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" />
         </GridPane>
-        <Pane id="Cell" layoutX="742.0" layoutY="148.0" prefHeight="126.0" prefWidth="103.0">
+        <Pane fx:id="currentPlayerFieldPane" id="Cell" layoutX="85.0" layoutY="438.0" prefHeight="126.0" prefWidth="103.0">
             <children>
                 <ImageView fitHeight="126.0" fitWidth="103.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -104,17 +95,12 @@
                 </ImageView>
             </children>
         </Pane>
-        <Pane id="Cell" layoutX="751.0" layoutY="364.0" prefHeight="126.0" prefWidth="86.0">
+        <Pane fx:id="currentPlayerGraveYardPane" id="Cell" layoutX="751.0" layoutY="364.0" prefHeight="126.0" prefWidth="86.0">
             <ImageView fitHeight="126.0" fitWidth="103.0" pickOnBounds="true" preserveRatio="true">
                 <Image url="@../image/GamePictures/Graveyard.png" />
             </ImageView>
         </Pane>
-        <Pane id="Cell" layoutX="85.0" layoutY="221.0" prefHeight="126.0" prefWidth="86.0">
-            <ImageView fitHeight="126.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true">
-                <Image url="@../image/GamePictures/Graveyard.png" />
-            </ImageView>
-        </Pane>
-        <Pane id="Cell" layoutX="85.0" layoutY="438.0" prefHeight="126.0" prefWidth="103.0">
+        <Pane fx:id="opponentFieldPane" id="Cell" layoutX="742.0" layoutY="148.0" prefHeight="126.0" prefWidth="103.0">
             <children>
                 <ImageView fitHeight="126.0" fitWidth="103.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -122,6 +108,11 @@
                     </image>
                 </ImageView>
             </children>
+        </Pane>
+        <Pane fx:id="opponentGraveYardPane" id="Cell" layoutX="85.0" layoutY="221.0" prefHeight="126.0" prefWidth="86.0">
+            <ImageView fitHeight="126.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@../image/GamePictures/Graveyard.png" />
+            </ImageView>
         </Pane>
         <Pane fx:id="currentPlayerDeckPane" layoutX="747.0" layoutY="501.0" prefHeight="126.0" prefWidth="94.0">
             <children>
@@ -197,7 +188,7 @@
     </VBox>
     <VBox id="box" alignment="CENTER" layoutX="1342.0" layoutY="300.0" prefHeight="256.0" prefWidth="175.0" spacing="20.0">
         <children>
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Next Phase" onMouseClicked="#nextPhase"/>
+            <Button mnemonicParsing="false" onMouseClicked="#nextPhase" prefHeight="30.0" prefWidth="130.0" text="Next Phase" />
             <Label fx:id="phaseLabel" prefHeight="40.0" prefWidth="150.0" text="Current Phase :" />
             <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Summon/Activate Effect" />
             <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Set" />
