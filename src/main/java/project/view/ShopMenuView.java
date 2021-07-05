@@ -3,12 +3,15 @@ package project.view;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import project.controller.MainMenuController;
 import project.controller.ShopMenuController;
 import java.io.IOException;
 import java.net.URL;
@@ -19,6 +22,7 @@ import project.model.Assets;
 import project.model.User;
 import project.model.card.Card;
 import project.model.card.CardsDatabase;
+import project.model.card.Monster;
 import project.view.messages.PopUpMessage;
 import project.view.messages.ShopMenuMessage;
 
@@ -126,7 +130,7 @@ public class ShopMenuView {
     public Label C50;
 
     @FXML
-    public Label Coin = new Label();
+    public Label Coin;
 
     @FXML
     public void initialize() {
@@ -137,11 +141,11 @@ public class ShopMenuView {
             e.printStackTrace();
         }
         controller = ShopMenuController.getInstance();
-        new User("mahdi", "123456", "test");
-        System.out.println(Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getCoin());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(
+                Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         C1.setText("hello");
-        HashMap<Card, Integer> allUserCards = Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getAllUserCards();
+        HashMap<Card, Integer> allUserCards = Objects.requireNonNull(
+                Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllUserCards();
         for (Card card : allUserCards.keySet()) {
             if (card.getName().equals("Alexandrite Dragon")) C1.setText(String.valueOf(allUserCards.get(card)));
             if (card.getName().equals("Axe Raider")) C2.setText(String.valueOf(allUserCards.get(card)));
@@ -449,7 +453,14 @@ public class ShopMenuView {
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
     }
 
-    public void back() {
-        System.exit(0);
+    public void back(MouseEvent mouseEvent) throws IOException {
+        if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/main_menu.fxml")));
+        Utility.openNewMenu(root, (Node) mouseEvent.getSource());
+    }
+
+    public void showCoins() {
+        int coin = Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin();
+        Coin.setText(String.valueOf(coin));
     }
 }

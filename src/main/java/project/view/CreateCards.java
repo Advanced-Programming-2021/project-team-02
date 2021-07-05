@@ -1,13 +1,21 @@
 package project.view;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import project.controller.CreateCardMenuController;
+import project.model.card.Card;
 import project.model.card.CardsDatabase;
-import project.model.card.informationofcards.*;
 import project.view.messages.CreateCardMessage;
 import project.view.messages.PopUpMessage;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class CreateCards {
     public MenuButton type;
@@ -25,16 +33,18 @@ public class CreateCards {
     public TextField level;
     public Button calculatePrice;
     private String cardType = null;
+    CreateCardMenuController createCardMenuController;
 
 
     @FXML
     public void initialize() {
+        createCardMenuController = CreateCardMenuController.getInstance();
         attack.setVisible(false);
         defense.setVisible(false);
         level.setVisible(false);
     }
 
-    public void changeToMonster(ActionEvent event) {
+    public void changeToMonster() {
         type.setText("Monster");
         attack.setVisible(true);
         defense.setVisible(true);
@@ -45,7 +55,7 @@ public class CreateCards {
         //listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
-    public void changeToSpell(ActionEvent event) {
+    public void changeToSpell() {
         type.setText("Spell");
         attack.setVisible(false);
         defense.setVisible(false);
@@ -57,7 +67,7 @@ public class CreateCards {
         //listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
-    public void changeToTrap(ActionEvent event) {
+    public void changeToTrap() {
         type.setText("Trap");
         attack.setVisible(false);
         defense.setVisible(false);
@@ -68,7 +78,7 @@ public class CreateCards {
         //listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
-    public void createCard(ActionEvent event) {
+    public void createCard() {
         String effect = String.valueOf(listView.getSelectionModel().getSelectedItems());
         String replacementForEffect = effect.substring(1, effect.length() - 1);
         if (cardType == null) {
@@ -92,29 +102,23 @@ public class CreateCards {
         String effect = String.valueOf(listView.getSelectionModel().getSelectedItems());
         String replacementForEffect = effect.substring(1, effect.length() - 1);
         if (cardType.equals("Monster")) {
-            if (replacementForEffect.equals("No Effect")) {
-                CardsDatabase.makeCardMonster(CardType.MONSTER, enterCardName.getText(), "ID", MonsterActionType.NORMAL,
-                        null, Integer.parseInt(level.getText()), Attribute.DARK, description.getText(),
-                        Integer.parseInt(attack.getText()), Integer.parseInt(defense.getText()), MonsterType.PYRO, Integer.parseInt(price.getText()));
-            } else {
-                CardsDatabase.makeCardMonster(CardType.MONSTER, enterCardName.getText(), "ID", MonsterActionType.NORMAL,
-                        MonsterEffect.getMonsterEffectByName(replacementForEffect), Integer.parseInt(level.getText()), Attribute.DARK, description.getText(),
-                        Integer.parseInt(attack.getText()), Integer.parseInt(defense.getText()), MonsterType.PYRO, Integer.parseInt(price.getText()));
-            }
+            createCardMenuController.makeMonster(replacementForEffect, enterCardName.getText(), (level.getText()), description.getText(),
+                    (attack.getText()), (defense.getText()), (price.getText()));
+            new PopUpMessage(CreateCardMessage.CARD_CREATED.getAlertType(), CreateCardMessage.CARD_CREATED.getLabel());
         } else if (cardType.equals("Spell")) {
-            CardsDatabase.makeCardSpell(CardType.SPELL, enterCardName.getText(), "ID", SpellEffect.getSpellByName(replacementForEffect),
-                    Attribute.DARK, description.getText(), SpellType.getSpellTypeByTypeName(replacementForEffect),
-                    false, Integer.parseInt(price.getText()));
+            createCardMenuController.makeSpell(replacementForEffect, enterCardName.getText(),
+                    description.getText(), (price.getText()));
+            new PopUpMessage(CreateCardMessage.CARD_CREATED.getAlertType(), CreateCardMessage.CARD_CREATED.getLabel());
         } else {
-            CardsDatabase.makeTrapCard(CardType.TRAP, enterCardName.getText(), "ID", TrapEffect.getTrapEffectByName(replacementForEffect),
-                    Attribute.DARK, description.getText(), TrapType.getTrapTypeByTypeName(replacementForEffect),
-                    false, Integer.parseInt(price.getText()));
+            createCardMenuController.makeTrap(replacementForEffect, enterCardName.getText(),
+                    description.getText(), (price.getText()));
+            new PopUpMessage(CreateCardMessage.CARD_CREATED.getAlertType(), CreateCardMessage.CARD_CREATED.getLabel());
         }
         System.out.println(replacementForEffect);
     }
 
 
-    public void calculatePrice(ActionEvent event) {
+    public void calculatePrice() {
         String effect = String.valueOf(listView.getSelectionModel().getSelectedItems());
         if (cardType == null) {
             new PopUpMessage(CreateCardMessage.SELECT_TYPE.getAlertType(), CreateCardMessage.SELECT_TYPE.getLabel());
@@ -220,5 +224,15 @@ public class CreateCards {
                     break;
             }
         }
+    }
+
+    public void back(MouseEvent mouseEvent) throws IOException {
+        ArrayList<Card> arrayList = CardsDatabase.getAllCards();
+        for (Card card : arrayList) {
+            System.out.println(card.getName() + " : ");
+        }
+        if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/main_menu.fxml")));
+        Utility.openNewMenu(root, (Node) mouseEvent.getSource());
     }
 }

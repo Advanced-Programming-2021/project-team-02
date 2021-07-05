@@ -21,7 +21,7 @@
       <TextField fx:id="enterCardName" layoutX="223.0" layoutY="135.0" promptText="Enter your Card Name" />
       <TextField fx:id="attack" layoutX="223.0" layoutY="204.0" promptText="Attack" />
       <TextField fx:id="defense" layoutX="223.0" layoutY="241.0" promptText="Defense" />
-      <TextArea layoutX="219.0" layoutY="275.0" prefHeight="200.0" prefWidth="163.0" promptText="Description : " />
+      <TextArea fx:id="description" layoutX="219.0" layoutY="275.0" prefHeight="200.0" prefWidth="163.0" promptText="Description : " />
       <ListView fx:id="listView" layoutX="14.0" layoutY="56.0" prefHeight="585.0" prefWidth="200.0" />
       <Button fx:id="submit" layoutX="262.0" layoutY="540.0" mnemonicParsing="false" onAction="#createCard" text="Create Card" />
       <Label fx:id="effect" layoutX="220.0" layoutY="466.0" prefHeight="18.0" prefWidth="163.0" />
@@ -29,5 +29,6 @@
       <Label fx:id="price" layoutX="456.0" layoutY="384.0" prefHeight="36.0" prefWidth="106.0" />
       <TextField fx:id="level" layoutX="223.0" layoutY="170.0" promptText="Level" />
       <Button fx:id="calculatePrice" layoutX="463.0" layoutY="430.0" mnemonicParsing="false" onAction="#calculatePrice" text="Calculate Price" />
+      <Button layoutX="550.0" layoutY="577.0" mnemonicParsing="false" onMouseClicked="#back" prefHeight="50.0" prefWidth="78.0" text="Back" />
    </children>
 </AnchorPane>

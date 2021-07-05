@@ -4,453 +4,411 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1500.0"
-            prefWidth="1540.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="project.view.ShopMenuView">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1500.0" prefWidth="1540.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.ShopMenuView">
    <AnchorPane prefHeight="1500.0" prefWidth="1540.0">
       <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/AlexandriteDragon.jpg"/>
+         <Image url="@../image/ShopMenuPictures/Monsters/AlexandriteDragon.jpg" />
       </ImageView>
       <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="145.0" pickOnBounds="true" preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/AxeRaider.jpg"/>
+         <Image url="@../image/ShopMenuPictures/Monsters/AxeRaider.jpg" />
       </ImageView>
       <HBox layoutX="1018.0" layoutY="200.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#BEWD" text="Buy"/>
-         <Label fx:id="C8" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#BEWD" text="Buy" />
+         <Label fx:id="C8" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="152.0" layoutY="200.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#AR" text="Buy"/>
-         <Label fx:id="C2" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#AR" text="Buy" />
+         <Label fx:id="C2" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="295.0" layoutY="200.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#BD" text="Buy"/>
-         <Label fx:id="C3" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#BD" text="Buy" />
+         <Label fx:id="C3" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="289.0" pickOnBounds="true" preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/BabyDragon.jpg"/>
+         <Image url="@../image/ShopMenuPictures/Monsters/BabyDragon.jpg" />
       </ImageView>
       <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="434.0" pickOnBounds="true" preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/BattleOX.jpg"/>
+         <Image url="@../image/ShopMenuPictures/Monsters/BattleOX.jpg" />
       </ImageView>
       <HBox layoutX="440.0" layoutY="200.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#BO" text="Buy"/>
-         <Label fx:id="C4" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#BO" text="Buy" />
+         <Label fx:id="C4" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="577.0" pickOnBounds="true" preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/BattleWarrior.jpg"/>
+         <Image url="@../image/ShopMenuPictures/Monsters/BattleWarrior.jpg" />
       </ImageView>
       <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="720.0" pickOnBounds="true" preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/BeastKingBarbaros.jpg"/>
+         <Image url="@../image/ShopMenuPictures/Monsters/BeastKingBarbaros.jpg" />
       </ImageView>
       <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="865.0" pickOnBounds="true" preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/Bitron.jpg"/>
+         <Image url="@../image/ShopMenuPictures/Monsters/Bitron.jpg" />
       </ImageView>
       <HBox layoutX="727.0" layoutY="200.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#BKB" text="Buy"/>
-         <Label fx:id="C6" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#BKB" text="Buy" />
+         <Label fx:id="C6" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="583.0" layoutY="200.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#BW" text="Buy"/>
-         <Label fx:id="C5" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#BW" text="Buy" />
+         <Label fx:id="C5" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="872.0" layoutY="200.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#BBBBB" text="Buy"/>
-         <Label fx:id="C7" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#BBBBB" text="Buy" />
+         <Label fx:id="C7" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="1157.0" pickOnBounds="true" preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/CrabTurtle.jpg"/>
+         <Image url="@../image/ShopMenuPictures/Monsters/CrabTurtle.jpg" />
       </ImageView>
       <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="1012.0" pickOnBounds="true" preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/BlueEyesWhiteDragon.jpg"/>
+         <Image url="@../image/ShopMenuPictures/Monsters/BlueEyesWhiteDragon.jpg" />
       </ImageView>
       <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="1302.0" pickOnBounds="true" preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/CrawlingDragon.jpg"/>
+         <Image url="@../image/ShopMenuPictures/Monsters/CrawlingDragon.jpg" />
       </ImageView>
       <HBox layoutX="1163.0" layoutY="200.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#CT" text="Buy"/>
-         <Label fx:id="C9" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#CT" text="Buy" />
+         <Label fx:id="C9" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="7.0" layoutY="200.0" prefHeight="25.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#AD" text="Buy"/>
-         <Label fx:id="C1" prefHeight="26.0" prefWidth="78.0" text="Label"/>
+         <Button mnemonicParsing="false" onAction="#AD" text="Buy" />
+         <Label fx:id="C1" prefHeight="26.0" prefWidth="78.0" text="Label" />
       </HBox>
       <HBox layoutX="1309.0" layoutY="200.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#CD" text="Buy"/>
-         <Label fx:id="C10" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#CD" text="Buy" />
+         <Label fx:id="C10" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="295.0" layoutY="456.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#DM" text="Buy"/>
-         <Label fx:id="C13" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#DM" text="Buy" />
+         <Label fx:id="C13" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="152.0" layoutY="456.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#DB" text="Buy"/>
-         <Label fx:id="C12" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#DB" text="Buy" />
+         <Label fx:id="C12" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="7.0" layoutY="456.0" prefHeight="28.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#COTDO" text="Buy"/>
-         <Label fx:id="C11" prefHeight="26.0" prefWidth="78.0" text="Label"/>
+         <Button mnemonicParsing="false" onAction="#COTDO" text="Buy" />
+         <Label fx:id="C11" prefHeight="26.0" prefWidth="78.0" text="Label" />
       </HBox>
       <HBox layoutX="440.0" layoutY="456.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#ED" text="Buy"/>
-         <Label fx:id="C14" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#ED" text="Buy" />
+         <Label fx:id="C14" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="583.0" layoutY="456.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#FI" text="Buy"/>
-         <Label fx:id="C15" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#FI" text="Buy" />
+         <Label fx:id="C15" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="-1.0" layoutY="256.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/CurtainOfDarkOnes.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="-1.0" layoutY="256.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Monsters/CurtainOfDarkOnes.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="146.0" layoutY="256.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/DarkBlade.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="146.0" layoutY="256.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Monsters/DarkBlade.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="289.0" layoutY="256.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/DarkMagician.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="289.0" layoutY="256.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Monsters/DarkMagician.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="577.0" layoutY="256.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/FeralImp.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="577.0" layoutY="256.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Monsters/FeralImp.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="434.0" layoutY="256.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/ExploderDragon.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="434.0" layoutY="256.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Monsters/ExploderDragon.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="721.0" layoutY="256.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/FireYarou.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="721.0" layoutY="256.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Monsters/FireYarou.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="866.0" layoutY="256.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/FlameManipulator.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="866.0" layoutY="256.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Monsters/FlameManipulator.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="1157.0" layoutY="256.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/Haniwa.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="1157.0" layoutY="256.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Monsters/Haniwa.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="1012.0" layoutY="256.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/GateGuardian.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="1012.0" layoutY="256.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Monsters/GateGuardian.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="1302.0" layoutY="256.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/HeroOfTheEast.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="1302.0" layoutY="256.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Monsters/HeroOfTheEast.jpg" />
       </ImageView>
       <HBox layoutX="725.0" layoutY="456.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#FFFFF" text="Buy"/>
-         <Label fx:id="C16" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#FFFFF" text="Buy" />
+         <Label fx:id="C16" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="874.0" layoutY="456.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#FM" text="Buy"/>
-         <Label fx:id="C17" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#FM" text="Buy" />
+         <Label fx:id="C17" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="1019.0" layoutY="456.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#GG" text="Buy"/>
-         <Label fx:id="C18" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#GG" text="Buy" />
+         <Label fx:id="C18" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="1308.0" layoutY="456.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#HOTE" text="Buy"/>
-         <Label fx:id="C20" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#HOTE" text="Buy" />
+         <Label fx:id="C20" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="7.0" layoutY="519.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/HornImp.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="7.0" layoutY="519.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Monsters/HornImp.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="152.0" layoutY="519.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/Leotron.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="152.0" layoutY="519.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Monsters/Leotron.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="295.0" layoutY="519.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/ManEaterBug.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="295.0" layoutY="519.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Monsters/ManEaterBug.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="440.0" layoutY="519.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/SilverFang.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="440.0" layoutY="519.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Monsters/SilverFang.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="583.0" layoutY="519.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/SkullGuardian.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="583.0" layoutY="519.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Monsters/SkullGuardian.jpg" />
       </ImageView>
       <HBox layoutX="14.0" layoutY="719.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#HI" text="Buy"/>
-         <Label fx:id="C21" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#HI" text="Buy" />
+         <Label fx:id="C21" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="446.0" layoutY="719.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#SF" text="Buy"/>
-         <Label fx:id="C24" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#SF" text="Buy" />
+         <Label fx:id="C24" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="299.0" layoutY="719.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#MEB" text="Buy"/>
-         <Label fx:id="C23" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#MEB" text="Buy" />
+         <Label fx:id="C23" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="158.0" layoutY="719.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#LLLLL" text="Buy"/>
-         <Label fx:id="C22" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#LLLLL" text="Buy" />
+         <Label fx:id="C22" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="590.0" layoutY="719.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#SG" text="Buy"/>
-         <Label fx:id="C25" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#SG" text="Buy" />
+         <Label fx:id="C25" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="727.0" layoutY="519.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/SlotMachine.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="727.0" layoutY="519.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Monsters/SlotMachine.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="1011.0" layoutY="519.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/TheTricky.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="1011.0" layoutY="519.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Monsters/TheTricky.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="1302.0" layoutY="519.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/Wattaildragon.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="1302.0" layoutY="519.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Monsters/Wattaildragon.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="1157.0" layoutY="519.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/WarriorDaiGrepher.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="1157.0" layoutY="519.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Monsters/WarriorDaiGrepher.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="867.0" layoutY="519.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/SpiralSerpent.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="867.0" layoutY="519.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Monsters/SpiralSerpent.jpg" />
       </ImageView>
       <HBox layoutX="874.0" layoutY="719.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#SS" text="Buy"/>
-         <Label fx:id="C27" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#SS" text="Buy" />
+         <Label fx:id="C27" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="733.0" layoutY="719.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#SM" text="Buy"/>
-         <Label fx:id="C26" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#SM" text="Buy" />
+         <Label fx:id="C26" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="1018.0" layoutY="719.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#TT" text="Buy"/>
-         <Label fx:id="C28" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#TT" text="Buy" />
+         <Label fx:id="C28" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="1164.0" layoutY="719.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#WDG" text="Buy"/>
-         <Label fx:id="C29" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#WDG" text="Buy" />
+         <Label fx:id="C29" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="1309.0" layoutY="719.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#WWWWW" text="Buy"/>
-         <Label fx:id="C30" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#WWWWW" text="Buy" />
+         <Label fx:id="C30" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="7.0" layoutY="784.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/Wattkid.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="7.0" layoutY="784.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Monsters/Wattkid.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="151.0" layoutY="784.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Monsters/YomiShip.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="151.0" layoutY="784.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Monsters/YomiShip.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="294.0" layoutY="784.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Spells/AdvancedRitualArt.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="294.0" layoutY="784.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Spells/AdvancedRitualArt.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="439.0" layoutY="784.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Spells/BlackPendant.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="439.0" layoutY="784.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Spells/BlackPendant.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="583.0" layoutY="784.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Spells/ClosedForest.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="583.0" layoutY="784.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Spells/ClosedForest.jpg" />
       </ImageView>
       <HBox layoutX="158.0" layoutY="984.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#YS" text="Buy"/>
-         <Label fx:id="C32" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#YS" text="Buy" />
+         <Label fx:id="C32" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="12.0" layoutY="984.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#WWWW" text="Buy"/>
-         <Label fx:id="C31" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#WWWW" text="Buy" />
+         <Label fx:id="C31" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="301.0" layoutY="984.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#ARA" text="Buy"/>
-         <Label fx:id="C33" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#ARA" text="Buy" />
+         <Label fx:id="C33" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="590.0" layoutY="984.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#CF" text="Buy"/>
-         <Label fx:id="C35" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#CF" text="Buy" />
+         <Label fx:id="C35" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="446.0" layoutY="984.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#BP" text="Buy"/>
-         <Label fx:id="C34" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#BP" text="Buy" />
+         <Label fx:id="C34" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="726.0" layoutY="784.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Spells/DarkHole.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="726.0" layoutY="784.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Spells/DarkHole.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="1156.0" layoutY="784.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Spells/MonsterReborn.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="1156.0" layoutY="784.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Spells/MonsterReborn.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="1011.0" layoutY="784.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Spells/hf.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="1011.0" layoutY="784.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Spells/hf.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="867.0" layoutY="784.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Spells/Forest.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="867.0" layoutY="784.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Spells/Forest.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="1301.0" layoutY="784.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Spells/PotOfGreed.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="1301.0" layoutY="784.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Spells/PotOfGreed.jpg" />
       </ImageView>
       <HBox layoutX="872.0" layoutY="984.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#Forest" text="Buy"/>
-         <Label fx:id="C37" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#Forest" text="Buy" />
+         <Label fx:id="C37" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="732.0" layoutY="984.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#DH" text="Buy"/>
-         <Label fx:id="C36" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#DH" text="Buy" />
+         <Label fx:id="C36" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="1307.0" layoutY="984.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#POG" text="Buy"/>
-         <Label fx:id="C40" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#POG" text="Buy" />
+         <Label fx:id="C40" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="1163.0" layoutY="984.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#MR" text="Buy"/>
-         <Label fx:id="C39" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#MR" text="Buy" />
+         <Label fx:id="C39" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="1018.0" layoutY="984.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#HFD" text="Buy"/>
-         <Label fx:id="C38" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#HFD" text="Buy" />
+         <Label fx:id="C38" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="584.0" layoutY="1054.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Spells/Yami.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="584.0" layoutY="1054.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Spells/Yami.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="441.0" layoutY="1054.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Spells/Umiruka.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="441.0" layoutY="1054.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Spells/Umiruka.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="296.0" layoutY="1054.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Spells/Terraforming.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="296.0" layoutY="1054.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Spells/Terraforming.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="152.0" layoutY="1054.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Spells/SwordOfDarkDestruction.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="152.0" layoutY="1054.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Spells/SwordOfDarkDestruction.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="8.0" layoutY="1054.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Spells/Raigeki.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="8.0" layoutY="1054.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Spells/Raigeki.jpg" />
       </ImageView>
       <HBox layoutX="158.0" layoutY="1254.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#SODD" text="Buy"/>
-         <Label fx:id="C42" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#SODD" text="Buy" />
+         <Label fx:id="C42" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="14.0" layoutY="1254.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#RRRRR" text="Buy"/>
-         <Label fx:id="C41" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#RRRRR" text="Buy" />
+         <Label fx:id="C41" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="589.0" layoutY="1254.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#YYYYY" text="Buy"/>
-         <Label fx:id="C45" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#YYYYY" text="Buy" />
+         <Label fx:id="C45" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="445.0" layoutY="1254.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#UUUUU" text="Buy"/>
-         <Label fx:id="C44" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#UUUUU" text="Buy" />
+         <Label fx:id="C44" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="301.0" layoutY="1254.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#TTTTT" text="Buy"/>
-         <Label fx:id="C43" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#TTTTT" text="Buy" />
+         <Label fx:id="C43" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="726.0" layoutY="1054.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Traps/MagicCylinder.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="726.0" layoutY="1054.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Traps/MagicCylinder.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="867.0" layoutY="1054.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Traps/MirrorForce.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="867.0" layoutY="1054.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Traps/MirrorForce.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="1300.0" layoutY="1054.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Traps/TrapHole.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="1300.0" layoutY="1054.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Traps/TrapHole.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="1156.0" layoutY="1054.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Traps/TorrentialTribute.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="1156.0" layoutY="1054.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Traps/TorrentialTribute.jpg" />
       </ImageView>
-      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="1011.0" layoutY="1054.0" pickOnBounds="true"
-                 preserveRatio="true">
-         <Image url="@../image/ShopMenuPictures/Traps/NegateAttack.jpg"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="1011.0" layoutY="1054.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../image/ShopMenuPictures/Traps/NegateAttack.jpg" />
       </ImageView>
       <HBox layoutX="874.0" layoutY="1254.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#MF" text="Buy"/>
-         <Label fx:id="C47" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#MF" text="Buy" />
+         <Label fx:id="C47" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="733.0" layoutY="1254.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#MC" text="Buy"/>
-         <Label fx:id="C46" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#MC" text="Buy" />
+         <Label fx:id="C46" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="1306.0" layoutY="1254.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#TH" text="Buy"/>
-         <Label prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#TH" text="Buy" />
+         <Label prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="1164.0" layoutY="1254.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#TTTT" text="Buy"/>
-         <Label fx:id="C49" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#TTTT" text="Buy" />
+         <Label fx:id="C49" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="1019.0" layoutY="1254.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#NA" text="Buy"/>
-         <Label fx:id="C48" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#NA" text="Buy" />
+         <Label fx:id="C48" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
       <HBox layoutX="1162.0" layoutY="456.0" prefHeight="32.0" prefWidth="123.0" spacing="5.0">
-         <Button mnemonicParsing="false" onAction="#HHHHH" text="Buy"/>
-         <Label fx:id="C19" prefHeight="26.0" prefWidth="78.0" text="Number : 0"/>
+         <Button mnemonicParsing="false" onAction="#HHHHH" text="Buy" />
+         <Label fx:id="C19" prefHeight="26.0" prefWidth="78.0" text="Number : 0" />
       </HBox>
-      <Label layoutX="46.0" layoutY="223.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2600"/>
-      <Label layoutX="192.0" layoutY="223.0" prefHeight="23.0" prefWidth="82.0" text="Price : 3100"/>
-      <Label layoutX="335.0" layoutY="223.0" prefHeight="23.0" prefWidth="82.0" text="Price : 1600"/>
-      <Label layoutX="46.0" layoutY="487.0" prefHeight="23.0" prefWidth="82.0" text="Price : 700"/>
-      <Label layoutX="192.0" layoutY="487.0" prefHeight="23.0" prefWidth="82.0" text="Price : 3500"/>
-      <Label layoutX="623.0" layoutY="225.0" prefHeight="23.0" prefWidth="82.0" text="Price : 1300"/>
-      <Label layoutX="478.0" layoutY="487.0" prefHeight="23.0" prefWidth="82.0" text="Price : 1000"/>
-      <Label layoutX="335.0" layoutY="487.0" prefHeight="23.0" prefWidth="82.0" text="Label"/>
-      <Label layoutX="478.0" layoutY="225.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2900"/>
-      <Label layoutX="762.0" layoutY="485.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2500"/>
-      <Label layoutX="767.0" layoutY="225.0" prefHeight="23.0" prefWidth="82.0" text="Price : 9200"/>
-      <Label layoutX="623.0" layoutY="487.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2800"/>
-      <Label layoutX="912.0" layoutY="225.0" prefHeight="23.0" prefWidth="82.0" text="Price : 1000"/>
-      <Label layoutX="1203.0" layoutY="225.0" prefHeight="23.0" prefWidth="82.0" text="Price : 10200"/>
-      <Label layoutX="1059.0" layoutY="225.0" prefHeight="23.0" prefWidth="82.0" text="Price : 11300"/>
-      <Label layoutX="1346.0" layoutY="225.0" prefHeight="23.0" prefWidth="82.0" text="Price : 3900"/>
-      <Label layoutX="1059.0" layoutY="487.0" prefHeight="23.0" prefWidth="82.0" text="Price : 20000"/>
-      <Label layoutX="912.0" layoutY="487.0" prefHeight="23.0" prefWidth="82.0" text="Price : 1500"/>
-      <Label layoutX="1346.0" layoutY="487.0" prefHeight="23.0" prefWidth="82.0" text="Price : 1700"/>
-      <Label layoutX="1203.0" layoutY="487.0" prefHeight="23.0" prefWidth="82.0" text="Price : 600"/>
-      <Label layoutX="1346.0" layoutY="750.0" prefHeight="23.0" prefWidth="82.0" text="Price : 5800"/>
-      <Label layoutX="1346.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2000"/>
-      <Label layoutX="1346.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2500"/>
-      <Label layoutX="1203.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2500"/>
-      <Label layoutX="1203.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2000"/>
-      <Label layoutX="1203.0" layoutY="748.0" prefHeight="23.0" prefWidth="82.0" text="Price : 3400"/>
-      <Label layoutX="1059.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price :  2500"/>
-      <Label layoutX="1059.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 3000"/>
-      <Label layoutX="1059.0" layoutY="748.0" prefHeight="23.0" prefWidth="82.0" text="Price : 4300"/>
-      <Label layoutX="912.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2000"/>
-      <Label layoutX="912.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price : 4300"/>
-      <Label layoutX="912.0" layoutY="750.0" prefHeight="23.0" prefWidth="82.0" text="Price : 11700"/>
-      <Label layoutX="767.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2500"/>
-      <Label layoutX="767.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2000"/>
-      <Label layoutX="767.0" layoutY="750.0" prefHeight="23.0" prefWidth="82.0" text="Price : 7500"/>
-      <Label layoutX="630.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price : 4300"/>
-      <Label layoutX="630.0" layoutY="750.0" prefHeight="23.0" prefWidth="82.0" text="Price : 7900"/>
-      <Label layoutX="797.0" layoutY="780.0" prefHeight="23.0" prefWidth="82.0" text="Label"/>
-      <Label layoutX="623.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 4300"/>
-      <Label layoutX="486.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 4300"/>
-      <Label layoutX="486.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price : 4300"/>
-      <Label layoutX="486.0" layoutY="748.0" prefHeight="23.0" prefWidth="82.0" text="Price : 1700"/>
-      <Label layoutX="343.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2500"/>
-      <Label layoutX="343.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price : 3000"/>
-      <Label layoutX="335.0" layoutY="750.0" prefHeight="23.0" prefWidth="82.0" text="Price : 600"/>
-      <Label layoutX="54.0" layoutY="750.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2500"/>
-      <Label layoutX="54.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price : 1300"/>
-      <Label layoutX="192.0" layoutY="748.0" prefHeight="23.0" prefWidth="82.0" text="Price :2500"/>
-      <Label layoutX="54.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2500"/>
-      <Label layoutX="198.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price : 1700"/>
-      <Label layoutX="198.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 4300"/>
-      <Button layoutX="20.0" layoutY="1436.0" mnemonicParsing="false" onAction="#back" prefHeight="43.0"
-              prefWidth="76.0" text="Back"/>
-      <Label fx:id="Coin" layoutX="1450.0" layoutY="14.0" text="Label"/>
+      <Label layoutX="46.0" layoutY="223.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2600" />
+      <Label layoutX="192.0" layoutY="223.0" prefHeight="23.0" prefWidth="82.0" text="Price : 3100" />
+      <Label layoutX="335.0" layoutY="223.0" prefHeight="23.0" prefWidth="82.0" text="Price : 1600" />
+      <Label layoutX="46.0" layoutY="487.0" prefHeight="23.0" prefWidth="82.0" text="Price : 700" />
+      <Label layoutX="192.0" layoutY="487.0" prefHeight="23.0" prefWidth="82.0" text="Price : 3500" />
+      <Label layoutX="623.0" layoutY="225.0" prefHeight="23.0" prefWidth="82.0" text="Price : 1300" />
+      <Label layoutX="478.0" layoutY="487.0" prefHeight="23.0" prefWidth="82.0" text="Price : 1000" />
+      <Label layoutX="335.0" layoutY="487.0" prefHeight="23.0" prefWidth="82.0" text="Label" />
+      <Label layoutX="478.0" layoutY="225.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2900" />
+      <Label layoutX="762.0" layoutY="485.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2500" />
+      <Label layoutX="767.0" layoutY="225.0" prefHeight="23.0" prefWidth="82.0" text="Price : 9200" />
+      <Label layoutX="623.0" layoutY="487.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2800" />
+      <Label layoutX="912.0" layoutY="225.0" prefHeight="23.0" prefWidth="82.0" text="Price : 1000" />
+      <Label layoutX="1203.0" layoutY="225.0" prefHeight="23.0" prefWidth="82.0" text="Price : 10200" />
+      <Label layoutX="1059.0" layoutY="225.0" prefHeight="23.0" prefWidth="82.0" text="Price : 11300" />
+      <Label layoutX="1346.0" layoutY="225.0" prefHeight="23.0" prefWidth="82.0" text="Price : 3900" />
+      <Label layoutX="1059.0" layoutY="487.0" prefHeight="23.0" prefWidth="82.0" text="Price : 20000" />
+      <Label layoutX="912.0" layoutY="487.0" prefHeight="23.0" prefWidth="82.0" text="Price : 1500" />
+      <Label layoutX="1346.0" layoutY="487.0" prefHeight="23.0" prefWidth="82.0" text="Price : 1700" />
+      <Label layoutX="1203.0" layoutY="487.0" prefHeight="23.0" prefWidth="82.0" text="Price : 600" />
+      <Label layoutX="1346.0" layoutY="750.0" prefHeight="23.0" prefWidth="82.0" text="Price : 5800" />
+      <Label layoutX="1346.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2000" />
+      <Label layoutX="1346.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2500" />
+      <Label layoutX="1203.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2500" />
+      <Label layoutX="1203.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2000" />
+      <Label layoutX="1203.0" layoutY="748.0" prefHeight="23.0" prefWidth="82.0" text="Price : 3400" />
+      <Label layoutX="1059.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price :  2500" />
+      <Label layoutX="1059.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 3000" />
+      <Label layoutX="1059.0" layoutY="748.0" prefHeight="23.0" prefWidth="82.0" text="Price : 4300" />
+      <Label layoutX="912.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2000" />
+      <Label layoutX="912.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price : 4300" />
+      <Label layoutX="912.0" layoutY="750.0" prefHeight="23.0" prefWidth="82.0" text="Price : 11700" />
+      <Label layoutX="767.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2500" />
+      <Label layoutX="767.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2000" />
+      <Label layoutX="767.0" layoutY="750.0" prefHeight="23.0" prefWidth="82.0" text="Price : 7500" />
+      <Label layoutX="630.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price : 4300" />
+      <Label layoutX="630.0" layoutY="750.0" prefHeight="23.0" prefWidth="82.0" text="Price : 7900" />
+      <Label layoutX="797.0" layoutY="780.0" prefHeight="23.0" prefWidth="82.0" text="Label" />
+      <Label layoutX="623.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 4300" />
+      <Label layoutX="486.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 4300" />
+      <Label layoutX="486.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price : 4300" />
+      <Label layoutX="486.0" layoutY="748.0" prefHeight="23.0" prefWidth="82.0" text="Price : 1700" />
+      <Label layoutX="343.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2500" />
+      <Label layoutX="343.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price : 3000" />
+      <Label layoutX="335.0" layoutY="750.0" prefHeight="23.0" prefWidth="82.0" text="Price : 600" />
+      <Label layoutX="54.0" layoutY="750.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2500" />
+      <Label layoutX="54.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price : 1300" />
+      <Label layoutX="192.0" layoutY="748.0" prefHeight="23.0" prefWidth="82.0" text="Price :2500" />
+      <Label layoutX="54.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 2500" />
+      <Label layoutX="198.0" layoutY="1016.0" prefHeight="23.0" prefWidth="82.0" text="Price : 1700" />
+      <Label layoutX="198.0" layoutY="1286.0" prefHeight="23.0" prefWidth="82.0" text="Price : 4300" />
+      <Button layoutX="20.0" layoutY="1436.0" mnemonicParsing="false" onMouseClicked="#back" prefHeight="43.0" prefWidth="76.0" text="Back" />
+      <Label fx:id="Coin" layoutX="137.0" layoutY="1398.0" prefHeight="28.0" prefWidth="106.0" text="Label" />
+      <Button layoutX="117.0" layoutY="1436.0" mnemonicParsing="false" onMouseClicked="#showCoins" prefHeight="38.0" prefWidth="72.0" text="See Coins" />
    </AnchorPane>
 </ScrollPane>
