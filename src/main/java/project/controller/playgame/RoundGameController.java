@@ -1,5 +1,6 @@
 package project.controller.playgame;
 
+import org.w3c.dom.ls.LSOutput;
 import project.model.Deck;
 import project.model.card.Card;
 import project.model.card.Monster;
@@ -888,7 +889,7 @@ public class RoundGameController {
 
 
     //MONSTER RELATED CODES :
-    public GameViewMessage summonMonster() {
+    public synchronized GameViewMessage summonMonster() {
         GameViewMessage message;
         //TODO if (selectedCellZone == Zone.NONE && opponentSelectedCell != null) {
         //     Error.showError(Error.ONLY_CAN_SHOW_OPPONENT_CARD);
@@ -902,17 +903,16 @@ public class RoundGameController {
         }
         //TODO check special summon
         Monster monster = ((Monster) selectedCell.getCardInCell());
-        if (selectedCell.getCardInCell().getCardType().equals(CardType.MONSTER)) {
-            if (monster.getMonsterEffect().equals(MonsterEffect.GATE_GUARDIAN_EFFECT)) {
-                gateGuardianEffect(CellStatus.OFFENSIVE_OCCUPIED);
+        System.out.println(monster);
+        if (monster.getMonsterEffect().equals(MonsterEffect.GATE_GUARDIAN_EFFECT)) {
+            gateGuardianEffect(CellStatus.OFFENSIVE_OCCUPIED);
+            return SUCCESS;
+        } else if (monster.getMonsterEffect().equals(MonsterEffect.BEAST_KING_BARBAROS_EFFECT)) {
+            if (beastKingBarbosEffect(CellStatus.OFFENSIVE_OCCUPIED))
                 return SUCCESS;
-            } else if (monster.getMonsterEffect().equals(MonsterEffect.BEAST_KING_BARBAROS_EFFECT)) {
-                if (beastKingBarbosEffect(CellStatus.OFFENSIVE_OCCUPIED))
-                    return SUCCESS;
-            } else if (monster.getMonsterEffect().equals(MonsterEffect.THE_TRICKY_EFFECT)) {
-                if (theTrickyEffect(CellStatus.OFFENSIVE_OCCUPIED)) {
-                    return SUCCESS;
-                }
+        } else if (monster.getMonsterEffect().equals(MonsterEffect.THE_TRICKY_EFFECT)) {
+            if (theTrickyEffect(CellStatus.OFFENSIVE_OCCUPIED)) {
+                return SUCCESS;
             }
         }
         // check haven't summoned more than once

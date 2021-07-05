@@ -77,8 +77,10 @@ public enum MonsterEffect {
                 return THE_TRICKY_EFFECT;
 //            case "Command knight":
 //                return COMMAND_KNIGHT_EFFECT;
+            default:
+                return NONE;
         }
-        return null;
+
     }
     /*
 

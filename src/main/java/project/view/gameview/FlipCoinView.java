@@ -101,10 +101,7 @@ public class FlipCoinView {
                 @Override
                 public void handle(ActionEvent actionEvent) {
                     try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/project/fxml/round_view.fxml"));
-                        Parent root = loader.load();
-                        Utility.openNewMenu(root, (Node) actionEvent.getSource());
-                        GameView gameView = loader.getController();
+                        GameView gameView  = Utility.openGameMenu("/project/fxml/round_view.fxml");
                         gameView.loadHandCards();
                     } catch (IOException e) {
                         e.printStackTrace();
