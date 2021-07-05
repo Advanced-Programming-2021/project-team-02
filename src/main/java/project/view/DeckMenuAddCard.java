@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import project.controller.DeckMenuController;
+import project.controller.MainMenuController;
 import project.model.Assets;
 import project.model.User;
 import project.model.card.Card;
@@ -208,7 +209,8 @@ public class DeckMenuAddCard {
         scrollPane.setFitToWidth(true);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setPrefWidth(1000000000);
-        HashMap<Card, Integer> hashMapAllCards = Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getAllUserCards();
+        HashMap<Card, Integer> hashMapAllCards = Objects.requireNonNull(
+                Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllUserCards();
         int i = 0, j = 3;
         for (Card card : hashMapAllCards.keySet()) {
             if (utility.getStringImageHashMap().containsKey(card.getName())) {
@@ -218,7 +220,7 @@ public class DeckMenuAddCard {
                     i = 0;
                 }
                 int x = 0;
-                while (x < Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getNumberOfCards(card)) {
+                while (x < Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getNumberOfCards(card)) {
                     if (i >= 10) {
                         j++;
                         i = 0;
@@ -232,7 +234,7 @@ public class DeckMenuAddCard {
                         cardName = imageView.getId();
                     });
 
-                    Label label = new Label("Number : " + Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getNumberOfCards(card));
+                    Label label = new Label("Number : " + Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getNumberOfCards(card));
                     label.setId(card.getName());
                     label.setFont(Font.font("Cambria", 10));
                     label.setTextFill(Color.web("#0076a3"));

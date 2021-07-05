@@ -14,6 +14,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import project.controller.DeckMenuController;
+import project.controller.MainMenuController;
 import project.model.Assets;
 import project.model.Deck;
 import project.model.User;
@@ -299,7 +300,7 @@ public class ContinueDeckMenuView {
     }
 
     public void showDeckInfo(Utility utility, Label label1, DeckMenuController deckMenuController) {
-        ArrayList<Deck> arrayList = Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getAllDecks();
+        ArrayList<Deck> arrayList = Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllDecks();
         for (Deck deck : arrayList) {
             int counter = 0;
             int i, j;

@@ -36,39 +36,38 @@ public class DeckMenuController {
         if (doesDeckExist(deckName)) {
             return DeckMenuMessage.DECK_ALREADY_EXIST;
         }
-//        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
+        Assets assets = Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername());
+        Objects.requireNonNull(assets).createDeck(deckName);
         return DeckMenuMessage.DECK_ADDED;
-//        Objects.requireNonNull(assets).createDeck(deckName);
+
     }
 
     public DeckMenuMessage deleteDeck(String deckName) {
         if (!doesDeckExist(deckName)) {
             return DeckMenuMessage.DECK_DOES_NOT_EXIST;
         }
-//        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
+        Assets assets = Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername());
+        Objects.requireNonNull(assets).deleteDeck(deckName);
         return DeckMenuMessage.DECK_DELETED;
-//        Objects.requireNonNull(assets).deleteDeck(deckName);
     }
 
     public DeckMenuMessage activateDeck(String deckName) {
-//        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
+        Assets assets = Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername());
         if (!doesDeckExist(deckName)) {
             return DeckMenuMessage.DECK_DOES_NOT_EXIST;
         }
-//        Objects.requireNonNull(assets).activateDeck(deckName);
+        Objects.requireNonNull(assets).activateDeck(deckName);
         return DeckMenuMessage.DECK_ACTIVATED;
     }
 
     public DeckMenuMessage addCardToMainDeck(String deckName, String cardName) {
-//        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance()
-//                .getLoggedInUser().getUsername());
         if (!isValidDeckToAddCard(cardName, deckName)) return DeckMenuMessage.CARD_DOES_NOT_EXIST;
-        Deck deck = Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName(deckName);
+        Deck deck = Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getDeckByDeckName(deckName);
         if (deck.isMainFull()) {
             return DeckMenuMessage.DECK_FULL;
         }
         Card card = Card.getCardByName(cardName);
-        if (Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getNumberOfCards(card) == deck.getNumberOfCardInDeck(card)) {
+        if (Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getNumberOfCards(card) == deck.getNumberOfCardInDeck(card)) {
             return DeckMenuMessage.MAXIMUM;
         }
 
@@ -82,14 +81,13 @@ public class DeckMenuController {
     }
 
     public DeckMenuMessage addCardToSideDeck(String deckName, String cardName) {
-        //Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
         if (!isValidDeckToAddCard(cardName, deckName)) return DeckMenuMessage.CARD_DOES_NOT_EXIST;
-        Deck deck = Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName(deckName);
-        if (Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName(deckName).isSideFull()) {
+        Deck deck = Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getDeckByDeckName(deckName);
+        if (Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getDeckByDeckName(deckName).isSideFull()) {
             return DeckMenuMessage.DECK_FULL;
         }
         Card card = Card.getCardByName(cardName);
-        if (Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getNumberOfCards(card) == deck.getNumberOfCardInDeck(card)) {
+        if (Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getNumberOfCards(card) == deck.getNumberOfCardInDeck(card)) {
             return DeckMenuMessage.MAXIMUM;
         }
         if (Objects.requireNonNull(card).getCardType().equals(CardType.MONSTER)) {
@@ -110,59 +108,52 @@ public class DeckMenuController {
         } else return doesDeckExist(deckName);
     }
 
-    private void addMonsterToMainDeck(Monster monster, Deck deck, String deckName, String cardName) {
-//        if (!isValidNumberOfCardInDeck(deckName, cardName, false, deck.getNumberOfCardInDeck(monster))) return;
-//        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
-//        Objects.requireNonNull(assets).addCardToMainDeck(monster, deck);
-//        SuccessMessage.showSuccessMessage(SuccessMessage.CARD_ADDED_TO_THE_DECK);
+    private DeckMenuMessage addMonsterToMainDeck(Monster monster, Deck deck, String deckName, String cardName) {
+        if (!isValidNumberOfCardInDeck(deckName, cardName, false, deck.getNumberOfCardInDeck(monster))) return DeckMenuMessage.MAXIMUM;;
+        Assets assets = Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername());
+        Objects.requireNonNull(assets).addCardToMainDeck(monster, deck);
+        return DeckMenuMessage.CARD_ADDED_TO_SIDE;
     }
 
-    private void addSpellToMainDeck(Spell spell, Deck deck, String deckName, String cardName) {
-//        if (!isValidNumberOfCardInDeck(deckName, cardName, spell.getIsLimited(), deck.getNumberOfCardInDeck(spell))) return;
-//        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
-//        Objects.requireNonNull(assets).addCardToMainDeck(spell, deck);
-//        SuccessMessage.showSuccessMessage(SuccessMessage.CARD_ADDED_TO_THE_DECK);
+    private DeckMenuMessage addSpellToMainDeck(Spell spell, Deck deck, String deckName, String cardName) {
+        if (!isValidNumberOfCardInDeck(deckName, cardName, spell.getIsLimited(), deck.getNumberOfCardInDeck(spell))) return DeckMenuMessage.MAXIMUM;;
+        Assets assets = Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername());
+        Objects.requireNonNull(assets).addCardToMainDeck(spell, deck);
+        return DeckMenuMessage.CARD_ADDED_TO_SIDE;
     }
 
-    private void addTrapToMainDeck(Trap trap, Deck deck, String deckName, String cardName) {
-//        if (!isValidNumberOfCardInDeck(deckName, cardName, trap.getIsLimited(), deck.getNumberOfCardInDeck(trap))) return;
-//        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
-//        Objects.requireNonNull(assets).addCardToMainDeck(trap, deck);
-//        SuccessMessage.showSuccessMessage(SuccessMessage.CARD_ADDED_TO_THE_DECK);
+    private DeckMenuMessage addTrapToMainDeck(Trap trap, Deck deck, String deckName, String cardName) {
+        if (!isValidNumberOfCardInDeck(deckName, cardName, trap.getIsLimited(), deck.getNumberOfCardInDeck(trap))) return DeckMenuMessage.MAXIMUM;;
+        Assets assets = Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername());
+        Objects.requireNonNull(assets).addCardToMainDeck(trap, deck);
+        return DeckMenuMessage.CARD_ADDED_TO_SIDE;
     }
 
-    private void addMonsterToSideDeck(Monster monster, Deck deck, String deckName, String cardName) {
-//        if (!isValidNumberOfCardInDeck(deckName, cardName, false, deck.getNumberOfCardInDeck(monster))) return;
-//        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
-//        Objects.requireNonNull(assets).addCardToSideDeck(monster, deck);
-//        SuccessMessage.showSuccessMessage(SuccessMessage.CARD_ADDED_TO_THE_DECK);
+    private DeckMenuMessage addMonsterToSideDeck(Monster monster, Deck deck, String deckName, String cardName) {
+        if (!isValidNumberOfCardInDeck(deckName, cardName, false, deck.getNumberOfCardInDeck(monster))) return DeckMenuMessage.MAXIMUM;
+        Assets assets = Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername());
+        Objects.requireNonNull(assets).addCardToSideDeck(monster, deck);
+        return DeckMenuMessage.CARD_ADDED_TO_SIDE;
     }
 
-    private void addSpellToSideDeck(Spell spell, Deck deck, String deckName, String cardName) {
-//        if (!isValidNumberOfCardInDeck(deckName, cardName, spell.getIsLimited(), deck.getNumberOfCardInDeck(spell))) return;
-//        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
-//        Objects.requireNonNull(assets).addCardToSideDeck(spell, deck);
-//        SuccessMessage.showSuccessMessage(SuccessMessage.CARD_ADDED_TO_THE_DECK);
+    private DeckMenuMessage addSpellToSideDeck(Spell spell, Deck deck, String deckName, String cardName) {
+        if (!isValidNumberOfCardInDeck(deckName, cardName, spell.getIsLimited(), deck.getNumberOfCardInDeck(spell))) return DeckMenuMessage.MAXIMUM;;
+        Assets assets = Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername());
+        Objects.requireNonNull(assets).addCardToSideDeck(spell, deck);
+        return DeckMenuMessage.CARD_ADDED_TO_SIDE;
     }
 
-    private void addTrapToSideDeck(Trap trap, Deck deck, String deckName, String cardName) {
-//        if (!isValidNumberOfCardInDeck(deckName, cardName, trap.getIsLimited(), deck.getNumberOfCardInDeck(trap))) return;
-//        Assets assets = Assets.getAssetsByUsername(MenusManager.getInstance().getLoggedInUser().getUsername());
-//        Objects.requireNonNull(assets).addCardToSideDeck(trap, deck);
-//        SuccessMessage.showSuccessMessage(SuccessMessage.CARD_ADDED_TO_THE_DECK);
+    private DeckMenuMessage addTrapToSideDeck(Trap trap, Deck deck, String deckName, String cardName) {
+        if (!isValidNumberOfCardInDeck(deckName, cardName, trap.getIsLimited(), deck.getNumberOfCardInDeck(trap))) return DeckMenuMessage.MAXIMUM;;
+        Assets assets = Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername());
+        Objects.requireNonNull(assets).addCardToSideDeck(trap, deck);
+        return DeckMenuMessage.CARD_ADDED_TO_SIDE;
     }
 
     private boolean isValidNumberOfCardInDeck(String deckName, String cardName, boolean isLimited, int numberOfCardInDeck) {
         if (isLimited) {
-            if (numberOfCardInDeck == 1) {
-//                view.showDynamicError(Error.CARD_LIMITED_IN_DECK, cardName);
-                return false;
-            }
-        } else if (numberOfCardInDeck == 3) {
-//            view.showDynamicErrorWithTwoStrings (Error.EXCESSIVE_NUMBER_IN_DECK, cardName, deckName);
-            return false;
-        }
-        return true;
+            return numberOfCardInDeck != 1;
+        } else return numberOfCardInDeck != 3;
     }
 
     public void showAllDecks() {
@@ -272,12 +263,12 @@ public class DeckMenuController {
     }
 
     private boolean doesDeckExist(String deckName) {
-        Assets assets = Assets.getAssetsByUsername("mahdi");
+        Assets assets = Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername());
         return Objects.requireNonNull(assets).getDeckByDeckName(deckName) != null;
     }
 
     private boolean doesCardExistInUserCards(String cardName) {
-        Assets assets = Assets.getAssetsByUsername("mahdi");
+        Assets assets = Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername());
         HashMap<Card, Integer> userCards = Objects.requireNonNull(assets).getAllUserCards();
         for (Card card : userCards.keySet()) {
             if (card.getName().equalsIgnoreCase(cardName))

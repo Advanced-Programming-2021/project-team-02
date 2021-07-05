@@ -20,6 +20,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import project.controller.DeckMenuController;
+import project.controller.MainMenuController;
 import project.model.Assets;
 import project.model.Deck;
 import project.model.User;
@@ -54,6 +55,7 @@ public class DeckMenuView {
 
     @FXML
     public void initialize() {
+        User user = MainMenuController.getInstance().getLoggedInUser();
         CardsDatabase cardsDatabase = CardsDatabase.getInstance();
         try {
             cardsDatabase.readAndMakeCards();
@@ -78,12 +80,13 @@ public class DeckMenuView {
         Utility utility = new Utility();
         utility.addImages();
         imageHashMap = utility.getStringImageHashMap();
-        showDecks(mahdi);
+        showDecks(user);
     }
 
     private void showDecks(User user) {
         ArrayList<Deck> deckArrayList = Objects.requireNonNull(Assets.getAssetsByUsername(user.getUsername())).getAllDecks();
 
+        System.out.println(Objects.requireNonNull(Assets.getAssetsByUsername(user.getUsername())).getAllDecks().size());
         int counterJ = 0;
         int counterSize = 0;
         for (int i = 0, j = 0; counterSize < Objects.requireNonNull(Assets.getAssetsByUsername(user.getUsername())).getAllDecks().size(); i++) {
@@ -92,7 +95,7 @@ public class DeckMenuView {
                 i = 0;
                 counterJ = 0;
             }
-
+            System.out.println(deckArrayList.get(counterSize).getName());
             Label labelDeckName = new Label(deckArrayList.get(counterSize).getName());
             labelDeckName.setFont(Font.font("Cambria", 30));
             labelDeckName.setTextFill(Color.web("#0076a3"));
@@ -247,14 +250,15 @@ public class DeckMenuView {
     }
 
     private void checkDelete(Button button) {
-        ArrayList<Deck> arrayList = Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getAllDecks();
+        ArrayList<Deck> arrayList = Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllDecks();
         for (Deck deck : arrayList) {
             if (button.getId().equals(deck.getName())) {
                 DeckMenuMessage deckMenuMessage = controller.deleteDeck(button.getId());
                 new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
                 gridPaneAsli.getChildren().clear();
-                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).deleteDeck(button.getId());
-                showDecks(Objects.requireNonNull(User.getUserByUsername("mahdi")));
+                Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).deleteDeck(button.getId());
+                System.out.println(button.getId());
+                showDecks(Objects.requireNonNull(User.getUserByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())));
             }
         }
     }
