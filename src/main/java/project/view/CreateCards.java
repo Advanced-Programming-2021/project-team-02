@@ -232,7 +232,6 @@ public class CreateCards {
             System.out.println(card.getName() + " : ");
         }
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/main_menu.fxml")));
-        Utility.openNewMenu(root, (Node) mouseEvent.getSource());
+        Utility.openNewMenu("/project/fxml/main_menu.fxml");
     }
 }

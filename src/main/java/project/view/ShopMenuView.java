@@ -1,9 +1,11 @@
 package project.view;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import project.controller.MainMenuController;
@@ -123,6 +125,7 @@ public class ShopMenuView {
 
     @FXML
     public Label Coin;
+    public Button seeOtherCards;
 
     HashMap<Card, Integer> allUserCards;
 
@@ -504,12 +507,14 @@ public class ShopMenuView {
 
     public void back(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/main_menu.fxml")));
-        Utility.openNewMenu(root, (Node) mouseEvent.getSource());
+        Utility.openNewMenu("/project/fxml/main_menu.fxml");
     }
 
     public void showCoins() {
         int coin = Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin();
         Coin.setText(String.valueOf(coin));
+    }
+
+    public void seeOtherCardsCreated(ActionEvent event) {
     }
 }
