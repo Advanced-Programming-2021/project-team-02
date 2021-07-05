@@ -25,24 +25,18 @@ public class DuelMenuView {
     }
 
     public void singlePlayer(MouseEvent actionEvent) throws IOException {
-        if (actionEvent.getButton() != MouseButton.PRIMARY)
-            return;
-        Parent loader = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/start_single_player_duel_setting_menu.fxml")));
-        Utility.openNewMenu(loader, (Node) actionEvent.getSource());
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Utility.openNewMenu("/project/fxml/start_single_player_duel_setting_menu.fxml");
     }
 
     public void multiPlayer(MouseEvent actionEvent) throws IOException {
-        if (actionEvent.getButton() != MouseButton.PRIMARY)
-            return;
-        Parent loader = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/start_multi_player_duel_setting_menu.fxml")));
-        Utility.openNewMenu(loader, (Node) actionEvent.getSource());
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Utility.openNewMenu("/project/fxml/start_multi_player_duel_setting_menu.fxml");
     }
 
     public void back(MouseEvent actionEvent) throws IOException {
-        if (actionEvent.getButton() != MouseButton.PRIMARY)
-            return;
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/main_menu.fxml")));
-        Utility.openNewMenu(root, (Node) actionEvent.getSource());
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Utility.openNewMenu("/project/fxml/main_menu.fxml");
     }
 
 

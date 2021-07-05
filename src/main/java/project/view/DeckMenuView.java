@@ -174,8 +174,7 @@ public class DeckMenuView {
 
     private void backToMain(javafx.scene.input.MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/main_menu.fxml")));
-        Utility.openNewMenu(root, (Node) mouseEvent.getSource());
+        Utility.openNewMenu("/project/fxml/main_menu.fxml");
     }
 
     private void editDeck(javafx.scene.input.MouseEvent actionEvent, Button button) throws IOException {
@@ -183,8 +182,7 @@ public class DeckMenuView {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         URL urlMain = getClass().getResource("/project/fxml/deck_menu_info.fxml");
         System.out.println(urlMain);
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/edit_deck_menu.fxml")));
-        Utility.openNewMenu(root, (Node) actionEvent.getSource());
+        Utility.openNewMenu("/project/fxml/edit_deck_menu.fxml");
     }
 
     private void addDeck() {
@@ -236,14 +234,12 @@ public class DeckMenuView {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
         URL urlMain = getClass().getResource("/project/fxml/deck_menu_info.fxml");
         System.out.println(urlMain);
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/deck_menu_info.fxml")));
-        Utility.openNewMenu(root, (Node) mouseEvent.getSource());
+        Utility.openNewMenu("/project/fxml/deck_menu_info.fxml");
     }
 
     private void loadAddCard(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/deck_menu.fxml")));
-        Utility.openNewMenu(root, (Node) mouseEvent.getSource());
+        Utility.openNewMenu("/project/fxml/deck_menu.fxml");
     }
 
     private void checkDelete(Button button) {

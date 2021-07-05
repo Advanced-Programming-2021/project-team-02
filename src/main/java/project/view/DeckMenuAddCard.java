@@ -305,8 +305,7 @@ public class DeckMenuAddCard {
 
     private void back(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/edit_deck_menu.fxml")));
-        Utility.openNewMenu(root, (Node) mouseEvent.getSource());
+        Utility.openNewMenu("/project/fxml/edit_deck_menu.fxml");
     }
 }
 

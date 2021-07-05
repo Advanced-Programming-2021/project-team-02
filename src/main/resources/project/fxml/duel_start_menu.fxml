@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="pane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.DuelMenuView">
+<AnchorPane id="secondPane" fx:id="pane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.DuelMenuView">
     <VBox id="firstBox" alignment="CENTER" layoutX="57.0" layoutY="180.0" prefHeight="278.0" prefWidth="587.0" spacing="25.0">
         <HBox id="menuBar" alignment="CENTER" prefHeight="62.0" prefWidth="400.0" spacing="10.0">
             <ImageView id="icon" fitHeight="35.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">

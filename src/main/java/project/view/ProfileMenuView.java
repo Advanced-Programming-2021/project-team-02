@@ -7,6 +7,7 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -69,7 +70,7 @@ public class ProfileMenuView {
 
     public void changeUsername() {
         Stage window = new Stage();
-        window.initOwner(Utility.getCurrentStage());
+        window.initOwner(LoginMenuView.getStage());
         window.initStyle(StageStyle.UNDECORATED);
         window.initModality(Modality.WINDOW_MODAL);
         PopUpMessage.setStage(window);
@@ -113,7 +114,7 @@ public class ProfileMenuView {
 
     public void changeNickName() {
         Stage window = new Stage();
-        window.initOwner(Utility.getCurrentStage());
+        window.initOwner(LoginMenuView.getStage());
         window.initStyle(StageStyle.UNDECORATED);
         PopUpMessage.setStage(window);
 
@@ -156,7 +157,7 @@ public class ProfileMenuView {
 
     public void changePassword() {
         Stage window = new Stage();
-        window.initOwner(Utility.getCurrentStage());
+        window.initOwner(LoginMenuView.getStage());
         window.initStyle(StageStyle.UNDECORATED);
         PopUpMessage.setStage(window);
 
@@ -206,7 +207,7 @@ public class ProfileMenuView {
 
     public void changeProfilePicture() {
         Stage window = new Stage();
-        window.initOwner(Utility.getCurrentStage());
+        window.initOwner(LoginMenuView.getStage());
         window.initStyle(StageStyle.UNDECORATED);
         window.initModality(Modality.WINDOW_MODAL);
         PopUpMessage.setStage(window);
@@ -346,8 +347,8 @@ public class ProfileMenuView {
         Music.muteUnmuteMusic(muteUnmuteButton);
     }
 
-    public void back(MouseEvent actionEvent) throws Exception {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/main_menu.fxml")));
-        Utility.openNewMenu(root, (Node) actionEvent.getSource());
+    public void back(MouseEvent mouseEvent) throws Exception {
+        if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
+        Utility.openNewMenu("/project/fxml/main_menu.fxml");
     }
 }

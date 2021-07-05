@@ -364,8 +364,7 @@ public class ContinueDeckMenuView {
 
     private void back(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/deck_menu.fxml")));
-        Utility.openNewMenu(root, (Node) mouseEvent.getSource());
+        Utility.openNewMenu("/project/fxml/deck_menu.fxml");
     }
 
     private void activateDeck(Label label, DeckMenuController deckMenuController) {
