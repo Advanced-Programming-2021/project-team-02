@@ -5,23 +5,25 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="pane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.gameview.FlipCoinView">
+<AnchorPane id="secondPane" fx:id="pane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.gameview.FlipCoinView">
     <stylesheets>
-        <URL value="@../CSS/flip_coin_style.css" />
+        <URL value="@../CSS/flip_coin_style.css"/>
     </stylesheets>
-   <children>
-      <VBox fx:id="vBox" alignment="CENTER" layoutX="39.0" layoutY="132.0" prefHeight="365.0" prefWidth="435.0" spacing="10.0">
-         <children>
-            <ImageView fx:id="coinImage" fitHeight="150.0" fitWidth="164.0" pickOnBounds="true" preserveRatio="true" />
-             <Button id="button" fx:id="flipCoinButton" layoutX="226.0" layoutY="530.0" mnemonicParsing="false" onMouseClicked="#flipCoin" prefHeight="43.0" prefWidth="214.0" text="Flip coin" />
-             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <ImageView fx:id="firstPlayerCoin" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" />
-                  <Label id="label" fx:id="firstPlayerNickname" alignment="CENTER" prefHeight="150.0" prefWidth="139.0" text="Label" />
-                  <Label id="label" fx:id="secondPlayerNickname" alignment="CENTER" prefHeight="150.0" prefWidth="132.0" text="Label" />
-                  <ImageView fx:id="secondPlayerCoin" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" />
-               </children></HBox>
-         </children>
-      </VBox>
-   </children>
+    <VBox fx:id="vBox" alignment="CENTER" layoutX="39.0" layoutY="132.0" prefHeight="365.0" prefWidth="435.0"
+          spacing="10.0">
+        <ImageView fx:id="coinImage" fitHeight="150.0" fitWidth="164.0" pickOnBounds="true" preserveRatio="true"/>
+        <Button id="button" fx:id="flipCoinButton" layoutX="226.0" layoutY="530.0" mnemonicParsing="false"
+                onMouseClicked="#flipCoin" prefHeight="43.0" prefWidth="214.0" text="Flip coin"/>
+        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <ImageView fx:id="firstPlayerCoin" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+            <Label id="label" fx:id="firstPlayerNickname" alignment="CENTER" prefHeight="150.0" prefWidth="139.0"
+                   text="Label"/>
+            <Label id="label" fx:id="secondPlayerNickname" alignment="CENTER" prefHeight="150.0" prefWidth="132.0"
+                   text="Label"/>
+            <ImageView fx:id="secondPlayerCoin" fitHeight="150.0" fitWidth="70.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </HBox>
+    </VBox>
 </AnchorPane>

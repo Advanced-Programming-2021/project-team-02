@@ -753,8 +753,8 @@ public class GameView {
     }
 
     public void back(MouseEvent mouseEvent) throws IOException {
-        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/duel_start_menu.fxml")));
-        Utility.openNewMenu(parent, (Node) mouseEvent.getSource());
+        if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
+        Utility.openNewMenu("/project/fxml/duel_start_menu.fxml");
     }
 
     public void nextPhase(MouseEvent mouseEvent) {

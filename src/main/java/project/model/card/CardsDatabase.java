@@ -49,7 +49,6 @@ public class CardsDatabase {
         Shop.getInstance().addCardToShop(card, price);
     }
 
-
     public void readAndMakeCards() throws IOException {
 
         FileReader fileReaderMonster = new FileReader("csv/Monster.csv");

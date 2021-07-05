@@ -20,6 +20,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import project.controller.DeckMenuController;
+import project.controller.MainMenuController;
 import project.model.Assets;
 import project.model.Deck;
 import project.model.User;
@@ -54,36 +55,38 @@ public class DeckMenuView {
 
     @FXML
     public void initialize() {
+        User user = MainMenuController.getInstance().getLoggedInUser();
         CardsDatabase cardsDatabase = CardsDatabase.getInstance();
         try {
             cardsDatabase.readAndMakeCards();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        User mahdi = new User("mahdi", "12345", "test");
-        Objects.requireNonNull(Assets.getAssetsByUsername(mahdi.getUsername())).createDeck("test1");
-        Objects.requireNonNull(Assets.getAssetsByUsername(mahdi.getUsername())).createDeck("test2");
-        Objects.requireNonNull(Assets.getAssetsByUsername(mahdi.getUsername())).createDeck("test3");
-        Objects.requireNonNull(Assets.getAssetsByUsername(mahdi.getUsername())).createDeck("test4");
-        Objects.requireNonNull(Assets.getAssetsByUsername(mahdi.getUsername())).createDeck("test5");
-        Objects.requireNonNull(Assets.getAssetsByUsername(mahdi.getUsername())).createDeck("test6");
-        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Haniwa"),
-                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test1"));
-        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Leotron "),
-                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test1"));
-        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
-                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test1"));
+//        User mahdi = new User("mahdi", "12345", "test");
+//        Objects.requireNonNull(Assets.getAssetsByUsername(mahdi.getUsername())).createDeck("test1");
+//        Objects.requireNonNull(Assets.getAssetsByUsername(mahdi.getUsername())).createDeck("test2");
+//        Objects.requireNonNull(Assets.getAssetsByUsername(mahdi.getUsername())).createDeck("test3");
+//        Objects.requireNonNull(Assets.getAssetsByUsername(mahdi.getUsername())).createDeck("test4");
+//        Objects.requireNonNull(Assets.getAssetsByUsername(mahdi.getUsername())).createDeck("test5");
+//        Objects.requireNonNull(Assets.getAssetsByUsername(mahdi.getUsername())).createDeck("test6");
+//        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Haniwa"),
+//                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test1"));
+//        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Leotron "),
+//                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test1"));
+//        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
+//                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test1"));
 
 
         Utility utility = new Utility();
         utility.addImages();
         imageHashMap = utility.getStringImageHashMap();
-        showDecks(mahdi);
+        showDecks(user);
     }
 
     private void showDecks(User user) {
         ArrayList<Deck> deckArrayList = Objects.requireNonNull(Assets.getAssetsByUsername(user.getUsername())).getAllDecks();
 
+        System.out.println(Objects.requireNonNull(Assets.getAssetsByUsername(user.getUsername())).getAllDecks().size());
         int counterJ = 0;
         int counterSize = 0;
         for (int i = 0, j = 0; counterSize < Objects.requireNonNull(Assets.getAssetsByUsername(user.getUsername())).getAllDecks().size(); i++) {
@@ -92,7 +95,7 @@ public class DeckMenuView {
                 i = 0;
                 counterJ = 0;
             }
-
+            System.out.println(deckArrayList.get(counterSize).getName());
             Label labelDeckName = new Label(deckArrayList.get(counterSize).getName());
             labelDeckName.setFont(Font.font("Cambria", 30));
             labelDeckName.setTextFill(Color.web("#0076a3"));
@@ -174,8 +177,7 @@ public class DeckMenuView {
 
     private void backToMain(javafx.scene.input.MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/main_menu.fxml")));
-        Utility.openNewMenu(root, (Node) mouseEvent.getSource());
+        Utility.openNewMenu("/project/fxml/main_menu.fxml");
     }
 
     private void editDeck(javafx.scene.input.MouseEvent actionEvent, Button button) throws IOException {
@@ -183,8 +185,7 @@ public class DeckMenuView {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         URL urlMain = getClass().getResource("/project/fxml/deck_menu_info.fxml");
         System.out.println(urlMain);
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/edit_deck_menu.fxml")));
-        Utility.openNewMenu(root, (Node) actionEvent.getSource());
+        Utility.openNewMenu("/project/fxml/edit_deck_menu.fxml");
     }
 
     private void addDeck() {
@@ -236,25 +237,23 @@ public class DeckMenuView {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
         URL urlMain = getClass().getResource("/project/fxml/deck_menu_info.fxml");
         System.out.println(urlMain);
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/deck_menu_info.fxml")));
-        Utility.openNewMenu(root, (Node) mouseEvent.getSource());
+        Utility.openNewMenu("/project/fxml/deck_menu_info.fxml");
     }
 
     private void loadAddCard(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/deck_menu.fxml")));
-        Utility.openNewMenu(root, (Node) mouseEvent.getSource());
+        Utility.openNewMenu("/project/fxml/deck_menu.fxml");
     }
 
     private void checkDelete(Button button) {
-        ArrayList<Deck> arrayList = Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getAllDecks();
+        ArrayList<Deck> arrayList = Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllDecks();
         for (Deck deck : arrayList) {
             if (button.getId().equals(deck.getName())) {
                 DeckMenuMessage deckMenuMessage = controller.deleteDeck(button.getId());
                 new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
                 gridPaneAsli.getChildren().clear();
-                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).deleteDeck(button.getId());
-                showDecks(Objects.requireNonNull(User.getUserByUsername("mahdi")));
+               // Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).deleteDeck(button.getId());
+                showDecks(MainMenuController.getInstance().getLoggedInUser());
             }
         }
     }

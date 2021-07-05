@@ -1,40 +1,34 @@
 package project.view;
 
-import javafx.scene.Node;
+import animatefx.animation.*;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.input.KeyCombination;
 import javafx.scene.image.Image;
-import javafx.stage.Stage;
-import project.view.messages.PopUpMessage;
+import javafx.scene.layout.BorderPane;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class Utility {
+    private static BorderPane mainPane;
+    private static Parent secondPane;
     private static final HashMap<String, Image> stringImageHashMap = new HashMap<>();
-    private static Stage currentStage;
 
-    public static void openNewMenu(Parent root, Node source) {
-        Scene scene = new Scene(root);
-        PopUpMessage.setParent(root);
-        Stage stage = (Stage) source.getScene().getWindow();
-        setCurrentStage(stage);
-        PopUpMessage.setStage(stage);
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.setFullScreen(true);
-        stage.setMaximized(true);
-        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-        stage.setFullScreenExitHint("");
-        stage.show();
+    public static void openNewMenu(String url) throws IOException {
+        Parent newSecondPane = FXMLLoader.load(Objects.requireNonNull(Utility.class.getResource(url)));
+        mainPane.getChildren().remove(secondPane);
+        mainPane.setCenter(newSecondPane);
+        setSecondPane(newSecondPane);
+        new FadeIn(newSecondPane).play();
     }
 
-    public static Stage getCurrentStage() {
-        return currentStage;
+    public static void setMainPane(BorderPane mainPane) {
+        Utility.mainPane = mainPane;
     }
 
-    public static void setCurrentStage(Stage currentStage) {
-        Utility.currentStage = currentStage;
+    public static void setSecondPane(Parent secondPane) {
+        Utility.secondPane = secondPane;
     }
 
     public void addImages() {

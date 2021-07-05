@@ -1,6 +1,5 @@
 package project.view;
 
-import animatefx.animation.FadeIn;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -9,7 +8,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
+import javafx.scene.layout.AnchorPane;
 import project.model.Music;
 import project.model.gui.Icon;
 import project.view.messages.LoginMessage;
@@ -32,71 +31,65 @@ public class MainMenuView {
 
     public void deckMenu(MouseEvent actionEvent) throws IOException {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/deck_menu.fxml")));
-        Utility.openNewMenu(root, (Node) actionEvent.getSource());
+        Utility.openNewMenu("/project/fxml/deck_menu.fxml");
     }
 
     public void duelMenu(MouseEvent actionEvent) throws Exception {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/duel_start_menu.fxml")));
-        Utility.openNewMenu(root, (Node) actionEvent.getSource());
-        new FadeIn(root).play();
+        Utility.openNewMenu("/project/fxml/duel_start_menu.fxml");
     }
 
     public void scoreboardMenu(MouseEvent actionEvent) throws Exception {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/scoreboard_menu.fxml")));
-        Utility.openNewMenu(root, (Node) actionEvent.getSource());
-        new FadeIn(root).play();
+        Utility.openNewMenu("/project/fxml/scoreboard_menu.fxml");
     }
 
     public void profileMenu(MouseEvent actionEvent) throws Exception {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/profile_menu.fxml")));
-        Utility.openNewMenu(root, (Node) actionEvent.getSource());
-        new FadeIn(root).play();
+        Utility.openNewMenu("/project/fxml/profile_menu.fxml");
     }
 
     public void shopMenu(MouseEvent actionEvent) throws Exception {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/shop_menu.fxml")));
-        Utility.openNewMenu(root, (Node) actionEvent.getSource());
+        Utility.openNewMenu("/project/fxml/shop_menu.fxml");
     }
 
     public void createCard(MouseEvent actionEvent) throws Exception {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Utility.openNewMenu("/project/fxml/create_card.fxml");
+
     }
 
     public void importExportMenu(MouseEvent actionEvent) throws Exception {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Utility.openNewMenu("/project/fxml/create_card.fxml");
     }
 
-    public void nextTrack() {
+    public void nextTrack(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         Music.nextTrack();
     }
 
-    public void playPauseMusic() {
+    public void playPauseMusic(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         Music.playPauseMusic(playPauseMusicButton);
     }
 
-    public void muteUnmuteMusic() {
+    public void muteUnmuteMusic(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         Music.muteUnmuteMusic(muteUnmuteButton);
     }
 
     public void logout(MouseEvent actionEvent) throws Exception {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.LOGOUT_CONFIRMATION.getLabel());
-        if (popUpMessage.getAlert().getResult().getText().equals("OK")) {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/login_menu.fxml")));
-            Utility.openNewMenu(root, (Node) actionEvent.getSource());
-        }
+        if (popUpMessage.getAlert().getResult().getText().equals("OK")) Utility.openNewMenu("/project/fxml/login_menu.fxml");
+
     }
 
     public void exit(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
-        if (popUpMessage.getAlert().getResult().getText().equals("OK")) {
-            System.exit(0);
-        }
+        if (popUpMessage.getAlert().getResult().getText().equals("OK")) System.exit(0);
     }
 }

@@ -29,10 +29,10 @@ public enum SpellEffect {
         switch (spell) {
             case "Advanced Ritual Art":
                 return RITUAL;
-            case "Magnum Shield":
-                return MAGNUM_SHIELD_EFFECT;
-            case "United We Stand":
-                return UNITED_WE_STAND_EFFECT;
+//            case "Magnum Shield":
+//                return MAGNUM_SHIELD_EFFECT;
+//            case "United We Stand":
+//                return UNITED_WE_STAND_EFFECT;
             case "Black Pendant":
                 return BLACK_PENDANT_EFFECT;
             case "Sword of dark destruction":
@@ -45,24 +45,24 @@ public enum SpellEffect {
                 return FOREST_EFFECT;
             case "Yami":
                 return YAMI_EFFECT;
-            case "Ring of defense":
-                return RING_OF_DEFENSE_EFFECT;
-            case "Mystical space typhoon":
-                return MYSTICAL_SPACE_TYPHOON_EFFECT;
-            case "Twin Twisters":
-                return TWIN_TWISTERS_EFFECT;
-            case "Messenger of peace":
-                return MESSENGER_OF_PEACE_EFFECT;
-            case "Spell Absorption":
-                return SPELL_ABSORPTION_EFFECT;
-            case "Supply Squad":
-                return SUPPLY_SQUAD_EFFECT;
+//            case "Ring of defense":
+//                return RING_OF_DEFENSE_EFFECT;
+//            case "Mystical space typhoon":
+//                return MYSTICAL_SPACE_TYPHOON_EFFECT;
+//            case "Twin Twisters":
+//                return TWIN_TWISTERS_EFFECT;
+//            case "Messenger of peace":
+//                return MESSENGER_OF_PEACE_EFFECT;
+//            case "Spell Absorption":
+//                return SPELL_ABSORPTION_EFFECT;
+//            case "Supply Squad":
+//                return SUPPLY_SQUAD_EFFECT;
             case "Dark Hole":
                 return DARK_HOLE_EFFECT;
-            case "Change of Heart":
-                return CHANGE_OF_HEART_EFFECT;
-            case "Swords of Revealing Light":
-                return SWORDS_OF_REVEALING_LIGHT_EFFECT;
+//            case "Change of Heart":
+//                return CHANGE_OF_HEART_EFFECT;
+//            case "Swords of Revealing Light":
+//                return SWORDS_OF_REVEALING_LIGHT_EFFECT;
             case "Harpie's Feather Duster":
                 return HARPIES_FEATHER_DUSTER_EFFECT;
             case "Raigeki":

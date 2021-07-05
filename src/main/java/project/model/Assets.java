@@ -119,6 +119,7 @@ public class Assets {
     }
 
     public void deleteDeck(String name) {
+        System.out.println("HI" + name);
         Deck deck = getDeckByDeckName(name);
         if (deck.isActivated())
             Objects.requireNonNull(User.getUserByUsername(username)).deactivatedDeck();

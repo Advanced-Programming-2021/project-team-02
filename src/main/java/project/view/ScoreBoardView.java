@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -133,20 +134,23 @@ public class ScoreBoardView {
         }
     }
 
-    public void nextTrack() {
+    public void nextTrack(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         Music.nextTrack();
     }
 
-    public void playPauseMusic() {
+    public void playPauseMusic(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         Music.playPauseMusic(playPauseMusicButton);
     }
 
-    public void muteUnmuteMusic() {
+    public void muteUnmuteMusic(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         Music.muteUnmuteMusic(muteUnmuteButton);
     }
 
-    public void back(MouseEvent actionEvent) throws Exception {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/main_menu.fxml")));
-        Utility.openNewMenu(root, (Node) actionEvent.getSource());
+    public void back(MouseEvent mouseEvent) throws Exception {
+        if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
+        Utility.openNewMenu("/project/fxml/main_menu.fxml");
     }
 }

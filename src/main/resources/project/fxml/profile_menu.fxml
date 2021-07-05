@@ -7,7 +7,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.ProfileMenuView">
+<AnchorPane id="secondPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.ProfileMenuView">
    <VBox id="firstBox" alignment="CENTER" layoutX="75.0" layoutY="180.0" prefHeight="521.0" prefWidth="766.0" spacing="30.0">
       <HBox alignment="CENTER_LEFT">
          <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#back" style="-fx-background-color: #00062b" textAlignment="CENTER">

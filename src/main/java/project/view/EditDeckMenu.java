@@ -14,6 +14,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import project.controller.DeckMenuController;
+import project.controller.MainMenuController;
 import project.model.Assets;
 import project.model.Deck;
 import project.model.User;
@@ -302,7 +303,7 @@ public class EditDeckMenu {
 
     private void showEdit(String deckName) {
 
-        ArrayList<Deck> arrayList = Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getAllDecks();
+        ArrayList<Deck> arrayList = Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllDecks();
         for (Deck deck : arrayList) {
             int counter = 0;
             int i, j;
@@ -348,7 +349,6 @@ public class EditDeckMenu {
                         l++;
                         k = 0;
                     }
-
                     if (utility.getStringImageHashMap().containsKey(deck.getSideCards().get(counter2).getName())) {
                         ImageView imageView = new ImageView(utility.getStringImageHashMap().get(deck.getSideCards().get(counter2).getName()));
                         imageView.setId(deck.getSideCards().get(counter2).getName());
@@ -396,14 +396,12 @@ public class EditDeckMenu {
 
     private void addCards(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/deck_menu_add_card.fxml")));
-        Utility.openNewMenu(root, (Node) mouseEvent.getSource());
+        Utility.openNewMenu("/project/fxml/deck_menu_add_card.fxml");
     }
 
     private void back(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/deck_menu.fxml")));
-        Utility.openNewMenu(root, (Node) mouseEvent.getSource());
+        Utility.openNewMenu("/project/fxml/deck_menu.fxml");
     }
 
     private void deleteCard(DeckMenuController deckMenuController) {
@@ -412,14 +410,18 @@ public class EditDeckMenu {
                     DeckMenuMessage.YOU_DID_NOT_SELECT_ANY_CARD.getLabel());
         } else {
             if (side.equals("i")) {
-                DeckMenuMessage deckMenuMessage = Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).removeCardFromMainDeck((endOFJ) * 15 + endOFI,
-                        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName(deckMenuController.getOpenedDeckButton().getId()));
+                DeckMenuMessage deckMenuMessage = Objects.requireNonNull(
+                        Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).removeCardFromMainDeck((endOFJ) * 15 + endOFI,
+                        Objects.requireNonNull(
+                                Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getDeckByDeckName(deckMenuController.getOpenedDeckButton().getId()));
                 new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
                 gridScrollPane.getChildren().clear();
                 showEdit(deckMenuController.getOpenedDeckButton().getId());
             } else if (side.equals("k")) {
-                DeckMenuMessage deckMenuMessage = Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).removeCardFromSideDeck(endOFK,
-                        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName(deckMenuController.getOpenedDeckButton().getId()));
+                DeckMenuMessage deckMenuMessage = Objects.requireNonNull(
+                        Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).removeCardFromSideDeck(endOFK,
+                        Objects.requireNonNull(
+                                Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getDeckByDeckName(deckMenuController.getOpenedDeckButton().getId()));
                 new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
                 gridScrollPane.getChildren().clear();
                 showEdit(deckMenuController.getOpenedDeckButton().getId());

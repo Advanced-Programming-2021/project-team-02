@@ -8,6 +8,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.stage.StageStyle;
 import project.controller.LoginMenuController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -43,11 +48,105 @@ public class LoginMenuView extends Application {
     public TextField nicknameFieldSignUp;
     public ImageView playPauseMusicButton;
     public ImageView muteUnmuteButton;
+    public BorderPane mainPane;
+    public Pane secondPane;
 
     public static void main(String[] args) throws IOException {
         CardsDatabase.getInstance().readAndMakeCards();
         createSomeUser();
         launch(args);
+    }
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        LoginMenuView.stage = stage;
+        PopUpMessage.setStage(stage);
+        URL fxmlAddress = getClass().getResource("/project/fxml/login_menu.fxml");
+        assert fxmlAddress != null;
+        BorderPane root = FXMLLoader.load(fxmlAddress);
+        Utility.setMainPane(root);
+        Utility.setSecondPane(secondPane);
+        PopUpMessage.setParent(root);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setFullScreen(true);
+        stage.setResizable(false);
+        stage.setMaximized(true);
+        stage.setFullScreenExitHint("");
+        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        stage.setTitle("Yu-Gi-Oh!");
+        stage.getIcons().add(Icon.YU_GI_OH.getImage());
+        stage.show();
+    }
+
+    public static void setStage(Stage stage) {
+        LoginMenuView.stage = stage;
+    }
+
+    public static Stage getStage() {
+        return stage;
+    }
+
+    @FXML
+    public void initialize() {
+        if (!Music.isMediaPlayerPaused) playPauseMusicButton.setImage(Icon.PAUSE.getImage());
+        else playPauseMusicButton.setImage(Icon.PLAY.getImage());
+        if (Music.mediaPlayer.isMute()) muteUnmuteButton.setImage(Icon.MUTE.getImage());
+        else muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
+        usernameFieldSignUp.setOnKeyPressed(k -> {
+            if (k.getCode().equals(KeyCode.ENTER)) registerUser();
+        });
+        nicknameFieldSignUp.setOnKeyPressed(k -> {
+            if (k.getCode().equals(KeyCode.ENTER)) registerUser();
+        });
+        passwordFieldSignUp.setOnKeyPressed(k -> {
+            if (k.getCode().equals(KeyCode.ENTER)) registerUser();
+        });
+        secondPasswordField.setOnKeyPressed(k -> {
+            if (k.getCode().equals(KeyCode.ENTER)) registerUser();
+        });
+//        passwordFieldLogin.setOnKeyPressed(k -> {if (k.getCode().equals(KeyCode.ENTER)) registerUser();});
+//        secondPasswordField.setOnKeyPressed(k -> {if (k.getCode().equals(KeyCode.ENTER)) registerUser();});
+    }
+
+    public void registerUser() {
+        LoginMessage message = controller.createUser(usernameFieldSignUp.getText(), nicknameFieldSignUp.getText(), passwordFieldSignUp.getText(), secondPasswordField.getText());
+        new PopUpMessage(message.getAlertType(), message.getLabel());
+        usernameFieldSignUp.clear();
+        nicknameFieldSignUp.clear();
+        passwordFieldSignUp.clear();
+        secondPasswordField.clear();
+    }
+
+    public void loginUser(MouseEvent actionEvent) throws Exception {
+        LoginMessage message = controller.loginUser(usernameFieldLogin.getText(), passwordFieldLogin.getText());
+        new PopUpMessage(message.getAlertType(), message.getLabel());
+        if (message.getAlertType().equals(Alert.AlertType.INFORMATION)) {
+            Utility.openNewMenu("/project/fxml/main_menu.fxml");
+        }
+    }
+
+    public void nextTrack(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Music.nextTrack();
+    }
+
+    public void playPauseMusic(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Music.playPauseMusic(playPauseMusicButton);
+    }
+
+    public void muteUnmuteMusic(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Music.muteUnmuteMusic(muteUnmuteButton);
+    }
+
+    public void exit(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
+        if (popUpMessage.getAlert().getResult().getText().equals("OK")) {
+            System.exit(0);
+        }
     }
 
     private static void createSomeUser() {
@@ -89,85 +188,5 @@ public class LoginMenuView extends Application {
             }
         }
         mahdisAsset.activateDeck("mahdis");
-    }
-
-    @Override
-    public void start(Stage stage) throws Exception {
-        LoginMenuView.stage = stage;
-        PopUpMessage.setStage(stage);
-        URL fxmlAddress = getClass().getResource("/project/fxml/login_menu.fxml");
-        assert fxmlAddress != null;
-        Parent root = FXMLLoader.load(fxmlAddress);
-        PopUpMessage.setParent(root);
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setFullScreen(true);
-        stage.setResizable(false);
-        stage.setMaximized(true);
-        stage.setFullScreenExitHint("");
-        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-        stage.setTitle("Yu-Gi-Oh!");
-        stage.getIcons().add(Icon.YU_GI_OH.getImage());
-        stage.show();
-    }
-
-    @FXML
-    public void initialize() {
-        if (!Music.isMediaPlayerPaused) playPauseMusicButton.setImage(Icon.PAUSE.getImage());
-        else playPauseMusicButton.setImage(Icon.PLAY.getImage());
-        if (Music.mediaPlayer.isMute()) muteUnmuteButton.setImage(Icon.MUTE.getImage());
-        else muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
-        usernameFieldSignUp.setOnKeyPressed(k -> {
-            if (k.getCode().equals(KeyCode.ENTER)) registerUser();
-        });
-        nicknameFieldSignUp.setOnKeyPressed(k -> {
-            if (k.getCode().equals(KeyCode.ENTER)) registerUser();
-        });
-        passwordFieldSignUp.setOnKeyPressed(k -> {
-            if (k.getCode().equals(KeyCode.ENTER)) registerUser();
-        });
-        secondPasswordField.setOnKeyPressed(k -> {
-            if (k.getCode().equals(KeyCode.ENTER)) registerUser();
-        });
-//        passwordFieldLogin.setOnKeyPressed(k -> {if (k.getCode().equals(KeyCode.ENTER)) registerUser();});
-//        secondPasswordField.setOnKeyPressed(k -> {if (k.getCode().equals(KeyCode.ENTER)) registerUser();});
-    }
-
-    public void registerUser() {
-        LoginMessage message = controller.createUser(usernameFieldSignUp.getText(), nicknameFieldSignUp.getText(), passwordFieldSignUp.getText(), secondPasswordField.getText());
-        new PopUpMessage(message.getAlertType(), message.getLabel());
-        usernameFieldSignUp.clear();
-        nicknameFieldSignUp.clear();
-        passwordFieldSignUp.clear();
-        secondPasswordField.clear();
-    }
-
-    public void loginUser(MouseEvent actionEvent) throws Exception {
-        LoginMessage message = controller.loginUser(usernameFieldLogin.getText(), passwordFieldLogin.getText());
-        new PopUpMessage(message.getAlertType(), message.getLabel());
-        if (message.getAlertType().equals(Alert.AlertType.INFORMATION)) {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/project/fxml/main_menu.fxml")));
-            Utility.openNewMenu(root, (Node) actionEvent.getSource());
-        }
-    }
-
-    public void nextTrack() {
-        Music.nextTrack();
-    }
-
-    public void playPauseMusic() {
-        Music.playPauseMusic(playPauseMusicButton);
-    }
-
-    public void muteUnmuteMusic() {
-        Music.muteUnmuteMusic(muteUnmuteButton);
-    }
-
-    public void exit(MouseEvent actionEvent) {
-        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
-        PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
-        if (popUpMessage.getAlert().getResult().getText().equals("OK")) {
-            System.exit(0);
-        }
     }
 }

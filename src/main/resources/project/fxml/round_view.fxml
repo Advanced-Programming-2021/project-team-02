@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="mainGamePane" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.gameview.GameView">
+<AnchorPane fx:id="mainGamePane" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.gameview.GameView">
     <stylesheets>
         <URL value="@../CSS/round_view.css" />
     </stylesheets>
@@ -28,13 +37,12 @@
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-
             </rowConstraints>
-            <Pane id="Cell" fx:id="monster1" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <Pane id="Cell" fx:id="monster2" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-            <Pane id="Cell" fx:id="monster3" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-            <Pane id="Cell" fx:id="monster4" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="0" />
-            <Pane id="Cell" fx:id="monster5" prefHeight="126.0" prefWidth="94.0" GridPane.columnIndex="4" GridPane.rowIndex="0" />
+            <Pane id="Cell" prefHeight="200.0" prefWidth="200.0" />
+            <Pane id="Cell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
+            <Pane id="Cell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
+            <Pane id="Cell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" />
+            <Pane id="Cell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" />
         </GridPane>
         <GridPane id="grid" fx:id="currentPlayerSpellZone" hgap="15.0" layoutX="197.0" layoutY="501.0" prefHeight="126.0" prefWidth="530.0" vgap="15.0">
             <columnConstraints>
