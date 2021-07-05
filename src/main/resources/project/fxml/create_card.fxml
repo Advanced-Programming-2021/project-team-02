@@ -1,34 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="650.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.CreateCards">
-   <children>
-      <ImageView fitHeight="247.0" fitWidth="188.0" layoutX="417.0" layoutY="71.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../image/DeckMenuPictures/Picture.jpg" />
-         </image>
-      </ImageView>
-      <MenuButton fx:id="type" layoutX="272.0" layoutY="58.0" mnemonicParsing="false" text="Type">
-        <items>
-          <MenuItem fx:id="monster" mnemonicParsing="false" onAction="#changeToMonster" text="Monster" />
-          <MenuItem fx:id="spell" mnemonicParsing="false" onAction="#changeToSpell" text="Spell" />
-            <MenuItem fx:id="trap" mnemonicParsing="false" onAction="#changeToTrap" text="Trap" />
-        </items>
-      </MenuButton>
-      <TextField fx:id="enterCardName" layoutX="223.0" layoutY="135.0" promptText="Enter your Card Name" />
-      <TextField fx:id="attack" layoutX="223.0" layoutY="204.0" promptText="Attack" />
-      <TextField fx:id="defense" layoutX="223.0" layoutY="241.0" promptText="Defense" />
-      <TextArea fx:id="description" layoutX="219.0" layoutY="275.0" prefHeight="200.0" prefWidth="163.0" promptText="Description : " />
-      <ListView fx:id="listView" layoutX="14.0" layoutY="56.0" prefHeight="585.0" prefWidth="200.0" />
-      <Button fx:id="submit" layoutX="262.0" layoutY="540.0" mnemonicParsing="false" onAction="#createCard" text="Create Card" />
-      <Label fx:id="effect" layoutX="220.0" layoutY="466.0" prefHeight="18.0" prefWidth="163.0" />
-      <Label layoutX="14.0" layoutY="25.0" prefHeight="26.0" prefWidth="200.0" text="Effects : " />
-      <Label fx:id="price" layoutX="456.0" layoutY="384.0" prefHeight="36.0" prefWidth="106.0" />
-      <TextField fx:id="level" layoutX="223.0" layoutY="170.0" promptText="Level" />
-      <Button fx:id="calculatePrice" layoutX="463.0" layoutY="430.0" mnemonicParsing="false" onAction="#calculatePrice" text="Calculate Price" />
-      <Button layoutX="550.0" layoutY="577.0" mnemonicParsing="false" onMouseClicked="#back" prefHeight="50.0" prefWidth="78.0" text="Back" />
-   </children>
+<AnchorPane id="secondPane" prefHeight="650.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.CreateCards">
+    <VBox id="firstBox" alignment="CENTER" layoutX="134.0" layoutY="33.0" prefHeight="764.0" prefWidth="618.0" spacing="35.0">
+        <HBox alignment="CENTER_LEFT" layoutX="63.0" prefHeight="64.0" prefWidth="485.0">
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#back" style="-fx-background-color: #00062b" textAlignment="CENTER">
+                <HBox.margin>
+                    <Insets right="45.0" />
+                </HBox.margin>
+                <graphic>
+                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../image/Icon/previous.png" />
+                    </ImageView>
+                </graphic>
+                <cursor>
+                    <Cursor fx:constant="HAND" />
+                </cursor>
+            </Button>
+            <HBox id="menuBar" alignment="CENTER" prefHeight="64.0" prefWidth="268.0" spacing="10.0">
+                <ImageView id="icon" fitWidth="35" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../image/Icon/main_menu.png" />
+                </ImageView>
+                <Label id="menuTitle" text="Create Card" />
+                <padding>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                </padding>
+                <VBox.margin>
+                    <Insets left="125.0" right="125.0" />
+                </VBox.margin>
+            </HBox>
+        </HBox>
+        <HBox alignment="CENTER" prefHeight="500.0" prefWidth="518.0" spacing="20.0">
+            <VBox alignment="CENTER" layoutX="64.0" layoutY="95.0" prefHeight="486.0" prefWidth="202.0" spacing="10.0">
+                <MenuButton id="menuButton" fx:id="type" layoutX="124.0" layoutY="85.0" mnemonicParsing="false" text="Type">
+                    <items>
+                        <MenuItem fx:id="monster" mnemonicParsing="false" onAction="#changeToMonster" text="Monster" />
+                        <MenuItem fx:id="spell" mnemonicParsing="false" onAction="#changeToSpell" text="Spell" />
+                        <MenuItem fx:id="trap" mnemonicParsing="false" onAction="#changeToTrap" text="Trap" />
+                    </items>
+                </MenuButton>
+                <TextField id="textField" fx:id="enterCardName" prefHeight="36.0" prefWidth="235.0" promptText="Enter your Card Name" />
+                <TextField id="textField" fx:id="level" prefHeight="36.0" prefWidth="235.0" promptText="Level" />
+                <TextField id="textField" fx:id="attack" prefHeight="36.0" prefWidth="235.0" promptText="Attack" />
+                <TextField id="textField" fx:id="defense" prefHeight="36.0" prefWidth="235.0" promptText="Defense" />
+                <TextArea id="textField" fx:id="description" prefHeight="137.0" prefWidth="235.0" promptText="Description">
+                    <VBox.margin>
+                        <Insets top="20.0" />
+                    </VBox.margin>
+                </TextArea>
+                <Button id="button" fx:id="calculatePrice" mnemonicParsing="false" onAction="#calculatePrice" text="Calculate Price">
+                    <VBox.margin>
+                        <Insets top="20.0" />
+                    </VBox.margin>
+                </Button>
+                <Label fx:id="price" alignment="CENTER" contentDisplay="CENTER" prefHeight="36.0" prefWidth="106.0" style="-fx-text-fill: #ffd500; -fx-font-size: 20;" textAlignment="CENTER">
+                    <VBox.margin>
+                        <Insets top="10.0" />
+                    </VBox.margin>
+                </Label>
+            </VBox>
+
+            <VBox layoutX="353.0" layoutY="95.0" prefHeight="486.0" prefWidth="263.0" spacing="20.0">
+                <ImageView fitHeight="125.0" fitWidth="201.0" layoutX="348.0" layoutY="95.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../image/DeckMenuPictures/DeckPicture.jpg" />
+                </ImageView>
+                <Label layoutX="348.0" layoutY="268.0" prefHeight="26.0" prefWidth="200.0" style="-fx-text-fill: white;" text="Effects">
+               <VBox.margin>
+                  <Insets bottom="-15.0" />
+               </VBox.margin></Label>
+                <ListView fx:id="listView" layoutX="348.0" layoutY="294.0" prefHeight="296.0" prefWidth="200.0" />
+                <Label fx:id="effect" prefHeight="18.0" prefWidth="163.0" />
+            </VBox>
+        </HBox>
+        <Button id="button" fx:id="submit" layoutX="274.0" layoutY="638.0" mnemonicParsing="false" onAction="#createCard" text="Create Card" />
+        <padding>
+            <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+        </padding>
+    </VBox>
+
+    <ImageView fitHeight="56.0" fitWidth="56.0" layoutX="1450.0" layoutY="625.0" onMouseClicked="#nextTrack" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../image/Icon/next_track.png" />
+        <cursor>
+            <Cursor fx:constant="HAND" />
+        </cursor>
+    </ImageView>
+
+    <ImageView fx:id="playPauseMusicButton" fitHeight="56.0" fitWidth="56.0" layoutX="1450.0" layoutY="700.0" onMouseClicked="#playPauseMusic" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../image/Icon/pause.png" />
+        <cursor>
+            <Cursor fx:constant="HAND" />
+        </cursor>
+    </ImageView>
+
+    <ImageView fx:id="muteUnmuteButton" fitHeight="56.0" fitWidth="56.0" layoutX="1450.0" layoutY="775.0" onMouseClicked="#muteUnmuteMusic" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../image/Icon/unmute.png" />
+        <cursor>
+            <Cursor fx:constant="HAND" />
+        </cursor>
+    </ImageView>
+
+    <stylesheets>
+        <URL value="@../CSS/create_card.css" />
+    </stylesheets>
 </AnchorPane>

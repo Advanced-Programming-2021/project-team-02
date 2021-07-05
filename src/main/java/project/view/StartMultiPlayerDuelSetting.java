@@ -1,22 +1,30 @@
 package project.view;
 
+import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import project.controller.DuelMenuController;
 import project.model.Music;
+import project.model.gui.Icon;
 import project.view.messages.PopUpMessage;
 import project.view.messages.StartDuelMessage;
 
 import java.io.IOException;
 
 public class StartMultiPlayerDuelSetting {
-
-
     public TextField username;
     public ImageView playPauseMusicButton;
     public ImageView muteUnmuteButton;
+
+    @FXML
+    public void initialize() {
+        if (!Music.isMediaPlayerPaused) playPauseMusicButton.setImage(Icon.PAUSE.getImage());
+        else playPauseMusicButton.setImage(Icon.PLAY.getImage());
+        if (Music.mediaPlayer.isMute()) muteUnmuteButton.setImage(Icon.MUTE.getImage());
+        else muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
+    }
 
     public void oneRoundMultiPlayerGame(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY)

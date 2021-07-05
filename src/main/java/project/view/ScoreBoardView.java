@@ -1,11 +1,8 @@
 package project.view;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -19,7 +16,6 @@ import project.model.User;
 import project.model.gui.Icon;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class ScoreBoardView {
     public VBox secondBox;
@@ -27,7 +23,6 @@ public class ScoreBoardView {
     public VBox firstBox;
     public ImageView playPauseMusicButton;
     public ImageView muteUnmuteButton;
-
 
     @FXML
     public void initialize() {
