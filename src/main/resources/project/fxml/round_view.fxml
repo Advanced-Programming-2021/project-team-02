@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="mainGamePane" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.gameview.GameView">
+<AnchorPane fx:id="mainGamePane" id="secondPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.gameview.GameView">
     <stylesheets>
         <URL value="@../CSS/round_view.css" />
     </stylesheets>

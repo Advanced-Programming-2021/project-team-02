@@ -5,7 +5,7 @@
     src: local('Matrix II'), url('../font/MatrixII/MatrixIIRegular.otf') format('otf');
 }
 
-.root {
+#secondPane {
     -fx-font-family: "Matrix II Regular";
     -fx-font-size: 15;
     -fx-background-color: #103188;
