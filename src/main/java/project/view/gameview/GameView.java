@@ -27,6 +27,7 @@ import project.model.card.Monster;
 import project.model.card.informationofcards.CardType;
 import project.model.game.board.Cell;
 import project.model.game.board.CellStatus;
+import project.model.game.board.Zone;
 import project.view.Utility;
 import project.view.input.Input;
 import project.view.input.Regex;
@@ -772,11 +773,18 @@ public class GameView {
         if (mouseEvent.getButton() != MouseButton.PRIMARY)
             return;
         GameViewMessage message = RoundGameController.getInstance().summonOrActivate();
-        if (message != GameViewMessage.SUCCESS)
+        if (message != GameViewMessage.SUCCESS && message != null)
             new PopUpMessage(message.getAlertType(), message.getLabel());
     }
 
     public void set(MouseEvent mouseEvent) {
+        if (mouseEvent.getButton() != MouseButton.PRIMARY)
+            return;
+        GameViewMessage message = RoundGameController.getInstance().setCrad();
+        if (message == GameViewMessage.NONE)
+            return;
+        else if (message != GameViewMessage.SUCCESS)
+            new PopUpMessage(message.getAlertType(), message.getLabel());
 
     }
 
@@ -820,9 +828,11 @@ public class GameView {
                         selectedCardImageView.setImage(getCardImageByName(cardName));
                         selectedCardDescriptionLabel.setText(Card.getCardByName(cardName).toString());
                         RoundGameController.getInstance().selectCardInMonsterZone(addressInMonsterZone);
-                        cardBoardPane.getChildren().remove(fakeCardImageView);
                     }
                 });
+                cardBoardPane.getChildren().remove(fakeCardImageView);
+                mainGamePane.getChildren().remove(fakeCardImageView);
+
                 ((Pane) inZoneNode).getChildren().add(imageView);
                 reloadCurrentHand();
             }
@@ -863,5 +873,63 @@ public class GameView {
             currentHand.add(cardImageView, counter, 0);
             counter++;
         }
+    }
+
+    public void showSetMonsterTransition(int addressInMonsterZone, int addressInHand, String cardName) {
+        ImageView fakeCardImageView = new ImageView(getCardImageByName("Card Back Set"));
+        fakeCardImageView.setFitHeight(94);
+        fakeCardImageView.setFitWidth(135);
+        GridPane handPane = currentHand;
+        //Translate transition :
+        TranslateTransition translateTransition = new TranslateTransition();
+        int addressOfAddInMonsterZoneGrid = addressInMonsterZone - 1;//zero based!
+        int addressInHandGrid = addressInHand - 1;
+        Node inHandNode = getNodeInGridPane(handPane, 0, addressInHandGrid);
+        Point2D inHandPoint = inHandNode.localToScene(new Point2D(0, 0));
+        Node inZoneNode;
+        inZoneNode = getNodeInGridPane(currentPlayerMonsterZone, 0, addressOfAddInMonsterZoneGrid);
+        Point2D zonePoint = null;
+        if (inZoneNode == null) {
+            zonePoint = new Point2D(0, 0);
+        } else {
+            zonePoint = inZoneNode.localToScene(new Point2D(0, 0));
+        }
+        translateTransition.setNode(fakeCardImageView);
+        translateTransition.setFromX(inHandPoint.getX());
+        translateTransition.setFromY(inHandPoint.getY());
+        translateTransition.setToX(zonePoint.getX()-19);
+        translateTransition.setToY(zonePoint.getY()+20);
+        translateTransition.setDuration(Duration.millis(2000));
+        translateTransition.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                ImageView imageView = new ImageView(getCardImageByName("Card Back Set"));
+                imageView.setFitHeight(94);
+                imageView.setFitWidth(135);
+                imageView.setCursor(Cursor.HAND);
+
+                imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        if (mouseEvent.getButton() != MouseButton.PRIMARY)
+                            return;
+                        Card card = RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().getACellOfBoardWithAddress(Zone.MONSTER_ZONE, addressInMonsterZone).getCardInCell();
+                        selectedCardImageView.setImage(getCardImageByName(card.getName()));
+                        selectedCardDescriptionLabel.setText(card.toString());
+                        RoundGameController.getInstance().selectCardInMonsterZone(addressInMonsterZone);
+                    }
+                });
+                cardBoardPane.getChildren().remove(fakeCardImageView);
+                mainGamePane.getChildren().remove(fakeCardImageView);
+                ((Pane) Objects.requireNonNull(inZoneNode)).getChildren().add(imageView);
+                imageView.setLayoutY(imageView.getLayoutY() + 20);
+                imageView.setLayoutX(imageView.getLayoutX() - 19);
+                reloadCurrentHand();
+            }
+        });
+
+        mainGamePane.getChildren().add(fakeCardImageView);
+        currentHand.getChildren().remove(inHandNode);
+        translateTransition.play();
     }
 }

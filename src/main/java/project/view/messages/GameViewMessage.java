@@ -7,6 +7,8 @@ public enum GameViewMessage {
     FULL_MONSTER_ZONE("Monster Zone is Full, cant summon!", Alert.AlertType.ERROR),
     USED_SUMMON_OR_SET("You have used summon or set!", Alert.AlertType.ERROR),
     NEED_MORE_TRIBUTE("You dont have enough cards to tribute", Alert.AlertType.ERROR),
+    SELECT_CARD("Please select a card", Alert.AlertType.ERROR),
+    NONE("",null),
     SUCCESS("Success!", Alert.AlertType.INFORMATION);
     private final String label;
     private final Alert.AlertType alertType;
