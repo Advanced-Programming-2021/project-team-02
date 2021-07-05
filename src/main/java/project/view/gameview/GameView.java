@@ -827,10 +827,8 @@ public class GameView {
                 reloadCurrentHand();
             }
         });
-//        fakeCardImageView.setLayoutX(inHandPoint.getX());
-//        fakeCardImageView.setLayoutY(inHandPoint.getY());
+
         mainGamePane.getChildren().add(fakeCardImageView);
-        //mainGamePane.getChildren().add(fakeCardImageView);
         currentHand.getChildren().remove(inHandNode);
         translateTransition.play();
     }
