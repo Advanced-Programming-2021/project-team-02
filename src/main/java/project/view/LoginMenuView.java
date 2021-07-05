@@ -126,15 +126,18 @@ public class LoginMenuView extends Application {
         }
     }
 
-    public void nextTrack() {
+    public void nextTrack(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         Music.nextTrack();
     }
 
-    public void playPauseMusic() {
+    public void playPauseMusic(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         Music.playPauseMusic(playPauseMusicButton);
     }
 
-    public void muteUnmuteMusic() {
+    public void muteUnmuteMusic(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         Music.muteUnmuteMusic(muteUnmuteButton);
     }
 

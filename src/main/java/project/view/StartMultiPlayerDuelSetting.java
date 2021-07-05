@@ -1,23 +1,22 @@
 package project.view;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import project.controller.DuelMenuController;
+import project.model.Music;
 import project.view.messages.PopUpMessage;
 import project.view.messages.StartDuelMessage;
 
 import java.io.IOException;
-import java.util.Objects;
 
 public class StartMultiPlayerDuelSetting {
 
 
     public TextField username;
+    public ImageView playPauseMusicButton;
+    public ImageView muteUnmuteButton;
 
     public void oneRoundMultiPlayerGame(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY)
@@ -47,6 +46,21 @@ public class StartMultiPlayerDuelSetting {
         } else {
             new PopUpMessage(message.getAlertType(), message.getLabel());
         }
+    }
+
+    public void nextTrack(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Music.nextTrack();
+    }
+
+    public void playPauseMusic(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Music.playPauseMusic(playPauseMusicButton);
+    }
+
+    public void muteUnmuteMusic(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Music.muteUnmuteMusic(muteUnmuteButton);
     }
 
     public void back(MouseEvent actionEvent) throws IOException {

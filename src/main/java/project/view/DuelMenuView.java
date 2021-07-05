@@ -1,27 +1,24 @@
 package project.view;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-
-import javafx.scene.Node;
-import javafx.scene.Parent;
-
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import project.model.Music;
+import project.model.gui.Icon;
 
-import animatefx.animation.*;
 import java.io.IOException;
-import java.net.URI;
-import java.util.Objects;
 
 public class DuelMenuView {
     public AnchorPane pane;
+    public ImageView playPauseMusicButton;
+    public ImageView muteUnmuteButton;
 
     public void initialize() {
-
+        if (!Music.isMediaPlayerPaused) playPauseMusicButton.setImage(Icon.PAUSE.getImage());
+        else playPauseMusicButton.setImage(Icon.PLAY.getImage());
+        if (Music.mediaPlayer.isMute()) muteUnmuteButton.setImage(Icon.MUTE.getImage());
+        else muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
     }
 
     public void singlePlayer(MouseEvent actionEvent) throws IOException {
@@ -34,10 +31,23 @@ public class DuelMenuView {
         Utility.openNewMenu("/project/fxml/start_multi_player_duel_setting_menu.fxml");
     }
 
+    public void nextTrack(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Music.nextTrack();
+    }
+
+    public void playPauseMusic(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Music.playPauseMusic(playPauseMusicButton);
+    }
+
+    public void muteUnmuteMusic(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Music.muteUnmuteMusic(muteUnmuteButton);
+    }
+
     public void back(MouseEvent actionEvent) throws IOException {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         Utility.openNewMenu("/project/fxml/main_menu.fxml");
     }
-
-
 }

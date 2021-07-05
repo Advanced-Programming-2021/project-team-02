@@ -1,0 +1,62 @@
+@font-face {
+    font-family: 'Matrix II Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Matrix II'), url('../font/MatrixII/MatrixIIRegular.otf') format('otf');
+}
+
+#secondPane {
+    -fx-font-family: "Matrix II Regular";
+    -fx-font-size: 15;
+    -fx-background-image: url(../image/main_background.jpg);
+    -fx-background-size: cover;
+}
+
+#firstBox {
+    -fx-background-color: #00062b;
+    -fx-background-radius: 30;
+}
+
+#secondBox {
+    -fx-background-color: #103188;
+    -fx-background-radius: 15;
+}
+
+#menuBar {
+    -fx-border-color: #ffd500;
+    -fx-border-radius: 20;
+}
+
+#menuTitle {
+    -fx-font-size: 36;
+    -fx-text-fill: #ffd500;
+}
+
+#textField {
+    -fx-text-fill: #ffd500;
+    -fx-background-color: #323c46;
+    -fx-background-radius: 10;
+}
+
+#label {
+    -fx-font-size: 19;
+    -fx-text-fill: white;
+    -fx-background-color: #323c46;
+    -fx-background-radius: 10;
+}
+
+#button {
+    -fx-font-size: 20.0;
+    -fx-background-color: #bb792d;
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+#exitButton {
+    -fx-font-size: 20.0;
+    -fx-background-color: #9e376c;
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}

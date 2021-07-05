@@ -3,7 +3,7 @@ package project.view.messages;
 import javafx.scene.control.Alert;
 
 public enum ShopMenuMessage {
-    CARD_ADDED("Card successfully added", Alert.AlertType.CONFIRMATION),
+    CARD_ADDED("Card added successfully!", Alert.AlertType.INFORMATION),
     NOT_ENOUGH_MONEY("You don't have enough money", Alert.AlertType.ERROR);
 
     private final String label;

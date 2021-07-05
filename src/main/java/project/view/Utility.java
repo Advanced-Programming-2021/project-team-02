@@ -5,8 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,11 +12,11 @@ import java.util.Objects;
 
 public class Utility {
     private static BorderPane mainPane;
-    private static Pane secondPane;
+    private static Parent secondPane;
     private static final HashMap<String, Image> stringImageHashMap = new HashMap<>();
 
     public static void openNewMenu(String url) throws IOException {
-        Pane newSecondPane = FXMLLoader.load(Objects.requireNonNull(Utility.class.getResource(url)));
+        Parent newSecondPane = FXMLLoader.load(Objects.requireNonNull(Utility.class.getResource(url)));
         mainPane.getChildren().remove(secondPane);
         mainPane.setCenter(newSecondPane);
         setSecondPane(newSecondPane);
@@ -29,7 +27,7 @@ public class Utility {
         Utility.mainPane = mainPane;
     }
 
-    public static void setSecondPane(Pane secondPane) {
+    public static void setSecondPane(Parent secondPane) {
         Utility.secondPane = secondPane;
     }
 

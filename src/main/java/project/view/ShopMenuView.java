@@ -1,17 +1,9 @@
 package project.view;
 
-import javafx.application.Application;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 
-import javafx.scene.Scene;
-import javafx.scene.input.KeyCombination;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 import project.controller.ShopMenuController;
 import java.io.IOException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Objects;
 import javafx.scene.control.Label;
