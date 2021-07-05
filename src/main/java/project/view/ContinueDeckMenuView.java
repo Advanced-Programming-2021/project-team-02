@@ -357,7 +357,8 @@ public class ContinueDeckMenuView {
                 });
                 gridPaneInfo.add(button,0 , 6);
                 Button button1 = new Button("Set Deck Active");
-                button1.setOnAction(actionEvent -> activateDeck(label, deckMenuController));
+                button1.setId(deck.getName());
+                button1.setOnAction(actionEvent -> activateDeck(button1, deckMenuController));
                 gridPaneInfo.add(button1, 0, 7);
             }
         }
@@ -368,11 +369,9 @@ public class ContinueDeckMenuView {
         Utility.openNewMenu("/project/fxml/deck_menu.fxml");
     }
 
-    private void activateDeck(Label label, DeckMenuController deckMenuController) {
-        DeckMenuMessage deckMenuMessage = deckMenuController.activateDeck(label.getText());
-        PopUpMessage popUpMessage = new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
-        if (popUpMessage.getAlert().getResult().getText().equals("OK")) {
-            System.exit(0);
-        } else PopUpMessage.getParent().setEffect(null);
+    private void activateDeck(Button button, DeckMenuController deckMenuController) {
+        System.out.println(button.getId());
+        DeckMenuMessage deckMenuMessage = deckMenuController.activateDeck(button.getId());
+        new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
     }
 }
