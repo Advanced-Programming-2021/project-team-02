@@ -23,7 +23,7 @@ public class CreateCardMenuController {
     , String defense, String price) {
         if (replacementForEffect.equals("No Effect")) {
             CardsDatabase.makeCardMonster(CardType.MONSTER, enterCardName, "MADE", MonsterActionType.NORMAL,
-                    null, Integer.parseInt(level), Attribute.DARK, description,
+                    MonsterEffect.NONE, Integer.parseInt(level), Attribute.DARK, description,
                     Integer.parseInt(attack), Integer.parseInt(defense), MonsterType.PYRO, Integer.parseInt(price));
         } else {
             CardsDatabase.makeCardMonster(CardType.MONSTER, enterCardName, "MADE", MonsterActionType.NORMAL,

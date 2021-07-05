@@ -107,11 +107,15 @@ public class FlipCoinView {
             vBox.getChildren().add(label);
 
             Button button = new Button("Start Game!");
-            button.setOnAction(actionEvent -> {
-                try {
-                    Utility.openNewMenu("/project/fxml/round_view.fxml");
-                } catch (IOException e) {
-                    e.printStackTrace();
+            button.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    try {
+                        GameView gameView  = Utility.openGameMenu("/project/fxml/round_view.fxml");
+                        gameView.loadHandCards();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
             button.getStylesheets().add(getClass().getResource("/project/CSS/flip_coin_style.css").toString());

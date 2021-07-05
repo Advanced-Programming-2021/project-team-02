@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import project.controller.playgame.RoundGameController;
+import project.view.gameview.GameView;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -84,9 +86,18 @@ public class Utility {
         stringImageHashMap.put("Negate Attack", new Image(String.valueOf(getClass().getResource("/project/image/ShopMenuPictures/Traps/NegateAttack.jpg"))));
         stringImageHashMap.put("Torrential Tribute", new Image(String.valueOf(getClass().getResource("/project/image/ShopMenuPictures/Traps/TorrentialTribute.jpg"))));
         stringImageHashMap.put("Trap Hole", new Image(String.valueOf(getClass().getResource("/project/image/ShopMenuPictures/Traps/TrapHole.jpg"))));
+        stringImageHashMap.put("Back Image", new Image(String.valueOf(getClass().getResource("/project/image/GamePictures/Card back.png"))));
 
     }
-
+    public static GameView openGameMenu(String url) throws IOException {
+        FXMLLoader loader = new FXMLLoader(Utility.class.getResource("/project/fxml/round_view.fxml"));
+        Parent newSecondPane = loader.load();
+        mainPane.getChildren().remove(secondPane);
+        mainPane.setCenter(newSecondPane);
+        setSecondPane(newSecondPane);
+        new FadeIn(newSecondPane).play();
+        return loader.getController();
+    }
     public HashMap<String, Image> getStringImageHashMap() {
         return stringImageHashMap;
     }

@@ -1,5 +1,6 @@
 package project.controller.playgame;
 
+import org.w3c.dom.ls.LSOutput;
 import project.model.Deck;
 import project.model.card.Card;
 import project.model.card.Monster;
@@ -15,6 +16,7 @@ import project.model.game.board.*;
 import project.view.gameview.BetweenRoundView;
 import project.view.gameview.GameView;
 import project.view.messages.Error;
+import project.view.messages.GameViewMessage;
 import project.view.messages.SuccessMessage;
 
 import java.util.ArrayList;
@@ -24,6 +26,8 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 
 import static project.model.card.informationofcards.CardType.*;
+import static project.view.messages.GameViewMessage.FULL_MONSTER_ZONE;
+import static project.view.messages.GameViewMessage.SUCCESS;
 
 public class RoundGameController {
     private static RoundGameController instance = null;
@@ -125,8 +129,7 @@ public class RoundGameController {
             opponentSelectedCell = null;
     }
 
-    public void selectCardInMonsterZone(Matcher matcher) {
-        int address = Integer.parseInt(matcher.group("monsterZoneNumber"));
+    public void selectCardInMonsterZone(int address) {
         if (address > 5 || address < 1) {
             Error.showError(Error.INVALID_SELECTION);
             return;
@@ -344,7 +347,7 @@ public class RoundGameController {
             if (!getCurrentPlayer().getNickname().equals("ai")) ;
             //  TODO view.showSuccessMessageWithAString(SuccessMessage.CARD_ADDED_TO_THE_HAND, card.getName());
             drawUsed = true;
-            view.drawCardFromDeckAnimation(card.getName());
+            view.drawCardFromDeckAnimation(card.getName(), true);
         } else {
             GameResult result = duelGameController.checkGameResult(currentPlayer, getOpponentPlayer(), GameResultToCheck.NO_CARDS_TO_DRAW);// no card so this is loser!
             if (result == GameResult.GAME_FINISHED) {
@@ -886,60 +889,60 @@ public class RoundGameController {
 
 
     //MONSTER RELATED CODES :
-    public void summonMonster() {
-        if (selectedCellZone == Zone.NONE && opponentSelectedCell != null) {
-            Error.showError(Error.ONLY_CAN_SHOW_OPPONENT_CARD);
-            return;
+    public synchronized GameViewMessage summonMonster() {
+        GameViewMessage message;
+        //TODO if (selectedCellZone == Zone.NONE && opponentSelectedCell != null) {
+        //     Error.showError(Error.ONLY_CAN_SHOW_OPPONENT_CARD);
+        //     return;
+        // }
+        if ((message = isValidSelectionForSummonOrSet()) != SUCCESS) {
+            return message;
         }
-        if (!isValidSelectionForSummonOrSet()) {
-            return;
+        if ((message = isValidSummon()) != GameViewMessage.SUCCESS) {
+            return message;
         }
-        if (!isValidSummon()) {
-            return;
-        }
-        //check special summon
+        //TODO check special summon
         Monster monster = ((Monster) selectedCell.getCardInCell());
-        if (selectedCell.getCardInCell().getCardType().equals(CardType.MONSTER)) {
-            if (monster.getMonsterEffect().equals(MonsterEffect.GATE_GUARDIAN_EFFECT)) {
-                gateGuardianEffect(CellStatus.OFFENSIVE_OCCUPIED);
-                return;
-            } else if (monster.getMonsterEffect().equals(MonsterEffect.BEAST_KING_BARBAROS_EFFECT)) {
-                if (beastKingBarbosEffect(CellStatus.OFFENSIVE_OCCUPIED))
-                    return;
-            } else if (monster.getMonsterEffect().equals(MonsterEffect.THE_TRICKY_EFFECT)) {
-                if (theTrickyEffect(CellStatus.OFFENSIVE_OCCUPIED)) {
-                    return;
-                }
+        System.out.println(monster);
+        if (monster.getMonsterEffect().equals(MonsterEffect.GATE_GUARDIAN_EFFECT)) {
+            gateGuardianEffect(CellStatus.OFFENSIVE_OCCUPIED);
+            return SUCCESS;
+        } else if (monster.getMonsterEffect().equals(MonsterEffect.BEAST_KING_BARBAROS_EFFECT)) {
+            if (beastKingBarbosEffect(CellStatus.OFFENSIVE_OCCUPIED))
+                return SUCCESS;
+        } else if (monster.getMonsterEffect().equals(MonsterEffect.THE_TRICKY_EFFECT)) {
+            if (theTrickyEffect(CellStatus.OFFENSIVE_OCCUPIED)) {
+                return SUCCESS;
             }
         }
         // check haven't summoned more than once
-        if (!isValidToNormalSummonOrSet()) {
-            return;
+        if (!isSummonOrSetUsed()) {
+            return GameViewMessage.USED_SUMMON_OR_SET;
         }
-        if (monster.getMonsterActionType().equals(MonsterActionType.RITUAL)) {
-            view.showError(Error.CAN_NOT_RITUAL_SUMMON);
-            return;
-        }
+//TODO        if (monster.getMonsterActionType().equals(MonsterActionType.RITUAL)) {
+        //      view.showError(Error.CAN_NOT_RITUAL_SUMMON);
+        //    return;
+        //}
         if (monster.getLevel() > 4 && monster.getLevel() <= 10) {
-            tributeSummon();
-            return;
+            message = tributeSummon();
+            return message;
         }
-        normalSummon();
+        return normalSummon();
     }
 
-    private boolean isValidSummon() {
-        if ((!selectedCellZone.equals(Zone.HAND)) || (!selectedCell.getCardInCell().getCardType().equals(CardType.MONSTER))) {
-            Error.showError(Error.CAN_NOT_SUMMON);
-            return false;
-        }
+    private GameViewMessage isValidSummon() {
+//        if ((!selectedCellZone.equals(Zone.HAND)) || (!selectedCell.getCardInCell().getCardType().equals(CardType.MONSTER))) {
+//            Error.showError(Error.CAN_NOT_SUMMON);
+//            return false;
+//        }
         if (!currentPhase.equals(Phase.MAIN_PHASE_1) && !currentPhase.equals(Phase.MAIN_PHASE_2)) {
             Error.showError(Error.ACTION_NOT_ALLOWED);
-            return false;
+            return GameViewMessage.ACTION_NOT_ALLOWED;
         }
-        return true;
+        return GameViewMessage.SUCCESS;
     }
 
-    private boolean isValidToNormalSummonOrSet() {
+    private boolean isSummonOrSetUsed() {
         if (isSummonOrSetOfMonsterUsed) {
             Error.showError(Error.ALREADY_SUMMONED_OR_SET);
             return false;
@@ -1155,41 +1158,50 @@ public class RoundGameController {
         return false;
     }
 
-    private void normalSummon() {
+    private GameViewMessage normalSummon() {
+        GameViewMessage message;
         isSummonOrSetOfMonsterUsed = true;
-        summon();
+        message = summon();
         deselectCard(0);
+        return message;
     }
 
-    private void summon() {
+    private GameViewMessage summon() {
+        String cardName = selectedCell.getCardInCell().getName();
         int addressOfAdd = getCurrentPlayer().getPlayerBoard().addMonsterToBoard((Monster) selectedCell.getCardInCell(), CellStatus.OFFENSIVE_OCCUPIED);
-        if (!isWithAi) view.showSuccessMessage(SuccessMessage.SUMMONED_SUCCESSFULLY);
+        if (!isWithAi) ;//view.showSuccessMessage(SuccessMessage.SUMMONED_SUCCESSFULLY);
+        System.out.println(getCurrentPlayer());
         getCurrentPlayerHand().remove(selectedCellAddress - 1);
-        view.showBoard();
+        view.showSummon(addressOfAdd, selectedCellAddress, cardName);
+
+        //view.showBoard();
         if (isCurrentPlayerTrapToBeActivatedInSummonSituation()) {
             if (isTrapOfCurrentPlayerInSummonSituationActivated()) {
-                return;
+                return SUCCESS;
             }
         }
         if (isOpponentTrapToBeActivatedInSummonSituation(addressOfAdd)) {
             view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER, getOpponentPlayer().getNickname());
             if (isOpponentTrapInSummonSituationActivated(addressOfAdd)) {
-                return;
+                return SUCCESS;
             }
         }
         checkNewCardToBeBeUnderEffectOfFieldCard((Monster) selectedCell.getCardInCell());
+        return SUCCESS;
     }
 
-    private void tributeSummon() {
+    private GameViewMessage tributeSummon() {
+        GameViewMessage message;
         if (((Monster) selectedCell.getCardInCell()).getLevel() >= 7) {
             if (didTribute(2, getCurrentPlayer())) {
-                normalSummon();
+                return normalSummon();
             }
         } else if (((Monster) selectedCell.getCardInCell()).getLevel() >= 5) {
             if (didTribute(1, getCurrentPlayer())) {
-                normalSummon();
+                return normalSummon();
             }
         }
+        return GameViewMessage.NEED_MORE_TRIBUTE;
     }
 
     private boolean didTribute(int number, DuelPlayer player) {
@@ -1385,7 +1397,7 @@ public class RoundGameController {
             Error.showError(Error.ONLY_CAN_SHOW_OPPONENT_CARD);
             return;
         }
-        if (!isValidSelectionForSummonOrSet()) {
+        if (isValidSelectionForSummonOrSet() != SUCCESS) {
             return;
         }
         if ((!selectedCellZone.equals(Zone.HAND))) {
@@ -1409,7 +1421,7 @@ public class RoundGameController {
                 return;
             }
         }
-        if (!isValidToNormalSummonOrSet()) {
+        if (!isSummonOrSetUsed()) {
             return;
         }
         if (monster.getMonsterActionType().equals(MonsterActionType.RITUAL)) {
@@ -1497,15 +1509,16 @@ public class RoundGameController {
 
     }
 
-    private boolean isValidSelectionForSummonOrSet() {
-        if (selectedCellZone.equals(Zone.NONE)) {
-            Error.showError(Error.NO_CARD_SELECTED_YET);
-            return false;
-        } else if (getCurrentPlayer().getPlayerBoard().isMonsterZoneFull()) {
+    private GameViewMessage isValidSelectionForSummonOrSet() {
+//        if (selectedCellZone.equals(Zone.NONE)) {
+//            Error.showError(Error.NO_CARD_SELECTED_YET);
+//            return false;
+//        } else
+        if (getCurrentPlayer().getPlayerBoard().isMonsterZoneFull()) {
             Error.showError(Error.MONSTER_ZONE_IS_FULL);
-            return false;
+            return FULL_MONSTER_ZONE;
         }
-        return true;
+        return GameViewMessage.SUCCESS;
     }
 
     public void changeMonsterPosition(Matcher matcher) {
@@ -2517,5 +2530,15 @@ public class RoundGameController {
 
     public boolean isFinishedGame() {
         return isFinishedGame;
+    }
+
+    public GameViewMessage summonOrActivate() {
+        if (selectedCellZone == Zone.HAND) {
+            if (selectedCell.getCardInCell().getCardType() == MONSTER)
+                return summonMonster();
+            else
+                ;//return activateEffectOfSpellOrTrap();
+        }
+        return null;
     }
 }
