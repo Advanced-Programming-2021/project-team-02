@@ -86,9 +86,9 @@ public class CardsDatabase {
         ArrayList<Monster> allMonsters = Monster.getAllMonsters();
         ArrayList<Spell> allSpells = Spell.getAllSpells();
         ArrayList<Trap> allTraps = Trap.getAllTraps();
-        allCards.addAll(allMonsters);
-        allCards.addAll(allSpells);
-        allCards.addAll(allTraps);
+//        allCards.addAll(allMonsters);
+//        allCards.addAll(allSpells);
+//        allCards.addAll(allTraps);
         //TODO for reading information from Gson
 //        User.fromJson();
 //        Monster.fromJson();

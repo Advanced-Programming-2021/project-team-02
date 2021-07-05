@@ -133,12 +133,6 @@ public class ShopMenuView {
 
     @FXML
     public void initialize() {
-        CardsDatabase cardsDatabase = CardsDatabase.getInstance();
-        try {
-            cardsDatabase.readAndMakeCards();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         controller = ShopMenuController.getInstance();
         Coin.setText(String.valueOf(Objects.requireNonNull(
                 Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));

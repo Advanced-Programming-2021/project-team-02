@@ -88,6 +88,8 @@ public class Utility {
         stringImageHashMap.put("Trap Hole", new Image(String.valueOf(getClass().getResource("/project/image/ShopMenuPictures/Traps/TrapHole.jpg"))));
         stringImageHashMap.put("Back Image", new Image(String.valueOf(getClass().getResource("/project/image/GamePictures/Card back.png"))));
 
+        stringImageHashMap.put("NEW", new Image(String.valueOf(getClass().getResource("/project/image/DeckMenuPictures/Picture.jpg"))));
+
     }
     public static GameView openGameMenu(String url) throws IOException {
         FXMLLoader loader = new FXMLLoader(Utility.class.getResource("/project/fxml/round_view.fxml"));

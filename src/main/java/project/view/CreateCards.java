@@ -37,6 +37,7 @@ public class CreateCards {
     public Button calculatePrice;
     public ImageView playPauseMusicButton;
     public ImageView muteUnmuteButton;
+    public ListView listViewForTypes;
     private String cardType = null;
     CreateCardMenuController createCardMenuController;
 
@@ -61,6 +62,9 @@ public class CreateCards {
         level.setVisible(true);
         cardType = "Monster";
         listView.getItems().clear();
+        listViewForTypes.getItems().clear();
+        listViewForTypes.getItems().addAll("Beast", "Pyro", "Fiend", "Aqua", "Rock", "Insect", "Machine", "Fairy"
+        , "Beast-Warrior", "Cyberse", "Thunder", "Dragon", "Warrior", "Spellcaster", "Sea Serpent");
         listView.getItems().addAll("Yomi Ship", "Man-Eater Bug", "Gate Guardian", "Beast King Barbaros", "Exploder Dragon", "The Tricky", "No Effect");
         //listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
@@ -72,6 +76,8 @@ public class CreateCards {
         level.setVisible(false);
         cardType = "Spell";
         listView.getItems().clear();
+        listViewForTypes.getItems().clear();
+        listViewForTypes.getItems().addAll("Continuous", "Equip", "Field", "Quick-play", "Counter", "Ritual", "Normal");
         listView.getItems().addAll("Advanced Ritual Art", "Black Pendant", "Sword of dark destruction", "Umiiruka", "Closed Forest"
                 , "Forest", "Yami", "Dark Hole", "Harpie's Feather Duster", "Raigeki", "Pot of Greed", "Terraforming", "Monster Reborn");
         //listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -84,6 +90,8 @@ public class CreateCards {
         level.setVisible(false);
         cardType = "Trap";
         listView.getItems().clear();
+        listViewForTypes.getItems().clear();
+        listViewForTypes.getItems().addAll("Normal", "Continuous", "Counter");
         listView.getItems().addAll("Trap Hole", "Mirror Force", "Magic Cylinder", "Torrential Tribute", "Negate Attack");
         //listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
@@ -91,25 +99,27 @@ public class CreateCards {
     public void createCard() {
         String effect = String.valueOf(listView.getSelectionModel().getSelectedItems());
         String replacementForEffect = effect.substring(1, effect.length() - 1);
+        System.out.println(replacementForEffect + "    : 1");
         if (cardType == null) {
             new PopUpMessage(CreateCardMessage.SELECT_TYPE.getAlertType(), CreateCardMessage.SELECT_TYPE.getLabel());
         } else if (enterCardName.getText().length() == 0 || description.getText().length() == 0) {
             new PopUpMessage(CreateCardMessage.FILL_THE_BLANKS.getAlertType(), CreateCardMessage.FILL_THE_BLANKS.getLabel());
         } else if (cardType.equals("Monster") && (attack.getText().length() == 0 || defense.getText().length() == 0 || level.getText().length() == 0)) {
             new PopUpMessage(CreateCardMessage.FILL_THE_BLANKS.getAlertType(), CreateCardMessage.FILL_THE_BLANKS.getLabel());
-        } else if (cardType.equals("Monster")) {
-            try {
-                if ((Integer.parseInt(attack.getText()) < 1000 || Integer.parseInt(defense.getText()) < 1000
-                        || Integer.parseInt(level.getText()) < 2)) {
-                    new PopUpMessage(CreateCardMessage.PAY_ATTENTION_TO_MINIMUMS.getAlertType(), CreateCardMessage.PAY_ATTENTION_TO_MINIMUMS.getLabel());
-                }
-            } catch (Exception e) {
-                new PopUpMessage(CreateCardMessage.YOU_SHOULD_ENTER_INTEGER.getAlertType(),
-                        CreateCardMessage.YOU_SHOULD_ENTER_INTEGER.getLabel());
-            }
-        } else if (replacementForEffect.length() == 0) {
+//        } else if (cardType.equals("Monster")) {
+//            try {
+//                if ((Integer.parseInt(attack.getText()) < 1000 || Integer.parseInt(defense.getText()) < 1000
+//                        || Integer.parseInt(level.getText()) < 2)) {
+//                    new PopUpMessage(CreateCardMessage.PAY_ATTENTION_TO_MINIMUMS.getAlertType(), CreateCardMessage.PAY_ATTENTION_TO_MINIMUMS.getLabel());
+//                }
+//            } catch (Exception e) {
+//                new PopUpMessage(CreateCardMessage.YOU_SHOULD_ENTER_INTEGER.getAlertType(),
+//                        CreateCardMessage.YOU_SHOULD_ENTER_INTEGER.getLabel());
+//            }
+//        } else if (replacementForEffect.length() == 0) {
             new PopUpMessage(CreateCardMessage.SELECT_EFFECT.getAlertType(), CreateCardMessage.SELECT_EFFECT.getLabel());
         } else checkListViewAndMakeCard();
+        System.out.println(replacementForEffect + "    : 2");
     }
 
     private void checkListViewAndMakeCard() {
@@ -118,7 +128,9 @@ public class CreateCards {
         // khali boodan effect : solve
         String effect = String.valueOf(listView.getSelectionModel().getSelectedItems());
         String replacementForEffect = effect.substring(1, effect.length() - 1);
+        System.out.println(replacementForEffect + "    : ");
         if (cardType.equals("Monster")) {
+            System.out.println("Monster");
             createCardMenuController.makeMonster(replacementForEffect, enterCardName.getText(), (level.getText()), description.getText(),
                     (attack.getText()), (defense.getText()), (price.getText()));
             new PopUpMessage(CreateCardMessage.CARD_CREATED.getAlertType(), CreateCardMessage.CARD_CREATED.getLabel());
@@ -259,10 +271,10 @@ public class CreateCards {
     }
 
     public void back(MouseEvent mouseEvent) throws IOException {
-        ArrayList<Card> arrayList = CardsDatabase.getAllCards();
-        for (Card card : arrayList) {
-            System.out.println(card.getName() + " : ");
-        }
+//        ArrayList<Card> arrayList = CardsDatabase.getAllCards();
+//        for (Card card : arrayList) {
+//            System.out.println(card.getName() + " : ");
+//        }
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
         Utility.openNewMenu("/project/fxml/main_menu.fxml");
     }

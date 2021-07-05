@@ -56,12 +56,6 @@ public class DeckMenuView {
     @FXML
     public void initialize() {
         User user = MainMenuController.getInstance().getLoggedInUser();
-        CardsDatabase cardsDatabase = CardsDatabase.getInstance();
-        try {
-            cardsDatabase.readAndMakeCards();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 //        User mahdi = new User("mahdi", "12345", "test");
 //        Objects.requireNonNull(Assets.getAssetsByUsername(mahdi.getUsername())).createDeck("test1");
 //        Objects.requireNonNull(Assets.getAssetsByUsername(mahdi.getUsername())).createDeck("test2");
