@@ -257,7 +257,6 @@ public class DeckMenuView {
                 new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
                 gridPaneAsli.getChildren().clear();
                 Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).deleteDeck(button.getId());
-                System.out.println(button.getId());
                 showDecks(Objects.requireNonNull(User.getUserByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())));
             }
         }

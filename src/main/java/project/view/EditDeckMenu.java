@@ -349,7 +349,6 @@ public class EditDeckMenu {
                         l++;
                         k = 0;
                     }
-
                     if (utility.getStringImageHashMap().containsKey(deck.getSideCards().get(counter2).getName())) {
                         ImageView imageView = new ImageView(utility.getStringImageHashMap().get(deck.getSideCards().get(counter2).getName()));
                         imageView.setId(deck.getSideCards().get(counter2).getName());
