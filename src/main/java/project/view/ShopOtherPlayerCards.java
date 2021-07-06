@@ -43,7 +43,7 @@ public class ShopOtherPlayerCards {
         scrollPane.setPrefWidth(1000000000);
         scrollPane.setPrefWidth(1500);
         scrollPane.setPrefHeight(860);
-        gridPane.setGridLinesVisible(true);
+        //gridPane.setGridLinesVisible(true);
         scrollPane.setContent(gridPane);
         scrollPane.setPannable(true);
         ArrayList<Card> arrayList = CardsDatabase.getAllCards();
