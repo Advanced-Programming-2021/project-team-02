@@ -24,11 +24,13 @@ import project.model.Assets;
 import project.model.Deck;
 import project.model.Music;
 import project.model.User;
+import project.model.card.Card;
 import project.model.card.CardsDatabase;
 import project.model.card.Monster;
 import project.model.card.Spell;
 import project.model.card.informationofcards.MonsterActionType;
 import project.model.gui.Icon;
+import project.view.messages.GamePopUpMessage;
 import project.view.messages.LoginMessage;
 import project.view.messages.PopUpMessage;
 
@@ -61,6 +63,7 @@ public class LoginMenuView extends Application {
     public void start(Stage stage) throws Exception {
         LoginMenuView.stage = stage;
         PopUpMessage.setStage(stage);
+        GamePopUpMessage.setStage(stage);
         URL fxmlAddress = getClass().getResource("/project/fxml/login_menu.fxml");
         assert fxmlAddress != null;
         BorderPane root = FXMLLoader.load(fxmlAddress);
@@ -158,10 +161,12 @@ public class LoginMenuView extends Application {
         Objects.requireNonNull(erfanAsset).createDeck("erfan");
         Deck erfandeck = erfanAsset.getDeckByDeckName("erfan");
         int counter = 0;
+        erfanAsset.addCardToMainDeck(Card.getCardByName("Beast King Barbaros"),erfandeck);
+        erfanAsset.addCardToMainDeck(Card.getCardByName("The Tricky"),erfandeck);
         outer:
         for (int i = 0; i < 3; i++) {
             for (Monster monster : allMonsters) {
-                if (monster.getMonsterActionType() == MonsterActionType.NORMAL && monster.getLevel() <= 4) {
+                if (monster.getMonsterActionType() == MonsterActionType.NORMAL && monster.getLevel() >= 4) {
                     erfanAsset.addCardToMainDeck(monster, erfandeck);
                     counter++;
                 }
@@ -177,17 +182,27 @@ public class LoginMenuView extends Application {
             if (counter == 25)
                 break;
         }
+        erfanAsset.addCardToMainDeck(Card.getCardByName("Beast King Barbaros"),erfandeck);
+        erfanAsset.addCardToMainDeck(Card.getCardByName("The Tricky"),erfandeck);
         erfanAsset.activateDeck("erfan");
         User mahdis = new User("mahdis", "mahdis", "mahdis");
         Assets mahdisAsset = Assets.getAssetsByUsername("mahdis");
         Objects.requireNonNull(mahdisAsset).createDeck("mahdis");
         Deck mahdisDeck = mahdisAsset.getDeckByDeckName("mahdis");
-        for (int i = 0; i < 3; i++) {
+        //""
+        mahdisAsset.addCardToMainDeck(Card.getCardByName("The Tricky"),mahdisDeck);
+        mahdisAsset.addCardToMainDeck(Card.getCardByName("Beast King Barbaros"),mahdisDeck);
+        for (int i = 0; i < 2; i++) {
             for (Monster monster : allMonsters) {
-                if (monster.getMonsterActionType() == MonsterActionType.NORMAL && monster.getLevel() <= 4)
+                if (monster.getMonsterActionType() == MonsterActionType.NORMAL && monster.getLevel() >= 4)
                     mahdisAsset.addCardToMainDeck(monster, mahdisDeck);
             }
         }
+        for (Spell spell : allSpells) {
+            mahdisAsset.addCardToMainDeck(spell,mahdisDeck);
+        }
+        mahdisAsset.addCardToMainDeck(Card.getCardByName("Beast King Barbaros"),mahdisDeck);
+        mahdisAsset.addCardToMainDeck(Card.getCardByName("The Tricky"),mahdisDeck);
         mahdisAsset.activateDeck("mahdis");
     }
 }

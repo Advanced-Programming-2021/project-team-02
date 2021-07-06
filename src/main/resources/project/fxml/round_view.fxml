@@ -200,21 +200,23 @@
             <Insets left="10.0" top="10.0" />
         </padding>
     </HBox>
-    <VBox id="box" alignment="CENTER" layoutX="31.0" layoutY="204.0" prefHeight="452.0" prefWidth="306.0">
+    <VBox id="box" alignment="CENTER" layoutX="12.0" layoutY="167.0" prefHeight="529.0" prefWidth="325.0">
         <children>
-            <ImageView fx:id="selectedCardImageView" fitHeight="230.0" fitWidth="190.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="selectedCardImageView" fitHeight="231.0" fitWidth="190.0" pickOnBounds="true" preserveRatio="true">
             <VBox.margin>
                <Insets top="10.0" />
             </VBox.margin></ImageView>
-            <Label id="description" fx:id="selectedCardDescriptionLabel" alignment="CENTER" prefHeight="274.0" prefWidth="246.0" text="Label" />
+            <Label id="description" fx:id="selectedCardDescriptionLabel" alignment="CENTER" prefHeight="272.0" prefWidth="267.0" text="Label" />
         </children>
     </VBox>
-    <VBox id="box" alignment="CENTER" layoutX="1333.0" layoutY="302.0" prefHeight="256.0" prefWidth="190.0" spacing="20.0">
+    <VBox id="box" alignment="CENTER" layoutX="1330.0" layoutY="275.0" prefHeight="338.0" prefWidth="197.0" spacing="20.0">
         <children>
-            <Button mnemonicParsing="false" onMouseClicked="#nextPhase" prefHeight="30.0" prefWidth="130.0" text="Next Phase" />
-            <Label fx:id="phaseLabel" prefHeight="40.0" prefWidth="150.0" text="Current Phase :" />
-            <Button fx:id="SummonOrActivateButton" mnemonicParsing="false" onMouseClicked="#summonOrActivate" prefHeight="30.0" prefWidth="130.0" text="Summon/Activate Effect" />
-            <Button fx:id="SetButton" mnemonicParsing="false" onMouseClicked="#set" prefHeight="30.0" prefWidth="130.0" text="Set" />
+            <Button fx:id="nextPhaseButton" mnemonicParsing="false" onMouseClicked="#nextPhase" prefHeight="30.0" prefWidth="130.0" text="Next Phase" />
+            <Label fx:id="phaseLabel" prefHeight="37.0" prefWidth="150.0" text="Current Phase :" />
+            <Button fx:id="summonOrActivateButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Summon/Activate Effect" />
+            <Button fx:id="setButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Set" />
+            <Button fx:id="changePositionButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Change Position" />
+            <Button fx:id="attackButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Attack" />
         </children>
     </VBox>
 </AnchorPane>
