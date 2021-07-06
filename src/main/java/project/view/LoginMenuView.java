@@ -163,7 +163,7 @@ public class LoginMenuView extends Application {
         outer:
         for (int i = 0; i < 3; i++) {
             for (Monster monster : allMonsters) {
-                if (monster.getMonsterActionType() == MonsterActionType.NORMAL && monster.getLevel() <= 4) {
+                if (monster.getMonsterActionType() == MonsterActionType.NORMAL && monster.getLevel() >= 4) {
                     erfanAsset.addCardToMainDeck(monster, erfandeck);
                     counter++;
                 }
@@ -186,7 +186,7 @@ public class LoginMenuView extends Application {
         Deck mahdisDeck = mahdisAsset.getDeckByDeckName("mahdis");
         for (int i = 0; i < 2; i++) {
             for (Monster monster : allMonsters) {
-                if (monster.getMonsterActionType() == MonsterActionType.NORMAL && monster.getLevel() <= 4)
+                if (monster.getMonsterActionType() == MonsterActionType.NORMAL && monster.getLevel() >= 4)
                     mahdisAsset.addCardToMainDeck(monster, mahdisDeck);
             }
         }

@@ -938,8 +938,7 @@ public class RoundGameController {
         Monster monster = ((Monster) selectedCell.getCardInCell());
         System.out.println(monster);
         if (monster.getMonsterEffect().equals(MonsterEffect.GATE_GUARDIAN_EFFECT)) {
-            gateGuardianEffect(CellStatus.OFFENSIVE_OCCUPIED);
-            return SUCCESS;
+            return gateGuardianEffect(CellStatus.OFFENSIVE_OCCUPIED);
         } else if (monster.getMonsterEffect().equals(MonsterEffect.BEAST_KING_BARBAROS_EFFECT)) {
             if (beastKingBarbosEffect(CellStatus.OFFENSIVE_OCCUPIED))
                 return SUCCESS;
@@ -983,12 +982,13 @@ public class RoundGameController {
         return true;
     }
 
-    private void gateGuardianEffect(CellStatus status) {
+    private GameViewMessage gateGuardianEffect(CellStatus status) {
         if (view.yesNoQuestion("do you want to tribute for GateGuardian Special Summon?")) {
             if (didTribute(3, getCurrentPlayer())) {
                 specialSummon(selectedCell.getCardInCell(), status);
-            }
+            } else return NOT_ENOUGH_CARD_TO_TRIBUTE;
         }
+        return SUCCESS;
     }
 
     private boolean beastKingBarbosEffect(CellStatus status) {
@@ -1243,24 +1243,9 @@ public class RoundGameController {
             Error.showError(Error.NOT_ENOUGH_CARDS_TO_TRIBUTE);
             return false;
         }
-        int i = 0;
-        while (true) {
-            int input = view.getTributeAddress();
-            if (input == -1) {
-                cancel();
-                return false;
-            } else if (input > 5) {
-                Error.showError(Error.INVALID_NUMBER);
-            } else if (player.getPlayerBoard().getACellOfBoardWithAddress(Zone.MONSTER_ZONE, input).getCellStatus().equals(CellStatus.EMPTY)) {
-                Error.showError(Error.WRONG_MONSTER_ADDRESS);
-            } else {
-                i++;
-                address.add(input);
-                if (i == number)
-                    break;
-            }
-        }
-        for (Integer integer : address) {
+
+        ArrayList<Integer> tributeAddress = view.getTributeAddress(number);
+        for (Integer integer : tributeAddress) {
             addCardToGraveYard(Zone.MONSTER_ZONE, integer, player);
         }
         return true;

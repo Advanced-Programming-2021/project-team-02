@@ -13,6 +13,7 @@ public enum GameViewMessage {
     FULL_SPELL_ZONE("Spell Zone is Full, cant activate!", Alert.AlertType.ERROR),
     CAN_NOT_ACTIVE_TRAP_IN_HAND("you can’t activate effect of trap in hand", Alert.AlertType.ERROR),
     PREPARATIONS_IS_NOT_DONE("Preparations of this spell are not done yet", Alert.AlertType.ERROR),
+    NOT_ENOUGH_CARD_TO_TRIBUTE("You dont have enough cards to tribute", Alert.AlertType.ERROR),
     SUCCESS("Success!", Alert.AlertType.INFORMATION);
     private final String label;
     private final Alert.AlertType alertType;

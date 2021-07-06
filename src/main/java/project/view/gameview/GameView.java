@@ -5,9 +5,13 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
@@ -15,12 +19,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import project.controller.MainMenuController;
 import project.controller.playgame.Phase;
 import project.controller.playgame.RoundGameController;
 import project.model.Deck;
@@ -29,7 +34,9 @@ import project.model.card.Monster;
 import project.model.card.informationofcards.CardType;
 import project.model.game.board.Cell;
 import project.model.game.board.CellStatus;
+import project.model.game.board.MonsterZone;
 import project.model.game.board.Zone;
+import project.view.LoginMenuView;
 import project.view.Utility;
 import project.view.input.Input;
 import project.view.input.Regex;
@@ -534,21 +541,96 @@ public class GameView {
             }
     }
 
-    public int getTributeAddress() {
-        System.out.println("Enter number(address) of monster to tribute Or cancel to finish the process:");
-        String command;
-        while (true) {
-            command = Input.getInput();
-            if (command.matches("[1-9]+")) {
-                return Integer.parseInt(command);
-            } else if (command.equals("cancel")) {
-                return -1;
-            } else {
-                System.out.println(Error.INVALID_COMMAND.getValue());
+    public ArrayList<Integer> getTributeAddress(int numberOfTributeNeeded) {
+        ArrayList<Integer> tributeAddress = new ArrayList<>();
+        //----
+        Stage window = new Stage();
+        window.initOwner(LoginMenuView.getStage());
+        window.initStyle(StageStyle.UNDECORATED);
+        GamePopUpMessage.setStage(window);
+        Label title = new Label("Choose Tribute Cards");
+        title.setId("title");
+        Button doneButton = new Button();
+        doneButton.setText("OK");
+        doneButton.setOnAction(event -> {
+        if (tributeAddress.size() == numberOfTributeNeeded){
+                window.close();
+                synchronized (tributeAddress){
+                    notify();
+                }
+        } else new GamePopUpMessage(Alert.AlertType.ERROR,"Please select!!!");
+        });
+        GridPane gridPane = getOnlyMonsterZoneGridPaneToSelect(tributeAddress,numberOfTributeNeeded);
+        Button resetChoicesButton = new Button();
+        resetChoicesButton.setText("Reset");
+        resetChoicesButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if(mouseEvent.getButton()!=MouseButton.PRIMARY || tributeAddress.size() == 0)
+                    return;
+                else {
+                    for (Integer address : tributeAddress) {
+                        ((Pane) Objects.requireNonNull(getNodeInGridPane(gridPane, 0, address - 1))).setBorder(null);
+                    }
             }
+            }
+        });
+        HBox buttonBox = new HBox(doneButton,resetChoicesButton);
+        VBox mainBox = new VBox(gridPane,buttonBox);
+        doneButton.setCursor(Cursor.HAND);
+        AnchorPane mainLayout = new AnchorPane();
+        Scene scene = new Scene(mainLayout, 600, 400);
+        mainLayout.getScene().setFill(Color.TRANSPARENT);
+        window.initStyle(StageStyle.TRANSPARENT);
+        mainLayout.getChildren().addAll(mainBox,buttonBox);
+        window.setScene(scene);
+        window.setResizable(false);
+        window.showAndWait();
+        synchronized (tributeAddress) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return tributeAddress;
         }
     }
 
+    private GridPane getOnlyMonsterZoneGridPaneToSelect(ArrayList<Integer> listOfSelected,int size){
+        GridPane gridPane = new GridPane();
+        MonsterZone monsterZone = RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().returnMonsterZone();
+        ArrayList<Card> inZoneCards = new ArrayList<>();
+        for (int i = 1; i <= 5; i++ ){
+            Cell cell = monsterZone.getCellWithAddress(i);
+            if (cell.getCellStatus()!=CellStatus.EMPTY){
+                inZoneCards.add(cell.getCardInCell());
+            }
+        }
+        int i = 0;
+        for (Card zoneCard : inZoneCards) {
+            Pane pane = new Pane();
+            gridPane.add(pane,i,0);
+            ImageView cardImageView = new ImageView(getCardImageByName(zoneCard.getName()));
+            cardImageView.setFitHeight(130);
+            cardImageView.setFitWidth(94);
+            pane.getChildren().add(cardImageView);
+            int finalI = i;
+            pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    if (mouseEvent.getButton()!=MouseButton.PRIMARY)
+                        return;
+                    pane.setBorder(new Border(new BorderStroke(Color.GREENYELLOW,
+                            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+                if (listOfSelected.size() != size)
+                    listOfSelected.add(finalI+1);
+
+                }
+            });
+            i++;
+        }
+        return gridPane;
+    }
     public boolean getSummonOrderForRitual() {
         System.out.println("you should right summon order:");
         String input;
@@ -622,11 +704,8 @@ public class GameView {
     }
 
     public boolean yesNoQuestion(String question) {
-        System.out.println(question);
-        if (Input.getInput().equals("yes")) {
-            return true;
-        }
-        return false;
+        GamePopUpMessage message = new GamePopUpMessage(Alert.AlertType.CONFIRMATION,question);
+        return message.getAlert().getResult().equals("Yes");
     }
 
     public int chooseCardInHand(String toShow) {
@@ -815,9 +894,13 @@ public class GameView {
             changePositionButton.setStyle("-fx-background-color: #323c46");
 
             attackButton.setCursor(Cursor.HAND);
-            //TODO attackButton.setOnMouseClicked
+            attackButton.setOnMouseClicked(this::attack);
             attackButton.setStyle("-fx-background-color: #bb792d");;
         }
+    }
+    private void attack(MouseEvent mouseEvent){
+        if (mouseEvent.getButton() != MouseButton.PRIMARY)
+            return;
     }
 
     public void summonOrActivate(MouseEvent mouseEvent) {
@@ -832,10 +915,10 @@ public class GameView {
         if (mouseEvent.getButton() != MouseButton.PRIMARY)
             return;
         GameViewMessage message = RoundGameController.getInstance().setCrad();
-        if (message == GameViewMessage.NONE)
+        if (message == GameViewMessage.NONE || message == null)
             return;
         else if (message != GameViewMessage.SUCCESS)
-            new PopUpMessage(message.getAlertType(), message.getLabel());
+            new GamePopUpMessage(message.getAlertType(), message.getLabel());
 
     }
 
