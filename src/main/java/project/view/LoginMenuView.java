@@ -24,6 +24,7 @@ import project.model.Assets;
 import project.model.Deck;
 import project.model.Music;
 import project.model.User;
+import project.model.card.Card;
 import project.model.card.CardsDatabase;
 import project.model.card.Monster;
 import project.model.card.Spell;
@@ -160,6 +161,8 @@ public class LoginMenuView extends Application {
         Objects.requireNonNull(erfanAsset).createDeck("erfan");
         Deck erfandeck = erfanAsset.getDeckByDeckName("erfan");
         int counter = 0;
+        erfanAsset.addCardToMainDeck(Card.getCardByName("Beast King Barbaros"),erfandeck);
+        erfanAsset.addCardToMainDeck(Card.getCardByName("The Tricky"),erfandeck);
         outer:
         for (int i = 0; i < 3; i++) {
             for (Monster monster : allMonsters) {
@@ -179,11 +182,16 @@ public class LoginMenuView extends Application {
             if (counter == 25)
                 break;
         }
+        erfanAsset.addCardToMainDeck(Card.getCardByName("Beast King Barbaros"),erfandeck);
+        erfanAsset.addCardToMainDeck(Card.getCardByName("The Tricky"),erfandeck);
         erfanAsset.activateDeck("erfan");
         User mahdis = new User("mahdis", "mahdis", "mahdis");
         Assets mahdisAsset = Assets.getAssetsByUsername("mahdis");
         Objects.requireNonNull(mahdisAsset).createDeck("mahdis");
         Deck mahdisDeck = mahdisAsset.getDeckByDeckName("mahdis");
+        //""
+        mahdisAsset.addCardToMainDeck(Card.getCardByName("The Tricky"),mahdisDeck);
+        mahdisAsset.addCardToMainDeck(Card.getCardByName("Beast King Barbaros"),mahdisDeck);
         for (int i = 0; i < 2; i++) {
             for (Monster monster : allMonsters) {
                 if (monster.getMonsterActionType() == MonsterActionType.NORMAL && monster.getLevel() >= 4)
@@ -193,6 +201,8 @@ public class LoginMenuView extends Application {
         for (Spell spell : allSpells) {
             mahdisAsset.addCardToMainDeck(spell,mahdisDeck);
         }
+        mahdisAsset.addCardToMainDeck(Card.getCardByName("Beast King Barbaros"),mahdisDeck);
+        mahdisAsset.addCardToMainDeck(Card.getCardByName("The Tricky"),mahdisDeck);
         mahdisAsset.activateDeck("mahdis");
     }
 }

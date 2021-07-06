@@ -846,6 +846,7 @@ public class RoundGameController {
     private void addCardToGraveYard(Zone fromZone, int address, DuelPlayer player) {
         if (fromZone.equals(Zone.MONSTER_ZONE)) {
             Cell cell = player.getPlayerBoard().getACellOfBoardWithAddress(fromZone, address);
+            String cardname = cell.getCardInCell().getName();
             if (cell.getCellStatus().equals(CellStatus.EMPTY))
                 return;
             checkDeathOfUnderFieldEffectCard((Monster) cell.getCardInCell());
@@ -860,7 +861,8 @@ public class RoundGameController {
                 monster.setAttackPower(3000);
             }
             player.getPlayerBoard().removeMonsterFromBoardAndAddToGraveYard(address);
-            view.showBoard();
+            view.showAddToGraveYardFromMonsterZoneAnimation(address, player == getCurrentPlayer(), cardname);
+            //view.showBoard();
         } else if (fromZone.equals(Zone.FIELD_ZONE)) {
             player.getPlayerBoard().removeFieldSpell();
             view.showBoard();
@@ -993,6 +995,9 @@ public class RoundGameController {
 
     private boolean beastKingBarbosEffect(CellStatus status) {
         int howToSummon = view.howToSummonBeastKingBarbos();//1-normal tribute, 2-without tribute, 3-with 3 tributes\n"
+        if (howToSummon == -1) {
+            return true;
+        }
         if (howToSummon == 1) {
             return false;
         } else if (howToSummon == 2) {
@@ -1025,20 +1030,14 @@ public class RoundGameController {
     }
 
     private boolean theTrickyEffect(CellStatus status) {
+        if (getCurrentPlayerHand().size() == 1)
+            return false;
         if (view.yesNoQuestion("do you want to special summon/set it with a tribute in hand ?")) {
-            while (true) {
-                int address = view.chooseCardInHand("Enter address(number of it in your hand) of card to be set");
-                if (address == -1) {
-                    return false;
-                } else if (getCardInHand(address) == null) {
-                    Error.showError(Error.INVALID_SELECTION);
-                } else {
+                int address = view.chooseCardInHand("Enter address(number of it in your hand) of card to be set",selectedCellAddress);
                     addCardToGraveYard(Zone.HAND, address, getCurrentPlayer());
                     specialSummon(selectedCell.getCardInCell(), status);
                     deselectCard(0);
                     return true;
-                }
-            }
         }
         return false;
     }
