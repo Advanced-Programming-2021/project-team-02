@@ -26,8 +26,7 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 
 import static project.model.card.informationofcards.CardType.*;
-import static project.view.messages.GameViewMessage.FULL_MONSTER_ZONE;
-import static project.view.messages.GameViewMessage.SUCCESS;
+import static project.view.messages.GameViewMessage.*;
 
 public class RoundGameController {
     private static RoundGameController instance = null;
@@ -1376,63 +1375,60 @@ public class RoundGameController {
         return sumOfSubsets;
     }
 
-    public void setCrad() {
-        if (selectedCell == null) {
-            view.showError(Error.NO_CARD_SELECTED_YET);
-            return;
+    public GameViewMessage setCrad() {
+        if (selectedCellZone == Zone.NONE || selectedCell == null) {
+
+            return SELECT_CARD;
         }
-        if (selectedCellZone == Zone.NONE && opponentSelectedCell != null) {
-            view.showError(Error.ONLY_CAN_SHOW_OPPONENT_CARD);
-            return;
-        }
+//        if (selectedCellZone == Zone.NONE && opponentSelectedCell != null) {
+//            view.showError(Error.ONLY_CAN_SHOW_OPPONENT_CARD);
+//            return;
+//        }
+        if (selectedCellZone != Zone.HAND)
+            return GameViewMessage.NONE;
         if (selectedCell.getCardInCell().getCardType() == MONSTER) {
-            setMonster();
+            return setMonster();
         } else {
-            setSpellOrTrap();
+            //TODO return setSpellOrTrap();
         }
+        //TODO remove
+        return null;
     }
 
-    public void setMonster() {
-        if (selectedCellZone == Zone.NONE && opponentSelectedCell != null) {
-            Error.showError(Error.ONLY_CAN_SHOW_OPPONENT_CARD);
-            return;
-        }
-        if (isValidSelectionForSummonOrSet() != SUCCESS) {
-            return;
-        }
-        if ((!selectedCellZone.equals(Zone.HAND))) {
-            Error.showError(Error.CAN_NOT_SET);
-            return;
+    public GameViewMessage setMonster() {
+        GameViewMessage message;
+        if ((message = isValidSelectionForSummonOrSet()) != SUCCESS) {
+            return message;
         }
         if (!(currentPhase.equals(Phase.MAIN_PHASE_1) || currentPhase.equals(Phase.MAIN_PHASE_2))) {
-            Error.showError(Error.ACTION_NOT_ALLOWED);
-            return;
+            message = ACTION_NOT_ALLOWED;
+            return message;
         }
         //check special Set
         Monster monster = ((Monster) selectedCell.getCardInCell());
-        if (monster.getMonsterEffect().equals(MonsterEffect.GATE_GUARDIAN_EFFECT)) {
-            gateGuardianEffect(CellStatus.DEFENSIVE_HIDDEN);
-            return;
-        } else if (monster.getMonsterEffect().equals(MonsterEffect.BEAST_KING_BARBAROS_EFFECT)) {
-            if (beastKingBarbosEffect(CellStatus.DEFENSIVE_HIDDEN))
-                return;
-        } else if (monster.getMonsterEffect().equals(MonsterEffect.THE_TRICKY_EFFECT)) {
-            if (theTrickyEffect(CellStatus.DEFENSIVE_HIDDEN)) {
-                return;
-            }
-        }
+//  TODO      if (monster.getMonsterEffect().equals(MonsterEffect.GATE_GUARDIAN_EFFECT)) {
+//            gateGuardianEffect(CellStatus.DEFENSIVE_HIDDEN);
+//            return;
+//        } else if (monster.getMonsterEffect().equals(MonsterEffect.BEAST_KING_BARBAROS_EFFECT)) {
+//            if (beastKingBarbosEffect(CellStatus.DEFENSIVE_HIDDEN))
+//                return;
+//        } else if (monster.getMonsterEffect().equals(MonsterEffect.THE_TRICKY_EFFECT)) {
+//            if (theTrickyEffect(CellStatus.DEFENSIVE_HIDDEN)) {
+//                return;
+//            }
+//        }
         if (!isSummonOrSetUsed()) {
-            return;
+            return USED_SUMMON_OR_SET;
         }
-        if (monster.getMonsterActionType().equals(MonsterActionType.RITUAL)) {
-            view.showError(Error.CAN_NOT_RITUAL_SUMMON);
-            return;
-        }
+//       TODO if (monster.getMonsterActionType().equals(MonsterActionType.RITUAL)) {
+//            view.showError(Error.CAN_NOT_RITUAL_SUMMON);
+//            return;
+//        }
         if (monster.getLevel() >= 5 && monster.getLevel() <= 10) {
-            tributeSet();
-            return;
+            return tributeSet();
+
         }
-        normalSet();
+        return normalSet();
     }
 
     private boolean isTorrentialTributeTrapToActivateInSet(DuelPlayer player) {
@@ -1451,17 +1447,20 @@ public class RoundGameController {
         return false;
     }
 
-    private void normalSet() {
+    private GameViewMessage normalSet() {
         isSummonOrSetOfMonsterUsed = true;
         set();
-        view.showSuccessMessage(SuccessMessage.SET_SUCCESSFULLY);
         deselectCard(0);
+        return SUCCESS;
     }
 
     private void set() {
-        getCurrentPlayer().getPlayerBoard().addMonsterToBoard((Monster) selectedCell.getCardInCell(), CellStatus.DEFENSIVE_HIDDEN);
+        String cardName = selectedCell.getCardInCell().getName();
+        int addressOfAddToZone = getCurrentPlayer().getPlayerBoard().addMonsterToBoard((Monster) selectedCell.getCardInCell(), CellStatus.DEFENSIVE_HIDDEN);
         getCurrentPlayerHand().remove(selectedCellAddress - 1);
-        view.showBoard();
+        view.showSetMonsterTransition(addressOfAddToZone,selectedCellAddress,cardName);
+
+
         //TRAPS :
         if (isTorrentialTributeTrapToActivateInSet(getCurrentPlayer())) {
             if (isTrapOfCurrentPlayerInSummonSituationActivated()) {
@@ -1496,16 +1495,19 @@ public class RoundGameController {
         checkNewCardToBeBeUnderEffectOfFieldCard((Monster) selectedCell.getCardInCell());
     }
 
-    private void tributeSet() {
+    private GameViewMessage tributeSet() {
         if (((Monster) selectedCell.getCardInCell()).getLevel() >= 7) {
             if (didTribute(2, getCurrentPlayer())) {
-                normalSet();
+                return normalSet();
             }
         } else if (((Monster) selectedCell.getCardInCell()).getLevel() >= 5) {
             if (didTribute(1, getCurrentPlayer())) {
-                normalSet();
+                return normalSet();
+            } else {
+
             }
         }
+        return NEED_MORE_TRIBUTE;
 
     }
 

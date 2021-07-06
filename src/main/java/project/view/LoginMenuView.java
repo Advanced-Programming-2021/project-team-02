@@ -93,6 +93,7 @@ public class LoginMenuView extends Application {
         else playPauseMusicButton.setImage(Icon.PLAY.getImage());
         if (Music.mediaPlayer.isMute()) muteUnmuteButton.setImage(Icon.MUTE.getImage());
         else muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
+
         usernameFieldSignUp.setOnKeyPressed(k -> {
             if (k.getCode().equals(KeyCode.ENTER)) registerUser();
         });
@@ -128,7 +129,7 @@ public class LoginMenuView extends Application {
 
     public void nextTrack(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
-        Music.nextTrack();
+        Music.nextTrack(playPauseMusicButton, muteUnmuteButton);
     }
 
     public void playPauseMusic(MouseEvent actionEvent) {

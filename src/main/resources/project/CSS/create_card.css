@@ -45,14 +45,12 @@
     -fx-background-color: #9e376c;
     -fx-background-radius: 10;
     -fx-cursor: hand;
-    -fx-my-menu-font-color: white;
 }
 
-.menu-bar > .container > .menu-button > .label {
-    -fx-background-color: #9e376c;
-    -fx-background-radius: 10;
+.menu-button > .label {
     -fx-cursor: hand;
-    -fx-my-menu-font-color: white;
+    -fx-font-size: 18;
+    -fx-text-fill: white;
 }
 
 .menu-item .label {
@@ -95,10 +93,6 @@
 
 .list-view .list-cell:focused {
     -fx-background-color: darkgray;
-    -fx-cursor: hand;
-}
-
-.list-view .list-cell .label:focused {
     -fx-text-fill: blue;
     -fx-cursor: hand;
 }

@@ -86,7 +86,8 @@ public class Utility {
         stringImageHashMap.put("Negate Attack", new Image(String.valueOf(getClass().getResource("/project/image/ShopMenuPictures/Traps/NegateAttack.jpg"))));
         stringImageHashMap.put("Torrential Tribute", new Image(String.valueOf(getClass().getResource("/project/image/ShopMenuPictures/Traps/TorrentialTribute.jpg"))));
         stringImageHashMap.put("Trap Hole", new Image(String.valueOf(getClass().getResource("/project/image/ShopMenuPictures/Traps/TrapHole.jpg"))));
-        stringImageHashMap.put("Back Image", new Image(String.valueOf(getClass().getResource("/project/image/GamePictures/Card back.png"))));
+        stringImageHashMap.put("Back Image", new Image(String.valueOf(getClass().getResource("/project/image/GamePictures/Card Back.png"))));
+        stringImageHashMap.put("Card Back Set", new Image(String.valueOf(getClass().getResource("/project/image/GamePictures/Card Back Set.png"))));
 
         stringImageHashMap.put("NEW", new Image(String.valueOf(getClass().getResource("/project/image/DeckMenuPictures/Picture.jpg"))));
 
