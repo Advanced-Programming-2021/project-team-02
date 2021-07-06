@@ -499,12 +499,12 @@ public class RoundGameController {
                     cancel();
                     //TODO return;
                 } else if (summonChoice == 1) {
-                    specialSummon(card, CellStatus.OFFENSIVE_OCCUPIED);
+                    //TODO specialSummon(card, CellStatus.OFFENSIVE_OCCUPIED);
                     deselectCard(0);
                     addCardToGraveYard(Zone.SPELL_ZONE, addressOfAdd, getCurrentPlayer());
                     //TODO  return;
                 } else {
-                    specialSummon(card, CellStatus.DEFENSIVE_HIDDEN);
+                    //TODO specialSummon(card, CellStatus.DEFENSIVE_HIDDEN);
                     deselectCard(0);
                     addCardToGraveYard(Zone.SPELL_ZONE, addressOfAdd, getCurrentPlayer());
                     //TODO return;
@@ -817,10 +817,14 @@ public class RoundGameController {
         }
     }
 
-    public void specialSummon(Card card, CellStatus cellStatus) {
+    public void specialSummon(Card card, CellStatus cellStatus,Zone fromZone,int addressInFromZone) {
         MonsterZone monsterZone = getCurrentPlayer().getPlayerBoard().returnMonsterZone();
         int addressOfAdd = monsterZone.addCard((Monster) card, cellStatus);
         view.showBoard();
+        if (fromZone == Zone.HAND){
+            getCurrentPlayerHand().remove(addressInFromZone-1);
+            view.showSummon(addressOfAdd,addressInFromZone, card.getName());
+        }
         checkNewCardToBeBeUnderEffectOfFieldCard((Monster) card);
         if (isCurrentPlayerTrapToBeActivatedInSummonSituation()) {
             if (isTrapOfCurrentPlayerInSummonSituationActivated()) {
@@ -846,9 +850,9 @@ public class RoundGameController {
     private void addCardToGraveYard(Zone fromZone, int address, DuelPlayer player) {
         if (fromZone.equals(Zone.MONSTER_ZONE)) {
             Cell cell = player.getPlayerBoard().getACellOfBoardWithAddress(fromZone, address);
-            String cardname = cell.getCardInCell().getName();
             if (cell.getCellStatus().equals(CellStatus.EMPTY))
                 return;
+            String cardname = cell.getCardInCell().getName();
             checkDeathOfUnderFieldEffectCard((Monster) cell.getCardInCell());
             MonsterZone monsterZone = player.getPlayerBoard().returnMonsterZone();
             if (player == firstPlayer) {
@@ -865,25 +869,31 @@ public class RoundGameController {
             //view.showBoard();
         } else if (fromZone.equals(Zone.FIELD_ZONE)) {
             player.getPlayerBoard().removeFieldSpell();
+            //TODO field animation to graveyard
             view.showBoard();
         } else if (fromZone.equals(Zone.SPELL_ZONE)) {
             Cell cell = player.getPlayerBoard().getACellOfBoardWithAddress(fromZone, address);
             if (cell.getCellStatus().equals(CellStatus.EMPTY))
                 return;
+            String cardName = cell.getCardInCell().getName();
             player.getPlayerBoard().removeSpellOrTrapFromBoard(address);
             view.showBoard();
         } else if (fromZone.equals(Zone.HAND)) {
             if (player.getNickname().equals(getCurrentPlayer().getNickname())) {
-                Card card = getCardInHand(address);
+                Card card = getCardInHand(address-1);
+                String caradName = card.getName();
                 player.getPlayerBoard().addCardToGraveYardDirectly(card);
-                getCurrentPlayerHand().remove(address);
+                getCurrentPlayerHand().remove(address-1);
+                view.showAddToGraveYardFromHandAnimation(address,true,caradName);
                 view.showBoard();
             } else {
-                Card card = getCardInHand(address);
+                Card card = getCardInOpponentHand(address-1);
                 if (card == null)
                     return;
+                String cardName = card.getName();
                 player.getPlayerBoard().addCardToGraveYardDirectly(card);
-                getOpponentHand().remove(address);
+                getOpponentHand().remove(address-1);
+                view.showAddToGraveYardFromHandAnimation(address,false,cardName);
                 view.showBoard();
             }
         }
@@ -921,7 +931,14 @@ public class RoundGameController {
             return null;
         } else return card;
     }
-
+    private Card getCardInOpponentHand(int address) {
+        Card card;
+        if (address > getOpponentPlayerHand().size())
+            return null;
+        if ((card = getCurrentPlayerHand().get(address)) == null) {
+            return null;
+        } else return card;
+    }
 
     //MONSTER RELATED CODES :
     public synchronized GameViewMessage summonMonster() {
@@ -986,7 +1003,7 @@ public class RoundGameController {
     private GameViewMessage gateGuardianEffect(CellStatus status) {
         if (view.yesNoQuestion("do you want to tribute for GateGuardian Special Summon?")) {
             if (didTribute(3, getCurrentPlayer())) {
-                specialSummon(selectedCell.getCardInCell(), status);
+                specialSummon(selectedCell.getCardInCell(), status,Zone.HAND,selectedCellAddress);
             } else return NOT_ENOUGH_CARD_TO_TRIBUTE;
         }
         return SUCCESS;
@@ -1024,7 +1041,7 @@ public class RoundGameController {
         if (fieldZoneSpell != null) {
             reversePreviousFieldZoneSpellEffectAndRemoveIt();
         }
-        specialSummon(selectedCell.getCardInCell(), status);
+        specialSummon(selectedCell.getCardInCell(), status,Zone.HAND,selectedCellAddress);
         deselectCard(0);
     }
 
@@ -1034,7 +1051,7 @@ public class RoundGameController {
         if (view.yesNoQuestion("do you want to special summon/set it with a tribute in hand ?")) {
                 int address = view.chooseCardInHand("Enter address(number of it in your hand) of card to be set",selectedCellAddress);
                     addCardToGraveYard(Zone.HAND, address, getCurrentPlayer());
-                    specialSummon(selectedCell.getCardInCell(), status);
+                    specialSummon(selectedCell.getCardInCell(), status,Zone.HAND,selectedCellAddress-1);//-1 because of tribute
                     deselectCard(0);
                     return true;
         }
@@ -2092,7 +2109,7 @@ public class RoundGameController {
             } else if (address - 1 > graveYard.getGraveYardCards().size()) {
                 view.showError(Error.INVALID_NUMBER);
             } else if ((card = graveYard.getGraveYardCards().get(address - 1)).getCardType().equals(CardType.MONSTER)) {
-                specialSummon(card, CellStatus.OFFENSIVE_OCCUPIED);
+                //TODO specialSummon(card, CellStatus.OFFENSIVE_OCCUPIED);
                 addCardToGraveYard(Zone.SPELL_ZONE, selectedCellAddress, getCurrentPlayer());
             } else view.showError(Error.INVALID_SELECTION);
             //TODO this break is just put here without reason ... must remove it ...

@@ -8,10 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -37,10 +34,8 @@ import project.view.LoginMenuView;
 import project.view.Utility;
 import project.view.input.Input;
 import project.view.input.Regex;
+import project.view.messages.*;
 import project.view.messages.Error;
-import project.view.messages.GamePopUpMessage;
-import project.view.messages.GameViewMessage;
-import project.view.messages.SuccessMessage;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -143,7 +138,22 @@ public class GameView {
         return null;
     }
 
-    public void loadHandCards() {
+    public void startGameAndLoadHand() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,"Ready to Go ? ");
+        alert.initOwner(LoginMenuView.getStage());
+        alert.initModality(Modality.WINDOW_MODAL);
+        alert.initStyle(StageStyle.TRANSPARENT);
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.setHeaderText(null);
+        dialogPane.setGraphic(null);
+        dialogPane.setStyle("-fx-border-radius: 10; -fx-border-color: #bb792d; -fx-border-width: 7; -fx-background-radius: 14; -fx-font-family: \"Matrix II Regular\"; -fx-background-color: #103188;");
+        dialogPane.lookup(".content.label").setStyle("-fx-text-fill: white; -fx-font-size: 16; -fx-line-spacing: 5px;");
+        dialogPane.getScene().setFill(Color.TRANSPARENT);
+        ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Go!");
+        ButtonBar buttonBar = (ButtonBar) alert.getDialogPane().lookup(".button-bar");
+        buttonBar.getButtons().forEach(b -> b.setStyle("-fx-background-radius: 10; -fx-background-color: #bb792d; -fx-font-size: 16; -fx-text-fill: white;"));
+        buttonBar.getButtons().forEach(b -> b.setCursor(Cursor.HAND));
+        alert.showAndWait();
         ArrayList<Card> currentPlayerHandList = (ArrayList<Card>) RoundGameController.getInstance().getCurrentPlayerHand();
         int counter = 0;
         for (Card card : currentPlayerHandList) {
@@ -915,6 +925,7 @@ public class GameView {
         boxOfChoices.setSpacing(10);
         boxOfChoices.setAlignment(Pos.CENTER);
         Button cancelButton = new Button();
+        cancelButton.setCursor(Cursor.HAND);
         cancelButton.setText("Cancel");
         cancelButton.setStyle("-fx-background-color: #bb792d;\n" +
                 "-fx-background-radius: 10;\n" +
@@ -1072,7 +1083,9 @@ public class GameView {
         phaseLabel.setText("Current Phase : " + currentPhase);
         showButtonBasedOnPhase(currentPhase);
     }
+    public void changeTurn(){
 
+    }
     public void showButtonBasedOnPhase(Phase currentPhase) {
         nextPhaseButton.setCursor(Cursor.HAND);
         if (currentPhase == Phase.DRAW_PHASE || currentPhase == Phase.STAND_BY_PHASE) {
@@ -1389,6 +1402,36 @@ public class GameView {
         });
         mainGamePane.getChildren().add(fakeCardImageView);
         monsterZoneNode.getChildren().clear();
+        tt.play();
+    }
+
+    public void showAddToGraveYardFromHandAnimation(int address, boolean isCurrentPlayer,String cardName) {
+        ImageView fakeCardImageView = new ImageView(getCardImageByName(cardName));
+        fakeCardImageView.setFitWidth(94);
+        fakeCardImageView.setFitHeight(130);
+
+        GridPane zonePane = isCurrentPlayer ? currentHand : opponentHand;
+        Pane graveYardPane = isCurrentPlayer?currentPlayerGraveYardPane : opponentGraveYardPane;
+
+        Node inHandNode =  getNodeInGridPane(zonePane,0,address-1);
+        Point2D inHandPoint = inHandNode.localToScene(new Point2D(0,0));
+        Point2D graveYardNodePoint = graveYardPane.localToScene(new Point2D(0,0));
+        TranslateTransition tt = new TranslateTransition();
+        tt.setNode(fakeCardImageView);
+        tt.setFromX(inHandPoint.getX());
+        tt.setFromY(inHandPoint.getY());
+        tt.setToX(graveYardNodePoint.getX());
+        tt.setToY(graveYardNodePoint.getY());
+        tt.setDuration(Duration.millis(700));
+        tt.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                mainGamePane.getChildren().remove(fakeCardImageView);
+                reloadCurrentHand();
+            }
+        });
+        mainGamePane.getChildren().add(fakeCardImageView);
+        currentHand.getChildren().remove(inHandNode);
         tt.play();
     }
 }
