@@ -20,6 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -235,7 +236,7 @@ public class GameView {
         translateTransition.setFromY(deck.getY());
         translateTransition.setToX(nodePoint.getX() + 120);
         translateTransition.setToY(nodePoint.getY());
-        translateTransition.setDuration(Duration.millis(2000));
+        translateTransition.setDuration(Duration.millis(500));
         translateTransition.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -254,6 +255,8 @@ public class GameView {
                         RoundGameController.getInstance().selectCardInHand(addressOfAddInGrid + 1);
                     }
                 });
+                AudioClip onClick = new AudioClip(Objects.requireNonNull(getClass().getResource("/project/soundEffects/ADD_CARD.wav")).toString());
+                onClick.play();
                 handPane.add(imageView, addressOfAddInGrid, 0);
                 mainGamePane.getChildren().remove(cardImageView);
             }
@@ -876,6 +879,8 @@ public class GameView {
     public void nextPhase(MouseEvent mouseEvent) {
         if (mouseEvent.getButton() != MouseButton.PRIMARY)
             return;
+        AudioClip onClick = new AudioClip(Objects.requireNonNull(getClass().getResource("/project/soundEffects/CURSOR.wav")).toString());
+        onClick.play();
         RoundGameController.getInstance().nextPhase();
         Phase currentPhase = RoundGameController.getInstance().getCurrentPhase();
         phaseLabel.setText("Current Phase : " +  currentPhase);
@@ -936,9 +941,12 @@ public class GameView {
     public void summonOrActivate(MouseEvent mouseEvent) {
         if (mouseEvent.getButton() != MouseButton.PRIMARY)
             return;
+        AudioClip onClick = new AudioClip(Objects.requireNonNull(getClass().getResource("/project/soundEffects/CURSOR.wav")).toString());
+        onClick.play();
         GameViewMessage message = RoundGameController.getInstance().summonOrActivate();
         if (message != GameViewMessage.SUCCESS && message != null && message != GameViewMessage.NONE)
             new GamePopUpMessage(message.getAlertType(), message.getLabel());
+
     }
 
     public void set(MouseEvent mouseEvent) {
@@ -976,7 +984,7 @@ public class GameView {
         translateTransition.setFromY(inHandPoint.getY());
         translateTransition.setToX(zonePoint.getX());
         translateTransition.setToY(zonePoint.getY());
-        translateTransition.setDuration(Duration.millis(2000));
+        translateTransition.setDuration(Duration.millis(800));
         translateTransition.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -996,7 +1004,8 @@ public class GameView {
                 });
                 cardBoardPane.getChildren().remove(fakeCardImageView);
                 mainGamePane.getChildren().remove(fakeCardImageView);
-
+                AudioClip audioClip = new AudioClip(Objects.requireNonNull(getClass().getResource("/project/soundEffects/ADD_CARD.wav")).toString());
+                audioClip.play();
                 ((Pane) inZoneNode).getChildren().add(imageView);
                 reloadCurrentHand();
             }
@@ -1120,7 +1129,7 @@ public class GameView {
         translateTransition.setFromY(inHandPoint.getY());
         translateTransition.setToX(zonePoint.getX());
         translateTransition.setToY(zonePoint.getY());
-        translateTransition.setDuration(Duration.millis(1000));
+        translateTransition.setDuration(Duration.millis(500));
         translateTransition.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
