@@ -31,12 +31,10 @@ import project.model.game.board.Zone;
 import project.view.Utility;
 import project.view.input.Input;
 import project.view.input.Regex;
-import project.view.messages.Error;
-import project.view.messages.GameViewMessage;
-import project.view.messages.PopUpMessage;
-import project.view.messages.SuccessMessage;
+import project.view.messages.*;
 
 import javafx.geometry.Point2D;
+import project.view.messages.Error;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -97,7 +95,6 @@ public class GameView {
         selectedCardImageView.setImage(backCardImage);
         selectedCardDescriptionLabel.setText("No card selected");
         RoundGameController.getInstance().setView(this);
-        //loadHandCards();
         currentPlayerDeckPane.setCursor(Cursor.HAND);
         currentPlayerDeckPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -302,7 +299,7 @@ public class GameView {
         else if ((matcher = Regex.getMatcherFromAllPermutations(Regex.BOARD_GAME_SELECT_MONSTER_OPPONENT, command)) != null)
             controller.selectOpponentCardMonsterZone(matcher);
         else if ((matcher = Regex.getMatcher(Regex.BOARD_GAME_SELECT_SPELL, command)).matches())
-            controller.selectCardInSpellZone(matcher);
+            ;//controller.selectCardInSpellZone(matcher);
         else if ((matcher = Regex.getMatcherFromAllPermutations(Regex.BOARD_GAME_SELECT_SPELL_OPPONENT, command)) != null)
             controller.selectOpponentCardSpellZone(matcher);
         else if (Regex.getMatcher(Regex.BOARD_GAME_SELECT_FIELD, command).matches())
@@ -773,8 +770,8 @@ public class GameView {
         if (mouseEvent.getButton() != MouseButton.PRIMARY)
             return;
         GameViewMessage message = RoundGameController.getInstance().summonOrActivate();
-        if (message != GameViewMessage.SUCCESS && message != null)
-            new PopUpMessage(message.getAlertType(), message.getLabel());
+        if (message != GameViewMessage.SUCCESS && message != null && message != GameViewMessage.NONE)
+            new GamePopUpMessage(message.getAlertType(), message.getLabel());
     }
 
     public void set(MouseEvent mouseEvent) {
@@ -878,7 +875,7 @@ public class GameView {
     public void showSetMonsterTransition(int addressInMonsterZone, int addressInHand, String cardName) {
         ImageView fakeCardImageView = new ImageView(getCardImageByName("Card Back Set"));
         fakeCardImageView.setFitHeight(94);
-        fakeCardImageView.setFitWidth(135);
+        fakeCardImageView.setFitWidth(130);
         GridPane handPane = currentHand;
         //Translate transition :
         TranslateTransition translateTransition = new TranslateTransition();
@@ -897,15 +894,15 @@ public class GameView {
         translateTransition.setNode(fakeCardImageView);
         translateTransition.setFromX(inHandPoint.getX());
         translateTransition.setFromY(inHandPoint.getY());
-        translateTransition.setToX(zonePoint.getX()-19);
-        translateTransition.setToY(zonePoint.getY()+20);
+        translateTransition.setToX(zonePoint.getX() - 19);
+        translateTransition.setToY(zonePoint.getY() + 20);
         translateTransition.setDuration(Duration.millis(2000));
         translateTransition.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 ImageView imageView = new ImageView(getCardImageByName("Card Back Set"));
                 imageView.setFitHeight(94);
-                imageView.setFitWidth(135);
+                imageView.setFitWidth(130);
                 imageView.setCursor(Cursor.HAND);
 
                 imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -931,5 +928,63 @@ public class GameView {
         mainGamePane.getChildren().add(fakeCardImageView);
         currentHand.getChildren().remove(inHandNode);
         translateTransition.play();
+    }
+
+    public void showActivateEffectOfSpellFromHand(int addressInSpellZone, int addressInHand, String cardName) {
+        ImageView fakeCardImageView = new ImageView(getCardImageByName(cardName));
+        fakeCardImageView.setFitWidth(94);
+        fakeCardImageView.setFitHeight(130);
+        GridPane handPane = currentHand;
+        //Translate transition :
+        TranslateTransition translateTransition = new TranslateTransition();
+        int addressOfAddInSpellZoneGrid = addressInSpellZone - 1;//zero based!
+        int addressInHandGrid = addressInHand - 1;
+        Node inHandNode = getNodeInGridPane(handPane, 0, addressInHandGrid);
+        Point2D inHandPoint = inHandNode.localToScene(new Point2D(0, 0));
+        Node inZoneNode = getNodeInGridPane(currentPlayerSpellZone, 0, addressOfAddInSpellZoneGrid);
+        Point2D zonePoint = null;
+        if (inZoneNode == null) {
+            zonePoint = new Point2D(0, 0);
+        } else {
+            zonePoint = inZoneNode.localToScene(new Point2D(0, 0));
+        }
+        translateTransition.setNode(fakeCardImageView);
+        translateTransition.setFromX(inHandPoint.getX());
+        translateTransition.setFromY(inHandPoint.getY());
+        translateTransition.setToX(zonePoint.getX());
+        translateTransition.setToY(zonePoint.getY());
+        translateTransition.setDuration(Duration.millis(1000));
+        translateTransition.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                ImageView imageView = new ImageView(getCardImageByName(cardName));
+                imageView.setFitHeight(130);
+                imageView.setFitWidth(94);
+                imageView.setCursor(Cursor.HAND);
+                imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        if (mouseEvent.getButton() != MouseButton.PRIMARY)
+                            return;
+                        selectedCardImageView.setImage(getCardImageByName(cardName));
+                        selectedCardDescriptionLabel.setText(Card.getCardByName(cardName).toString());
+                        RoundGameController.getInstance().selectCardInSpellZone(addressInSpellZone);
+                    }
+                });
+                cardBoardPane.getChildren().remove(fakeCardImageView);
+                mainGamePane.getChildren().remove(fakeCardImageView);
+
+                ((Pane) inZoneNode).getChildren().add(imageView);
+                reloadCurrentHand();
+            }
+        });
+
+        mainGamePane.getChildren().add(fakeCardImageView);
+        currentHand.getChildren().remove(inHandNode);
+        translateTransition.play();
+    }
+
+    public void showActivateEffectOfSpellInZone() {
+
     }
 }

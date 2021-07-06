@@ -182,11 +182,14 @@ public class LoginMenuView extends Application {
         Assets mahdisAsset = Assets.getAssetsByUsername("mahdis");
         Objects.requireNonNull(mahdisAsset).createDeck("mahdis");
         Deck mahdisDeck = mahdisAsset.getDeckByDeckName("mahdis");
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 2; i++) {
             for (Monster monster : allMonsters) {
                 if (monster.getMonsterActionType() == MonsterActionType.NORMAL && monster.getLevel() <= 4)
                     mahdisAsset.addCardToMainDeck(monster, mahdisDeck);
             }
+        }
+        for (Spell spell : allSpells) {
+            mahdisAsset.addCardToMainDeck(spell,mahdisDeck);
         }
         mahdisAsset.activateDeck("mahdis");
     }
