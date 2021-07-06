@@ -51,11 +51,15 @@ public enum Music {
         });
     }
 
-    public static void nextTrack() {
+    public static void nextTrack(ImageView playPauseMusicButton, ImageView muteUnmuteButton) {
         mediaPlayer.stop();
         if (counter != playlist.size() - 1) counter++;
         else counter = 0;
         newMediaPlayer();
+        isMediaPlayerPaused = false;
+        playPauseMusicButton.setImage(Icon.PAUSE.getImage());
+        if (Music.mediaPlayer.isMute()) muteUnmuteButton.setImage(Icon.MUTE.getImage());
+        else muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
     }
 
     public static void playPauseMusic(ImageView playPauseMusicButton) {
