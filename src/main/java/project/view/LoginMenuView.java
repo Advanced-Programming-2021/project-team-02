@@ -93,6 +93,7 @@ public class LoginMenuView extends Application {
         else playPauseMusicButton.setImage(Icon.PLAY.getImage());
         if (Music.mediaPlayer.isMute()) muteUnmuteButton.setImage(Icon.MUTE.getImage());
         else muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
+
         usernameFieldSignUp.setOnKeyPressed(k -> {
             if (k.getCode().equals(KeyCode.ENTER)) registerUser();
         });

@@ -2,20 +2,18 @@ package project.view.messages;
 
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.DialogPane;
+import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public class PopUpMessage {
+public class GamePopUpMessage {
     private static Stage stage;
     private static Parent parent;
     private Alert alert;
 
-    public PopUpMessage(Alert.AlertType alertType, String label) {
+    public GamePopUpMessage(Alert.AlertType alertType, String label) {
         Alert alert;
         if (alertType.equals(Alert.AlertType.ERROR)) {
             alert = new Alert(Alert.AlertType.ERROR);
@@ -34,6 +32,8 @@ public class PopUpMessage {
             initializeAlert(label, alert);
             setStyleForInformationAndConfirmation(alert);
             setStyleForButton(alert);
+            ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Yes");
+            ((Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("No");
             alert.showAndWait();
         }
     }
@@ -79,7 +79,7 @@ public class PopUpMessage {
     }
 
     public static void setStage(Stage stage) {
-        PopUpMessage.stage = stage;
+        GamePopUpMessage.stage = stage;
     }
 
     public static Parent getParent() {
@@ -87,7 +87,7 @@ public class PopUpMessage {
     }
 
     public static void setParent(Parent parent) {
-        PopUpMessage.parent = parent;
+        GamePopUpMessage.parent = parent;
     }
 
     public void setAlert(Alert alert) {
