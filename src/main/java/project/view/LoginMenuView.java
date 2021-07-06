@@ -185,7 +185,7 @@ public class LoginMenuView extends Application {
         erfanAsset.addCardToMainDeck(Card.getCardByName("Beast King Barbaros"),erfandeck);
         erfanAsset.addCardToMainDeck(Card.getCardByName("The Tricky"),erfandeck);
         erfanAsset.activateDeck("erfan");
-        User mahdis = new User("mahdis", "mahdis", "mahdis");
+        User mahdis = new User("mahdis", "mahdi", "mahdi");
         Assets mahdisAsset = Assets.getAssetsByUsername("mahdis");
         Objects.requireNonNull(mahdisAsset).createDeck("mahdis");
         Deck mahdisDeck = mahdisAsset.getDeckByDeckName("mahdis");

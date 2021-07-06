@@ -112,7 +112,7 @@ public class FlipCoinView {
                 public void handle(ActionEvent actionEvent) {
                     try {
                         GameView gameView  = Utility.openGameMenu("/project/fxml/round_view.fxml");
-                        gameView.loadHandCards();
+                        gameView.startGameAndLoadHand();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
