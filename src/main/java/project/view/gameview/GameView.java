@@ -548,21 +548,33 @@ public class GameView {
         window.initOwner(LoginMenuView.getStage());
         window.initStyle(StageStyle.UNDECORATED);
         GamePopUpMessage.setStage(window);
+
         Label title = new Label("Choose Tribute Cards");
         title.setId("title");
+
         Button doneButton = new Button();
         doneButton.setText("OK");
+        doneButton.setStyle("-fx-background-color: #bb792d;\n" +
+                "-fx-background-radius: 10;\n" +
+                "-fx-text-fill: white;\n" +
+                "-fx-font-size: 16;");
         doneButton.setOnAction(event -> {
         if (tributeAddress.size() == numberOfTributeNeeded){
                 window.close();
-                synchronized (tributeAddress){
-                    notify();
-                }
+//                synchronized (tributeAddress){
+//                    notify();
+//                }
         } else new GamePopUpMessage(Alert.AlertType.ERROR,"Please select!!!");
         });
+
         GridPane gridPane = getOnlyMonsterZoneGridPaneToSelect(tributeAddress,numberOfTributeNeeded);
+
         Button resetChoicesButton = new Button();
         resetChoicesButton.setText("Reset");
+        resetChoicesButton.setStyle("-fx-background-color: #bb792d;\n" +
+                "-fx-background-radius: 10;\n" +
+                "-fx-text-fill: white;\n" +
+                "-fx-font-size: 16;");
         resetChoicesButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -572,31 +584,41 @@ public class GameView {
                     for (Integer address : tributeAddress) {
                         ((Pane) Objects.requireNonNull(getNodeInGridPane(gridPane, 0, address - 1))).setBorder(null);
                     }
+                    tributeAddress.clear();
             }
             }
         });
+        Label label = new Label("Tribute Summon : please choose "+numberOfTributeNeeded+" of your monsters to tribute" );
+        label.setStyle("-fx-text-fill: white");
         HBox buttonBox = new HBox(doneButton,resetChoicesButton);
-        VBox mainBox = new VBox(gridPane,buttonBox);
+        VBox mainBox = new VBox(label,gridPane,buttonBox);
+        buttonBox.setSpacing(20);
+        buttonBox.setAlignment(Pos.CENTER);
         doneButton.setCursor(Cursor.HAND);
-        AnchorPane mainLayout = new AnchorPane();
-        Scene scene = new Scene(mainLayout, 600, 400);
-        mainLayout.getScene().setFill(Color.TRANSPARENT);
+        mainBox.setSpacing(10);
+        mainBox.setStyle("-fx-background-color: #103188;");
+        mainBox.setAlignment(Pos.CENTER);
+        Scene scene = new Scene(mainBox, 700, 250);
+        mainBox.getScene().setFill(Color.TRANSPARENT);
         window.initStyle(StageStyle.TRANSPARENT);
-        mainLayout.getChildren().addAll(mainBox,buttonBox);
         window.setScene(scene);
         window.setResizable(false);
+        window.setX(480);
+        window.setY(300);
         window.showAndWait();
-        synchronized (tributeAddress) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        System.out.println("hello!");
+        //synchronized (tributeAddress) {
+//            try {
+//                wait();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
             return tributeAddress;
-        }
+        //}
     }
 
     private GridPane getOnlyMonsterZoneGridPaneToSelect(ArrayList<Integer> listOfSelected,int size){
+        System.out.println("number of tribute needed : " + size);
         GridPane gridPane = new GridPane();
         MonsterZone monsterZone = RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().returnMonsterZone();
         ArrayList<Card> inZoneCards = new ArrayList<>();
@@ -609,26 +631,34 @@ public class GameView {
         int i = 0;
         for (Card zoneCard : inZoneCards) {
             Pane pane = new Pane();
+            pane.setPrefHeight(135);
+            pane.setPrefWidth(99);
             gridPane.add(pane,i,0);
             ImageView cardImageView = new ImageView(getCardImageByName(zoneCard.getName()));
             cardImageView.setFitHeight(130);
             cardImageView.setFitWidth(94);
+
             pane.getChildren().add(cardImageView);
+            cardImageView.setLayoutX(cardImageView.getLayoutX()+3);
+            cardImageView.setLayoutY(cardImageView.getLayoutY()+3);
             int finalI = i;
+            pane.setCursor(Cursor.HAND);
             pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
                     if (mouseEvent.getButton()!=MouseButton.PRIMARY)
                         return;
-                    pane.setBorder(new Border(new BorderStroke(Color.GREENYELLOW,
-                            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-                if (listOfSelected.size() != size)
-                    listOfSelected.add(finalI+1);
-
+                if (listOfSelected.size() !=  size) {
+                    listOfSelected.add(finalI + 1);
+                    System.out.println("address added :" + (finalI + 1));
+                    pane.setBorder(new Border(new BorderStroke(Color.YELLOW,
+                            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderStroke.THICK)));
+                }
                 }
             });
             i++;
         }
+        gridPane.setHgap(5);
         return gridPane;
     }
     public boolean getSummonOrderForRitual() {
