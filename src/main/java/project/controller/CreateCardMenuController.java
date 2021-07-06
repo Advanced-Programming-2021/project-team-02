@@ -3,9 +3,13 @@ package project.controller;
 import javafx.scene.image.Image;
 import project.model.Assets;
 import project.model.User;
+import project.model.card.Card;
 import project.model.card.CardsDatabase;
+import project.model.card.Spell;
+import project.model.card.Trap;
 import project.model.card.informationofcards.*;
 import project.view.Utility;
+import project.view.messages.CreateCardMessage;
 
 import java.util.Objects;
 
@@ -21,8 +25,11 @@ public class CreateCardMenuController {
         return instance;
     }
 
-    public void makeMonster(String replacementForEffect, String enterCardName, String level, String description, String attack
+    public CreateCardMessage makeMonster(String replacementForEffect, String enterCardName, String level, String description, String attack
     , String defense, String price) {
+        if (CardsDatabase.getAllCards().contains(Card.getCardByName(enterCardName))) {
+            return CreateCardMessage.REPEATED_NAME;
+        }
         if (replacementForEffect.equals("No Effect")) {
             CardsDatabase.makeCardMonster(CardType.MONSTER, enterCardName, "MADE", MonsterActionType.NORMAL,
                     MonsterEffect.NONE, Integer.parseInt(level), Attribute.DARK, description,
@@ -35,25 +42,34 @@ public class CreateCardMenuController {
         Objects.requireNonNull(Assets.getAssetsByUsername(user.getUsername())).decreaseCoin(Integer.parseInt(price)/10);
         Utility utility = new Utility();
         utility.getStringImageHashMap().put(enterCardName, new Image(String.valueOf(getClass().getResource("/project/image/DeckMenuPictures/Picture.jpg"))));
+        return CreateCardMessage.CARD_CREATED;
     }
 
-    public void makeSpell(String replacementForEffect, String enterCardName, String description, String price) {
+    public CreateCardMessage makeSpell(String replacementForEffect, String enterCardName, String description, String price) {
+        if (CardsDatabase.getAllCards().contains(Card.getCardByName(enterCardName))) {
+            return CreateCardMessage.REPEATED_NAME;
+        }
         CardsDatabase.makeCardSpell(CardType.SPELL, enterCardName, "MADE", SpellEffect.getSpellByName(replacementForEffect),
-                Attribute.DARK, description, SpellType.getSpellTypeByTypeName(replacementForEffect),
+                Attribute.DARK, description, Spell.spellType(replacementForEffect),
                 false, Integer.parseInt(price));
         Objects.requireNonNull(Assets.getAssetsByUsername(user.getUsername())).decreaseCoin(Integer.parseInt(price)/10);
         Utility utility = new Utility();
         utility.getStringImageHashMap().put(enterCardName, new Image(String.valueOf(getClass().getResource("/project/image/DeckMenuPictures/Picture.jpg"))));
         System.out.println(enterCardName + "    :   CCC");
+        return CreateCardMessage.CARD_CREATED;
     }
 
-    public void makeTrap(String replacementForEffect, String enterCardName, String description, String price) {
+    public CreateCardMessage makeTrap(String replacementForEffect, String enterCardName, String description, String price) {
+        if (CardsDatabase.getAllCards().contains(Card.getCardByName(enterCardName))) {
+            return CreateCardMessage.REPEATED_NAME;
+        }
         CardsDatabase.makeTrapCard(CardType.TRAP, enterCardName, "MADE", TrapEffect.getTrapEffectByName(replacementForEffect),
-                Attribute.DARK, description, TrapType.getTrapTypeByTypeName(replacementForEffect),
+                Attribute.DARK, description, Trap.trapType(replacementForEffect),
                 false, Integer.parseInt(price));
         Objects.requireNonNull(Assets.getAssetsByUsername(user.getUsername())).decreaseCoin(Integer.parseInt(price)/10);
         Utility utility = new Utility();
         utility.getStringImageHashMap().put(enterCardName, new Image(String.valueOf(getClass().getResource("/project/image/DeckMenuPictures/Picture.jpg"))));
+        return CreateCardMessage.CARD_CREATED;
     }
 
 }

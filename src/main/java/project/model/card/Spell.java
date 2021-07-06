@@ -30,6 +30,12 @@ public class Spell extends Card {
         allSpells.add(this);
     }
 
+    public static SpellType spellType(String cardName) {
+        for (Spell spell : allSpells) {
+            if (spell.getName().equals(cardName)) return spell.getSpellType();
+        }
+        return null;
+    }
     private void setLimited(boolean limited) {
         isLimited = limited;
     }

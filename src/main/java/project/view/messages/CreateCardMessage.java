@@ -9,6 +9,8 @@ public enum CreateCardMessage {
     SELECT_TYPE("you should select a type", Alert.AlertType.ERROR),
     YOU_SHOULD_ENTER_INTEGER("you should write a number", Alert.AlertType.ERROR),
     PAY_ATTENTION_TO_MINIMUMS("Minimum of attack and defense : 1000 and Minimum of level : 2", Alert.AlertType.ERROR),
+    CHOOSE_TYPE("you should choose a type", Alert.AlertType.ERROR),
+    REPEATED_NAME("there is a card already with this name", Alert.AlertType.ERROR),
     CARD_CREATED("Card created successfully", Alert.AlertType.INFORMATION);
 
     private final String label;

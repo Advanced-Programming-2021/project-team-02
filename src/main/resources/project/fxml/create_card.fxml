@@ -104,7 +104,7 @@
             <Cursor fx:constant="HAND" />
         </cursor>
     </ImageView>
-   <ListView fx:id="listViewForTypes" layoutX="732.0" layoutY="167.0" prefHeight="200.0" prefWidth="133.0" />
+   <ListView fx:id="listViewForTypes" layoutX="720.0" layoutY="342.0" prefHeight="200.0" prefWidth="231.0" />
 
     <stylesheets>
         <URL value="@../CSS/create_card.css" />

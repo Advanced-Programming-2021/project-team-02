@@ -17,6 +17,11 @@ import java.util.List;
 public class Trap extends Card {
 
     private static ArrayList<Trap> allTraps = new ArrayList<>();
+
+    public TrapType getTrapType() {
+        return trapType;
+    }
+
     private TrapType trapType;
     private TrapEffect trapEffect;
     private boolean isLimited;
@@ -30,6 +35,12 @@ public class Trap extends Card {
         allTraps.add(this);
     }
 
+    public static TrapType trapType(String cardName) {
+        for (Trap trap : allTraps) {
+            if (trap.getName().equals(cardName)) return trap.getTrapType();
+        }
+        return null;
+    }
     private void setLimited(boolean limited) {
         isLimited = limited;
     }
