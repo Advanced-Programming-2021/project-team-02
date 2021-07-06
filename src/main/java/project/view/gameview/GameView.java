@@ -603,7 +603,7 @@ public class GameView {
         window.initStyle(StageStyle.TRANSPARENT);
         window.setScene(scene);
         window.setResizable(false);
-        window.setX(480);
+        window.setX(500);
         window.setY(300);
         window.showAndWait();
         System.out.println("hello!");
