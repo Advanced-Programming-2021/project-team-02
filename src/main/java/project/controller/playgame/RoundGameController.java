@@ -936,7 +936,6 @@ public class RoundGameController {
         if ((message = isValidSummon()) != GameViewMessage.SUCCESS) {
             return message;
         }
-        //TODO check special summon
         Monster monster = ((Monster) selectedCell.getCardInCell());
         System.out.println(monster);
         if (monster.getMonsterEffect().equals(MonsterEffect.GATE_GUARDIAN_EFFECT)) {
@@ -1424,17 +1423,17 @@ public class RoundGameController {
         }
         //check special Set
         Monster monster = ((Monster) selectedCell.getCardInCell());
-//  TODO      if (monster.getMonsterEffect().equals(MonsterEffect.GATE_GUARDIAN_EFFECT)) {
-//            gateGuardianEffect(CellStatus.DEFENSIVE_HIDDEN);
-//            return;
-//        } else if (monster.getMonsterEffect().equals(MonsterEffect.BEAST_KING_BARBAROS_EFFECT)) {
-//            if (beastKingBarbosEffect(CellStatus.DEFENSIVE_HIDDEN))
-//                return;
-//        } else if (monster.getMonsterEffect().equals(MonsterEffect.THE_TRICKY_EFFECT)) {
-//            if (theTrickyEffect(CellStatus.DEFENSIVE_HIDDEN)) {
-//                return;
-//            }
-//        }
+        if (monster.getMonsterEffect().equals(MonsterEffect.GATE_GUARDIAN_EFFECT)) {
+            message = gateGuardianEffect(CellStatus.DEFENSIVE_HIDDEN);
+            return message;
+        } else if (monster.getMonsterEffect().equals(MonsterEffect.BEAST_KING_BARBAROS_EFFECT)) {
+            if (beastKingBarbosEffect(CellStatus.DEFENSIVE_HIDDEN))
+                return SUCCESS;
+        } else if (monster.getMonsterEffect().equals(MonsterEffect.THE_TRICKY_EFFECT)) {
+            if (theTrickyEffect(CellStatus.DEFENSIVE_HIDDEN)) {
+                return SUCCESS;
+            }
+        }
         if (!isSummonOrSetUsed()) {
             return USED_SUMMON_OR_SET;
         }

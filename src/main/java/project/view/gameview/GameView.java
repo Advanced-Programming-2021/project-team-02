@@ -913,7 +913,7 @@ public class GameView {
         });
         HBox boxOfChoices = new HBox(button1,button2,button3);
         boxOfChoices.setSpacing(10);
-
+        boxOfChoices.setAlignment(Pos.CENTER);
         Button cancelButton = new Button();
         cancelButton.setText("Cancel");
         cancelButton.setStyle("-fx-background-color: #bb792d;\n" +
