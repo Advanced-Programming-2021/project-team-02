@@ -605,7 +605,7 @@ public class RoundGameController {
         if (selectedCellZone == Zone.HAND) {
             getCurrentPlayerHand().remove(selectedCellAddress - 1);
             addressOfAdd = getCurrentPlayer().getPlayerBoard().addSpellOrTrapToBoard(selectedCell.getCardInCell(), CellStatus.OCCUPIED);
-            view.showSetMonsterTransition(addressOfAdd, selectedCellAddress, selectedCell.getCardInCell().getName());
+            view.showActivateEffectOfSpellFromHand(addressOfAdd, selectedCellAddress, selectedCell.getCardInCell().getName());
         } else {
             getCurrentPlayer().getPlayerBoard().getACellOfBoardWithAddress(Zone.SPELL_ZONE, selectedCellAddress).setCellStatus(CellStatus.OCCUPIED);
             addressOfAdd = selectedCellAddress;

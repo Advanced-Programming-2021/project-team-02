@@ -29,6 +29,7 @@ import project.model.card.Monster;
 import project.model.card.Spell;
 import project.model.card.informationofcards.MonsterActionType;
 import project.model.gui.Icon;
+import project.view.messages.GamePopUpMessage;
 import project.view.messages.LoginMessage;
 import project.view.messages.PopUpMessage;
 
@@ -61,6 +62,7 @@ public class LoginMenuView extends Application {
     public void start(Stage stage) throws Exception {
         LoginMenuView.stage = stage;
         PopUpMessage.setStage(stage);
+        GamePopUpMessage.setStage(stage);
         URL fxmlAddress = getClass().getResource("/project/fxml/login_menu.fxml");
         assert fxmlAddress != null;
         BorderPane root = FXMLLoader.load(fxmlAddress);

@@ -2,6 +2,7 @@ package project.view.gameview;
 
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -20,6 +21,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
+import project.controller.playgame.Phase;
 import project.controller.playgame.RoundGameController;
 import project.model.Deck;
 import project.model.card.Card;
@@ -68,14 +70,17 @@ public class GameView {
     public Pane currentPlayerGraveYardPane;
     public Pane opponentFieldPane;
     public Pane opponentGraveYardPane;
-    public Button SetButton;
-    public Button SummonOrActivateButton;
+    public Button setButton;
+    public Button summonOrActivateButton;
     public Pane monster1;
     public Pane monster4;
     public Pane monster3;
     public Pane monster2;
     public Pane monster5;
     public AnchorPane cardBoardPane;
+    public Button changePositionButton;
+    public Button attackButton;
+    public Button nextPhaseButton;
     private ArrayList<Pane> currentMonsterZonePanes;
     private Image backCardImage = new Image(getClass().getResource("/project/image/GamePictures/Card Back.png").toString());
 
@@ -119,7 +124,7 @@ public class GameView {
         phaseLabel.setText("Current Phase : Draw");
         currentDeckLabel.setCursor(Cursor.HAND);
         updateCurrentDeckLabel();
-
+        showButtonBasedOnPhase(Phase.DRAW_PHASE);
     }
 
     public Image getCardImageByName(String cardName) {
@@ -763,7 +768,56 @@ public class GameView {
         if (mouseEvent.getButton() != MouseButton.PRIMARY)
             return;
         RoundGameController.getInstance().nextPhase();
-        phaseLabel.setText("Current Phase : " + RoundGameController.getInstance().getCurrentPhase().toString());
+        Phase currentPhase = RoundGameController.getInstance().getCurrentPhase();
+        phaseLabel.setText("Current Phase : " +  currentPhase);
+        showButtonBasedOnPhase(currentPhase);
+    }
+    public void showButtonBasedOnPhase(Phase currentPhase){
+        nextPhaseButton.setCursor(Cursor.HAND);
+        if (currentPhase == Phase.DRAW_PHASE || currentPhase == Phase.STAND_BY_PHASE){
+            summonOrActivateButton.setOnMouseClicked((Event)->{});
+            setButton.setOnMouseClicked((Event)->{});
+            attackButton.setOnMouseClicked((Event)->{});
+            changePositionButton.setOnMouseClicked((Event)->{});
+            summonOrActivateButton.setCursor(Cursor.DEFAULT);
+            setButton.setCursor(Cursor.DEFAULT);
+            attackButton.setCursor(Cursor.DEFAULT);
+            changePositionButton.setCursor(Cursor.DEFAULT);
+            summonOrActivateButton.setStyle("-fx-background-color: #323c46");
+            setButton.setStyle("-fx-background-color: #323c46");
+            attackButton.setStyle("-fx-background-color: #323c46");
+            changePositionButton.setStyle("-fx-background-color: #323c46");
+            changePositionButton.setCursor(Cursor.DEFAULT);
+        } else if (currentPhase == Phase.MAIN_PHASE_1 || currentPhase == Phase.MAIN_PHASE_2){
+            attackButton.setOnMouseClicked((Event)->{});
+            attackButton.setCursor(Cursor.DEFAULT);
+            attackButton.setStyle("-fx-background-color: #323c46");
+
+            summonOrActivateButton.setCursor(Cursor.HAND);
+            summonOrActivateButton.setOnMouseClicked(this::summonOrActivate);
+            summonOrActivateButton.setStyle("-fx-background-color: #bb792d");
+            setButton.setCursor(Cursor.HAND);
+            setButton.setOnMouseClicked(this::set);
+            setButton.setStyle("-fx-background-color: #bb792d");
+            //TODO change position
+            changePositionButton.setCursor(Cursor.HAND);
+            //TODO changePositionButton.setOnMouseClicked(!);
+            changePositionButton.setStyle("-fx-background-color: #bb792d");
+        } else if (currentPhase == Phase.BATTLE_PHASE){
+            summonOrActivateButton.setOnMouseClicked((Event)->{});
+            setButton.setOnMouseClicked((Event)->{});
+            changePositionButton.setOnMouseClicked((Event)->{});
+            summonOrActivateButton.setCursor(Cursor.DEFAULT);
+            setButton.setCursor(Cursor.DEFAULT);
+            changePositionButton.setCursor(Cursor.DEFAULT);
+            summonOrActivateButton.setStyle("-fx-background-color: #323c46");
+            setButton.setStyle("-fx-background-color: #323c46");
+            changePositionButton.setStyle("-fx-background-color: #323c46");
+
+            attackButton.setCursor(Cursor.HAND);
+            //TODO attackButton.setOnMouseClicked
+            attackButton.setStyle("-fx-background-color: #bb792d");;
+        }
     }
 
     public void summonOrActivate(MouseEvent mouseEvent) {
