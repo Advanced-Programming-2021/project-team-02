@@ -1,5 +1,7 @@
 package project.view.gameview;
 
+import animatefx.animation.FadeOut;
+import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -22,6 +24,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.Window;
 import javafx.util.Duration;
 import project.controller.playgame.Phase;
 import project.controller.playgame.RoundGameController;
@@ -29,11 +32,11 @@ import project.model.Deck;
 import project.model.Music;
 import project.model.card.Card;
 import project.model.card.Monster;
+import project.model.card.Spell;
 import project.model.card.informationofcards.CardType;
+import project.model.game.DuelPlayer;
+import project.model.game.board.*;
 import project.model.game.board.Cell;
-import project.model.game.board.CellStatus;
-import project.model.game.board.MonsterZone;
-import project.model.game.board.Zone;
 import project.model.gui.Icon;
 import project.view.LoginMenuView;
 import project.view.Utility;
@@ -179,58 +182,7 @@ public class GameView {
         buttonBar.getButtons().forEach(b -> b.setStyle("-fx-background-radius: 10; -fx-background-color: #bb792d; -fx-font-size: 16; -fx-text-fill: white;"));
         buttonBar.getButtons().forEach(b -> b.setCursor(Cursor.HAND));
         alert.showAndWait();
-        ArrayList<Card> currentPlayerHandList = (ArrayList<Card>) RoundGameController.getInstance().getCurrentPlayerHand();
-        int counter = 0;
-        for (Card card : currentPlayerHandList) {
-            ImageView cardImageView = new ImageView(getCardImageByName(card.getName()));
-            cardImageView.setFitHeight(160);
-            cardImageView.setFitWidth(116);
-            cardImageView.setCursor(Cursor.HAND);
-
-            int finalCounter = counter;
-            cardImageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
-                        return;
-                    System.out.println("the selected card : " + card.getName());
-                    System.out.println("address! : " + (finalCounter + 1) + "\n");
-                    selectedCardImageView.setImage(getCardImageByName(card.getName()));
-                    selectedCardDescriptionLabel.setText(card.toString());
-                    RoundGameController.getInstance().selectCardInHand(finalCounter + 1);
-                }
-            });
-            //TODO
-            cardImageView.setOnMouseEntered(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    cardImageView.setStyle("-fx-border-color: #66973b");
-                    cardImageView.hoverProperty();
-                }
-            });
-            currentHand.add(cardImageView, counter, 0);
-            counter++;
-        }
-        counter = 0;
-        ArrayList<Card> opponentHandList = (ArrayList<Card>) RoundGameController.getInstance().getOpponentPlayerHand();
-        for (Card card : opponentHandList) {
-            ImageView cardImageView = new ImageView(backCardImage);
-            cardImageView.setFitHeight(160);
-            cardImageView.setFitWidth(116);
-            cardImageView.setCursor(Cursor.HAND);
-            cardImageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
-                        return;
-                    selectedCardImageView.setImage(backCardImage);
-                    selectedCardDescriptionLabel.setText("Opponent Hand Card!");
-                }
-            });
-            opponentHand.add(cardImageView, counter, 0);
-            counter++;
-
-        }
+        setHandBasedOnTurn();
         opponentDeckLabel.setText(String.valueOf(RoundGameController.getInstance().getOpponentPlayer().getPlayDeck().getMainCards().size()));
         currentDeckLabel.setText(String.valueOf(RoundGameController.getInstance().getCurrentPlayer().getPlayDeck().getMainCards().size()));
     }
@@ -300,22 +252,19 @@ public class GameView {
 
     }
 
-    private Node getNodeInGridPane(GridPane gridPane, int row, int column) {
+    private synchronized Node getNodeInGridPane(GridPane gridPane, int row, int column) {
         System.out.println(row + "   " + column);
+        synchronized (gridPane){
         for (Node child : gridPane.getChildren()) {
             if (child != null)
                 if (GridPane.getRowIndex(child) == row && GridPane.getColumnIndex(child) == column)
                     return child;
         }
-        return null;
+        return null;}
     }
 
     private void updateCurrentDeckLabel() {
         currentDeckLabel.setText(String.valueOf(RoundGameController.getInstance().getCurrentPlayer().getPlayDeck().getMainCards().size()));
-    }
-
-    private void showSetHandAnimation() {
-
     }
 
     public void runGameWithAi() {
@@ -1106,6 +1055,260 @@ public class GameView {
         showButtonBasedOnPhase(currentPhase);
     }
     public void changeTurn(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,"Change turn!");
+        alert.initOwner(LoginMenuView.getStage());
+        alert.initModality(Modality.WINDOW_MODAL);
+        alert.initStyle(StageStyle.TRANSPARENT);
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.setHeaderText(null);
+        dialogPane.setGraphic(null);
+        dialogPane.setStyle("-fx-border-radius: 10; -fx-border-color: #bb792d; -fx-border-width: 7; -fx-background-radius: 14; -fx-font-family: \"Matrix II Regular\"; -fx-background-color: #103188;");
+        dialogPane.lookup(".content.label").setStyle("-fx-text-fill: white; -fx-font-size: 16; -fx-line-spacing: 5px;");
+        dialogPane.getScene().setFill(Color.TRANSPARENT);
+        ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("OK!");
+        ButtonBar buttonBar = (ButtonBar) alert.getDialogPane().lookup(".button-bar");
+        buttonBar.getButtons().forEach(b -> b.setStyle("-fx-background-radius: 10; -fx-background-color: #bb792d; -fx-font-size: 16; -fx-text-fill: white;"));
+        buttonBar.getButtons().forEach(b -> b.setCursor(Cursor.HAND));
+        //((Window)LoginMenuView.getStage()).setEffect;
+        alert.showAndWait();
+        setInformationOfPlayersBasedOnTurn();
+        setHandBasedOnTurn();
+        setZonesBasedOnTurn();
+    }
+    private void setInformationOfPlayersBasedOnTurn(){
+        DuelPlayer curr = RoundGameController.getInstance().getCurrentPlayer();
+        DuelPlayer opp = RoundGameController.getInstance().getOpponentPlayer();
+        currentPlayerNickname.setText(curr.getNickname());
+        currentPlayerLP.setText(String.valueOf(curr.getLifePoint()));
+        currentPlayerAvatar.setImage(new Image(curr.getAvatar().getUrl().toString()));
+       opponentPlayerNickname.setText(opp.getNickname());
+        opponentPlayerLP.setText(String.valueOf(opp.getLifePoint()));
+        opponentPlayerAvatar.setImage(new Image(opp.getAvatar().getUrl().toString()));
+    }
+    private void setHandBasedOnTurn(){
+        ArrayList<Card> currentPlayerHandList =(ArrayList<Card>) RoundGameController.getInstance().getCurrentPlayerHand();
+        int counter = 0;
+        currentHand.getChildren().clear();
+        for (Card card : currentPlayerHandList) {
+            ImageView cardImageView = new ImageView(getCardImageByName(card.getName()));
+            cardImageView.setFitHeight(160);
+            cardImageView.setFitWidth(116);
+            cardImageView.setCursor(Cursor.HAND);
+
+            int finalCounter = counter;
+            cardImageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
+                        return;
+                    System.out.println("the selected card : " + card.getName());
+                    System.out.println("address! : " + (finalCounter + 1) + "\n");
+                    selectedCardImageView.setImage(getCardImageByName(card.getName()));
+                    selectedCardDescriptionLabel.setText(card.toString());
+                    RoundGameController.getInstance().selectCardInHand(finalCounter + 1);
+                }
+            });
+            currentHand.add(cardImageView, counter, 0);
+            counter++;
+        }
+        counter = 0;
+        ArrayList<Card> opponentHandList = (ArrayList<Card>) RoundGameController.getInstance().getOpponentPlayerHand();
+        opponentHand.getChildren().clear();
+        for (Card card : opponentHandList) {
+            ImageView cardImageView = new ImageView(backCardImage);
+            cardImageView.setFitHeight(160);
+            cardImageView.setFitWidth(116);
+            cardImageView.setCursor(Cursor.HAND);
+            cardImageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
+                        return;
+                    selectedCardImageView.setImage(backCardImage);
+                    selectedCardDescriptionLabel.setText("Opponent Hand Card!");
+                }
+            });
+            opponentHand.add(cardImageView, counter, 0);
+            counter++;
+
+        }
+        opponentDeckLabel.setText(String.valueOf(RoundGameController.getInstance().getOpponentPlayer().getPlayDeck().getMainCards().size()));
+        currentDeckLabel.setText(String.valueOf(RoundGameController.getInstance().getCurrentPlayer().getPlayDeck().getMainCards().size()));
+    }
+    private void setZonesBasedOnTurn(){
+
+        MonsterZone currentMonsterZone = RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().returnMonsterZone();
+        SpellZone currentSpellZone = RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().returnSpellZone();
+        MonsterZone opponentMonsterZone = RoundGameController.getInstance().getOpponentPlayer().getPlayerBoard().returnMonsterZone();
+        SpellZone opponentSpellZone = RoundGameController.getInstance().getOpponentPlayer().getPlayerBoard().returnSpellZone();
+        //monster zone
+        for (int i = 1; i <= 5; i++){
+            Pane pane = (Pane) getNodeInGridPane(currentPlayerMonsterZone,0,i-1);
+            pane.getChildren().clear();
+            Cell monsterCell = currentMonsterZone.getCellWithAddress(i);
+           // Cell spellCell = currentSpellZone.getCellWithAddress(i);
+            ImageView imageView = new ImageView();
+            imageView.setCursor(Cursor.HAND);
+            if (monsterCell.getCellStatus() == CellStatus.EMPTY){
+                continue;
+            } else if (monsterCell.getCellStatus() == CellStatus.OFFENSIVE_OCCUPIED){
+                imageView.setImage(getCardImageByName(monsterCell.getCardInCell().getName()));
+                pane.getChildren().add(imageView);
+                imageView.setFitHeight(130);
+                imageView.setFitWidth(94);
+            } else if (monsterCell.getCellStatus()==CellStatus.DEFENSIVE_HIDDEN){
+                imageView.setImage(getCardImageByName("Card Back Set"));
+                pane.getChildren().add(imageView);
+                imageView.setFitWidth(130);
+                imageView.setFitHeight(94);
+                imageView.setLayoutY(imageView.getLayoutY() + 20);
+                imageView.setLayoutX(imageView.getLayoutX() - 19);
+            } else if (monsterCell.getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED){
+                imageView.setImage(getCardImageByName(monsterCell.getCardInCell().getName()));
+                imageView.setRotate(90);
+                pane.getChildren().add(imageView);
+                imageView.setFitWidth(130);
+                imageView.setFitHeight(94);
+                imageView.setLayoutY(imageView.getLayoutY() + 20);
+                imageView.setLayoutX(imageView.getLayoutX() - 19);
+            }
+
+            imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    if (mouseEvent.getButton()!=MouseButton.PRIMARY)
+                        return;
+                    selectedCardImageView.setImage(getCardImageByName(monsterCell.getCardInCell().getName()));
+                    selectedCardDescriptionLabel.setText(monsterCell.getCardInCell().toString());
+                }
+            });
+        }
+        //spellzone
+        for (int i = 1; i <= 5; i++){
+            Pane pane = (Pane) getNodeInGridPane(currentPlayerSpellZone,0,i-1);
+            pane.getChildren().clear();
+            Cell spellCell = currentSpellZone.getCellWithAddress(i);
+            ImageView imageView = new ImageView();
+            imageView.setCursor(Cursor.HAND);
+            if (spellCell.getCellStatus() == CellStatus.EMPTY){
+                continue;
+            } else if (spellCell.getCellStatus() == CellStatus.OCCUPIED){
+                imageView.setImage(getCardImageByName(spellCell.getCardInCell().getName()));
+                pane.getChildren().add(imageView);
+                imageView.setFitHeight(130);
+                imageView.setFitWidth(94);
+            } else if (spellCell.getCellStatus()==CellStatus.HIDDEN){
+                imageView.setImage(getCardImageByName("Card Back Set"));
+                pane.getChildren().add(imageView);
+                imageView.setFitWidth(130);
+                imageView.setFitHeight(94);
+                imageView.setLayoutY(imageView.getLayoutY() + 20);
+                imageView.setLayoutX(imageView.getLayoutX() - 19);
+            }
+            imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    if (mouseEvent.getButton()!=MouseButton.PRIMARY)
+                        return;
+                    selectedCardImageView.setImage(getCardImageByName(spellCell.getCardInCell().getName()));
+                    selectedCardDescriptionLabel.setText(spellCell.getCardInCell().toString());
+                }
+            });
+        }
+        //opponent
+        //monster
+        opponentPlayerMonsterZone.setRotate(180);
+        opponentPlayerSpellZone.setRotate(180);
+        for (int i = 1; i <= 5; i++){
+            Pane pane = (Pane) getNodeInGridPane(opponentPlayerMonsterZone,0,i-1);
+            pane.getChildren().clear();
+            Cell monsterCell = opponentMonsterZone.getCellWithAddress(i);
+            ImageView imageView = new ImageView();
+            imageView.setCursor(Cursor.HAND);
+            if (monsterCell.getCellStatus() == CellStatus.EMPTY){
+                continue;
+            } else if (monsterCell.getCellStatus() == CellStatus.OFFENSIVE_OCCUPIED){
+                imageView.setImage(getCardImageByName(monsterCell.getCardInCell().getName()));
+                imageView.setFitHeight(130);
+                imageView.setFitWidth(94);
+                pane.getChildren().add(imageView);
+            } else if (monsterCell.getCellStatus()==CellStatus.DEFENSIVE_HIDDEN){
+                imageView.setImage(getCardImageByName("Card Back Set"));
+                imageView.setFitWidth(130);
+                imageView.setFitHeight(94);
+                pane.getChildren().add(imageView);
+                imageView.setLayoutY(imageView.getLayoutY() + 20);
+                imageView.setLayoutX(imageView.getLayoutX() - 19);
+            } else if (monsterCell.getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED){
+                imageView.setImage(getCardImageByName(monsterCell.getCardInCell().getName()));
+                imageView.setRotate(90);
+                pane.getChildren().add(imageView);
+                imageView.setFitWidth(130);
+                imageView.setFitHeight(94);
+                imageView.setLayoutY(imageView.getLayoutY() + 20);
+                imageView.setLayoutX(imageView.getLayoutX() - 19);
+                imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        if (mouseEvent.getButton()!=MouseButton.PRIMARY)
+                            return;
+                        selectedCardImageView.setImage(getCardImageByName("Back Image"));
+                        selectedCardDescriptionLabel.setText("Nothing selected");
+                    }
+                });
+                continue;
+            }
+            imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    if (mouseEvent.getButton()!=MouseButton.PRIMARY)
+                        return;
+                    selectedCardImageView.setImage(getCardImageByName(monsterCell.getCardInCell().getName()));
+                    selectedCardDescriptionLabel.setText(monsterCell.getCardInCell().toString());
+                }
+            });
+        }
+        //spellzone
+        for (int i = 1; i <= 5; i++){
+            Pane pane = (Pane) getNodeInGridPane(opponentPlayerSpellZone,0,i-1);
+            pane.getChildren().clear();
+            Cell spellCell = opponentSpellZone.getCellWithAddress(i);
+            // Cell spellCell = currentSpellZone.getCellWithAddress(i);
+            ImageView imageView = new ImageView();
+            imageView.setCursor(Cursor.HAND);
+            if (spellCell.getCellStatus() == CellStatus.EMPTY){
+                continue;
+            } else if (spellCell.getCellStatus() == CellStatus.OCCUPIED){
+                imageView.setImage(getCardImageByName(spellCell.getCardInCell().getName()));
+                pane.getChildren().add(imageView);
+            } else if (spellCell.getCellStatus()==CellStatus.HIDDEN){
+                imageView.setImage(getCardImageByName("Card Back Set"));
+                pane.getChildren().add(imageView);
+                imageView.setLayoutY(imageView.getLayoutY() + 20);
+                imageView.setLayoutX(imageView.getLayoutX() - 19);
+                imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        if (mouseEvent.getButton()!=MouseButton.PRIMARY)
+                            return;
+                        selectedCardImageView.setImage(getCardImageByName("Back Image"));
+                        selectedCardDescriptionLabel.setText("Nothing selected");
+                    }
+                });
+                continue;
+            }
+            imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    if (mouseEvent.getButton()!=MouseButton.PRIMARY)
+                        return;
+                    selectedCardImageView.setImage(getCardImageByName(spellCell.getCardInCell().getName()));
+                    selectedCardDescriptionLabel.setText(spellCell.getCardInCell().toString());
+                }
+            });
+        }
+
+
 
     }
     public void showButtonBasedOnPhase(Phase currentPhase) {
@@ -1203,7 +1406,11 @@ public class GameView {
         TranslateTransition translateTransition = new TranslateTransition();
         int addressOfAddInMonsterZoneGrid = addressInMonsterZone - 1;//zero based!
         int addressInHandGrid = addressInHand - 1;
+        System.out.println("the fucking null pointer place :    "+addressInHandGrid);
         Node inHandNode = getNodeInGridPane(handPane, 0, addressInHandGrid);
+        if(inHandNode == null){
+            inHandNode = getNodeInGridPane(handPane,0,addressInHandGrid+1);
+        }
         Point2D inHandPoint = inHandNode.localToScene(new Point2D(0, 0));
         Node inZoneNode;
         inZoneNode = getNodeInGridPane(currentPlayerMonsterZone, 0, addressOfAddInMonsterZoneGrid);
@@ -1250,7 +1457,7 @@ public class GameView {
         translateTransition.play();
     }
 
-    private void reloadCurrentHand() {
+    public void reloadCurrentHand() {
         currentHand.getChildren().clear();
         ArrayList<Card> currentPlayerHandList = (ArrayList<Card>) RoundGameController.getInstance().getCurrentPlayerHand();
         int counter = 0;
@@ -1407,24 +1614,42 @@ public class GameView {
         Pane graveYardPane = isCurrentPlayer?currentPlayerGraveYardPane : opponentGraveYardPane;
 
         Pane monsterZoneNode = (Pane) getNodeInGridPane(zonePane,0,address-1);
-        Point2D monsterNodePoint = monsterZoneNode.localToScene(new Point2D(0,0));
-        Point2D graveYardNodePoint = graveYardPane.localToScene(new Point2D(0,0));
-        TranslateTransition tt = new TranslateTransition();
-        tt.setNode(fakeCardImageView);
-        tt.setFromX(monsterNodePoint.getX());
-        tt.setFromY(monsterNodePoint.getY());
-        tt.setToX(graveYardNodePoint.getX());
-        tt.setToY(graveYardNodePoint.getY());
-        tt.setDuration(Duration.millis(700));
-        tt.setOnFinished(new EventHandler<ActionEvent>() {
+//        Point2D monsterNodePoint = monsterZoneNode.localToScene(new Point2D(0,0));
+//        Point2D graveYardNodePoint = graveYardPane.localToScene(new Point2D(0,0));
+//        TranslateTransition tt = new TranslateTransition();
+//        tt.setNode(fakeCardImageView);
+//        tt.setFromX(monsterNodePoint.getX());
+//        tt.setFromY(monsterNodePoint.getY());
+//        tt.setToX(graveYardNodePoint.getX());
+//        tt.setToY(graveYardNodePoint.getY());
+//        tt.setDuration(Duration.millis(700));
+//        tt.setOnFinished(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent actionEvent) {
+//                mainGamePane.getChildren().remove(fakeCardImageView);
+//            }
+//        });
+//        mainGamePane.getChildren().add(fakeCardImageView);
+//        monsterZoneNode.getChildren().clear();
+//        tt.play();
+        FadeTransition fade = new FadeTransition();
+
+
+        //setting the duration for the Fade transition
+        fade.setDuration(Duration.millis(500));
+
+        //setting the initial and the target opacity value for the transition
+        fade.setFromValue(10);
+        fade.setToValue(0.0);
+        fade.setNode(monsterZoneNode.getChildren().get(0));
+        fade.play();
+        fade.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                mainGamePane.getChildren().remove(fakeCardImageView);
+                reloadCurrentHand();
             }
         });
-        mainGamePane.getChildren().add(fakeCardImageView);
-        monsterZoneNode.getChildren().clear();
-        tt.play();
+
     }
 
     public void showAddToGraveYardFromHandAnimation(int address, boolean isCurrentPlayer,String cardName) {
@@ -1436,25 +1661,42 @@ public class GameView {
         Pane graveYardPane = isCurrentPlayer?currentPlayerGraveYardPane : opponentGraveYardPane;
 
         Node inHandNode =  getNodeInGridPane(zonePane,0,address-1);
-        Point2D inHandPoint = inHandNode.localToScene(new Point2D(0,0));
-        Point2D graveYardNodePoint = graveYardPane.localToScene(new Point2D(0,0));
-        TranslateTransition tt = new TranslateTransition();
-        tt.setNode(fakeCardImageView);
-        tt.setFromX(inHandPoint.getX());
-        tt.setFromY(inHandPoint.getY());
-        tt.setToX(graveYardNodePoint.getX());
-        tt.setToY(graveYardNodePoint.getY());
-        tt.setDuration(Duration.millis(700));
-        tt.setOnFinished(new EventHandler<ActionEvent>() {
+//        Point2D inHandPoint = inHandNode.localToScene(new Point2D(0,0));
+//        Point2D graveYardNodePoint = graveYardPane.localToScene(new Point2D(0,0));
+//        TranslateTransition tt = new TranslateTransition();
+//        tt.setNode(fakeCardImageView);
+//        tt.setFromX(inHandPoint.getX());
+//        tt.setFromY(inHandPoint.getY());
+//        tt.setToX(graveYardNodePoint.getX());
+//        tt.setToY(graveYardNodePoint.getY());
+//        tt.setDuration(Duration.millis(700));
+//        tt.setOnFinished(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent actionEvent) {
+//                mainGamePane.getChildren().remove(fakeCardImageView);
+//                reloadCurrentHand();
+//            }
+//        });
+//        mainGamePane.getChildren().add(fakeCardImageView);
+//        currentHand.getChildren().remove(inHandNode);
+//        tt.play();
+        FadeTransition fade = new FadeTransition();
+
+
+        //setting the duration for the Fade transition
+        fade.setDuration(Duration.millis(100));
+
+        //setting the initial and the target opacity value for the transition
+        fade.setFromValue(10);
+        fade.setToValue(0.0);
+        fade.setNode(inHandNode);
+        fade.play();
+        fade.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                mainGamePane.getChildren().remove(fakeCardImageView);
                 reloadCurrentHand();
             }
         });
-        mainGamePane.getChildren().add(fakeCardImageView);
-        currentHand.getChildren().remove(inHandNode);
-        tt.play();
     }
 
     public void nextTrack(MouseEvent actionEvent) {
