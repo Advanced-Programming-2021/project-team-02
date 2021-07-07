@@ -138,6 +138,7 @@ public class ShopMenuView {
                 Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         allUserCards = Objects.requireNonNull(
                 Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllUserCards();
+        System.out.println(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername()).getCoin());
         scrollPane.setFitToWidth(true);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setPrefWidth(1000000000);
@@ -208,12 +209,14 @@ public class ShopMenuView {
         System.out.println("yes");
         ShopMenuMessage shopMenuMessage = controller.buyCard("Blue-Eyes white dragon");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername()).getCoin()));
         showNumber();
     }
 
     public void AR() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Axe Raider");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername()).getCoin()));
         showNumber();
     }
 
