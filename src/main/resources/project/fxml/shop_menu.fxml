@@ -1159,7 +1159,7 @@
                                 <Insets right="55.0" />
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C50" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
                             <padding>
                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                             </padding>
