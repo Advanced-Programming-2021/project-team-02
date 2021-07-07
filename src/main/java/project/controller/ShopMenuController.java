@@ -2,12 +2,9 @@ package project.controller;
 
 import project.model.Assets;
 import project.model.Shop;
-import project.model.User;
 import project.model.card.Card;
 import project.view.messages.ShopMenuMessage;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 

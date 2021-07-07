@@ -1,11 +1,14 @@
 package project.view;
 
+import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import project.model.Music;
 import project.model.gui.Icon;
+import project.view.messages.LoginMessage;
+import project.view.messages.PopUpMessage;
 
 import java.io.IOException;
 
@@ -13,6 +16,7 @@ public class DuelMenuView {
     public AnchorPane pane;
     public ImageView playPauseMusicButton;
     public ImageView muteUnmuteButton;
+    public ImageView exitButton;
 
     public void initialize() {
         if (!Music.isMediaPlayerPaused) playPauseMusicButton.setImage(Icon.PAUSE.getImage());
@@ -49,5 +53,11 @@ public class DuelMenuView {
     public void back(MouseEvent actionEvent) throws IOException {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         Utility.openNewMenu("/project/fxml/main_menu.fxml");
+    }
+
+    public void exit(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
+        if (popUpMessage.getAlert().getResult().getText().equals("OK")) System.exit(0);
     }
 }

@@ -1,25 +1,21 @@
 package project.view;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import project.model.Music;
 import project.model.gui.Icon;
 import project.view.messages.LoginMessage;
 import project.view.messages.PopUpMessage;
 
 import java.io.IOException;
-import java.util.Objects;
 
 public class MainMenuView {
     public ImageView playPauseMusicButton;
     public ImageView muteUnmuteButton;
+    public ImageView exitButton;
 
     @FXML
     public void initialize() {

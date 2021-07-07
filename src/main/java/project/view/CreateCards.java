@@ -17,6 +17,7 @@ import project.model.card.Trap;
 import project.model.card.informationofcards.TrapType;
 import project.model.gui.Icon;
 import project.view.messages.CreateCardMessage;
+import project.view.messages.LoginMessage;
 import project.view.messages.PopUpMessage;
 
 import java.io.IOException;
@@ -41,6 +42,7 @@ public class CreateCards {
     public ImageView playPauseMusicButton;
     public ImageView muteUnmuteButton;
     public ListView listViewForTypes;
+    public ImageView exitButton;
     private String cardType = null;
     CreateCardMenuController createCardMenuController;
 
@@ -295,5 +297,11 @@ public class CreateCards {
 //        }
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
         Utility.openNewMenu("/project/fxml/main_menu.fxml");
+    }
+
+    public void exit(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
+        if (popUpMessage.getAlert().getResult().getText().equals("OK")) System.exit(0);
     }
 }

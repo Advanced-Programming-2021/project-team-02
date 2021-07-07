@@ -189,6 +189,13 @@
       </cursor>
    </ImageView>
 
+   <ImageView fx:id="exitButton" fitHeight="56.0" fitWidth="56.0" layoutX="20.0" layoutY="20.0" onMouseClicked="#exit" pickOnBounds="true" preserveRatio="true">
+      <Image url="@../image/Icon/close.png" />
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
+   </ImageView>
+
 
    <stylesheets>
       <URL value="@../CSS/profile_menu_style.css" />

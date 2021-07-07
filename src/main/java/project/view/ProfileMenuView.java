@@ -17,15 +17,13 @@ import javafx.stage.Modality;
 import javafx.stage.StageStyle;
 import project.controller.MainMenuController;
 import project.controller.ProfileMenuController;
-import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import project.model.Avatar;
 import project.model.Music;
 import javafx.scene.image.ImageView;
 
-import java.util.Objects;
-
 import project.model.gui.Icon;
+import project.view.messages.LoginMessage;
 import project.view.messages.PopUpMessage;
 import project.view.messages.ProfileMenuMessage;
 
@@ -36,6 +34,7 @@ public class ProfileMenuView {
     public Label passwordLabel;
     public ImageView playPauseMusicButton;
     public ImageView muteUnmuteButton;
+    public ImageView exitButton;
     @FXML
     PasswordField currentPasswordField = new PasswordField();
     @FXML
@@ -92,11 +91,7 @@ public class ProfileMenuView {
         changeUsernameButton.setCursor(Cursor.HAND);
         changeUsernameButton.setId("button");
 
-        Button closeButton = new Button();
-        closeButton.setText("Close");
-        closeButton.setOnAction(event -> {window.close(); usernameTextField.clear();});
-        closeButton.setCursor(Cursor.HAND);
-        closeButton.setId("closeButton");
+        Button closeButton = closeButton(window, usernameTextField);
 
         VBox layout = new VBox(15);
         layout.setPadding(new Insets(20, 50, 20, 50));
@@ -110,6 +105,18 @@ public class ProfileMenuView {
         window.setResizable(false);
         window.getScene().getStylesheets().add(String.valueOf(getClass().getResource("/project/CSS/profile_menu_windows.css")));
         window.showAndWait();
+    }
+
+    private Button closeButton(Stage window, TextField usernameTextField) {
+        Button closeButton = new Button();
+        closeButton.setText("Close");
+        closeButton.setOnAction(event -> {
+            window.close();
+            usernameTextField.clear();
+        });
+        closeButton.setCursor(Cursor.HAND);
+        closeButton.setId("closeButton");
+        return closeButton;
     }
 
     public void changeNickName() {
@@ -135,11 +142,7 @@ public class ProfileMenuView {
         changeNicknameButton.setCursor(Cursor.HAND);
         changeNicknameButton.setId("button");
 
-        Button closeButton = new Button();
-        closeButton.setText("Close");
-        closeButton.setOnAction(event -> {window.close(); nickNameTextField.clear();});
-        closeButton.setCursor(Cursor.HAND);
-        closeButton.setId("closeButton");
+        Button closeButton = closeButton(window, nickNameTextField);
 
         VBox layout = new VBox(15);
         layout.setPadding(new Insets(20, 50, 20, 50));
@@ -298,7 +301,6 @@ public class ProfileMenuView {
         closeButton.setCursor(Cursor.HAND);
         closeButton.setId("closeButton");
 
-
         HBox topBar = new HBox(25);
         topBar.getChildren().addAll(vBox1, vBox2);
         topBar.setAlignment(Pos.CENTER);
@@ -353,5 +355,11 @@ public class ProfileMenuView {
     public void back(MouseEvent mouseEvent) throws Exception {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
         Utility.openNewMenu("/project/fxml/main_menu.fxml");
+    }
+
+    public void exit(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
+        if (popUpMessage.getAlert().getResult().getText().equals("OK")) System.exit(0);
     }
 }
