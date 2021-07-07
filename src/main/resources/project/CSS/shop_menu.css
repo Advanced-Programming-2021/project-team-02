@@ -14,7 +14,12 @@
 }
 
 #firstBox {
+    -fx-background-color: #00062b;
+}
+
+#secondBox {
     -fx-background-color: #103188;
+    -fx-background-radius: 30;
 }
 
 #menuBar {

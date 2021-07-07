@@ -164,7 +164,7 @@ public class GameView {
     }
 
     public void startGameAndLoadHand() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION,"Ready to Go ? ");
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,"Ready to Go?");
         alert.initOwner(LoginMenuView.getStage());
         alert.initModality(Modality.WINDOW_MODAL);
         alert.initStyle(StageStyle.TRANSPARENT);
@@ -609,20 +609,17 @@ public class GameView {
                 "-fx-background-radius: 10;\n" +
                 "-fx-text-fill: white;\n" +
                 "-fx-font-size: 16;");
-        resetChoicesButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                if (mouseEvent.getButton() != MouseButton.PRIMARY || tributeAddress.size() == 0)
-                    return;
-                else {
-                    for (Integer address : tributeAddress) {
-                        ((Pane) Objects.requireNonNull(getNodeInGridPane(gridPane, 0, address - 1))).setBorder(null);
-                    }
-                    tributeAddress.clear();
+        resetChoicesButton.setOnMouseClicked(mouseEvent -> {
+            if (mouseEvent.getButton() != MouseButton.PRIMARY || tributeAddress.size() == 0)
+                return;
+            else {
+                for (Integer address : tributeAddress) {
+                    ((Pane) Objects.requireNonNull(getNodeInGridPane(gridPane, 0, address - 1))).setBorder(null);
                 }
+                tributeAddress.clear();
             }
         });
-        Label label = new Label("Tribute Summon : please choose " + numberOfTributeNeeded + " of your monsters to tribute");
+        Label label = new Label("Tribute Summon: please choose " + numberOfTributeNeeded + " of your monsters to tribute");
         label.setStyle("-fx-text-fill: white");
         HBox buttonBox = new HBox(doneButton, resetChoicesButton);
         VBox mainBox = new VBox(label, gridPane, buttonBox);
