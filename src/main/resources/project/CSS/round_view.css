@@ -43,3 +43,9 @@
     -fx-text-fill: white;
     -fx-font-size: 10;
 }
+
+.separator *.line {
+    -fx-border-color: #00062b;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5;
+}

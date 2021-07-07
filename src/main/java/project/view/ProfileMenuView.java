@@ -23,6 +23,7 @@ import project.model.Music;
 import javafx.scene.image.ImageView;
 
 import project.model.gui.Icon;
+import project.view.messages.LoginMessage;
 import project.view.messages.PopUpMessage;
 import project.view.messages.ProfileMenuMessage;
 
@@ -33,6 +34,7 @@ public class ProfileMenuView {
     public Label passwordLabel;
     public ImageView playPauseMusicButton;
     public ImageView muteUnmuteButton;
+    public ImageView exitButton;
     @FXML
     PasswordField currentPasswordField = new PasswordField();
     @FXML
@@ -353,5 +355,11 @@ public class ProfileMenuView {
     public void back(MouseEvent mouseEvent) throws Exception {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
         Utility.openNewMenu("/project/fxml/main_menu.fxml");
+    }
+
+    public void exit(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
+        if (popUpMessage.getAlert().getResult().getText().equals("OK")) System.exit(0);
     }
 }

@@ -8,14 +8,17 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -23,6 +26,7 @@ import javafx.util.Duration;
 import project.controller.playgame.Phase;
 import project.controller.playgame.RoundGameController;
 import project.model.Deck;
+import project.model.Music;
 import project.model.card.Card;
 import project.model.card.Monster;
 import project.model.card.informationofcards.CardType;
@@ -30,6 +34,7 @@ import project.model.game.board.Cell;
 import project.model.game.board.CellStatus;
 import project.model.game.board.MonsterZone;
 import project.model.game.board.Zone;
+import project.model.gui.Icon;
 import project.view.LoginMenuView;
 import project.view.Utility;
 import project.view.input.Input;
@@ -80,50 +85,70 @@ public class GameView {
     public Button changePositionButton;
     public Button attackButton;
     public Button nextPhaseButton;
+    public ImageView playPauseMusicButton;
+    public ImageView muteUnmuteButton;
+    public ImageView exitButton;
     private ArrayList<Pane> currentMonsterZonePanes;
-    private Image backCardImage = new Image(getClass().getResource("/project/image/GamePictures/Card Back.png").toString());
+    private final Image backCardImage = new Image(Objects.requireNonNull(getClass().getResource("/project/image/GamePictures/Card Back.png")).toString());
 
     public void initialize() {
+        if (!Music.isMediaPlayerPaused) playPauseMusicButton.setImage(Icon.PAUSE.getImage());
+        else playPauseMusicButton.setImage(Icon.PLAY.getImage());
+        if (Music.mediaPlayer.isMute()) muteUnmuteButton.setImage(Icon.MUTE.getImage());
+        else muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
+
         currentMonsterZonePanes = new ArrayList<>();
         currentMonsterZonePanes.add(monster1);
         currentMonsterZonePanes.add(monster2);
         currentMonsterZonePanes.add(monster3);
         currentMonsterZonePanes.add(monster4);
         currentMonsterZonePanes.add(monster5);
-        currentPlayerLP.setText("LP : 8000");
-        currentPlayerNickname.setText("Nickname : " + RoundGameController.getInstance().getCurrentPlayer().getNickname());
-        opponentPlayerLP.setText("LP : 8000");
-        opponentPlayerNickname.setText("Nickname : " + RoundGameController.getInstance().getOpponentPlayer().getNickname());
+        currentPlayerLP.setText("8000");
+        currentPlayerNickname.setText(RoundGameController.getInstance().getCurrentPlayer().getNickname());
+        opponentPlayerLP.setText("8000");
+        opponentPlayerNickname.setText(RoundGameController.getInstance().getOpponentPlayer().getNickname());
+
+        SnapshotParameters parameters = new SnapshotParameters();
+        parameters.setFill(Color.TRANSPARENT);
+
+        createClip(currentPlayerAvatar, parameters);
+        createClip(opponentPlayerAvatar, parameters);
+
         currentPlayerAvatar.setImage(new Image(RoundGameController.getInstance().getCurrentPlayer().getAvatar().getUrl().toString()));
         opponentPlayerAvatar.setImage(new Image(RoundGameController.getInstance().getOpponentPlayer().getAvatar().getUrl().toString()));
         selectedCardImageView.setImage(backCardImage);
         selectedCardDescriptionLabel.setText("No card selected");
         RoundGameController.getInstance().setView(this);
         currentPlayerDeckPane.setCursor(Cursor.HAND);
-        currentPlayerDeckPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                if (mouseEvent.getButton() != MouseButton.PRIMARY)
-                    return;
-                selectedCardImageView.setImage(backCardImage);
-                selectedCardDescriptionLabel.setText("Deck!");
-            }
+        currentPlayerDeckPane.setOnMouseClicked(mouseEvent -> {
+            if (mouseEvent.getButton() != MouseButton.PRIMARY)
+                return;
+            selectedCardImageView.setImage(backCardImage);
+            selectedCardDescriptionLabel.setText("Deck!");
         });
         currentPlayerGraveYardPane.setCursor(Cursor.HAND);
         //TODO currentPlayerGraveYardPane.setOnMouseClicked
         opponentGraveYardPane.setCursor(Cursor.HAND);
-        currentPlayerDeckPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                if (mouseEvent.getButton() != MouseButton.PRIMARY)
-                    return;
-                RoundGameController.getInstance().drawCardFromDeck();
-            }
+        currentPlayerDeckPane.setOnMouseClicked(mouseEvent -> {
+            if (mouseEvent.getButton() != MouseButton.PRIMARY)
+                return;
+            RoundGameController.getInstance().drawCardFromDeck();
         });
-        phaseLabel.setText("Current Phase : Draw");
+        phaseLabel.setText("Draw");
         currentDeckLabel.setCursor(Cursor.HAND);
         updateCurrentDeckLabel();
         showButtonBasedOnPhase(Phase.DRAW_PHASE);
+    }
+
+    private void createClip(ImageView imageView, SnapshotParameters parameters) {
+        Rectangle clip = new Rectangle();
+        clip.setWidth(135);
+        clip.setHeight(135);
+        clip.setArcHeight(20);
+        clip.setArcWidth(20);
+        imageView.setClip(clip);
+        WritableImage wImage = imageView.snapshot(parameters, null);
+        imageView.setImage(wImage);
     }
 
     public Image getCardImageByName(String cardName) {
@@ -1080,7 +1105,7 @@ public class GameView {
         onClick.play();
         RoundGameController.getInstance().nextPhase();
         Phase currentPhase = RoundGameController.getInstance().getCurrentPhase();
-        phaseLabel.setText("Current Phase : " + currentPhase);
+        phaseLabel.setText(String.valueOf(currentPhase));
         showButtonBasedOnPhase(currentPhase);
     }
     public void changeTurn(){
@@ -1433,5 +1458,26 @@ public class GameView {
         mainGamePane.getChildren().add(fakeCardImageView);
         currentHand.getChildren().remove(inHandNode);
         tt.play();
+    }
+
+    public void nextTrack(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Music.nextTrack(playPauseMusicButton, muteUnmuteButton);
+    }
+
+    public void playPauseMusic(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Music.playPauseMusic(playPauseMusicButton);
+    }
+
+    public void muteUnmuteMusic(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Music.muteUnmuteMusic(muteUnmuteButton);
+    }
+
+    public void exit(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
+        if (popUpMessage.getAlert().getResult().getText().equals("OK")) System.exit(0);
     }
 }

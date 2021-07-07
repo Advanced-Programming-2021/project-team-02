@@ -54,6 +54,7 @@ public class LoginMenuView extends Application {
     public ImageView muteUnmuteButton;
     public BorderPane mainPane;
     public Pane secondPane;
+    public ImageView exitButton;
 
     public static void main(String[] args) throws IOException {
         CardsDatabase.getInstance().readAndMakeCards();
@@ -67,7 +68,6 @@ public class LoginMenuView extends Application {
         stage.setOnCloseRequest(event -> {
             PopUpMessage popUpMessage = new PopUpMessage(LoginMessage.EXIT_CONFIRMATION.getAlertType(), LoginMessage.EXIT_CONFIRMATION.getLabel());
             if (popUpMessage.getAlert().getResult().getText().equals("OK")) System.exit(0);
-
         });
         PopUpMessage.setStage(stage);
         GamePopUpMessage.setStage(stage);
