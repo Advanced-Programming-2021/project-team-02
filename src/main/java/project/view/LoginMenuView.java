@@ -1,5 +1,6 @@
 package project.view;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -13,6 +14,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import project.controller.LoginMenuController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -62,6 +64,11 @@ public class LoginMenuView extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         LoginMenuView.stage = stage;
+        stage.setOnCloseRequest(event -> {
+            PopUpMessage popUpMessage = new PopUpMessage(LoginMessage.EXIT_CONFIRMATION.getAlertType(), LoginMessage.EXIT_CONFIRMATION.getLabel());
+            if (popUpMessage.getAlert().getResult().getText().equals("OK")) System.exit(0);
+
+        });
         PopUpMessage.setStage(stage);
         GamePopUpMessage.setStage(stage);
         URL fxmlAddress = getClass().getResource("/project/fxml/login_menu.fxml");
@@ -109,8 +116,24 @@ public class LoginMenuView extends Application {
         secondPasswordField.setOnKeyPressed(k -> {
             if (k.getCode().equals(KeyCode.ENTER)) registerUser();
         });
-//        passwordFieldLogin.setOnKeyPressed(k -> {if (k.getCode().equals(KeyCode.ENTER)) registerUser();});
-//        secondPasswordField.setOnKeyPressed(k -> {if (k.getCode().equals(KeyCode.ENTER)) registerUser();});
+        usernameFieldLogin.setOnKeyPressed(k -> {
+              if (k.getCode().equals(KeyCode.ENTER)) {
+                  try {
+                      loginUser();
+                  } catch (Exception e) {
+                      e.printStackTrace();
+                  }
+              }
+        });
+        passwordFieldLogin.setOnKeyPressed(k -> {
+            if (k.getCode().equals(KeyCode.ENTER)) {
+                try {
+                    loginUser();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     public void registerUser() {
@@ -122,12 +145,11 @@ public class LoginMenuView extends Application {
         secondPasswordField.clear();
     }
 
-    public void loginUser(MouseEvent actionEvent) throws Exception {
+    public void loginUser() throws Exception {
         LoginMessage message = controller.loginUser(usernameFieldLogin.getText(), passwordFieldLogin.getText());
         new PopUpMessage(message.getAlertType(), message.getLabel());
-        if (message.getAlertType().equals(Alert.AlertType.INFORMATION)) {
+        if (message.getAlertType().equals(Alert.AlertType.INFORMATION))
             Utility.openNewMenu("/project/fxml/main_menu.fxml");
-        }
     }
 
     public void nextTrack(MouseEvent actionEvent) {
@@ -148,9 +170,7 @@ public class LoginMenuView extends Application {
     public void exit(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
-        if (popUpMessage.getAlert().getResult().getText().equals("OK")) {
-            System.exit(0);
-        }
+        if (popUpMessage.getAlert().getResult().getText().equals("OK")) System.exit(0);
     }
 
     private static void createSomeUser() {
@@ -185,7 +205,7 @@ public class LoginMenuView extends Application {
         erfanAsset.addCardToMainDeck(Card.getCardByName("Beast King Barbaros"),erfandeck);
         erfanAsset.addCardToMainDeck(Card.getCardByName("The Tricky"),erfandeck);
         erfanAsset.activateDeck("erfan");
-        User mahdis = new User("mahdis", "mahdi", "mahdi");
+        User mahdis = new User("mahdis", "mahdis", "mahdis");
         Assets mahdisAsset = Assets.getAssetsByUsername("mahdis");
         Objects.requireNonNull(mahdisAsset).createDeck("mahdis");
         Deck mahdisDeck = mahdisAsset.getDeckByDeckName("mahdis");

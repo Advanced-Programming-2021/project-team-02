@@ -1,10 +1,6 @@
 package project.view;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseButton;
@@ -17,7 +13,6 @@ import java.util.Objects;
 import javafx.scene.control.Label;
 import project.model.Assets;
 import project.model.card.Card;
-import project.model.card.CardsDatabase;
 import project.view.messages.PopUpMessage;
 import project.view.messages.ShopMenuMessage;
 

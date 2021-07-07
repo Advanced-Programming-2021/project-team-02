@@ -8,18 +8,13 @@
 #secondPane {
     -fx-font-family: "Matrix II Regular";
     -fx-font-size: 15;
-    -fx-background-image: url(../image/main_background.jpg);
+    -fx-text-fill: white;
+    -fx-background-color: #00062b;
     -fx-background-size: cover;
 }
 
 #firstBox {
-    -fx-background-color: #00062b;
-    -fx-background-radius: 30;
-}
-
-#secondBox {
     -fx-background-color: #103188;
-    -fx-background-radius: 15;
 }
 
 #menuBar {
@@ -32,25 +27,46 @@
     -fx-text-fill: #ffd500;
 }
 
-#textField {
-    -fx-text-fill: #ffd500;
-    -fx-background-color: #323c46;
-    -fx-background-radius: 10;
-}
-
 #label {
-    -fx-font-size: 19;
+    -fx-font-size: 15;
     -fx-text-fill: white;
     -fx-background-color: #323c46;
     -fx-background-radius: 10;
 }
 
 #button {
-    -fx-font-size: 20.0;
+    -fx-font-size: 15.0;
     -fx-background-color: #bb792d;
     -fx-background-radius: 10;
     -fx-text-fill: white;
     -fx-cursor: hand;
+}
+
+#numberOfCards {
+    -fx-font-size: 15.0;
+    -fx-background-color: #9e376c;
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+}
+
+#price {
+    -fx-background-color: #323c46;
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+}
+
+#numberOfCoins {
+    -fx-font-size: 15;
+    -fx-background-color: #20262b;
+    -fx-background-radius: 20;
+    -fx-text-fill: white;
+}
+
+#coin {
+    -fx-font-size: 13;
+    -fx-background-color: #323c46;
+    -fx-background-radius: 20;
+    -fx-text-fill: #ffd500;
 }
 
 #exitButton {
@@ -59,4 +75,8 @@
     -fx-background-radius: 10;
     -fx-text-fill: white;
     -fx-cursor: hand;
+}
+
+.scroll-bar:vertical {
+    -fx-background-color: #00062b;
 }
