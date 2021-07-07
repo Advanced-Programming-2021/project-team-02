@@ -35,7 +35,6 @@ public class CreateCards {
     public TextArea description;
     public ListView listView;
     public Button submit;
-    public Label effect;
     public Label price;
     public TextField level;
     public Button calculatePrice;

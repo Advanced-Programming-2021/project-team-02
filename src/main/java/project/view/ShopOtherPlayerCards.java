@@ -16,8 +16,6 @@ import javafx.scene.text.Font;
 import project.controller.ShopMenuController;
 import project.model.card.Card;
 import project.model.card.CardsDatabase;
-import project.model.card.Monster;
-import project.model.card.informationofcards.CardType;
 import project.view.messages.PopUpMessage;
 import project.view.messages.ShopMenuMessage;
 

@@ -8,11 +8,11 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane id="secondPane" prefHeight="650.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.CreateCards">
-    <VBox id="firstBox" alignment="CENTER" layoutX="134.0" layoutY="33.0" prefHeight="764.0" prefWidth="618.0" spacing="35.0">
+    <VBox id="firstBox" alignment="CENTER" layoutX="134.0" layoutY="17.0" prefHeight="808.0" prefWidth="618.0" spacing="35.0">
         <HBox alignment="CENTER_LEFT" layoutX="63.0" prefHeight="64.0" prefWidth="485.0">
             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#back" style="-fx-background-color: #00062b" textAlignment="CENTER">
                 <HBox.margin>
-                    <Insets right="45.0" />
+                    <Insets right="65.0" />
                 </HBox.margin>
                 <graphic>
                     <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
@@ -36,8 +36,11 @@
                 </VBox.margin>
             </HBox>
         </HBox>
-        <HBox alignment="CENTER" prefHeight="500.0" prefWidth="518.0" spacing="20.0">
-            <VBox alignment="CENTER" layoutX="64.0" layoutY="95.0" prefHeight="486.0" prefWidth="202.0" spacing="10.0">
+        <HBox alignment="CENTER" prefHeight="584.0" prefWidth="518.0" spacing="25.0">
+            <VBox alignment="CENTER" layoutX="64.0" layoutY="95.0" prefHeight="579.0" prefWidth="229.0" spacing="10.0">
+                <ImageView fitHeight="158.0" fitWidth="127.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../image/DeckMenuPictures/Picture.jpg" />
+                </ImageView>
                 <MenuButton id="menuButton" fx:id="type" layoutX="124.0" layoutY="85.0" mnemonicParsing="false" text="Type" textAlignment="CENTER">
                     <items>
                         <MenuItem fx:id="monster" mnemonicParsing="false" onAction="#changeToMonster" text="Monster" />
@@ -56,7 +59,7 @@
                 </TextArea>
                 <Button id="button" fx:id="calculatePrice" mnemonicParsing="false" onAction="#calculatePrice" text="Calculate Price">
                     <VBox.margin>
-                        <Insets top="20.0" />
+                        <Insets top="10.0" />
                     </VBox.margin>
                 </Button>
                 <Label fx:id="price" alignment="CENTER" contentDisplay="CENTER" prefHeight="36.0" prefWidth="106.0" style="-fx-text-fill: #ffd500; -fx-font-size: 20;" textAlignment="CENTER">
@@ -66,21 +69,29 @@
                 </Label>
             </VBox>
 
-            <VBox layoutX="353.0" layoutY="95.0" prefHeight="486.0" prefWidth="263.0" spacing="20.0">
-                <ImageView fitHeight="125.0" fitWidth="201.0" layoutX="348.0" layoutY="95.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@../image/DeckMenuPictures/DeckPicture.jpg" />
-                </ImageView>
-                <Label layoutX="348.0" layoutY="268.0" prefHeight="26.0" prefWidth="200.0" style="-fx-text-fill: white;" text="Effects">
+            <VBox layoutX="353.0" layoutY="95.0" prefHeight="579.0" prefWidth="285.0" spacing="20.0">
+                <Label layoutX="348.0" layoutY="268.0" prefHeight="26.0" prefWidth="200.0" style="-fx-text-fill: white;" text="Types">
+                    <VBox.margin>
+                        <Insets bottom="-15.0" />
+                    </VBox.margin>
+                </Label>
+                <ListView fx:id="listViewForTypes" prefHeight="200.0" prefWidth="231.0" style="-fx-background-color: #323c46;" />
+            <Separator prefWidth="200.0">
                <VBox.margin>
                   <Insets bottom="-15.0" />
-               </VBox.margin></Label>
+               </VBox.margin>
+            </Separator>
+                <Label layoutX="348.0" layoutY="268.0" prefHeight="26.0" prefWidth="200.0" style="-fx-text-fill: white;" text="Effects">
+                    <VBox.margin>
+                        <Insets bottom="-15.0" />
+                    </VBox.margin>
+                </Label>
                 <ListView fx:id="listView" layoutX="348.0" layoutY="294.0" prefHeight="296.0" prefWidth="200.0" style="-fx-background-color: #323c46;" />
-                <Label fx:id="effect" prefHeight="18.0" prefWidth="163.0" />
             </VBox>
         </HBox>
         <Button id="button" fx:id="submit" layoutX="274.0" layoutY="638.0" mnemonicParsing="false" onAction="#createCard" text="Create Card" />
         <padding>
-            <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
         </padding>
     </VBox>
 
@@ -111,8 +122,6 @@
             <Cursor fx:constant="HAND" />
         </cursor>
     </ImageView>
-
-   <ListView fx:id="listViewForTypes" layoutX="720.0" layoutY="342.0" prefHeight="200.0" prefWidth="231.0" />
 
     <stylesheets>
         <URL value="@../CSS/create_card.css" />

@@ -136,7 +136,6 @@ public class ShopMenuView {
         System.out.println(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername()).getCoin());
         scrollPane.setFitToWidth(true);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scrollPane.setPrefWidth(1000000000);
         scrollPane.setPrefWidth(1525);
         scrollPane.setPrefHeight(860);
         showNumber();
