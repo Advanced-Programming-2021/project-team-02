@@ -339,7 +339,7 @@ public class GameView {
         } else if (Regex.getMatcher(Regex.BOARD_GAME_SUMMON, command).matches())
             controller.summonMonster();
         else if (Regex.getMatcher(Regex.BOARD_GAME_SET, command).matches())
-            controller.setCrad();
+            controller.setCard();
         else if ((matcher = Regex.getMatcher(Regex.BOARD_GAME_SET_POSITION, command)).matches())
             controller.changeMonsterPosition(matcher);
         else if (Regex.getMatcher(Regex.BOARD_GAME_FLIP_SUMMON, command).matches())
@@ -1295,10 +1295,10 @@ public class GameView {
                 imageView.setImage(getCardImageByName(monsterCell.getCardInCell().getName()));
                 imageView.setRotate(90);
                 pane.getChildren().add(imageView);
-                imageView.setFitWidth(130);
-                imageView.setFitHeight(94);
-                imageView.setLayoutY(imageView.getLayoutY() + 20);
-                imageView.setLayoutX(imageView.getLayoutX() - 19);
+                imageView.setFitWidth(94);
+                imageView.setFitHeight(130);
+                imageView.setLayoutY(imageView.getLayoutY());
+                imageView.setLayoutX(imageView.getLayoutX());
             }
 
             int finalI = i;
@@ -1716,7 +1716,7 @@ public class GameView {
             return;
         AudioClip onClick = new AudioClip(Objects.requireNonNull(getClass().getResource("/project/soundEffects/CURSOR.wav")).toString());
         onClick.play();
-        GameViewMessage message = RoundGameController.getInstance().setCrad();
+        GameViewMessage message = RoundGameController.getInstance().setCard();
         if (message == GameViewMessage.NONE || message == null)
             return;
         else if (message != GameViewMessage.SUCCESS)
@@ -1976,6 +1976,7 @@ public class GameView {
             @Override
             public void handle(ActionEvent actionEvent) {
                 mainGamePane.getChildren().remove(imageView);
+                reloadCurrentAndOpponentMonsterZone();
                 updateLPLabels();
             }
         });
@@ -2074,6 +2075,15 @@ public class GameView {
                 ImageView imageView = new ImageView(getCardImageByName(cell.getCardInCell().getName()));
                 imageView.setFitHeight(130);
                 imageView.setFitWidth(94);
+                if (cell.getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED) {
+                    imageView.setRotate(90);
+                    imageView.setLayoutX(imageView.getLayoutX());
+                    imageView.setLayoutY(imageView.getLayoutY());
+                } else if (cell.getCellStatus() == CellStatus.DEFENSIVE_HIDDEN) {
+                    imageView.setImage(getCardImageByName("Card Back Set"));
+                    imageView.setLayoutX(imageView.getLayoutX() + 20);
+                    imageView.setLayoutY(imageView.getLayoutY() - 19);
+                }
                 zonePane.getChildren().add(imageView);
                 zonePane.setCursor(Cursor.HAND);
                 zonePane.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -2102,6 +2112,25 @@ public class GameView {
                 ImageView imageView = new ImageView(getCardImageByName(cell.getCardInCell().getName()));
                 imageView.setFitHeight(130);
                 imageView.setFitWidth(94);
+                if (cell.getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED) {
+                    imageView.setRotate(90);
+                    imageView.setLayoutX(imageView.getLayoutX());
+                    imageView.setLayoutY(imageView.getLayoutY());
+                } else if (cell.getCellStatus() == CellStatus.DEFENSIVE_HIDDEN) {
+                    imageView.setImage(getCardImageByName("Card Back Set"));
+                    imageView.setLayoutX(imageView.getLayoutX() + 20);
+                    imageView.setLayoutY(imageView.getLayoutY() - 19);
+                    zonePane.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent mouseEvent) {
+                            selectedCardImageView.setImage(getCardImageByName("Back Image"));
+                            selectedCardDescriptionLabel.setText("Can't show this card to you");
+                        }
+                    });
+                    zonePane.setCursor(Cursor.HAND);
+                    zonePane.getChildren().add(imageView);
+                    continue;
+                }
                 zonePane.getChildren().add(imageView);
                 zonePane.setCursor(Cursor.HAND);
                 zonePane.setOnMouseClicked(new EventHandler<MouseEvent>() {
