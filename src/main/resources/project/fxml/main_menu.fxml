@@ -22,7 +22,7 @@
                 </ImageView>
                 <Label id="menu" text="Duel" />
                 <padding>
-                    <Insets bottom="2.0" left="5.0" top="2.0" />
+                    <Insets bottom="2.0" left="10.0" top="2.0" />
                 </padding>
             </HBox>
             <HBox id="row" onMouseClicked="#deckMenu" spacing="5.0">
@@ -34,7 +34,7 @@
                 </ImageView>
                 <Label id="menu" text="Deck" />
             <padding>
-               <Insets bottom="2.0" left="5.0" top="2.0" />
+               <Insets bottom="2.0" left="10.0" top="2.0" />
             </padding>
             </HBox>
             <HBox id="row" onMouseClicked="#scoreboardMenu" spacing="5.0">
@@ -46,7 +46,7 @@
                 </ImageView>
                 <Label id="menu" text="Scoreboard" />
                 <padding>
-                    <Insets bottom="2.0" left="5.0" top="2.0" />
+                    <Insets bottom="2.0" left="10.0" top="2.0" />
                 </padding>
             </HBox>
             <HBox id="row" onMouseClicked="#profileMenu" spacing="5.0">
@@ -58,7 +58,7 @@
                 </ImageView>
                 <Label id="menu" text="Profile" />
                 <padding>
-                    <Insets bottom="2.0" left="5.0" top="2.0" />
+                    <Insets bottom="2.0" left="10.0" top="2.0" />
                 </padding>
             </HBox>
             <HBox id="row" onMouseClicked="#shopMenu" spacing="5.0">
@@ -70,7 +70,7 @@
                 </ImageView>
                 <Label id="menu" text="Shop" />
                 <padding>
-                    <Insets bottom="2.0" left="5.0" top="2.0" />
+                    <Insets bottom="2.0" left="10.0" top="2.0" />
                 </padding>
             </HBox>
             <HBox id="row" onMouseClicked="#createCard" spacing="5.0">
@@ -82,7 +82,7 @@
                 </ImageView>
                 <Label id="menu" text="Create Card" />
                 <padding>
-                    <Insets bottom="2.0" left="5.0" top="2.0" />
+                    <Insets bottom="2.0" left="10.0" top="2.0" />
                 </padding>
             </HBox>
             <HBox id="row" onMouseClicked="#importExportMenu" spacing="5.0">
@@ -94,7 +94,7 @@
                 </ImageView>
                 <Label id="menu" text="Import/Export" />
                 <padding>
-                    <Insets bottom="2.0" left="5.0" top="2.0" />
+                    <Insets bottom="2.0" left="10.0" top="2.0" />
                 </padding>
             </HBox>
          <VBox.margin>
