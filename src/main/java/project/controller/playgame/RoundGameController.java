@@ -12,6 +12,7 @@ import project.model.game.PlayerBoard;
 import project.model.game.board.*;
 //import project.view.Menu;
 //import project.view.MenusManager;
+import project.view.gameview.Animation;
 import project.view.gameview.BetweenRoundView;
 import project.view.gameview.GameView;
 import project.view.messages.Error;
@@ -345,7 +346,8 @@ public class RoundGameController {
             if (!getCurrentPlayer().getNickname().equals("ai")) ;
             //  TODO view.showSuccessMessageWithAString(SuccessMessage.CARD_ADDED_TO_THE_HAND, card.getName());
             drawUsed = true;
-            view.drawCardFromDeckAnimation(card.getName(), true);
+            view.playAnimation(Animation.DRAW_CARD, card.getName(), 0,0,true);
+            //view.drawCardFromDeckAnimation(card.getName(), true);
         } else {
             GameResult result = duelGameController.checkGameResult(currentPlayer, getOpponentPlayer(), GameResultToCheck.NO_CARDS_TO_DRAW);// no card so this is loser!
             if (result == GameResult.GAME_FINISHED) {
@@ -398,9 +400,11 @@ public class RoundGameController {
         }
     }
 
-    public void nextPhase() {
+    public GameViewMessage nextPhase() {
         if (currentPhase.equals(Phase.DRAW_PHASE)) {
+            if (drawUsed)
             currentPhase = Phase.STAND_BY_PHASE;
+            else return MUST_DRAW_CARD;
             System.out.println(currentPhase);
         } else if (currentPhase.equals(Phase.STAND_BY_PHASE)) {
             currentPhase = Phase.MAIN_PHASE_1;
@@ -426,6 +430,7 @@ public class RoundGameController {
             currentPhase = Phase.DRAW_PHASE;
 
         }
+        return SUCCESS;
     }
 
     public List<Card> getFirstPlayerHand() {
@@ -824,7 +829,8 @@ public class RoundGameController {
         view.showBoard();
         if (fromZone == Zone.HAND) {
             getCurrentPlayerHand().remove(addressInFromZone - 1);
-            view.showSummon(addressOfAdd, addressInFromZone, card.getName());
+            view.playAnimation(Animation.SUMMON_MONSTER,card.getName(),addressOfAdd,addressInFromZone,true);
+            //view.showSummon(addressOfAdd, addressInFromZone, card.getName());
         }
         checkNewCardToBeBeUnderEffectOfFieldCard((Monster) card);
         if (isCurrentPlayerTrapToBeActivatedInSummonSituation()) {
@@ -856,6 +862,7 @@ public class RoundGameController {
             String cardname = cell.getCardInCell().getName();
             checkDeathOfUnderFieldEffectCard((Monster) cell.getCardInCell());
             MonsterZone monsterZone = player.getPlayerBoard().returnMonsterZone();
+            boolean isCurrent = (player.getNickname().equals(getCurrentPlayer().getNickname()));
             if (player == firstPlayer) {
                 removeEquipSpell(address, monsterZone, firstPlayerHashmapForEquipSpells, firstPlayer);
             } else {
@@ -866,7 +873,8 @@ public class RoundGameController {
                 monster.setAttackPower(3000);
             }
             player.getPlayerBoard().removeMonsterFromBoardAndAddToGraveYard(address);
-            view.showAddToGraveYardFromMonsterZoneAnimation(address, player == getCurrentPlayer(), cardname);
+            view.playAnimation(Animation.MONSTER_ZONE_TO_GRAVEYARD,cardname,address,0,isCurrent);
+            //view.showAddToGraveYardFromMonsterZoneAnimation(address, player == getCurrentPlayer(), cardname);
             //view.showBoard();
         } else if (fromZone.equals(Zone.FIELD_ZONE)) {
             player.getPlayerBoard().removeFieldSpell();
@@ -882,10 +890,11 @@ public class RoundGameController {
         } else if (fromZone.equals(Zone.HAND)) {
             if (player.getNickname().equals(getCurrentPlayer().getNickname())) {
                 Card card = getCardInHand(address - 1);
-                String caradName = card.getName();
+                String cardName = card.getName();
                 player.getPlayerBoard().addCardToGraveYardDirectly(card);
                 getCurrentPlayerHand().remove(address - 1);
-                view.showAddToGraveYardFromHandAnimation(address, true, caradName);
+                view.playAnimation(Animation.HAND_TO_GRAVEYARD,cardName,address,address,true);
+               // view.showAddToGraveYardFromHandAnimation(address, true, caradName);
                 view.showBoard();
             } else {
                 Card card = getCardInOpponentHand(address - 1);
@@ -894,7 +903,9 @@ public class RoundGameController {
                 String cardName = card.getName();
                 player.getPlayerBoard().addCardToGraveYardDirectly(card);
                 getOpponentHand().remove(address - 1);
-                view.showAddToGraveYardFromHandAnimation(address, false, cardName);
+                view.playAnimation(Animation.HAND_TO_GRAVEYARD,cardName,address,address,false);
+
+                //view.showAddToGraveYardFromHandAnimation(address, false, cardName);
                 view.showBoard();
             }
         }
@@ -1236,7 +1247,8 @@ public class RoundGameController {
         if (!isWithAi) ;//view.showSuccessMessage(SuccessMessage.SUMMONED_SUCCESSFULLY);
         System.out.println(getCurrentPlayer());
         getCurrentPlayerHand().remove(selectedCellAddress - 1);
-        view.showSummon(addressOfAdd, selectedCellAddress, cardName);
+        view.playAnimation(Animation.SUMMON_MONSTER,cardName,addressOfAdd,selectedCellAddress,true);
+        //view.showSummon(addressOfAdd, selectedCellAddress, cardName);
 
         //view.showBoard();
         if (isCurrentPlayerTrapToBeActivatedInSummonSituation()) {
@@ -1508,8 +1520,8 @@ public class RoundGameController {
         String cardName = selectedCell.getCardInCell().getName();
         int addressOfAddToZone = getCurrentPlayer().getPlayerBoard().addMonsterToBoard((Monster) selectedCell.getCardInCell(), CellStatus.DEFENSIVE_HIDDEN);
         getCurrentPlayerHand().remove(selectedCellAddress - 1);
-        view.showSetMonsterTransition(addressOfAddToZone, selectedCellAddress, cardName);
-
+        //view.showSetMonsterTransition(addressOfAddToZone, selectedCellAddress, cardName);
+        view.playAnimation(Animation.SET_MONSTER,cardName,addressOfAddToZone,selectedCellAddress,true);
 
         //TRAPS :
         if (isTorrentialTributeTrapToActivateInSet(getCurrentPlayer())) {
