@@ -93,8 +93,10 @@ public class GameView {
     public ImageView muteUnmuteButton;
     public ImageView settingButton;
     private ArrayList<Pane> currentMonsterZonePanes;
-
+    private Utility utility;
     public void initialize() {
+         utility = new Utility();
+        utility.addImages();
         canGoToNext[0] = false;
         if (!Music.isMediaPlayerPaused) playPauseMusicButton.setImage(Icon.PAUSE.getImage());
         else playPauseMusicButton.setImage(Icon.PLAY.getImage());
@@ -158,9 +160,8 @@ public class GameView {
     }
 
     public Image getCardImageByName(String cardName) {
-        Utility util = new Utility();
-        util.addImages();
-        HashMap<String, Image> stringImageHashMap = util.getStringImageHashMap();
+
+        HashMap<String, Image> stringImageHashMap = utility.getStringImageHashMap();
         for (String name : stringImageHashMap.keySet()) {
             if (name.equals(cardName)) {
                 return stringImageHashMap.get(name);
@@ -259,7 +260,6 @@ public class GameView {
     }
 
     private synchronized Node getNodeInGridPane(GridPane gridPane, int row, int column) {
-        System.out.println(row + "   " + column);
         synchronized (gridPane) {
             for (Node child : gridPane.getChildren()) {
                 if (child != null)
@@ -1557,6 +1557,7 @@ public class GameView {
         for (int i = 0; i < currentHand.getChildren().size(); i++) {
             Node node = getNodeInGridPane(currentHand, 0, i);
             ArrayList<Card> hand = (ArrayList<Card>) RoundGameController.getInstance().getCurrentPlayerHand();
+            System.out.println("curr player : "+RoundGameController.getInstance().getCurrentPlayer());
             Card card = hand.get(i);
             if (node != null) {
                 int finalI = i;

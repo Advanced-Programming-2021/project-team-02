@@ -55,7 +55,7 @@ public class DuelGameController {
             second = duel.getPlayer2();
         }
         //view.showSuccessMessage(SuccessMessage.GAME_STARTED);
-        // RoundGameController.getInstance().setRoundInfo(first, second, GameView.getInstance(), this, duel.isWithAi());
+        RoundGameController.getInstance().setRoundInfo(first, second, instance,  duel.isWithAi());
 
     }
 

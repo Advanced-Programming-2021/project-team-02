@@ -24,3 +24,18 @@
     -fx-text-fill: white;
     -fx-font-size: 15;
 }
+#menuTitle {
+    -fx-font-size: 36;
+    -fx-text-fill: #ffd500;
+}
+.button {
+    -fx-background-color: #bb792d;
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+    -fx-font-size: 20;
+    -fx-cursor: Hand;
+}
+#menuBar {
+    -fx-border-color: #ffd500;
+    -fx-border-radius: 20;
+}
