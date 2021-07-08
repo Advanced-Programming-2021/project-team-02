@@ -53,7 +53,7 @@ public class ImportExportView {
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        gridPane.setGridLinesVisible(true);
+       // gridPane.setGridLinesVisible(true);
 
 
         int k = 0, j = 0;
@@ -111,7 +111,7 @@ public class ImportExportView {
 
 
 
-        gridPane.add(listView, 3, j + 2);
+     //   gridPane.add(listView, 3, j + 2);
 
         gridPane.setPadding(new Insets(10, 300, 10, 10));
         gridPane.setVgap(0);
@@ -138,6 +138,7 @@ public class ImportExportView {
             System.out.println(fileName);
             ImportExportMessages importExportMessages = ImportExportController.getInstance().importCard(fileName);
             new PopUpMessage(importExportMessages.getAlertType(), importExportMessages.getLabel());
+            listView.getItems().clear();
             for (Card card:CardsDatabase.getAllCards()) {
                 System.out.println(card.getName());
             }
