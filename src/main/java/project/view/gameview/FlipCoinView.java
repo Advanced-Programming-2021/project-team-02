@@ -104,7 +104,7 @@ public class FlipCoinView {
             Button button = new Button("Start Game!");
             button.setOnAction(actionEvent -> {
                 try {
-                    GameView gameView  = Utility.openGameMenu("/project/fxml/round_view.fxml");
+                    GameView gameView  =(GameView) Utility.openMenuAndReturnController("/project/fxml/round_view.fxml");
                     gameView.startGameAndLoadHand();
                     final KeyCombination keyCombination = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY, KeyCombination.SHIFT_ANY);
                     LoginMenuView.getStage().getScene().setOnKeyPressed(keyEvent -> {

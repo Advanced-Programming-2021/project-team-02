@@ -13,8 +13,9 @@ import java.util.ArrayList;
 public class BetweenRoundController {
     private static BetweenRoundController instance = null;
     private BetweenRoundView view;
-
-
+    private DuelPlayer player1;
+    private DuelPlayer player2;
+    private boolean isWithAi;
     private BetweenRoundController() {
     }
 
@@ -23,7 +24,12 @@ public class BetweenRoundController {
             instance = new BetweenRoundController();
         return instance;
     }
-
+    public void addCardToMainFromSide(int cardAddressInSide,DuelPlayer player){
+        ArrayList<Card> mainCards = player.getPlayDeck().getMainCards();
+        ArrayList<Card> sideCards = player.getPlayDeck().getSideCards();
+        mainCards.add(sideCards.get(cardAddressInSide));
+        sideCards.remove(cardAddressInSide);
+    }
     public void changeCard(int cardAddressInMainDeck, int cardAddressInSideDeck, DuelPlayer player) {
         Deck deck = player.getPlayDeck();
         ArrayList<Card> mainCards = player.getPlayDeck().getMainCards();
@@ -59,4 +65,21 @@ public class BetweenRoundController {
         this.view = view;
     }
 
+    public void setPlayer1(DuelPlayer player1,boolean isWithAi) {
+        this.player1 = player1;
+    this.isWithAi = isWithAi;
+    }
+
+    public void setPlayer2(DuelPlayer player2,boolean isWithAi) {
+        this.player2 = player2;
+        this.isWithAi = isWithAi;
+    }
+
+    public DuelPlayer getPlayer1() {
+        return player1;
+    }
+
+    public DuelPlayer getPlayer2() {
+        return player2;
+    }
 }

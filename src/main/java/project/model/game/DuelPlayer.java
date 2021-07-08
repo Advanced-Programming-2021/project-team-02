@@ -16,7 +16,7 @@ public class DuelPlayer {
     public DuelPlayer(String nickname, Deck deck) {
         setNickname(nickname);
         playerBoard = new PlayerBoard();
-        lifePoint = 8000;
+        lifePoint = 1000;
         setPlayDeck(deck);
         avatar = Objects.requireNonNull(User.getUserByNickName(nickname)).getAvatar();
     }

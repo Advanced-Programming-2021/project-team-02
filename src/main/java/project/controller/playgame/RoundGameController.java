@@ -88,11 +88,11 @@ public class RoundGameController {
     }
 
     public void setRoundInfo(DuelPlayer firstPlayer, DuelPlayer secondPlayer, DuelGameController duelGameController, boolean isWithAi) {
-       drawUsed = false;
+        drawUsed = false;
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
-        firstPlayer.setLifePoint(8000);
-        secondPlayer.setLifePoint(8000);
+        firstPlayer.setLifePoint(1000);
+        secondPlayer.setLifePoint(1000);
         this.duelGameController = duelGameController;
         currentPhase = Phase.DRAW_PHASE;
         this.isWithAi = isWithAi;
@@ -977,7 +977,7 @@ public class RoundGameController {
         }
         // check haven't summoned more than once
         if (!isSummonOrSetUsed()) {
-            System.out.println(selectedCell.getCardInCell()+"cant summon cause used!");
+            System.out.println(selectedCell.getCardInCell() + "cant summon cause used!");
             return GameViewMessage.USED_SUMMON_OR_SET;
         }
 //TODO        if (monster.getMonsterActionType().equals(MonsterActionType.RITUAL)) {
@@ -1585,30 +1585,42 @@ public class RoundGameController {
         return GameViewMessage.SUCCESS;
     }
 
-    public void changeMonsterPosition(Matcher matcher) {
+    public GameViewMessage changeMonsterPosition() {
         if (selectedCell == null) {
-            Error.showError(Error.NO_CARD_SELECTED_YET);
-        } else if (matcher == null) {
-            cancel();
-            return;
+            return NO_CARD_SELECTED;
         } else if (!(selectedCellZone == Zone.MONSTER_ZONE)) {
-            Error.showError(Error.CAN_NOT_CHANGE_POSITION);
-        } else if (!(currentPhase == Phase.MAIN_PHASE_1 || currentPhase == Phase.MAIN_PHASE_2)) {
-            Error.showError(Error.ACTION_CAN_NOT_WORK_IN_THIS_PHASE);
-        } else if (!(matcher.group("position").equals("attack") && selectedCell.getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED ||
-                matcher.group("position").equals("defense") && selectedCell.getCellStatus() == CellStatus.OFFENSIVE_OCCUPIED)) {
-            if (selectedCell.getCellStatus() == CellStatus.DEFENSIVE_HIDDEN) Error.showError(Error.DH_POSITION);
-            else Error.showError(Error.CURRENTLY_IN_POSITION);
+            return CANT_CHANGE_POSITION_OF_THIS_CARD;
         } else if (hasCardChangedPosition()) {
-            Error.showError(Error.ALREADY_CHANGED_POSITION);
+            return USED_CHANGE_POSITION;
         } else {
-            if (matcher.group("position").equals("attack")) selectedCell.setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
-            else if (matcher.group("position").equals("defense"))
-                selectedCell.setCellStatus(CellStatus.DEFENSIVE_OCCUPIED);
-            view.showSuccessMessage(SuccessMessage.POSITION_CHANGED_SUCCESSFULLY);
-            changePositionUsed();
-            view.showBoard();
-            deselectCard(0);
+            String position;
+            if (selectedCell.getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED)
+                position = "Attack Position";
+            else if (selectedCell.getCellStatus() == CellStatus.OFFENSIVE_OCCUPIED)
+                position = "Defense Position";
+            else if (selectedCell.getCellStatus() == CellStatus.DEFENSIVE_HIDDEN)
+                position = "Flip Summon";
+            else position = "";
+            if (view.askNewPosition(position)) {
+                switch (position) {
+                    case "Attack Position":
+                        selectedCell.setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
+                        break;
+                    case "Defense Position":
+                        selectedCell.setCellStatus(CellStatus.DEFENSIVE_OCCUPIED);
+                        break;
+                    case "Flip Summon":
+                        flipSummon();
+                        break;
+                    default:
+                        break;
+                }
+                changePositionUsed();
+                view.reloadCurrentAndOpponentMonsterZone();
+                view.showBoard();
+                deselectCard(0);
+                return SUCCESS;
+            } else return NONE;
         }
 
     }
@@ -1646,6 +1658,7 @@ public class RoundGameController {
             if (!getCurrentPlayer().getNickname().equals("ai"))
                 view.showSuccessMessage(SuccessMessage.DEFENSIVE_MONSTER_DESTROYED);
             view.playAnimation(Animation.NORMAL_ATTACK, "", selectedCellAddress, 0, toBeAttackedCardAddress, true);
+            addCardToGraveYard(Zone.MONSTER_ZONE,toBeAttackedCardAddress,getOpponentPlayer());
             checkForYomiShipOrExploderDragonEffect(toBeAttackedCardAddress, opponentCard);
         } else if (damage < 0) {
             checkForManEaterBugAttacked();
@@ -1725,6 +1738,7 @@ public class RoundGameController {
             if (!getCurrentPlayer().getNickname().equals("ai"))
                 view.showSuccessMessage(SuccessMessage.DEFENSIVE_MONSTER_DESTROYED);
             view.playAnimation(Animation.NORMAL_ATTACK, "", selectedCellAddress, 0, toBeAttackedCardAddress, true);
+            addCardToGraveYard(Zone.MONSTER_ZONE,toBeAttackedCardAddress,getOpponentPlayer());
             checkForYomiShipOrExploderDragonEffect(toBeAttackedCardAddress, opponentCard);
         } else if (damage < 0) {
             if (!getCurrentPlayer().getNickname().equals("ai"))
@@ -1907,34 +1921,24 @@ public class RoundGameController {
     }
 
     public void flipSummon() {
-        if (selectedCell == null) {
-            Error.showError(Error.NO_CARD_SELECTED_YET);
-        } else if (!(selectedCellZone == Zone.MONSTER_ZONE)) {
-            Error.showError(Error.CAN_NOT_CHANGE_POSITION);
-        } else if (!(currentPhase == Phase.MAIN_PHASE_1 || currentPhase == Phase.MAIN_PHASE_2)) {
-            Error.showError(Error.ACTION_CAN_NOT_WORK_IN_THIS_PHASE);
-        } else if (selectedCell.getCellStatus() != CellStatus.DEFENSIVE_HIDDEN) {
-            Error.showError(Error.FLIP_SUMMON_NOT_ALLOWED);
+        if (!((Monster) selectedCell.getCardInCell()).getMonsterEffect().equals(MonsterEffect.MAN_EATER_BUG_EFFECT)) {
+            selectedCell.setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
+            view.showSuccessMessage(SuccessMessage.FLIP_SUMMON_SUCCESSFUL);
+            view.showBoard();
+            deselectCard(0);
         } else {
-            if (!((Monster) selectedCell.getCardInCell()).getMonsterEffect().equals(MonsterEffect.MAN_EATER_BUG_EFFECT)) {
-                selectedCell.setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
-                view.showSuccessMessage(SuccessMessage.FLIP_SUMMON_SUCCESSFUL);
-                view.showBoard();
-                deselectCard(0);
-            } else {
-                manEaterBugMonsterEffectAndFlipSummon(getCurrentPlayer(), getOpponentPlayer());
-            }
-            if (isCurrentPlayerTrapToBeActivatedInSummonSituation()) {
-                if (isTrapOfCurrentPlayerInSummonSituationActivated()) {
-                    return;
-                }
-            }
-            if (isOpponentTrapToBeActivatedInSummonSituation(selectedCellAddress)) {
-                view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER, getOpponentPlayer().getNickname());
-                isOpponentTrapInSummonSituationActivated(selectedCellAddress);
-            }
-
+            manEaterBugMonsterEffectAndFlipSummon(getCurrentPlayer(), getOpponentPlayer());
         }
+        if (isCurrentPlayerTrapToBeActivatedInSummonSituation()) {
+            if (isTrapOfCurrentPlayerInSummonSituationActivated()) {
+                return;
+            }
+        }
+        if (isOpponentTrapToBeActivatedInSummonSituation(selectedCellAddress)) {
+            view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER, getOpponentPlayer().getNickname());
+            isOpponentTrapInSummonSituationActivated(selectedCellAddress);
+        }
+
 
     }
 
@@ -2554,19 +2558,22 @@ public class RoundGameController {
     private void finishRound(DuelPlayer winner) {
         duelGameController.getDuel().finishRound();
         isFinishedRound = true;
+
         view.showSuccessMessageWithAString(SuccessMessage.ROUND_FINISHED, winner.getNickname());
-        //view.showPopUpMessage();
-        //TODO MenusManager.getInstance().changeMenu(Menu.BETWEEN_ROUNDS);
         DuelPlayer player1 = DuelGameController.getInstance().getDuel().getPlayer1();
         DuelPlayer player2 = DuelGameController.getInstance().getDuel().getPlayer2();
         if (player1.getNickname().equals("ai"))
-            BetweenRoundView.getInstance().setPlayer1(player2, true);
+            BetweenRoundController.getInstance().setPlayer1(player2, true);
         else if (player2.getNickname().equals("ai"))
-            BetweenRoundView.getInstance().setPlayer1(player1, true);
+            BetweenRoundController.getInstance().setPlayer1(player1, true);
         else {
-            BetweenRoundView.getInstance().setPlayer1(player1, false);
-            BetweenRoundView.getInstance().setPlayer2(player2);
+            BetweenRoundController.getInstance().setPlayer1(player1, false);
+            BetweenRoundController.getInstance().setPlayer2(player2,false);
         }
+        view.showPopUpMessageForRoundWinner(winner.getNickname());
+        //TODO MenusManager.getInstance().changeMenu(Menu.BETWEEN_ROUNDS);
+
+
 
         DuelGameController.getInstance().setSpecifier(winner.getNickname());
         clear();

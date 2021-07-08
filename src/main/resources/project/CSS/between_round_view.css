@@ -1,0 +1,26 @@
+@font-face {
+    font-family: 'Matrix II Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Matrix II'), url('../font/MatrixII/MatrixIIRegular.otf') format('otf');
+}
+
+#secondPane {
+    -fx-font-family: "Matrix II Regular";
+    -fx-font-size: 15;
+    -fx-background-color: #103188;
+    -fx-background-size: cover;
+}
+#mainDeckPane{
+    -fx-background-color: #00062b;
+}
+#sideDeckPane{
+   -fx-background-color: #00062b;
+}
+#cardBox{
+    -fx-background-color: #00062b;
+}
+#description{
+    -fx-text-fill: white;
+    -fx-font-size: 15;
+}
