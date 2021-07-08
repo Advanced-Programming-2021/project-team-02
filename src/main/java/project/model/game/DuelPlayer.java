@@ -53,6 +53,7 @@ public class DuelPlayer {
 
     public void increaseLP(int amount) {
         lifePoint += amount;
+
     }
 
     public int getLifePoint() {

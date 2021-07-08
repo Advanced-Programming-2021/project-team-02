@@ -14,6 +14,13 @@ public enum GameViewMessage {
     CAN_NOT_ACTIVE_TRAP_IN_HAND("you can’t activate effect of trap in hand", Alert.AlertType.ERROR),
     PREPARATIONS_IS_NOT_DONE("Preparations of this spell are not done yet", Alert.AlertType.ERROR),
     NOT_ENOUGH_CARD_TO_TRIBUTE("You dont have enough cards to tribute", Alert.AlertType.ERROR),
+    MUST_DRAW_CARD("You must draw card!", Alert.AlertType.ERROR),
+    CANCELED("",null),
+ CAN_NOT_ATTACK_WITH_THIS_CARD("Cant attack with this card!", Alert.AlertType.ERROR),
+    ATTACK_USED_BEFORE("Attack used before", Alert.AlertType.ERROR),
+    NO_CARD_SELECTED("No card selected", Alert.AlertType.ERROR),
+    CHOOSE_CARD_TO_ATTACK("Choose the card to be attacked", Alert.AlertType.INFORMATION),
+    GAME_FINISHED("Game finished and winner is : ", Alert.AlertType.INFORMATION),
     SUCCESS("Success!", Alert.AlertType.INFORMATION);
     private final String label;
     private final Alert.AlertType alertType;

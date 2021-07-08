@@ -2,6 +2,7 @@ package project.controller;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import project.model.Assets;
 import project.model.Deck;
@@ -20,7 +21,7 @@ import java.util.Objects;
 public class DeckMenuController {
     private static  DeckMenuController instance = null;
     private Label openedDeck;
-    private Button openedDeckButton;
+    private ImageView openedDeckButton;
 
     private DeckMenuController(){
 
@@ -286,11 +287,11 @@ public class DeckMenuController {
         this.openedDeck = openedDeck;
     }
 
-    public Button getOpenedDeckButton() {
+    public ImageView getOpenedDeckButton() {
         return openedDeckButton;
     }
 
-    public void setOpenedDeckButton(Button openedDeckButton) {
+    public void setOpenedDeckButton(ImageView openedDeckButton) {
         this.openedDeckButton = openedDeckButton;
     }
 }
