@@ -299,7 +299,6 @@ public class EditDeckMenu {
     }
 
     private void showEdit(String deckName) {
-
         ArrayList<Deck> arrayList = Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllDecks();
         for (Deck deck : arrayList) {
             int counter = 0;
@@ -307,15 +306,15 @@ public class EditDeckMenu {
             if (deck.getName().equals(deckName)) {
 
                 for (i = 0, j = 0; counter < deck.getMainCards().size(); ) {
-                    if (i >= 15) {
+                    if (i >= 6) {
                         j++;
                         i = 0;
                     }
                     if (utility.getStringImageHashMap().containsKey(deck.getMainCards().get(counter).getName())) {
                         ImageView imageView = new ImageView(utility.getStringImageHashMap().get(deck.getMainCards().get(counter).getName()));
                         imageView.setId(deck.getMainCards().get(counter).getName());
-                        imageView.setFitHeight(100);
-                        imageView.setFitWidth(100);
+                        imageView.setFitHeight(240);
+                        imageView.setFitWidth(175);
                         int finalJ1 = j;
                         int finalI1 = i;
                         imageView.setOnMouseClicked(mouseEvent -> {
@@ -325,6 +324,8 @@ public class EditDeckMenu {
                             addOrDeleteCard(imageView, "i");
                         });
                         gridScrollPane.add(imageView, i, j);
+                        gridScrollPane.setHgap(25);
+                        gridScrollPane.setVgap(25);
                         i++;
                     }
                     counter++;
@@ -333,24 +334,20 @@ public class EditDeckMenu {
                 //V1 : fasele ofoghi : har chi nishtar fasele kamtar
                 //V2 fasele amoodi : harchi kamtar fasele bishtar
 
-                Label label = new Label("Side Cards : ");
-                label.setFont(Font.font("Cambria", 18));
-                label.setTextFill(Color.web("#0076a3"));
-                label.setPrefWidth(100);
-                label.setPrefHeight(100);
+                Label label = new Label("Side Cards");
                 gridScrollPane.add(label, 0, j + 1);
                 int counter2 = 0;
                 int k, l;
                 for (k = 0, l = j + 2; counter2 < deck.getSideCards().size(); ) {
-                    if (k >= 15) {
+                    if (k >= 6) {
                         l++;
                         k = 0;
                     }
                     if (utility.getStringImageHashMap().containsKey(deck.getSideCards().get(counter2).getName())) {
                         ImageView imageView = new ImageView(utility.getStringImageHashMap().get(deck.getSideCards().get(counter2).getName()));
                         imageView.setId(deck.getSideCards().get(counter2).getName());
-                        imageView.setFitHeight(100);
-                        imageView.setFitWidth(100);
+                        imageView.setFitHeight(240);
+                        imageView.setFitWidth(175);
                         int finalK2 = k;
                         imageView.setOnMouseClicked(mouseEvent -> {
                             endOFK = finalK2;
@@ -361,73 +358,47 @@ public class EditDeckMenu {
                     }
                     counter2++;
                 }
-
-                Button button = new Button("Back");
-                button.setOnMouseClicked(actionEvent -> {
-                    try {
-                        back(actionEvent);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
-                gridScrollPane.add(button, 0, 6);
-
-                Button deleteButton = new Button("delete");
-                deleteButton.setOnAction(event -> deleteCard(deckMenuController));
-                gridScrollPane.add(deleteButton, 0, 7);
-
-                Button addButton = new Button("add Card");
-                addButton.setOnMouseClicked(mouseEvent -> {
-                    try {
-                        addCards(mouseEvent);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
-                gridScrollPane.add(addButton, 0, 8);
-
-                gridScrollPane.setPadding(new Insets(0, 0, -700, 0));
             }
         }
     }
 
-    private void addCards(MouseEvent mouseEvent) throws IOException {
+    public void addCards(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
         Utility.openNewMenu("/project/fxml/deck_menu_add_card.fxml");
     }
 
-    private void back(MouseEvent mouseEvent) throws IOException {
+    public void back(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
         Utility.openNewMenu("/project/fxml/deck_menu.fxml");
     }
 
-    private void deleteCard(DeckMenuController deckMenuController) {
+    public void deleteCard() {
         if (cardName == null) {
             new PopUpMessage(DeckMenuMessage.YOU_DID_NOT_SELECT_ANY_CARD.getAlertType(),
                     DeckMenuMessage.YOU_DID_NOT_SELECT_ANY_CARD.getLabel());
         } else {
             if (side.equals("i")) {
                 DeckMenuMessage deckMenuMessage = Objects.requireNonNull(
-                        Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).removeCardFromMainDeck((endOFJ) * 15 + endOFI,
+                        Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).removeCardFromMainDeck((endOFJ) * 6 + endOFI,
                         Objects.requireNonNull(
-                                Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getDeckByDeckName(deckMenuController.getOpenedDeckButton().getId()));
+                                Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getDeckByDeckName(EditDeckMenu.deckMenuController.getOpenedDeckButton().getId()));
                 new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
                 gridScrollPane.getChildren().clear();
-                showEdit(deckMenuController.getOpenedDeckButton().getId());
+                showEdit(EditDeckMenu.deckMenuController.getOpenedDeckButton().getId());
             } else if (side.equals("k")) {
                 DeckMenuMessage deckMenuMessage = Objects.requireNonNull(
                         Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).removeCardFromSideDeck(endOFK,
                         Objects.requireNonNull(
-                                Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getDeckByDeckName(deckMenuController.getOpenedDeckButton().getId()));
+                                Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getDeckByDeckName(EditDeckMenu.deckMenuController.getOpenedDeckButton().getId()));
                 new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
                 gridScrollPane.getChildren().clear();
-                showEdit(deckMenuController.getOpenedDeckButton().getId());
+                showEdit(EditDeckMenu.deckMenuController.getOpenedDeckButton().getId());
             }
         }
     }
 
-    private void addOrDeleteCard(ImageView imageView, String sidee) {
+    public void addOrDeleteCard(ImageView imageView, String sideString) {
         cardName = imageView.getId();
-        side = sidee;
+        side = sideString;
     }
 }

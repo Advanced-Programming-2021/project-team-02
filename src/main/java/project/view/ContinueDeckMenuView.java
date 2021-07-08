@@ -1,10 +1,7 @@
 package project.view;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -324,7 +321,7 @@ public class ContinueDeckMenuView {
                 //V2 fasele amoodi : harchi kamtar fasele bishtar
                 gridPaneInfo.setPadding(new Insets(0, 0, 150, 0));
 
-                Label label = new Label("Side Cards : ");
+                Label label = new Label("Side Cards: ");
                 label.setFont(Font.font("Cambria", 18));
                 label.setTextFill(Color.web("#0076a3"));
                 label.setPrefWidth(100);

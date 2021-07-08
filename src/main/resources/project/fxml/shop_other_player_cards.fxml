@@ -7,7 +7,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.ShopOtherPlayerCards">
+<ScrollPane id="secondPane" fx:id="scrollPane" hbarPolicy="NEVER" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.ShopOtherPlayerCards">
     <VBox id="firstBox" prefHeight="1080.0" prefWidth="1920.0">
         <VBox id="secondBox" prefHeight="1920.0" prefWidth="1920.0">
             <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="1770.0">

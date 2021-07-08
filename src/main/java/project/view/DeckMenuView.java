@@ -14,7 +14,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -26,7 +25,6 @@ import project.model.Music;
 import project.model.User;
 import project.model.card.Card;
 import project.view.messages.DeckMenuMessage;
-import project.view.messages.LoginMessage;
 import project.view.messages.PopUpMessage;
 import project.view.messages.ProfileMenuMessage;
 
