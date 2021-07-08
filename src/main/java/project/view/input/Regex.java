@@ -60,6 +60,7 @@ public class Regex {
     public static final String CHEAT_INCREASE_MONEY = "^increase --money (?<moneyAmount>\\d+)$";
     public static final List<String> CHEAT_SELECT_HAND;
     public static final String CHEAT_INCREASE_LP = "^increase --LP (?<LPAmount>\\d+)$";
+    public static final String CHEAT_DECREASE_LP = "^decrease --opponent --LP (?<LPAmount>\\d+)$";
     public static final String CHEAT_DUEL_SET_WINNER = "^duel set-winner (?<winnerNickName>\\w+?)$";
     public static final String IMPORT_CARD = "^import card (?<cardName>[A-Za-z ',-]+)$";
     public static final String EXPORT_CARD = "^export card (?<cardName>[A-Za-z ',-]+)$";
