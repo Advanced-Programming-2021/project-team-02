@@ -59,6 +59,7 @@
     -fx-background-radius: 10;
     -fx-text-fill: white;
     -fx-font-size: 16;
+    -fx-cursor: hand;
 }
 
 #windowCloseButton {

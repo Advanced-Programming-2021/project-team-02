@@ -114,6 +114,7 @@ public class ProfileMenuView {
         closeButton.setOnAction(event -> {
             window.close();
             usernameTextField.clear();
+            PopUpMessage.setStage(LoginMenuView.getStage());
         });
         closeButton.setCursor(Cursor.HAND);
         closeButton.setId("closeButton");
@@ -191,7 +192,10 @@ public class ProfileMenuView {
 
         Button closeButton = new Button();
         closeButton.setText("Close");
-        closeButton.setOnAction(event -> window.close());
+        closeButton.setOnAction(event -> {
+            window.close();
+            PopUpMessage.setStage(LoginMenuView.getStage());
+        });
         closeButton.setCursor(Cursor.HAND);
         closeButton.setId("closeButton");
 
@@ -298,7 +302,10 @@ public class ProfileMenuView {
 
         Button closeButton = new Button();
         closeButton.setText("Close");
-        closeButton.setOnAction(event -> window.close());
+        closeButton.setOnAction(event -> {
+            window.close();
+            PopUpMessage.setStage(LoginMenuView.getStage());
+        });
         closeButton.setCursor(Cursor.HAND);
         closeButton.setId("closeButton");
 

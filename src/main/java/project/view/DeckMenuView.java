@@ -14,7 +14,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -26,12 +25,10 @@ import project.model.Music;
 import project.model.User;
 import project.model.card.Card;
 import project.view.messages.DeckMenuMessage;
-import project.view.messages.LoginMessage;
 import project.view.messages.PopUpMessage;
 import project.view.messages.ProfileMenuMessage;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -40,7 +37,6 @@ public class DeckMenuView {
     private static final DeckMenuController controller = DeckMenuController.getInstance();
     public ImageView playPauseMusicButton;
     public ImageView muteUnmuteButton;
-
     HashMap<String, Image> imageHashMap;
     @FXML
     public GridPane gridPaneAsli;
@@ -53,11 +49,15 @@ public class DeckMenuView {
     public static Label labelDeck;
     public static final Image deckImage = new Image(String.valueOf(DeckMenuView.class.getResource("/project/image/GamePictures/DeckPicture.jpg")));
     public static final Image editDeckImage = new Image(String.valueOf(DeckMenuView.class.getResource("/project/image/Icon/edit.png")));
-    public static final Image deleteDeckImage = new Image(String.valueOf(DeckMenuView.class.getResource("/project/image/Icon/close.png")));
+    public static final Image deleteDeckImage = new Image(String.valueOf(DeckMenuView.class.getResource("/project/image/Icon/remove.png")));
+    public static final Image activateImage = new Image(String.valueOf(DeckMenuView.class.getResource("/project/image/Icon/checked.png")));
+    public static final Image deactivateImage = new Image(String.valueOf(DeckMenuView.class.getResource("/project/image/Icon/cancel.png")));
+    public static final ArrayList<ImageView> activateImageViews = new ArrayList<>();
+    public static final User user = MainMenuController.getInstance().getLoggedInUser();
+    public static final ArrayList<Deck> deckArrayList = Objects.requireNonNull(Assets.getAssetsByUsername(user.getUsername())).getAllDecks();
 
     @FXML
     public void initialize() {
-        User user = MainMenuController.getInstance().getLoggedInUser();
 //        User mahdi = new User("mahdi", "12345", "test");
 //        Objects.requireNonNull(Assets.getAssetsByUsername(mahdi.getUsername())).createDeck("test1");
 //        Objects.requireNonNull(Assets.getAssetsByUsername(mahdi.getUsername())).createDeck("test2");
@@ -71,18 +71,13 @@ public class DeckMenuView {
 //                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test1"));
 //        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
 //                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test1"));
-
-
         Utility utility = new Utility();
         utility.addImages();
         imageHashMap = utility.getStringImageHashMap();
-        showDecks(user);
+        showDecks();
     }
 
-    private void showDecks(User user) {
-        ArrayList<Deck> deckArrayList = Objects.requireNonNull(Assets.getAssetsByUsername(user.getUsername())).getAllDecks();
-
-        System.out.println(Objects.requireNonNull(Assets.getAssetsByUsername(user.getUsername())).getAllDecks().size());
+    private void showDecks() {
         int counterJ = 0;
         int counterSize = 0;
         for (int i = 0, j = 0; counterSize < Objects.requireNonNull(Assets.getAssetsByUsername(user.getUsername())).getAllDecks().size(); i++) {
@@ -91,17 +86,10 @@ public class DeckMenuView {
                 i = 0;
                 counterJ = 0;
             }
-            System.out.println(deckArrayList.get(counterSize).getName());
             Label labelDeckName = new Label(deckArrayList.get(counterSize).getName());
             labelDeckName.setContentDisplay(ContentDisplay.CENTER);
             labelDeckName.setStyle("-fx-text-fill: #ffd500; -fx-font-size: 18; -fx-cursor: hand;");
-            labelDeckName.setOnMouseClicked(event -> {
-                try {
-                    showDeckInfoAsli(labelDeckName, event);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
+
             ImageView deckIcon = new ImageView(deckImage);
             deckIcon.setFitWidth(150);
             deckIcon.setFitHeight(150);
@@ -117,6 +105,19 @@ public class DeckMenuView {
             labelNumberOfCardsSide.setPrefHeight(30);
             labelNumberOfCardsSide.setStyle("-fx-text-fill: white");
 
+            ImageView activateButton = new ImageView();
+            activateImageViews.add(activateButton);
+            activateButton.setFitHeight(30);
+            activateButton.setFitWidth(30);
+            activateButton.setId(deckArrayList.get(i).getName());
+            activateButton.setStyle("-fx-cursor: hand;");
+            if (deckArrayList.get(i).isActivated()) activateButton.setImage(activateImage);
+            else activateButton.setImage(deactivateImage);
+            activateButton.setOnMouseClicked(event -> {
+                if (event.getButton() != MouseButton.PRIMARY) return;
+                activateDeck(activateButton);
+            });
+
             ImageView buttonDelete = new ImageView(deleteDeckImage);
             buttonDelete.setId(deckArrayList.get(i).getName());
             buttonDelete.setFitHeight(30);
@@ -129,8 +130,8 @@ public class DeckMenuView {
 
             ImageView buttonEdit = new ImageView(editDeckImage);
             buttonEdit.setId(deckArrayList.get(i).getName());
-            buttonEdit.setFitHeight(30);
-            buttonEdit.setFitWidth(30);
+            buttonEdit.setFitHeight(25);
+            buttonEdit.setFitWidth(25);
             buttonEdit.setStyle("-fx-cursor: hand;");
             buttonEdit.setOnMouseClicked(event -> {
                 try {
@@ -141,14 +142,20 @@ public class DeckMenuView {
                 }
             });
 
-            HBox deckButtonsContainer = new HBox(90);
-            deckButtonsContainer.getChildren().addAll(buttonEdit, buttonDelete);
+            VBox deckContainer = new VBox(10);
+            deckContainer.setPadding(new Insets(10, 10, 10, 10));
+            deckContainer.setAlignment(Pos.CENTER);
+            deckContainer.getChildren().addAll(labelDeckName, labelNumberOfCardsMain, labelNumberOfCardsSide);
 
-            VBox layout = new VBox(10);
-            layout.setPadding(new Insets(10, 10, 10, 10));
-            layout.setStyle("-fx-border-radius: 10; -fx-border-color: white;");
-            layout.setAlignment(Pos.CENTER);
-            layout.getChildren().addAll(labelDeckName, deckButtonsContainer, labelNumberOfCardsMain, labelNumberOfCardsSide);
+            VBox controlsContainer = new VBox(10);
+            controlsContainer.setPadding(new Insets(10, 10, 10, 10));
+            controlsContainer.setStyle("-fx-border-width: 0 0 0 1; -fx-border-color: white;");
+            controlsContainer.setAlignment(Pos.CENTER);
+            controlsContainer.getChildren().addAll(activateButton, buttonEdit, buttonDelete);
+
+            HBox layout = new HBox();
+            layout.setStyle("-fx-border-radius: 10; -fx-border-color: white; -fx-background-color: #323c46; -fx-background-radius: 10;");
+            layout.getChildren().addAll(deckContainer, controlsContainer);
 
             gridPaneAsli.add(layout, i, j);
             counterJ++;
@@ -160,11 +167,18 @@ public class DeckMenuView {
         gridPaneAsli.setHgap(25);
     }
 
+    private void activateDeck(ImageView button) {
+        DeckMenuMessage deckMenuMessage = controller.activateDeck(button.getId());
+        new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
+        for (ImageView activateImageView : activateImageViews) {
+            if (activateImageView.getId().equals(button.getId())) activateImageView.setImage(activateImage);
+            else activateImageView.setImage(deactivateImage);
+        }
+    }
+
     public void editDeck(javafx.scene.input.MouseEvent actionEvent, ImageView button) throws IOException {
         controller.setOpenedDeckButton(button);
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
-        URL urlMain = getClass().getResource("/project/fxml/deck_menu_info.fxml");
-        System.out.println(urlMain);
         Utility.openNewMenu("/project/fxml/edit_deck_menu.fxml");
     }
 
@@ -234,14 +248,6 @@ public class DeckMenuView {
         }
     }
 
-    private void showDeckInfoAsli(Label labelDeckName, javafx.scene.input.MouseEvent mouseEvent) throws IOException {
-        controller.setOpenedDeck(labelDeckName);
-        if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
-        URL urlMain = getClass().getResource("/project/fxml/deck_menu_info.fxml");
-        System.out.println(urlMain);
-        Utility.openNewMenu("/project/fxml/deck_menu_info.fxml");
-    }
-
     private void loadAddCard(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
         Utility.openNewMenu("/project/fxml/deck_menu.fxml");
@@ -252,7 +258,7 @@ public class DeckMenuView {
         new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
         if (deckMenuMessage == DeckMenuMessage.DECK_DELETED)
             gridPaneAsli.getChildren().clear();
-        showDecks(MainMenuController.getInstance().getLoggedInUser());
+        showDecks();
     }
 
     public void nextTrack(MouseEvent actionEvent) {
