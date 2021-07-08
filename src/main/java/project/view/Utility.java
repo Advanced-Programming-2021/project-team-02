@@ -96,8 +96,8 @@ public class Utility {
         stringImageHashMap.put("NEW", new Image(String.valueOf(getClass().getResource("/project/image/DeckMenuPictures/Picture.jpg"))));
 
     }
-    public static GameView openGameMenu(String url) throws IOException {
-        FXMLLoader loader = new FXMLLoader(Utility.class.getResource("/project/fxml/round_view.fxml"));
+    public static Object openMenuAndReturnController(String url) throws IOException {
+        FXMLLoader loader = new FXMLLoader(Utility.class.getResource(url));
         Parent newSecondPane = loader.load();
         mainPane.getChildren().remove(secondPane);
         mainPane.setCenter(newSecondPane);

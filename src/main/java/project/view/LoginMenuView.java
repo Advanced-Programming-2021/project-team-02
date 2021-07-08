@@ -174,7 +174,7 @@ public class LoginMenuView extends Application {
         erfanAsset.addCardToMainDeck(Card.getCardByName("Beast King Barbaros"),erfandeck);
         erfanAsset.addCardToMainDeck(Card.getCardByName("The Tricky"),erfandeck);
         outer:
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 2; i++) {
             for (Monster monster : allMonsters) {
                 if (monster.getMonsterActionType() == MonsterActionType.NORMAL && monster.getLevel() >= 4) {
                     erfanAsset.addCardToMainDeck(monster, erfandeck);
@@ -191,6 +191,9 @@ public class LoginMenuView extends Application {
             counter++;
             if (counter == 25)
                 break;
+        }
+        for (int i = 0; i < 12; i ++){
+            erfanAsset.addCardToSideDeck(allMonsters.get(i),erfandeck);
         }
         erfanAsset.addCardToMainDeck(Card.getCardByName("Beast King Barbaros"),erfandeck);
         erfanAsset.addCardToMainDeck(Card.getCardByName("The Tricky"),erfandeck);
@@ -210,6 +213,9 @@ public class LoginMenuView extends Application {
         }
         for (Spell spell : allSpells) {
             mahdisAsset.addCardToMainDeck(spell,mahdisDeck);
+        }
+        for (int i = 0; i < 10; i ++){
+            mahdisAsset.addCardToSideDeck(allMonsters.get(i),mahdisDeck);
         }
         mahdisAsset.addCardToMainDeck(Card.getCardByName("Beast King Barbaros"),mahdisDeck);
         mahdisAsset.addCardToMainDeck(Card.getCardByName("The Tricky"),mahdisDeck);

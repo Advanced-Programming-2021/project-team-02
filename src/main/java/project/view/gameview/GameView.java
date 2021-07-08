@@ -93,8 +93,10 @@ public class GameView {
     public ImageView muteUnmuteButton;
     public ImageView settingButton;
     private ArrayList<Pane> currentMonsterZonePanes;
-
+    private Utility utility;
     public void initialize() {
+         utility = new Utility();
+        utility.addImages();
         canGoToNext[0] = false;
         if (!Music.isMediaPlayerPaused) playPauseMusicButton.setImage(Icon.PAUSE.getImage());
         else playPauseMusicButton.setImage(Icon.PLAY.getImage());
@@ -158,9 +160,8 @@ public class GameView {
     }
 
     public Image getCardImageByName(String cardName) {
-        Utility util = new Utility();
-        util.addImages();
-        HashMap<String, Image> stringImageHashMap = util.getStringImageHashMap();
+
+        HashMap<String, Image> stringImageHashMap = utility.getStringImageHashMap();
         for (String name : stringImageHashMap.keySet()) {
             if (name.equals(cardName)) {
                 return stringImageHashMap.get(name);
@@ -220,7 +221,7 @@ public class GameView {
         if (node != null) {
             nodePoint = node.localToScene(new Point2D(0, 0));
         } else {
-            nodePoint = new Point2D(304.0, 694.0);
+            nodePoint = new Point2D(306.0, 694.0);
         }
         translateTransition.setNode(cardImageView);
         translateTransition.setFromX(deck.getX());
@@ -259,7 +260,6 @@ public class GameView {
     }
 
     private synchronized Node getNodeInGridPane(GridPane gridPane, int row, int column) {
-        System.out.println(row + "   " + column);
         synchronized (gridPane) {
             for (Node child : gridPane.getChildren()) {
                 if (child != null)
@@ -331,7 +331,7 @@ public class GameView {
         else if (Regex.getMatcher(Regex.BOARD_GAME_SET, command).matches())
             controller.setCard();
         else if ((matcher = Regex.getMatcher(Regex.BOARD_GAME_SET_POSITION, command)).matches())
-            controller.changeMonsterPosition(matcher);
+            ;//controller.changeMonsterPosition();
         else if (Regex.getMatcher(Regex.BOARD_GAME_FLIP_SUMMON, command).matches())
             controller.flipSummon();
         else if ((matcher = Regex.getMatcher(Regex.BOARD_GAME_ATTACK, command)).matches())
@@ -1212,9 +1212,7 @@ public class GameView {
             imageView.setCursor(Cursor.HAND);
             if (monsterCell.getCellStatus() == CellStatus.EMPTY) {
                 pane.setCursor(Cursor.DEFAULT);
-                pane.setOnMouseClicked(mouseEvent -> {
-
-                });
+                pane.setOnMouseClicked(mouseEvent -> {});
                 continue;
             } else if (monsterCell.getCellStatus() == CellStatus.OFFENSIVE_OCCUPIED) {
                 imageView.setImage(getCardImageByName(monsterCell.getCardInCell().getName()));
@@ -1234,8 +1232,6 @@ public class GameView {
                 pane.getChildren().add(imageView);
                 imageView.setFitWidth(94);
                 imageView.setFitHeight(130);
-                imageView.setLayoutY(imageView.getLayoutY());
-                imageView.setLayoutX(imageView.getLayoutX());
             }
 
             int finalI = i;
@@ -1317,13 +1313,11 @@ public class GameView {
                 });
                 continue;
             } else if (monsterCell.getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED) {
-                imageView.setImage(getCardImageByName(monsterCell.getCardInCell().getName()));
                 imageView.setRotate(90);
+                imageView.setImage(getCardImageByName(monsterCell.getCardInCell().getName()));
+                imageView.setFitHeight(130);
+                imageView.setFitWidth(94);
                 pane.getChildren().add(imageView);
-                imageView.setFitWidth(130);
-                imageView.setFitHeight(94);
-                imageView.setLayoutY(imageView.getLayoutY() + 20);
-                imageView.setLayoutX(imageView.getLayoutX() - 19);
             }
             imageView.setOnMouseClicked(mouseEvent -> {
                 if (mouseEvent.getButton() != MouseButton.PRIMARY)
@@ -1404,7 +1398,9 @@ public class GameView {
             setButton.setStyle("-fx-background-color: #bb792d");
             //TODO change position
             changePositionButton.setCursor(Cursor.HAND);
-            //TODO changePositionButton.setOnMouseClicked(!);
+            changePositionButton.setOnMouseClicked(mouseEvent -> {
+                RoundGameController.getInstance().changeMonsterPosition();
+            });
             changePositionButton.setStyle("-fx-background-color: #bb792d");
         } else if (currentPhase == Phase.BATTLE_PHASE) {
             summonOrActivateButton.setOnMouseClicked((Event) -> {
@@ -1561,6 +1557,7 @@ public class GameView {
         for (int i = 0; i < currentHand.getChildren().size(); i++) {
             Node node = getNodeInGridPane(currentHand, 0, i);
             ArrayList<Card> hand = (ArrayList<Card>) RoundGameController.getInstance().getCurrentPlayerHand();
+            System.out.println("curr player : "+RoundGameController.getInstance().getCurrentPlayer());
             Card card = hand.get(i);
             if (node != null) {
                 int finalI = i;
@@ -1912,7 +1909,7 @@ public class GameView {
         fade.play();
     }
 
-    private void reloadCurrentAndOpponentMonsterZone() {
+    public void reloadCurrentAndOpponentMonsterZone() {
         for (int i = 1; i <= 5; i++) {
             Pane zonePane = (Pane) getNodeInGridPane(currentPlayerMonsterZone, 0, i - 1);
             MonsterZone monsterZone = RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().returnMonsterZone();
@@ -1922,16 +1919,21 @@ public class GameView {
                 int finalI = i;
                 Cell finalCell1 = cell;
                 ImageView imageView = new ImageView(getCardImageByName(cell.getCardInCell().getName()));
-                imageView.setFitHeight(130);
-                imageView.setFitWidth(94);
+
                 if (cell.getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED) {
+                    imageView.setImage(getCardImageByName(cell.getCardInCell().getName()));
                     imageView.setRotate(90);
-                    imageView.setLayoutX(imageView.getLayoutX());
-                    imageView.setLayoutY(imageView.getLayoutY());
+                    imageView.setFitWidth(94);
+                    imageView.setFitHeight(130);
                 } else if (cell.getCellStatus() == CellStatus.DEFENSIVE_HIDDEN) {
                     imageView.setImage(getCardImageByName("Card Back Set"));
+                    imageView.setFitWidth(130);
+                    imageView.setFitHeight(94);
                     imageView.setLayoutX(imageView.getLayoutX() + 20);
                     imageView.setLayoutY(imageView.getLayoutY() - 19);
+                } else {
+                    imageView.setFitHeight(130);
+                    imageView.setFitWidth(94);
                 }
                 zonePane.getChildren().add(imageView);
                 zonePane.setCursor(Cursor.HAND);
@@ -2142,6 +2144,51 @@ public class GameView {
         mainGamePane.setEffect(null);
         try {
             Utility.openNewMenu("/project/fxml/main_menu.fxml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public boolean askNewPosition(String position) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to change position ? "+ position+" ?");
+        alert.initOwner(LoginMenuView.getStage());
+        alert.initModality(Modality.WINDOW_MODAL);
+        alert.initStyle(StageStyle.TRANSPARENT);
+        DialogPane dialogPane = alert.getDialogPane();
+        ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Yes");
+        ((Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("No");
+        dialogPane.setHeaderText(null);
+        dialogPane.setGraphic(null);
+        dialogPane.setStyle("-fx-border-radius: 10; -fx-border-color: #bb792d; -fx-border-width: 7; -fx-background-radius: 14; -fx-font-family: \"Matrix II Regular\"; -fx-background-color: #103188;");
+        dialogPane.lookup(".content.label").setStyle("-fx-text-fill: white; -fx-font-size: 16; -fx-line-spacing: 5px;");
+        dialogPane.getScene().setFill(Color.TRANSPARENT);
+        ButtonBar buttonBar = (ButtonBar) alert.getDialogPane().lookup(".button-bar");
+        buttonBar.getButtons().forEach(b -> b.setStyle("-fx-background-radius: 10; -fx-background-color: #bb792d; -fx-font-size: 16; -fx-text-fill: white;"));
+        buttonBar.getButtons().forEach(b -> b.setCursor(Cursor.HAND));
+        alert.showAndWait();
+        return alert.getResult().getButtonData().isDefaultButton();
+    }
+    public void showPopUpMessageForRoundWinner(String name) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Round finished! " + name + " won the round!");
+        alert.initOwner(LoginMenuView.getStage());
+        alert.initModality(Modality.WINDOW_MODAL);
+        alert.initStyle(StageStyle.TRANSPARENT);
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.setHeaderText(null);
+        dialogPane.setGraphic(null);
+        dialogPane.setStyle("-fx-border-radius: 10; -fx-border-color: #bb792d; -fx-border-width: 7; -fx-background-radius: 14; -fx-font-family: \"Matrix II Regular\"; -fx-background-color: #103188;");
+        dialogPane.lookup(".content.label").setStyle("-fx-text-fill: white; -fx-font-size: 16; -fx-line-spacing: 5px;");
+        dialogPane.getScene().setFill(Color.TRANSPARENT);
+        ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("OK");
+        ButtonBar buttonBar = (ButtonBar) alert.getDialogPane().lookup(".button-bar");
+        buttonBar.getButtons().forEach(b -> b.setStyle("-fx-background-radius: 10; -fx-background-color: #bb792d; -fx-font-size: 16; -fx-text-fill: white;"));
+        buttonBar.getButtons().forEach(b -> b.setCursor(Cursor.HAND));
+        alert.showAndWait();
+        mainGamePane.setEffect(null);
+        try {
+           BetweenRoundView betweenRoundView =(BetweenRoundView)  Utility.openMenuAndReturnController("/project/fxml/between_rounds_view.fxml");
+           betweenRoundView.startAndLoadBetweenRound();
         } catch (IOException e) {
             e.printStackTrace();
         }

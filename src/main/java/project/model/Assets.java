@@ -123,16 +123,16 @@ public class Assets {
         Deck deck = getDeckByDeckName(name);
         if (deck.isActivated())
             Objects.requireNonNull(User.getUserByUsername(username)).deactivatedDeck();
-        for (Card card : allUserCards.keySet()) {
-            for (Card mainCard : deck.getMainCards()) {
-                if (card.getName().equals(mainCard.getName()))
-                    allUserCards.replace(card, allUserCards.get(card) + 1);
-                for (Card sideCard : deck.getSideCards()) {
-                    if (card.getName().equals(sideCard.getName()))
-                        allUserCards.replace(card, allUserCards.get(card) + 1);
-                }
-            }
-        }
+//        for (Card card : allUserCards.keySet()) {
+//            for (Card mainCard : deck.getMainCards()) {
+//                if (card.getName().equals(mainCard.getName()))
+//                    allUserCards.replace(card, allUserCards.get(card) + 1);
+//                for (Card sideCard : deck.getSideCards()) {
+//                    if (card.getName().equals(sideCard.getName()))
+//                        allUserCards.replace(card, allUserCards.get(card) + 1);
+//                }
+//            }
+//        }
         allDecks.remove(deck);
 //        try {
 //

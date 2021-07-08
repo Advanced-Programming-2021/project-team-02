@@ -16,11 +16,12 @@ public enum GameViewMessage {
     NOT_ENOUGH_CARD_TO_TRIBUTE("You dont have enough cards to tribute", Alert.AlertType.ERROR),
     MUST_DRAW_CARD("You must draw card!", Alert.AlertType.ERROR),
     CANCELED("",null),
- CAN_NOT_ATTACK_WITH_THIS_CARD("Cant attack with this card!", Alert.AlertType.ERROR),
+    CAN_NOT_ATTACK_WITH_THIS_CARD("Cant attack with this card!", Alert.AlertType.ERROR),
     ATTACK_USED_BEFORE("Attack used before", Alert.AlertType.ERROR),
     NO_CARD_SELECTED("No card selected", Alert.AlertType.ERROR),
     CHOOSE_CARD_TO_ATTACK("Choose the card to be attacked", Alert.AlertType.INFORMATION),
-    GAME_FINISHED("Game finished and winner is : ", Alert.AlertType.INFORMATION),
+    CANT_CHANGE_POSITION_OF_THIS_CARD("Can't change position of this card", Alert.AlertType.INFORMATION),
+    USED_CHANGE_POSITION("You have used change position before!", Alert.AlertType.ERROR),
     SUCCESS("Success!", Alert.AlertType.INFORMATION);
     private final String label;
     private final Alert.AlertType alertType;
