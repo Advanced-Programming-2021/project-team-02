@@ -4,6 +4,8 @@ import javafx.scene.control.Alert;
 
 public enum ImportExportMessages {
 
+    CARD_NOT_IMPORTED("card did not imported", Alert.AlertType.ERROR),
+    CARD_IMPORTED("card imported successfully", Alert.AlertType.INFORMATION),
     CARD_NOT_EXPORTED("card did not exported", Alert.AlertType.ERROR),
     CARD_EXPORTED("card exported successfully", Alert.AlertType.INFORMATION);
 

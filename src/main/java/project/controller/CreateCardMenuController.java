@@ -27,9 +27,9 @@ public class CreateCardMenuController {
 
     public CreateCardMessage makeMonster(String replacementForEffect, String enterCardName, String level, String description, String attack
     , String defense, String price) {
-        if (CardsDatabase.getAllCards().contains(Card.getCardByName(enterCardName))) {
-            return CreateCardMessage.REPEATED_NAME;
-        }
+//        if (CardsDatabase.getAllCards().contains(Card.getCardByName(enterCardName))) {
+//            return CreateCardMessage.REPEATED_NAME;
+//        }
         if (replacementForEffect.equals("No Effect")) {
             CardsDatabase.makeCardMonster(CardType.MONSTER, enterCardName, "MADE", MonsterActionType.NORMAL,
                     MonsterEffect.NONE, Integer.parseInt(level), Attribute.DARK, description,

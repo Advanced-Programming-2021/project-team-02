@@ -58,8 +58,10 @@ public class MainMenuView {
     }
 
     public void importExportMenu(MouseEvent actionEvent) throws Exception {
-        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
-        Utility.openNewMenu("/project/fxml/import_export_menu.fxml");
+//        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+//        Utility.openNewMenu("/project/fxml/import_export_menu.fxml");
+        ImportExportView importExportView = new ImportExportView();
+        importExportView.showImages();
     }
 
     public void nextTrack(MouseEvent actionEvent) {

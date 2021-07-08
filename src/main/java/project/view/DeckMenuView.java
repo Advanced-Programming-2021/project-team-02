@@ -81,7 +81,7 @@ public class DeckMenuView {
         int counterJ = 0;
         int counterSize = 0;
         for (int i = 0, j = 0; counterSize < Objects.requireNonNull(Assets.getAssetsByUsername(user.getUsername())).getAllDecks().size(); i++) {
-            if (counterJ == 4) {
+            if (counterJ == 3) {
                 j++;
                 i = 0;
                 counterJ = 0;
@@ -183,7 +183,7 @@ public class DeckMenuView {
     }
 
     public void addDeck() {
-        if (Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllDecks().size() == 8) {
+        if (Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllDecks().size() == 6) {
             new PopUpMessage(DeckMenuMessage.DECK_MAXIMUM_NUMBER.getAlertType(), DeckMenuMessage.DECK_MAXIMUM_NUMBER.getLabel());
         } else {
             Stage window = new Stage();
@@ -208,7 +208,7 @@ public class DeckMenuView {
                     new PopUpMessage(ProfileMenuMessage.INVALID_INPUT.getAlertType(),
                             ProfileMenuMessage.INVALID_INPUT.getLabel());
                 } else {
-                    if (Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllDecks().size() == 8) {
+                    if (Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllDecks().size() == 6) {
                         new PopUpMessage(DeckMenuMessage.DECK_MAXIMUM_NUMBER.getAlertType(), DeckMenuMessage.DECK_MAXIMUM_NUMBER.getLabel());
                     } else {
                         DeckMenuMessage deckMenuMessage = controller.createDeck(textField.getText());
