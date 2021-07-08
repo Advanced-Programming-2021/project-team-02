@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import javafx.util.Duration;
 import project.controller.playgame.DuelGameController;
 import project.model.Music;
@@ -106,6 +107,7 @@ public class FlipCoinView {
                 try {
                     GameView gameView  =(GameView) Utility.openMenuAndReturnController("/project/fxml/round_view.fxml");
                     gameView.startGameAndLoadHand();
+
                     final KeyCombination keyCombination = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY, KeyCombination.SHIFT_ANY);
                     LoginMenuView.getStage().getScene().setOnKeyPressed(keyEvent -> {
                         if(keyCombination.match(keyEvent))
