@@ -1,10 +1,7 @@
 package project.view;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -38,7 +35,7 @@ public class EditDeckMenu {
 
     @FXML
     public void initialize() {
-        Button button = deckMenuController.getOpenedDeckButton();
+        ImageView button = deckMenuController.getOpenedDeckButton();
         utility = new Utility();
         utility.addImages();
         User mahdi = new User("mahdi", "12345", "test");
