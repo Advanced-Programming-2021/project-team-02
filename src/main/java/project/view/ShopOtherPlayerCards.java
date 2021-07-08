@@ -15,7 +15,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import project.controller.MainMenuController;
 import project.controller.ShopMenuController;
+import project.model.Assets;
 import project.model.card.Card;
 import project.model.card.CardsDatabase;
 import project.view.messages.PopUpMessage;
@@ -32,6 +34,7 @@ public class ShopOtherPlayerCards {
 
     @FXML
     public void initialize() {
+        Coin.setText(String.valueOf(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername()).getCoin()));
         utility = new Utility();
         utility.addImages();
 
@@ -77,6 +80,7 @@ public class ShopOtherPlayerCards {
                 buttonBuy.setOnMouseClicked(mouseEvent -> {
                     ShopMenuMessage shopMenuMessage = ShopMenuController.getInstance().buyCard(buttonBuy.getId());
                     new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+                    Coin.setText(String.valueOf(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername()).getCoin()));
                 });
                 buttonBuy.setStyle("-fx-font-size: 15.0; -fx-background-color: #bb792d; -fx-background-radius: 10; -fx-text-fill: white; -fx-cursor: hand;");
 

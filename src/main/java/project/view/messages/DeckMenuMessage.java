@@ -14,7 +14,8 @@ public enum DeckMenuMessage {
     CARD_ADDED_TO_MAIN("Card successfully added to main deck", Alert.AlertType.INFORMATION),
     MAXIMUM("You have maximum number of this card", Alert.AlertType.ERROR),
     DECK_FULL("Deck is full", Alert.AlertType.ERROR),
-    YOU_DID_NOT_SELECT_ANY_CARD("You should select a card first", Alert.AlertType.ERROR);
+    YOU_DID_NOT_SELECT_ANY_CARD("You should select a card first", Alert.AlertType.ERROR),
+    DECK_MAXIMUM_NUMBER("you have been reached the maximum number", Alert.AlertType.ERROR);
 
     private final String label;
     private final Alert.AlertType alertType;
