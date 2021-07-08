@@ -13,9 +13,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import project.controller.ImportExportController;
 import project.controller.MainMenuController;
 import project.model.Assets;
 import project.model.card.CardsDatabase;
+import project.view.messages.ImportExportMessages;
+import project.view.messages.PopUpMessage;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -64,10 +67,11 @@ public class ImportExportView {
                 label.setPrefWidth(100);
                 label.setPrefHeight(200);
 
-                Button Json = new Button("Json");
-                Json.setId(CardsDatabase.getAllCards().get(i - 1).getName());
-                Json.setOnMouseClicked(mouseEvent -> {
-
+                Button gson = new Button("Json");
+                gson.setId(CardsDatabase.getAllCards().get(i - 1).getName());
+                gson.setOnMouseClicked(mouseEvent -> {
+                    ImportExportMessages importExportMessages = ImportExportController.getInstance().exportCard(gson.getId());
+                    new PopUpMessage(importExportMessages.getAlertType(), importExportMessages.getLabel());
                 });
 
                 VBox layout = new VBox(10);
@@ -76,7 +80,7 @@ public class ImportExportView {
                 layout.setPrefWidth(100);
                 layout.setEffect(new DropShadow());
 
-                layout.getChildren().addAll(imageView, label, Json);
+                layout.getChildren().addAll(imageView, label, gson);
 
                 gridPane.add(layout, k, j);
                 k++;
