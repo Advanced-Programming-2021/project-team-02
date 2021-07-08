@@ -44,9 +44,11 @@ public class DeckMenuView {
     HashMap<String, Image> imageHashMap;
     @FXML
     public GridPane gridPaneAsli;
+
     public static Label getLabel() {
         return labelDeck;
     }
+
     @FXML
     public static Label labelDeck;
     public static final Image deckImage = new Image(String.valueOf(DeckMenuView.class.getResource("/project/image/GamePictures/DeckPicture.jpg")));
@@ -167,61 +169,69 @@ public class DeckMenuView {
     }
 
     public void addDeck() {
-        Stage window = new Stage();
-        window.initModality(Modality.WINDOW_MODAL);
-        window.initOwner(LoginMenuView.getStage());
-        window.initStyle(StageStyle.UNDECORATED);
-        window.initStyle(StageStyle.TRANSPARENT);
-        PopUpMessage.setStage(window);
+        if (Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllDecks().size() == 8) {
+            new PopUpMessage(DeckMenuMessage.DECK_MAXIMUM_NUMBER.getAlertType(), DeckMenuMessage.DECK_MAXIMUM_NUMBER.getLabel());
+        } else {
+            Stage window = new Stage();
+            window.initModality(Modality.WINDOW_MODAL);
+            window.initOwner(LoginMenuView.getStage());
+            window.initStyle(StageStyle.UNDECORATED);
+            window.initStyle(StageStyle.TRANSPARENT);
+            PopUpMessage.setStage(window);
 
-        Label title = new Label("New Deck");
-        title.setId("windowTitle");
+            Label title = new Label("New Deck");
+            title.setId("windowTitle");
 
-        Button addDeckButton = new Button("Create Deck");
-        addDeckButton.setId("windowButton");
+            Button addDeckButton = new Button("Create Deck");
+            addDeckButton.setId("windowButton");
 
-        TextField textField = new TextField();
-        textField.setPromptText("Enter Deck Name");
-        textField.setId("windowField");
+            TextField textField = new TextField();
+            textField.setPromptText("Enter Deck Name");
+            textField.setId("windowField");
 
-        addDeckButton.setOnMouseClicked(event -> {
-            if (textField.getText().length() == 0) {
-                new PopUpMessage(ProfileMenuMessage.INVALID_INPUT.getAlertType(),
-                        ProfileMenuMessage.INVALID_INPUT.getLabel());
-            } else {
-                DeckMenuMessage deckMenuMessage = controller.createDeck(textField.getText());
-                new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
-                try {
-                    loadAddCard(event);
-                } catch (IOException e) {
-                    e.printStackTrace();
+            addDeckButton.setOnMouseClicked(event -> {
+                if (textField.getText().length() == 0) {
+                    new PopUpMessage(ProfileMenuMessage.INVALID_INPUT.getAlertType(),
+                            ProfileMenuMessage.INVALID_INPUT.getLabel());
+                } else {
+                    if (Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllDecks().size() == 8) {
+                        new PopUpMessage(DeckMenuMessage.DECK_MAXIMUM_NUMBER.getAlertType(), DeckMenuMessage.DECK_MAXIMUM_NUMBER.getLabel());
+                    } else {
+                        DeckMenuMessage deckMenuMessage = controller.createDeck(textField.getText());
+                        new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
+                        try {
+                            loadAddCard(event);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        textField.clear();
+                    }
                 }
+            });
+
+            Button closeButton = new Button();
+            closeButton.setText("Close");
+            closeButton.setOnAction(event -> {
+                window.close();
                 textField.clear();
-            }
-        });
+                PopUpMessage.setStage(LoginMenuView.getStage());
+            });
+            closeButton.setCursor(Cursor.HAND);
+            closeButton.setId("windowCloseButton");
 
-        Button closeButton = new Button();
-        closeButton.setText("Close");
-        closeButton.setOnAction(event -> {
-            window.close();
-            textField.clear();
-            PopUpMessage.setStage(LoginMenuView.getStage());
-        });
-        closeButton.setCursor(Cursor.HAND);
-        closeButton.setId("windowCloseButton");
+            VBox layout = new VBox(20);
+            layout.setPadding(new Insets(20, 20, 20, 20));
+            layout.getChildren().addAll(title, textField, addDeckButton, closeButton);
+            layout.setAlignment(Pos.CENTER);
+            layout.setId("window");
 
-        VBox layout = new VBox(20);
-        layout.setPadding(new Insets(20, 20, 20, 20));
-        layout.getChildren().addAll(title, textField, addDeckButton, closeButton);
-        layout.setAlignment(Pos.CENTER);
-        layout.setId("window");
-
-        Scene scene = new Scene(layout, 300, 250);
-        scene.getStylesheets().add(String.valueOf(getClass().getResource("/project/CSS/deck_menu.css")));
-        scene.setFill(Color.TRANSPARENT);
-        window.setScene(scene);
-        window.setResizable(true);
-        window.showAndWait();
+            Scene scene = new Scene(layout, 300, 250);
+            scene.getStylesheets().add(String.valueOf(getClass().getResource("/project/CSS/deck_menu.css")));
+            scene.setFill(Color.TRANSPARENT);
+            window.setScene(scene);
+            window.setResizable(true);
+            window.showAndWait();
+        }
     }
 
     private void showDeckInfoAsli(Label labelDeckName, javafx.scene.input.MouseEvent mouseEvent) throws IOException {
@@ -244,7 +254,7 @@ public class DeckMenuView {
                 DeckMenuMessage deckMenuMessage = controller.deleteDeck(button.getId());
                 new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
                 gridPaneAsli.getChildren().clear();
-               // Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).deleteDeck(button.getId());
+                // Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).deleteDeck(button.getId());
                 showDecks(MainMenuController.getInstance().getLoggedInUser());
             }
         }
