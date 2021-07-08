@@ -20,6 +20,7 @@ public enum GameViewMessage {
     ATTACK_USED_BEFORE("Attack used before", Alert.AlertType.ERROR),
     NO_CARD_SELECTED("No card selected", Alert.AlertType.ERROR),
     CHOOSE_CARD_TO_ATTACK("Choose the card to be attacked", Alert.AlertType.INFORMATION),
+    GAME_FINISHED("Game finished and winner is : ", Alert.AlertType.INFORMATION),
     SUCCESS("Success!", Alert.AlertType.INFORMATION);
     private final String label;
     private final Alert.AlertType alertType;

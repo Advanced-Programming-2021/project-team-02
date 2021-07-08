@@ -2,18 +2,11 @@ package project.view.gameview;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
@@ -22,6 +15,7 @@ import project.model.Music;
 import project.model.game.Duel;
 import project.model.game.DuelPlayer;
 import project.model.gui.Icon;
+import project.view.LoginMenuView;
 import project.view.Utility;
 
 import java.io.IOException;
@@ -107,15 +101,17 @@ public class FlipCoinView {
             vBox.getChildren().add(label);
 
             Button button = new Button("Start Game!");
-            button.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    try {
-                        GameView gameView  = Utility.openGameMenu("/project/fxml/round_view.fxml");
-                        gameView.startGameAndLoadHand();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+            button.setOnAction(actionEvent -> {
+                try {
+                    GameView gameView  = Utility.openGameMenu("/project/fxml/round_view.fxml");
+                    gameView.startGameAndLoadHand();
+                    final KeyCombination keyCombination = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY, KeyCombination.SHIFT_ANY);
+                    LoginMenuView.getStage().getScene().setOnKeyPressed(keyEvent -> {
+                        if(keyCombination.match(keyEvent))
+                            gameView.cheat();
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             });
             button.getStylesheets().add(getClass().getResource("/project/CSS/flip_coin_style.css").toString());
