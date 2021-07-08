@@ -25,6 +25,7 @@ public class ImportExportView {
     public GridPane gridPane;
     Utility utility;
 
+
     @FXML
     public void initialize() {
         utility = new Utility();
@@ -39,6 +40,8 @@ public class ImportExportView {
         scrollPane.setFitToHeight(true);
         scrollPane.setPrefWidth(1525);
         scrollPane.setPrefHeight(860);
+        gridPane.setGridLinesVisible(true);
+
 
         int k = 0, j = 0;
         for (int i = 51; i <= CardsDatabase.getAllCards().size(); i++) {
@@ -59,9 +62,13 @@ public class ImportExportView {
                 label.setFont(Font.font("Cambria", 10));
                 label.setTextFill(Color.web("#0076a3"));
                 label.setPrefWidth(100);
-                label.setPrefHeight(30);
+                label.setPrefHeight(200);
 
                 Button Json = new Button("Json");
+                Json.setId(CardsDatabase.getAllCards().get(i - 1).getName());
+                Json.setOnMouseClicked(mouseEvent -> {
+
+                });
 
                 VBox layout = new VBox(10);
                 layout.setPadding(new Insets(10, 10, 10, 40));
@@ -86,6 +93,10 @@ public class ImportExportView {
         });
 
         gridPane.add(button, 7 ,7);
+
+        gridPane.setPadding(new Insets(10, 300, 10, -30));
+        gridPane.setVgap(10);
+        gridPane.setHgap(10);
     }
 
     private void back(MouseEvent mouseEvent) throws IOException {
