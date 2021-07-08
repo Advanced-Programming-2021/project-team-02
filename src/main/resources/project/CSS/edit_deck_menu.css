@@ -1,0 +1,55 @@
+@font-face {
+    font-family: 'Matrix II Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Matrix II'), url('../font/MatrixII/MatrixIIRegular.otf') format('otf');
+}
+
+.root {
+    -fx-font-family: "Matrix II Regular";
+    -fx-font-size: 15;
+    -fx-background-color: #00062b;
+    -fx-background-size: cover;
+}
+
+#secondPane {
+    -fx-font-family: "Matrix II Regular";
+    -fx-font-size: 15;
+    -fx-background-color: #00062b;
+    -fx-background-size: cover;
+}
+
+#firstBox {
+    -fx-font-family: "Matrix II Regular";
+    -fx-font-size: 15;
+    -fx-background-color: #00062b;
+    -fx-background-size: cover;
+    -fx-text-fill: white;
+}
+
+#secondBox {
+    -fx-background-color: #103188;
+    -fx-background-radius: 30;
+}
+
+#button {
+    -fx-font-size: 20.0;
+    -fx-background-color: #bb792d;
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+#menuBar {
+    -fx-border-color: #ffd500;
+    -fx-border-radius: 20;
+}
+
+#menuTitle {
+    -fx-font-size: 36;
+    -fx-text-fill: #ffd500;
+}
+
+.scroll-bar:vertical {
+    -fx-background-color: #00062b;
+}

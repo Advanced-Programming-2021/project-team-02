@@ -37,7 +37,7 @@
          </HBox>
       </HBox>
 
-      <GridPane id="secondBox" fx:id="gridPaneAsli">
+      <GridPane id="secondBox" fx:id="gridPaneAsli" alignment="CENTER">
          <columnConstraints>
             <ColumnConstraints />
             <ColumnConstraints />
@@ -46,6 +46,9 @@
             <RowConstraints />
             <RowConstraints />
          </rowConstraints>
+         <VBox.margin>
+            <Insets top="25.0" />
+         </VBox.margin>
       </GridPane>
 
       <VBox.margin>
