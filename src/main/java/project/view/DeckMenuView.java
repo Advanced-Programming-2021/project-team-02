@@ -248,16 +248,11 @@ public class DeckMenuView {
     }
 
     private void checkDelete(ImageView button) {
-        ArrayList<Deck> arrayList = Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllDecks();
-        for (Deck deck : arrayList) {
-            if (button.getId().equals(deck.getName())) {
-                DeckMenuMessage deckMenuMessage = controller.deleteDeck(button.getId());
-                new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
-                gridPaneAsli.getChildren().clear();
-                // Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).deleteDeck(button.getId());
-                showDecks(MainMenuController.getInstance().getLoggedInUser());
-            }
-        }
+        DeckMenuMessage deckMenuMessage = controller.deleteDeck(button.getId());
+        new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
+        if (deckMenuMessage == DeckMenuMessage.DECK_DELETED)
+            gridPaneAsli.getChildren().clear();
+        showDecks(MainMenuController.getInstance().getLoggedInUser());
     }
 
     public void nextTrack(MouseEvent actionEvent) {

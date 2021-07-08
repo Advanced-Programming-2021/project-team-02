@@ -59,7 +59,7 @@ public class MainMenuView {
 
     public void importExportMenu(MouseEvent actionEvent) throws Exception {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
-        Utility.openNewMenu("/project/fxml/create_card.fxml");
+        Utility.openNewMenu("/project/fxml/import_export_menu.fxml");
     }
 
     public void nextTrack(MouseEvent actionEvent) {
