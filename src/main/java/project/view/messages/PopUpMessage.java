@@ -5,6 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.DialogPane;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -22,20 +23,28 @@ public class PopUpMessage {
             initializeAlert(label, alert);
             setStyleForError(alert);
             setStyleForButton(alert);
+            makeScreenBlur(alert);
             alert.show();
         } else if (alertType.equals(Alert.AlertType.INFORMATION)) {
             alert = new Alert(Alert.AlertType.INFORMATION);
             initializeAlert(label, alert);
             setStyleForInformationAndConfirmation(alert);
             setStyleForButton(alert);
+            makeScreenBlur(alert);
             alert.show();
         } else if (alertType.equals(Alert.AlertType.CONFIRMATION)) {
             alert = new Alert(Alert.AlertType.CONFIRMATION);
             initializeAlert(label, alert);
             setStyleForInformationAndConfirmation(alert);
             setStyleForButton(alert);
+            makeScreenBlur(alert);
             alert.showAndWait();
         }
+    }
+
+    private void makeScreenBlur(Alert alert) {
+        parent.setEffect(new GaussianBlur(15));
+        alert.setOnCloseRequest(dialogEvent -> parent.setEffect(null));
     }
 
     private void initializeAlert(String label, Alert alert) {

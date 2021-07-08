@@ -3,7 +3,6 @@ package project.view;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -15,21 +14,19 @@ import project.controller.MainMenuController;
 import project.model.Music;
 import project.model.User;
 import project.model.gui.Icon;
-import project.view.messages.LoginMessage;
-import project.view.messages.PopUpMessage;
 
 import java.util.ArrayList;
 
 public class ScoreBoardView {
     public VBox secondBox;
-    public AnchorPane pane ;
+    public AnchorPane pane;
     public VBox firstBox;
     public ImageView playPauseMusicButton;
     public ImageView muteUnmuteButton;
-    public ImageView exitButton;
 
     @FXML
     public void initialize() {
+        Music.muteUnmuteButtons.add(muteUnmuteButton);
         if (!Music.isMediaPlayerPaused) playPauseMusicButton.setImage(Icon.PAUSE.getImage());
         else playPauseMusicButton.setImage(Icon.PLAY.getImage());
         if (Music.mediaPlayer.isMute()) muteUnmuteButton.setImage(Icon.MUTE.getImage());
@@ -151,11 +148,5 @@ public class ScoreBoardView {
     public void back(MouseEvent mouseEvent) throws Exception {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
         Utility.openNewMenu("/project/fxml/main_menu.fxml");
-    }
-
-    public void exit(MouseEvent actionEvent) {
-        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
-        PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
-        if (popUpMessage.getAlert().getResult().getText().equals("OK")) System.exit(0);
     }
 }

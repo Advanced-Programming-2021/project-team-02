@@ -35,7 +35,6 @@ public class CreateCards {
     public TextArea description;
     public ListView listView;
     public Button submit;
-    public Label effect;
     public Label price;
     public TextField level;
     public Button calculatePrice;
@@ -49,6 +48,7 @@ public class CreateCards {
 
     @FXML
     public void initialize() {
+        Music.muteUnmuteButtons.add(muteUnmuteButton);
         if (!Music.isMediaPlayerPaused) playPauseMusicButton.setImage(Icon.PAUSE.getImage());
         else playPauseMusicButton.setImage(Icon.PLAY.getImage());
         if (Music.mediaPlayer.isMute()) muteUnmuteButton.setImage(Icon.MUTE.getImage());

@@ -1159,7 +1159,7 @@
                                 <Insets right="55.0" />
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C50" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
                             <padding>
                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                             </padding>
@@ -1217,11 +1217,6 @@
             </HBox>
 
             <HBox spacing="25.0">
-                <Button id="button" mnemonicParsing="false" onMouseClicked="#showCoins" prefHeight="30.0" prefWidth="92.0" text="See Coins">
-                    <HBox.margin>
-                        <Insets left="20.0" />
-                    </HBox.margin>
-                </Button>
                 <Button id="button" fx:id="seeOtherCards" mnemonicParsing="false" onMouseClicked="#seeOtherCardsCreated" prefHeight="30.0" prefWidth="140.0" text="See Player Cards" />
             </HBox>
 

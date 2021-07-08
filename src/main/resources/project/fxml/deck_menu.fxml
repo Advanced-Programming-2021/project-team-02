@@ -1,14 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane id="secondPane" fx:id="gridPaneAsli" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.DeckMenuView">
-   <columnConstraints>
-      <ColumnConstraints />
-      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-      <RowConstraints />
-   </rowConstraints>
-</GridPane>
+<AnchorPane id="secondPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.DeckMenuView">
+   <VBox id="firstBox" alignment="TOP_CENTER" layoutX="40.0" layoutY="40.0" prefHeight="790.0" prefWidth="830.0">
+      <HBox alignment="CENTER_LEFT" layoutX="63.0" prefHeight="64.0" prefWidth="485.0">
+         <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#back" style="-fx-background-color: #00062b" textAlignment="CENTER">
+            <HBox.margin>
+               <Insets right="170.0" />
+            </HBox.margin>
+            <graphic>
+               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                  <Image url="@../image/Icon/previous.png" />
+               </ImageView>
+            </graphic>
+            <cursor>
+               <Cursor fx:constant="HAND" />
+            </cursor>
+         </Button>
+         <HBox id="menuBar" alignment="CENTER" prefHeight="64.0" prefWidth="268.0" spacing="10.0">
+            <ImageView id="icon" fitWidth="35" pickOnBounds="true" preserveRatio="true">
+               <Image url="@../image/Icon/main_menu.png" />
+            </ImageView>
+            <Label id="menuTitle" text="Deck Menu" />
+            <padding>
+               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+            <VBox.margin>
+               <Insets left="125.0" right="125.0" />
+            </VBox.margin>
+         </HBox>
+      </HBox>
+
+      <GridPane id="secondBox" fx:id="gridPaneAsli">
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+      </GridPane>
+
+      <VBox.margin>
+         <Insets />
+      </VBox.margin>
+      <padding>
+         <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+      </padding>
+   </VBox>
+
+   <Button id="button" layoutX="375.0" layoutY="775.0" mnemonicParsing="false" onMouseClicked="#addDeck" text="New Deck" />
+
+   <ImageView fitHeight="56.0" fitWidth="56.0" layoutX="1450.0" layoutY="625.0" onMouseClicked="#nextTrack" pickOnBounds="true" preserveRatio="true">
+      <Image url="@../image/Icon/next_track.png" />
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
+   </ImageView>
+
+   <ImageView fx:id="playPauseMusicButton" fitHeight="56.0" fitWidth="56.0" layoutX="1450.0" layoutY="700.0" onMouseClicked="#playPauseMusic" pickOnBounds="true" preserveRatio="true">
+      <Image url="@../image/Icon/pause.png" />
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
+   </ImageView>
+
+   <ImageView fx:id="muteUnmuteButton" fitHeight="56.0" fitWidth="56.0" layoutX="1450.0" layoutY="775.0" onMouseClicked="#muteUnmuteMusic" pickOnBounds="true" preserveRatio="true">
+      <Image url="@../image/Icon/unmute.png" />
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
+   </ImageView>
+
+   <stylesheets>
+      <URL value="@../CSS/deck_menu.css" />
+   </stylesheets>
+</AnchorPane>

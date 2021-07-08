@@ -104,3 +104,9 @@
 .list-view .scroll-bar:horizontal {
     -fx-background-color: #323c46;
 }
+
+.separator *.line {
+    -fx-border-color: #ffd500;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5;
+}

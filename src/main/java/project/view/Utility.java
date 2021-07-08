@@ -33,6 +33,10 @@ public class Utility {
         Utility.secondPane = secondPane;
     }
 
+    public static Parent getSecondPane() {
+        return secondPane;
+    }
+
     public void addImages() {
         stringImageHashMap.put("Alexandrite Dragon", new Image(String.valueOf(getClass().getResource("/project/image/ShopMenuPictures/Monsters/AlexandriteDragon.jpg"))));
         stringImageHashMap.put("Axe Raider", new Image(String.valueOf(getClass().getResource("/project/image/ShopMenuPictures/Monsters/AxeRaider.jpg"))));

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane id="secondPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.MainMenuView">
-    <VBox id="firstBox" alignment="CENTER" layoutX="166.0" layoutY="94.0" prefHeight="558.0" prefWidth="550.0" spacing="25.0">
+    <VBox id="firstBox" alignment="CENTER" layoutX="165.0" layoutY="136.0" prefHeight="558.0" prefWidth="550.0" spacing="25.0">
         <ImageView fitHeight="137.0" fitWidth="368.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@../image/Icon/YuGiOhText.png" />
         </ImageView>
@@ -22,7 +22,7 @@
                 </ImageView>
                 <Label id="menu" text="Duel" />
                 <padding>
-                    <Insets bottom="2.0" left="5.0" top="2.0" />
+                    <Insets bottom="2.0" left="10.0" top="2.0" />
                 </padding>
             </HBox>
             <HBox id="row" onMouseClicked="#deckMenu" spacing="5.0">
@@ -34,7 +34,7 @@
                 </ImageView>
                 <Label id="menu" text="Deck" />
             <padding>
-               <Insets bottom="2.0" left="5.0" top="2.0" />
+               <Insets bottom="2.0" left="10.0" top="2.0" />
             </padding>
             </HBox>
             <HBox id="row" onMouseClicked="#scoreboardMenu" spacing="5.0">
@@ -46,7 +46,7 @@
                 </ImageView>
                 <Label id="menu" text="Scoreboard" />
                 <padding>
-                    <Insets bottom="2.0" left="5.0" top="2.0" />
+                    <Insets bottom="2.0" left="10.0" top="2.0" />
                 </padding>
             </HBox>
             <HBox id="row" onMouseClicked="#profileMenu" spacing="5.0">
@@ -58,7 +58,7 @@
                 </ImageView>
                 <Label id="menu" text="Profile" />
                 <padding>
-                    <Insets bottom="2.0" left="5.0" top="2.0" />
+                    <Insets bottom="2.0" left="10.0" top="2.0" />
                 </padding>
             </HBox>
             <HBox id="row" onMouseClicked="#shopMenu" spacing="5.0">
@@ -70,7 +70,7 @@
                 </ImageView>
                 <Label id="menu" text="Shop" />
                 <padding>
-                    <Insets bottom="2.0" left="5.0" top="2.0" />
+                    <Insets bottom="2.0" left="10.0" top="2.0" />
                 </padding>
             </HBox>
             <HBox id="row" onMouseClicked="#createCard" spacing="5.0">
@@ -82,7 +82,7 @@
                 </ImageView>
                 <Label id="menu" text="Create Card" />
                 <padding>
-                    <Insets bottom="2.0" left="5.0" top="2.0" />
+                    <Insets bottom="2.0" left="10.0" top="2.0" />
                 </padding>
             </HBox>
             <HBox id="row" onMouseClicked="#importExportMenu" spacing="5.0">
@@ -94,7 +94,7 @@
                 </ImageView>
                 <Label id="menu" text="Import/Export" />
                 <padding>
-                    <Insets bottom="2.0" left="5.0" top="2.0" />
+                    <Insets bottom="2.0" left="10.0" top="2.0" />
                 </padding>
             </HBox>
          <VBox.margin>
@@ -105,7 +105,7 @@
          <Insets bottom="35.0" left="35.0" right="35.0" top="30.0" />
       </padding>
     </VBox>
-    <Button id="button" layoutX="389.0" layoutY="690.0" mnemonicParsing="false" onMouseClicked="#logout" text="Logout" />
+    <Button id="button" layoutX="388.0" layoutY="728.0" mnemonicParsing="false" onMouseClicked="#logout" text="Logout" />
 
     <ImageView fitHeight="56.0" fitWidth="56.0" layoutX="1450.0" layoutY="625.0" onMouseClicked="#nextTrack" pickOnBounds="true" preserveRatio="true">
         <Image url="@../image/Icon/next_track.png" />

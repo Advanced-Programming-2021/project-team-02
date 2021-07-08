@@ -133,16 +133,19 @@ public class ShopMenuView {
                 Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         allUserCards = Objects.requireNonNull(
                 Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllUserCards();
+        System.out.println(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin());
         scrollPane.setFitToWidth(true);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scrollPane.setPrefWidth(1000000000);
         scrollPane.setPrefWidth(1525);
         scrollPane.setPrefHeight(860);
         showNumber();
     }
 
     public void showNumber() {
-        for (Card card : allUserCards.keySet()) {
+        allUserCards = Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllUserCards();
+        for (Card card : Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllUserCards().keySet()) {
+            System.out.println(card.getName());
+            System.out.println(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllUserCards().get(card));
             if (card.getName().equals("Alexandrite Dragon")) C1.setText(String.valueOf(allUserCards.get(card)));
             if (card.getName().equals("Axe Raider")) C2.setText(String.valueOf(allUserCards.get(card)));
             if (card.getName().equals("Baby dragon")) C3.setText(String.valueOf(allUserCards.get(card)));
@@ -164,7 +167,7 @@ public class ShopMenuView {
             if (card.getName().equals("Haniwa")) C19.setText(String.valueOf(allUserCards.get(card)));
             if (card.getName().equals("Hero of the east")) C20.setText(String.valueOf(allUserCards.get(card)));
             if (card.getName().equals("Horn Imp")) C21.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Leotron")) C22.setText(String.valueOf(allUserCards.get(card)));
+            if (card.getName().equals("Leotron ")) C22.setText(String.valueOf(allUserCards.get(card)));
             if (card.getName().equals("Man-Eater Bug")) C23.setText(String.valueOf(allUserCards.get(card)));
             if (card.getName().equals("Silver Fang")) C24.setText(String.valueOf(allUserCards.get(card)));
             if (card.getName().equals("Skull Guardian")) C25.setText(String.valueOf(allUserCards.get(card)));
@@ -203,311 +206,356 @@ public class ShopMenuView {
         System.out.println("yes");
         ShopMenuMessage shopMenuMessage = controller.buyCard("Blue-Eyes white dragon");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void AR() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Axe Raider");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void BD() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Baby dragon");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void BO() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Battle OX");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void BKB() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Beast King Barbaros");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void BW() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Battle warrior");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void CT() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Crab Turtle");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void CD() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Crawling dragon");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void DB() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Dark Blade");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void COTDO() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Curtain of the dark ones");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void AD() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Alexandrite Dragon");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void DM() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Dark magician");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void GG() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Gate Guardian");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void FM() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Flame manipulator");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void FI() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Feral Imp");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void ED() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Exploder Dragon");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void HOTE() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Hero of the east");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void HI() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Horn Imp");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void SF() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Silver Fang");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void MEB() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Man-Eater Bug");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void SG() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Skull Guardian");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void SS() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Spiral Serpent");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void WDG() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Warrior Dai Grepher");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void TT() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("The Tricky");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void SM() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Slot Machine");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void YS() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Yomi Ship");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void ARA() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Advanced Ritual Art");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void CF() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Closed Forest");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void Forest() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Forest");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void BP() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Black Pendant");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void DH() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Dark Hole");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void MR() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Monster Reborn");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void POG() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Pot of Greed");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void SODD() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Sword of dark destruction");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void HFD() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Harpie's Feather Duster");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void MF() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Mirror Force");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void TH() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Trap Hole");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void NA() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Negate Attack");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void MC() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Magic Cylinder");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void BBBBB() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Bitron");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void FFFFF() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Fireyarou");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void LLLLL() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Leotron ");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void WWWWW() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Wattaildragon");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void WWWW() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Wattkid");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void RRRRR() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Raigeki");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void YYYYY() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Yami");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void UUUUU() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Umiiruka");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void TTTTT() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Terraforming");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void HHHHH() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Haniwa");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void TTTT() {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Torrential Tribute");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         showNumber();
     }
 
     public void back(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
         Utility.openNewMenu("/project/fxml/main_menu.fxml");
-    }
-
-    public void showCoins() {
-        int coin = Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin();
-        Coin.setText(String.valueOf(coin));
     }
 
     public void seeOtherCardsCreated(MouseEvent mouseEvent) throws IOException {
