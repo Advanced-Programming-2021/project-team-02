@@ -1,5 +1,6 @@
 package project.view;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -13,6 +14,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
 import project.controller.ImportExportController;
 import project.controller.MainMenuController;
 import project.model.Assets;
@@ -20,6 +22,7 @@ import project.model.card.CardsDatabase;
 import project.view.messages.ImportExportMessages;
 import project.view.messages.PopUpMessage;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -96,11 +99,21 @@ public class ImportExportView {
             }
         });
 
-        gridPane.add(button, 7 ,7);
+        gridPane.add(button, 7, 7);
+
+        Button importButton = new Button("import");
+        importButton.setOnAction(this::chooseFile);
+
+        gridPane.add(importButton, 0, 8);
 
         gridPane.setPadding(new Insets(10, 300, 10, -30));
         gridPane.setVgap(10);
         gridPane.setHgap(10);
+    }
+
+    private void chooseFile(ActionEvent event) {
+        FileChooser fc = new FileChooser();
+        File selectedFile = fc.showOpenDialog(null);
     }
 
     private void back(MouseEvent mouseEvent) throws IOException {
