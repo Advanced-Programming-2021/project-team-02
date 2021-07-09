@@ -1,5 +1,6 @@
 package project.view;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -141,6 +142,8 @@ public class ShopMenuView {
     public HBox row5;
     public HBox row6;
     public HBox row7;
+    public Label C52;
+    public Label C51;
 
     HashMap<Card, Integer> allUserCards;
 
@@ -244,6 +247,8 @@ public class ShopMenuView {
             if (card.getName().equals("Negate Attack")) C48.setText(String.valueOf(allUserCards.get(card)));
             if (card.getName().equals("Torrential Tribute")) C49.setText(String.valueOf(allUserCards.get(card)));
             if (card.getName().equals("Trap Hole")) C50.setText(String.valueOf(allUserCards.get(card)));
+            if (card.getName().equals("Call of The Haunted")) C51.setText(String.valueOf(allUserCards.get(card)));
+            if (card.getName().equals("Time Seal")) C52.setText(String.valueOf(allUserCards.get(card)));
 
         }
     }
@@ -606,5 +611,19 @@ public class ShopMenuView {
     public void seeOtherCardsCreated(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
         Utility.openNewMenu("/project/fxml/shop_other_player_cards.fxml");
+    }
+
+    public void COTH() {
+        ShopMenuMessage shopMenuMessage = controller.buyCard("Call of The Haunted");
+        new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        showNumber();
+    }
+
+    public void TS() {
+        ShopMenuMessage shopMenuMessage = controller.buyCard("Time Seal");
+        new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        showNumber();
     }
 }

@@ -57,7 +57,7 @@ public class ImportExportView {
 
 
         int k = 0, j = 0;
-        for (int i = 51; i <= CardsDatabase.getAllCards().size(); i++) {
+        for (int i = 53; i <= CardsDatabase.getAllCards().size(); i++) {
             if (k >= 18) {
                 j++;
                 k = 0;
