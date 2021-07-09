@@ -92,6 +92,9 @@ public class Utility {
         stringImageHashMap.put("Trap Hole", new Image(String.valueOf(getClass().getResource("/project/image/ShopMenuPictures/Traps/TrapHole.jpg"))));
         stringImageHashMap.put("Back Image", new Image(String.valueOf(getClass().getResource("/project/image/GamePictures/Card Back.png"))));
         stringImageHashMap.put("Card Back Set", new Image(String.valueOf(getClass().getResource("/project/image/GamePictures/Card Back Set.png"))));
+        stringImageHashMap.put("Time Seal", new Image(String.valueOf(getClass().getResource("/project/image/GamePictures/TimeSeal.png"))));
+        stringImageHashMap.put("Call of The Haunted", new Image(String.valueOf(getClass().getResource("/project/image/GamePictures/CalloftheHunted.png"))));
+
 
         stringImageHashMap.put("NEW", new Image(String.valueOf(getClass().getResource("/project/image/DeckMenuPictures/Picture.jpg"))));
 
