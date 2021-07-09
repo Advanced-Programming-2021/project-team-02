@@ -96,8 +96,8 @@ public class RoundGameController {
         drawUsed = false;
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
-        firstPlayer.setLifePoint(1000);
-        secondPlayer.setLifePoint(1000);
+        firstPlayer.setLifePoint(8000);
+        secondPlayer.setLifePoint(8000);
         this.duelGameController = duelGameController;
         currentPhase = Phase.DRAW_PHASE;
         this.isWithAi = isWithAi;
@@ -326,9 +326,10 @@ public class RoundGameController {
         if (currentPhase != Phase.DRAW_PHASE || drawUsed)
             return;
         if (cantDrawCardBecauseOfTimeSeal) {
-            System.out.println("cant draw card because of time seal!");
+           view.showPopUpMessageForEffect("You can't draw card this turn because of time seal effect!",TRAP);
             addCardToGraveYard(Zone.SPELL_ZONE, addressOfTimeSealToRemove, getOpponentPlayer());
             cantDrawCardBecauseOfTimeSeal = false;
+            drawUsed = true;
             nextPhase();
         }
         DuelPlayer currentPlayer = getCurrentPlayer();
@@ -1140,9 +1141,8 @@ public class RoundGameController {
             return false;
         } else {
             Cell cell = getOpponentPlayer().getPlayerBoard().getACellOfBoardWithAddress(Zone.SPELL_ZONE, address);
-            if (checkTrapCellToBeActivatedForOpponentInSummonSituation(address, cell, addressOfNewSummonedCard))
-            {
-                view.showPopUpMessageForEffect("Trap effect!",TRAP);
+            if (checkTrapCellToBeActivatedForOpponentInSummonSituation(address, cell, addressOfNewSummonedCard)) {
+                view.showPopUpMessageForEffect("Trap effect!", TRAP);
                 return true;
             }
         }
@@ -1170,9 +1170,8 @@ public class RoundGameController {
             return false;
         } else {
             Cell cell = getCurrentPlayer().getPlayerBoard().getACellOfBoardWithAddress(Zone.SPELL_ZONE, address);
-            if (checkTrapCellToBeActivatedForCurrentPlayerInSummonSituation(address, cell))
-            {
-                view.showPopUpMessageForEffect("Trap effect!",TRAP);
+            if (checkTrapCellToBeActivatedForCurrentPlayerInSummonSituation(address, cell)) {
+                view.showPopUpMessageForEffect("Trap effect!", TRAP);
                 return true;
             }
 
@@ -1870,7 +1869,7 @@ public class RoundGameController {
                 if (activateTrapEffectInAttackSituation(trap.getTrapEffect(), cell)) {
                     addCardToGraveYard(Zone.SPELL_ZONE, address, getOpponentPlayer()); //CHECK correctly removed ?
                 }
-                view.showPopUpMessageForEffect("Trap effect!",TRAP);
+                view.showPopUpMessageForEffect("Trap effect!", TRAP);
                 return true;
             }
         }
@@ -2091,40 +2090,22 @@ public class RoundGameController {
             view.showError(Error.PREPARATIONS_IS_NOT_DONE);
             return PREPARATIONS_IS_NOT_DONE;
         }
+        ArrayList<Card> currentGraveYard = getCurrentPlayer().getPlayerBoard().returnGraveYard().getGraveYardCards();
+        ArrayList<Card> currentMonstersInGraveyard = (ArrayList<Card>) currentGraveYard.stream().filter(card -> card.getCardType() == MONSTER).collect(Collectors.toList());
+        if (currentMonstersInGraveyard.size() == 0)
+            return PREPARATIONS_IS_NOT_DONE;
         GraveYard graveYard = getCurrentPlayer().getPlayerBoard().returnGraveYard();
         ArrayList<Card> cards = graveYard.getGraveYardCards();
-        boolean flag = false;
-        for (Card card : cards) {
-            if (card.getCardType() == MONSTER) {
-                flag = true;
-                break;
-            }
-        }
-        if (!flag) {
-            view.showError(Error.PREPARATIONS_IS_NOT_DONE);
-            return PREPARATIONS_IS_NOT_DONE;
-        }
-        //TODO
         view.showCurrentGraveYard(false);
         view.showSuccessMessage(SuccessMessage.TRAP_ACTIVATED);
         selectedCell.setCellStatus(CellStatus.OCCUPIED);
+        view.showActivateEffectOfSpellInZone();
         view.showBoard();
-//        while (true) {
-//            Card card;
-//            //TODO int address = view.chooseCardInGraveYard();
-//            if (address == -1) {
-//                cancel();
-//                //TODO return;
-//            } else if (address - 1 > graveYard.getGraveYardCards().size()) {
-//                view.showError(Error.INVALID_NUMBER);
-//            } else if ((card = graveYard.getGraveYardCards().get(address - 1)).getCardType().equals(CardType.MONSTER)) {
-//                //TODO specialSummon(card, CellStatus.OFFENSIVE_OCCUPIED);
-//                addCardToGraveYard(Zone.SPELL_ZONE, selectedCellAddress, getCurrentPlayer());
-//            } else view.showError(Error.INVALID_SELECTION);
-//            //TODO this break is just put here without reason ... must remove it ...
-//            break;
-//        }
-//        //TODO
+        Card card;
+        int address = view.chooseCardInGraveYard(currentMonstersInGraveyard, cards);
+        card = graveYard.getGraveYardCards().get(address - 1);
+        specialSummon(card, CellStatus.OFFENSIVE_OCCUPIED, Zone.GRAVEYARD, address);
+        addCardToGraveYard(Zone.SPELL_ZONE, selectedCellAddress, getCurrentPlayer());
         return NONE;
     }
 
@@ -2133,8 +2114,8 @@ public class RoundGameController {
         selectedCell.setCellStatus(CellStatus.OCCUPIED);
         view.showSuccessMessage(SuccessMessage.TRAP_ACTIVATED);
         view.showBoard();
+        view.showActivateEffectOfSpellInZone();
         addressOfTimeSealToRemove = selectedCellAddress;
-        //TODO animate and ...
         return NONE;
     }
 

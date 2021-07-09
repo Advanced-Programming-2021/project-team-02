@@ -2723,7 +2723,8 @@ public class GameView {
                     imageView.setLayoutX(imageView.getLayoutX() + 20);
                     imageView.setLayoutY(imageView.getLayoutY() - 19);
                 } else if (cell.getCellStatus() == CellStatus.DEFENSIVE_HIDDEN) {
-                    imageView.setRotate(90);
+                    imageView.setFitHeight(94);
+                    imageView.setFitWidth(130);
                     imageView.setImage(getCardImageByName("Card Back Set"));
                     imageView.setLayoutX(imageView.getLayoutX() + 20);
                     imageView.setLayoutY(imageView.getLayoutY() - 19);
@@ -2886,6 +2887,7 @@ public class GameView {
     }
 
     public void showFinishRoundPopUpMessageAndCloseGameView(String name) {
+        mainGamePane.setEffect(null);
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Round finished! " + name + " won the game!");
         alert.initOwner(LoginMenuView.getStage());
         alert.initModality(Modality.WINDOW_MODAL);
@@ -2911,6 +2913,7 @@ public class GameView {
     }
 
     public void showFinishRoundOfMatchPopUpMessageAndCloseGameView(String name) {
+        mainGamePane.setEffect(null);
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Round finished! " + name + " won the round!");
         alert.initOwner(LoginMenuView.getStage());
         alert.initModality(Modality.WINDOW_MODAL);
@@ -2937,6 +2940,7 @@ public class GameView {
     }
 
     public void showFinishMatchAndCloseGameView(String message) {
+        mainGamePane.setEffect(null);
         Alert alert = new Alert(Alert.AlertType.INFORMATION, message);
         alert.initOwner(LoginMenuView.getStage());
         alert.initModality(Modality.WINDOW_MODAL);
