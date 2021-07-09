@@ -162,6 +162,7 @@ public class GameView {
         baseImage2.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
         currentPlayerFieldSpellPane.getChildren().add(baseImage);
         opponentPlayerFieldSpellPane.getChildren().add(baseImage2);
+        opponentPlayerFieldSpellPane.setRotate(180);
     }
 
     private void createClip(ImageView imageView, SnapshotParameters parameters) {
@@ -589,18 +590,6 @@ public class GameView {
                 tributeAddress.clear();
             }
         });
-//        Button cancel = new Button("Cancel");
-//        cancel.setStyle("-fx-background-color: #bb792d;\n" +
-//                "-fx-background-radius: 10;\n" +
-//                "-fx-text-fill: white;\n" +
-//                "-fx-font-size: 16;");
-//        cancel.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent mouseEvent) {
-//                tributeAddress.clear();
-//                window.close();
-//            }
-//        });
         Label label = new Label("Tribute Summon: please choose " + numberOfTributeNeeded + " of your monsters to tribute");
         label.setStyle("-fx-text-fill: white");
         HBox buttonBox = new HBox(doneButton, resetChoicesButton);
@@ -1056,7 +1045,7 @@ public class GameView {
     }
 
 
-    public int chooseCardInGraveYard(ArrayList<Card> graveyard) {
+    public int chooseCardInGraveYard(ArrayList<Card> monstersInGraveyard,ArrayList<Card> graveyard) {
 
         Stage window = new Stage();
         int[] selectedAddress = new int[1];
@@ -1076,7 +1065,7 @@ public class GameView {
             } else new GamePopUpMessage(Alert.AlertType.ERROR, "Please select!!!");
         });
 
-        GridPane gridPane = getOnlyGraveYardGridPaneToSelect(graveyard, isSelected, selectedAddress);
+        GridPane gridPane = getOnlyGraveYardGridPaneToSelect(monstersInGraveyard, isSelected, selectedAddress);
 
         Button resetChoicesButton = new Button();
         resetChoicesButton.setText("Reset");
@@ -1104,7 +1093,7 @@ public class GameView {
         vBox.setSpacing(10);
         vBox.setStyle("-fx-background-color: #103188;");
         vBox.setAlignment(Pos.CENTER);
-        Scene scene2 = new Scene(vBox, 900, 250);
+        Scene scene2 = new Scene(vBox, 700, 250);
         vBox.getScene().setFill(Color.TRANSPARENT);
         window.initStyle(StageStyle.TRANSPARENT);
         window.setScene(scene2);
@@ -1113,6 +1102,12 @@ public class GameView {
         window.setY(300);
         window.initModality(Modality.WINDOW_MODAL);
         window.showAndWait();
+        for (int i =0; i < graveyard.size(); i++) {
+            if (graveyard.get(i) == monstersInGraveyard.get(selectedAddress[0]-1)){
+                selectedAddress[0] = i+1;
+                break;
+            }
+        }
         return selectedAddress[0];
     }
 
@@ -1179,7 +1174,14 @@ public class GameView {
             choice[0] = 2;
             window1.close();
         });
-        HBox boxOfChoices = new HBox(button1, button2);
+        HBox boxOfChoices;
+        if (choice1.equals(""))
+            boxOfChoices= new HBox( button2);
+        else if (choice2.equals("")){
+            boxOfChoices= new HBox(button1);
+        } else {
+            boxOfChoices= new HBox(button1, button2);
+        }
         boxOfChoices.setSpacing(10);
         boxOfChoices.setAlignment(Pos.CENTER);
         Label label = new Label(message);
@@ -1399,7 +1401,7 @@ public class GameView {
         counter = 0;
         ArrayList<Card> opponentHandList = (ArrayList<Card>) RoundGameController.getInstance().getOpponentPlayerHand();
         opponentHand.getChildren().clear();
-        for (Card card : opponentHandList) {
+        for (Card ignored : opponentHandList) {
             ImageView cardImageView = new ImageView(backCardImage);
             cardImageView.setFitHeight(160);
             cardImageView.setFitWidth(116);
@@ -1604,7 +1606,6 @@ public class GameView {
                 pane.setCursor(Cursor.DEFAULT);
                 pane.setOnMouseClicked(mouseEvent -> {
                 });
-                continue;
             } else if (spellCell.getCellStatus() == CellStatus.OCCUPIED) {
                 imageView.setImage(getCardImageByName(spellCell.getCardInCell().getName()));
                 pane.getChildren().add(imageView);
@@ -2091,7 +2092,7 @@ public class GameView {
                 showSpellToGraveYard();
                 break;
             case SET_SPELL:
-                showSetSpell(addressInZone, addressInHand, cardName);
+                showSetSpell(addressInZone, addressInHand);
                 break;
             case FIELD_SPELL:
                 showActivateFieldSpell(cardName, addressInHand);
@@ -2139,7 +2140,7 @@ public class GameView {
         translateTransition.play();
     }
 
-    private void showSetSpell(int addressInSpellZone, int addressInHand, String cardName) {
+    private void showSetSpell(int addressInSpellZone, int addressInHand) {
         ImageView fakeCardImageView = new ImageView(getCardImageByName("Back Image"));
         fakeCardImageView.setFitWidth(94);
         fakeCardImageView.setFitHeight(130);
@@ -2192,7 +2193,7 @@ public class GameView {
         TranslateTransition translateTransition = new TranslateTransition();
         int addressInMonsterZoneGrid = addressInMonsterZone - 1;//zero based!
         Node inZoneNode = getNodeInGridPane(currentPlayerMonsterZone, 0, addressInMonsterZoneGrid);
-        Point2D zonePoint = null;
+        Point2D zonePoint;
         if (inZoneNode == null) {
             zonePoint = new Point2D(0, 0);
         } else {

@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
+import java.util.stream.Collectors;
 
 import static project.model.card.informationofcards.CardType.*;
 import static project.view.messages.GameViewMessage.*;
@@ -468,6 +469,13 @@ public class RoundGameController {
         if (getCurrentPlayer().getPlayerBoard().isGraveYardEmpty() && getOpponentPlayer().getPlayerBoard().isGraveYardEmpty() || getCurrentPlayer().getPlayerBoard().isMonsterZoneFull()) {
             return PREPARATIONS_IS_NOT_DONE;
         }
+        ArrayList<Card> opponentGraveyard = getOpponentPlayer().getPlayerBoard().returnGraveYard().getGraveYardCards();
+        ArrayList<Card> opponentMonstersInGraveyard = (ArrayList<Card>) opponentGraveyard.stream().filter(card -> card.getCardType() == MONSTER).collect(Collectors.toList());
+        ArrayList<Card> currentGraveYard = getCurrentPlayer().getPlayerBoard().returnGraveYard().getGraveYardCards();
+        ArrayList<Card> currentMonstersInGraveyard = (ArrayList<Card>) currentGraveYard.stream().filter(card -> card.getCardType() == MONSTER).collect(Collectors.toList());
+        int choice = 0;
+        if (currentMonstersInGraveyard.size() == 0 && opponentMonstersInGraveyard.size() == 0)
+            return PREPARATIONS_IS_NOT_DONE;
         int addressOfAdd;
         if (selectedCellZone == Zone.HAND) {
             getCurrentPlayerHand().remove(selectedCellAddress - 1);
@@ -478,30 +486,34 @@ public class RoundGameController {
             addressOfAdd = selectedCellAddress;
             view.showActivateEffectOfSpellInZone();
         }
-        ArrayList<Card> opponentGraveyard = getOpponentPlayer().getPlayerBoard().returnGraveYard().getGraveYardCards();
-        ArrayList<Card> currentGraveYard = getCurrentPlayer().getPlayerBoard().returnGraveYard().getGraveYardCards();
-        int choice = view.twoChoiceQuestions("to summon card from, which you choose :", "your graveyard : " + currentGraveYard.size(), "opponent graveyard : " + opponentGraveyard.size());
+
+        if (currentMonstersInGraveyard.size() == 0)
+            choice = view.twoChoiceQuestions("to summon card from, which you choose :", "", "opponent graveyard : " + opponentGraveyard.size());
+        else if (opponentMonstersInGraveyard.size() == 0)
+            choice = view.twoChoiceQuestions("to summon card from, which you choose :", "your graveyard : " + currentGraveYard.size(), "");
+        else
+            choice = view.twoChoiceQuestions("to summon card from, which you choose :", "your graveyard : " + currentGraveYard.size(), "opponent graveyard : " + opponentGraveyard.size());
+        ArrayList<Card> monsters = null;
         if (choice == 2) {
             graveYard = opponentGraveyard;
+            monsters = opponentMonstersInGraveyard;
         } else if (choice == 1) {
             graveYard = currentGraveYard;
-        }
-        if (graveYard.size() == 0) {
-            return WRONG_CHOICE;
+            monsters = currentMonstersInGraveyard;
         }
         Card card;
-        int address = view.chooseCardInGraveYard(graveYard);
-        if ((card = graveYard.get(address - 1)).getCardType().equals(CardType.MONSTER)) {
-            int summonChoice = view.twoChoiceQuestions("choose what to do:", "summon", "set");
-            if (summonChoice == 1) {
-                specialSummon(card, CellStatus.OFFENSIVE_OCCUPIED, Zone.GRAVEYARD, 0);
-            } else {
-                specialSummon(card, CellStatus.DEFENSIVE_HIDDEN, Zone.GRAVEYARD, 0);
-            }
-            deselectCard(0);
-            addCardToGraveYard(Zone.SPELL_ZONE, addressOfAdd, getCurrentPlayer());
-            return SUCCESS;
-        } else return WRONG_CHOICE;
+        int address = view.chooseCardInGraveYard(monsters, graveYard);
+        card = graveYard.get(address - 1);
+        int summonChoice = view.twoChoiceQuestions("choose what to do:", "summon", "set");
+        if (summonChoice == 1) {
+            specialSummon(card, CellStatus.OFFENSIVE_OCCUPIED, Zone.GRAVEYARD, address);
+        } else {
+            specialSummon(card, CellStatus.DEFENSIVE_HIDDEN, Zone.GRAVEYARD, address);
+        }
+        graveYard.remove(address - 1);
+        deselectCard(0);
+        addCardToGraveYard(Zone.SPELL_ZONE, addressOfAdd, getCurrentPlayer());
+        return SUCCESS;
     }
 
     private GameViewMessage terraFormingSpell() {
@@ -897,7 +909,8 @@ public class RoundGameController {
         }
     }
 
-    private void removeEquipSpell(int address, MonsterZone monsterZone, HashMap<Card, Monster> map, DuelPlayer player) {
+    private void removeEquipSpell(int address, MonsterZone monsterZone, HashMap<Card, Monster> map, DuelPlayer
+            player) {
         for (Card card : map.keySet()) {
             if (monsterZone.getCellWithAddress(address).getCardInCell() == map.get(card)) {
                 SpellZone spellZone = player.getPlayerBoard().returnSpellZone();
@@ -1146,7 +1159,8 @@ public class RoundGameController {
         }
     }
 
-    private boolean checkTrapCellToBeActivatedForOpponentInSummonSituation(int address, Cell selectedCellByPlayerToActivate, int addressOfNewSummonedCard) {
+    private boolean checkTrapCellToBeActivatedForOpponentInSummonSituation(int address, Cell
+            selectedCellByPlayerToActivate, int addressOfNewSummonedCard) {
         if (selectedCellByPlayerToActivate.getCardInCell().getCardType().equals(CardType.SPELL)) {
             Error.showError(Error.ACTION_NOT_ALLOWED); //right error ?
         } else {
@@ -1188,7 +1202,8 @@ public class RoundGameController {
         return false;
     }
 
-    private boolean isValidActivateTrapEffectInSummonSituationForOpponentToDo(TrapEffect trapEffect, Cell cell, int addressOfNewSummonedCard) {
+    private boolean isValidActivateTrapEffectInSummonSituationForOpponentToDo(TrapEffect trapEffect, Cell cell,
+                                                                              int addressOfNewSummonedCard) {
         switch (trapEffect) {
             case TORRENTIAL_TRIBUTE_EFFECT:
                 cell.setCellStatus(CellStatus.OCCUPIED);
