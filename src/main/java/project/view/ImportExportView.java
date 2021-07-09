@@ -135,7 +135,7 @@ public class ImportExportView {
 
     private void chooseFile(ActionEvent event) {
         FileChooser fc = new FileChooser();
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Json Files", "*.json"));
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Json and CSV Files", "*.json", "*.csv"));
         File selectedFile = fc.showOpenDialog(null);
         if (selectedFile != null) {
             listView.getItems().add(selectedFile.getAbsoluteFile());
@@ -143,8 +143,14 @@ public class ImportExportView {
             fileName = fileName.substring(1, fileName.length() - 1);
 
             System.out.println(fileName);
-            ImportExportMessages importExportMessages = ImportExportController.getInstance().importCard(fileName);
-            new PopUpMessage(importExportMessages.getAlertType(), importExportMessages.getLabel());
+
+            if (fileName.contains(".json")) {
+                ImportExportMessages importExportMessages = ImportExportController.getInstance().importCard(fileName);
+                new PopUpMessage(importExportMessages.getAlertType(), importExportMessages.getLabel());
+            } else if (fileName.contains(".csv")) {
+                ImportExportMessages importExportMessages = ImportExportController.getInstance().readCSV(fileName);
+                new PopUpMessage(importExportMessages.getAlertType(), importExportMessages.getLabel());
+            }
             listView.getItems().clear();
             for (Card card:CardsDatabase.getAllCards()) {
                 System.out.println(card.getName());

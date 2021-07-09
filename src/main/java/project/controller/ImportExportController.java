@@ -199,4 +199,8 @@ public class ImportExportController {
         }
         return ImportExportMessages.CARD_NOT_IMPORTED;
     }
+
+    public ImportExportMessages readCSV(String fileName) {
+        return ImportExportMessages.CARD_EXPORTED;
+    }
 }
