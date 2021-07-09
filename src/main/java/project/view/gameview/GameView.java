@@ -126,8 +126,8 @@ public class GameView {
         createClip(currentPlayerAvatar, parameters);
         createClip(opponentPlayerAvatar, parameters);
 
-        currentPlayerAvatar.setImage(new Image(RoundGameController.getInstance().getCurrentPlayer().getAvatar().getUrl().toString()));
-        opponentPlayerAvatar.setImage(new Image(RoundGameController.getInstance().getOpponentPlayer().getAvatar().getUrl().toString()));
+        currentPlayerAvatar.setImage(new Image(RoundGameController.getInstance().getCurrentPlayer().getAvatar().toString()));
+        opponentPlayerAvatar.setImage(new Image(RoundGameController.getInstance().getOpponentPlayer().getAvatar().toString()));
         selectedCardImageView.setImage(backCardImage);
         selectedCardDescriptionLabel.setText("No card selected");
         RoundGameController.getInstance().setView(this);
@@ -1358,10 +1358,10 @@ public class GameView {
         DuelPlayer opp = RoundGameController.getInstance().getOpponentPlayer();
         currentPlayerNickname.setText(curr.getNickname());
         currentPlayerLP.setText(String.valueOf(curr.getLifePoint()));
-        currentPlayerAvatar.setImage(new Image(curr.getAvatar().getUrl().toString()));
+        currentPlayerAvatar.setImage(new Image(curr.getAvatar().toString()));
         opponentPlayerNickname.setText(opp.getNickname());
         opponentPlayerLP.setText(String.valueOf(opp.getLifePoint()));
-        opponentPlayerAvatar.setImage(new Image(opp.getAvatar().getUrl().toString()));
+        opponentPlayerAvatar.setImage(new Image(opp.getAvatar().toString()));
     }
 
     private void setHandBasedOnTurn() {
@@ -2494,9 +2494,9 @@ public class GameView {
 
     }
 
-    public void showPopUpMessageForPotOfGreed() {
+    public void showPopUpMessageForSpell(String spellEffectDescription) {
         GamePopUpMessage.setStage(LoginMenuView.getStage());
-        new GamePopUpMessage(Alert.AlertType.INFORMATION, "Pot of greed add to cards to your hand");
+        new GamePopUpMessage(Alert.AlertType.INFORMATION, spellEffectDescription);
         reloadCurrentSpellZone();
         reloadOpponentSpellZone();
     }

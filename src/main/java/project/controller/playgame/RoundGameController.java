@@ -13,7 +13,6 @@ import project.model.game.board.*;
 //import project.view.Menu;
 //import project.view.MenusManager;
 import project.view.gameview.Animation;
-import project.view.gameview.BetweenRoundView;
 import project.view.gameview.GameView;
 import project.view.messages.Error;
 import project.view.messages.GameViewMessage;
@@ -560,7 +559,7 @@ public class RoundGameController {
             addressOfAdd = selectedCellAddress;
             view.showActivateEffectOfSpellInZone();
         }
-        view.showPopUpMessageForPotOfGreed();
+        view.showPopUpMessageForSpell("Pot of Greed Effect");
         view.showBoard();
         getCurrentPlayerHand().add(deckCards.get(size - 1));
         deckCards.remove(size - 1);
@@ -571,8 +570,8 @@ public class RoundGameController {
         addCardToGraveYard(Zone.SPELL_ZONE, addressOfAdd, getCurrentPlayer());
         System.out.println("pot of greed effect");
         deselectCard(0);
-        //TODO
-        return NONE;
+
+        return SUCCESS;
     }
 
     private GameViewMessage raigekiSpell() {
@@ -597,11 +596,12 @@ public class RoundGameController {
             i++;
             counter++;
         }
+
+        view.showPopUpMessageForSpell("Raigeki Spell effect!");
         addCardToGraveYard(Zone.SPELL_ZONE, addressOfAdd, getCurrentPlayer());
-        System.out.println("raigekiSpell effect");
         deselectCard(0);
-        //TODO
-        return NONE;
+
+        return SUCCESS;
     }
 
     private GameViewMessage harpiesFeatherDusterSpell() {
@@ -622,15 +622,17 @@ public class RoundGameController {
             i++;
         }
         if (isFieldActivated == 2 && turn == 1) {
+           //TODO
             reversePreviousFieldZoneSpellEffectAndRemoveIt();
         } else if (isFieldActivated == 1 && turn == 2) {
+            //TODO
             reversePreviousFieldZoneSpellEffectAndRemoveIt();
         }
         addCardToGraveYard(Zone.SPELL_ZONE, addressOfAdd, getCurrentPlayer());
-        System.out.println("harpiesFeatherDuster effect");
+        view.showPopUpMessageForSpell("Harpie’s Feather Duster Effect");
         deselectCard(0);
-        //TODO
-        return NONE;
+
+        return SUCCESS;
     }
 
     public GameViewMessage darkHoleSpell() {
@@ -657,10 +659,10 @@ public class RoundGameController {
             i++;
         }
         addCardToGraveYard(Zone.SPELL_ZONE, addressOfAdd, getCurrentPlayer());
-        System.out.println("dark hole effect");
+        view.showPopUpMessageForSpell("Dark Hole Spell Effect");
         deselectCard(0);
-        //TODO
-        return NONE;
+
+        return SUCCESS;
     }
 
     private GameViewMessage swordOfDarkDestructionSpell() {

@@ -1,9 +1,9 @@
 package project.model.game;
 
-import project.model.Avatar;
 import project.model.Deck;
 import project.model.User;
 
+import java.net.URL;
 import java.util.Objects;
 
 public class DuelPlayer {
@@ -11,14 +11,14 @@ public class DuelPlayer {
     private int lifePoint;
     private Deck playDeck;
     private PlayerBoard playerBoard;
-    private Avatar avatar;
+    private URL avatar;
 
     public DuelPlayer(String nickname, Deck deck) {
         setNickname(nickname);
         playerBoard = new PlayerBoard();
         lifePoint = 1000;
         setPlayDeck(deck);
-        avatar = Objects.requireNonNull(User.getUserByNickName(nickname)).getAvatar();
+        avatar = Objects.requireNonNull(User.getUserByNickName(nickname)).getAvatarURL();
     }
 
     public Deck getPlayDeck() {
@@ -64,7 +64,7 @@ public class DuelPlayer {
         this.lifePoint = lifePoint;
     }
 
-    public Avatar getAvatar() {
+    public URL getAvatar() {
         return avatar;
     }
 }

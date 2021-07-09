@@ -206,8 +206,8 @@ public class LoginMenuView extends Application {
         Deck mahdisDeck = mahdisAsset.getDeckByDeckName("mahdis");
         //""
         mahdisAsset.addCardToMainDeck(Card.getCardByName("Terraforming"),mahdisDeck);
-        mahdisAsset.addCardToMainDeck(Card.getCardByName("Pot of Greed"),mahdisDeck);
-        mahdisAsset.addCardToMainDeck(Card.getCardByName("Monster Reborn"),mahdisDeck);
+        mahdisAsset.addCardToMainDeck(Card.getCardByName("Raigeki"),mahdisDeck);
+        mahdisAsset.addCardToMainDeck(Card.getCardByName("Dark Hole"),mahdisDeck);
         for (int i = 0; i < 2; i++) {
             for (Monster monster : allMonsters) {
                 if (monster.getMonsterActionType() == MonsterActionType.NORMAL && monster.getLevel() >= 4)
@@ -221,8 +221,8 @@ public class LoginMenuView extends Application {
             mahdisAsset.addCardToSideDeck(allMonsters.get(i),mahdisDeck);
         }
         mahdisAsset.addCardToMainDeck(Card.getCardByName("Terraforming"),mahdisDeck);
-        mahdisAsset.addCardToMainDeck(Card.getCardByName("Pot of Greed"),mahdisDeck);
-        mahdisAsset.addCardToMainDeck(Card.getCardByName("Monster Reborn"),mahdisDeck);
+        mahdisAsset.addCardToMainDeck(Card.getCardByName("Raigeki"),mahdisDeck);
+        mahdisAsset.addCardToMainDeck(Card.getCardByName("Dark Hole"),mahdisDeck);
         mahdisAsset.activateDeck("mahdis");
     }
 }
