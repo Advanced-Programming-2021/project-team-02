@@ -127,8 +127,8 @@ public class GameView {
         createClip(currentPlayerAvatar, parameters);
         createClip(opponentPlayerAvatar, parameters);
 
-        currentPlayerAvatar.setImage(new Image(RoundGameController.getInstance().getCurrentPlayer().getAvatar().toString()));
-        opponentPlayerAvatar.setImage(new Image(RoundGameController.getInstance().getOpponentPlayer().getAvatar().toString()));
+        currentPlayerAvatar.setImage(new Image(RoundGameController.getInstance().getCurrentPlayer().getAvatarURL().toString()));
+        opponentPlayerAvatar.setImage(new Image(RoundGameController.getInstance().getOpponentPlayer().getAvatarURL().toString()));
         selectedCardImageView.setImage(backCardImage);
         selectedCardDescriptionLabel.setText("No card selected");
         RoundGameController.getInstance().setView(this);
@@ -1431,11 +1431,10 @@ public class GameView {
         DuelPlayer curr = RoundGameController.getInstance().getCurrentPlayer();
         DuelPlayer opp = RoundGameController.getInstance().getOpponentPlayer();
         currentPlayerNickname.setText(curr.getNickname());
-        currentPlayerLP.setText(String.valueOf(curr.getLifePoint()));
-        currentPlayerAvatar.setImage(new Image(curr.getAvatar().toString()));
+        updateLPLabels();
+        currentPlayerAvatar.setImage(new Image(curr.getAvatarURL().toString()));
         opponentPlayerNickname.setText(opp.getNickname());
-        opponentPlayerLP.setText(String.valueOf(opp.getLifePoint()));
-        opponentPlayerAvatar.setImage(new Image(opp.getAvatar().toString()));
+        opponentPlayerAvatar.setImage(new Image(opp.getAvatarURL().toString()));
     }
 
     private void setHandBasedOnTurn() {

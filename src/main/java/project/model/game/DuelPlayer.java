@@ -64,7 +64,7 @@ public class DuelPlayer {
         this.lifePoint = lifePoint;
     }
 
-    public URL getAvatar() {
+    public URL getAvatarURL() {
         return avatar;
     }
 }
