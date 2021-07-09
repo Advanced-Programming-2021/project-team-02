@@ -97,7 +97,7 @@
             <Pane id="Cell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="0" />
             <Pane id="Cell" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="0" />
         </GridPane>
-        <Pane id="Cell" fx:id="currentPlayerFieldPane" layoutX="27.0" layoutY="480.0" prefHeight="126.0" prefWidth="103.0">
+        <Pane id="Cell" fx:id="currentPlayerFieldSpellPane" layoutX="27.0" layoutY="480.0" prefHeight="126.0" prefWidth="103.0">
             <ImageView fitHeight="126.0" fitWidth="103.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
                 <Image url="@../image/GamePictures/field.png" />
             </ImageView>
@@ -107,7 +107,7 @@
                 <Image url="@../image/GamePictures/Graveyard.png" />
             </ImageView>
         </Pane>
-        <Pane id="Cell" fx:id="opponentFieldPane" layoutX="799.0" layoutY="201.0" prefHeight="126.0" prefWidth="103.0">
+        <Pane id="Cell" fx:id="opponentPlayerFieldSpellPane" layoutX="799.0" layoutY="201.0" prefHeight="126.0" prefWidth="103.0">
             <ImageView fitHeight="126.0" fitWidth="103.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
                 <Image url="@../image/GamePictures/field.png" />
             </ImageView>

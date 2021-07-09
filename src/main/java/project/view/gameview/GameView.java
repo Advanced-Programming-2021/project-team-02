@@ -25,7 +25,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.stage.Window;
 import javafx.util.Duration;
 import project.controller.playgame.Phase;
 import project.controller.playgame.RoundGameController;
@@ -51,7 +50,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
@@ -79,9 +77,9 @@ public class GameView {
     public GridPane currentHand;
     public AnchorPane mainGamePane;
     public Label phaseLabel;
-    public Pane currentPlayerFieldPane;
+    public Pane currentPlayerFieldSpellPane;
     public Pane currentPlayerGraveYardPane;
-    public Pane opponentFieldPane;
+    public Pane opponentPlayerFieldSpellPane;
     public Pane opponentGraveYardPane;
     public Button setButton;
     public Button summonOrActivateButton;
@@ -152,6 +150,18 @@ public class GameView {
         updateCurrentDeckLabel();
         showButtonBasedOnPhase(Phase.DRAW_PHASE);
         selectedCardDescriptionLabel.setWrapText(true);
+        currentPlayerFieldSpellPane.getChildren().clear();
+        ImageView baseImage = new ImageView();
+        baseImage.setImage(new Image(getClass().getResource("/project/image/GamePictures/field.png").toString()));
+        baseImage.setFitWidth(103.0);
+        baseImage.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
+        opponentPlayerFieldSpellPane.getChildren().clear();
+        ImageView baseImage2 = new ImageView();
+        baseImage2.setImage(new Image(getClass().getResource("/project/image/GamePictures/field.png").toString()));
+        baseImage2.setFitWidth(103.0);
+        baseImage2.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
+        currentPlayerFieldSpellPane.getChildren().add(baseImage);
+        opponentPlayerFieldSpellPane.getChildren().add(baseImage2);
     }
 
     private void createClip(ImageView imageView, SnapshotParameters parameters) {
@@ -1334,7 +1344,6 @@ public class GameView {
         ButtonBar buttonBar = (ButtonBar) alert.getDialogPane().lookup(".button-bar");
         buttonBar.getButtons().forEach(b -> b.setStyle("-fx-background-radius: 10; -fx-background-color: #bb792d; -fx-font-size: 16; -fx-text-fill: white;"));
         buttonBar.getButtons().forEach(b -> b.setCursor(Cursor.HAND));
-        //((Window)LoginMenuView.getStage()).setEffect;
         blur();
         alert.showAndWait();
         RoundGameController.getInstance().deselectCard(0);
@@ -1410,11 +1419,9 @@ public class GameView {
     }
 
     private void setZonesBasedOnTurn() {
-
         MonsterZone currentMonsterZone = RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().returnMonsterZone();
         SpellZone currentSpellZone = RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().returnSpellZone();
-        MonsterZone opponentMonsterZone = RoundGameController.getInstance().getOpponentPlayer().getPlayerBoard().returnMonsterZone();
-        SpellZone opponentSpellZone = RoundGameController.getInstance().getOpponentPlayer().getPlayerBoard().returnSpellZone();
+
         //monster zone
         for (int i = 1; i <= 5; i++) {
             Pane pane = (Pane) getNodeInGridPane(currentPlayerMonsterZone, 0, i - 1);
@@ -1489,40 +1496,55 @@ public class GameView {
             });
         }
         //fieldzone
+
         FieldZone fieldZone = RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().getFieldZone();
         if (RoundGameController.getInstance().isFieldActivated()) {
-
+            currentPlayerFieldSpellPane.getChildren().clear();
             if (fieldZone.getCellStatus() == CellStatus.EMPTY) {
-                currentPlayerFieldPane.getChildren().clear();
                 ImageView baseImage = new ImageView();
                 baseImage.setImage(new Image(getClass().getResource("/project/image/GamePictures/field.png").toString()));
                 baseImage.setFitWidth(103.0);
                 baseImage.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
-                currentPlayerFieldPane.getChildren().add(baseImage);
-                return;
+                currentPlayerFieldSpellPane.getChildren().add(baseImage);
+                currentPlayerFieldSpellPane.setCursor(Cursor.DEFAULT);
+                currentPlayerFieldSpellPane.setOnMouseClicked(mouseEvent -> {
+                });
             } else {
                 Cell cell = fieldZone.getFieldCell();
                 ImageView baseImage = new ImageView();
                 baseImage.setImage(new Image(getClass().getResource("/project/image/GamePictures/field.png").toString()));
                 baseImage.setFitWidth(103.0);
                 baseImage.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
-                currentPlayerFieldPane.getChildren().add(baseImage);
+                currentPlayerFieldSpellPane.getChildren().add(baseImage);
                 ImageView imageView = new ImageView(getCardImageByName(cell.getCardInCell().getName()));
                 imageView.setFitHeight(130);
-                imageView.setFitWidth(97);
-                currentPlayerFieldPane.getChildren().add(imageView);
-                currentPlayerFieldPane.setCursor(Cursor.HAND);
-                currentPlayerFieldPane.setOnMouseClicked(mouseEvent -> {
+                imageView.setFitWidth(105);
+                currentPlayerFieldSpellPane.getChildren().add(imageView);
+                currentPlayerFieldSpellPane.setCursor(Cursor.HAND);
+                currentPlayerFieldSpellPane.setOnMouseClicked(mouseEvent -> {
                     if (mouseEvent.getButton() != MouseButton.PRIMARY)
                         return;
                     selectedCardImageView.setImage(getCardImageByName(cell.getCardInCell().getName()));
                     selectedCardDescriptionLabel.setText(cell.getCardInCell().toString());
+                    RoundGameController.getInstance().deselectCard(0);
                 });
             }
+        } else {
+            currentPlayerFieldSpellPane.getChildren().clear();
+            ImageView baseImage = new ImageView();
+            baseImage.setImage(new Image(getClass().getResource("/project/image/GamePictures/field.png").toString()));
+            baseImage.setFitWidth(103.0);
+            baseImage.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
+            currentPlayerFieldSpellPane.getChildren().add(baseImage);
+            currentPlayerFieldSpellPane.setCursor(Cursor.DEFAULT);
+            currentPlayerFieldSpellPane.setOnMouseClicked(mouseEvent -> {
+            });
         }
 
         //opponent
         //monster
+        MonsterZone opponentMonsterZone = RoundGameController.getInstance().getOpponentPlayer().getPlayerBoard().returnMonsterZone();
+        SpellZone opponentSpellZone = RoundGameController.getInstance().getOpponentPlayer().getPlayerBoard().returnSpellZone();
         opponentPlayerMonsterZone.setRotate(180);
         opponentPlayerSpellZone.setRotate(180);
         for (int i = 1; i <= 5; i++) {
@@ -1554,7 +1576,7 @@ public class GameView {
                     if (mouseEvent.getButton() != MouseButton.PRIMARY)
                         return;
                     selectedCardImageView.setImage(getCardImageByName("Back Image"));
-                    selectedCardDescriptionLabel.setText("Nothing selected");
+                    selectedCardDescriptionLabel.setText("you can't see this card");
                 });
                 continue;
             } else if (monsterCell.getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED) {
@@ -1586,6 +1608,14 @@ public class GameView {
             } else if (spellCell.getCellStatus() == CellStatus.OCCUPIED) {
                 imageView.setImage(getCardImageByName(spellCell.getCardInCell().getName()));
                 pane.getChildren().add(imageView);
+                imageView.setFitWidth(94);
+                imageView.setFitHeight(130);
+                imageView.setOnMouseClicked(mouseEvent -> {
+                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
+                        return;
+                    selectedCardImageView.setImage(getCardImageByName(spellCell.getCardInCell().getName()));
+                    selectedCardDescriptionLabel.setText(spellCell.getCardInCell().toString());
+                });
             } else if (spellCell.getCellStatus() == CellStatus.HIDDEN) {
                 imageView.setImage(getCardImageByName("Back Image"));
                 pane.getChildren().add(imageView);
@@ -1595,50 +1625,59 @@ public class GameView {
                     if (mouseEvent.getButton() != MouseButton.PRIMARY)
                         return;
                     selectedCardImageView.setImage(getCardImageByName("Back Image"));
-                    selectedCardDescriptionLabel.setText("Nothing selected");
+                    selectedCardDescriptionLabel.setText("you can't see this card");
                 });
-                continue;
             }
-            imageView.setOnMouseClicked(mouseEvent -> {
-                if (mouseEvent.getButton() != MouseButton.PRIMARY)
-                    return;
-                selectedCardImageView.setImage(getCardImageByName(spellCell.getCardInCell().getName()));
-                selectedCardDescriptionLabel.setText(spellCell.getCardInCell().toString());
-            });
+
         }
-        opponentFieldPane.setRotate(180);
+        opponentPlayerFieldSpellPane.setRotate(180);
         fieldZone = RoundGameController.getInstance().getOpponentPlayer().getPlayerBoard().getFieldZone();
         if (RoundGameController.getInstance().isFieldActivated()) {
+            opponentPlayerFieldSpellPane.getChildren().clear();
+
             if (fieldZone.getCellStatus() == CellStatus.EMPTY) {
                 ImageView baseImage = new ImageView();
                 baseImage.setImage(new Image(getClass().getResource("/project/image/GamePictures/field.png").toString()));
                 baseImage.setFitWidth(103.0);
                 baseImage.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
-                opponentFieldPane.getChildren().add(baseImage);
+                opponentPlayerFieldSpellPane.getChildren().add(baseImage);
+                opponentPlayerFieldSpellPane.setCursor(Cursor.DEFAULT);
+                opponentPlayerFieldSpellPane.setOnMouseClicked(mouseEvent -> {
+                });
+            } else {
+                Cell cell = fieldZone.getFieldCell();
+                ImageView baseImage = new ImageView();
+                baseImage.setImage(new Image(getClass().getResource("/project/image/GamePictures/field.png").toString()));
+                baseImage.setFitWidth(103.0);
+                baseImage.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
+                opponentPlayerFieldSpellPane.getChildren().add(baseImage);
+                ImageView imageView = new ImageView(getCardImageByName(cell.getCardInCell().getName()));
+                imageView.setFitHeight(130);
+                imageView.setFitWidth(105);
+                opponentPlayerFieldSpellPane.getChildren().add(imageView);
+                opponentPlayerFieldSpellPane.setCursor(Cursor.HAND);
+                opponentPlayerFieldSpellPane.setOnMouseClicked(mouseEvent -> {
+                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
+                        return;
+                    selectedCardImageView.setImage(getCardImageByName(cell.getCardInCell().getName()));
+                    selectedCardDescriptionLabel.setText(cell.getCardInCell().toString());
+                    RoundGameController.getInstance().deselectCard(0);
+                });
             }
-            return;
         } else {
-            Cell cell = fieldZone.getFieldCell();
+            opponentPlayerFieldSpellPane.getChildren().clear();
             ImageView baseImage = new ImageView();
             baseImage.setImage(new Image(getClass().getResource("/project/image/GamePictures/field.png").toString()));
             baseImage.setFitWidth(103.0);
             baseImage.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
-            opponentFieldPane.getChildren().add(baseImage);
-            ImageView imageView = new ImageView(getCardImageByName(cell.getCardInCell().getName()));
-            imageView.setFitHeight(130);
-            imageView.setFitWidth(97);
-            opponentFieldPane.getChildren().add(imageView);
-            opponentFieldPane.setCursor(Cursor.HAND);
-            opponentFieldPane.setOnMouseClicked(mouseEvent -> {
-                if (mouseEvent.getButton() != MouseButton.PRIMARY)
-                    return;
-                selectedCardImageView.setImage(getCardImageByName(cell.getCardInCell().getName()));
-                selectedCardDescriptionLabel.setText(cell.getCardInCell().toString());
+            opponentPlayerFieldSpellPane.getChildren().add(baseImage);
+            opponentPlayerFieldSpellPane.setCursor(Cursor.DEFAULT);
+            opponentPlayerFieldSpellPane.setOnMouseClicked(mouseEvent -> {
             });
+
         }
+
     }
-
-
 
     public void showButtonBasedOnPhase(Phase currentPhase) {
         nextPhaseButton.setCursor(Cursor.HAND);
@@ -1836,7 +1875,7 @@ public class GameView {
             System.out.println("curr player : " + RoundGameController.getInstance().getCurrentPlayer());
             Card card = hand.get(i);
             if (node != null) {
-                int finalI = i;
+                int finalI = i+1;
                 node.setOnMouseClicked((Event) -> {
                     selectedCardImageView.setImage(getCardImageByName(card.getName()));
                     selectedCardDescriptionLabel.setText(card.toString());
@@ -2040,7 +2079,7 @@ public class GameView {
                 showAddToGraveYardFromMonsterZoneAnimation(addressInZone, isCurrent, cardName);
                 break;
             case HAND_TO_GRAVEYARD:
-                showAddToGraveYardFromHandAnimation(cardName);
+                showAddToGraveYardFromHandAnimation();
                 break;
             case NORMAL_ATTACK:
                 showNormalAttack(addressInZone, addressInOppZone, isCurrent);
@@ -2049,7 +2088,7 @@ public class GameView {
                 showDirectAttack(addressInZone);
                 break;
             case SPELL_TO_GRAVEYARD:
-                showSpellToGraveYard(addressInZone, isCurrent, cardName);
+                showSpellToGraveYard();
                 break;
             case SET_SPELL:
                 showSetSpell(addressInZone, addressInHand, cardName);
@@ -2077,7 +2116,7 @@ public class GameView {
             inHandPoint = new Point2D(306.0, 694.0);
         } else inHandPoint = inHandNode.localToScene(new Point2D(0, 0));
         Point2D zonePoint;
-        zonePoint = currentPlayerFieldPane.localToScene(new Point2D(0, 0));
+        zonePoint = currentPlayerFieldSpellPane.localToScene(new Point2D(0, 0));
         translateTransition.setNode(fakeCardImageView);
         translateTransition.setFromX(inHandPoint.getX());
         translateTransition.setFromY(inHandPoint.getY());
@@ -2088,7 +2127,7 @@ public class GameView {
             ImageView imageView = new ImageView(getCardImageByName(cardName));
             imageView.setFitHeight(130);
             imageView.setFitWidth(94);
-            Objects.requireNonNull(currentPlayerFieldPane).getChildren().add(imageView);
+            Objects.requireNonNull(currentPlayerFieldSpellPane).getChildren().add(imageView);
             cardBoardPane.getChildren().remove(fakeCardImageView);
             mainGamePane.getChildren().remove(fakeCardImageView);
             reloadCurrentHand();
@@ -2269,7 +2308,6 @@ public class GameView {
             Objects.requireNonNull(zonePane).getChildren().clear();
             if ((cell = spellZone.getCellWithAddress(i)).getCellStatus() != CellStatus.EMPTY) {
                 int finalI = i;
-                Cell finalCell1 = cell;
                 ImageView imageView = new ImageView(getCardImageByName(cell.getCardInCell().getName()));
                 if (cell.getCellStatus() == CellStatus.HIDDEN) {
                     imageView.setImage(getCardImageByName("Back Image"));
@@ -2283,8 +2321,8 @@ public class GameView {
                 zonePane.getChildren().add(imageView);
                 zonePane.setCursor(Cursor.HAND);
                 zonePane.setOnMouseClicked(mouseEvent -> {
-                    selectedCardImageView.setImage(getCardImageByName(finalCell1.getCardInCell().getName()));
-                    selectedCardDescriptionLabel.setText(finalCell1.getCardInCell().toString());
+                    selectedCardImageView.setImage(getCardImageByName(cell.getCardInCell().getName()));
+                    selectedCardDescriptionLabel.setText(cell.getCardInCell().toString());
                     RoundGameController.getInstance().selectCardInSpellZone(finalI);
                 });
             } else {
@@ -2296,28 +2334,37 @@ public class GameView {
         }
         FieldZone fieldZone = RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().getFieldZone();
         if (RoundGameController.getInstance().isFieldActivated()) {
-            if (fieldZone.getCellStatus() == CellStatus.EMPTY) {
-                if (currentPlayerFieldPane.getChildren().size() > 1) {
-                    currentPlayerFieldPane.getChildren().remove(1);
-                    currentPlayerFieldPane.setCursor(Cursor.DEFAULT);
-                    currentPlayerFieldPane.setOnMouseClicked(mouseEvent -> {
-                    });
-                }
-                return;
-            } else {
+            currentPlayerFieldSpellPane.getChildren().clear();
+            ImageView baseImage = new ImageView();
+            baseImage.setImage(new Image(getClass().getResource("/project/image/GamePictures/field.png").toString()));
+            baseImage.setFitWidth(103.0);
+            baseImage.setFitHeight(126.0);
+            currentPlayerFieldSpellPane.getChildren().add(baseImage);
+            if (fieldZone.getCellStatus() != CellStatus.EMPTY) {
                 Cell cell = fieldZone.getFieldCell();
                 ImageView imageView = new ImageView(getCardImageByName(cell.getCardInCell().getName()));
                 imageView.setFitHeight(130);
-                imageView.setFitWidth(97);
-                currentPlayerFieldPane.getChildren().add(imageView);
-                currentPlayerFieldPane.setCursor(Cursor.HAND);
-                currentPlayerFieldPane.setOnMouseClicked(mouseEvent -> {
+                imageView.setFitWidth(105);
+                currentPlayerFieldSpellPane.getChildren().add(imageView);
+                currentPlayerFieldSpellPane.setCursor(Cursor.HAND);
+                currentPlayerFieldSpellPane.setOnMouseClicked(mouseEvent -> {
                     if (mouseEvent.getButton() != MouseButton.PRIMARY)
                         return;
                     selectedCardImageView.setImage(getCardImageByName(cell.getCardInCell().getName()));
                     selectedCardDescriptionLabel.setText(cell.getCardInCell().toString());
+                    RoundGameController.getInstance().deselectCard(0);
                 });
+            } else {
+                currentPlayerFieldSpellPane.setCursor(Cursor.DEFAULT);
+                currentPlayerFieldSpellPane.setOnMouseClicked(mouseEvent -> {});
             }
+        } else {
+            currentPlayerFieldSpellPane.getChildren().clear();
+            ImageView baseImage = new ImageView();
+            baseImage.setImage(new Image(getClass().getResource("/project/image/GamePictures/field.png").toString()));
+            baseImage.setFitWidth(103.0);
+            baseImage.setFitHeight(126.0);
+            currentPlayerFieldSpellPane.getChildren().add(baseImage);
         }
     }
 
@@ -2328,7 +2375,6 @@ public class GameView {
             Cell cell;
             Objects.requireNonNull(zonePane).getChildren().clear();
             if ((cell = spellZone.getCellWithAddress(i)).getCellStatus() != CellStatus.EMPTY) {
-                Cell finalCell1 = cell;
                 ImageView imageView = new ImageView(getCardImageByName(cell.getCardInCell().getName()));
 
                 if (cell.getCellStatus() == CellStatus.HIDDEN) {
@@ -2351,8 +2397,9 @@ public class GameView {
                 zonePane.getChildren().add(imageView);
                 zonePane.setCursor(Cursor.HAND);
                 zonePane.setOnMouseClicked(mouseEvent -> {
-                    selectedCardImageView.setImage(getCardImageByName(finalCell1.getCardInCell().getName()));
-                    selectedCardDescriptionLabel.setText(finalCell1.getCardInCell().toString());
+                    selectedCardImageView.setImage(getCardImageByName(cell.getCardInCell().getName()));
+                    selectedCardDescriptionLabel.setText(cell.getCardInCell().toString());
+                    RoundGameController.getInstance().deselectCard(0);
                 });
             } else {
                 zonePane.getChildren().clear();
@@ -2362,33 +2409,42 @@ public class GameView {
             }
         }
         FieldZone fieldZone = RoundGameController.getInstance().getOpponentPlayer().getPlayerBoard().getFieldZone();
-        if (RoundGameController.getInstance().isFieldActivated()) {
-            if (fieldZone.getCellStatus() == CellStatus.EMPTY) {
-                if (opponentFieldPane.getChildren().size() > 1) {
-                    opponentFieldPane.getChildren().remove(1);
-                    opponentFieldPane.setCursor(Cursor.DEFAULT);
-                    opponentFieldPane.setOnMouseClicked(mouseEvent -> {
-                    });
-                }
-                return;
-            } else {
+       opponentPlayerFieldSpellPane.setRotate(180);
+       if (RoundGameController.getInstance().isFieldActivated()) {
+            opponentPlayerFieldSpellPane.getChildren().clear();
+            ImageView baseImage = new ImageView();
+            baseImage.setImage(new Image(getClass().getResource("/project/image/GamePictures/field.png").toString()));
+            baseImage.setFitWidth(103.0);
+            baseImage.setFitHeight(126.0);
+            opponentPlayerFieldSpellPane.getChildren().add(baseImage);
+            if (fieldZone.getCellStatus() != CellStatus.EMPTY) {
                 Cell cell = fieldZone.getFieldCell();
                 ImageView imageView = new ImageView(getCardImageByName(cell.getCardInCell().getName()));
                 imageView.setFitHeight(130);
-                imageView.setFitWidth(97);
-                opponentFieldPane.getChildren().add(imageView);
-                opponentFieldPane.setCursor(Cursor.HAND);
-                opponentFieldPane.setOnMouseClicked(mouseEvent -> {
+                imageView.setFitWidth(105);
+                opponentPlayerFieldSpellPane.getChildren().add(imageView);
+                opponentPlayerFieldSpellPane.setCursor(Cursor.HAND);
+                opponentPlayerFieldSpellPane.setOnMouseClicked(mouseEvent -> {
                     if (mouseEvent.getButton() != MouseButton.PRIMARY)
                         return;
                     selectedCardImageView.setImage(getCardImageByName(cell.getCardInCell().getName()));
                     selectedCardDescriptionLabel.setText(cell.getCardInCell().toString());
                 });
+            } else {
+                opponentPlayerFieldSpellPane.setCursor(Cursor.DEFAULT);
+                opponentPlayerFieldSpellPane.setOnMouseClicked(mouseEvent -> {});
             }
+        } else {
+            opponentPlayerFieldSpellPane.getChildren().clear();
+            ImageView baseImage = new ImageView();
+            baseImage.setImage(new Image(getClass().getResource("/project/image/GamePictures/field.png").toString()));
+            baseImage.setFitWidth(103.0);
+            baseImage.setFitHeight(126.0);
+            opponentPlayerFieldSpellPane.getChildren().add(baseImage);
         }
     }
 
-    public void showSpellToGraveYard(int address, boolean isCurrentPlayer, String cardName) {
+    public void showSpellToGraveYard() {
         reloadCurrentAndOpponentSpellZone();
     }
 
@@ -2434,8 +2490,8 @@ public class GameView {
                     imageView.setImage(getCardImageByName("Card Back Set"));
                     imageView.setFitWidth(130);
                     imageView.setFitHeight(94);
-                    imageView.setLayoutX(imageView.getLayoutX() + 20);
-                    imageView.setLayoutY(imageView.getLayoutY() - 19);
+                    imageView.setLayoutX(imageView.getLayoutX() - 20);
+                    imageView.setLayoutY(imageView.getLayoutY() + 19);
                 } else {
                     imageView.setFitHeight(130);
                     imageView.setFitWidth(94);
@@ -2495,7 +2551,7 @@ public class GameView {
         }
     }
 
-    public void showAddToGraveYardFromHandAnimation(String cardName) {
+    public void showAddToGraveYardFromHandAnimation() {
         reloadCurrentHand();
     }
 

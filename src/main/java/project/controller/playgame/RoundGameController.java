@@ -858,7 +858,7 @@ public class RoundGameController {
             //view.showBoard();
         } else if (fromZone.equals(Zone.FIELD_ZONE)) {
             player.getPlayerBoard().removeFieldSpell();
-            //TODO field animation to graveyard
+            view.showSpellToGraveYard();
             view.showBoard();
         } else if (fromZone.equals(Zone.SPELL_ZONE)) {
             Cell cell = player.getPlayerBoard().getACellOfBoardWithAddress(fromZone, address);

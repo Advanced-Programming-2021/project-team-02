@@ -102,9 +102,6 @@ public class PlayerBoard {
         return graveYard;
     }
 
-    public FieldZone returnFieldZone() {
-        return fieldZone;
-    }
 
     public boolean isGraveYardEmpty() {
         return graveYard.getGraveYardCards().size() == 0;
