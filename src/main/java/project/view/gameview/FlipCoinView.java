@@ -179,13 +179,13 @@ public class FlipCoinView {
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000), (ActionEvent) -> coinImage.setImage(image22)));
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5300), (ActionEvent) -> coinImage.setImage(image23)));
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5600), (ActionEvent) -> coinImage.setImage(image24)));
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5900), (ActionEvent) -> coinImage.setImage(image25)));
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(6200), (ActionEvent) -> coinImage.setImage(image26)));
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(6550), (ActionEvent) -> coinImage.setImage(image4)));
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(6900), (ActionEvent) -> coinImage.setImage(image3)));
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(7250), (ActionEvent) -> coinImage.setImage(image2)));
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(7600), (ActionEvent) -> coinImage.setImage(image1)));
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(7800), (ActionEvent) -> coinImage.setImage(image5)));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5800), (ActionEvent) -> coinImage.setImage(image25)));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(6000), (ActionEvent) -> coinImage.setImage(image26)));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(6200), (ActionEvent) -> coinImage.setImage(image4)));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(6400), (ActionEvent) -> coinImage.setImage(image3)));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(6600), (ActionEvent) -> coinImage.setImage(image2)));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(6850), (ActionEvent) -> coinImage.setImage(image1)));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(7100), (ActionEvent) -> coinImage.setImage(image5)));
         flipCoinTimeLine = timeline;
     }
 
@@ -262,8 +262,8 @@ public class FlipCoinView {
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5500), (ActionEvent) -> coinImage.setImage(image27)));
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5650), (ActionEvent) -> coinImage.setImage(image28)));
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5800), (ActionEvent) -> coinImage.setImage(image29)));
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5950), (ActionEvent) -> coinImage.setImage(image30)));
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(6100), (ActionEvent) -> coinImage.setImage(image21)));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(6000), (ActionEvent) -> coinImage.setImage(image30)));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(6200), (ActionEvent) -> coinImage.setImage(image21)));
 
         flipCoinTimeLine = timeline;
     }
