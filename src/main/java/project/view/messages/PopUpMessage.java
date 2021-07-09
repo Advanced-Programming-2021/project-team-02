@@ -43,7 +43,7 @@ public class PopUpMessage {
     }
 
     private void makeScreenBlur(Alert alert) {
-        parent.setEffect(new GaussianBlur(15));
+        parent.setEffect(new GaussianBlur(20));
         alert.setOnCloseRequest(dialogEvent -> parent.setEffect(null));
     }
 

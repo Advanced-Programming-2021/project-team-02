@@ -40,9 +40,8 @@
                 <Tooltip text="Delete Card"/>
             </tooltip>
         </Button>
-
     </VBox>
-    <ScrollPane id="secondPane" layoutX="125.0" prefHeight="865.0" prefWidth="1410">
+    <ScrollPane fx:id="scrollPane" id="secondPane" layoutX="125.0" prefHeight="865.0" prefWidth="1410">
         <VBox id="firstBox" prefHeight="1080.0" prefWidth="1392.0">
             <VBox.margin>
                 <Insets topRightBottomLeft="-2.0"/>
