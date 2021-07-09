@@ -82,11 +82,18 @@ public class ImportExportView {
                     new PopUpMessage(importExportMessages.getAlertType(), importExportMessages.getLabel());
                 });
 
+                Button csv = new Button("csv");
+                csv.setId(CardsDatabase.getAllCards().get(i - 1).getName());
+                csv.setOnMouseClicked(mouseEvent -> {
+                    ImportExportMessages importExportMessages = ImportExportController.getInstance().SaveToCSV(gson.getId());
+                    new PopUpMessage(importExportMessages.getAlertType(), importExportMessages.getLabel());
+                });
+
                 VBox layout = new VBox(10);
                 layout.setPadding(new Insets(10, 10, -450, 40));
                 layout.setPrefHeight(300);
                 layout.setEffect(new DropShadow());
-                layout.getChildren().addAll(imageView, label, gson);
+                layout.getChildren().addAll(imageView, label, gson, csv);
 
                 gridPane.add(layout, k, j);
                 k++;
