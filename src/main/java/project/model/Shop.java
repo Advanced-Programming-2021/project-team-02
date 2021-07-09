@@ -26,5 +26,6 @@ public class Shop {
 
     public void addCardToShop(Card card, int price) {
         cards.put(card, price);
+        card.setPrice(price);
     }
 }

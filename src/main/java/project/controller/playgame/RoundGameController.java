@@ -66,6 +66,10 @@ public class RoundGameController {
         return instance;
     }
 
+    public boolean isFieldActivated() {
+        return isFieldActivated != 0;
+    }
+
     public DuelPlayer getFirstPlayer() {
         return firstPlayer;
     }
@@ -622,7 +626,7 @@ public class RoundGameController {
             i++;
         }
         if (isFieldActivated == 2 && turn == 1) {
-           //TODO
+            //TODO
             reversePreviousFieldZoneSpellEffectAndRemoveIt();
         } else if (isFieldActivated == 1 && turn == 2) {
             //TODO
@@ -1949,20 +1953,20 @@ public class RoundGameController {
 
     // SPELL RELATED
     public GameViewMessage setSpellOrTrap() {
-         if (!selectedCellZone.equals(Zone.HAND)) {
+        if (!selectedCellZone.equals(Zone.HAND)) {
             return CAN_NOT_SET;
-        }else if (getCurrentPlayer().getPlayerBoard().isSpellZoneFull()) {
+        } else if (getCurrentPlayer().getPlayerBoard().isSpellZoneFull()) {
             return FULL_SPELL_ZONE;
         } else if (selectedCell.getCardInCell().getCardType().equals(SPELL)) {
             if (((Spell) selectedCell.getCardInCell()).getSpellType().equals(SpellType.FIELD)) {
-              return NONE;
+                return NONE;
                 //TODO  setFieldCard();
-              //TODO  return;
+                //TODO  return;
             } else {
                 SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
                 int addressOfAdd = spellZone.addCard(selectedCell.getCardInCell(), CellStatus.HIDDEN);
                 getCurrentPlayerHand().remove(selectedCellAddress - 1);
-                view.playAnimation(Animation.SET_SPELL,selectedCell.getCardInCell().getName(), addressOfAdd,selectedCellAddress,0,true);
+                view.playAnimation(Animation.SET_SPELL, selectedCell.getCardInCell().getName(), addressOfAdd, selectedCellAddress, 0, true);
                 view.showSuccessMessage(SuccessMessage.SET_SUCCESSFULLY);
                 view.showBoard();
             }
@@ -1971,12 +1975,12 @@ public class RoundGameController {
             SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
             int addressOfAdd = spellZone.addCard(selectedCell.getCardInCell(), CellStatus.HIDDEN);
             getCurrentPlayerHand().remove(selectedCellAddress - 1);
-             view.playAnimation(Animation.SET_SPELL,selectedCell.getCardInCell().getName(), addressOfAdd,selectedCellAddress,0,true);
-             view.showSuccessMessage(SuccessMessage.SET_SUCCESSFULLY);
+            view.playAnimation(Animation.SET_SPELL, selectedCell.getCardInCell().getName(), addressOfAdd, selectedCellAddress, 0, true);
+            view.showSuccessMessage(SuccessMessage.SET_SUCCESSFULLY);
             view.showBoard();
             deselectCard(0);
         }
-         return NONE;
+        return NONE;
 
     }
 
@@ -2148,9 +2152,10 @@ public class RoundGameController {
             getCurrentPlayerHand().remove(selectedCellAddress - 1);
         }
         fieldZoneSpell = (Spell) selectedCell.getCardInCell();
-        deselectCard(0);
+
         findAndActivateFieldCard();
-        //TODO
+        view.playAnimation(Animation.FIELD_SPELL, fieldZoneSpell.getName(), 0, selectedCellAddress, 0, true);
+        deselectCard(0);
         return NONE;
     }
 

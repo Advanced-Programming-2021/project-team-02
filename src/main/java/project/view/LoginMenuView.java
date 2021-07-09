@@ -196,7 +196,7 @@ public class LoginMenuView extends Application {
         for (int i = 0; i < 12; i ++){
             erfanAsset.addCardToSideDeck(allMonsters.get(i),erfandeck);
         }
-        erfanAsset.addCardToMainDeck(Card.getCardByName("Terraforming"),erfandeck);
+        erfanAsset.addCardToMainDeck(Card.getCardByName("Yami"),erfandeck);
         erfanAsset.addCardToMainDeck(Card.getCardByName("Pot of Greed"),erfandeck);
         erfanAsset.addCardToMainDeck(Card.getCardByName("Monster Reborn"),erfandeck);
         erfanAsset.activateDeck("erfan");
@@ -205,7 +205,7 @@ public class LoginMenuView extends Application {
         Objects.requireNonNull(mahdisAsset).createDeck("mahdis");
         Deck mahdisDeck = mahdisAsset.getDeckByDeckName("mahdis");
         //""
-        mahdisAsset.addCardToMainDeck(Card.getCardByName("Terraforming"),mahdisDeck);
+        mahdisAsset.addCardToMainDeck(Card.getCardByName("Yami"),mahdisDeck);
         mahdisAsset.addCardToMainDeck(Card.getCardByName("Raigeki"),mahdisDeck);
         mahdisAsset.addCardToMainDeck(Card.getCardByName("Dark Hole"),mahdisDeck);
         for (int i = 0; i < 2; i++) {
