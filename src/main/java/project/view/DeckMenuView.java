@@ -58,19 +58,6 @@ public class DeckMenuView {
 
     @FXML
     public void initialize() {
-//        User mahdi = new User("mahdi", "12345", "test");
-//        Objects.requireNonNull(Assets.getAssetsByUsername(mahdi.getUsername())).createDeck("test1");
-//        Objects.requireNonNull(Assets.getAssetsByUsername(mahdi.getUsername())).createDeck("test2");
-//        Objects.requireNonNull(Assets.getAssetsByUsername(mahdi.getUsername())).createDeck("test3");
-//        Objects.requireNonNull(Assets.getAssetsByUsername(mahdi.getUsername())).createDeck("test4");
-//        Objects.requireNonNull(Assets.getAssetsByUsername(mahdi.getUsername())).createDeck("test5");
-//        Objects.requireNonNull(Assets.getAssetsByUsername(mahdi.getUsername())).createDeck("test6");
-//        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Haniwa"),
-//                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test1"));
-//        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Leotron "),
-//                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test1"));
-//        Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).addCardToMainDeck(Card.getCardByName("Horn Imp"),
-//                Objects.requireNonNull(Assets.getAssetsByUsername("mahdi")).getDeckByDeckName("test1"));
         Utility utility = new Utility();
         utility.addImages();
         imageHashMap = utility.getStringImageHashMap();
@@ -78,13 +65,13 @@ public class DeckMenuView {
     }
 
     private void showDecks() {
-        int counterJ = 0;
+        int maximumOfJ = 0;
         int counterSize = 0;
-        for (int i = 0, j = 0; counterSize < Objects.requireNonNull(Assets.getAssetsByUsername(user.getUsername())).getAllDecks().size(); i++) {
-            if (counterJ == 3) {
+        for (int i = 0, j = 0; counterSize < deckArrayList.size(); i++) {
+            if (maximumOfJ == 3) {
                 j++;
                 i = 0;
-                counterJ = 0;
+                maximumOfJ = 0;
             }
             Label labelDeckName = new Label(deckArrayList.get(counterSize).getName());
             labelDeckName.setContentDisplay(ContentDisplay.CENTER);
@@ -97,46 +84,60 @@ public class DeckMenuView {
 
             ArrayList<Card> sideCards = deckArrayList.get(counterSize).getSideCards();
             ArrayList<Card> mainCards = deckArrayList.get(counterSize).getMainCards();
+
             Label labelNumberOfCardsMain = new Label("Main cards\t" + mainCards.size());
             labelNumberOfCardsMain.setPrefHeight(30);
             labelNumberOfCardsMain.setStyle("-fx-text-fill: white");
 
-            Label labelNumberOfCardsSide = new Label(" Side cards\t" + sideCards.size());
+            Label labelNumberOfCardsSide = new Label("Side cards\t" + sideCards.size());
             labelNumberOfCardsSide.setPrefHeight(30);
             labelNumberOfCardsSide.setStyle("-fx-text-fill: white");
 
-            ImageView activateButton = new ImageView();
-            activateImageViews.add(activateButton);
-            activateButton.setFitHeight(30);
-            activateButton.setFitWidth(30);
-            activateButton.setId(deckArrayList.get(i).getName());
-            activateButton.setStyle("-fx-cursor: hand;");
-            if (deckArrayList.get(i).isActivated()) activateButton.setImage(activateImage);
-            else activateButton.setImage(deactivateImage);
+            ImageView activateImageView = new ImageView();
+            activateImageViews.add(activateImageView);
+            activateImageView.setId(deckArrayList.get(counterSize).getName());
+            activateImageView.setFitHeight(30);
+            activateImageView.setFitWidth(30);
+            if (deckArrayList.get(counterSize).isActivated()) activateImageView.setImage(activateImage);
+            else activateImageView.setImage(deactivateImage);
+
+            Button activateButton = new Button();
+            activateButton.setGraphic(activateImageView);
+            activateButton.setId(deckArrayList.get(counterSize).getName());
+            activateButton.setStyle("-fx-cursor: hand; -fx-background-color: transparent; -fx-background-radius: 20");
+            activateButton.setTooltip(new Tooltip("Activate/Deactivate Deck"));
             activateButton.setOnMouseClicked(event -> {
                 if (event.getButton() != MouseButton.PRIMARY) return;
                 activateDeck(activateButton);
             });
 
-            ImageView buttonDelete = new ImageView(deleteDeckImage);
-            buttonDelete.setId(deckArrayList.get(i).getName());
-            buttonDelete.setFitHeight(30);
-            buttonDelete.setFitWidth(30);
-            buttonDelete.setStyle("-fx-cursor: hand;");
-            buttonDelete.setOnMouseClicked(event -> {
+            ImageView deleteImageView = new ImageView(deleteDeckImage);
+            deleteImageView.setFitHeight(30);
+            deleteImageView.setFitWidth(30);
+
+            Button deleteButton = new Button();
+            deleteButton.setGraphic(deleteImageView);
+            deleteButton.setId(deckArrayList.get(counterSize).getName());
+            deleteButton.setStyle("-fx-cursor: hand; -fx-background-color: transparent; -fx-background-radius: 20");
+            deleteButton.setTooltip(new Tooltip("Delete Deck"));
+            deleteButton.setOnMouseClicked(event -> {
                 if (event.getButton() != MouseButton.PRIMARY) return;
-                checkDelete(buttonDelete);
+                checkDelete(deleteButton);
             });
 
-            ImageView buttonEdit = new ImageView(editDeckImage);
-            buttonEdit.setId(deckArrayList.get(i).getName());
-            buttonEdit.setFitHeight(25);
-            buttonEdit.setFitWidth(25);
-            buttonEdit.setStyle("-fx-cursor: hand;");
-            buttonEdit.setOnMouseClicked(event -> {
+            ImageView editImageView = new ImageView(editDeckImage);
+            editImageView.setFitHeight(25);
+            editImageView.setFitWidth(25);
+
+            Button editButton = new Button();
+            editButton.setGraphic(editImageView);
+            editButton.setId(deckArrayList.get(counterSize).getName());
+            editButton.setStyle("-fx-cursor: hand; -fx-background-color: transparent; -fx-background-radius: 20");
+            editButton.setTooltip(new Tooltip("Edit Deck"));
+            editButton.setOnMouseClicked(event -> {
                 try {
                     if (event.getButton() != MouseButton.PRIMARY) return;
-                    editDeck(event, buttonEdit);
+                    editDeck(event, editButton);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -151,14 +152,14 @@ public class DeckMenuView {
             controlsContainer.setPadding(new Insets(10, 10, 10, 10));
             controlsContainer.setStyle("-fx-border-width: 0 0 0 1; -fx-border-color: white;");
             controlsContainer.setAlignment(Pos.CENTER);
-            controlsContainer.getChildren().addAll(activateButton, buttonEdit, buttonDelete);
+            controlsContainer.getChildren().addAll(activateButton, editButton, deleteButton);
 
             HBox layout = new HBox();
             layout.setStyle("-fx-border-radius: 10; -fx-border-color: white; -fx-background-color: #323c46; -fx-background-radius: 10;");
             layout.getChildren().addAll(deckContainer, controlsContainer);
 
             gridPaneAsli.add(layout, i, j);
-            counterJ++;
+            maximumOfJ++;
             counterSize++;
         }
 
@@ -167,7 +168,7 @@ public class DeckMenuView {
         gridPaneAsli.setHgap(25);
     }
 
-    private void activateDeck(ImageView button) {
+    private void activateDeck(Button button) {
         DeckMenuMessage deckMenuMessage = controller.activateDeck(button.getId());
         new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
         for (ImageView activateImageView : activateImageViews) {
@@ -176,7 +177,7 @@ public class DeckMenuView {
         }
     }
 
-    public void editDeck(javafx.scene.input.MouseEvent actionEvent, ImageView button) throws IOException {
+    public void editDeck(javafx.scene.input.MouseEvent actionEvent, Button button) throws IOException {
         controller.setOpenedDeckButton(button);
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         Utility.openNewMenu("/project/fxml/edit_deck_menu.fxml");
@@ -253,7 +254,7 @@ public class DeckMenuView {
         Utility.openNewMenu("/project/fxml/deck_menu.fxml");
     }
 
-    private void checkDelete(ImageView button) {
+    private void checkDelete(Button button) {
         DeckMenuMessage deckMenuMessage = controller.deleteDeck(button.getId());
         new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
         if (deckMenuMessage == DeckMenuMessage.DECK_DELETED)

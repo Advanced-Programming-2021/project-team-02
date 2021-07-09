@@ -29,6 +29,7 @@ import project.view.messages.ProfileMenuMessage;
 
 public class ProfileMenuView {
     private static final ProfileMenuController controller = ProfileMenuController.getInstance();
+    public static final SnapshotParameters parameters = new SnapshotParameters();
     public Label userNameLabel;
     public Label nickNameLabel;
     public Label passwordLabel;
@@ -53,6 +54,10 @@ public class ProfileMenuView {
     Image image3 = new Image(String.valueOf(Avatar.AVATAR_3.getUrl()));
     @FXML
     Image image4 = new Image(String.valueOf(Avatar.AVATAR_4.getUrl()));
+
+    static {
+        parameters.setFill(Color.TRANSPARENT);
+    }
 
     @FXML
     public void initialize() {
@@ -242,13 +247,10 @@ public class ProfileMenuView {
         imageView3.setCursor(Cursor.HAND);
         imageView4.setCursor(Cursor.HAND);
 
-        SnapshotParameters parameters = new SnapshotParameters();
-        parameters.setFill(Color.TRANSPARENT);
-
-        createClip(imageView1, parameters);
-        createClip(imageView2, parameters);
-        createClip(imageView3, parameters);
-        createClip(imageView4, parameters);
+        createClip(imageView1);
+        createClip(imageView2);
+        createClip(imageView3);
+        createClip(imageView4);
 
         VBox vBox1 = new VBox();
         VBox vBox2 = new VBox();
@@ -331,7 +333,7 @@ public class ProfileMenuView {
         window.showAndWait();
     }
 
-    private void createClip(ImageView imageView, SnapshotParameters parameters) {
+    private void createClip(ImageView imageView) {
         Rectangle clip = new Rectangle();
         clip.setWidth(200.0f);
         clip.setHeight(200.0f);
@@ -339,7 +341,7 @@ public class ProfileMenuView {
         clip.setArcWidth(30);
 //        clip.setStroke(Color.BLACK);
         imageView.setClip(clip);
-        WritableImage wImage = imageView.snapshot(parameters, null);
+        WritableImage wImage = imageView.snapshot(ProfileMenuView.parameters, null);
 //        imageView.setClip(null);
 //        imageView.setEffect(new DropShadow(20, Color.WHITE));
         imageView.setImage(wImage);

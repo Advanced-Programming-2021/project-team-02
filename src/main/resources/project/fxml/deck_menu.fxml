@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane id="secondPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.DeckMenuView">
-   <VBox id="firstBox" alignment="TOP_CENTER" layoutX="40.0" layoutY="40.0" prefHeight="790.0" prefWidth="830.0">
+   <VBox id="firstBox" alignment="TOP_CENTER" layoutX="40.0" layoutY="40.0" prefHeight="768.0" prefWidth="830.0">
       <HBox alignment="CENTER_LEFT" layoutX="63.0" prefHeight="64.0" prefWidth="485.0">
          <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#back" style="-fx-background-color: #00062b" textAlignment="CENTER">
             <HBox.margin>
@@ -59,7 +59,7 @@
       </padding>
    </VBox>
 
-   <Button id="button" layoutX="375.0" layoutY="775.0" mnemonicParsing="false" onMouseClicked="#addDeck" text="New Deck" />
+   <Button id="button" layoutX="400.0" layoutY="745.0" mnemonicParsing="false" onMouseClicked="#addDeck" text="New Deck" />
 
    <ImageView fitHeight="56.0" fitWidth="56.0" layoutX="1450.0" layoutY="625.0" onMouseClicked="#nextTrack" pickOnBounds="true" preserveRatio="true">
       <Image url="@../image/Icon/next_track.png" />

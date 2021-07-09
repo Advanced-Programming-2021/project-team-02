@@ -53,3 +53,9 @@
 .scroll-bar:vertical {
     -fx-background-color: #00062b;
 }
+
+#container {
+    -fx-border-radius: 15;
+    -fx-border-color: #bb792d;
+    -fx-border-width: 7;
+}

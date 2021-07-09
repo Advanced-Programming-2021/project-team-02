@@ -1,15 +1,24 @@
 package project.view;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tooltip;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import project.controller.MainMenuController;
 import project.controller.ShopMenuController;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
+
 import javafx.scene.control.Label;
 import project.model.Assets;
 import project.model.card.Card;
@@ -123,29 +132,66 @@ public class ShopMenuView {
     public Label Coin;
     public Button seeOtherCards;
     public ScrollPane scrollPane;
+    public static final ArrayList<Button> buttons = new ArrayList<>();
+    public static final ArrayList<ImageView> imageViews = new ArrayList<>();
+    public HBox row1;
+    public HBox row2;
+    public HBox row3;
+    public HBox row4;
+    public HBox row5;
+    public HBox row6;
+    public HBox row7;
 
     HashMap<Card, Integer> allUserCards;
 
     @FXML
-    public void initialize() {
+    public void initialize() throws IOException {
         controller = ShopMenuController.getInstance();
         Coin.setText(String.valueOf(Objects.requireNonNull(
                 Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
         allUserCards = Objects.requireNonNull(
                 Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllUserCards();
-        System.out.println(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin());
         scrollPane.setFitToWidth(true);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setPrefWidth(1525);
         scrollPane.setPrefHeight(860);
         showNumber();
+        getImageViewsAndCreateButtons(row1);
+        getImageViewsAndCreateButtons(row2);
+        getImageViewsAndCreateButtons(row3);
+        getImageViewsAndCreateButtons(row4);
+        getImageViewsAndCreateButtons(row5);
+        getImageViewsAndCreateButtons(row6);
+        getImageViewsAndCreateButtons(row7);
+    }
+
+    public void getImageViewsAndCreateButtons(HBox hBox) {
+        ArrayList<VBox> vBoxes = new ArrayList<>();
+        for (Node child : hBox.getChildren()) vBoxes.add((VBox) child);
+        int counter = 0;
+        for (VBox vBox : vBoxes) {
+            imageViews.add((ImageView) vBox.getChildren().get(0));
+
+            Button button = new Button();
+            button.setGraphic(vBox.getChildren().get(0));
+            buttons.add(button);
+            button.setStyle("-fx-background-color: transparent;");
+            button.setPadding(new Insets(-3, -3, -3, -3));
+            vBox.getChildren().add(0, button);
+
+            Tooltip tooltip = new Tooltip();
+            ImageView imageViewForToolTip = new ImageView(imageViews.get(counter).getImage());
+            imageViewForToolTip.setFitHeight(490);
+            imageViewForToolTip.setPreserveRatio(true);
+            tooltip.setGraphic(imageViewForToolTip);
+            button.setTooltip(tooltip);
+            counter++;
+        }
     }
 
     public void showNumber() {
         allUserCards = Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllUserCards();
         for (Card card : Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllUserCards().keySet()) {
-            System.out.println(card.getName());
-            System.out.println(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllUserCards().get(card));
             if (card.getName().equals("Alexandrite Dragon")) C1.setText(String.valueOf(allUserCards.get(card)));
             if (card.getName().equals("Axe Raider")) C2.setText(String.valueOf(allUserCards.get(card)));
             if (card.getName().equals("Baby dragon")) C3.setText(String.valueOf(allUserCards.get(card)));
@@ -203,7 +249,6 @@ public class ShopMenuView {
     }
 
     public void BEWD() {
-        System.out.println("yes");
         ShopMenuMessage shopMenuMessage = controller.buyCard("Blue-Eyes white dragon");
         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
         Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
