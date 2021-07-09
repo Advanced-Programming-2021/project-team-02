@@ -53,7 +53,7 @@ public class ImportExportView {
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-       // gridPane.setGridLinesVisible(true);
+        // gridPane.setGridLinesVisible(true);
 
 
         int k = 0, j = 0;
@@ -82,11 +82,18 @@ public class ImportExportView {
                     new PopUpMessage(importExportMessages.getAlertType(), importExportMessages.getLabel());
                 });
 
+                Button csv = new Button("csv");
+                csv.setId(CardsDatabase.getAllCards().get(i - 1).getName());
+                csv.setOnMouseClicked(mouseEvent -> {
+                    ImportExportMessages importExportMessages = ImportExportController.getInstance().SaveToCSV(gson.getId());
+                    new PopUpMessage(importExportMessages.getAlertType(), importExportMessages.getLabel());
+                });
+
                 VBox layout = new VBox(10);
                 layout.setPadding(new Insets(10, 10, -450, 40));
                 layout.setPrefHeight(300);
                 layout.setEffect(new DropShadow());
-                layout.getChildren().addAll(imageView, label, gson);
+                layout.getChildren().addAll(imageView, label, gson, csv);
 
                 gridPane.add(layout, k, j);
                 k++;
@@ -110,8 +117,7 @@ public class ImportExportView {
         gridPane.add(importButton, 1, j + 2);
 
 
-
-     //   gridPane.add(listView, 3, j + 2);
+        //   gridPane.add(listView, 3, j + 2);
 
         gridPane.setPadding(new Insets(10, 300, 10, 10));
         gridPane.setVgap(0);
@@ -136,10 +142,12 @@ public class ImportExportView {
             fileName = fileName.substring(1, fileName.length() - 1);
 
             System.out.println(fileName);
+
             ImportExportMessages importExportMessages = ImportExportController.getInstance().importCard(fileName);
             new PopUpMessage(importExportMessages.getAlertType(), importExportMessages.getLabel());
+
             listView.getItems().clear();
-            for (Card card:CardsDatabase.getAllCards()) {
+            for (Card card : CardsDatabase.getAllCards()) {
                 System.out.println(card.getName());
             }
         } else {
