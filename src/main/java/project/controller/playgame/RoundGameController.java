@@ -318,7 +318,7 @@ public class RoundGameController {
     }
 
     private void changePositionUsed() {
-        usedCellsToAttackNumbers.add(selectedCellAddress);
+        changedPositionCards.add(selectedCellAddress);
     }
 
     public void drawCardFromDeck() {
@@ -1429,19 +1429,13 @@ public class RoundGameController {
 
             return SELECT_CARD;
         }
-//        if (selectedCellZone == Zone.NONE && opponentSelectedCell != null) {
-//            view.showError(Error.ONLY_CAN_SHOW_OPPONENT_CARD);
-//            return;
-//        }
         if (selectedCellZone != Zone.HAND)
             return GameViewMessage.NONE;
         if (selectedCell.getCardInCell().getCardType() == MONSTER) {
             return setMonster();
         } else {
-            //TODO return setSpellOrTrap();
+            return setSpellOrTrap();
         }
-        //TODO remove
-        return null;
     }
 
     public GameViewMessage setMonster() {
@@ -1954,41 +1948,35 @@ public class RoundGameController {
 
 
     // SPELL RELATED
-    public void setSpellOrTrap() {
-        if (selectedCellZone == Zone.NONE && opponentSelectedCell != null) {
-            Error.showError(Error.ONLY_CAN_SHOW_OPPONENT_CARD);
-            return;
-        }
-        if (selectedCell == null) {
-            Error.showError(Error.NO_CARD_SELECTED_YET);
-        } else if (!selectedCellZone.equals(Zone.HAND)) {
-            Error.showError(Error.CAN_NOT_SET);
-        } else if (selectedCell.getCardInCell().getCardType() == CardType.MONSTER) {
-            Error.showError(Error.INVALID_COMMAND);
-        } else if (!(currentPhase == Phase.MAIN_PHASE_1 || currentPhase == Phase.MAIN_PHASE_2)) {
-            Error.showError(Error.ACTION_CAN_NOT_WORK_IN_THIS_PHASE);
-        } else if (getCurrentPlayer().getPlayerBoard().isSpellZoneFull()) {
-            Error.showError(Error.SPELL_ZONE_IS_FULL);
+    public GameViewMessage setSpellOrTrap() {
+         if (!selectedCellZone.equals(Zone.HAND)) {
+            return CAN_NOT_SET;
+        }else if (getCurrentPlayer().getPlayerBoard().isSpellZoneFull()) {
+            return FULL_SPELL_ZONE;
         } else if (selectedCell.getCardInCell().getCardType().equals(SPELL)) {
             if (((Spell) selectedCell.getCardInCell()).getSpellType().equals(SpellType.FIELD)) {
-                setFieldCard();
-                return;
+              return NONE;
+                //TODO  setFieldCard();
+              //TODO  return;
             } else {
                 SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
-                spellZone.addCard(selectedCell.getCardInCell(), CellStatus.HIDDEN);
+                int addressOfAdd = spellZone.addCard(selectedCell.getCardInCell(), CellStatus.HIDDEN);
                 getCurrentPlayerHand().remove(selectedCellAddress - 1);
+                view.playAnimation(Animation.SET_SPELL,selectedCell.getCardInCell().getName(), addressOfAdd,selectedCellAddress,0,true);
                 view.showSuccessMessage(SuccessMessage.SET_SUCCESSFULLY);
                 view.showBoard();
             }
             deselectCard(0);
         } else {
             SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
-            spellZone.addCard(selectedCell.getCardInCell(), CellStatus.HIDDEN);
+            int addressOfAdd = spellZone.addCard(selectedCell.getCardInCell(), CellStatus.HIDDEN);
             getCurrentPlayerHand().remove(selectedCellAddress - 1);
-            view.showSuccessMessage(SuccessMessage.SET_SUCCESSFULLY);
+             view.playAnimation(Animation.SET_SPELL,selectedCell.getCardInCell().getName(), addressOfAdd,selectedCellAddress,0,true);
+             view.showSuccessMessage(SuccessMessage.SET_SUCCESSFULLY);
             view.showBoard();
             deselectCard(0);
         }
+         return NONE;
 
     }
 
