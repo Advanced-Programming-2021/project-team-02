@@ -139,8 +139,23 @@
             <HBox alignment="CENTER_LEFT">
                <Label prefHeight="18.0" prefWidth="105.0" style="-fx-text-fill: #ffd500;" text="Profile Picture">
                   <HBox.margin>
-                     <Insets right="55.0" />
+                     <Insets right="18.0" />
                   </HBox.margin></Label>
+               <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#chooseProfilePicture" prefHeight="16.0" prefWidth="27.0" style="-fx-background-color: #21282f; -fx-background-radius: 5;">
+                  <graphic>
+                     <ImageView fitHeight="18.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                           <Image url="@../image/Icon/pc.png" />
+                        </image>
+                     </ImageView>
+                  </graphic>
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor>
+                  <HBox.margin>
+                     <Insets right="2.0" />
+                  </HBox.margin>
+               </Button>
                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#changeProfilePicture" prefHeight="27.0" prefWidth="27.0" style="-fx-background-color: #21282f; -fx-background-radius: 5;" textAlignment="CENTER">
                   <graphic>
                      <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
@@ -195,7 +210,6 @@
          <Cursor fx:constant="HAND" />
       </cursor>
    </ImageView>
-   <Button layoutX="856.0" layoutY="293.0" mnemonicParsing="false" onAction="#chooseProfilePicture" text="Choose Picture" />
 
 
    <stylesheets>
