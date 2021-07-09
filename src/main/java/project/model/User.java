@@ -3,6 +3,7 @@ package project.model;
 import project.model.card.Monster;
 import project.model.card.informationofcards.MonsterActionType;
 
+import java.net.URL;
 import java.util.*;
 
 public class User implements Comparable<User> {
@@ -14,7 +15,7 @@ public class User implements Comparable<User> {
     private String nickname;
     private boolean hasActiveDeck;
     private int score;
-    private Avatar avatar;
+    private URL avatar;
 
     static {
         allUsers = new ArrayList<>();
@@ -39,7 +40,7 @@ public class User implements Comparable<User> {
 //            e.printStackTrace();
 //        }
         hasActiveDeck = false;
-        setAvatar(Avatar.AVATAR_1);
+        setAvatarURL(Avatar.AVATAR_1.getUrl());
     }
 
     public User(String username, String password, String nickname) {
@@ -52,11 +53,11 @@ public class User implements Comparable<User> {
         //Assets.jsonAssets();
     }
 
-    public Avatar getAvatar() {
+    public URL getAvatarURL() {
         return avatar;
     }
 
-    public void setAvatar(Avatar avatar) {
+    public void setAvatarURL(URL avatar) {
         this.avatar = avatar;
     }
 

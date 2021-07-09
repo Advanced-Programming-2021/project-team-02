@@ -7,70 +7,75 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<ScrollPane id="secondPane" fx:id="scrollPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.ShopMenuView">
+<ScrollPane id="secondPane" fx:id="scrollPane" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.ShopMenuView">
     <VBox id="firstBox">
         <VBox id="secondBox" alignment="CENTER" spacing="35.0">
             <HBox alignment="CENTER_LEFT">
-                <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#back" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@../image/Icon/previous.png" />
+                <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#back" pickOnBounds="true"
+                           preserveRatio="true">
+                    <Image url="@../image/Icon/previous.png"/>
                     <cursor>
-                        <Cursor fx:constant="HAND" />
+                        <Cursor fx:constant="HAND"/>
                     </cursor>
                     <HBox.margin>
-                        <Insets left="50.0" right="450.0" />
+                        <Insets left="50.0" right="450.0"/>
                     </HBox.margin>
                 </ImageView>
                 <HBox id="menuBar" alignment="CENTER" prefHeight="62.0" prefWidth="253.0" spacing="10.0">
                     <ImageView id="icon" fitWidth="35" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/Icon/main_menu.png" />
+                        <Image url="@../image/Icon/main_menu.png"/>
                     </ImageView>
-                    <Label id="menuTitle" text="Shop Menu" />
+                    <Label id="menuTitle" text="Shop Menu"/>
                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
                     </padding>
                     <VBox.margin>
-                        <Insets left="125.0" right="125.0" />
+                        <Insets left="125.0" right="125.0"/>
                     </VBox.margin>
                 </HBox>
                 <VBox alignment="CENTER" spacing="2.0">
-                    <Label id="coin" alignment="CENTER" prefHeight="20.0" prefWidth="66.0" text="Coins" textAlignment="CENTER">
+                    <Label id="coin" alignment="CENTER" prefHeight="20.0" prefWidth="66.0" text="Coins"
+                           textAlignment="CENTER">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
-                    <Label id="numberOfCoins" fx:id="Coin" alignment="CENTER" prefHeight="20.0" prefWidth="106.0" text="Label">
+                    <Label id="numberOfCoins" fx:id="Coin" alignment="CENTER" prefHeight="20.0" prefWidth="106.0"
+                           text="Label">
                         <padding>
-                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
                         </padding>
                     </Label>
                     <HBox.margin>
-                        <Insets left="400.0" />
+                        <Insets left="400.0"/>
                     </HBox.margin>
                 </VBox>
                 <VBox.margin>
-                    <Insets bottom="25.0" />
+                    <Insets bottom="25.0"/>
                 </VBox.margin>
             </HBox>
 
             <HBox fx:id="row1" alignment="CENTER" spacing="35.0">
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/AlexandriteDragon.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/AlexandriteDragon.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 2600">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="25.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#AD" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C1" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C1" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -78,22 +83,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/AxeRaider.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/AxeRaider.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 3100">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#AR" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C2" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C2" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -101,22 +107,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/BlueEyesWhiteDragon.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/BlueEyesWhiteDragon.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 11300">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#BEWD" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C8" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C8" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -124,22 +131,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/BabyDragon.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/BabyDragon.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 1600">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#BD" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C3" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C3" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -147,22 +155,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/BattleOX.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/BattleOX.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 2900">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#BO" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C4" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C4" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -170,22 +179,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/BattleWarrior.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/BattleWarrior.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 1300">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#BW" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C5" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C5" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -193,22 +203,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/BeastKingBarbaros.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/BeastKingBarbaros.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 9200">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#BKB" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C6" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C6" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -216,22 +227,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/Bitron.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/Bitron.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 1000">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#BBBBB" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C7" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C7" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -241,22 +253,23 @@
             <HBox fx:id="row2" alignment="CENTER" spacing="35.0">
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/CrabTurtle.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/CrabTurtle.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 10200">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#CT" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C9" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C9" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -264,22 +277,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/CrawlingDragon.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/CrawlingDragon.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 3900">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#CD" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C10" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C10" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -287,22 +301,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" layoutX="-1.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/CurtainOfDarkOnes.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/CurtainOfDarkOnes.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 700">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="28.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#COTDO" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C11" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C11" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -310,22 +325,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/DarkMagician.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/DarkMagician.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 8300">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#DM" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C13" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C13" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -333,22 +349,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/DarkBlade.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/DarkBlade.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 3500">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#DB" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C12" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C12" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -356,22 +373,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/ExploderDragon.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/ExploderDragon.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 1000">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#ED" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C14" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C14" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -379,22 +397,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/FeralImp.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/FeralImp.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 2800">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#FI" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C15" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C15" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -402,22 +421,24 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/FireYarou.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/FireYarou.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 2500">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
-                        <Button id="button" mnemonicParsing="false" onAction="#FFFFF" prefHeight="27.0" prefWidth="50.0" text="Buy">
+                        <Button id="button" mnemonicParsing="false" onAction="#FFFFF" prefHeight="27.0" prefWidth="50.0"
+                                text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C16" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C16" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -427,22 +448,23 @@
             <HBox fx:id="row3" alignment="CENTER" spacing="35.0">
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/FlameManipulator.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/FlameManipulator.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 1500">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#FM" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C17" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C17" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -450,22 +472,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/Haniwa.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/Haniwa.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 600">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#HHHHH" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C19" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C19" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -473,22 +496,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/GateGuardian.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/GateGuardian.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 20000">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#GG" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C18" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C18" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -496,22 +520,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/HeroOfTheEast.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/HeroOfTheEast.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 1700">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#HOTE" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C20" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C20" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -519,22 +544,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/HornImp.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/HornImp.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 2500">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#HI" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C21" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C21" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -542,22 +568,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/Leotron.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/Leotron.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 2500">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#LLLLL" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C22" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C22" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -565,22 +592,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/ManEaterBug.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/ManEaterBug.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 600">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#MEB" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C23" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C23" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -588,22 +616,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/SilverFang.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/SilverFang.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 1700">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#SF" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C24" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C24" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -613,22 +642,23 @@
             <HBox fx:id="row4" alignment="CENTER" spacing="35.0">
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/SkullGuardian.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/SkullGuardian.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 7900">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#SG" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C25" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C25" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -636,22 +666,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/SlotMachine.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/SlotMachine.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 7500">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#SM" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C26" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C26" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -659,22 +690,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/TheTricky.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/TheTricky.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 4300">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#TT" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C28" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C28" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -682,22 +714,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/Wattaildragon.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/Wattaildragon.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 5800">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#WWWWW" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C30" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C30" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -705,22 +738,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/WarriorDaiGrepher.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/WarriorDaiGrepher.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 3400">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#WDG" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C29" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C29" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -728,22 +762,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/SpiralSerpent.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/SpiralSerpent.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 11700">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#SS" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C27" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C27" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -751,22 +786,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/Wattkid.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/Wattkid.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 1300">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#WWWW" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C31" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C31" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -774,22 +810,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Monsters/YomiShip.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Monsters/YomiShip.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 1700">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#YS" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C32" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C32" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -799,22 +836,23 @@
             <HBox fx:id="row5" alignment="CENTER" spacing="35.0">
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Spells/AdvancedRitualArt.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Spells/AdvancedRitualArt.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 3000">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#ARA" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C33" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C33" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -822,22 +860,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Spells/BlackPendant.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Spells/BlackPendant.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 4300">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#BP" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C34" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C34" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -845,22 +884,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Spells/ClosedForest.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Spells/ClosedForest.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 4300">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#CF" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C35" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C35" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -868,22 +908,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Spells/DarkHole.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Spells/DarkHole.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price:2500">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#DH" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C36" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C36" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -891,22 +932,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Spells/MonsterReborn.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Spells/MonsterReborn.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price:  2500">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#MR" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C39" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C39" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -914,22 +956,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Spells/hf.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Spells/hf.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 2500">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#HFD" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C38" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C38" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -937,22 +980,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Spells/Forest.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Spells/Forest.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 4300">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#Forest" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C37" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C37" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -960,22 +1004,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Spells/PotOfGreed.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Spells/PotOfGreed.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 2500">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#POG" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C40" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C40" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -985,22 +1030,23 @@
             <HBox fx:id="row6" alignment="CENTER" spacing="35.0">
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Spells/Yami.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Spells/Yami.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 4300">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#YYYYY" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C45" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C45" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -1008,22 +1054,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Spells/Umiruka.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Spells/Umiruka.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 4300">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#UUUUU" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C44" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C44" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -1031,22 +1078,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Spells/Terraforming.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Spells/Terraforming.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 2500">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#TTTTT" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C43" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C43" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -1054,22 +1102,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Spells/SwordOfDarkDestruction.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Spells/SwordOfDarkDestruction.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 4300">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#SODD" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C42" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C42" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -1077,22 +1126,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Spells/Raigeki.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Spells/Raigeki.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 2500">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#RRRRR" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C41" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C41" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -1100,22 +1150,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Traps/MagicCylinder.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Traps/MagicCylinder.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 2000">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#MC" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C46" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C46" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -1123,22 +1174,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Traps/MirrorForce.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Traps/MirrorForce.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 2000">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#MF" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C47" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C47" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -1146,22 +1198,23 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Traps/TrapHole.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Traps/TrapHole.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 2000">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#TH" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C50" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C50" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -1169,48 +1222,25 @@
             </HBox>
 
             <HBox fx:id="row7" alignment="CENTER" spacing="35.0">
-            <VBox prefHeight="282.0" prefWidth="136.0">
-               <children>
-                  <ImageView fitHeight="196.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../image/ShopMenuPictures/Traps/TimeSeal.jpg" />
-                     </image>
-                  </ImageView>
-                  <Label prefHeight="18.0" prefWidth="125.0" text="Price : 2000" />
-                  <Button mnemonicParsing="false" onAction="#TS" text="Buy" />
-                  <Label fx:id="C52" prefHeight="18.0" prefWidth="86.0" text="0" />
-               </children>
-            </VBox>
-            <VBox prefHeight="282.0" prefWidth="140.0">
-               <children>
-                  <ImageView fitHeight="197.0" fitWidth="184.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../image/ShopMenuPictures/Traps/CalloftheHunted.jpg" />
-                     </image>
-                  </ImageView>
-                  <Label prefHeight="18.0" prefWidth="74.0" text="Price : 3500" />
-                  <Button mnemonicParsing="false" onAction="#COTH" text="Buy" />
-                  <Label fx:id="C51" prefHeight="18.0" prefWidth="73.0" text="0" />
-               </children>
-            </VBox>
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Traps/TorrentialTribute.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Traps/TimeSeal.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 2000">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
-                        <Button id="button" mnemonicParsing="false" onAction="#TTTT" text="Buy">
+                        <Button id="button" mnemonicParsing="false" onAction="#TS" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C49" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C52" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -1218,22 +1248,71 @@
 
                 <VBox alignment="CENTER" spacing="10.0">
                     <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../image/ShopMenuPictures/Traps/NegateAttack.jpg" />
+                        <Image url="@../image/ShopMenuPictures/Traps/CalloftheHunted.jpg"/>
+                    </ImageView>
+                    <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price : 3500">
+                        <padding>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                        </padding>
+                    </Label>
+                    <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
+                        <Button id="button" mnemonicParsing="false" onAction="#COTH" text="Buy">
+                            <HBox.margin>
+                                <Insets right="45.0"/>
+                            </HBox.margin>
+                        </Button>
+                        <Label id="numberOfCards" fx:id="C51" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
+                            <padding>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                            </padding>
+                        </Label>
+                    </HBox>
+                </VBox>
+
+                <VBox alignment="CENTER" spacing="10.0">
+                    <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../image/ShopMenuPictures/Traps/TorrentialTribute.jpg"/>
+                    </ImageView>
+                    <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 2000">
+                        <padding>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                        </padding>
+                    </Label>
+                    <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
+                        <Button id="button" mnemonicParsing="false" onAction="#TTTT" text="Buy">
+                            <HBox.margin>
+                                <Insets right="45.0"/>
+                            </HBox.margin>
+                        </Button>
+                        <Label id="numberOfCards" fx:id="C49" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
+                            <padding>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                            </padding>
+                        </Label>
+                    </HBox>
+                </VBox>
+
+                <VBox alignment="CENTER" spacing="10.0">
+                    <ImageView fitHeight="200.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../image/ShopMenuPictures/Traps/NegateAttack.jpg"/>
                     </ImageView>
                     <Label id="price" alignment="CENTER" prefHeight="30.0" prefWidth="120.0" text="Price: 3000">
                         <padding>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </padding>
                     </Label>
                     <HBox prefHeight="30.0" prefWidth="123.0" spacing="5.0">
                         <Button id="button" mnemonicParsing="false" onAction="#NA" text="Buy">
                             <HBox.margin>
-                                <Insets right="45.0" />
+                                <Insets right="45.0"/>
                             </HBox.margin>
                         </Button>
-                        <Label id="numberOfCards" fx:id="C48" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="0">
+                        <Label id="numberOfCards" fx:id="C48" alignment="CENTER" prefHeight="30.0" prefWidth="30.0"
+                               text="0">
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                             </padding>
                         </Label>
                     </HBox>
@@ -1241,18 +1320,19 @@
             </HBox>
 
             <HBox spacing="25.0">
-                <Button id="button" fx:id="seeOtherCards" mnemonicParsing="false" onMouseClicked="#seeOtherCardsCreated" prefHeight="30.0" prefWidth="140.0" text="See Player Cards" />
+                <Button id="button" fx:id="seeOtherCards" mnemonicParsing="false" onMouseClicked="#seeOtherCardsCreated"
+                        prefHeight="30.0" prefWidth="140.0" text="See Player Cards"/>
             </HBox>
 
             <padding>
-                <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                <Insets bottom="25.0" left="25.0" right="25.0" top="25.0"/>
             </padding>
         </VBox>
         <padding>
-            <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+            <Insets bottom="50.0" left="50.0" right="50.0" top="50.0"/>
         </padding>
     </VBox>
     <stylesheets>
-        <URL value="@../CSS/shop_menu.css" />
+        <URL value="@../CSS/shop_menu.css"/>
     </stylesheets>
 </ScrollPane>

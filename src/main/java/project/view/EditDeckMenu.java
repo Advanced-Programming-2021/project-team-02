@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -28,6 +29,7 @@ import java.util.Objects;
 
 public class EditDeckMenu {
     public GridPane gridScrollPane;
+    public ScrollPane scrollPane;
     private String side;
     private int endOFI;
     private int endOFJ;
@@ -36,7 +38,7 @@ public class EditDeckMenu {
     public static final SnapshotParameters parameters = new SnapshotParameters();
     public static final ArrayList<Button> buttons = new ArrayList<>();
     private static Utility utility;
-    private String cardName = null;
+    private String cardName;
 
     static {
         parameters.setFill(Color.TRANSPARENT);
@@ -44,6 +46,7 @@ public class EditDeckMenu {
 
     @FXML
     public void initialize() {
+        cardName = null;
         Button button = deckMenuController.getOpenedDeckButton();
         utility = new Utility();
         utility.addImages();
@@ -51,6 +54,7 @@ public class EditDeckMenu {
     }
 
     private void showEdit(String deckName) {
+        scrollPane.setFitToWidth(true);
         ArrayList<Deck> arrayList = Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllDecks();
         for (Deck deck : arrayList) {
             int counter = 0;
