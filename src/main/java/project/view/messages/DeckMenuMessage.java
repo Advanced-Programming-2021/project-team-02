@@ -13,6 +13,7 @@ public enum DeckMenuMessage {
     CARD_ADDED_TO_SIDE("Card successfully added to side deck", Alert.AlertType.INFORMATION),
     CARD_ADDED_TO_MAIN("Card successfully added to main deck", Alert.AlertType.INFORMATION),
     MAXIMUM("You have maximum number of this card", Alert.AlertType.ERROR),
+    ENOUGH("you do not have enough number of this card", Alert.AlertType.ERROR),
     DECK_FULL("Deck is full", Alert.AlertType.ERROR),
     YOU_DID_NOT_SELECT_ANY_CARD("You should select a card first", Alert.AlertType.ERROR),
     DECK_MAXIMUM_NUMBER("You have reached the maximum number of decks", Alert.AlertType.ERROR);

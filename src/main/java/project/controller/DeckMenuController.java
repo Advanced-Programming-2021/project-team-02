@@ -64,16 +64,15 @@ public class DeckMenuController {
         }
         Card card = Card.getCardByName(cardName);
         if (Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getNumberOfCards(card) == deck.getNumberOfCardInDeck(card)) {
-            return DeckMenuMessage.MAXIMUM;
+            return DeckMenuMessage.ENOUGH;
         }
 
         if (Objects.requireNonNull(card).getCardType().equals(CardType.MONSTER))
-            addMonsterToMainDeck((Monster) card, deck, deckName, cardName);
+            return addMonsterToMainDeck((Monster) card, deck, deckName, cardName);
         else if (card.getCardType().equals(CardType.SPELL))
-            addSpellToMainDeck((Spell) card, deck, deckName, cardName);
+            return addSpellToMainDeck((Spell) card, deck, deckName, cardName);
         else
-            addTrapToMainDeck((Trap) card, deck, deckName, cardName);
-        return DeckMenuMessage.CARD_ADDED_TO_MAIN;
+            return addTrapToMainDeck((Trap) card, deck, deckName, cardName);
     }
 
     public DeckMenuMessage addCardToSideDeck(String deckName, String cardName) {
@@ -89,13 +88,12 @@ public class DeckMenuController {
             return DeckMenuMessage.MAXIMUM;
         }
         if (Objects.requireNonNull(card).getCardType().equals(CardType.MONSTER)) {
-            addMonsterToSideDeck((Monster) card, deck, deckName, cardName);
+            return addMonsterToSideDeck((Monster) card, deck, deckName, cardName);
         } else if (card.getCardType().equals(CardType.SPELL)) {
-            addSpellToSideDeck((Spell) card, deck, deckName, cardName);
+            return addSpellToSideDeck((Spell) card, deck, deckName, cardName);
         } else {
-            addTrapToSideDeck((Trap) card, deck, deckName, cardName);
+            return addTrapToSideDeck((Trap) card, deck, deckName, cardName);
         }
-        return DeckMenuMessage.CARD_ADDED_TO_SIDE;
     }
 
     private boolean isValidDeckToAddCard(String cardName, String deckName) {
