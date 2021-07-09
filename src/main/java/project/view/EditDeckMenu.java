@@ -2,8 +2,6 @@ package project.view;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -157,7 +155,7 @@ public class EditDeckMenu {
 
     public void addCards(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
-        Utility.openNewMenu("/project/fxml/deck_menu_add_card.fxml");
+        Utility.openNewMenu("/project/fxml/deckAddCard.fxml");
     }
 
     public void back(MouseEvent mouseEvent) throws IOException {

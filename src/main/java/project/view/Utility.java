@@ -4,6 +4,7 @@ import animatefx.animation.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
+import javafx.scene.input.DataFormat;
 import javafx.scene.layout.BorderPane;
 import project.controller.playgame.RoundGameController;
 import project.view.gameview.GameView;
@@ -16,7 +17,9 @@ public class Utility {
     private static BorderPane mainPane;
     private static Parent secondPane;
     private static final HashMap<String, Image> stringImageHashMap = new HashMap<>();
-
+    private static DataFormat sideDeckGridPaneFormat = new DataFormat("SideGridPane");
+    private static DataFormat mainDeckGridPaneFormat = new DataFormat("MainGridPane");
+    private static DataFormat allCardsPaneFormat = new DataFormat("AllCardsPane");
     public static void openNewMenu(String url) throws IOException {
         Parent newSecondPane = FXMLLoader.load(Objects.requireNonNull(Utility.class.getResource(url)));
         mainPane.getChildren().remove(secondPane);
@@ -112,5 +115,15 @@ public class Utility {
         return stringImageHashMap;
     }
 
+    public static DataFormat getAllCardsPaneFormat() {
+        return allCardsPaneFormat;
+    }
 
+    public static DataFormat getMainDeckGridPaneFormat() {
+        return mainDeckGridPaneFormat;
+    }
+
+    public static DataFormat getSideDeckGridPaneFormat() {
+        return sideDeckGridPaneFormat;
+    }
 }

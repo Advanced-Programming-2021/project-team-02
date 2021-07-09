@@ -204,7 +204,7 @@
                <Insets bottom="2.0" top="2.0" />
             </padding>
             <VBox.margin>
-               <Insets bottom="3.0" />
+               <Insets bottom="3.0"/>
             </VBox.margin></Label>
          <ProgressBar fx:id="opponentPlayerLPBar" style="-fx-accent: red; -fx-control-inner-background: #f687da;" prefHeight="20.0" prefWidth="162.0" progress="0.0" />
          <Separator prefWidth="200.0" />

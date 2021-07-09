@@ -171,13 +171,11 @@ public class LoginMenuView extends Application {
         Objects.requireNonNull(erfanAsset).createDeck("erfan");
         Deck erfandeck = erfanAsset.getDeckByDeckName("erfan");
         int counter = 0;
-        erfanAsset.addCardToMainDeck(Card.getCardByName("Torrential Tribute"),erfandeck);
-        erfanAsset.addCardToMainDeck(Card.getCardByName("Mirror Force"),erfandeck);
-        erfanAsset.addCardToMainDeck(Card.getCardByName("Negate Attack"),erfandeck);
         outer:
         for (int i = 0; i < 2; i++) {
             for (Monster monster : allMonsters) {
                 if (monster.getMonsterActionType() == MonsterActionType.NORMAL && monster.getLevel() >= 4) {
+                    erfanAsset.addCard(monster);
                     erfanAsset.addCardToMainDeck(monster, erfandeck);
                     counter++;
                 }
@@ -188,20 +186,21 @@ public class LoginMenuView extends Application {
             }
         }
         for (Spell spell : allSpells) {
+            erfanAsset.addCard(spell);
             erfanAsset.addCardToMainDeck(spell, erfandeck);
             counter++;
             if (counter == 25)
                 break;
         }
         for (int i = 0; i < 4; i ++){
+            erfanAsset.addCard(allMonsters.get(i));
             erfanAsset.addCardToMainDeck(allMonsters.get(i),erfandeck);
         }
         for (int i = 0; i < 5; i ++){
+            erfanAsset.addCard(allMonsters.get(i));
             erfanAsset.addCardToSideDeck(allMonsters.get(i),erfandeck);
         }
-        erfanAsset.addCardToMainDeck(Card.getCardByName("Time Seal"),erfandeck);
-        erfanAsset.addCardToMainDeck(Card.getCardByName("Call of The Haunted"),erfandeck);
-        erfanAsset.addCardToMainDeck(Card.getCardByName("Torrential Tribute"),erfandeck);
+
         erfanAsset.activateDeck("erfan");
         User mahdis = new User("mahdis", "mahdis", "mahdis");
         Assets mahdisAsset = Assets.getAssetsByUsername("mahdis");

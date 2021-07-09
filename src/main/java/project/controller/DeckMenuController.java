@@ -105,21 +105,21 @@ public class DeckMenuController {
         if (!isValidNumberOfCardInDeck(deckName, cardName, false, deck.getNumberOfCardInDeck(monster))) return DeckMenuMessage.MAXIMUM;;
         Assets assets = Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername());
         Objects.requireNonNull(assets).addCardToMainDeck(monster, deck);
-        return DeckMenuMessage.CARD_ADDED_TO_SIDE;
+        return DeckMenuMessage.CARD_ADDED_TO_MAIN;
     }
 
     private DeckMenuMessage addSpellToMainDeck(Spell spell, Deck deck, String deckName, String cardName) {
         if (!isValidNumberOfCardInDeck(deckName, cardName, spell.getIsLimited(), deck.getNumberOfCardInDeck(spell))) return DeckMenuMessage.MAXIMUM;;
         Assets assets = Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername());
         Objects.requireNonNull(assets).addCardToMainDeck(spell, deck);
-        return DeckMenuMessage.CARD_ADDED_TO_SIDE;
+        return DeckMenuMessage.CARD_ADDED_TO_MAIN;
     }
 
     private DeckMenuMessage addTrapToMainDeck(Trap trap, Deck deck, String deckName, String cardName) {
         if (!isValidNumberOfCardInDeck(deckName, cardName, trap.getIsLimited(), deck.getNumberOfCardInDeck(trap))) return DeckMenuMessage.MAXIMUM;;
         Assets assets = Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername());
         Objects.requireNonNull(assets).addCardToMainDeck(trap, deck);
-        return DeckMenuMessage.CARD_ADDED_TO_SIDE;
+        return DeckMenuMessage.CARD_ADDED_TO_MAIN;
     }
 
     private DeckMenuMessage addMonsterToSideDeck(Monster monster, Deck deck, String deckName, String cardName) {
@@ -171,6 +171,7 @@ public class DeckMenuController {
         Assets assets = Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername());
         HashMap<Card, Integer> userCards = Objects.requireNonNull(assets).getAllUserCards();
         for (Card card : userCards.keySet()) {
+            System.out.println(card.getName() + " " + cardName);
             if (card.getName().equalsIgnoreCase(cardName))
                 if (userCards.get(card) > 0)
                     return true;

@@ -4,6 +4,10 @@
     font-weight: normal;
     src: local('Matrix II'), url('../font/MatrixII/MatrixIIRegular.otf') format('otf');
 }
+.scroll-pane > .viewport{
+    -fx-background-color: #00062b;
+    -fx-alignment: CENTER;
+}
 
 #secondPane {
     -fx-font-family: "Matrix II Regular";
@@ -11,33 +15,37 @@
     -fx-background-color: #103188;
     -fx-background-size: cover;
 }
+#anchorPane{
+    -fx-background-color: #00062b;
+}
 #mainDeckPane{
     -fx-background-color: #00062b;
     -fx-background-radius: 15 ;
 }
 #sideDeckPane{
-   -fx-background-color: #00062b;
+    -fx-background-color: #00062b;
     -fx-background-radius: 15 ;
 }
 #cardBox{
     -fx-background-color: #00062b;
+    -fx-background-radius: 15;
 }
 #description{
     -fx-text-fill: white;
-    -fx-font-size: 15;
+    -fx-font-size: 10;
 }
 #menuTitle {
     -fx-font-size: 36;
     -fx-text-fill: #ffd500;
 }
-.button {
-    -fx-background-color: #bb792d;
-    -fx-background-radius: 10;
-    -fx-text-fill: white;
-    -fx-font-size: 20;
-    -fx-cursor: Hand;
-}
 #menuBar {
     -fx-border-color: #ffd500;
     -fx-border-radius: 20;
+}
+#allCardsBox{
+    -fx-background-color: #00062b;
+}
+.label{
+    -fx-text-alignment: CENTER;
+    -fx-text-fill: white;
 }
