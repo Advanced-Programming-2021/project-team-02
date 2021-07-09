@@ -1141,7 +1141,10 @@ public class RoundGameController {
         } else {
             Cell cell = getOpponentPlayer().getPlayerBoard().getACellOfBoardWithAddress(Zone.SPELL_ZONE, address);
             if (checkTrapCellToBeActivatedForOpponentInSummonSituation(address, cell, addressOfNewSummonedCard))
+            {
+                view.showPopUpMessageForEffect("Trap effect!",TRAP);
                 return true;
+            }
         }
         return false;
     }
@@ -1168,7 +1171,10 @@ public class RoundGameController {
         } else {
             Cell cell = getCurrentPlayer().getPlayerBoard().getACellOfBoardWithAddress(Zone.SPELL_ZONE, address);
             if (checkTrapCellToBeActivatedForCurrentPlayerInSummonSituation(address, cell))
+            {
+                view.showPopUpMessageForEffect("Trap effect!",TRAP);
                 return true;
+            }
 
         }
         return false;
@@ -1864,6 +1870,7 @@ public class RoundGameController {
                 if (activateTrapEffectInAttackSituation(trap.getTrapEffect(), cell)) {
                     addCardToGraveYard(Zone.SPELL_ZONE, address, getOpponentPlayer()); //CHECK correctly removed ?
                 }
+                view.showPopUpMessageForEffect("Trap effect!",TRAP);
                 return true;
             }
         }
