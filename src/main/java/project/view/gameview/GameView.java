@@ -372,8 +372,6 @@ public class GameView {
             showHand();
         } else if (Regex.getMatcher(Regex.BOARD_GAME_SHOW_BOARD, command).matches()) {
             showBoard();
-        } else if (Regex.getMatcher(Regex.COMMAND_HELP, command).matches()) {
-            help();
         } else {
             Error.showError(Error.INVALID_COMMAND);
         }
@@ -381,15 +379,6 @@ public class GameView {
 
     public void showError(Error error) {
         System.out.println(error.getValue());
-    }
-
-    public void showSuccessMessageWithTwoIntegerAndOneString(SuccessMessage successMessage, String winnerUserName, int winnerScore, int loserScore) {
-        System.out.printf(SuccessMessage.WIN_MESSAGE_ROUND_MATCH.getValue(), winnerUserName, winnerScore, loserScore);
-    }
-
-    public void showSuccessMessageWithTwoIntegerAndOneStringForSeveralWins(SuccessMessage successMessage, String winnerUserName, int winnerScore, int loserScore) {
-        if (successMessage.equals(SuccessMessage.WIN_MESSAGE_FOR_HOLE_MATCH))
-            System.out.printf(SuccessMessage.WIN_MESSAGE_FOR_HOLE_MATCH.getValue(), winnerUserName, winnerScore, loserScore);
     }
 
     public void showSuccessMessage(SuccessMessage message) {
@@ -526,10 +515,6 @@ public class GameView {
         controller.getCurrentPlayerHand().stream().map(card -> card.getName() + " (" + card.getCardType().name() + ")").forEach(System.out::println);
     }
 
-    public void showPhase() {
-        System.out.printf(SuccessMessage.PHASE_NAME.getValue(), controller.getCurrentPhase());
-    }
-
     public void showCurrentGraveYard(boolean userAskedForGraveYard) {
         int counter = 1;
         if (controller.getCurrentPlayer().getPlayerBoard().isGraveYardEmpty())
@@ -614,7 +599,6 @@ public class GameView {
     }
 
     private GridPane getOnlyMonsterZoneGridPaneToSelect(ArrayList<Integer> listOfSelected, int size, MonsterZone monsterZone) {
-        System.out.println("number of tribute needed : " + size);
         GridPane gridPane = new GridPane();
         ArrayList<Card> inZoneCards = new ArrayList<>();
         for (int i = 1; i <= 5; i++) {
@@ -643,7 +627,6 @@ public class GameView {
                     return;
                 if (listOfSelected.size() != size) {
                     listOfSelected.add(finalI + 1);
-                    System.out.println("address added :" + (finalI + 1));
                     pane.setBorder(new Border(new BorderStroke(Color.YELLOW,
                             BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderStroke.THICK)));
                 }
@@ -830,7 +813,6 @@ public class GameView {
     }
 
     private GridPane getOnlySpellZoneGridPaneToSelect(ArrayList<Integer> listOfSelected, int size, SpellZone spellZone) {
-        System.out.println("number of tribute needed : " + size);
         GridPane gridPane = new GridPane();
         ArrayList<Card> inZoneCards = new ArrayList<>();
         for (int i = 1; i <= 5; i++) {
@@ -859,7 +841,6 @@ public class GameView {
                     return;
                 if (listOfSelected.size() != size) {
                     listOfSelected.add(finalI + 1);
-                    System.out.println("address added :" + (finalI + 1));
                     pane.setBorder(new Border(new BorderStroke(Color.YELLOW,
                             BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderStroke.THICK)));
                 }
@@ -942,11 +923,9 @@ public class GameView {
     }
 
     private GridPane getOnlyCurrentHandGridPaneToSelect(boolean[] isSelected, int[] selectedAddress, int thisAddress) {
-        System.out.println(thisAddress - 1);
         GridPane gridPane = new GridPane();
         ArrayList<Card> inHandCards = (ArrayList<Card>) RoundGameController.getInstance().getCurrentPlayerHand();
         for (int i = 0; i < inHandCards.size(); i++) {
-            System.out.println(i + " cardName : " + inHandCards.get(i));
             if (i == thisAddress - 1)
                 continue;
             Pane pane = new Pane();
@@ -1391,49 +1370,6 @@ public class GameView {
         return choice[0];
     }
 
-    public void showOpponentGraveYard() {
-        int counter = 1;
-        if (controller.getOpponentPlayer().getPlayerBoard().isGraveYardEmpty())
-            showError(Error.EMPTY_GRAVEYARD);
-        else {
-            for (Card card : controller.getCurrentPlayer().getPlayerBoard().returnGraveYard().getGraveYardCards()) {
-                System.out.println(counter + ". " + card.getName() + ":" + card.getDescription());
-                counter++;
-            }
-        }
-        while (!Input.getInput().equals("back")) {
-            System.out.println(Error.INVALID_COMMAND);
-        }
-    }
-
-    public void help() {
-        System.out.println("show board\n" +
-                "show hand\n" +
-                "select --monster <monsterZoneNumber>\n" +
-                "select --monster <monsterZoneNumber> --opponent\n" +
-                "select -m <monsterZoneNumber> -o\n" +
-                "select --spell <spellZoneNumber>\n" +
-                "select --spell <spellZoneNumber> --opponent\n" +
-                "select -s <spellZoneNumber> -o\n" +
-                "select --field\n" +
-                "select --field --opponent\n" +
-                "select -f -o\n" +
-                "select --hand <cardNumber>\n" +
-                "select -d\n" +
-                "next phase\n" +
-                "summon\n" +
-                "set \n" +
-                "set --position <attack|defense>\n" +
-                "flip-summon\n" +
-                "attack <monsterZoneNumber>\n" +
-                "attack direct\n" +
-                "activate effect\n" +
-                "surrender\n" +
-                "show graveyard\n" +
-                "card show --selected\n" +
-                "cancel\n" +
-                "help");
-    }
 
     private void showCurrentGraveYardToSee(boolean isCurrent) {
         ArrayList<Card> currentGraveYard = isCurrent ? RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().returnGraveYard().getGraveYardCards() :
@@ -1578,8 +1514,6 @@ public class GameView {
             cardImageView.setOnMouseClicked(mouseEvent -> {
                 if (mouseEvent.getButton() != MouseButton.PRIMARY)
                     return;
-                System.out.println("the selected card : " + card.getName());
-                System.out.println("address! : " + (finalCounter + 1) + "\n");
                 selectedCardImageView.setImage(getCardImageByName(card.getName()));
                 selectedCardDescriptionLabel.setText(card.toString());
                 RoundGameController.getInstance().selectCardInHand(finalCounter + 1);
@@ -1651,7 +1585,6 @@ public class GameView {
                     return;
                 selectedCardImageView.setImage(getCardImageByName(monsterCell.getCardInCell().getName()));
                 selectedCardDescriptionLabel.setText(monsterCell.getCardInCell().toString());
-                System.out.println("Address : " + finalI + " monseter :" + monsterCell.getCardInCell() + "  changeTurn");
                 RoundGameController.getInstance().selectCardInMonsterZone(finalI);
 
             });
@@ -2033,7 +1966,6 @@ public class GameView {
                 Objects.requireNonNull(zonePane).setOnMouseClicked(mouseEvent -> {
                     selectedCardImageView.setImage(getCardImageByName(finalCell.getCardInCell().getName()));
                     selectedCardDescriptionLabel.setText(finalCell.getCardInCell().toString());
-                    System.out.println("Address : " + finalI + " monseter :" + finalCell.getCardInCell() + "  activateButton after attack");
                     RoundGameController.getInstance().selectCardInMonsterZone(finalI);
                 });
             }
@@ -2066,7 +1998,6 @@ public class GameView {
         for (int i = 0; i < currentHand.getChildren().size(); i++) {
             Node node = getNodeInGridPane(currentHand, 0, i);
             ArrayList<Card> hand = (ArrayList<Card>) RoundGameController.getInstance().getCurrentPlayerHand();
-            System.out.println("curr player : " + RoundGameController.getInstance().getCurrentPlayer());
             Card card = hand.get(i);
             if (node != null) {
                 int finalI = i + 1;
@@ -2121,7 +2052,6 @@ public class GameView {
         TranslateTransition translateTransition = new TranslateTransition();
         int addressOfAddInMonsterZoneGrid = addressInMonsterZone - 1;//zero based!
         int addressInHandGrid = addressInHand - 1;
-        System.out.println("the fucking null pointer place :    " + addressInHandGrid);
         Node inHandNode = getNodeInGridPane(handPane, 0, addressInHandGrid);
         if (inHandNode == null) {
             inHandNode = getNodeInGridPane(handPane, 0, addressInHandGrid + 1);
@@ -2188,7 +2118,6 @@ public class GameView {
             cardImageView.setOnMouseClicked(mouseEvent -> {
                 if (mouseEvent.getButton() != MouseButton.PRIMARY)
                     return;
-                System.out.println(card.getName() + " selected " + "in address  " + (finalCounter + 1));
                 selectedCardImageView.setImage(getCardImageByName(card.getName()));
                 selectedCardDescriptionLabel.setText(card.toString());
                 RoundGameController.getInstance().selectCardInHand(finalCounter + 1);
@@ -2307,7 +2236,6 @@ public class GameView {
         TranslateTransition translateTransition = new TranslateTransition();
         int addressInHandGrid = addressInHand - 1;
         Node inHandNode = getNodeInGridPane(handPane, 0, addressInHandGrid);
-        System.out.println("Address in Hand  : " + addressInHand + " address in grid : " + addressInHandGrid);
         Point2D inHandPoint;
         if (inHandNode == null) {
             inHandPoint = new Point2D(306.0, 694.0);
@@ -2434,9 +2362,6 @@ public class GameView {
         } catch (ArithmeticException e) {
             rotate = 0;
         }
-        System.out.println("opp zone point" + oppZonePoint);
-        System.out.println("curr zone point" + currentZonePoint);
-        System.out.println("rotate : " + rotate);
         imageView.setRotate(180 + (-rotate));
         tt.setDuration(Duration.millis(700));
         mainGamePane.getChildren().add(imageView);
@@ -2700,7 +2625,6 @@ public class GameView {
                 zonePane.setOnMouseClicked(mouseEvent -> {
                     selectedCardImageView.setImage(getCardImageByName(finalCell1.getCardInCell().getName()));
                     selectedCardDescriptionLabel.setText(finalCell1.getCardInCell().toString());
-                    System.out.println("Address : " + finalI + " monseter :" + finalCell1.getCardInCell() + "  reloadFunc");
                     RoundGameController.getInstance().selectCardInMonsterZone(finalI);
                 });
             } else {
@@ -2709,6 +2633,7 @@ public class GameView {
                 zonePane.setCursor(Cursor.DEFAULT);
                 zonePane.getChildren().clear();
             }
+            //opponent
             zonePane = (Pane) getNodeInGridPane(opponentPlayerMonsterZone, 0, i - 1);
             monsterZone = RoundGameController.getInstance().getOpponentPlayer().getPlayerBoard().returnMonsterZone();
             Objects.requireNonNull(zonePane).getChildren().clear();
@@ -2718,16 +2643,13 @@ public class GameView {
                 imageView.setFitHeight(130);
                 imageView.setFitWidth(94);
                 if (cell.getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED) {
-
                     imageView.setRotate(90);
-                    imageView.setLayoutX(imageView.getLayoutX() + 20);
-                    imageView.setLayoutY(imageView.getLayoutY() - 19);
                 } else if (cell.getCellStatus() == CellStatus.DEFENSIVE_HIDDEN) {
-                    imageView.setFitHeight(94);
-                    imageView.setFitWidth(130);
                     imageView.setImage(getCardImageByName("Card Back Set"));
-                    imageView.setLayoutX(imageView.getLayoutX() + 20);
-                    imageView.setLayoutY(imageView.getLayoutY() - 19);
+                    imageView.setFitWidth(130);
+                    imageView.setFitHeight(94);
+                    imageView.setLayoutX(imageView.getLayoutX() - 19);
+                    imageView.setLayoutY(imageView.getLayoutY() + 20);
                     zonePane.setOnMouseClicked(mouseEvent -> {
                         selectedCardImageView.setImage(getCardImageByName("Back Image"));
                         selectedCardDescriptionLabel.setText("Can't show this card to you");

@@ -326,12 +326,14 @@ public class RoundGameController {
         if (currentPhase != Phase.DRAW_PHASE || drawUsed)
             return;
         if (cantDrawCardBecauseOfTimeSeal) {
-           view.showPopUpMessageForEffect("You can't draw card this turn because of time seal effect!",TRAP);
+            view.showPopUpMessageForEffect("You can't draw card this turn because of time seal effect!", TRAP);
             addCardToGraveYard(Zone.SPELL_ZONE, addressOfTimeSealToRemove, getOpponentPlayer());
             cantDrawCardBecauseOfTimeSeal = false;
             drawUsed = true;
             nextPhase();
         }
+        if (drawUsed)
+            return;
         DuelPlayer currentPlayer = getCurrentPlayer();
         Card card;
         if (currentPlayer.getPlayDeck().getMainCards().size() != 0) {
@@ -396,9 +398,10 @@ public class RoundGameController {
 
     public GameViewMessage nextPhase() {
         if (currentPhase.equals(Phase.DRAW_PHASE)) {
-            if (drawUsed)
+            if (drawUsed) {
                 currentPhase = Phase.STAND_BY_PHASE;
-            else return MUST_DRAW_CARD;
+                view.phaseLabel.setText(Phase.STAND_BY_PHASE.toString());
+            } else return MUST_DRAW_CARD;
             System.out.println(currentPhase);
         } else if (currentPhase.equals(Phase.STAND_BY_PHASE)) {
             currentPhase = Phase.MAIN_PHASE_1;
