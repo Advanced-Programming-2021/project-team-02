@@ -73,7 +73,7 @@ public class CardsDatabase {
                     TrapType.getTrapTypeByTypeName(spellsTrapsLines[2]), spellsTrapsLines[4].equals("Limited"),
                     Integer.parseInt(spellsTrapsLines[5]));
             counter++;
-            if (counter == 5) break;
+            if (counter == 7) break;
         }
         while ((spellsTrapsLines = csvReaderSpellTrap.readNext()) != null) {
             makeCardSpell(CardType.SPELL, spellsTrapsLines[0], "1", SpellEffect.getSpellByName(spellsTrapsLines[0]),
