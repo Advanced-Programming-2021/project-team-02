@@ -73,6 +73,7 @@ public class CardsDatabase {
                     TrapType.getTrapTypeByTypeName(spellsTrapsLines[2]), spellsTrapsLines[4].equals("Limited"),
                     Integer.parseInt(spellsTrapsLines[5]));
             counter++;
+            System.out.println(spellsTrapsLines[0]);
             if (counter == 7) break;
         }
         while ((spellsTrapsLines = csvReaderSpellTrap.readNext()) != null) {
