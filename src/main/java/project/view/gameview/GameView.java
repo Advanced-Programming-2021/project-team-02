@@ -126,8 +126,8 @@ public class GameView {
         createClip(currentPlayerAvatar, parameters);
         createClip(opponentPlayerAvatar, parameters);
 
-        currentPlayerAvatar.setImage(new Image(RoundGameController.getInstance().getCurrentPlayer().getAvatar().getUrl().toString()));
-        opponentPlayerAvatar.setImage(new Image(RoundGameController.getInstance().getOpponentPlayer().getAvatar().getUrl().toString()));
+        currentPlayerAvatar.setImage(new Image(RoundGameController.getInstance().getCurrentPlayer().getAvatar().toString()));
+        opponentPlayerAvatar.setImage(new Image(RoundGameController.getInstance().getOpponentPlayer().getAvatar().toString()));
         selectedCardImageView.setImage(backCardImage);
         selectedCardDescriptionLabel.setText("No card selected");
         RoundGameController.getInstance().setView(this);
@@ -1358,10 +1358,10 @@ public class GameView {
         DuelPlayer opp = RoundGameController.getInstance().getOpponentPlayer();
         currentPlayerNickname.setText(curr.getNickname());
         currentPlayerLP.setText(String.valueOf(curr.getLifePoint()));
-        currentPlayerAvatar.setImage(new Image(curr.getAvatar().getUrl().toString()));
+        currentPlayerAvatar.setImage(new Image(curr.getAvatar().toString()));
         opponentPlayerNickname.setText(opp.getNickname());
         opponentPlayerLP.setText(String.valueOf(opp.getLifePoint()));
-        opponentPlayerAvatar.setImage(new Image(opp.getAvatar().getUrl().toString()));
+        opponentPlayerAvatar.setImage(new Image(opp.getAvatar().toString()));
     }
 
     private void setHandBasedOnTurn() {
@@ -1474,12 +1474,10 @@ public class GameView {
                 imageView.setFitHeight(130);
                 imageView.setFitWidth(94);
             } else if (spellCell.getCellStatus() == CellStatus.HIDDEN) {
-                imageView.setImage(getCardImageByName("Card Back Set"));
+                imageView.setImage(getCardImageByName("Back Image"));
                 pane.getChildren().add(imageView);
-                imageView.setFitWidth(130);
-                imageView.setFitHeight(94);
-                imageView.setLayoutY(imageView.getLayoutY() + 20);
-                imageView.setLayoutX(imageView.getLayoutX() - 19);
+                imageView.setFitWidth(94);
+                imageView.setFitHeight(130);
             }
             int finalI = i;
             imageView.setOnMouseClicked(mouseEvent -> {
@@ -1490,6 +1488,39 @@ public class GameView {
                 RoundGameController.getInstance().selectCardInSpellZone(finalI);
             });
         }
+        //fieldzone
+        FieldZone fieldZone = RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().getFieldZone();
+        if (RoundGameController.getInstance().isFieldActivated()) {
+
+            if (fieldZone.getCellStatus() == CellStatus.EMPTY) {
+                currentPlayerFieldPane.getChildren().clear();
+                ImageView baseImage = new ImageView();
+                baseImage.setImage(new Image(getClass().getResource("/project/image/GamePictures/field.png").toString()));
+                baseImage.setFitWidth(103.0);
+                baseImage.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
+                currentPlayerFieldPane.getChildren().add(baseImage);
+                return;
+            } else {
+                Cell cell = fieldZone.getFieldCell();
+                ImageView baseImage = new ImageView();
+                baseImage.setImage(new Image(getClass().getResource("/project/image/GamePictures/field.png").toString()));
+                baseImage.setFitWidth(103.0);
+                baseImage.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
+                currentPlayerFieldPane.getChildren().add(baseImage);
+                ImageView imageView = new ImageView(getCardImageByName(cell.getCardInCell().getName()));
+                imageView.setFitHeight(130);
+                imageView.setFitWidth(97);
+                currentPlayerFieldPane.getChildren().add(imageView);
+                currentPlayerFieldPane.setCursor(Cursor.HAND);
+                currentPlayerFieldPane.setOnMouseClicked(mouseEvent -> {
+                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
+                        return;
+                    selectedCardImageView.setImage(getCardImageByName(cell.getCardInCell().getName()));
+                    selectedCardDescriptionLabel.setText(cell.getCardInCell().toString());
+                });
+            }
+        }
+
         //opponent
         //monster
         opponentPlayerMonsterZone.setRotate(180);
@@ -1556,10 +1587,10 @@ public class GameView {
                 imageView.setImage(getCardImageByName(spellCell.getCardInCell().getName()));
                 pane.getChildren().add(imageView);
             } else if (spellCell.getCellStatus() == CellStatus.HIDDEN) {
-                imageView.setImage(getCardImageByName("Card Back Set"));
+                imageView.setImage(getCardImageByName("Back Image"));
                 pane.getChildren().add(imageView);
-                imageView.setLayoutY(imageView.getLayoutY() + 20);
-                imageView.setLayoutX(imageView.getLayoutX() - 19);
+                imageView.setFitWidth(94);
+                imageView.setFitHeight(130);
                 imageView.setOnMouseClicked(mouseEvent -> {
                     if (mouseEvent.getButton() != MouseButton.PRIMARY)
                         return;
@@ -1575,9 +1606,39 @@ public class GameView {
                 selectedCardDescriptionLabel.setText(spellCell.getCardInCell().toString());
             });
         }
-
-
+        opponentFieldPane.setRotate(180);
+        fieldZone = RoundGameController.getInstance().getOpponentPlayer().getPlayerBoard().getFieldZone();
+        if (RoundGameController.getInstance().isFieldActivated()) {
+            if (fieldZone.getCellStatus() == CellStatus.EMPTY) {
+                ImageView baseImage = new ImageView();
+                baseImage.setImage(new Image(getClass().getResource("/project/image/GamePictures/field.png").toString()));
+                baseImage.setFitWidth(103.0);
+                baseImage.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
+                opponentFieldPane.getChildren().add(baseImage);
+            }
+            return;
+        } else {
+            Cell cell = fieldZone.getFieldCell();
+            ImageView baseImage = new ImageView();
+            baseImage.setImage(new Image(getClass().getResource("/project/image/GamePictures/field.png").toString()));
+            baseImage.setFitWidth(103.0);
+            baseImage.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
+            opponentFieldPane.getChildren().add(baseImage);
+            ImageView imageView = new ImageView(getCardImageByName(cell.getCardInCell().getName()));
+            imageView.setFitHeight(130);
+            imageView.setFitWidth(97);
+            opponentFieldPane.getChildren().add(imageView);
+            opponentFieldPane.setCursor(Cursor.HAND);
+            opponentFieldPane.setOnMouseClicked(mouseEvent -> {
+                if (mouseEvent.getButton() != MouseButton.PRIMARY)
+                    return;
+                selectedCardImageView.setImage(getCardImageByName(cell.getCardInCell().getName()));
+                selectedCardDescriptionLabel.setText(cell.getCardInCell().toString());
+            });
+        }
     }
+
+
 
     public void showButtonBasedOnPhase(Phase currentPhase) {
         nextPhaseButton.setCursor(Cursor.HAND);
@@ -1832,7 +1893,10 @@ public class GameView {
         if (inHandNode == null) {
             inHandNode = getNodeInGridPane(handPane, 0, addressInHandGrid + 1);
         }
-        Point2D inHandPoint = inHandNode.localToScene(new Point2D(0, 0));
+        Point2D inHandPoint;
+        if (inHandNode == null)
+            inHandPoint = new Point2D(306.0, 694.0);
+        else inHandPoint = inHandNode.localToScene(new Point2D(0, 0));
         Node inZoneNode;
         inZoneNode = getNodeInGridPane(currentPlayerMonsterZone, 0, addressOfAddInMonsterZoneGrid);
         Point2D zonePoint = null;
@@ -1912,7 +1976,10 @@ public class GameView {
         int addressOfAddInMonsterZoneGrid = addressInMonsterZone - 1;//zero based!
         int addressInHandGrid = addressInHand - 1;
         Node inHandNode = getNodeInGridPane(handPane, 0, addressInHandGrid);
-        Point2D inHandPoint = inHandNode.localToScene(new Point2D(0, 0));
+        Point2D inHandPoint;
+        if (inHandNode != null) {
+            inHandPoint = inHandNode.localToScene(new Point2D(0, 0));
+        } else inHandPoint = new Point2D(306.0, 694.0);
         Node inZoneNode;
         inZoneNode = getNodeInGridPane(currentPlayerMonsterZone, 0, addressOfAddInMonsterZoneGrid);
         Point2D zonePoint = null;
@@ -1965,7 +2032,6 @@ public class GameView {
                 tt = showSummon(addressInZone, addressInHand, cardName);
                 tt.play();
                 break;
-
             case SET_MONSTER:
                 tt = showSetMonsterTransition(addressInZone, addressInHand);
                 tt.play();
@@ -1985,10 +2051,98 @@ public class GameView {
             case SPELL_TO_GRAVEYARD:
                 showSpellToGraveYard(addressInZone, isCurrent, cardName);
                 break;
+            case SET_SPELL:
+                showSetSpell(addressInZone, addressInHand, cardName);
+                break;
+            case FIELD_SPELL:
+                showActivateFieldSpell(cardName, addressInHand);
+                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + animation);
         }
-        //tt.play();
+    }
+
+    public void showActivateFieldSpell(String cardName, int addressInHand) {
+        ImageView fakeCardImageView = new ImageView(getCardImageByName(cardName));
+        fakeCardImageView.setFitWidth(94);
+        fakeCardImageView.setFitHeight(130);
+        GridPane handPane = currentHand;
+        //Translate transition :
+        TranslateTransition translateTransition = new TranslateTransition();
+        int addressInHandGrid = addressInHand - 1;
+        Node inHandNode = getNodeInGridPane(handPane, 0, addressInHandGrid);
+        System.out.println("Address in Hand  : " + addressInHand + " address in grid : " + addressInHandGrid);
+        Point2D inHandPoint;
+        if (inHandNode == null) {
+            inHandPoint = new Point2D(306.0, 694.0);
+        } else inHandPoint = inHandNode.localToScene(new Point2D(0, 0));
+        Point2D zonePoint;
+        zonePoint = currentPlayerFieldPane.localToScene(new Point2D(0, 0));
+        translateTransition.setNode(fakeCardImageView);
+        translateTransition.setFromX(inHandPoint.getX());
+        translateTransition.setFromY(inHandPoint.getY());
+        translateTransition.setToX(zonePoint.getX());
+        translateTransition.setToY(zonePoint.getY());
+        translateTransition.setDuration(Duration.millis(500));
+        translateTransition.setOnFinished(actionEvent -> {
+            ImageView imageView = new ImageView(getCardImageByName(cardName));
+            imageView.setFitHeight(130);
+            imageView.setFitWidth(94);
+            Objects.requireNonNull(currentPlayerFieldPane).getChildren().add(imageView);
+            cardBoardPane.getChildren().remove(fakeCardImageView);
+            mainGamePane.getChildren().remove(fakeCardImageView);
+            reloadCurrentHand();
+            reloadCurrentAndOpponentSpellZone();
+        });
+
+        mainGamePane.getChildren().add(fakeCardImageView);
+        currentHand.getChildren().remove(inHandNode);
+        translateTransition.play();
+    }
+
+    private void showSetSpell(int addressInSpellZone, int addressInHand, String cardName) {
+        ImageView fakeCardImageView = new ImageView(getCardImageByName("Back Image"));
+        fakeCardImageView.setFitWidth(94);
+        fakeCardImageView.setFitHeight(130);
+        GridPane handPane = currentHand;
+        //Translate transition :
+        TranslateTransition translateTransition = new TranslateTransition();
+        int addressOfAddInSpellZoneGrid = addressInSpellZone - 1;//zero based!
+        int addressInHandGrid = addressInHand - 1;
+        Node inHandNode = getNodeInGridPane(handPane, 0, addressInHandGrid);
+        Point2D inHandPoint;
+        if (inHandNode == null) {
+            inHandPoint = new Point2D(306.0, 694.0);
+        } else
+            inHandPoint = inHandNode.localToScene(new Point2D(0, 0));
+        Node inZoneNode = getNodeInGridPane(currentPlayerSpellZone, 0, addressOfAddInSpellZoneGrid);
+        Point2D zonePoint;
+        if (inZoneNode == null) {
+            zonePoint = new Point2D(0, 0);
+        } else {
+            zonePoint = inZoneNode.localToScene(new Point2D(0, 0));
+        }
+        translateTransition.setNode(fakeCardImageView);
+        translateTransition.setFromX(inHandPoint.getX());
+        translateTransition.setFromY(inHandPoint.getY());
+        translateTransition.setToX(zonePoint.getX());
+        translateTransition.setToY(zonePoint.getY());
+        translateTransition.setDuration(Duration.millis(500));
+        translateTransition.setOnFinished(actionEvent -> {
+            ImageView imageView = new ImageView(getCardImageByName("Back Image"));
+            imageView.setFitHeight(130);
+            imageView.setFitWidth(94);
+            ((Pane) Objects.requireNonNull(inZoneNode)).getChildren().add(imageView);
+            cardBoardPane.getChildren().remove(fakeCardImageView);
+            mainGamePane.getChildren().remove(fakeCardImageView);
+            reloadCurrentHand();
+            reloadCurrentAndOpponentSpellZone();
+        });
+
+        mainGamePane.getChildren().add(fakeCardImageView);
+        currentHand.getChildren().remove(inHandNode);
+        translateTransition.play();
+
     }
 
     private void showDirectAttack(int addressInMonsterZone) {
@@ -2067,8 +2221,12 @@ public class GameView {
         TranslateTransition translateTransition = new TranslateTransition();
         int addressOfAddInSpellZoneGrid = addressInSpellZone - 1;//zero based!
         int addressInHandGrid = addressInHand - 1;
+
         Node inHandNode = getNodeInGridPane(handPane, 0, addressInHandGrid);
-        Point2D inHandPoint = inHandNode.localToScene(new Point2D(0, 0));
+        Point2D inHandPoint;
+        if (inHandNode == null) {
+            inHandPoint = new Point2D(306.0, 694.0);
+        } else inHandPoint = inHandNode.localToScene(new Point2D(0, 0));
         Node inZoneNode = getNodeInGridPane(currentPlayerSpellZone, 0, addressOfAddInSpellZoneGrid);
         Point2D zonePoint;
         if (inZoneNode == null) {
@@ -2089,8 +2247,6 @@ public class GameView {
             ((Pane) Objects.requireNonNull(inZoneNode)).getChildren().add(imageView);
             cardBoardPane.getChildren().remove(fakeCardImageView);
             mainGamePane.getChildren().remove(fakeCardImageView);
-
-
             reloadCurrentHand();
             reloadCurrentAndOpponentSpellZone();
         });
@@ -2116,10 +2272,11 @@ public class GameView {
                 Cell finalCell1 = cell;
                 ImageView imageView = new ImageView(getCardImageByName(cell.getCardInCell().getName()));
                 if (cell.getCellStatus() == CellStatus.HIDDEN) {
-                    imageView.setImage(getCardImageByName(cell.getCardInCell().getName()));
+                    imageView.setImage(getCardImageByName("Back Image"));
                     imageView.setFitWidth(94);
                     imageView.setFitHeight(130);
                 } else {
+                    imageView.setImage(getCardImageByName(cell.getCardInCell().getName()));
                     imageView.setFitHeight(130);
                     imageView.setFitWidth(94);
                 }
@@ -2131,11 +2288,35 @@ public class GameView {
                     RoundGameController.getInstance().selectCardInSpellZone(finalI);
                 });
             } else {
-                System.out.println("came kiri here");
                 zonePane.getChildren().clear();
                 zonePane.setOnMouseClicked(mouseEvent -> {
                 });
                 zonePane.setCursor(Cursor.DEFAULT);
+            }
+        }
+        FieldZone fieldZone = RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().getFieldZone();
+        if (RoundGameController.getInstance().isFieldActivated()) {
+            if (fieldZone.getCellStatus() == CellStatus.EMPTY) {
+                if (currentPlayerFieldPane.getChildren().size() > 1) {
+                    currentPlayerFieldPane.getChildren().remove(1);
+                    currentPlayerFieldPane.setCursor(Cursor.DEFAULT);
+                    currentPlayerFieldPane.setOnMouseClicked(mouseEvent -> {
+                    });
+                }
+                return;
+            } else {
+                Cell cell = fieldZone.getFieldCell();
+                ImageView imageView = new ImageView(getCardImageByName(cell.getCardInCell().getName()));
+                imageView.setFitHeight(130);
+                imageView.setFitWidth(97);
+                currentPlayerFieldPane.getChildren().add(imageView);
+                currentPlayerFieldPane.setCursor(Cursor.HAND);
+                currentPlayerFieldPane.setOnMouseClicked(mouseEvent -> {
+                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
+                        return;
+                    selectedCardImageView.setImage(getCardImageByName(cell.getCardInCell().getName()));
+                    selectedCardDescriptionLabel.setText(cell.getCardInCell().toString());
+                });
             }
         }
     }
@@ -2151,17 +2332,18 @@ public class GameView {
                 ImageView imageView = new ImageView(getCardImageByName(cell.getCardInCell().getName()));
 
                 if (cell.getCellStatus() == CellStatus.HIDDEN) {
-                    imageView.setImage(getCardImageByName(cell.getCardInCell().getName()));
+                    imageView.setImage(getCardImageByName("Back Image"));
                     imageView.setFitWidth(94);
                     imageView.setFitHeight(130);
                     zonePane.setCursor(Cursor.HAND);
                     zonePane.setOnMouseClicked(mouseEvent -> {
                         if (mouseEvent.getButton() != MouseButton.PRIMARY)
                             return;
-                        selectedCardImageView.setImage(getCardImageByName("Image Back"));
+                        selectedCardImageView.setImage(getCardImageByName("Back Image"));
                         selectedCardDescriptionLabel.setText("you can't see this card");
                     });
-                    break;
+                    zonePane.getChildren().add(imageView);
+                    continue;
                 } else {
                     imageView.setFitHeight(130);
                     imageView.setFitWidth(94);
@@ -2177,6 +2359,31 @@ public class GameView {
                 zonePane.setOnMouseClicked(mouseEvent -> {
                 });
                 zonePane.setCursor(Cursor.DEFAULT);
+            }
+        }
+        FieldZone fieldZone = RoundGameController.getInstance().getOpponentPlayer().getPlayerBoard().getFieldZone();
+        if (RoundGameController.getInstance().isFieldActivated()) {
+            if (fieldZone.getCellStatus() == CellStatus.EMPTY) {
+                if (opponentFieldPane.getChildren().size() > 1) {
+                    opponentFieldPane.getChildren().remove(1);
+                    opponentFieldPane.setCursor(Cursor.DEFAULT);
+                    opponentFieldPane.setOnMouseClicked(mouseEvent -> {
+                    });
+                }
+                return;
+            } else {
+                Cell cell = fieldZone.getFieldCell();
+                ImageView imageView = new ImageView(getCardImageByName(cell.getCardInCell().getName()));
+                imageView.setFitHeight(130);
+                imageView.setFitWidth(97);
+                opponentFieldPane.getChildren().add(imageView);
+                opponentFieldPane.setCursor(Cursor.HAND);
+                opponentFieldPane.setOnMouseClicked(mouseEvent -> {
+                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
+                        return;
+                    selectedCardImageView.setImage(getCardImageByName(cell.getCardInCell().getName()));
+                    selectedCardDescriptionLabel.setText(cell.getCardInCell().toString());
+                });
             }
         }
     }
@@ -2289,9 +2496,6 @@ public class GameView {
     }
 
     public void showAddToGraveYardFromHandAnimation(String cardName) {
-        ImageView fakeCardImageView = new ImageView(getCardImageByName(cardName));
-        fakeCardImageView.setFitWidth(94);
-        fakeCardImageView.setFitHeight(130);
         reloadCurrentHand();
     }
 
@@ -2494,9 +2698,9 @@ public class GameView {
 
     }
 
-    public void showPopUpMessageForPotOfGreed() {
+    public void showPopUpMessageForSpell(String spellEffectDescription) {
         GamePopUpMessage.setStage(LoginMenuView.getStage());
-        new GamePopUpMessage(Alert.AlertType.INFORMATION, "Pot of greed add to cards to your hand");
+        new GamePopUpMessage(Alert.AlertType.INFORMATION, spellEffectDescription);
         reloadCurrentSpellZone();
         reloadOpponentSpellZone();
     }

@@ -13,7 +13,6 @@ import project.model.game.board.*;
 //import project.view.Menu;
 //import project.view.MenusManager;
 import project.view.gameview.Animation;
-import project.view.gameview.BetweenRoundView;
 import project.view.gameview.GameView;
 import project.view.messages.Error;
 import project.view.messages.GameViewMessage;
@@ -65,6 +64,10 @@ public class RoundGameController {
     public static RoundGameController getInstance() {
         if (instance == null) instance = new RoundGameController();
         return instance;
+    }
+
+    public boolean isFieldActivated() {
+        return isFieldActivated != 0;
     }
 
     public DuelPlayer getFirstPlayer() {
@@ -319,7 +322,7 @@ public class RoundGameController {
     }
 
     private void changePositionUsed() {
-        usedCellsToAttackNumbers.add(selectedCellAddress);
+        changedPositionCards.add(selectedCellAddress);
     }
 
     public void drawCardFromDeck() {
@@ -560,7 +563,7 @@ public class RoundGameController {
             addressOfAdd = selectedCellAddress;
             view.showActivateEffectOfSpellInZone();
         }
-        view.showPopUpMessageForPotOfGreed();
+        view.showPopUpMessageForSpell("Pot of Greed Effect");
         view.showBoard();
         getCurrentPlayerHand().add(deckCards.get(size - 1));
         deckCards.remove(size - 1);
@@ -571,8 +574,8 @@ public class RoundGameController {
         addCardToGraveYard(Zone.SPELL_ZONE, addressOfAdd, getCurrentPlayer());
         System.out.println("pot of greed effect");
         deselectCard(0);
-        //TODO
-        return NONE;
+
+        return SUCCESS;
     }
 
     private GameViewMessage raigekiSpell() {
@@ -597,11 +600,12 @@ public class RoundGameController {
             i++;
             counter++;
         }
+
+        view.showPopUpMessageForSpell("Raigeki Spell effect!");
         addCardToGraveYard(Zone.SPELL_ZONE, addressOfAdd, getCurrentPlayer());
-        System.out.println("raigekiSpell effect");
         deselectCard(0);
-        //TODO
-        return NONE;
+
+        return SUCCESS;
     }
 
     private GameViewMessage harpiesFeatherDusterSpell() {
@@ -622,15 +626,17 @@ public class RoundGameController {
             i++;
         }
         if (isFieldActivated == 2 && turn == 1) {
+            //TODO
             reversePreviousFieldZoneSpellEffectAndRemoveIt();
         } else if (isFieldActivated == 1 && turn == 2) {
+            //TODO
             reversePreviousFieldZoneSpellEffectAndRemoveIt();
         }
         addCardToGraveYard(Zone.SPELL_ZONE, addressOfAdd, getCurrentPlayer());
-        System.out.println("harpiesFeatherDuster effect");
+        view.showPopUpMessageForSpell("Harpie’s Feather Duster Effect");
         deselectCard(0);
-        //TODO
-        return NONE;
+
+        return SUCCESS;
     }
 
     public GameViewMessage darkHoleSpell() {
@@ -657,10 +663,10 @@ public class RoundGameController {
             i++;
         }
         addCardToGraveYard(Zone.SPELL_ZONE, addressOfAdd, getCurrentPlayer());
-        System.out.println("dark hole effect");
+        view.showPopUpMessageForSpell("Dark Hole Spell Effect");
         deselectCard(0);
-        //TODO
-        return NONE;
+
+        return SUCCESS;
     }
 
     private GameViewMessage swordOfDarkDestructionSpell() {
@@ -1427,19 +1433,13 @@ public class RoundGameController {
 
             return SELECT_CARD;
         }
-//        if (selectedCellZone == Zone.NONE && opponentSelectedCell != null) {
-//            view.showError(Error.ONLY_CAN_SHOW_OPPONENT_CARD);
-//            return;
-//        }
         if (selectedCellZone != Zone.HAND)
             return GameViewMessage.NONE;
         if (selectedCell.getCardInCell().getCardType() == MONSTER) {
             return setMonster();
         } else {
-            //TODO return setSpellOrTrap();
+            return setSpellOrTrap();
         }
-        //TODO remove
-        return null;
     }
 
     public GameViewMessage setMonster() {
@@ -1952,41 +1952,35 @@ public class RoundGameController {
 
 
     // SPELL RELATED
-    public void setSpellOrTrap() {
-        if (selectedCellZone == Zone.NONE && opponentSelectedCell != null) {
-            Error.showError(Error.ONLY_CAN_SHOW_OPPONENT_CARD);
-            return;
-        }
-        if (selectedCell == null) {
-            Error.showError(Error.NO_CARD_SELECTED_YET);
-        } else if (!selectedCellZone.equals(Zone.HAND)) {
-            Error.showError(Error.CAN_NOT_SET);
-        } else if (selectedCell.getCardInCell().getCardType() == CardType.MONSTER) {
-            Error.showError(Error.INVALID_COMMAND);
-        } else if (!(currentPhase == Phase.MAIN_PHASE_1 || currentPhase == Phase.MAIN_PHASE_2)) {
-            Error.showError(Error.ACTION_CAN_NOT_WORK_IN_THIS_PHASE);
+    public GameViewMessage setSpellOrTrap() {
+        if (!selectedCellZone.equals(Zone.HAND)) {
+            return CAN_NOT_SET;
         } else if (getCurrentPlayer().getPlayerBoard().isSpellZoneFull()) {
-            Error.showError(Error.SPELL_ZONE_IS_FULL);
+            return FULL_SPELL_ZONE;
         } else if (selectedCell.getCardInCell().getCardType().equals(SPELL)) {
             if (((Spell) selectedCell.getCardInCell()).getSpellType().equals(SpellType.FIELD)) {
-                setFieldCard();
-                return;
+                return NONE;
+                //TODO  setFieldCard();
+                //TODO  return;
             } else {
                 SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
-                spellZone.addCard(selectedCell.getCardInCell(), CellStatus.HIDDEN);
+                int addressOfAdd = spellZone.addCard(selectedCell.getCardInCell(), CellStatus.HIDDEN);
                 getCurrentPlayerHand().remove(selectedCellAddress - 1);
+                view.playAnimation(Animation.SET_SPELL, selectedCell.getCardInCell().getName(), addressOfAdd, selectedCellAddress, 0, true);
                 view.showSuccessMessage(SuccessMessage.SET_SUCCESSFULLY);
                 view.showBoard();
             }
             deselectCard(0);
         } else {
             SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
-            spellZone.addCard(selectedCell.getCardInCell(), CellStatus.HIDDEN);
+            int addressOfAdd = spellZone.addCard(selectedCell.getCardInCell(), CellStatus.HIDDEN);
             getCurrentPlayerHand().remove(selectedCellAddress - 1);
+            view.playAnimation(Animation.SET_SPELL, selectedCell.getCardInCell().getName(), addressOfAdd, selectedCellAddress, 0, true);
             view.showSuccessMessage(SuccessMessage.SET_SUCCESSFULLY);
             view.showBoard();
             deselectCard(0);
         }
+        return NONE;
 
     }
 
@@ -2158,9 +2152,10 @@ public class RoundGameController {
             getCurrentPlayerHand().remove(selectedCellAddress - 1);
         }
         fieldZoneSpell = (Spell) selectedCell.getCardInCell();
-        deselectCard(0);
+
         findAndActivateFieldCard();
-        //TODO
+        view.playAnimation(Animation.FIELD_SPELL, fieldZoneSpell.getName(), 0, selectedCellAddress, 0, true);
+        deselectCard(0);
         return NONE;
     }
 

@@ -11,6 +11,7 @@ public abstract class Card {
     protected Attribute attribute;
     protected String description;
     protected String id;
+    protected int price;
 
     protected Card(CardType cardType, String name, String id, Attribute attribute, String description) {
         setCardType(cardType);
@@ -20,42 +21,6 @@ public abstract class Card {
         setId(id);
     }
 
-    private void setId(String id) {
-        this.id = id;
-    }
-
-    private void setDescription(String description) {
-        this.description = description;
-    }
-
-    private void setCardType(CardType cardType) {
-        this.cardType = cardType;
-    }
-
-    private void setName(String name) {
-        this.name = name;
-    }
-
-    private void setAttribute(Attribute attribute) {
-        this.attribute = attribute;
-    }
-
-    public CardType getCardType() {
-        return cardType;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Attribute getAttribute() {
-        return attribute;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
     public static Card getCardByName(String cardName) {
         ArrayList<Card> cards = CardsDatabase.getAllCards();
         for (Card card : cards) {
@@ -63,5 +28,49 @@ public abstract class Card {
                 return card;
         }
         return null;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    private void setId(String id) {
+        this.id = id;
+    }
+
+    public CardType getCardType() {
+        return cardType;
+    }
+
+    private void setCardType(CardType cardType) {
+        this.cardType = cardType;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    private void setName(String name) {
+        this.name = name;
+    }
+
+    public Attribute getAttribute() {
+        return attribute;
+    }
+
+    private void setAttribute(Attribute attribute) {
+        this.attribute = attribute;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    private void setDescription(String description) {
+        this.description = description;
     }
 }

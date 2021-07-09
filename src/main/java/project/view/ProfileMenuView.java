@@ -61,7 +61,7 @@ public class ProfileMenuView {
 
     @FXML
     public void initialize() {
-        profileImageView.setImage(new Image(String.valueOf(MainMenuController.getInstance().getLoggedInUser().getAvatar().getUrl())));
+        profileImageView.setImage(new Image(String.valueOf(MainMenuController.getInstance().getLoggedInUser().getAvatarURL())));
         userNameLabel.setText(MainMenuController.getInstance().getLoggedInUser().getUsername());
         nickNameLabel.setText(MainMenuController.getInstance().getLoggedInUser().getNickname());
         passwordLabel.setText("●".repeat(MainMenuController.getInstance().getLoggedInUser().getPassword().length()));
@@ -273,7 +273,7 @@ public class ProfileMenuView {
             vBox3.setId(null);
             vBox4.setId(null);
             profileImageView.setImage(image1);
-            MainMenuController.getInstance().getLoggedInUser().setAvatar(Avatar.AVATAR_1);
+            MainMenuController.getInstance().getLoggedInUser().setAvatarURL(Avatar.AVATAR_1.getUrl());
         });
 
         imageView2.setOnMouseClicked(event -> {
@@ -282,7 +282,7 @@ public class ProfileMenuView {
             vBox3.setId(null);
             vBox4.setId(null);
             profileImageView.setImage(image2);
-            MainMenuController.getInstance().getLoggedInUser().setAvatar(Avatar.AVATAR_2);
+            MainMenuController.getInstance().getLoggedInUser().setAvatarURL(Avatar.AVATAR_2.getUrl());
         });
         imageView3.setOnMouseClicked(event -> {
             vBox3.setId("container");
@@ -290,7 +290,7 @@ public class ProfileMenuView {
             vBox1.setId(null);
             vBox4.setId(null);
             profileImageView.setImage(image3);
-            MainMenuController.getInstance().getLoggedInUser().setAvatar(Avatar.AVATAR_3);
+            MainMenuController.getInstance().getLoggedInUser().setAvatarURL(Avatar.AVATAR_3.getUrl());
         });
 
         imageView4.setOnMouseClicked(event -> {
@@ -299,7 +299,7 @@ public class ProfileMenuView {
             vBox3.setId(null);
             vBox1.setId(null);
             profileImageView.setImage(image4);
-            MainMenuController.getInstance().getLoggedInUser().setAvatar(Avatar.AVATAR_4);
+            MainMenuController.getInstance().getLoggedInUser().setAvatarURL(Avatar.AVATAR_4.getUrl());
         });
 
         Button closeButton = new Button();
