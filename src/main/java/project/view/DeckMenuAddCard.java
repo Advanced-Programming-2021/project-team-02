@@ -87,7 +87,7 @@ public class DeckMenuAddCard {
                     button.setPadding(new Insets(-3, -3, -3, -3));
                     button.setOnMouseClicked(mouseEvent -> {
                         for (Button b : buttons) {
-                            if (b.equals(button)) b.setId("container");
+                            if (b.equals(button)) b.setId(card.getName());
                             else b.setId(null);
                         }
                         cardName = button.getId();
@@ -112,15 +112,15 @@ public class DeckMenuAddCard {
             }
         }
         addCardToMainDeckButton.setOnMouseClicked(mouseEvent -> {
-            if (mouseEvent.getButton() != MouseButton.PRIMARY) {
+            //if (mouseEvent.getButton() != MouseButton.PRIMARY) {
                 addCardsMain(deckName);
-            }
+            //}
         });
 
         addCardToSideDeckButton.setOnMouseClicked(mouseEvent -> {
-            if (mouseEvent.getButton() != MouseButton.PRIMARY) {
+//            if (mouseEvent.getButton() != MouseButton.PRIMARY) {
                 addCardsSide(deckName);
-            }
+            //}
         });
         gridPaneAddCard.setVgap(25);
         gridPaneAddCard.setHgap(25);
