@@ -2715,10 +2715,12 @@ public class GameView {
                 imageView.setFitHeight(130);
                 imageView.setFitWidth(94);
                 if (cell.getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED) {
+
                     imageView.setRotate(90);
-                    imageView.setLayoutX(imageView.getLayoutX());
-                    imageView.setLayoutY(imageView.getLayoutY());
+                    imageView.setLayoutX(imageView.getLayoutX() + 20);
+                    imageView.setLayoutY(imageView.getLayoutY() - 19);
                 } else if (cell.getCellStatus() == CellStatus.DEFENSIVE_HIDDEN) {
+                    imageView.setRotate(90);
                     imageView.setImage(getCardImageByName("Card Back Set"));
                     imageView.setLayoutX(imageView.getLayoutX() + 20);
                     imageView.setLayoutY(imageView.getLayoutY() - 19);
@@ -2993,6 +2995,7 @@ public class GameView {
 
     public void middleGameTurnChange() {
         blur();
+        GamePopUpMessage.setStage(LoginMenuView.getStage());
         new GamePopUpMessage(Alert.AlertType.INFORMATION, "now your opponent can activate effect, please change turn");
 
     }
@@ -3001,9 +3004,4 @@ public class GameView {
         mainGamePane.setEffect(null);
     }
 
-    public void showPopUpMessage(String string, Alert.AlertType alertType) {
-        GamePopUpMessage.setStage(currentStage);
-        new GamePopUpMessage(alertType, string);
-        currentStage = LoginMenuView.getStage();
-    }
 }
