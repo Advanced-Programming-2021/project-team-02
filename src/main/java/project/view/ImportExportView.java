@@ -134,7 +134,7 @@ public class ImportExportView {
 
     private void chooseFile(ActionEvent event) {
         FileChooser fc = new FileChooser();
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Json and CSV Files", "*.json", "*.csv"));
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Json Files", "*.json"));
         File selectedFile = fc.showOpenDialog(null);
         if (selectedFile != null) {
             listView.getItems().add(selectedFile.getAbsoluteFile());
