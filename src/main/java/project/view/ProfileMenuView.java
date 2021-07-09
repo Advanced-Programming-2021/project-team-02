@@ -1,5 +1,6 @@
 package project.view;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -13,8 +14,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.*;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.StageStyle;
+import project.controller.ImportExportController;
 import project.controller.MainMenuController;
 import project.controller.ProfileMenuController;
 import javafx.stage.Stage;
@@ -22,10 +25,19 @@ import project.model.Avatar;
 import project.model.Music;
 import javafx.scene.image.ImageView;
 
+import project.model.card.Card;
+import project.model.card.CardsDatabase;
 import project.model.gui.Icon;
+import project.view.messages.ImportExportMessages;
 import project.view.messages.LoginMessage;
 import project.view.messages.PopUpMessage;
 import project.view.messages.ProfileMenuMessage;
+
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class ProfileMenuView {
     private static final ProfileMenuController controller = ProfileMenuController.getInstance();
@@ -36,6 +48,7 @@ public class ProfileMenuView {
     public ImageView playPauseMusicButton;
     public ImageView muteUnmuteButton;
     public ImageView exitButton;
+    public ListView listView = new ListView();
     @FXML
     PasswordField currentPasswordField = new PasswordField();
     @FXML
@@ -371,5 +384,28 @@ public class ProfileMenuView {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
         if (popUpMessage.getAlert().getResult().getText().equals("OK")) System.exit(0);
+    }
+
+    public void chooseProfilePicture(ActionEvent event) {
+        FileChooser fc = new FileChooser();
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("JPG Files", "*.jpg"));
+        File selectedFile = fc.showOpenDialog(null);
+        if (selectedFile != null) {
+            listView.getItems().add(selectedFile.getAbsoluteFile());
+            String fileName = String.valueOf(listView.getItems());
+            fileName = fileName.substring(1, fileName.length() - 1);
+            System.out.println(fileName);
+            try {
+                MainMenuController.getInstance().getLoggedInUser().setAvatarURL(Paths.get(fileName).toUri().toURL());
+                profileImageView.setImage(new Image(String.valueOf(Paths.get(fileName).toUri().toURL())));
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+
+            listView.getItems().clear();
+
+        } else {
+            System.out.println("file is not valid");
+        }
     }
 }

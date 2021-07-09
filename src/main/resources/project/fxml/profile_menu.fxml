@@ -195,6 +195,7 @@
          <Cursor fx:constant="HAND" />
       </cursor>
    </ImageView>
+   <Button layoutX="856.0" layoutY="293.0" mnemonicParsing="false" onAction="#chooseProfilePicture" text="Choose Picture" />
 
 
    <stylesheets>
