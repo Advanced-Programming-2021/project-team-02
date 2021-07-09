@@ -1,5 +1,6 @@
 package project.controller.playgame;
 
+import javafx.scene.input.DataFormat;
 import project.model.Deck;
 import project.model.card.Card;
 import project.model.game.DuelPlayer;
@@ -20,6 +21,8 @@ public class BetweenRoundController {
     private boolean isWithAi;
     private int firstMainSize;
     private int firstSideSize;
+    private DataFormat mainDeckPaneFormat = new DataFormat("MainPane");
+    private DataFormat sideDeckPaneFormat = new DataFormat("SidePane");
 
     private BetweenRoundController() {
     }
@@ -29,9 +32,19 @@ public class BetweenRoundController {
             instance = new BetweenRoundController();
         return instance;
     }
-    public boolean isWithAi(){
+
+    public DataFormat getSideDeckPaneFormat() {
+        return sideDeckPaneFormat;
+    }
+
+    public DataFormat getMainDeckPaneFormat() {
+        return mainDeckPaneFormat;
+    }
+
+    public boolean isWithAi() {
         return isWithAi;
     }
+
     public GameViewMessage addCardToMainFromSide(int cardAddressInSide, DuelPlayer player) {
 
         ArrayList<Card> mainCards = player.getPlayDeck().getMainCards();
@@ -42,6 +55,7 @@ public class BetweenRoundController {
         sideCards.remove(cardAddressInSide);
         return GameViewMessage.SUCCESS;
     }
+
     public GameViewMessage addCardToSideFromMain(int cardAddressInMain, DuelPlayer player) {
 
         ArrayList<Card> mainCards = player.getPlayDeck().getMainCards();
@@ -79,7 +93,7 @@ public class BetweenRoundController {
     }
 
     public boolean canChangeTurn() {
-        if (firstMainSize == current.getPlayDeck().getMainCards().size() ){
+        if (firstMainSize == current.getPlayDeck().getMainCards().size()) {
             current = player2;
             firstSideSize = current.getPlayDeck().getSideCards().size();
             firstMainSize = current.getPlayDeck().getMainCards().size();

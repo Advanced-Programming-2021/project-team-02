@@ -51,8 +51,8 @@ public class BetweenRoundView {
     private DuelPlayer currentPlayer;
     private int turn = 1;
     private boolean isAI;
-    private DataFormat mainDeckPaneFormat = new DataFormat("MainPane");
-    private DataFormat sideDeckPaneFormat = new DataFormat("SidePane");
+    private DataFormat mainDeckPaneFormat;
+    private DataFormat sideDeckPaneFormat;
     private int selectedCardRowInMain, selectedCardColumnInMain;
     private int selectedCardRowInSide, selectedCardColumnInSide;
     private Utility utility;
@@ -65,6 +65,8 @@ public class BetweenRoundView {
         player1 = controller.getPlayer1();
         player2 = controller.getPlayer2();
         currentPlayer = player1;
+        mainDeckPaneFormat = controller.getMainDeckPaneFormat();
+        sideDeckPaneFormat = controller.getSideDeckPaneFormat();
         isAI = BetweenRoundController.getInstance().isWithAi();
         ArrayList<Card> mainCards = currentPlayer.getPlayDeck().getMainCards();
         ArrayList<Card> sideCards = currentPlayer.getPlayDeck().getSideCards();
@@ -83,7 +85,6 @@ public class BetweenRoundView {
 
         sideDeckGridPane.setOnDragDropped(e -> {
             Dragboard db = e.getDragboard();
-
             if (db.hasContent(mainDeckPaneFormat)) {
                 BetweenRoundController.getInstance().addCardToSideFromMain(selectedCardRowInMain * 12 + selectedCardColumnInMain, currentPlayer);
                 loadSideDeck();
@@ -237,14 +238,14 @@ public class BetweenRoundView {
                 ButtonBar buttonBar = (ButtonBar) alert.getDialogPane().lookup(".button-bar");
                 buttonBar.getButtons().forEach(b -> b.setStyle("-fx-background-radius: 10; -fx-background-color: #bb792d; -fx-font-size: 16; -fx-text-fill: white;"));
                 buttonBar.getButtons().forEach(b -> b.setCursor(Cursor.HAND));
-                //((Window)LoginMenuView.getStage()).setEffect;
                 blur();
                 alert.showAndWait();
+                loadMainDeck();
+                loadSideDeck();
                 selectedCardImage.setImage(getCardImageByName("Back Image"));
                 selectedCardDescriptionLabel.setText("No Card Selected");
 
-                loadMainDeck();
-                loadMainDeck();
+
                 playerLabel.setText("Player : " + currentPlayer.getNickname());
                 mainPane.setEffect(null);
             } else new PopUpMessage(Alert.AlertType.ERROR, "Decks Size mustn't change");

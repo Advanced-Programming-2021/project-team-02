@@ -1079,7 +1079,6 @@ public class GameView {
             else {
 
                 ((Pane) Objects.requireNonNull(getNodeInGridPane(gridPane, 0, selectedAddress[0] - 1))).setBorder(null);
-
                 isSelected[0] = false;
             }
         });
@@ -2684,8 +2683,8 @@ public class GameView {
         }
     }
 
-    public void showFinishGamePopUpMessageAndCloseGameView(String name) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Game finished! " + name + " won the game!");
+    public void showFinishRoundPopUpMessageAndCloseGameView(String name) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Round finished! " + name + " won the game!");
         alert.initOwner(LoginMenuView.getStage());
         alert.initModality(Modality.WINDOW_MODAL);
         alert.initStyle(StageStyle.TRANSPARENT);
@@ -2708,28 +2707,7 @@ public class GameView {
         }
 
     }
-
-    public boolean askNewPosition(String position) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to change position ? " + position + " ?");
-        alert.initOwner(LoginMenuView.getStage());
-        alert.initModality(Modality.WINDOW_MODAL);
-        alert.initStyle(StageStyle.TRANSPARENT);
-        DialogPane dialogPane = alert.getDialogPane();
-        ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Yes");
-        ((Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("No");
-        dialogPane.setHeaderText(null);
-        dialogPane.setGraphic(null);
-        dialogPane.setStyle("-fx-border-radius: 10; -fx-border-color: #bb792d; -fx-border-width: 7; -fx-background-radius: 14; -fx-font-family: \"Matrix II Regular\"; -fx-background-color: #103188;");
-        dialogPane.lookup(".content.label").setStyle("-fx-text-fill: white; -fx-font-size: 16; -fx-line-spacing: 5px;");
-        dialogPane.getScene().setFill(Color.TRANSPARENT);
-        ButtonBar buttonBar = (ButtonBar) alert.getDialogPane().lookup(".button-bar");
-        buttonBar.getButtons().forEach(b -> b.setStyle("-fx-background-radius: 10; -fx-background-color: #bb792d; -fx-font-size: 16; -fx-text-fill: white;"));
-        buttonBar.getButtons().forEach(b -> b.setCursor(Cursor.HAND));
-        alert.showAndWait();
-        return alert.getResult().getButtonData().isDefaultButton();
-    }
-
-    public void showPopUpMessageForRoundWinner(String name) {
+    public void showFinishRoundOfMatchPopUpMessageAndCloseGameView(String name) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Round finished! " + name + " won the round!");
         alert.initOwner(LoginMenuView.getStage());
         alert.initModality(Modality.WINDOW_MODAL);
@@ -2753,6 +2731,49 @@ public class GameView {
             e.printStackTrace();
         }
 
+    }
+    public void showFinishMatchAndCloseGameView(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, message);
+        alert.initOwner(LoginMenuView.getStage());
+        alert.initModality(Modality.WINDOW_MODAL);
+        alert.initStyle(StageStyle.TRANSPARENT);
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.setHeaderText(null);
+        dialogPane.setGraphic(null);
+        dialogPane.setStyle("-fx-border-radius: 10; -fx-border-color: #bb792d; -fx-border-width: 7; -fx-background-radius: 14; -fx-font-family: \"Matrix II Regular\"; -fx-background-color: #103188;");
+        dialogPane.lookup(".content.label").setStyle("-fx-text-fill: white; -fx-font-size: 16; -fx-line-spacing: 5px;");
+        dialogPane.getScene().setFill(Color.TRANSPARENT);
+        ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("OK");
+        ButtonBar buttonBar = (ButtonBar) alert.getDialogPane().lookup(".button-bar");
+        buttonBar.getButtons().forEach(b -> b.setStyle("-fx-background-radius: 10; -fx-background-color: #bb792d; -fx-font-size: 16; -fx-text-fill: white;"));
+        buttonBar.getButtons().forEach(b -> b.setCursor(Cursor.HAND));
+        alert.showAndWait();
+        mainGamePane.setEffect(null);
+        try {
+            Utility.openNewMenu("/project/fxml/main_menu.fxml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public boolean askNewPosition(String position) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to change position ? " + position + " ?");
+        alert.initOwner(LoginMenuView.getStage());
+        alert.initModality(Modality.WINDOW_MODAL);
+        alert.initStyle(StageStyle.TRANSPARENT);
+        DialogPane dialogPane = alert.getDialogPane();
+        ((Button) alert.getDialogPane().lookupButton(ButtonType.OK)).setText("Yes");
+        ((Button) alert.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("No");
+        dialogPane.setHeaderText(null);
+        dialogPane.setGraphic(null);
+        dialogPane.setStyle("-fx-border-radius: 10; -fx-border-color: #bb792d; -fx-border-width: 7; -fx-background-radius: 14; -fx-font-family: \"Matrix II Regular\"; -fx-background-color: #103188;");
+        dialogPane.lookup(".content.label").setStyle("-fx-text-fill: white; -fx-font-size: 16; -fx-line-spacing: 5px;");
+        dialogPane.getScene().setFill(Color.TRANSPARENT);
+        ButtonBar buttonBar = (ButtonBar) alert.getDialogPane().lookup(".button-bar");
+        buttonBar.getButtons().forEach(b -> b.setStyle("-fx-background-radius: 10; -fx-background-color: #bb792d; -fx-font-size: 16; -fx-text-fill: white;"));
+        buttonBar.getButtons().forEach(b -> b.setCursor(Cursor.HAND));
+        alert.showAndWait();
+        return alert.getResult().getButtonData().isDefaultButton();
     }
 
     public void showPopUpMessageForSpell(String spellEffectDescription) {

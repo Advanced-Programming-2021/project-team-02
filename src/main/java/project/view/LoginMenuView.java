@@ -217,7 +217,7 @@ public class LoginMenuView extends Application {
         for (Spell spell : allSpells) {
             mahdisAsset.addCardToMainDeck(spell,mahdisDeck);
         }
-        for (int i = 0; i < 10; i ++){
+        for (int i = 0; i < 5; i ++){
             mahdisAsset.addCardToSideDeck(allMonsters.get(i),mahdisDeck);
         }
         mahdisAsset.addCardToMainDeck(Card.getCardByName("Terraforming"),mahdisDeck);

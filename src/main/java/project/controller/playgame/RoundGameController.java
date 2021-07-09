@@ -1,5 +1,6 @@
 package project.controller.playgame;
 
+import javafx.scene.input.DataFormat;
 import project.model.Deck;
 import project.model.card.Card;
 import project.model.card.Monster;
@@ -95,8 +96,8 @@ public class RoundGameController {
         drawUsed = false;
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
-        firstPlayer.setLifePoint(4000);
-        secondPlayer.setLifePoint(4000);
+        firstPlayer.setLifePoint(1000);
+        secondPlayer.setLifePoint(1000);
         this.duelGameController = duelGameController;
         currentPhase = Phase.DRAW_PHASE;
         this.isWithAi = isWithAi;
@@ -2536,8 +2537,6 @@ public class RoundGameController {
 
     private void finishGame(DuelPlayer winner) {
         isFinishedGame = true;
-        view.showFinishGamePopUpMessageAndCloseGameView(winner.getNickname());
-        //TODO MenusManager.getInstance().changeMenu(Menu.MAIN_MENU);
         clear();
     }
 
@@ -2556,8 +2555,9 @@ public class RoundGameController {
             BetweenRoundController.getInstance().setPlayer1(player1, false);
             BetweenRoundController.getInstance().setPlayer2(player2, false);
         }
-        view.showPopUpMessageForRoundWinner(winner.getNickname());
-        //TODO MenusManager.getInstance().changeMenu(Menu.BETWEEN_ROUNDS);
+        if (duelGameController.getDuel().getNumberOfRounds() == 3){
+            RoundGameController.getInstance().getView().showFinishRoundOfMatchPopUpMessageAndCloseGameView(winner.getNickname());
+        }
 
 
         DuelGameController.getInstance().setSpecifier(winner.getNickname());
@@ -2626,5 +2626,9 @@ public class RoundGameController {
     private void attackToCard() {
         view.askAttackAddress();
 
+    }
+
+    public GameView getView() {
+        return view;
     }
 }

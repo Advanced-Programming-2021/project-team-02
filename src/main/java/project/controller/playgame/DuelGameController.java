@@ -177,7 +177,9 @@ public class DuelGameController {
             loserLife = duel.getPlayer1().getLifePoint();
             winnerLife = duel.getPlayer2().getLifePoint();
         }
+        System.out.println("inja nmeorese");
         Objects.requireNonNull(User.getUserByNickName(winner.getNickname())).increaseScore(1000);
+        RoundGameController.getInstance().getView().showFinishRoundPopUpMessageAndCloseGameView(winner.getNickname());
         //view.showSuccessMessageWithTwoIntegerAndOneString(SuccessMessage.WIN_MESSAGE_ROUND_MATCH, Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))
         //        .getUsername(), winnerLife, loserLife);
 
@@ -200,6 +202,7 @@ public class DuelGameController {
         if (endRoundNum == 2)
             lost = 0;
         else lost = 1;
+        RoundGameController.getInstance().getView().showFinishMatchAndCloseGameView(winner.getNickname() + " won game : 2-"+lost);
         //view.showSuccessMessageWithTwoIntegerAndOneStringForSeveralWins(SuccessMessage.WIN_MESSAGE_FOR_HOLE_MATCH,
         //        Objects.requireNonNull(Objects.requireNonNull(User.getUserByNickName(winner.getNickname())).getUsername()),
         //        2, lost
@@ -209,9 +212,9 @@ public class DuelGameController {
 
     public void setStartHandCards() {
         Deck deckFirstPlayer = RoundGameController.getInstance().getFirstPlayer().getPlayDeck();
-        //deckFirstPlayer.shuffleDeck();
+        deckFirstPlayer.shuffleDeck();
         Deck deckSecondPlayer = RoundGameController.getInstance().getSecondPlayer().getPlayDeck();
-       //deckSecondPlayer.shuffleDeck();
+       deckSecondPlayer.shuffleDeck();
         RoundGameController roundGameController = RoundGameController.getInstance();
         for (int i = 0; i < 5; i++) {
             roundGameController.addCardToFirstPlayerHand(deckFirstPlayer.getMainCards().get(0));
