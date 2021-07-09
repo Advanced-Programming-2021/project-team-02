@@ -79,7 +79,8 @@ public class ShopOtherPlayerCards {
                 buttonBuy.setPrefWidth(80);
                 buttonBuy.setOnMouseClicked(mouseEvent -> {
                     ShopMenuMessage shopMenuMessage = ShopMenuController.getInstance().buyCard(buttonBuy.getId());
-                    new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
+                    if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
+                        new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
                     Coin.setText(String.valueOf(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername()).getCoin()));
                 });
                 buttonBuy.setStyle("-fx-font-size: 15.0; -fx-background-color: #bb792d; -fx-background-radius: 10; -fx-text-fill: white; -fx-cursor: hand;");
