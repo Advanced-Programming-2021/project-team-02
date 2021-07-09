@@ -740,7 +740,7 @@ public class GameView {
                                 window.close();
                             } else {
                                 GamePopUpMessage.setStage(window);
-                                new GamePopUpMessage(Alert.AlertType.ERROR,"Invalid choice to activate!");
+                                new GamePopUpMessage(Alert.AlertType.ERROR, "Invalid choice to activate!");
                             }
                             break;
                         case "Summon current":
@@ -752,7 +752,7 @@ public class GameView {
                                 }
                                 toActivateAddress.clear();
                                 GamePopUpMessage.setStage(window);
-                                new GamePopUpMessage(Alert.AlertType.ERROR,"Invalid choice to activate!");
+                                new GamePopUpMessage(Alert.AlertType.ERROR, "Invalid choice to activate!");
                             }
 
                         case "Summon opponent":
@@ -765,7 +765,7 @@ public class GameView {
                                 }
                                 toActivateAddress.clear();
                                 GamePopUpMessage.setStage(window);
-                                new GamePopUpMessage(Alert.AlertType.ERROR,"Invalid choice to activate!");
+                                new GamePopUpMessage(Alert.AlertType.ERROR, "Invalid choice to activate!");
                             }
 
                         default:
@@ -786,7 +786,8 @@ public class GameView {
         cancel.setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getButton() != MouseButton.PRIMARY)
                 return;
-            toActivateAddress.set(0, -1);
+            toActivateAddress.clear();
+            toActivateAddress.add(-1);
             window.close();
         });
         Button resetChoicesButton = new Button();
@@ -808,7 +809,7 @@ public class GameView {
         });
         Label label = new Label("please choose one of your spells to activate");
         label.setStyle("-fx-text-fill: white");
-        HBox buttonBox = new HBox(doneButton, resetChoicesButton,cancel);
+        HBox buttonBox = new HBox(doneButton, resetChoicesButton, cancel);
         VBox mainBox = new VBox(label, gridPane, buttonBox);
         buttonBox.setSpacing(20);
         buttonBox.setAlignment(Pos.CENTER);
@@ -1943,6 +1944,8 @@ public class GameView {
                 int finalI = i;
                 Objects.requireNonNull(zonePane).setOnMouseClicked(mouseEvent -> {
                     RoundGameController.getInstance().attackToCard(finalI);
+                    if (RoundGameController.getInstance().isFinishedRound() || RoundGameController.getInstance().isFinishedGame())
+                        return;
                     activateAgainButtons();
                 });
             } else Objects.requireNonNull(zonePane).setOnMouseClicked(mouseEvent -> {
@@ -2245,7 +2248,7 @@ public class GameView {
             ((Pane) Objects.requireNonNull(inZoneNode)).getChildren().add(imageView);
             imageView.setLayoutY(imageView.getLayoutY() + 20);
             imageView.setLayoutX(imageView.getLayoutX() - 19);
-           reloadCurrentAndOpponentMonsterZone();
+            reloadCurrentAndOpponentMonsterZone();
             reloadCurrentHand();
         });
 
