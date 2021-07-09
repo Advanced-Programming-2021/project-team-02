@@ -95,6 +95,8 @@ public class GameView {
     public ImageView playPauseMusicButton;
     public ImageView muteUnmuteButton;
     public ImageView settingButton;
+    public ProgressBar currentPlayerLPBar;
+    public ProgressBar opponentPlayerLPBar;
     private ArrayList<Pane> currentMonsterZonePanes;
     private Utility utility;
     private Stage currentStage;
@@ -114,9 +116,9 @@ public class GameView {
         currentMonsterZonePanes.add(monster3);
         currentMonsterZonePanes.add(monster4);
         currentMonsterZonePanes.add(monster5);
-        currentPlayerLP.setText("8000");
+        currentPlayerLP.setText("LP : "+RoundGameController.getInstance().getOpponentPlayer().getLifePoint());
         currentPlayerNickname.setText(RoundGameController.getInstance().getCurrentPlayer().getNickname());
-        opponentPlayerLP.setText("8000");
+        opponentPlayerLP.setText("LP : "+RoundGameController.getInstance().getOpponentPlayer().getLifePoint());
         opponentPlayerNickname.setText(RoundGameController.getInstance().getOpponentPlayer().getNickname());
 
         SnapshotParameters parameters = new SnapshotParameters();
@@ -164,6 +166,8 @@ public class GameView {
         currentPlayerFieldSpellPane.getChildren().add(baseImage);
         opponentPlayerFieldSpellPane.getChildren().add(baseImage2);
         opponentPlayerFieldSpellPane.setRotate(180);
+        opponentPlayerLPBar.setProgress(1);
+        currentPlayerLPBar.setProgress(1);
     }
 
     private void createClip(ImageView imageView, SnapshotParameters parameters) {
@@ -304,78 +308,12 @@ public class GameView {
                 controller.aiTurn();
             } else {
                 command = Input.getInput();
-                commandRecognition(command);
+                //commandRecognition(command);
             }
 
         }
     }
 
-    public void run(String command) {
-        commandRecognition(command);
-    }
-
-    public void commandRecognition(String command) {
-        Matcher matcher;
-        if ((matcher = Regex.getMatcher(Regex.BOARD_GAME_SELECT_MONSTER, command)).matches()) ;
-            //controller.selectCardInMonsterZone(matcher);
-        else if ((matcher = Regex.getMatcherFromAllPermutations(Regex.BOARD_GAME_SELECT_MONSTER_OPPONENT, command)) != null)
-            controller.selectOpponentCardMonsterZone(matcher);
-        else if ((matcher = Regex.getMatcher(Regex.BOARD_GAME_SELECT_SPELL, command)).matches())
-            ;//controller.selectCardInSpellZone(matcher);
-        else if ((matcher = Regex.getMatcherFromAllPermutations(Regex.BOARD_GAME_SELECT_SPELL_OPPONENT, command)) != null)
-            controller.selectOpponentCardSpellZone(matcher);
-        else if (Regex.getMatcher(Regex.BOARD_GAME_SELECT_FIELD, command).matches())
-            controller.selectPlayerFieldCard();
-        else if ((matcher = Regex.getMatcherFromAllPermutations(Regex.BOARD_GAME_SELECT_FIELD_OPPONENT, command)) != null)
-            controller.selectOpponentFieldCard();
-        else if (Regex.getMatcher(Regex.BOARD_GAME_SELECT_DESELECT, command).matches())
-            controller.deselectCard(1);
-        else if ((matcher = Regex.getMatcher(Regex.BOARD_GAME_SELECT_HAND, command)).matches())
-            controller.selectCardInHand(Integer.parseInt(matcher.group("cardNumber")));
-        else if ((matcher = Regex.getMatcher(Regex.BOARD_GAME_SELECT_HAND, command)).matches())
-            controller.selectCardInHand(Integer.parseInt(matcher.group("cardNumber")));
-        else if (Regex.getMatcher(Regex.BOARD_GAME_NEXT_PHASE, command).matches())
-            controller.nextPhase();
-        else if (Regex.getMatcher(Regex.BOARD_GAME_SUMMON, command).matches())
-            controller.summonMonster();
-        else if (Regex.getMatcher(Regex.GRAVEYARD_SHOW, command).matches())
-            showCurrentGraveYard(true);
-        else if (Regex.getMatcher(Regex.CARD_SHOW_SELECTED, command).matches()) {
-            if (controller.getSelectedCell() == null) {
-                showError(Error.NO_CARD_SELECTED_YET);
-                return;
-            }
-            //TODO DeckMenuView.getInstance().checkTypeOfCardAndPrintIt(controller.getSelectedCell().getCardInCell());
-        } else if (Regex.getMatcher(Regex.BOARD_GAME_SUMMON, command).matches())
-            controller.summonMonster();
-        else if (Regex.getMatcher(Regex.BOARD_GAME_SET, command).matches())
-            controller.setCard();
-        else if ((matcher = Regex.getMatcher(Regex.BOARD_GAME_SET_POSITION, command)).matches())
-            ;//controller.changeMonsterPosition();
-        else if (Regex.getMatcher(Regex.BOARD_GAME_FLIP_SUMMON, command).matches())
-            controller.flipSummon();
-        else if ((matcher = Regex.getMatcher(Regex.BOARD_GAME_ATTACK, command)).matches())
-            controller.attackToCard(Integer.parseInt(matcher.group("monsterZoneNumber")));
-        else if (Regex.getMatcher(Regex.BOARD_GAME_ATTACK_DIRECT, command).matches())
-            controller.directAttack();
-        else if (Regex.getMatcher(Regex.BOARD_GAME_ACTIVATE_EFFECT, command).matches())
-            controller.activateEffectOfSpellOrTrap();
-        else if ((matcher = Regex.getMatcher(Regex.CHEAT_INCREASE_LP, command)).matches())
-            controller.getCurrentPlayer().increaseLP(Integer.parseInt(matcher.group("LPAmount")));
-        else if ((matcher = Regex.getMatcher(Regex.CHEAT_DUEL_SET_WINNER, command)).matches()) {
-            controller.setWinnerCheat(matcher.group("winnerNickName"));
-        } else if (Regex.getMatcher(Regex.COMMAND_CANCEL, command).matches())
-            controller.cancel();
-        else if (Regex.getMatcher(Regex.BOARD_GAME_SURRENDER, command).matches())
-            controller.surrender();
-        else if (Regex.getMatcher(Regex.BOARD_GAME_SHOW_HAND, command).matches()) {
-            showHand();
-        } else if (Regex.getMatcher(Regex.BOARD_GAME_SHOW_BOARD, command).matches()) {
-            showBoard();
-        } else {
-            Error.showError(Error.INVALID_COMMAND);
-        }
-    }
 
     public void showError(Error error) {
         System.out.println(error.getValue());
@@ -1837,9 +1775,7 @@ public class GameView {
             setButton.setOnMouseClicked(this::set);
             setButton.setStyle("-fx-background-color: #bb792d");
             changePositionButton.setCursor(Cursor.HAND);
-            changePositionButton.setOnMouseClicked(mouseEvent -> {
-                RoundGameController.getInstance().changeMonsterPosition();
-            });
+            changePositionButton.setOnMouseClicked(mouseEvent -> RoundGameController.getInstance().changeMonsterPosition());
             changePositionButton.setStyle("-fx-background-color: #bb792d");
         } else if (currentPhase == Phase.BATTLE_PHASE) {
             summonOrActivateButton.setOnMouseClicked((Event) -> {
@@ -1888,8 +1824,12 @@ public class GameView {
     }
 
     public void updateLPLabels() {
-        currentPlayerLP.setText(String.valueOf(RoundGameController.getInstance().getCurrentPlayer().getLifePoint()));
-        opponentPlayerLP.setText(String.valueOf(RoundGameController.getInstance().getOpponentPlayer().getLifePoint()));
+        int currLP = RoundGameController.getInstance().getCurrentPlayer().getLifePoint();
+        currentPlayerLP.setText("LP : " + String.valueOf(currLP));
+        currentPlayerLPBar.setProgress(1.0 * currLP / 8000);
+        int oppLP = RoundGameController.getInstance().getOpponentPlayer().getLifePoint();
+        opponentPlayerLP.setText("LP : "+String.valueOf(oppLP));
+        opponentPlayerLPBar.setProgress(1.0 * oppLP / 8000);
     }
 
     private void deactiveOtherThings() {
@@ -2062,7 +2002,7 @@ public class GameView {
         else inHandPoint = inHandNode.localToScene(new Point2D(0, 0));
         Node inZoneNode;
         inZoneNode = getNodeInGridPane(currentPlayerMonsterZone, 0, addressOfAddInMonsterZoneGrid);
-        Point2D zonePoint = null;
+        Point2D zonePoint;
         if (inZoneNode == null) {
             zonePoint = new Point2D(0, 0);
         } else {
@@ -2146,7 +2086,7 @@ public class GameView {
         } else inHandPoint = new Point2D(306.0, 694.0);
         Node inZoneNode;
         inZoneNode = getNodeInGridPane(currentPlayerMonsterZone, 0, addressOfAddInMonsterZoneGrid);
-        Point2D zonePoint = null;
+        Point2D zonePoint;
         if (inZoneNode == null) {
             zonePoint = new Point2D(0, 0);
         } else {
