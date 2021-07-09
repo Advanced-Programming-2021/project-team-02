@@ -1178,7 +1178,7 @@
                   </ImageView>
                   <Label prefHeight="18.0" prefWidth="125.0" text="Price : 2000" />
                   <Button mnemonicParsing="false" onAction="#TS" text="Buy" />
-                  <Label fx:id="C52" prefHeight="18.0" prefWidth="86.0" text="Label" />
+                  <Label fx:id="C52" prefHeight="18.0" prefWidth="86.0" text="0" />
                </children>
             </VBox>
             <VBox prefHeight="282.0" prefWidth="140.0">
@@ -1190,7 +1190,7 @@
                   </ImageView>
                   <Label prefHeight="18.0" prefWidth="74.0" text="Price : 3500" />
                   <Button mnemonicParsing="false" onAction="#COTH" text="Buy" />
-                  <Label fx:id="C51" prefHeight="18.0" prefWidth="73.0" text="Label" />
+                  <Label fx:id="C51" prefHeight="18.0" prefWidth="73.0" text="0" />
                </children>
             </VBox>
                 <VBox alignment="CENTER" spacing="10.0">

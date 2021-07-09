@@ -50,7 +50,7 @@ public class ShopOtherPlayerCards {
 
         System.out.println(arrayList.size());
         int i = 0, j = 0;
-        for (int k = 50; k < arrayList.size(); k++) {
+        for (int k = 52; k < arrayList.size(); k++) {
             if (i >= 12) {
                 if (j == 2) break;
                 i = 0;
