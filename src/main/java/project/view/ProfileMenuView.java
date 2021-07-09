@@ -388,7 +388,7 @@ public class ProfileMenuView {
 
     public void chooseProfilePicture(ActionEvent event) {
         FileChooser fc = new FileChooser();
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("JPG Files", "*.jpg"));
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("JPG, PNG, JEPG Files", "*.jpg", "*.png", "*.jepg"));
         File selectedFile = fc.showOpenDialog(null);
         if (selectedFile != null) {
             listView.getItems().add(selectedFile.getAbsoluteFile());
