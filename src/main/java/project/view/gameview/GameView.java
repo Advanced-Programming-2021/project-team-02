@@ -98,6 +98,7 @@ public class GameView {
     private ArrayList<Pane> currentMonsterZonePanes;
     private Utility utility;
     private Stage currentStage;
+
     public void initialize() {
         utility = new Utility();
         utility.addImages();
@@ -572,7 +573,7 @@ public class GameView {
             } else new GamePopUpMessage(Alert.AlertType.ERROR, "Please select!!!");
         });
 
-        GridPane gridPane = getOnlyMonsterZoneGridPaneToSelect(tributeAddress, numberOfTributeNeeded,RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().returnMonsterZone());
+        GridPane gridPane = getOnlyMonsterZoneGridPaneToSelect(tributeAddress, numberOfTributeNeeded, RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().returnMonsterZone());
 
         Button resetChoicesButton = new Button();
         resetChoicesButton.setText("Reset");
@@ -612,7 +613,7 @@ public class GameView {
         return tributeAddress;
     }
 
-    private GridPane getOnlyMonsterZoneGridPaneToSelect(ArrayList<Integer> listOfSelected, int size,MonsterZone monsterZone) {
+    private GridPane getOnlyMonsterZoneGridPaneToSelect(ArrayList<Integer> listOfSelected, int size, MonsterZone monsterZone) {
         System.out.println("number of tribute needed : " + size);
         GridPane gridPane = new GridPane();
         ArrayList<Card> inZoneCards = new ArrayList<>();
@@ -713,7 +714,7 @@ public class GameView {
         }
     }
 
-    public int getAddressForTrapOrSpell(SpellZone spellZone) {
+    public int getAddressForTrapOrSpell(SpellZone spellZone, String situation) {
         ArrayList<Integer> toActivateAddress = new ArrayList<>();
         Stage window = new Stage();
         currentStage = window;
@@ -721,8 +722,7 @@ public class GameView {
         window.initStyle(StageStyle.UNDECORATED);
         GamePopUpMessage.setStage(window);
 
-        Label title = new Label("Choose Tribute Cards");
-        title.setId("title");
+        GridPane gridPane = getOnlySpellZoneGridPaneToSelect(toActivateAddress, 1, spellZone);
 
         Button doneButton = new Button();
         doneButton.setText("OK");
@@ -730,13 +730,52 @@ public class GameView {
                 "-fx-background-radius: 10;\n" +
                 "-fx-text-fill: white;\n" +
                 "-fx-font-size: 16;");
+
         doneButton.setOnAction(event -> {
             if (toActivateAddress.size() == 1) {
-                window.close();
+                {
+                    switch (situation) {
+                        case "Attack":
+                            if (RoundGameController.getInstance().isValidTrapToActivateInAttackSituationByOpponent(spellZone.getCellWithAddress(toActivateAddress.get(0)).getCardInCell())) {
+                                window.close();
+                            } else {
+                                GamePopUpMessage.setStage(window);
+                                new GamePopUpMessage(Alert.AlertType.ERROR,"Invalid choice to activate!");
+                            }
+                            break;
+                        case "Summon current":
+                            if (RoundGameController.getInstance().isValidTrapToActivateInSummonByCurrent(spellZone.getCellWithAddress(toActivateAddress.get(0)).getCardInCell())) {
+                                window.close();
+                            } else {
+                                for (Integer address : toActivateAddress) {
+                                    ((Pane) Objects.requireNonNull(getNodeInGridPane(gridPane, 0, address - 1))).setBorder(null);
+                                }
+                                toActivateAddress.clear();
+                                GamePopUpMessage.setStage(window);
+                                new GamePopUpMessage(Alert.AlertType.ERROR,"Invalid choice to activate!");
+                            }
+
+                        case "Summon opponent":
+                            if (RoundGameController.getInstance().isValidTrapToActivateInSummonByOpponent(spellZone.getCellWithAddress(toActivateAddress.get(0)).getCardInCell())) {
+
+                                window.close();
+                            } else {
+                                for (Integer address : toActivateAddress) {
+                                    ((Pane) Objects.requireNonNull(getNodeInGridPane(gridPane, 0, address - 1))).setBorder(null);
+                                }
+                                toActivateAddress.clear();
+                                GamePopUpMessage.setStage(window);
+                                new GamePopUpMessage(Alert.AlertType.ERROR,"Invalid choice to activate!");
+                            }
+
+                        default:
+                            break;
+                    }
+
+                }
             } else new GamePopUpMessage(Alert.AlertType.ERROR, "Please select!!!");
         });
 
-        GridPane gridPane = getOnlySpellZoneGridPaneToSelect(toActivateAddress, 1,spellZone);
         Button cancel = new Button();
         cancel.setCursor(Cursor.HAND);
         cancel.setStyle("-fx-background-color: #bb792d;\n" +
@@ -745,13 +784,14 @@ public class GameView {
                 "-fx-font-size: 16;");
         cancel.setText("Cancel");
         cancel.setOnMouseClicked(mouseEvent -> {
-            if (mouseEvent.getButton()!=MouseButton.PRIMARY)
+            if (mouseEvent.getButton() != MouseButton.PRIMARY)
                 return;
-            toActivateAddress.set(0,-1);
+            toActivateAddress.set(0, -1);
             window.close();
         });
         Button resetChoicesButton = new Button();
         resetChoicesButton.setText("Reset");
+        resetChoicesButton.setCursor(Cursor.HAND);
         resetChoicesButton.setStyle("-fx-background-color: #bb792d;\n" +
                 "-fx-background-radius: 10;\n" +
                 "-fx-text-fill: white;\n" +
@@ -768,7 +808,7 @@ public class GameView {
         });
         Label label = new Label("please choose one of your spells to activate");
         label.setStyle("-fx-text-fill: white");
-        HBox buttonBox = new HBox(doneButton, resetChoicesButton);
+        HBox buttonBox = new HBox(doneButton, resetChoicesButton,cancel);
         VBox mainBox = new VBox(label, gridPane, buttonBox);
         buttonBox.setSpacing(20);
         buttonBox.setAlignment(Pos.CENTER);
@@ -787,7 +827,8 @@ public class GameView {
         window.showAndWait();
         return toActivateAddress.get(0);
     }
-    private GridPane getOnlySpellZoneGridPaneToSelect(ArrayList<Integer> listOfSelected, int size,SpellZone spellZone) {
+
+    private GridPane getOnlySpellZoneGridPaneToSelect(ArrayList<Integer> listOfSelected, int size, SpellZone spellZone) {
         System.out.println("number of tribute needed : " + size);
         GridPane gridPane = new GridPane();
         ArrayList<Card> inZoneCards = new ArrayList<>();
@@ -827,6 +868,7 @@ public class GameView {
         gridPane.setHgap(5);
         return gridPane;
     }
+
     public boolean yesNoQuestion(String question) {
         GamePopUpMessage.setStage(LoginMenuView.getStage());
         GamePopUpMessage message = new GamePopUpMessage(Alert.AlertType.CONFIRMATION, question);
@@ -1047,12 +1089,12 @@ public class GameView {
                 "-fx-text-fill: white;\n" +
                 "-fx-font-size: 16;");
         doneButton.setOnAction(event -> {
-            if (address.size() ==1) {
+            if (address.size() == 1) {
                 window.close();
             } else new GamePopUpMessage(Alert.AlertType.ERROR, "Please select!!!");
         });
 
-        GridPane gridPane = getOnlyMonsterZoneGridPaneToSelect(address, 1,monsterZone);
+        GridPane gridPane = getOnlyMonsterZoneGridPaneToSelect(address, 1, monsterZone);
 
         Button resetChoicesButton = new Button();
         resetChoicesButton.setText("Reset");
@@ -1608,7 +1650,9 @@ public class GameView {
                     return;
                 selectedCardImageView.setImage(getCardImageByName(monsterCell.getCardInCell().getName()));
                 selectedCardDescriptionLabel.setText(monsterCell.getCardInCell().toString());
+                System.out.println("Address : " + finalI + " monseter :" + monsterCell.getCardInCell() + "  changeTurn");
                 RoundGameController.getInstance().selectCardInMonsterZone(finalI);
+
             });
         }
         //spellzone
@@ -1858,7 +1902,6 @@ public class GameView {
             setButton.setCursor(Cursor.HAND);
             setButton.setOnMouseClicked(this::set);
             setButton.setStyle("-fx-background-color: #bb792d");
-            //TODO change position
             changePositionButton.setCursor(Cursor.HAND);
             changePositionButton.setOnMouseClicked(mouseEvent -> {
                 RoundGameController.getInstance().changeMonsterPosition();
@@ -1987,6 +2030,7 @@ public class GameView {
                 Objects.requireNonNull(zonePane).setOnMouseClicked(mouseEvent -> {
                     selectedCardImageView.setImage(getCardImageByName(finalCell.getCardInCell().getName()));
                     selectedCardDescriptionLabel.setText(finalCell.getCardInCell().toString());
+                    System.out.println("Address : " + finalI + " monseter :" + finalCell.getCardInCell() + "  activateButton after attack");
                     RoundGameController.getInstance().selectCardInMonsterZone(finalI);
                 });
             }
@@ -2104,13 +2148,15 @@ public class GameView {
                 imageView.setFitHeight(130);
                 imageView.setFitWidth(94);
                 imageView.setCursor(Cursor.HAND);
-                imageView.setOnMouseClicked(mouseEvent -> {
-                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
-                        return;
-                    selectedCardImageView.setImage(getCardImageByName(cardName));
-                    selectedCardDescriptionLabel.setText(Card.getCardByName(cardName).toString());
-                    RoundGameController.getInstance().selectCardInMonsterZone(addressInMonsterZone);
-                });
+//                imageView.setOnMouseClicked(mouseEvent -> {
+//                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
+//                        return;
+//                    selectedCardImageView.setImage(getCardImageByName(cardName));
+//                    selectedCardDescriptionLabel.setText(Card.getCardByName(cardName).toString());
+//                    RoundGameController.getInstance().selectCardInMonsterZone(addressInMonsterZone);
+//                    reloadCurrentAndOpponentMonsterZone();
+//                });
+                reloadCurrentAndOpponentMonsterZone();
                 cardBoardPane.getChildren().remove(fakeCardImageView);
                 mainGamePane.getChildren().remove(fakeCardImageView);
                 AudioClip audioClip = new AudioClip(Objects.requireNonNull(getClass().getResource("/project/soundEffects/ADD_CARD.wav")).toString());
@@ -2186,19 +2232,20 @@ public class GameView {
             imageView.setFitWidth(130);
             imageView.setCursor(Cursor.HAND);
 
-            imageView.setOnMouseClicked(mouseEvent -> {
-                if (mouseEvent.getButton() != MouseButton.PRIMARY)
-                    return;
-                Card card = RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().getACellOfBoardWithAddress(Zone.MONSTER_ZONE, addressInMonsterZone).getCardInCell();
-                selectedCardImageView.setImage(getCardImageByName(card.getName()));
-                selectedCardDescriptionLabel.setText(card.toString());
-                RoundGameController.getInstance().selectCardInMonsterZone(addressInMonsterZone);
-            });
+//            imageView.setOnMouseClicked(mouseEvent -> {
+//                if (mouseEvent.getButton() != MouseButton.PRIMARY)
+//                    return;
+//                Card card = RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().getACellOfBoardWithAddress(Zone.MONSTER_ZONE, addressInMonsterZone).getCardInCell();
+//                selectedCardImageView.setImage(getCardImageByName(card.getName()));
+//                selectedCardDescriptionLabel.setText(card.toString());
+//                RoundGameController.getInstance().selectCardInMonsterZone(addressInMonsterZone);
+//            });
             cardBoardPane.getChildren().remove(fakeCardImageView);
             mainGamePane.getChildren().remove(fakeCardImageView);
             ((Pane) Objects.requireNonNull(inZoneNode)).getChildren().add(imageView);
             imageView.setLayoutY(imageView.getLayoutY() + 20);
             imageView.setLayoutX(imageView.getLayoutX() - 19);
+           reloadCurrentAndOpponentMonsterZone();
             reloadCurrentHand();
         });
 
@@ -2650,6 +2697,7 @@ public class GameView {
                 zonePane.setOnMouseClicked(mouseEvent -> {
                     selectedCardImageView.setImage(getCardImageByName(finalCell1.getCardInCell().getName()));
                     selectedCardDescriptionLabel.setText(finalCell1.getCardInCell().toString());
+                    System.out.println("Address : " + finalI + " monseter :" + finalCell1.getCardInCell() + "  reloadFunc");
                     RoundGameController.getInstance().selectCardInMonsterZone(finalI);
                 });
             } else {
@@ -2945,16 +2993,17 @@ public class GameView {
 
     public void middleGameTurnChange() {
         blur();
-        new GamePopUpMessage(Alert.AlertType.INFORMATION,"now your opponent can activate effect, please change turn");
+        new GamePopUpMessage(Alert.AlertType.INFORMATION, "now your opponent can activate effect, please change turn");
 
     }
-    public void endOfMiddleGameTurnChange(){
+
+    public void endOfMiddleGameTurnChange() {
         mainGamePane.setEffect(null);
     }
 
     public void showPopUpMessage(String string, Alert.AlertType alertType) {
         GamePopUpMessage.setStage(currentStage);
-        new GamePopUpMessage(alertType,string);
+        new GamePopUpMessage(alertType, string);
         currentStage = LoginMenuView.getStage();
     }
 }

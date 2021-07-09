@@ -1135,18 +1135,15 @@ public class RoundGameController {
     }
 
     private boolean isOpponentTrapInSummonSituationActivated(int addressOfNewSummonedCard) {
-        while (true) {
-            int address = view.getAddressForTrapOrSpell(getOpponentPlayer().getPlayerBoard().returnSpellZone());
-            if (address == -1) {
-                return false;
-            } else {
-                Cell cell = getOpponentPlayer().getPlayerBoard().getACellOfBoardWithAddress(Zone.SPELL_ZONE, address);
-                if (checkTrapCellToBeActivatedForOpponentInSummonSituation(address, cell, addressOfNewSummonedCard))
-                    return true;
-                else
-                    view.showPopUpMessage("Can't activate this card now! Choose another", Alert.AlertType.ERROR);
-            }
+        int address = view.getAddressForTrapOrSpell(getOpponentPlayer().getPlayerBoard().returnSpellZone(), "Summon opponent");
+        if (address == -1) {
+            return false;
+        } else {
+            Cell cell = getOpponentPlayer().getPlayerBoard().getACellOfBoardWithAddress(Zone.SPELL_ZONE, address);
+            if (checkTrapCellToBeActivatedForOpponentInSummonSituation(address, cell, addressOfNewSummonedCard))
+                return true;
         }
+        return false;
     }
 
     private boolean checkTrapCellToBeActivatedForOpponentInSummonSituation(int address, Cell
@@ -1164,18 +1161,17 @@ public class RoundGameController {
     }
 
     private boolean isTrapOfCurrentPlayerInSummonSituationActivated() {
-        while (true) {
-            int address = view.getAddressForTrapOrSpell(getCurrentPlayer().getPlayerBoard().returnSpellZone());
-            if (address == -1) {
-                return false;
-            } else if (address >= 1 && address <= 5) {
-                Cell cell = getCurrentPlayer().getPlayerBoard().getACellOfBoardWithAddress(Zone.SPELL_ZONE, address);
-                if (checkTrapCellToBeActivatedForCurrentPlayerInSummonSituation(address, cell))
-                    return true;
 
-            } else
-                Error.showError(Error.INVALID_NUMBER);
+        int address = view.getAddressForTrapOrSpell(getCurrentPlayer().getPlayerBoard().returnSpellZone(), "Summon current");
+        if (address == -1) {
+            return false;
+        } else {
+            Cell cell = getCurrentPlayer().getPlayerBoard().getACellOfBoardWithAddress(Zone.SPELL_ZONE, address);
+            if (checkTrapCellToBeActivatedForCurrentPlayerInSummonSituation(address, cell))
+                return true;
+
         }
+        return false;
     }
 
     private boolean checkTrapCellToBeActivatedForCurrentPlayerInSummonSituation(int address, Cell cell) {
@@ -1526,7 +1522,7 @@ public class RoundGameController {
             if (view.yesNoQuestion("do you want to activate trap")) {
                 while (true) {
                     Trap trap;
-                    int address = view.getAddressForTrapOrSpell(getOpponentPlayer().getPlayerBoard().returnSpellZone());
+                    int address = view.getAddressForTrapOrSpell(getOpponentPlayer().getPlayerBoard().returnSpellZone(), "Summon opponent");
                     if (address == -1) {
                         cancel();
                         view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER, getCurrentPlayer().getNickname());
@@ -1858,23 +1854,33 @@ public class RoundGameController {
     }
 
     private boolean isTrapOrSpellInAttackSituationActivated() {
-        while (true) {
-            int address = view.getAddressForTrapOrSpell(getOpponentPlayer().getPlayerBoard().returnSpellZone());
-            if (address == -1) {
-                return false;
-            } else if (address >= 1 && address <= 5) {
-                Cell cell = getOpponentPlayer().getPlayerBoard().getACellOfBoardWithAddress(Zone.SPELL_ZONE, address);
-                if (cell.getCardInCell().getCardType().equals(TRAP)) {
-                    Trap trap = (Trap) cell.getCardInCell();
-                    if (activateTrapEffectInAttackSituation(trap.getTrapEffect(), cell)) {
-                        addCardToGraveYard(Zone.SPELL_ZONE, address, getOpponentPlayer()); //CHECK correctly removed ?
-                    }
-                    return true;
-                } else {
-                    view.showPopUpMessage("Can't activate this", Alert.AlertType.ERROR);
+        int address = view.getAddressForTrapOrSpell(getOpponentPlayer().getPlayerBoard().returnSpellZone(), "Attack");
+        if (address == -1) {
+            return false;
+        } else {
+            Cell cell = getOpponentPlayer().getPlayerBoard().getACellOfBoardWithAddress(Zone.SPELL_ZONE, address);
+            if (cell.getCardInCell().getCardType().equals(TRAP)) {
+                Trap trap = (Trap) cell.getCardInCell();
+                if (activateTrapEffectInAttackSituation(trap.getTrapEffect(), cell)) {
+                    addCardToGraveYard(Zone.SPELL_ZONE, address, getOpponentPlayer()); //CHECK correctly removed ?
                 }
-            } else
-                Error.showError(Error.INVALID_NUMBER);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isValidTrapToActivateInAttackSituationByOpponent(Card card) {
+        if (card.getCardType() != TRAP)
+            return false;
+        switch (((Trap) card).getTrapEffect()) {
+            case MAGIC_CYLINDER_EFFECT:
+            case NEGATE_ATTACK_EFFECT:
+            case MIRROR_FORCE_EFFECT:
+                return true;
+            default:
+                Error.showError(Error.PREPARATIONS_IS_NOT_DONE);
+                return false;
         }
     }
 
@@ -1909,7 +1915,7 @@ public class RoundGameController {
             selectedCell.setCellStatus(CellStatus.OFFENSIVE_OCCUPIED);
             view.showSuccessMessage(SuccessMessage.FLIP_SUMMON_SUCCESSFUL);
             view.showBoard();
-            deselectCard(0);
+
         } else {
             manEaterBugMonsterEffectAndFlipSummon(getCurrentPlayer(), getOpponentPlayer());
         }
@@ -1919,10 +1925,11 @@ public class RoundGameController {
             }
         }
         if (isOpponentTrapToBeActivatedInSummonSituation(selectedCellAddress)) {
-            view.showSuccessMessageWithAString(SuccessMessage.SHOW_TURN_WHEN_OPPONENT_WANTS_ACTIVE_TRAP_OR_SPELL_OR_MONSTER, getOpponentPlayer().getNickname());
+            view.middleGameTurnChange();
             isOpponentTrapInSummonSituationActivated(selectedCellAddress);
+            view.endOfMiddleGameTurnChange();
         }
-
+        deselectCard(0);
 
     }
 
@@ -2614,5 +2621,20 @@ public class RoundGameController {
 
     public void setView(GameView view) {
         this.view = view;
+    }
+
+    public boolean isValidTrapToActivateInSummonByCurrent(Card cardInCell) {
+        if (cardInCell.getCardType() == SPELL) {
+            return false;
+        }
+        return ((Trap) cardInCell).getTrapEffect() == TrapEffect.TORRENTIAL_TRIBUTE_EFFECT;
+    }
+
+    public boolean isValidTrapToActivateInSummonByOpponent(Card cardInCell) {
+        if (cardInCell.getCardType() == SPELL) {
+            return false;
+        }
+        TrapEffect trapEffect = ((Trap) cardInCell).getTrapEffect();
+        return trapEffect == TrapEffect.TORRENTIAL_TRIBUTE_EFFECT || trapEffect == TrapEffect.TRAP_HOLE_EFFECT;
     }
 }
