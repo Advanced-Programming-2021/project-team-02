@@ -192,9 +192,9 @@ public class LoginMenuView extends Application {
             if (counter == 25)
                 break;
         }
-        for (int i = 0; i < 4; i ++){
-            erfanAsset.addCard(allMonsters.get(i));
-            erfanAsset.addCardToMainDeck(allMonsters.get(i),erfandeck);
+        for (int i = 1; i < 4; i ++){
+            erfanAsset.addCard(allMonsters.get(allMonsters.size()-i));
+            erfanAsset.addCardToMainDeck(allMonsters.get(allMonsters.size()-i),erfandeck);
         }
         for (int i = 0; i < 5; i ++){
             erfanAsset.addCard(allMonsters.get(i));
@@ -206,25 +206,24 @@ public class LoginMenuView extends Application {
         Assets mahdisAsset = Assets.getAssetsByUsername("mahdis");
         Objects.requireNonNull(mahdisAsset).createDeck("mahdis");
         Deck mahdisDeck = mahdisAsset.getDeckByDeckName("mahdis");
-        //""
-        mahdisAsset.addCardToMainDeck(Card.getCardByName("Time Seal"),mahdisDeck);
-        mahdisAsset.addCardToMainDeck(Card.getCardByName("Call of The Haunted"),mahdisDeck);
-        mahdisAsset.addCardToMainDeck(Card.getCardByName("Man-Eater Bug"),mahdisDeck);
+
         for (int i = 0; i < 2; i++) {
             for (Monster monster : allMonsters) {
                 if (monster.getMonsterActionType() == MonsterActionType.NORMAL && monster.getLevel() >= 4)
+                {
+                    mahdisAsset.addCard(monster);
                     mahdisAsset.addCardToMainDeck(monster, mahdisDeck);
+                }
             }
         }
         for (Spell spell : allSpells) {
+            mahdisAsset.addCard(spell);
             mahdisAsset.addCardToMainDeck(spell,mahdisDeck);
         }
-        for (int i = 0; i < 5; i ++){
-            mahdisAsset.addCardToSideDeck(allMonsters.get(i),mahdisDeck);
+        for (int i = 1; i < 5; i ++){
+            mahdisAsset.addCard(allMonsters.get(allMonsters.size()-i));
+            mahdisAsset.addCardToSideDeck(allMonsters.get(allMonsters.size()-i),mahdisDeck);
         }
-        mahdisAsset.addCardToMainDeck(Card.getCardByName("Man-Eater Bug"),mahdisDeck);
-        mahdisAsset.addCardToMainDeck(Card.getCardByName("Raigeki"),mahdisDeck);
-        mahdisAsset.addCardToMainDeck(Card.getCardByName("Magic Cylinder"),mahdisDeck);
         mahdisAsset.activateDeck("mahdis");
     }
 }
