@@ -32,7 +32,7 @@
                 <HBox alignment="CENTER_LEFT" layoutX="63.0" prefHeight="64.0" prefWidth="500.0">
                     <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#back" style="-fx-background-color: #103188;" textAlignment="CENTER">
                         <HBox.margin>
-                            <Insets left="55.0" right="400.0" />
+                            <Insets left="55.0" right="350.0" />
                         </HBox.margin>
                         <graphic>
                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
@@ -59,7 +59,7 @@
                         </VBox.margin>
                     </HBox>
                 </HBox>
-                <Label prefHeight="22.0" prefWidth="1155.0" style="-fx-font-size: 20; -fx-text-fill: #ffd500;" text="Main Cards" />
+                <Label fx:id="mainCardLabel" prefHeight="22.0" prefWidth="1155.0" style="-fx-font-size: 20; -fx-text-fill: #ffd500;" text="Main Cards" />
 
                 <GridPane fx:id="gridScrollPane" alignment="TOP_CENTER" prefHeight="90.0" prefWidth="1286.0">
                     <columnConstraints>

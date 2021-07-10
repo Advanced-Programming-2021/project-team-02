@@ -55,10 +55,11 @@ public class DeckInfoView {
     private void showEdit(String deckName) {
         scrollPane.setFitToWidth(true);
         ArrayList<Deck> arrayList = Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllDecks();
-        for (Deck deck : arrayList) {
+        Deck deck = Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getDeckByDeckName(deckName);
+        //for (Deck deck : arrayList) {
             int counter = 0;
             int i, j;
-            if (deck.getName().equals(deckName)) {
+            //if (deck.getName().equals(deckName)) {
                 for (i = 0, j = 0; counter < deck.getMainCards().size(); ) {
                     if (i >= 6) {
                         j++;
@@ -139,8 +140,8 @@ public class DeckInfoView {
                     }
                     counter2++;
                 }
-            }
-        }
+           // }
+        //}
     }
 
     private void createClip(ImageView imageView) {
