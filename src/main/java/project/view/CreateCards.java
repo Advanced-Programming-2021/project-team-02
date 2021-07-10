@@ -158,7 +158,7 @@ public class CreateCards {
             attack.clear();
             defense.clear();
             level.clear();
-            description.getText();
+            description.clear();
             price.setText("");
         } else if (cardType.equals("Spell")) {
             CreateCardMessage createCardMessage = createCardMenuController.makeSpell(replacementForEffect, enterCardName.getText(),
