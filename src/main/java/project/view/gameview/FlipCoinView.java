@@ -35,27 +35,28 @@ public class FlipCoinView {
     public ImageView playPauseMusicButton;
     public ImageView muteUnmuteButton;
 
-    Image image5 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_5.png")).toString());
-    Image image6 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_6.png")).toString());
-    Image image7 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_7.png")).toString());
-    Image image8 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_8.png")).toString());
-    Image image9 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_9.png")).toString());
-    Image image10 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_10.png")).toString());
-    Image image27 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_27.png")).toString());
-    Image image28 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_28.png")).toString());
-    Image image29 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_29.png")).toString());
-    Image image30 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_30.png")).toString());
-    Image image21 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_21.png")).toString());
-    Image image22 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_22.png")).toString());
-    Image image23 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_23.png")).toString());
-    Image image24 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_24.png")).toString());
-    Image image25 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_25.png")).toString());
-    Image image26 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_26.png")).toString());
-    Image image1 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_1.png")).toString());
-    Image image2 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_2.png")).toString());
-    Image image3 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_3.png")).toString());
-    Image image4 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_4.png")).toString());
+    private Image image5 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_5.png")).toString());
+    private Image image6 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_6.png")).toString());
+    private Image image7 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_7.png")).toString());
+    private Image image8 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_8.png")).toString());
+    private Image image9 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_9.png")).toString());
+    private Image image10 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_10.png")).toString());
+    private Image image27 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_27.png")).toString());
+    private Image image28 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_28.png")).toString());
+    private Image image29 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_29.png")).toString());
+    private Image image30 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_30.png")).toString());
+    private Image image21 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_21.png")).toString());
+    private Image image22 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_22.png")).toString());
+    private Image image23 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_23.png")).toString());
+    private Image image24 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_24.png")).toString());
+    private Image image25 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_25.png")).toString());
+    private Image image26 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_26.png")).toString());
+    private Image image1 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_1.png")).toString());
+    private Image image2 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_2.png")).toString());
+    private Image image3 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_3.png")).toString());
+    private Image image4 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_4.png")).toString());
     private Timeline flipCoinTimeLine;
+    private AudioClip onClick = new AudioClip(Objects.requireNonNull(Utility.class.getResource("/project/soundEffects/CURSOR.wav")).toString());
 
     public void initialize() {
         Duel duel = DuelGameController.getInstance().getDuel();
@@ -83,6 +84,7 @@ public class FlipCoinView {
         int y = (int) flipCoinButton.getLayoutY();
         if (mouseEvent.getButton() != MouseButton.PRIMARY)
             return;
+        onClick.play();
         String starterName;
         vBox.getChildren().remove(flipCoinButton);
         int randomNum = DuelGameController.getInstance().flipCoinAndSetStarter();
@@ -106,6 +108,7 @@ public class FlipCoinView {
             Button button = new Button("Start Game!");
             button.setOnAction(actionEvent -> {
                 try {
+                    onClick.play();
                     GameView gameView  =(GameView) Utility.openMenuAndReturnController("/project/fxml/round_view.fxml");
                     gameView.startGameAndLoadHand();
 
@@ -120,6 +123,7 @@ public class FlipCoinView {
             });
             button.getStylesheets().add(getClass().getResource("/project/CSS/flip_coin_style.css").toString());
             button.setId("button");
+            vBox.getChildren().add(button);
         });
     }
 

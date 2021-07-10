@@ -24,6 +24,7 @@ public enum GameViewMessage {
     USED_CHANGE_POSITION("You have used change position before!", Alert.AlertType.ERROR),
     WRONG_CHOICE("This is invalid choice", Alert.AlertType.ERROR),
     CAN_NOT_SET("Can not set this card!!!", Alert.AlertType.ERROR),
+    CANT_SET_FIELD_CARD("Can't set a field card", Alert.AlertType.ERROR),
     SUCCESS("Success!", Alert.AlertType.INFORMATION);
     private final String label;
     private final Alert.AlertType alertType;

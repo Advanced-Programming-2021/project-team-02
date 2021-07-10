@@ -50,7 +50,7 @@ public class MainMenuView {
     public void profileMenu(MouseEvent actionEvent) throws Exception {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         onClick.play();
-        //Utility.openNewMenu("/project/fxml/profile_menu.fxml");
+        Utility.openNewMenu("/project/fxml/profile_menu.fxml");
     }
 
     public void shopMenu(MouseEvent actionEvent) throws Exception {

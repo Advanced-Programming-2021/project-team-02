@@ -551,7 +551,6 @@ public class RoundGameController {
         deck.shuffleDeck();
         addCardToGraveYard(Zone.SPELL_ZONE, addressOfAdd, getCurrentPlayer());
         System.out.println("TerraForming effect");
-        //TODO
         return SUCCESS;
     }
 
@@ -636,10 +635,8 @@ public class RoundGameController {
             i++;
         }
         if (isFieldActivated == 2 && turn == 1) {
-            //TODO
             reversePreviousFieldZoneSpellEffectAndRemoveIt();
         } else if (isFieldActivated == 1 && turn == 2) {
-            //TODO
             reversePreviousFieldZoneSpellEffectAndRemoveIt();
         }
         addCardToGraveYard(Zone.SPELL_ZONE, addressOfAdd, getCurrentPlayer());
@@ -950,10 +947,7 @@ public class RoundGameController {
     //MONSTER RELATED CODES :
     public synchronized GameViewMessage summonMonster() {
         GameViewMessage message;
-        //TODO if (selectedCellZone == Zone.NONE && opponentSelectedCell != null) {
-        //     Error.showError(Error.ONLY_CAN_SHOW_OPPONENT_CARD);
-        //     return;
-        // }
+
         if ((message = isValidSelectionForSummonOrSet()) != SUCCESS) {
             return message;
         }
@@ -1971,9 +1965,7 @@ public class RoundGameController {
             return FULL_SPELL_ZONE;
         } else if (selectedCell.getCardInCell().getCardType().equals(SPELL)) {
             if (((Spell) selectedCell.getCardInCell()).getSpellType().equals(SpellType.FIELD)) {
-                return NONE;
-                //TODO  setFieldCard();
-                //TODO  return;
+                return CANT_SET_FIELD_CARD;
             } else {
                 SpellZone spellZone = getCurrentPlayer().getPlayerBoard().returnSpellZone();
                 int addressOfAdd = spellZone.addCard(selectedCell.getCardInCell(), CellStatus.HIDDEN);
@@ -2123,7 +2115,7 @@ public class RoundGameController {
     }
 
     private GameViewMessage fieldZoneSpellActivate() {
-        //TODO FIELD ANIMATION
+
         if (fieldZoneSpell == null) {
             if (turn == 1) {
                 isFieldActivated = 1;
