@@ -55,7 +55,6 @@ public class CreateCardMenuController {
         Objects.requireNonNull(Assets.getAssetsByUsername(user.getUsername())).decreaseCoin(Integer.parseInt(price)/10);
         Utility utility = new Utility();
         utility.getStringImageHashMap().put(enterCardName, new Image(String.valueOf(getClass().getResource("/project/image/DeckMenuPictures/Picture.jpg"))));
-        System.out.println(enterCardName + "    :   CCC");
         return CreateCardMessage.CARD_CREATED;
     }
 

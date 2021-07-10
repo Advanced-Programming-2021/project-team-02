@@ -12,12 +12,14 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.*;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.StageStyle;
 import project.controller.ImportExportController;
+import project.controller.LoginMenuController;
 import project.controller.MainMenuController;
 import project.controller.ProfileMenuController;
 import javafx.stage.Stage;
@@ -38,8 +40,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 public class ProfileMenuView {
+    private final AudioClip onClick = new AudioClip(Objects.requireNonNull(Utility.class.getResource("/project/soundEffects/CURSOR.wav")).toString());
     private static final ProfileMenuController controller = ProfileMenuController.getInstance();
     public static final SnapshotParameters parameters = new SnapshotParameters();
     public Label userNameLabel;
@@ -102,6 +106,7 @@ public class ProfileMenuView {
         Button changeUsernameButton = new Button();
         changeUsernameButton.setText("Change");
         changeUsernameButton.setOnAction(event -> {
+            onClick.play();
             ProfileMenuMessage profileMenuMessage = controller.changeUsername(usernameTextField.getText());
             new PopUpMessage(profileMenuMessage.getAlertType(), profileMenuMessage.getLabel());
             userNameLabel.setText(MainMenuController.getInstance().getLoggedInUser().getUsername());
@@ -130,6 +135,7 @@ public class ProfileMenuView {
         Button closeButton = new Button();
         closeButton.setText("Close");
         closeButton.setOnAction(event -> {
+            onClick.play();
             window.close();
             usernameTextField.clear();
             PopUpMessage.setStage(LoginMenuView.getStage());
@@ -154,6 +160,7 @@ public class ProfileMenuView {
         Button changeNicknameButton = new Button();
         changeNicknameButton.setText("Change");
         changeNicknameButton.setOnAction(event -> {
+            onClick.play();
             ProfileMenuMessage profileMenuMessage = controller.changeNickname(nickNameTextField.getText());
             new PopUpMessage(profileMenuMessage.getAlertType(), profileMenuMessage.getLabel());
             nickNameLabel.setText(MainMenuController.getInstance().getLoggedInUser().getNickname());
@@ -195,6 +202,7 @@ public class ProfileMenuView {
         Button changePasswordButton = new Button();
         changePasswordButton.setText("Change");
         changePasswordButton.setOnAction(event -> {
+            onClick.play();
             if (newPasswordField.getText().length() == 0 || currentPasswordField.getText().length() == 0) {
                 new PopUpMessage(ProfileMenuMessage.INVALID_INPUT.getAlertType(),
                         ProfileMenuMessage.INVALID_INPUT.getLabel());
@@ -211,6 +219,7 @@ public class ProfileMenuView {
         Button closeButton = new Button();
         closeButton.setText("Close");
         closeButton.setOnAction(event -> {
+            onClick.play();
             window.close();
             PopUpMessage.setStage(LoginMenuView.getStage());
         });
@@ -281,6 +290,7 @@ public class ProfileMenuView {
         else if (profileImageView.getImage().getUrl().equals(image4.getUrl())) vBox4.setId("container");
 
         imageView1.setOnMouseClicked(event -> {
+            onClick.play();
             vBox1.setId("container");
             vBox2.setId(null);
             vBox3.setId(null);
@@ -290,6 +300,7 @@ public class ProfileMenuView {
         });
 
         imageView2.setOnMouseClicked(event -> {
+            onClick.play();
             vBox2.setId("container");
             vBox1.setId(null);
             vBox3.setId(null);
@@ -298,6 +309,7 @@ public class ProfileMenuView {
             MainMenuController.getInstance().getLoggedInUser().setAvatarURL(Avatar.AVATAR_2.getUrl());
         });
         imageView3.setOnMouseClicked(event -> {
+            onClick.play();
             vBox3.setId("container");
             vBox2.setId(null);
             vBox1.setId(null);
@@ -307,6 +319,7 @@ public class ProfileMenuView {
         });
 
         imageView4.setOnMouseClicked(event -> {
+            onClick.play();
             vBox4.setId("container");
             vBox2.setId(null);
             vBox3.setId(null);
@@ -318,6 +331,7 @@ public class ProfileMenuView {
         Button closeButton = new Button();
         closeButton.setText("Close");
         closeButton.setOnAction(event -> {
+            onClick.play();
             window.close();
             PopUpMessage.setStage(LoginMenuView.getStage());
         });
@@ -362,26 +376,31 @@ public class ProfileMenuView {
 
     public void nextTrack(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        onClick.play();
         Music.nextTrack(playPauseMusicButton, muteUnmuteButton);
     }
 
     public void playPauseMusic(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        onClick.play();
         Music.playPauseMusic(playPauseMusicButton);
     }
 
     public void muteUnmuteMusic(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        onClick.play();
         Music.muteUnmuteMusic(muteUnmuteButton);
     }
 
     public void back(MouseEvent mouseEvent) throws Exception {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
+        onClick.play();
         Utility.openNewMenu("/project/fxml/main_menu.fxml");
     }
 
     public void exit(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        onClick.play();
         PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
         if (popUpMessage.getAlert().getResult().getText().equals("OK")) System.exit(0);
     }
@@ -389,7 +408,7 @@ public class ProfileMenuView {
     public void chooseProfilePicture(ActionEvent event) {
         FileChooser fc = new FileChooser();
         fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("JPG, PNG, JEPG Files", "*.jpg", "*.png", "*.jepg"));
-        File selectedFile = fc.showOpenDialog(null);
+        File selectedFile = fc.showOpenDialog(LoginMenuView.getStage());
         if (selectedFile != null) {
             listView.getItems().add(selectedFile.getAbsoluteFile());
             String fileName = String.valueOf(listView.getItems());

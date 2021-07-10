@@ -10,12 +10,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import project.controller.MainMenuController;
 import project.model.Music;
 import project.model.User;
 import project.model.gui.Icon;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ScoreBoardView {
     public VBox secondBox;
@@ -23,6 +25,7 @@ public class ScoreBoardView {
     public VBox firstBox;
     public ImageView playPauseMusicButton;
     public ImageView muteUnmuteButton;
+    private final AudioClip onClick = new AudioClip(Objects.requireNonNull(Utility.class.getResource("/project/soundEffects/CURSOR.wav")).toString());
 
     @FXML
     public void initialize() {
@@ -132,21 +135,25 @@ public class ScoreBoardView {
 
     public void nextTrack(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        onClick.play();
         Music.nextTrack(playPauseMusicButton, muteUnmuteButton);
     }
 
     public void playPauseMusic(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        onClick.play();
         Music.playPauseMusic(playPauseMusicButton);
     }
 
     public void muteUnmuteMusic(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        onClick.play();
         Music.muteUnmuteMusic(muteUnmuteButton);
     }
 
     public void back(MouseEvent mouseEvent) throws Exception {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
+        onClick.play();
         Utility.openNewMenu("/project/fxml/main_menu.fxml");
     }
 }

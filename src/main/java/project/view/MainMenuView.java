@@ -76,16 +76,19 @@ public class MainMenuView {
     public void nextTrack(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         Music.nextTrack(playPauseMusicButton, muteUnmuteButton);
+        onClick.play();
     }
 
     public void playPauseMusic(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         Music.playPauseMusic(playPauseMusicButton);
+        onClick.play();
     }
 
     public void muteUnmuteMusic(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         Music.muteUnmuteMusic(muteUnmuteButton);
+        onClick.play();
     }
 
     public void logout(MouseEvent actionEvent) throws Exception {

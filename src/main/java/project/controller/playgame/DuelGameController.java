@@ -177,7 +177,6 @@ public class DuelGameController {
             loserLife = duel.getPlayer1().getLifePoint();
             winnerLife = duel.getPlayer2().getLifePoint();
         }
-        System.out.println("inja nmeorese");
         Objects.requireNonNull(User.getUserByNickName(winner.getNickname())).increaseScore(1000);
         RoundGameController.getInstance().getView().showFinishRoundPopUpMessageAndCloseGameView(winner.getNickname());
         //view.showSuccessMessageWithTwoIntegerAndOneString(SuccessMessage.WIN_MESSAGE_ROUND_MATCH, Objects.requireNonNull(User.getUserByNickName(winner.getNickname()))

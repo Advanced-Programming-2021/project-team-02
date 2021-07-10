@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -21,6 +22,7 @@ import project.view.messages.ImportExportMessages;
 import project.view.messages.PopUpMessage;
 
 import java.io.*;
+import java.util.Objects;
 
 public class ImportExportView {
     public ScrollPane scrollPane;
@@ -28,6 +30,7 @@ public class ImportExportView {
     Utility utility;
     public ImageView imageViewMain = new ImageView();
     ListView listView = new ListView();
+    private final AudioClip onClick = new AudioClip(Objects.requireNonNull(Utility.class.getResource("/project/soundEffects/CURSOR.wav")).toString());
 
     public void showImages() {
         scrollPane = new ScrollPane();
@@ -70,7 +73,7 @@ public class ImportExportView {
                 Label label = new Label();
                 label.setText(CardsDatabase.getAllCards().get(i - 1).toString());
                 label.setWrapText(true);
-                label.setStyle("-fx-text-fill: #103188; -fx-font-family: \"Matrix II Regular\";");
+                label.setStyle("-fx-text-fill: white; -fx-font-family: \"Matrix II Regular\";");
 
                 Button gson = new Button("Json");
                 gson.setId(CardsDatabase.getAllCards().get(i - 1).getName());
@@ -110,7 +113,10 @@ public class ImportExportView {
         scrollPane.setLayoutX(50);
 
         Button importButton = new Button("Import");
-        importButton.setOnAction(actionEvent -> chooseFile(actionEvent, window));
+        importButton.setOnAction(actionEvent -> {
+            onClick.play();
+            chooseFile(actionEvent, window);
+        });
         importButton.setId("button");
         importButton.setLayoutY(550);
         importButton.setLayoutX(569);
@@ -132,6 +138,7 @@ public class ImportExportView {
     }
 
     private Button closeButton(Stage window) {
+        onClick.play();
         Button closeButton = new Button();
         closeButton.setText("Close");
         closeButton.setOnAction(event -> {
