@@ -39,6 +39,7 @@ public class EditDeckView {
     public AnchorPane anchorPane;
     public ImageView selectedCardImageView;
     public Label selectedCardLabel;
+    public Label yourCardsLabel;
     private DataFormat sideDeckGridPaneFormat;
     private DataFormat mainDeckGridPaneFormat;
     private DataFormat allCardsPaneFormat;
@@ -54,6 +55,7 @@ public class EditDeckView {
     private int selectedCardColumnInSide;
     private Assets assets;
     private final AudioClip onClick = new AudioClip(Objects.requireNonNull(getClass().getResource("/project/soundEffects/CURSOR.wav")).toString());
+    private int size;
 
     public void initialize() {
 
@@ -176,8 +178,16 @@ public class EditDeckView {
         selectedCardImageView.setImage(getCardImageByName("Back Image"));
         selectedCardLabel.setText("No card selected");
         selectedCardLabel.setWrapText(true);
+        countAllCardsSize();
+        yourCardsLabel.setText("All Your Cards : "+ size);
     }
-
+    private void countAllCardsSize(){
+        int sum = 0;
+        for (Card card : hashMapAllCards.keySet()) {
+            sum += hashMapAllCards.get(card);
+        }
+        this.size= sum;
+    }
 
     private void loadAllCards() {
         int i = 0;
