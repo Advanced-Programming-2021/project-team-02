@@ -32,18 +32,17 @@ public class DeckInfoView {
     private int endOFI;
     private int endOFJ;
     private int endOFK;
-    private static final DeckMenuController deckMenuController = DeckMenuController.getInstance();
-    public static final SnapshotParameters parameters = new SnapshotParameters();
-    public static final ArrayList<Button> buttons = new ArrayList<>();
-    private static Utility utility;
+    private  DeckMenuController deckMenuController;
+    public  SnapshotParameters parameters = new SnapshotParameters();
+    public  ArrayList<Button> buttons = new ArrayList<>();
+    private  Utility utility;
     private String cardName;
 
-    static {
-        parameters.setFill(Color.TRANSPARENT);
-    }
 
     @FXML
     public void initialize() {
+        parameters.setFill(Color.TRANSPARENT);
+        deckMenuController = DeckMenuController.getInstance();
         cardName = null;
         Button button = deckMenuController.getOpenedDeckButton();
         utility = new Utility();
@@ -85,11 +84,11 @@ public class DeckInfoView {
 
                         int finalJ1 = j;
                         int finalI1 = i;
-                        button.setOnMouseClicked(mouseEvent -> {
-                            endOFI = finalI1;
-                            endOFJ = finalJ1;
-                            addOrDeleteCard(button, "i");
-                        });
+//                        button.setOnMouseClicked(mouseEvent -> {
+//                            endOFI = finalI1;
+//                            endOFJ = finalJ1;
+//                            addOrDeleteCard(button, "i");
+//                        });
                         gridScrollPane.add(button, i, j);
                         gridScrollPane.setHgap(25);
                         gridScrollPane.setVgap(25);
@@ -129,10 +128,10 @@ public class DeckInfoView {
                         button.setTooltip(tooltip);
 
                         int finalK2 = k;
-                        button.setOnMouseClicked(mouseEvent -> {
-                            endOFK = finalK2;
-                            addOrDeleteCard(button, "k");
-                        });
+//                        button.setOnMouseClicked(mouseEvent -> {
+//                            endOFK = finalK2;
+//                            addOrDeleteCard(button, "k");
+//                        });
                         gridScrollPane.add(button, k, l);
                         k++;
                     }
@@ -149,7 +148,7 @@ public class DeckInfoView {
         clip.setArcHeight(30);
         clip.setArcWidth(30);
         imageView.setClip(clip);
-        WritableImage wImage = imageView.snapshot(DeckInfoView.parameters, null);
+        WritableImage wImage = imageView.snapshot(parameters, null);
         imageView.setImage(wImage);
     }
 

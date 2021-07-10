@@ -1558,11 +1558,22 @@ public class GameView {
         GridPane cardsPane = new GridPane();
         int i = 0;
         for (Card card : currentGraveYard) {
+            Tooltip tooltip = new Tooltip();
+            ImageView imageViewForToolTip = new ImageView(getCardImageByName(card.getName()));
+            imageViewForToolTip.setFitWidth(220);
+            imageViewForToolTip.setFitHeight(360);
+            imageViewForToolTip.setPreserveRatio(true);
+            tooltip.setGraphic(imageViewForToolTip);
             ImageView imageView = new ImageView();
             imageView.setImage(getCardImageByName(card.getName()));
             imageView.setFitWidth(94);
             imageView.setFitHeight(130);
-            cardsPane.add(imageView, i, 0);
+            Button button = new Button();
+            button.setGraphic(imageView);
+            button.setStyle("-fx-background-color: transparent;");
+            //  button.setPadding(new Insets(-3, -3, -3, -3));
+            button.setTooltip(tooltip);
+            cardsPane.add(button, i, 0);
             i++;
         }
         cardsPane.setHgap(10);
@@ -1729,10 +1740,10 @@ public class GameView {
     }
 
     private void setZonesBasedOnTurn() {
-        MonsterZone currentMonsterZone = RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().returnMonsterZone();
-        SpellZone currentSpellZone = RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().returnSpellZone();
-        System.out.println("current : "+RoundGameController.getInstance().getCurrentPlayer().getNickname());
-        System.out.println("opponent : "+RoundGameController.getInstance().getOpponentPlayer().getNickname());
+//        MonsterZone currentMonsterZone = RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().returnMonsterZone();
+//        SpellZone currentSpellZone = RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().returnSpellZone();
+//        System.out.println("current : " + RoundGameController.getInstance().getCurrentPlayer().getNickname());
+//        System.out.println("opponent : " + RoundGameController.getInstance().getOpponentPlayer().getNickname());
         //monster zone
         opponentPlayerMonsterZone.setRotate(180);
         reloadCurrentAndOpponentMonsterZone();
@@ -1779,217 +1790,221 @@ public class GameView {
 //            });
 //        }
         //spellzone
-        for (int i = 1; i <= 5; i++) {
-            Pane pane = (Pane) getNodeInGridPane(currentPlayerSpellZone, 0, i - 1);
-            pane.getChildren().clear();
-            Cell spellCell = currentSpellZone.getCellWithAddress(i);
-            ImageView imageView = new ImageView();
-            imageView.setCursor(Cursor.HAND);
-            if (spellCell.getCellStatus() == CellStatus.EMPTY) {
-                pane.setCursor(Cursor.DEFAULT);
-                pane.setOnMouseClicked(mouseEvent -> {
-                });
-                continue;
-            } else if (spellCell.getCellStatus() == CellStatus.OCCUPIED) {
-                imageView.setImage(getCardImageByName(spellCell.getCardInCell().getName()));
-                pane.getChildren().add(imageView);
-                imageView.setFitHeight(130);
-                imageView.setFitWidth(94);
-            } else if (spellCell.getCellStatus() == CellStatus.HIDDEN) {
-                imageView.setImage(getCardImageByName("Back Image"));
-                pane.getChildren().add(imageView);
-                imageView.setFitWidth(94);
-                imageView.setFitHeight(130);
-            }
-            int finalI = i;
-            imageView.setOnMouseClicked(mouseEvent -> {
-                if (mouseEvent.getButton() != MouseButton.PRIMARY)
-                    return;
-                selectedCardImageView.setImage(getCardImageByName(spellCell.getCardInCell().getName()));
-                selectedCardDescriptionLabel.setText(spellCell.getCardInCell().toString());
-                RoundGameController.getInstance().selectCardInSpellZone(finalI);
-            });
-        }
+        reloadCurrentSpellZone();
+//        for (int i = 1; i <= 5; i++) {
+//            Pane pane = (Pane) getNodeInGridPane(currentPlayerSpellZone, 0, i - 1);
+//            pane.getChildren().clear();
+//            Cell spellCell = currentSpellZone.getCellWithAddress(i);
+//            ImageView imageView = new ImageView();
+//            imageView.setCursor(Cursor.HAND);
+//            if (spellCell.getCellStatus() == CellStatus.EMPTY) {
+//                pane.setCursor(Cursor.DEFAULT);
+//                pane.setOnMouseClicked(mouseEvent -> {
+//                });
+//                continue;
+//            } else if (spellCell.getCellStatus() == CellStatus.OCCUPIED) {
+//                imageView.setImage(getCardImageByName(spellCell.getCardInCell().getName()));
+//                pane.getChildren().add(imageView);
+//                imageView.setFitHeight(130);
+//                imageView.setFitWidth(94);
+//            } else if (spellCell.getCellStatus() == CellStatus.HIDDEN) {
+//                imageView.setImage(getCardImageByName("Back Image"));
+//                pane.getChildren().add(imageView);
+//                imageView.setFitWidth(94);
+//                imageView.setFitHeight(130);
+//            }
+//            int finalI = i;
+//            imageView.setOnMouseClicked(mouseEvent -> {
+//                if (mouseEvent.getButton() != MouseButton.PRIMARY)
+//                    return;
+//                selectedCardImageView.setImage(getCardImageByName(spellCell.getCardInCell().getName()));
+//                selectedCardDescriptionLabel.setText(spellCell.getCardInCell().toString());
+//                RoundGameController.getInstance().selectCardInSpellZone(finalI);
+//            });
+//        }
         //fieldzone
 
-        FieldZone fieldZone = RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().getFieldZone();
-        if (RoundGameController.getInstance().isFieldActivated()) {
-            currentPlayerFieldSpellPane.getChildren().clear();
-            if (fieldZone.getCellStatus() == CellStatus.EMPTY) {
-                ImageView baseImage = new ImageView();
-                baseImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/project/image/GamePictures/field.png")).toString()));
-                baseImage.setFitWidth(103.0);
-                baseImage.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
-                currentPlayerFieldSpellPane.getChildren().add(baseImage);
-                currentPlayerFieldSpellPane.setCursor(Cursor.DEFAULT);
-                currentPlayerFieldSpellPane.setOnMouseClicked(mouseEvent -> {
-                });
-            } else {
-                Cell cell = fieldZone.getFieldCell();
-                ImageView baseImage = new ImageView();
-                baseImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/project/image/GamePictures/field.png")).toString()));
-                baseImage.setFitWidth(103.0);
-                baseImage.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
-                currentPlayerFieldSpellPane.getChildren().add(baseImage);
-                ImageView imageView = new ImageView(getCardImageByName(cell.getCardInCell().getName()));
-                imageView.setFitHeight(130);
-                imageView.setFitWidth(105);
-                currentPlayerFieldSpellPane.getChildren().add(imageView);
-                currentPlayerFieldSpellPane.setCursor(Cursor.HAND);
-                currentPlayerFieldSpellPane.setOnMouseClicked(mouseEvent -> {
-                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
-                        return;
-                    selectedCardImageView.setImage(getCardImageByName(cell.getCardInCell().getName()));
-                    selectedCardDescriptionLabel.setText(cell.getCardInCell().toString());
-                    RoundGameController.getInstance().deselectCard(0);
-                });
-            }
-        } else {
-            currentPlayerFieldSpellPane.getChildren().clear();
-            ImageView baseImage = new ImageView();
-            baseImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/project/image/GamePictures/field.png")).toString()));
-            baseImage.setFitWidth(103.0);
-            baseImage.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
-            currentPlayerFieldSpellPane.getChildren().add(baseImage);
-            currentPlayerFieldSpellPane.setCursor(Cursor.DEFAULT);
-            currentPlayerFieldSpellPane.setOnMouseClicked(mouseEvent -> {
-            });
-        }
+//        FieldZone fieldZone = RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().getFieldZone();
+//        if (RoundGameController.getInstance().isFieldActivated()) {
+//            currentPlayerFieldSpellPane.getChildren().clear();
+//            if (fieldZone.getCellStatus() == CellStatus.EMPTY) {
+//                ImageView baseImage = new ImageView();
+//                baseImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/project/image/GamePictures/field.png")).toString()));
+//                baseImage.setFitWidth(103.0);
+//                baseImage.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
+//                currentPlayerFieldSpellPane.getChildren().add(baseImage);
+//                currentPlayerFieldSpellPane.setCursor(Cursor.DEFAULT);
+//                currentPlayerFieldSpellPane.setOnMouseClicked(mouseEvent -> {
+//                });
+//            } else {
+//                Cell cell = fieldZone.getFieldCell();
+//                ImageView baseImage = new ImageView();
+//                baseImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/project/image/GamePictures/field.png")).toString()));
+//                baseImage.setFitWidth(103.0);
+//                baseImage.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
+//                currentPlayerFieldSpellPane.getChildren().add(baseImage);
+//                ImageView imageView = new ImageView(getCardImageByName(cell.getCardInCell().getName()));
+//                imageView.setFitHeight(130);
+//                imageView.setFitWidth(105);
+//                currentPlayerFieldSpellPane.getChildren().add(imageView);
+//                currentPlayerFieldSpellPane.setCursor(Cursor.HAND);
+//                currentPlayerFieldSpellPane.setOnMouseClicked(mouseEvent -> {
+//                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
+//                        return;
+//                    selectedCardImageView.setImage(getCardImageByName(cell.getCardInCell().getName()));
+//                    selectedCardDescriptionLabel.setText(cell.getCardInCell().toString());
+//                    RoundGameController.getInstance().deselectCard(0);
+//                });
+//            }
+//        } else {
+//            currentPlayerFieldSpellPane.getChildren().clear();
+//            ImageView baseImage = new ImageView();
+//            baseImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/project/image/GamePictures/field.png")).toString()));
+//            baseImage.setFitWidth(103.0);
+//            baseImage.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
+//            currentPlayerFieldSpellPane.getChildren().add(baseImage);
+//            currentPlayerFieldSpellPane.setCursor(Cursor.DEFAULT);
+//            currentPlayerFieldSpellPane.setOnMouseClicked(mouseEvent -> {
+//            });
+//        }
 
         //opponent
         //monster
-        MonsterZone opponentMonsterZone = RoundGameController.getInstance().getOpponentPlayer().getPlayerBoard().returnMonsterZone();
-        SpellZone opponentSpellZone = RoundGameController.getInstance().getOpponentPlayer().getPlayerBoard().returnSpellZone();
-        opponentPlayerMonsterZone.setRotate(180);
-        opponentPlayerSpellZone.setRotate(180);
-        for (int i = 1; i <= 5; i++) {
-            Pane pane = (Pane) getNodeInGridPane(opponentPlayerMonsterZone, 0, i - 1);
-            pane.getChildren().clear();
-            Cell monsterCell = opponentMonsterZone.getCellWithAddress(i);
-            ImageView imageView = new ImageView();
-            imageView.setCursor(Cursor.HAND);
-            if (monsterCell.getCellStatus() == CellStatus.EMPTY) {
-                    pane.setCursor(Cursor.DEFAULT);
-                    pane.setOnMouseClicked(mouseEvent -> {
-                    });
-                    continue;
-            } else if (monsterCell.getCellStatus() == CellStatus.OFFENSIVE_OCCUPIED) {
-                imageView.setImage(getCardImageByName(monsterCell.getCardInCell().getName()));
-                imageView.setFitHeight(130);
-                imageView.setFitWidth(94);
-                pane.getChildren().add(imageView);
-                System.out.println("here is reached! opponent, monster : "+ monsterCell.getCardInCell().getName()+ "  type : "+monsterCell.getCardInCell().getCardType() );
-
-            } else if (monsterCell.getCellStatus() == CellStatus.DEFENSIVE_HIDDEN) {
-                imageView.setImage(getCardImageByName("Card Back Set"));
-                imageView.setFitWidth(130);
-                imageView.setFitHeight(94);
-                pane.getChildren().add(imageView);
-                imageView.setLayoutY(imageView.getLayoutY() + 20);
-                imageView.setLayoutX(imageView.getLayoutX() - 19);
-                imageView.setOnMouseClicked(mouseEvent -> {
-                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
-                        return;
-                    selectedCardImageView.setImage(getCardImageByName("Back Image"));
-                    selectedCardDescriptionLabel.setText("you can't see this card");
-                });
-                continue;
-            } else if (monsterCell.getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED) {
-                imageView.setRotate(90);
-                imageView.setImage(getCardImageByName(monsterCell.getCardInCell().getName()));
-                imageView.setFitHeight(130);
-                imageView.setFitWidth(94);
-                pane.getChildren().add(imageView);
-            }
-            imageView.setOnMouseClicked(mouseEvent -> {
-                if (mouseEvent.getButton() != MouseButton.PRIMARY)
-                    return;
-                selectedCardImageView.setImage(getCardImageByName(monsterCell.getCardInCell().getName()));
-                selectedCardDescriptionLabel.setText(monsterCell.getCardInCell().toString());
-            });
-        }
+//        MonsterZone opponentMonsterZone = RoundGameController.getInstance().getOpponentPlayer().getPlayerBoard().returnMonsterZone();
+//        SpellZone opponentSpellZone = RoundGameController.getInstance().getOpponentPlayer().getPlayerBoard().returnSpellZone();
+//        opponentPlayerMonsterZone.setRotate(180);
+//        opponentPlayerSpellZone.setRotate(180);
+//        for (int i = 1; i <= 5; i++) {
+//            Pane pane = (Pane) getNodeInGridPane(opponentPlayerMonsterZone, 0, i - 1);
+//            pane.getChildren().clear();
+//            Cell monsterCell = opponentMonsterZone.getCellWithAddress(i);
+//            ImageView imageView = new ImageView();
+//            imageView.setCursor(Cursor.HAND);
+//            if (monsterCell.getCellStatus() == CellStatus.EMPTY) {
+//                pane.setCursor(Cursor.DEFAULT);
+//                pane.setOnMouseClicked(mouseEvent -> {
+//                });
+//                continue;
+//            } else if (monsterCell.getCellStatus() == CellStatus.OFFENSIVE_OCCUPIED) {
+//                imageView.setImage(getCardImageByName(monsterCell.getCardInCell().getName()));
+//                imageView.setFitHeight(130);
+//                imageView.setFitWidth(94);
+//                pane.getChildren().add(imageView);
+//                System.out.println("here is reached! opponent, monster : " + monsterCell.getCardInCell().getName() + "  type : " + monsterCell.getCardInCell().getCardType());
+//
+//            } else if (monsterCell.getCellStatus() == CellStatus.DEFENSIVE_HIDDEN) {
+//                imageView.setImage(getCardImageByName("Card Back Set"));
+//                imageView.setFitWidth(130);
+//                imageView.setFitHeight(94);
+//                pane.getChildren().add(imageView);
+//                imageView.setLayoutY(imageView.getLayoutY() + 20);
+//                imageView.setLayoutX(imageView.getLayoutX() - 19);
+//                imageView.setOnMouseClicked(mouseEvent -> {
+//                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
+//                        return;
+//                    selectedCardImageView.setImage(getCardImageByName("Back Image"));
+//                    selectedCardDescriptionLabel.setText("you can't see this card");
+//                });
+//                continue;
+//            } else if (monsterCell.getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED) {
+//                imageView.setRotate(90);
+//                imageView.setImage(getCardImageByName(monsterCell.getCardInCell().getName()));
+//                imageView.setFitHeight(130);
+//                imageView.setFitWidth(94);
+//                pane.getChildren().add(imageView);
+//            }
+//            imageView.setOnMouseClicked(mouseEvent -> {
+//                if (mouseEvent.getButton() != MouseButton.PRIMARY)
+//                    return;
+//                selectedCardImageView.setImage(getCardImageByName(monsterCell.getCardInCell().getName()));
+//                selectedCardDescriptionLabel.setText(monsterCell.getCardInCell().toString());
+//            });
+//        }
         //spellzone
-        for (int i = 1; i <= 5; i++) {
-            Pane pane = (Pane) getNodeInGridPane(opponentPlayerSpellZone, 0, i - 1);
-            pane.getChildren().clear();
-            Cell spellCell = opponentSpellZone.getCellWithAddress(i);
-            ImageView imageView = new ImageView();
-            imageView.setCursor(Cursor.HAND);
-            if (spellCell.getCellStatus() == CellStatus.EMPTY) {
-                pane.setCursor(Cursor.DEFAULT);
-                pane.setOnMouseClicked(mouseEvent -> {
-                });
-            } else if (spellCell.getCellStatus() == CellStatus.OCCUPIED) {
-                imageView.setImage(getCardImageByName(spellCell.getCardInCell().getName()));
-                pane.getChildren().add(imageView);
-                imageView.setFitWidth(94);
-                imageView.setFitHeight(130);
-                imageView.setOnMouseClicked(mouseEvent -> {
-                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
-                        return;
-                    selectedCardImageView.setImage(getCardImageByName(spellCell.getCardInCell().getName()));
-                    selectedCardDescriptionLabel.setText(spellCell.getCardInCell().toString());
-                });
-            } else if (spellCell.getCellStatus() == CellStatus.HIDDEN) {
-                imageView.setImage(getCardImageByName("Back Image"));
-                pane.getChildren().add(imageView);
-                imageView.setFitWidth(94);
-                imageView.setFitHeight(130);
-                imageView.setOnMouseClicked(mouseEvent -> {
-                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
-                        return;
-                    selectedCardImageView.setImage(getCardImageByName("Back Image"));
-                    selectedCardDescriptionLabel.setText("you can't see this card");
-                });
-            }
-
-        }
+        opponentPlayerSpellZone.setRotate(180);
         opponentPlayerFieldSpellPane.setRotate(180);
-        fieldZone = RoundGameController.getInstance().getOpponentPlayer().getPlayerBoard().getFieldZone();
-        if (RoundGameController.getInstance().isFieldActivated()) {
-            opponentPlayerFieldSpellPane.getChildren().clear();
+        reloadOpponentSpellZone();
+//        for (int i = 1; i <= 5; i++) {
+//            Pane pane = (Pane) getNodeInGridPane(opponentPlayerSpellZone, 0, i - 1);
+//            pane.getChildren().clear();
+//            Cell spellCell = opponentSpellZone.getCellWithAddress(i);
+//            ImageView imageView = new ImageView();
+//            imageView.setCursor(Cursor.HAND);
+//            if (spellCell.getCellStatus() == CellStatus.EMPTY) {
+//                pane.setCursor(Cursor.DEFAULT);
+//                pane.setOnMouseClicked(mouseEvent -> {
+//                });
+//            } else if (spellCell.getCellStatus() == CellStatus.OCCUPIED) {
+//                imageView.setImage(getCardImageByName(spellCell.getCardInCell().getName()));
+//                pane.getChildren().add(imageView);
+//                imageView.setFitWidth(94);
+//                imageView.setFitHeight(130);
+//                imageView.setOnMouseClicked(mouseEvent -> {
+//                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
+//                        return;
+//                    selectedCardImageView.setImage(getCardImageByName(spellCell.getCardInCell().getName()));
+//                    selectedCardDescriptionLabel.setText(spellCell.getCardInCell().toString());
+//                });
+//            } else if (spellCell.getCellStatus() == CellStatus.HIDDEN) {
+//                imageView.setImage(getCardImageByName("Back Image"));
+//                pane.getChildren().add(imageView);
+//                imageView.setFitWidth(94);
+//                imageView.setFitHeight(130);
+//                imageView.setOnMouseClicked(mouseEvent -> {
+//                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
+//                        return;
+//                    selectedCardImageView.setImage(getCardImageByName("Back Image"));
+//                    selectedCardDescriptionLabel.setText("you can't see this card");
+//                });
+//            }
+//
+//        }
 
-            if (fieldZone.getCellStatus() == CellStatus.EMPTY) {
-                ImageView baseImage = new ImageView();
-                baseImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/project/image/GamePictures/field.png")).toString()));
-                baseImage.setFitWidth(103.0);
-                baseImage.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
-                opponentPlayerFieldSpellPane.getChildren().add(baseImage);
-                opponentPlayerFieldSpellPane.setCursor(Cursor.DEFAULT);
-                opponentPlayerFieldSpellPane.setOnMouseClicked(mouseEvent -> {
-                });
-            } else {
-                Cell cell = fieldZone.getFieldCell();
-                ImageView baseImage = new ImageView();
-                baseImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/project/image/GamePictures/field.png")).toString()));
-                baseImage.setFitWidth(103.0);
-                baseImage.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
-                opponentPlayerFieldSpellPane.getChildren().add(baseImage);
-                ImageView imageView = new ImageView(getCardImageByName(cell.getCardInCell().getName()));
-                imageView.setFitHeight(130);
-                imageView.setFitWidth(105);
-                opponentPlayerFieldSpellPane.getChildren().add(imageView);
-                opponentPlayerFieldSpellPane.setCursor(Cursor.HAND);
-                opponentPlayerFieldSpellPane.setOnMouseClicked(mouseEvent -> {
-                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
-                        return;
-                    selectedCardImageView.setImage(getCardImageByName(cell.getCardInCell().getName()));
-                    selectedCardDescriptionLabel.setText(cell.getCardInCell().toString());
-                    RoundGameController.getInstance().deselectCard(0);
-                });
-            }
-        } else {
-            opponentPlayerFieldSpellPane.getChildren().clear();
-            ImageView baseImage = new ImageView();
-            baseImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/project/image/GamePictures/field.png")).toString()));
-            baseImage.setFitWidth(103.0);
-            baseImage.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
-            opponentPlayerFieldSpellPane.getChildren().add(baseImage);
-            opponentPlayerFieldSpellPane.setCursor(Cursor.DEFAULT);
-            opponentPlayerFieldSpellPane.setOnMouseClicked(mouseEvent -> {
-            });
-
-        }
+//        fieldZone = RoundGameController.getInstance().getOpponentPlayer().getPlayerBoard().getFieldZone();
+//        if (RoundGameController.getInstance().isFieldActivated()) {
+//            opponentPlayerFieldSpellPane.getChildren().clear();
+//
+//            if (fieldZone.getCellStatus() == CellStatus.EMPTY) {
+//                ImageView baseImage = new ImageView();
+//                baseImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/project/image/GamePictures/field.png")).toString()));
+//                baseImage.setFitWidth(103.0);
+//                baseImage.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
+//                opponentPlayerFieldSpellPane.getChildren().add(baseImage);
+//                opponentPlayerFieldSpellPane.setCursor(Cursor.DEFAULT);
+//                opponentPlayerFieldSpellPane.setOnMouseClicked(mouseEvent -> {
+//                });
+//            } else {
+//                Cell cell = fieldZone.getFieldCell();
+//                ImageView baseImage = new ImageView();
+//                baseImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/project/image/GamePictures/field.png")).toString()));
+//                baseImage.setFitWidth(103.0);
+//                baseImage.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
+//                opponentPlayerFieldSpellPane.getChildren().add(baseImage);
+//                ImageView imageView = new ImageView(getCardImageByName(cell.getCardInCell().getName()));
+//                imageView.setFitHeight(130);
+//                imageView.setFitWidth(105);
+//                opponentPlayerFieldSpellPane.getChildren().add(imageView);
+//                opponentPlayerFieldSpellPane.setCursor(Cursor.HAND);
+//                opponentPlayerFieldSpellPane.setOnMouseClicked(mouseEvent -> {
+//                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
+//                        return;
+//                    selectedCardImageView.setImage(getCardImageByName(cell.getCardInCell().getName()));
+//                    selectedCardDescriptionLabel.setText(cell.getCardInCell().toString());
+//                    RoundGameController.getInstance().deselectCard(0);
+//                });
+//            }
+//        } else {
+//            opponentPlayerFieldSpellPane.getChildren().clear();
+//            ImageView baseImage = new ImageView();
+//            baseImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/project/image/GamePictures/field.png")).toString()));
+//            baseImage.setFitWidth(103.0);
+//            baseImage.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
+//            opponentPlayerFieldSpellPane.getChildren().add(baseImage);
+//            opponentPlayerFieldSpellPane.setCursor(Cursor.DEFAULT);
+//            opponentPlayerFieldSpellPane.setOnMouseClicked(mouseEvent -> {
+//            });
+//
+//        }
 
     }
 

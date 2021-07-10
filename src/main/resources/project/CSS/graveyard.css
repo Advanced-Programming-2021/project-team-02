@@ -2,3 +2,10 @@
     -fx-background-color: #00062b;
     -fx-alignment: CENTER;
 }
+.tooltip{
+    -fx-border-width: 1;
+    -fx-background-radius: 14;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-alignment: CENTER;
+}
