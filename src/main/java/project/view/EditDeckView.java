@@ -1,6 +1,5 @@
 package project.view;
 
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -17,7 +16,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import project.controller.DeckMenuController;
 import project.controller.MainMenuController;
-import project.controller.playgame.BetweenRoundController;
 import project.model.Assets;
 import project.model.Deck;
 import project.model.User;
@@ -31,7 +29,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Objects;
 
-public class AddCardToDeckView {
+public class EditDeckView {
     public Label mainDeckLabel;
     public Label sideDeckLabel;
     public GridPane sideDeckGridPane;
@@ -367,6 +365,6 @@ public class AddCardToDeckView {
     public void back(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton()!=MouseButton.PRIMARY)
             return;
-        Utility.openNewMenu("/project/fxml/edit_deck_menu.fxml");
+        Utility.openNewMenu("/project/fxml/deck_info_view.fxml");
     }
 }

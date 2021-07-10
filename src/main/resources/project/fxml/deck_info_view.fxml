@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="secondPane" prefHeight="1080.0" prefWidth="1920.0" translateX="1.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.DeckInfoView">
+    <VBox id="firstBox" alignment="CENTER" layoutX="-1.0" prefHeight="900.0" prefWidth="126.5" spacing="25.0">
+        <Button onMouseClicked="#addCards" style="-fx-background-color: transparent; -fx-cursor: hand">
+            <graphic>
+                <ImageView fitHeight="56.0" fitWidth="56.0" layoutX="20.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../image/Icon/edit.png" />
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </ImageView>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Edit Deck" />
+            </tooltip>
+        </Button>
+    </VBox>
+    <ScrollPane id="secondPane" fx:id="scrollPane" layoutX="125.0" prefHeight="865.0" prefWidth="1410">
+        <VBox id="firstBox" prefHeight="1080.0" prefWidth="1392.0">
+            <VBox.margin>
+                <Insets topRightBottomLeft="-2.0" />
+            </VBox.margin>
+            <VBox id="secondBox" alignment="TOP_CENTER" layoutX="135.0" layoutY="50.0" spacing="25.0">
+                <HBox alignment="CENTER_LEFT" layoutX="63.0" prefHeight="64.0" prefWidth="500.0">
+                    <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#back" style="-fx-background-color: #103188;" textAlignment="CENTER">
+                        <HBox.margin>
+                            <Insets left="55.0" right="400.0" />
+                        </HBox.margin>
+                        <graphic>
+                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../image/Icon/previous.png" />
+                            </ImageView>
+                        </graphic>
+                        <cursor>
+                            <Cursor fx:constant="HAND" />
+                        </cursor>
+                        <tooltip>
+                            <Tooltip text="Back" />
+                        </tooltip>
+                    </Button>
+                    <HBox id="menuBar" alignment="CENTER" prefHeight="64.0" prefWidth="358.0" spacing="10.0">
+                        <ImageView id="icon" fitWidth="35" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../image/Icon/main_menu.png" />
+                        </ImageView>
+                        <Label id="menuTitle" text="Deck Information" />
+                        <padding>
+                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        </padding>
+                        <VBox.margin>
+                            <Insets left="125.0" right="125.0" />
+                        </VBox.margin>
+                    </HBox>
+                </HBox>
+                <Label prefHeight="22.0" prefWidth="1155.0" style="-fx-font-size: 20; -fx-text-fill: #ffd500;" text="Main Cards" />
+
+                <GridPane fx:id="gridScrollPane" alignment="TOP_CENTER" prefHeight="90.0" prefWidth="1286.0">
+                    <columnConstraints>
+                        <ColumnConstraints />
+                        <ColumnConstraints />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                    </rowConstraints>
+                    <VBox.margin>
+                        <Insets top="10.0" />
+                    </VBox.margin>
+                </GridPane>
+
+                <padding>
+                    <Insets bottom="25.0" left="15.0" right="15.0" top="25.0" />
+                </padding>
+            </VBox>
+            <padding>
+                <Insets bottom="75.0" right="75.0" top="75.0" />
+            </padding>
+        </VBox>
+    </ScrollPane>
+    <padding>
+        <Insets left="25.0" />
+    </padding>
+    <stylesheets>
+        <URL value="@../CSS/deck_info_view.css" />
+    </stylesheets>
+</AnchorPane>

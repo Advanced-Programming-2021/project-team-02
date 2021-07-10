@@ -35,7 +35,7 @@ import java.util.Objects;
 
 public class DeckMenuView {
     private static final Image deckImage = new Image(String.valueOf(DeckMenuView.class.getResource("/project/image/GamePictures/DeckPicture.jpg")));
-    private static final Image editDeckImage = new Image(String.valueOf(DeckMenuView.class.getResource("/project/image/Icon/edit.png")));
+    private static final Image deckInfoImage = new Image(String.valueOf(DeckMenuView.class.getResource("/project/image/Icon/info.png")));
     private static final Image deleteDeckImage = new Image(String.valueOf(DeckMenuView.class.getResource("/project/image/Icon/remove.png")));
     private static final Image activateImage = new Image(String.valueOf(DeckMenuView.class.getResource("/project/image/Icon/checked.png")));
     private static final Image deactivateImage = new Image(String.valueOf(DeckMenuView.class.getResource("/project/image/Icon/cancel.png")));
@@ -126,15 +126,15 @@ public class DeckMenuView {
                 checkDelete(deleteButton);
             });
 
-            ImageView editImageView = new ImageView(editDeckImage);
-            editImageView.setFitHeight(25);
-            editImageView.setFitWidth(25);
+            ImageView editImageView = new ImageView(deckInfoImage);
+            editImageView.setFitHeight(30);
+            editImageView.setFitWidth(30);
 
             Button editButton = new Button();
             editButton.setGraphic(editImageView);
             editButton.setId(deckArrayList.get(counterSize).getName());
             editButton.setStyle("-fx-cursor: hand; -fx-background-color: transparent; -fx-background-radius: 20");
-            editButton.setTooltip(new Tooltip("Edit Deck"));
+            editButton.setTooltip(new Tooltip("Deck Information"));
             editButton.setOnMouseClicked(event -> {
                 try {
                     if (event.getButton() != MouseButton.PRIMARY) return;
@@ -181,7 +181,7 @@ public class DeckMenuView {
     public void editDeck(javafx.scene.input.MouseEvent actionEvent, Button button) throws IOException {
         controller.setOpenedDeckButton(button);
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
-        Utility.openNewMenu("/project/fxml/edit_deck_menu.fxml");
+        Utility.openNewMenu("/project/fxml/deck_info_view.fxml");
     }
 
     public void addDeck() {

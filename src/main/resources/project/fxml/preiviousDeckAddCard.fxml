@@ -75,6 +75,6 @@
     </ScrollPane>
 
     <stylesheets>
-        <URL value="@../CSS/edit_deck_menu.css" />
+        <URL value="@../CSS/deck_info_view.css" />
     </stylesheets>
 </AnchorPane>

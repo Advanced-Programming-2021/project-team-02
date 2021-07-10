@@ -17,7 +17,6 @@ import javafx.scene.shape.Rectangle;
 import project.controller.DeckMenuController;
 import project.controller.MainMenuController;
 import project.model.Assets;
-import project.model.User;
 import project.model.card.Card;
 import project.view.messages.DeckMenuMessage;
 import project.view.messages.PopUpMessage;
@@ -133,7 +132,7 @@ public class DeckMenuAddCard {
         clip.setArcHeight(30);
         clip.setArcWidth(30);
         imageView.setClip(clip);
-        WritableImage wImage = imageView.snapshot(EditDeckMenu.parameters, null);
+        WritableImage wImage = imageView.snapshot(DeckInfoView.parameters, null);
         imageView.setImage(wImage);
     }
 
@@ -159,7 +158,7 @@ public class DeckMenuAddCard {
 
     public void back(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
-        Utility.openNewMenu("/project/fxml/edit_deck_menu.fxml");
+        Utility.openNewMenu("/project/fxml/deck_info_view.fxml");
     }
 }
 

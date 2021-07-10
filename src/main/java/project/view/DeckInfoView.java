@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class EditDeckMenu {
+public class DeckInfoView {
     public GridPane gridScrollPane;
     public ScrollPane scrollPane;
     private String side;
@@ -149,13 +149,13 @@ public class EditDeckMenu {
         clip.setArcHeight(30);
         clip.setArcWidth(30);
         imageView.setClip(clip);
-        WritableImage wImage = imageView.snapshot(EditDeckMenu.parameters, null);
+        WritableImage wImage = imageView.snapshot(DeckInfoView.parameters, null);
         imageView.setImage(wImage);
     }
 
     public void addCards(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
-        Utility.openNewMenu("/project/fxml/deckAddCard.fxml");
+        Utility.openNewMenu("/project/fxml/edit_deck_menu.fxml");
     }
 
     public void back(MouseEvent mouseEvent) throws IOException {
