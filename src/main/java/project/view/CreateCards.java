@@ -150,14 +150,26 @@ public class CreateCards {
             CreateCardMessage createCardMessage = createCardMenuController.makeMonster(replacementForEffect, enterCardName.getText(), (level.getText()), description.getText(),
                     (attack.getText()), (defense.getText()), (price.getText()));
             new PopUpMessage(createCardMessage.getAlertType(), createCardMessage.getLabel());
+            enterCardName.clear();
+            attack.clear();
+            defense.clear();
+            level.clear();
+            description.clear();
+            price.setText("");
         } else if (cardType.equals("Spell")) {
             CreateCardMessage createCardMessage = createCardMenuController.makeSpell(replacementForEffect, enterCardName.getText(),
                     description.getText(), (price.getText()));
             new PopUpMessage(createCardMessage.getAlertType(), createCardMessage.getLabel());
+            enterCardName.clear();
+            description.clear();
+            price.setText("");
         } else {
             CreateCardMessage createCardMessage = createCardMenuController.makeTrap(replacementForEffect, enterCardName.getText(),
                     description.getText(), (price.getText()));
             new PopUpMessage(createCardMessage.getAlertType(), createCardMessage.getLabel());
+            enterCardName.clear();
+            description.clear();
+            price.setText("");
         }
         System.out.println(replacementForEffect);
     }
