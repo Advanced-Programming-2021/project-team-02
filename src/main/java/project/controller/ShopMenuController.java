@@ -26,12 +26,8 @@ public class ShopMenuController {
             return ShopMenuMessage.NOT_ENOUGH_MONEY;
         }
         Objects.requireNonNull(assets).decreaseCoin(Shop.getCards().get(card));
-        System.out.println(assets.getCoin());
         assets.addCard(card);
         HashMap<Card, Integer> arrayList = assets.getAllUserCards();
-        for (Card card1 : arrayList.keySet()) {
-            System.out.println(card1.getName() + " : " + arrayList.get(card1));
-        }
         return ShopMenuMessage.CARD_ADDED;
     }
 }

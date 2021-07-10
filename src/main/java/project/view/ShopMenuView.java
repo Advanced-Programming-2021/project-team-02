@@ -1,6 +1,5 @@
 package project.view;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -12,6 +11,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import project.controller.MainMenuController;
 import project.controller.ShopMenuController;
 
@@ -144,6 +144,7 @@ public class ShopMenuView {
     public HBox row7;
     public Label C52;
     public Label C51;
+    private final AudioClip onClick = new AudioClip(Objects.requireNonNull(Utility.class.getResource("/project/soundEffects/CURSOR.wav")).toString());
 
     HashMap<Card, Integer> allUserCards;
 
@@ -180,6 +181,7 @@ public class ShopMenuView {
             buttons.add(button);
             button.setStyle("-fx-background-color: transparent;");
             button.setPadding(new Insets(-3, -3, -3, -3));
+            button.setOnMouseClicked(mouseEvent -> onClick.play());
             vBox.getChildren().add(0, button);
 
             Tooltip tooltip = new Tooltip();

@@ -76,8 +76,6 @@ public class DeckMenuController {
     }
 
     public DeckMenuMessage addCardToSideDeck(String deckName, String cardName) {
-        System.out.println(cardName);
-        System.out.println(deckName);
         if (!isValidDeckToAddCard(cardName, deckName)) return DeckMenuMessage.CARD_DOES_NOT_EXIST;
         Deck deck = Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getDeckByDeckName(deckName);
         if (Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getDeckByDeckName(deckName).isSideFull()) {
@@ -171,7 +169,6 @@ public class DeckMenuController {
         Assets assets = Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername());
         HashMap<Card, Integer> userCards = Objects.requireNonNull(assets).getAllUserCards();
         for (Card card : userCards.keySet()) {
-            System.out.println(card.getName() + " " + cardName);
             if (card.getName().equalsIgnoreCase(cardName))
                 if (userCards.get(card) > 0)
                     return true;

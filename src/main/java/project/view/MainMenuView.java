@@ -50,7 +50,7 @@ public class MainMenuView {
     public void profileMenu(MouseEvent actionEvent) throws Exception {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         onClick.play();
-        //Utility.openNewMenu("/project/fxml/profile_menu.fxml");
+        Utility.openNewMenu("/project/fxml/profile_menu.fxml");
     }
 
     public void shopMenu(MouseEvent actionEvent) throws Exception {
@@ -76,16 +76,19 @@ public class MainMenuView {
     public void nextTrack(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         Music.nextTrack(playPauseMusicButton, muteUnmuteButton);
+        onClick.play();
     }
 
     public void playPauseMusic(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         Music.playPauseMusic(playPauseMusicButton);
+        onClick.play();
     }
 
     public void muteUnmuteMusic(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         Music.muteUnmuteMusic(muteUnmuteButton);
+        onClick.play();
     }
 
     public void logout(MouseEvent actionEvent) throws Exception {

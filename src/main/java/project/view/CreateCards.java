@@ -1,27 +1,21 @@
 package project.view;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.AudioClip;
 import project.controller.CreateCardMenuController;
 import project.model.Music;
-import project.model.card.Card;
-import project.model.card.CardsDatabase;
 import project.model.card.Spell;
 import project.model.card.Trap;
-import project.model.card.informationofcards.TrapType;
 import project.model.gui.Icon;
 import project.view.messages.CreateCardMessage;
 import project.view.messages.LoginMessage;
 import project.view.messages.PopUpMessage;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class CreateCards {
@@ -44,6 +38,7 @@ public class CreateCards {
     public ImageView exitButton;
     private String cardType = null;
     CreateCardMenuController createCardMenuController;
+    private AudioClip onClick = new AudioClip(Objects.requireNonNull(Utility.class.getResource("/project/soundEffects/CURSOR.wav")).toString());
 
 
     @FXML
@@ -115,6 +110,7 @@ public class CreateCards {
     }
 
     public void createCard() {
+        onClick.play();
         String type = String.valueOf(listViewForTypes.getSelectionModel().getSelectedItems());
         String replacementForType = type.substring(1, type.length() - 1);
         String effect = String.valueOf(listView.getSelectionModel().getSelectedItems());
@@ -168,6 +164,7 @@ public class CreateCards {
 
 
     public void calculatePrice() {
+        onClick.play();
         try {
             String effect = String.valueOf(listView.getSelectionModel().getSelectedItems());
             if (cardType == null) {
@@ -281,16 +278,19 @@ public class CreateCards {
 
     public void nextTrack(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        onClick.play();
         Music.nextTrack(playPauseMusicButton, muteUnmuteButton);
     }
 
     public void playPauseMusic(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        onClick.play();
         Music.playPauseMusic(playPauseMusicButton);
     }
 
     public void muteUnmuteMusic(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        onClick.play();
         Music.muteUnmuteMusic(muteUnmuteButton);
     }
 
@@ -300,11 +300,13 @@ public class CreateCards {
 //            System.out.println(card.getName() + " : ");
 //        }
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
+        onClick.play();
         Utility.openNewMenu("/project/fxml/main_menu.fxml");
     }
 
     public void exit(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        onClick.play();
         PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
         if (popUpMessage.getAlert().getResult().getText().equals("OK")) System.exit(0);
     }

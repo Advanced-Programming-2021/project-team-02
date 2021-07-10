@@ -29,8 +29,7 @@ public class StartSinglePlayerDuelSettingView {
     }
 
     public void oneRoundGameWithAi(MouseEvent mouseEvent) throws IOException {
-        if (mouseEvent.getButton() != MouseButton.PRIMARY)
-            return;
+        if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
         onClick.play();
         StartDuelMessage message = DuelMenuController.getInstance().startDuelWithAI(1);
         if (message == StartDuelMessage.SUCCESS) {
@@ -41,8 +40,7 @@ public class StartSinglePlayerDuelSettingView {
     }
 
     public void matchDuelWithAi(MouseEvent mouseEvent) throws IOException {
-        if (mouseEvent.getButton() != MouseButton.PRIMARY)
-            return;
+        if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
         onClick.play();
         StartDuelMessage message = DuelMenuController.getInstance().startDuelWithAI(3);
         if (message == StartDuelMessage.SUCCESS) {
@@ -54,21 +52,25 @@ public class StartSinglePlayerDuelSettingView {
 
     public void nextTrack(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        onClick.play();
         Music.nextTrack(playPauseMusicButton, muteUnmuteButton);
     }
 
     public void playPauseMusic(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        onClick.play();
         Music.playPauseMusic(playPauseMusicButton);
     }
 
     public void muteUnmuteMusic(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        onClick.play();
         Music.muteUnmuteMusic(muteUnmuteButton);
     }
 
     public void back(MouseEvent actionEvent) throws IOException {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        onClick.play();
         Utility.openNewMenu("/project/fxml/duel_start_menu.fxml");
     }
 }

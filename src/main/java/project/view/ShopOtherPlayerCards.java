@@ -13,6 +13,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import project.controller.MainMenuController;
@@ -25,12 +26,14 @@ import project.view.messages.ShopMenuMessage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ShopOtherPlayerCards {
     public GridPane gridPane;
     public ScrollPane scrollPane;
     public Label Coin;
     Utility utility;
+    private AudioClip onClick = new AudioClip(Objects.requireNonNull(Utility.class.getResource("/project/soundEffects/CURSOR.wav")).toString());
 
     @FXML
     public void initialize() {
@@ -78,6 +81,7 @@ public class ShopOtherPlayerCards {
                 buttonBuy.setPrefHeight(30);
                 buttonBuy.setPrefWidth(80);
                 buttonBuy.setOnMouseClicked(mouseEvent -> {
+                    onClick.play();
                     ShopMenuMessage shopMenuMessage = ShopMenuController.getInstance().buyCard(buttonBuy.getId());
                     if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
                         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
@@ -104,6 +108,7 @@ public class ShopOtherPlayerCards {
     @FXML
     private void back(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
+        onClick.play();
         Utility.openNewMenu("/project/fxml/shop_menu.fxml");
     }
 }

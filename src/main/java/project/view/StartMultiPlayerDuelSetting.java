@@ -31,8 +31,7 @@ public class StartMultiPlayerDuelSetting {
     }
 
     public void oneRoundMultiPlayerGame(MouseEvent mouseEvent) throws IOException {
-        if (mouseEvent.getButton() != MouseButton.PRIMARY)
-            return;
+        if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
         onClick.play();
         if (username.getText().equals("")) {
             new PopUpMessage(StartDuelMessage.FILL_OPPONENT_USERNAME.getAlertType(), StartDuelMessage.FILL_OPPONENT_USERNAME.getLabel());
@@ -47,8 +46,7 @@ public class StartMultiPlayerDuelSetting {
     }
 
     public void matchDuelMultiPlayer(MouseEvent mouseEvent) throws IOException {
-        if (mouseEvent.getButton() != MouseButton.PRIMARY)
-            return;
+        if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
         onClick.play();
         if (username.getText().equals("")) {
             new PopUpMessage(StartDuelMessage.FILL_OPPONENT_USERNAME.getAlertType(), StartDuelMessage.FILL_OPPONENT_USERNAME.getLabel());
@@ -65,21 +63,25 @@ public class StartMultiPlayerDuelSetting {
 
     public void nextTrack(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        onClick.play();
         Music.nextTrack(playPauseMusicButton, muteUnmuteButton);
     }
 
     public void playPauseMusic(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        onClick.play();
         Music.playPauseMusic(playPauseMusicButton);
     }
 
     public void muteUnmuteMusic(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        onClick.play();
         Music.muteUnmuteMusic(muteUnmuteButton);
     }
 
     public void back(MouseEvent actionEvent) throws IOException {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        onClick.play();
         Utility.openNewMenu("/project/fxml/duel_start_menu.fxml");
     }
 }
