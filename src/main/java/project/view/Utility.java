@@ -5,6 +5,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.input.DataFormat;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.AudioClip;
 import project.controller.playgame.RoundGameController;
@@ -26,6 +29,12 @@ public class Utility {
         mainPane.getChildren().remove(secondPane);
         mainPane.setCenter(newSecondPane);
         setSecondPane(newSecondPane);
+        final KeyCombination keyCombination = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY, KeyCombination.SHIFT_ANY);
+        LoginMenuView.getStage().getScene().setOnKeyPressed(keyEvent -> {
+            if (keyCombination.match(keyEvent)){
+
+            }
+        });
         new FadeIn(newSecondPane).play();
     }
 

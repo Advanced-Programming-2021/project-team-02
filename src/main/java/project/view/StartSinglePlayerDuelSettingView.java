@@ -47,7 +47,6 @@ public class StartSinglePlayerDuelSettingView {
     public void matchDuelWithAi(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
         onClick.play();
-        StartDuelMessage message = DuelMenuController.getInstance().startDuelWithAI(3);
         new PopUpMessage(Alert.AlertType.INFORMATION,"This ability is locked for you !");
     }
 
