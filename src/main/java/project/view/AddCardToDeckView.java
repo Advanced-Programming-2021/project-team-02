@@ -205,11 +205,12 @@ public class AddCardToDeckView {
             label.setText(String.valueOf(hashMapAllCards.get(card) - deck.getNumberOfCardInDeck(card)));
             Pane pane = new Pane();
             ImageView imageView = new ImageView(getCardImageByName(card.getName()));
-            imageView.setFitHeight(140);
-            imageView.setFitWidth(116);
+            imageView.setFitHeight(143);
+            imageView.setFitWidth(133);
             pane.getChildren().add(imageView);
             pane.getChildren().add(label);
             allCardsVbox.getChildren().add(pane);
+            allCardsVbox.setAlignment(Pos.CENTER);
             int finalI = i;
             pane.setCursor(Cursor.HAND);
             pane.setOnMouseClicked(mouseEvent -> {

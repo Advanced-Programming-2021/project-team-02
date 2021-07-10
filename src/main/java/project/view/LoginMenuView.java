@@ -6,6 +6,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.AudioClip;
 import project.controller.LoginMenuController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -44,6 +45,7 @@ public class LoginMenuView extends Application {
     public BorderPane mainPane;
     public Pane secondPane;
     public ImageView exitButton;
+    private AudioClip onClick = new AudioClip(Objects.requireNonNull(Utility.class.getResource("/project/soundEffects/CURSOR.wav")).toString());
 
     public static void main(String[] args) throws IOException {
         CardsDatabase.getInstance().readAndMakeCards();
@@ -51,116 +53,12 @@ public class LoginMenuView extends Application {
         launch(args);
     }
 
-    @Override
-    public void start(Stage stage) throws Exception {
-        LoginMenuView.stage = stage;
-        stage.setOnCloseRequest(event -> {
-            PopUpMessage popUpMessage = new PopUpMessage(LoginMessage.EXIT_CONFIRMATION.getAlertType(), LoginMessage.EXIT_CONFIRMATION.getLabel());
-            if (popUpMessage.getAlert().getResult().getText().equals("OK")) System.exit(0);
-        });
-        PopUpMessage.setStage(stage);
-        GamePopUpMessage.setStage(stage);
-        URL fxmlAddress = getClass().getResource("/project/fxml/login_menu.fxml");
-        assert fxmlAddress != null;
-        BorderPane root = FXMLLoader.load(fxmlAddress);
-        Utility.setMainPane(root);
-        Utility.setSecondPane(secondPane);
-        PopUpMessage.setParent(root);
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setFullScreen(true);
-        stage.setResizable(false);
-        stage.setMaximized(true);
-        stage.setFullScreenExitHint("");
-        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-        stage.setTitle("Yu-Gi-Oh!");
-        stage.getIcons().add(Icon.YU_GI_OH.getImage());
-        stage.show();
-    }
-
-    public static void setStage(Stage stage) {
-        LoginMenuView.stage = stage;
-    }
-
     public static Stage getStage() {
         return stage;
     }
 
-    @FXML
-    public void initialize() {
-        Music.muteUnmuteButtons.add(muteUnmuteButton);
-        if (!Music.isMediaPlayerPaused) playPauseMusicButton.setImage(Icon.PAUSE.getImage());
-        else playPauseMusicButton.setImage(Icon.PLAY.getImage());
-        if (Music.mediaPlayer.isMute()) muteUnmuteButton.setImage(Icon.MUTE.getImage());
-        else muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
-
-        usernameFieldSignUp.setOnKeyPressed(k -> {
-            if (k.getCode().equals(KeyCode.ENTER)) registerUser();
-        });
-        nicknameFieldSignUp.setOnKeyPressed(k -> {
-            if (k.getCode().equals(KeyCode.ENTER)) registerUser();
-        });
-        passwordFieldSignUp.setOnKeyPressed(k -> {
-            if (k.getCode().equals(KeyCode.ENTER)) registerUser();
-        });
-        secondPasswordField.setOnKeyPressed(k -> {
-            if (k.getCode().equals(KeyCode.ENTER)) registerUser();
-        });
-        usernameFieldLogin.setOnKeyPressed(k -> {
-              if (k.getCode().equals(KeyCode.ENTER)) {
-                  try {
-                      loginUser();
-                  } catch (Exception e) {
-                      e.printStackTrace();
-                  }
-              }
-        });
-        passwordFieldLogin.setOnKeyPressed(k -> {
-            if (k.getCode().equals(KeyCode.ENTER)) {
-                try {
-                    loginUser();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    public void registerUser() {
-        LoginMessage message = controller.createUser(usernameFieldSignUp.getText(), nicknameFieldSignUp.getText(), passwordFieldSignUp.getText(), secondPasswordField.getText());
-        new PopUpMessage(message.getAlertType(), message.getLabel());
-        usernameFieldSignUp.clear();
-        nicknameFieldSignUp.clear();
-        passwordFieldSignUp.clear();
-        secondPasswordField.clear();
-    }
-
-    public void loginUser() throws Exception {
-        LoginMessage message = controller.loginUser(usernameFieldLogin.getText(), passwordFieldLogin.getText());
-        new PopUpMessage(message.getAlertType(), message.getLabel());
-        if (message.getAlertType().equals(Alert.AlertType.INFORMATION))
-            Utility.openNewMenu("/project/fxml/main_menu.fxml");
-    }
-
-    public void nextTrack(MouseEvent actionEvent) {
-        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
-        Music.nextTrack(playPauseMusicButton, muteUnmuteButton);
-    }
-
-    public void playPauseMusic(MouseEvent actionEvent) {
-        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
-        Music.playPauseMusic(playPauseMusicButton);
-    }
-
-    public void muteUnmuteMusic(MouseEvent actionEvent) {
-        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
-        Music.muteUnmuteMusic(muteUnmuteButton);
-    }
-
-    public void exit(MouseEvent actionEvent) {
-        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
-        PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
-        if (popUpMessage.getAlert().getResult().getText().equals("OK")) System.exit(0);
+    public static void setStage(Stage stage) {
+        LoginMenuView.stage = stage;
     }
 
     private static void createSomeUser() {
@@ -192,13 +90,13 @@ public class LoginMenuView extends Application {
             if (counter == 25)
                 break;
         }
-        for (int i = 1; i < 4; i ++){
-            erfanAsset.addCard(allMonsters.get(allMonsters.size()-i));
-            erfanAsset.addCardToMainDeck(allMonsters.get(allMonsters.size()-i),erfandeck);
+        for (int i = 1; i < 4; i++) {
+            erfanAsset.addCard(allMonsters.get(allMonsters.size() - i));
+            erfanAsset.addCardToMainDeck(allMonsters.get(allMonsters.size() - i), erfandeck);
         }
-        for (int i = 0; i < 5; i ++){
+        for (int i = 0; i < 5; i++) {
             erfanAsset.addCard(allMonsters.get(i));
-            erfanAsset.addCardToSideDeck(allMonsters.get(i),erfandeck);
+            erfanAsset.addCardToSideDeck(allMonsters.get(i), erfandeck);
         }
 
         erfanAsset.activateDeck("erfan");
@@ -209,8 +107,7 @@ public class LoginMenuView extends Application {
 
         for (int i = 0; i < 2; i++) {
             for (Monster monster : allMonsters) {
-                if (monster.getMonsterActionType() == MonsterActionType.NORMAL && monster.getLevel() >= 4)
-                {
+                if (monster.getMonsterActionType() == MonsterActionType.NORMAL && monster.getLevel() >= 4) {
                     mahdisAsset.addCard(monster);
                     mahdisAsset.addCardToMainDeck(monster, mahdisDeck);
                 }
@@ -218,12 +115,119 @@ public class LoginMenuView extends Application {
         }
         for (Spell spell : allSpells) {
             mahdisAsset.addCard(spell);
-            mahdisAsset.addCardToMainDeck(spell,mahdisDeck);
+            mahdisAsset.addCardToMainDeck(spell, mahdisDeck);
         }
-        for (int i = 1; i < 5; i ++){
-            mahdisAsset.addCard(allMonsters.get(allMonsters.size()-i));
-            mahdisAsset.addCardToSideDeck(allMonsters.get(allMonsters.size()-i),mahdisDeck);
+        for (int i = 1; i < 5; i++) {
+            mahdisAsset.addCard(allMonsters.get(allMonsters.size() - i));
+            mahdisAsset.addCardToSideDeck(allMonsters.get(allMonsters.size() - i), mahdisDeck);
         }
         mahdisAsset.activateDeck("mahdis");
+    }
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        LoginMenuView.stage = stage;
+        stage.setOnCloseRequest(event -> {
+            PopUpMessage popUpMessage = new PopUpMessage(LoginMessage.EXIT_CONFIRMATION.getAlertType(), LoginMessage.EXIT_CONFIRMATION.getLabel());
+            if (popUpMessage.getAlert().getResult().getText().equals("OK")) System.exit(0);
+        });
+        PopUpMessage.setStage(stage);
+        GamePopUpMessage.setStage(stage);
+        URL fxmlAddress = getClass().getResource("/project/fxml/login_menu.fxml");
+        assert fxmlAddress != null;
+        BorderPane root = FXMLLoader.load(fxmlAddress);
+        Utility.setMainPane(root);
+        Utility.setSecondPane(secondPane);
+        PopUpMessage.setParent(root);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setFullScreen(true);
+        stage.setResizable(false);
+        stage.setMaximized(true);
+        stage.setFullScreenExitHint("");
+        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        stage.setTitle("Yu-Gi-Oh!");
+        stage.getIcons().add(Icon.YU_GI_OH.getImage());
+        stage.show();
+    }
+
+    @FXML
+    public void initialize() {
+        Music.muteUnmuteButtons.add(muteUnmuteButton);
+        if (!Music.isMediaPlayerPaused) playPauseMusicButton.setImage(Icon.PAUSE.getImage());
+        else playPauseMusicButton.setImage(Icon.PLAY.getImage());
+        if (Music.mediaPlayer.isMute()) muteUnmuteButton.setImage(Icon.MUTE.getImage());
+        else muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
+
+        usernameFieldSignUp.setOnKeyPressed(k -> {
+            if (k.getCode().equals(KeyCode.ENTER)) registerUser();
+        });
+        nicknameFieldSignUp.setOnKeyPressed(k -> {
+            if (k.getCode().equals(KeyCode.ENTER)) registerUser();
+        });
+        passwordFieldSignUp.setOnKeyPressed(k -> {
+            if (k.getCode().equals(KeyCode.ENTER)) registerUser();
+        });
+        secondPasswordField.setOnKeyPressed(k -> {
+            if (k.getCode().equals(KeyCode.ENTER)) registerUser();
+        });
+        usernameFieldLogin.setOnKeyPressed(k -> {
+            if (k.getCode().equals(KeyCode.ENTER)) {
+                try {
+                    loginUser();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        passwordFieldLogin.setOnKeyPressed(k -> {
+            if (k.getCode().equals(KeyCode.ENTER)) {
+                try {
+                    loginUser();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void registerUser() {
+        LoginMessage message = controller.createUser(usernameFieldSignUp.getText(), nicknameFieldSignUp.getText(), passwordFieldSignUp.getText(), secondPasswordField.getText());
+        onClick.play();
+        new PopUpMessage(message.getAlertType(), message.getLabel());
+        usernameFieldSignUp.clear();
+        nicknameFieldSignUp.clear();
+        passwordFieldSignUp.clear();
+        secondPasswordField.clear();
+    }
+
+    public void loginUser() throws Exception {
+        LoginMessage message = controller.loginUser(usernameFieldLogin.getText(), passwordFieldLogin.getText());
+        new PopUpMessage(message.getAlertType(), message.getLabel());
+        if (message.getAlertType().equals(Alert.AlertType.INFORMATION)) {
+            onClick.play();
+            Utility.openNewMenu("/project/fxml/main_menu.fxml");
+        }
+    }
+
+    public void nextTrack(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Music.nextTrack(playPauseMusicButton, muteUnmuteButton);
+    }
+
+    public void playPauseMusic(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Music.playPauseMusic(playPauseMusicButton);
+    }
+
+    public void muteUnmuteMusic(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        Music.muteUnmuteMusic(muteUnmuteButton);
+    }
+
+    public void exit(MouseEvent actionEvent) {
+        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
+        if (popUpMessage.getAlert().getResult().getText().equals("OK")) System.exit(0);
     }
 }
