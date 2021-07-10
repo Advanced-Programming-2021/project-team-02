@@ -1,5 +1,6 @@
 package project.view.gameview;
 
+import animatefx.animation.FadeIn;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.control.Button;
@@ -119,7 +120,6 @@ public class FlipCoinView {
             });
             button.getStylesheets().add(getClass().getResource("/project/CSS/flip_coin_style.css").toString());
             button.setId("button");
-            vBox.getChildren().add(button);
         });
     }
 

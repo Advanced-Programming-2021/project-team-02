@@ -34,30 +34,31 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class DeckMenuView {
+    private static final Image deckImage = new Image(String.valueOf(DeckMenuView.class.getResource("/project/image/GamePictures/DeckPicture.jpg")));
+    private static final Image editDeckImage = new Image(String.valueOf(DeckMenuView.class.getResource("/project/image/Icon/edit.png")));
+    private static final Image deleteDeckImage = new Image(String.valueOf(DeckMenuView.class.getResource("/project/image/Icon/remove.png")));
+    private static final Image activateImage = new Image(String.valueOf(DeckMenuView.class.getResource("/project/image/Icon/checked.png")));
+    private static final Image deactivateImage = new Image(String.valueOf(DeckMenuView.class.getResource("/project/image/Icon/cancel.png")));
+    private static final ArrayList<ImageView> activateImageViews = new ArrayList<>();
     private static final DeckMenuController controller = DeckMenuController.getInstance();
+    @FXML
+    public static Label labelDeck;
     public ImageView playPauseMusicButton;
     public ImageView muteUnmuteButton;
-    HashMap<String, Image> imageHashMap;
     @FXML
     public GridPane gridPaneAsli;
+    HashMap<String, Image> imageHashMap;
+    private User user;
+    private ArrayList<Deck> deckArrayList;
 
     public static Label getLabel() {
         return labelDeck;
     }
 
     @FXML
-    public static Label labelDeck;
-    public static final Image deckImage = new Image(String.valueOf(DeckMenuView.class.getResource("/project/image/GamePictures/DeckPicture.jpg")));
-    public static final Image editDeckImage = new Image(String.valueOf(DeckMenuView.class.getResource("/project/image/Icon/edit.png")));
-    public static final Image deleteDeckImage = new Image(String.valueOf(DeckMenuView.class.getResource("/project/image/Icon/remove.png")));
-    public static final Image activateImage = new Image(String.valueOf(DeckMenuView.class.getResource("/project/image/Icon/checked.png")));
-    public static final Image deactivateImage = new Image(String.valueOf(DeckMenuView.class.getResource("/project/image/Icon/cancel.png")));
-    public static final ArrayList<ImageView> activateImageViews = new ArrayList<>();
-    public static final User user = MainMenuController.getInstance().getLoggedInUser();
-    public static final ArrayList<Deck> deckArrayList = Objects.requireNonNull(Assets.getAssetsByUsername(user.getUsername())).getAllDecks();
-
-    @FXML
     public void initialize() {
+        user = MainMenuController.getInstance().getLoggedInUser();
+        deckArrayList = Objects.requireNonNull(Assets.getAssetsByUsername(user.getUsername())).getAllDecks();
         Utility utility = new Utility();
         utility.addImages();
         imageHashMap = utility.getStringImageHashMap();
