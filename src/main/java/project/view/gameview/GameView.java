@@ -145,6 +145,7 @@ public class GameView {
             System.out.printf(SuccessMessage.ROUND_FINISHED.getValue(), string);
         else if (message == SuccessMessage.WIN_MESSAGE_ROUND_MATCH)
             System.out.printf(SuccessMessage.WIN_MESSAGE_ROUND_MATCH.getValue(), string);
+        else System.out.printf(message.getValue(),string);
     }
 
     public void showSuccessMessageWithAnInteger(SuccessMessage message, int number) {
@@ -508,5 +509,9 @@ public class GameView {
                 "card show --selected\n" +
                 "cancel\n" +
                 "help");
+    }
+
+    public void showSuccessMessageWithAStringAndInteger(SuccessMessage message, int damage, String name) {
+        System.out.printf(message.getValue(),damage,name);
     }
 }

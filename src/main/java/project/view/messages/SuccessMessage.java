@@ -28,6 +28,9 @@ public enum SuccessMessage {
     CURRENT_PLAYER_RECEIVE_DAMAGE_AFTER_ATTACK("Your monster card is destroyed and you received %d battle" +
             "damage\n"),
     DEFENSIVE_MONSTER_DESTROYED("the defense position monster is destroyed"),
+    DEFENSIVE_MONSTER_DESTROYED_IN_DH("opponent monster was : %s , the defense position monster is destroyed\n"),
+    CURRENT_PLAYER_RECEIVE_DAMAGE_AFTER_ATTACK_IN_DH("your opponent receives %d battle damage, opponent card was : %s\n"),
+    NO_DAMAGE_TO_ANYONE_IN_DH("No damage to anyone, opponent card was %s\n"),
     NO_CARD_DESTROYED("no card is destroyed"),
     DAMAGE_TO_CURRENT_PLAYER_AFTER_ATTACK_TI_HIGHER_DEFENSIVE_DO_OR_DH_MONSTER("no card is destroyed and you received %d battle damage\n"),
     DH_CARD_BECOMES_DO("opponent’s monster card was %s\n"),
