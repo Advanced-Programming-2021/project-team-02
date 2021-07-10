@@ -179,6 +179,8 @@ public class GameView {
     }
 
     public void startGameAndLoadHand() {
+        AudioClip audioClip = new AudioClip(Objects.requireNonNull(getClass().getResource("/project/soundEffects/its-time-to-duel.wav")).toString());
+        audioClip.play();
         if (RoundGameController.getInstance().isWithAi()) {
             if (RoundGameController.getInstance().getCurrentPlayer().getNickname().equals("ai")) {
                 RoundGameController.getInstance().aiTurn();
@@ -198,8 +200,7 @@ public class GameView {
         ButtonBar buttonBar = (ButtonBar) alert.getDialogPane().lookup(".button-bar");
         buttonBar.getButtons().forEach(b -> b.setStyle("-fx-background-radius: 10; -fx-background-color: #bb792d; -fx-font-size: 16; -fx-text-fill: white;"));
         buttonBar.getButtons().forEach(b -> b.setCursor(Cursor.HAND));
-        AudioClip audioClip = new AudioClip(Objects.requireNonNull(getClass().getResource("/project/soundEffects/its-time-to-duel.wav")).toString());
-        audioClip.play();
+
         blur();
         alert.showAndWait();
         setHandBasedOnTurn();
