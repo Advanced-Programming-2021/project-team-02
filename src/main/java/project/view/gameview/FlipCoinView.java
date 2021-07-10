@@ -34,7 +34,7 @@ public class FlipCoinView {
     public VBox vBox;
     public ImageView playPauseMusicButton;
     public ImageView muteUnmuteButton;
-
+    private boolean isAi;
     private Image image5 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_5.png")).toString());
     private Image image6 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_6.png")).toString());
     private Image image7 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_7.png")).toString());
@@ -57,6 +57,10 @@ public class FlipCoinView {
     private Image image4 = new Image(Objects.requireNonNull(getClass().getResource("/project/image/Coin/Silver_4.png")).toString());
     private Timeline flipCoinTimeLine;
     private AudioClip onClick = new AudioClip(Objects.requireNonNull(Utility.class.getResource("/project/soundEffects/CURSOR.wav")).toString());
+
+    public void setAi(boolean ai) {
+        isAi = ai;
+    }
 
     public void initialize() {
         Duel duel = DuelGameController.getInstance().getDuel();
@@ -109,12 +113,11 @@ public class FlipCoinView {
             button.setOnAction(actionEvent -> {
                 try {
                     onClick.play();
-                    GameView gameView  =(GameView) Utility.openMenuAndReturnController("/project/fxml/round_view.fxml");
+                    GameView gameView = (GameView) Utility.openMenuAndReturnController("/project/fxml/round_view.fxml");
                     gameView.startGameAndLoadHand();
-
                     final KeyCombination keyCombination = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY, KeyCombination.SHIFT_ANY);
                     LoginMenuView.getStage().getScene().setOnKeyPressed(keyEvent -> {
-                        if(keyCombination.match(keyEvent))
+                        if (keyCombination.match(keyEvent))
                             gameView.cheat();
                     });
                 } catch (IOException e) {

@@ -1,6 +1,7 @@
 package project.view;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -8,6 +9,7 @@ import javafx.scene.media.AudioClip;
 import project.controller.DuelMenuController;
 import project.model.Music;
 import project.model.gui.Icon;
+import project.view.gameview.FlipCoinView;
 import project.view.messages.PopUpMessage;
 import project.view.messages.StartDuelMessage;
 
@@ -18,6 +20,7 @@ public class StartSinglePlayerDuelSettingView {
     public ImageView playPauseMusicButton;
     public ImageView muteUnmuteButton;
     private AudioClip onClick = new AudioClip(Objects.requireNonNull(Utility.class.getResource("/project/soundEffects/CURSOR.wav")).toString());
+
 
     @FXML
     public void initialize() {
@@ -33,8 +36,10 @@ public class StartSinglePlayerDuelSettingView {
         onClick.play();
         StartDuelMessage message = DuelMenuController.getInstance().startDuelWithAI(1);
         if (message == StartDuelMessage.SUCCESS) {
-            Utility.openNewMenu("/project/fxml/flip_coin_view.fxml");
-        } else {
+            FlipCoinView flipCoinView = (FlipCoinView) Utility.openMenuAndReturnController("/project/fxml/flip_coin_view.fxml");
+            flipCoinView.setAi(true);
+        }
+        else {
             new PopUpMessage(message.getAlertType(), message.getLabel());
         }
     }
@@ -43,11 +48,7 @@ public class StartSinglePlayerDuelSettingView {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
         onClick.play();
         StartDuelMessage message = DuelMenuController.getInstance().startDuelWithAI(3);
-        if (message == StartDuelMessage.SUCCESS) {
-            Utility.openNewMenu("/project/fxml/flip_coin_view.fxml");
-        } else {
-            new PopUpMessage(message.getAlertType(), message.getLabel());
-        }
+        new PopUpMessage(Alert.AlertType.INFORMATION,"This ability is locked for you !");
     }
 
     public void nextTrack(MouseEvent actionEvent) {

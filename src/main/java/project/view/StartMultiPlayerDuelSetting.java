@@ -9,6 +9,7 @@ import javafx.scene.media.AudioClip;
 import project.controller.DuelMenuController;
 import project.model.Music;
 import project.model.gui.Icon;
+import project.view.gameview.FlipCoinView;
 import project.view.messages.PopUpMessage;
 import project.view.messages.StartDuelMessage;
 
@@ -39,7 +40,8 @@ public class StartMultiPlayerDuelSetting {
         }
         StartDuelMessage message = DuelMenuController.getInstance().startDuelWithOtherPlayer(username.getText(), 1);
         if (message == StartDuelMessage.SUCCESS) {
-            Utility.openNewMenu("/project/fxml/flip_coin_view.fxml");
+            FlipCoinView flipCoinView = (FlipCoinView) Utility.openMenuAndReturnController("/project/fxml/flip_coin_view.fxml");
+            flipCoinView.setAi(false);
         } else {
             new PopUpMessage(message.getAlertType(), message.getLabel());
         }
@@ -55,7 +57,8 @@ public class StartMultiPlayerDuelSetting {
 
         StartDuelMessage message = DuelMenuController.getInstance().startDuelWithOtherPlayer(username.getText(), 3);
         if (message == StartDuelMessage.SUCCESS) {
-            Utility.openNewMenu("/project/fxml/flip_coin_view.fxml");
+            FlipCoinView flipCoinView = (FlipCoinView) Utility.openMenuAndReturnController("/project/fxml/flip_coin_view.fxml");
+            flipCoinView.setAi(false);
         } else {
             new PopUpMessage(message.getAlertType(), message.getLabel());
         }

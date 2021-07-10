@@ -179,6 +179,11 @@ public class GameView {
     }
 
     public void startGameAndLoadHand() {
+        if (RoundGameController.getInstance().isWithAi()) {
+            if (RoundGameController.getInstance().getCurrentPlayer().getNickname().equals("ai")) {
+                RoundGameController.getInstance().aiTurn();
+            }
+        }
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Ready to Go?");
         alert.initOwner(LoginMenuView.getStage());
         alert.initModality(Modality.WINDOW_MODAL);
