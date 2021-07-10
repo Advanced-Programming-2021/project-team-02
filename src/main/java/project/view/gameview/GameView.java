@@ -209,7 +209,8 @@ public class GameView {
         currentDeckLabel.setText(String.valueOf(RoundGameController.getInstance().getCurrentPlayer().getPlayDeck().getMainCards().size()));
     }
 
-    public TranslateTransition drawCardFromDeckAnimation(String cardName, boolean isCurrent) {
+    public void drawCardFromDeckAnimation(String cardName, boolean isCurrent) {
+
         Pane deckPane = isCurrent ? currentPlayerDeckPane : opponentPlayerDeckPane;
         GridPane handPane = isCurrent ? currentHand : opponentHand;
         Point2D deck = deckPane.localToScene(new Point2D(0, 0));
@@ -270,7 +271,8 @@ public class GameView {
         mainGamePane.getChildren().add(cardImageView);
 
         updateCurrentDeckLabel();
-        return translateTransition;
+        translateTransition.play();
+        return;
     }
 
     private synchronized Node getNodeInGridPane(GridPane gridPane, int row, int column) {
@@ -1561,6 +1563,7 @@ public class GameView {
         ArrayList<Card> currentGraveYard = isCurrent ? RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().returnGraveYard().getGraveYardCards() :
                 RoundGameController.getInstance().getOpponentPlayer().getPlayerBoard().returnGraveYard().getGraveYardCards();
         ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         GridPane cardsPane = new GridPane();
         int i = 0;
         for (Card card : currentGraveYard) {
@@ -2269,7 +2272,12 @@ public class GameView {
 
     }
 
-    public TranslateTransition showSummon(int addressInMonsterZone, int addressInHand, String cardName) {
+    public void showSummon(int addressInMonsterZone, int addressInHand, String cardName) {
+        if (cardName.equals("The Tricky")){
+            reloadCurrentHand();
+            reloadCurrentAndOpponentMonsterZone();
+            return ;
+        }
         ImageView fakeCardImageView = new ImageView(getCardImageByName(cardName));
         fakeCardImageView.setFitWidth(94);
         fakeCardImageView.setFitHeight(130);
@@ -2317,7 +2325,7 @@ public class GameView {
 
         mainGamePane.getChildren().add(fakeCardImageView);
         currentHand.getChildren().remove(inHandNode);
-        return translateTransition;
+        translateTransition.play();
     }
 
     public void reloadCurrentHand() {
@@ -2393,12 +2401,11 @@ public class GameView {
         TranslateTransition tt;
         switch (animation) {
             case DRAW_CARD:
-                tt = drawCardFromDeckAnimation(cardName, isCurrent);
-                tt.play();
+                 drawCardFromDeckAnimation(cardName, isCurrent);
                 break;
             case SUMMON_MONSTER:
-                tt = showSummon(addressInZone, addressInHand, cardName);
-                tt.play();
+                 showSummon(addressInZone, addressInHand, cardName);
+
                 break;
             case SET_MONSTER:
                 tt = showSetMonsterTransition(addressInZone, addressInHand);

@@ -437,9 +437,9 @@ public class RoundGameController {
         card = graveYard.get(address - 1);
         int summonChoice = view.twoChoiceQuestions("choose what to do:", "summon", "set");
         if (summonChoice == 1) {
-            specialSummon(card, CellStatus.OFFENSIVE_OCCUPIED, Zone.GRAVEYARD, address);
+            specialSummon(card, CellStatus.OFFENSIVE_OCCUPIED, Zone.GRAVEYARD, address,graveYard);
         } else {
-            specialSummon(card, CellStatus.DEFENSIVE_HIDDEN, Zone.GRAVEYARD, address);
+            specialSummon(card, CellStatus.DEFENSIVE_HIDDEN, Zone.GRAVEYARD, address,graveYard);
         }
         graveYard.remove(address - 1);
         deselectCard(0);
@@ -707,17 +707,18 @@ public class RoundGameController {
         }
     }
 
-    public void specialSummon(Card card, CellStatus cellStatus, Zone fromZone, int addressInFromZone) {
+    public void specialSummon(Card card, CellStatus cellStatus, Zone fromZone, int addressInFromZone,ArrayList<Card> fromZoneCards) {
         MonsterZone monsterZone = getCurrentPlayer().getPlayerBoard().returnMonsterZone();
         int addressOfAdd = monsterZone.addCard((Monster) card, cellStatus);
         view.showBoard();
         if (fromZone == Zone.HAND) {
-            getCurrentPlayerHand().remove(addressInFromZone - 1);
+            fromZoneCards.remove(addressInFromZone-1);
             if (cellStatus == CellStatus.OFFENSIVE_OCCUPIED)
                 view.playAnimation(Animation.SUMMON_MONSTER, card.getName(), addressOfAdd, addressInFromZone, 0, true);
             else
                 view.playAnimation(Animation.SET_MONSTER, card.getName(), addressOfAdd, addressInFromZone, 0, true);
         } else if (fromZone == Zone.GRAVEYARD) {
+            fromZoneCards.remove(addressInFromZone-1);
             view.reloadCurrentAndOpponentMonsterZone();
         }
         checkNewCardToBeBeUnderEffectOfFieldCard((Monster) card);
@@ -823,7 +824,10 @@ public class RoundGameController {
                             } else {
                                 removeSwordOfDarkDestruction(map.get(card));
                             }
+
                             player.getPlayerBoard().removeSpellOrTrapFromBoard(i);
+                            view.reloadCurrentSpellZone();
+                            view.reloadOpponentSpellZone();
                         }
                     }
                     i++;
@@ -909,13 +913,7 @@ public class RoundGameController {
         if (view.yesNoQuestion("do you want to tribute for GateGuardian Special Summon?")) {
             if (didTribute(3, getCurrentPlayer())) {
                 ArrayList<Card> hand = (ArrayList<Card>) getCurrentPlayerHand();
-                for (int i = 1; i <= hand.size(); i++) {
-                    if (hand.get(i) == selectedCell.getCardInCell()) {
-                        selectedCellAddress = i;
-                        break;
-                    }
-                }
-                specialSummon(selectedCell.getCardInCell(), status, Zone.HAND, selectedCellAddress);
+                specialSummon(selectedCell.getCardInCell(), status, Zone.HAND, selectedCellAddress,(ArrayList<Card>) getCurrentPlayerHand());
             } else return NOT_ENOUGH_CARD_TO_TRIBUTE;
         }
         return SUCCESS;
@@ -953,7 +951,7 @@ public class RoundGameController {
         if (fieldZoneSpell != null) {
             reversePreviousFieldZoneSpellEffectAndRemoveIt();
         }
-        specialSummon(selectedCell.getCardInCell(), status, Zone.HAND, selectedCellAddress);
+        specialSummon(selectedCell.getCardInCell(), status, Zone.HAND, selectedCellAddress,(ArrayList<Card>) getCurrentPlayerHand());
         deselectCard(0);
     }
 
@@ -970,7 +968,7 @@ public class RoundGameController {
                     break;
                 }
             }
-            specialSummon(selectedCell.getCardInCell(), status, Zone.HAND, selectedCellAddress);
+            specialSummon(selectedCell.getCardInCell(), status, Zone.HAND, selectedCellAddress,(ArrayList<Card>) getCurrentPlayerHand());
             deselectCard(0);
             return true;
         }
@@ -1988,7 +1986,7 @@ public class RoundGameController {
         Card card;
         int address = view.chooseCardInGraveYard(currentMonstersInGraveyard, cards);
         card = graveYard.getGraveYardCards().get(address - 1);
-        specialSummon(card, CellStatus.OFFENSIVE_OCCUPIED, Zone.GRAVEYARD, address);
+        specialSummon(card, CellStatus.OFFENSIVE_OCCUPIED, Zone.GRAVEYARD, address,graveYard.getGraveYardCards());
         addCardToGraveYard(Zone.SPELL_ZONE, selectedCellAddress, getCurrentPlayer());
         return NONE;
     }

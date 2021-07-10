@@ -49,81 +49,11 @@ public class LoginMenuView extends Application {
 
     public static void main(String[] args) throws IOException {
         CardsDatabase.getInstance().readAndMakeCards();
-        createSomeUser();
         launch(args);
     }
 
     public static Stage getStage() {
         return stage;
-    }
-
-    public static void setStage(Stage stage) {
-        LoginMenuView.stage = stage;
-    }
-
-    private static void createSomeUser() {
-        ArrayList<Monster> allMonsters = Monster.getAllMonsters();
-        ArrayList<Spell> allSpells = Spell.getAllSpells();
-        User erfan = new User("erfanmjb", "erfanmjb", "erfanmjb");
-        Assets erfanAsset = Assets.getAssetsByUsername("erfanmjb");
-        Objects.requireNonNull(erfanAsset).createDeck("erfan");
-        Deck erfandeck = erfanAsset.getDeckByDeckName("erfan");
-        erfandeck.addCardToMainDeck(Card.getCardByName("Trap Hole"));
-        erfandeck.addCardToMainDeck(Card.getCardByName("Crab Turtle"));
-        int counter = 0;
-        outer:
-        for (int i = 0; i < 2; i++) {
-            for (Monster monster : allMonsters) {
-                if (monster.getMonsterActionType() == MonsterActionType.NORMAL && monster.getLevel() >= 3) {
-                    erfanAsset.addCard(monster);
-                    erfanAsset.addCardToMainDeck(monster, erfandeck);
-                    counter++;
-                }
-                if (counter == 27) {
-                    counter = 0;
-                    break outer;
-                }
-            }
-        }
-        for (Spell spell : allSpells) {
-            erfanAsset.addCard(spell);
-            erfanAsset.addCardToMainDeck(spell, erfandeck);
-            counter++;
-            if (counter == 25)
-                break;
-        }
-        for (int i = 1; i < 4; i++) {
-            erfanAsset.addCard(allMonsters.get(allMonsters.size() - i));
-            erfanAsset.addCardToMainDeck(allMonsters.get(allMonsters.size() - i), erfandeck);
-        }
-        for (int i = 0; i < 5; i++) {
-            erfanAsset.addCard(allMonsters.get(i));
-            erfanAsset.addCardToSideDeck(allMonsters.get(i), erfandeck);
-        }
-
-        erfanAsset.activateDeck("erfan");
-        User mahdis = new User("mahdis", "mahdis", "mahdis");
-        Assets mahdisAsset = Assets.getAssetsByUsername("mahdis");
-        Objects.requireNonNull(mahdisAsset).createDeck("mahdis");
-        Deck mahdisDeck = mahdisAsset.getDeckByDeckName("mahdis");
-
-        for (int i = 0; i < 2; i++) {
-            for (Monster monster : allMonsters) {
-                if (monster.getMonsterActionType() == MonsterActionType.NORMAL && monster.getLevel() >= 4) {
-                    mahdisAsset.addCard(monster);
-                    mahdisAsset.addCardToMainDeck(monster, mahdisDeck);
-                }
-            }
-        }
-        for (Spell spell : allSpells) {
-            mahdisAsset.addCard(spell);
-            mahdisAsset.addCardToMainDeck(spell, mahdisDeck);
-        }
-        for (int i = 1; i < 5; i++) {
-            mahdisAsset.addCard(allMonsters.get(allMonsters.size() - i));
-            mahdisAsset.addCardToSideDeck(allMonsters.get(allMonsters.size() - i), mahdisDeck);
-        }
-        mahdisAsset.activateDeck("mahdis");
     }
 
     @Override
