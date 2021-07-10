@@ -68,11 +68,13 @@ public class LoginMenuView extends Application {
         Assets erfanAsset = Assets.getAssetsByUsername("erfanmjb");
         Objects.requireNonNull(erfanAsset).createDeck("erfan");
         Deck erfandeck = erfanAsset.getDeckByDeckName("erfan");
+        erfandeck.addCardToMainDeck(Card.getCardByName("Advanced Ritual Art"));
+        erfandeck.addCardToMainDeck(Card.getCardByName("Crab Turtle"));
         int counter = 0;
         outer:
         for (int i = 0; i < 2; i++) {
             for (Monster monster : allMonsters) {
-                if (monster.getMonsterActionType() == MonsterActionType.NORMAL && monster.getLevel() >= 4) {
+                if (monster.getMonsterActionType() == MonsterActionType.NORMAL && monster.getLevel() >= 3) {
                     erfanAsset.addCard(monster);
                     erfanAsset.addCardToMainDeck(monster, erfandeck);
                     counter++;

@@ -202,10 +202,6 @@ public class DuelGameController {
             lost = 0;
         else lost = 1;
         RoundGameController.getInstance().getView().showFinishMatchAndCloseGameView(winner.getNickname() + " won game : 2-"+lost);
-        //view.showSuccessMessageWithTwoIntegerAndOneStringForSeveralWins(SuccessMessage.WIN_MESSAGE_FOR_HOLE_MATCH,
-        //        Objects.requireNonNull(Objects.requireNonNull(User.getUserByNickName(winner.getNickname())).getUsername()),
-        //        2, lost
-        //);
 
     }
 

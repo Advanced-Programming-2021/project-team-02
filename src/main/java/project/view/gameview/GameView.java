@@ -33,8 +33,7 @@ import project.model.Music;
 import project.model.card.Card;
 import project.model.card.Monster;
 import project.model.card.Spell;
-import project.model.card.informationofcards.CardType;
-import project.model.card.informationofcards.SpellType;
+import project.model.card.informationofcards.*;
 import project.model.game.DuelPlayer;
 import project.model.game.board.*;
 import project.model.game.board.Cell;
@@ -56,7 +55,6 @@ import java.util.stream.Collectors;
 public class GameView {
     private final RoundGameController controller = RoundGameController.getInstance();
     private final Image backCardImage = new Image(Objects.requireNonNull(getClass().getResource("/project/image/GamePictures/Card Back.png")).toString());
-    private final boolean[] canGoToNext = new boolean[1];
     public Label currentPlayerLP;
     public Label currentPlayerNickname;
     public Label opponentPlayerNickname;
@@ -83,11 +81,6 @@ public class GameView {
     public Pane opponentGraveYardPane;
     public Button setButton;
     public Button summonOrActivateButton;
-    public Pane monster1;
-    public Pane monster4;
-    public Pane monster3;
-    public Pane monster2;
-    public Pane monster5;
     public AnchorPane cardBoardPane;
     public Button changePositionButton;
     public Button attackButton;
@@ -97,28 +90,19 @@ public class GameView {
     public ImageView settingButton;
     public ProgressBar currentPlayerLPBar;
     public ProgressBar opponentPlayerLPBar;
-    private ArrayList<Pane> currentMonsterZonePanes;
     private Utility utility;
-    private Stage currentStage;
 
     public void initialize() {
         utility = new Utility();
         utility.addImages();
-        canGoToNext[0] = false;
         if (!Music.isMediaPlayerPaused) playPauseMusicButton.setImage(Icon.PAUSE.getImage());
         else playPauseMusicButton.setImage(Icon.PLAY.getImage());
         if (Music.mediaPlayer.isMute()) muteUnmuteButton.setImage(Icon.MUTE.getImage());
         else muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
 
-        currentMonsterZonePanes = new ArrayList<>();
-        currentMonsterZonePanes.add(monster1);
-        currentMonsterZonePanes.add(monster2);
-        currentMonsterZonePanes.add(monster3);
-        currentMonsterZonePanes.add(monster4);
-        currentMonsterZonePanes.add(monster5);
-        currentPlayerLP.setText("LP : "+RoundGameController.getInstance().getOpponentPlayer().getLifePoint());
+        currentPlayerLP.setText("LP : " + RoundGameController.getInstance().getOpponentPlayer().getLifePoint());
         currentPlayerNickname.setText(RoundGameController.getInstance().getCurrentPlayer().getNickname());
-        opponentPlayerLP.setText("LP : "+RoundGameController.getInstance().getOpponentPlayer().getLifePoint());
+        opponentPlayerLP.setText("LP : " + RoundGameController.getInstance().getOpponentPlayer().getLifePoint());
         opponentPlayerNickname.setText(RoundGameController.getInstance().getOpponentPlayer().getNickname());
 
         SnapshotParameters parameters = new SnapshotParameters();
@@ -155,12 +139,12 @@ public class GameView {
         selectedCardDescriptionLabel.setWrapText(true);
         currentPlayerFieldSpellPane.getChildren().clear();
         ImageView baseImage = new ImageView();
-        baseImage.setImage(new Image(getClass().getResource("/project/image/GamePictures/field.png").toString()));
+        baseImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/project/image/GamePictures/field.png")).toString()));
         baseImage.setFitWidth(103.0);
         baseImage.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
         opponentPlayerFieldSpellPane.getChildren().clear();
         ImageView baseImage2 = new ImageView();
-        baseImage2.setImage(new Image(getClass().getResource("/project/image/GamePictures/field.png").toString()));
+        baseImage2.setImage(new Image(Objects.requireNonNull(getClass().getResource("/project/image/GamePictures/field.png")).toString()));
         baseImage2.setFitWidth(103.0);
         baseImage2.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
         currentPlayerFieldSpellPane.getChildren().add(baseImage);
@@ -207,7 +191,7 @@ public class GameView {
         ButtonBar buttonBar = (ButtonBar) alert.getDialogPane().lookup(".button-bar");
         buttonBar.getButtons().forEach(b -> b.setStyle("-fx-background-radius: 10; -fx-background-color: #bb792d; -fx-font-size: 16; -fx-text-fill: white;"));
         buttonBar.getButtons().forEach(b -> b.setCursor(Cursor.HAND));
-        AudioClip audioClip = new AudioClip(getClass().getResource("/project/soundEffects/its-time-to-duel.wav").toString());
+        AudioClip audioClip = new AudioClip(Objects.requireNonNull(getClass().getResource("/project/soundEffects/its-time-to-duel.wav")).toString());
         audioClip.play();
         blur();
         alert.showAndWait();
@@ -284,14 +268,13 @@ public class GameView {
     }
 
     private synchronized Node getNodeInGridPane(GridPane gridPane, int row, int column) {
-        synchronized (gridPane) {
+
             for (Node child : gridPane.getChildren()) {
                 if (child != null)
                     if (GridPane.getRowIndex(child) == row && GridPane.getColumnIndex(child) == column)
                         return child;
             }
             return null;
-        }
     }
 
     private void updateCurrentDeckLabel() {
@@ -432,7 +415,7 @@ public class GameView {
                             "\t" + getStatusForCell(controller.getSecondPlayer().getPlayerBoard().returnSpellZone().getCellWithAddress(4)));
             System.out.println("\t\t\t\t\t\t" + controller.getSecondPlayer().getPlayDeck().getMainCards().size());
             for (int i = 0; i < controller.getSecondPlayerHand().size(); i++) System.out.print("c\t");
-            System.out.println();//added by erfan based on what mahdis said
+            System.out.println();
             System.out.println(controller.getSecondPlayer().getNickname() + ":" + controller.getSecondPlayer().getLifePoint());
         }
     }
@@ -449,9 +432,6 @@ public class GameView {
         return "";
     }
 
-    public void showHand() {
-        controller.getCurrentPlayerHand().stream().map(card -> card.getName() + " (" + card.getCardType().name() + ")").forEach(System.out::println);
-    }
 
     public void showCurrentGraveYard(boolean userAskedForGraveYard) {
         int counter = 1;
@@ -500,6 +480,7 @@ public class GameView {
 
         Button resetChoicesButton = new Button();
         resetChoicesButton.setText("Reset");
+        resetChoicesButton.setCursor(Cursor.HAND);
         resetChoicesButton.setStyle("-fx-background-color: #bb792d;\n" +
                 "-fx-background-radius: 10;\n" +
                 "-fx-text-fill: white;\n" +
@@ -575,70 +556,215 @@ public class GameView {
         return gridPane;
     }
 
-    public boolean getSummonOrderForRitual() {
-        System.out.println("you should right summon order:");
-        String input;
-        while (true) {
-            input = Input.getInput();
-            if (input.matches("summon")) return true;
-            else System.out.println(Error.INVALID_COMMAND);
-        }
+
+    public ArrayList<Integer> getMonstersAddressesToBringRitual(int sumOfLevel) {
+        ArrayList<Integer> tributeAddress = new ArrayList<>();
+        Stage window = new Stage();
+        window.initOwner(LoginMenuView.getStage());
+        window.initStyle(StageStyle.UNDECORATED);
+        GamePopUpMessage.setStage(window);
+
+        Button doneButton = new Button();
+        doneButton.setText("OK");
+        doneButton.setStyle("-fx-background-color: #bb792d;\n" +
+                "-fx-background-radius: 10;\n" +
+                "-fx-text-fill: white;\n" +
+                "-fx-font-size: 16;");
+        doneButton.setOnAction(event -> {
+            if (tributeAddress.size() != 0) {
+                var ref = new Object() {
+                    int sum = 0;
+                };
+                MonsterZone monsterZone = RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().returnMonsterZone();
+                tributeAddress.forEach(integer -> ref.sum += ((Monster) monsterZone.getCellWithAddress(integer).getCardInCell()).getLevel());
+                if (ref.sum == sumOfLevel) {
+                    window.close();
+                } else {
+                    System.out.println("sum needed :" + sumOfLevel + " ref : " + ref.sum);
+                    GamePopUpMessage.setStage(window);
+                    new GamePopUpMessage(Alert.AlertType.ERROR, "Invalid selection");
+                }
+            } else {
+                GamePopUpMessage.setStage(window);
+                new GamePopUpMessage(Alert.AlertType.ERROR, "Please select!!!");
+            }
+        });
+
+        GridPane gridPane = getOnlyMonsterZoneGridPaneToSelect(tributeAddress, RoundGameController.getInstance().getCurrentPlayerHand().size(), RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().returnMonsterZone());
+        Button resetChoicesButton = new Button();
+        resetChoicesButton.setText("Reset");
+        resetChoicesButton.setCursor(Cursor.HAND);
+        resetChoicesButton.setStyle("-fx-background-color: #bb792d;\n" +
+                "-fx-background-radius: 10;\n" +
+                "-fx-text-fill: white;\n" +
+                "-fx-font-size: 16;");
+        resetChoicesButton.setOnMouseClicked(mouseEvent -> {
+            if (mouseEvent.getButton() != MouseButton.PRIMARY || tributeAddress.size() == 0)
+                return;
+            else {
+                for (Integer address : tributeAddress) {
+                    ((Pane) Objects.requireNonNull(getNodeInGridPane(gridPane, 0, address - 1))).setBorder(null);
+                }
+                tributeAddress.clear();
+            }
+        });
+        Label label = new Label("Tribute Summon: please choose some of your monsters that makes " + sumOfLevel + " to tribute");
+        label.setStyle("-fx-text-fill: white");
+        HBox buttonBox = new HBox(doneButton, resetChoicesButton);
+        VBox mainBox = new VBox(label, gridPane, buttonBox);
+        buttonBox.setSpacing(20);
+        buttonBox.setAlignment(Pos.CENTER);
+        doneButton.setCursor(Cursor.HAND);
+        mainBox.setSpacing(10);
+        mainBox.setStyle("-fx-background-color: #103188;");
+        mainBox.setAlignment(Pos.CENTER);
+        Scene scene = new Scene(mainBox, 700, 250);
+        mainBox.getScene().setFill(Color.TRANSPARENT);
+        window.initStyle(StageStyle.TRANSPARENT);
+        window.setScene(scene);
+        window.setResizable(false);
+        window.setX(500);
+        window.setY(300);
+        window.initModality(Modality.WINDOW_MODAL);
+        window.showAndWait();
+        return tributeAddress;
     }
 
-    public String[] getMonstersAddressesToBringRitual() {
-        System.out.println("write card addresses in this format:\n" +
-                "num1-num2-...\n" +
-                "(for example : 1-3-5)");
-        String input;
-        String[] split;
-        while (true) {
-            input = Input.getInput();
-            if (input.matches("([12345-]+)")) {
-                split = input.split("-");
-                return split;
-            } else System.out.println(Error.INVALID_COMMAND);
-        }
-    }
-
-    public CellStatus getPositionForSetRitualMonster() {
-        System.out.println("please enter position of ritual summon in this format\n" +
-                "attack\n" +
-                "or\n" +
-                "defense");
-        String input;
-        while (true) {
-            input = Input.getInput();
-            if (input.equals("attack") || input.equals("defense")) {
-                if (input.equals("attack")) {
-                    return CellStatus.OFFENSIVE_OCCUPIED;
-                } else return CellStatus.DEFENSIVE_OCCUPIED;
-            } else System.out.println(Error.INVALID_COMMAND);
-        }
-    }
 
     public int swordOfDarkDestruction() {
-        System.out.println("please enter card address in monsterZone to be equipped");
-        while (true) {
-            String command = Input.getInput();
-            if (command.equals("cancel")) return -1;
-            else if (command.matches("[1-9]+")) return Integer.parseInt(command);
-            else System.out.println(Error.INVALID_COMMAND);
-        }
+        ArrayList<Integer> equipAddress = new ArrayList<>();
+        Stage window = new Stage();
+        window.initOwner(LoginMenuView.getStage());
+        window.initStyle(StageStyle.UNDECORATED);
+        GamePopUpMessage.setStage(window);
+
+        Button doneButton = new Button();
+        doneButton.setText("OK");
+        doneButton.setStyle("-fx-background-color: #bb792d;\n" +
+                "-fx-background-radius: 10;\n" +
+                "-fx-text-fill: white;\n" +
+                "-fx-font-size: 16;");
+        doneButton.setOnAction(event -> {
+            if (equipAddress.size() == 1) {
+                MonsterZone monsterZone = RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().returnMonsterZone();
+                Monster monster = (Monster) monsterZone.getCellWithAddress(equipAddress.get(0)).getCardInCell();
+                if (monster.getMonsterType() == MonsterType.FIEND || monster.getMonsterType() == MonsterType.SPELLCASTER) {
+                    window.close();
+                } else {
+                    GamePopUpMessage.setStage(window);
+                    new GamePopUpMessage(Alert.AlertType.ERROR, "Cards Type is not valid for sword of dark destruction");
+                }
+            } else {
+                GamePopUpMessage.setStage(window);
+                new GamePopUpMessage(Alert.AlertType.ERROR, "Please select!!!");
+            }
+        });
+
+        GridPane gridPane = getOnlyMonsterZoneGridPaneToSelect(equipAddress, 1, RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().returnMonsterZone());
+        Button resetChoicesButton = new Button();
+        resetChoicesButton.setText("Reset");
+        resetChoicesButton.setCursor(Cursor.HAND);
+        resetChoicesButton.setStyle("-fx-background-color: #bb792d;\n" +
+                "-fx-background-radius: 10;\n" +
+                "-fx-text-fill: white;\n" +
+                "-fx-font-size: 16;");
+        resetChoicesButton.setOnMouseClicked(mouseEvent -> {
+            if (mouseEvent.getButton() != MouseButton.PRIMARY || equipAddress.size() == 0)
+                return;
+            else {
+                for (Integer address : equipAddress) {
+                    ((Pane) Objects.requireNonNull(getNodeInGridPane(gridPane, 0, address - 1))).setBorder(null);
+                }
+                equipAddress.clear();
+            }
+        });
+        Label label = new Label("Select monster to be equipped");
+        label.setStyle("-fx-text-fill: white");
+        HBox buttonBox = new HBox(doneButton, resetChoicesButton);
+        VBox mainBox = new VBox(label, gridPane, buttonBox);
+        buttonBox.setSpacing(20);
+        buttonBox.setAlignment(Pos.CENTER);
+        doneButton.setCursor(Cursor.HAND);
+        mainBox.setSpacing(10);
+        mainBox.setStyle("-fx-background-color: #103188;");
+        mainBox.setAlignment(Pos.CENTER);
+        Scene scene = new Scene(mainBox, 700, 250);
+        mainBox.getScene().setFill(Color.TRANSPARENT);
+        window.initStyle(StageStyle.TRANSPARENT);
+        window.setScene(scene);
+        window.setResizable(false);
+        window.setX(500);
+        window.setY(300);
+        window.initModality(Modality.WINDOW_MODAL);
+        window.showAndWait();
+        return equipAddress.get(0);
     }
 
     public int blackPendant() {
-        System.out.println("please enter card address in monsterZone to be equipped");
-        while (true) {
-            String command = Input.getInput();
-            if (command.matches("[1-9]+")) return Integer.parseInt(command);
-            else System.out.println(Error.INVALID_COMMAND);
-        }
+        ArrayList<Integer> equipAddress = new ArrayList<>();
+        Stage window = new Stage();
+        window.initOwner(LoginMenuView.getStage());
+        window.initStyle(StageStyle.UNDECORATED);
+        GamePopUpMessage.setStage(window);
+
+        Button doneButton = new Button();
+        doneButton.setText("OK");
+        doneButton.setStyle("-fx-background-color: #bb792d;\n" +
+                "-fx-background-radius: 10;\n" +
+                "-fx-text-fill: white;\n" +
+                "-fx-font-size: 16;");
+        doneButton.setOnAction(event -> {
+            if (equipAddress.size() == 1) {
+                window.close();
+            } else {
+                GamePopUpMessage.setStage(window);
+                new GamePopUpMessage(Alert.AlertType.ERROR, "Please select!!!");
+            }
+        });
+
+        GridPane gridPane = getOnlyMonsterZoneGridPaneToSelect(equipAddress, 1, RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().returnMonsterZone());
+        Button resetChoicesButton = new Button();
+        resetChoicesButton.setText("Reset");
+        resetChoicesButton.setCursor(Cursor.HAND);
+        resetChoicesButton.setStyle("-fx-background-color: #bb792d;\n" +
+                "-fx-background-radius: 10;\n" +
+                "-fx-text-fill: white;\n" +
+                "-fx-font-size: 16;");
+        resetChoicesButton.setOnMouseClicked(mouseEvent -> {
+            if (mouseEvent.getButton() != MouseButton.PRIMARY || equipAddress.size() == 0)
+                return;
+            else {
+                for (Integer address : equipAddress) {
+                    ((Pane) Objects.requireNonNull(getNodeInGridPane(gridPane, 0, address - 1))).setBorder(null);
+                }
+                equipAddress.clear();
+            }
+        });
+        Label label = new Label("Select monster to be equipped");
+        label.setStyle("-fx-text-fill: white");
+        HBox buttonBox = new HBox(doneButton, resetChoicesButton);
+        VBox mainBox = new VBox(label, gridPane, buttonBox);
+        buttonBox.setSpacing(20);
+        buttonBox.setAlignment(Pos.CENTER);
+        doneButton.setCursor(Cursor.HAND);
+        mainBox.setSpacing(10);
+        mainBox.setStyle("-fx-background-color: #103188;");
+        mainBox.setAlignment(Pos.CENTER);
+        Scene scene = new Scene(mainBox, 700, 250);
+        mainBox.getScene().setFill(Color.TRANSPARENT);
+        window.initStyle(StageStyle.TRANSPARENT);
+        window.setScene(scene);
+        window.setResizable(false);
+        window.setX(500);
+        window.setY(300);
+        window.initModality(Modality.WINDOW_MODAL);
+        window.showAndWait();
+        return equipAddress.get(0);
     }
 
     public int getAddressForTrapOrSpell(SpellZone spellZone, String situation) {
         ArrayList<Integer> toActivateAddress = new ArrayList<>();
         Stage window = new Stage();
-        currentStage = window;
         window.initOwner(LoginMenuView.getStage());
         window.initStyle(StageStyle.UNDECORATED);
         GamePopUpMessage.setStage(window);
@@ -850,14 +976,8 @@ public class GameView {
         window.setX(500);
         window.setY(300);
         window.showAndWait();
-        //synchronized (tributeAddress) {
-//            try {
-//                wait();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
+
         return selectedAddress[0];
-        //}
     }
 
     private GridPane getOnlyCurrentHandGridPaneToSelect(boolean[] isSelected, int[] selectedAddress, int thisAddress) {
@@ -980,13 +1100,91 @@ public class GameView {
         return howToSummon[0];
     }
 
-    public String ritualCardName() {
-        System.out.println("please enter card address (number) or -1 to cancel");
-        while (true) {
-            String input = Input.getInput();
-            if (input.matches("[0-9-]+")) return input;
-            else System.out.println(Error.INVALID_COMMAND);
-        }
+    public int getRitualMonsterAddress(int thisAddress) {
+        int[] selectedAddress = new int[1];
+        boolean[] isSelected = new boolean[1];
+        Stage window = new Stage();
+        window.initOwner(LoginMenuView.getStage());
+        window.initStyle(StageStyle.UNDECORATED);
+        GamePopUpMessage.setStage(window);
+        Button doneButton = new Button();
+        doneButton.setText("OK");
+        doneButton.setStyle("-fx-background-color: #bb792d;\n" +
+                "-fx-background-radius: 10;\n" +
+                "-fx-text-fill: white;\n" +
+                "-fx-font-size: 16;");
+        doneButton.setOnAction(event -> {
+            if (isSelected[0]) {
+                if (RoundGameController.getInstance().getCurrentPlayerHand().get(selectedAddress[0] - 1).getCardType() == CardType.MONSTER) {
+                    if (((Monster) RoundGameController.getInstance().getCurrentPlayerHand().get(selectedAddress[0] - 1)).getMonsterActionType() == MonsterActionType.RITUAL) {
+                        window.close();
+                    } else {
+                        GamePopUpMessage.setStage(window);
+                        new GamePopUpMessage(Alert.AlertType.ERROR, "Invalid selection");
+                    }
+                } else {
+                    GamePopUpMessage.setStage(window);
+                    new GamePopUpMessage(Alert.AlertType.ERROR, "Invalid selection");
+                }
+            } else new GamePopUpMessage(Alert.AlertType.ERROR, "Please select!!!");
+        });
+
+        GridPane gridPane = getOnlyCurrentHandGridPaneToSelect(isSelected, selectedAddress, thisAddress);
+        Button resetChoicesButton = new Button();
+        resetChoicesButton.setCursor(Cursor.HAND);
+        resetChoicesButton.setText("Reset");
+        resetChoicesButton.setStyle("-fx-background-color: #bb792d;\n" +
+                "-fx-background-radius: 10;\n" +
+                "-fx-text-fill: white;\n" +
+                "-fx-font-size: 16;");
+        resetChoicesButton.setCursor(Cursor.HAND);
+        resetChoicesButton.setOnMouseClicked(mouseEvent -> {
+            if (mouseEvent.getButton() != MouseButton.PRIMARY || !isSelected[0])
+                return;
+            else {
+                ((Pane) Objects.requireNonNull(getNodeInGridPane(gridPane, 0, selectedAddress[0] - 1))).setBorder(null);
+                isSelected[0] = false;
+            }
+        });
+        Button cancel = new Button();
+        cancel.setCursor(Cursor.HAND);
+        cancel.setText("Cancel");
+        cancel.setStyle("-fx-background-color: #bb792d;\n" +
+                "-fx-background-radius: 10;\n" +
+                "-fx-text-fill: white;\n" +
+                "-fx-font-size: 16;");
+        cancel.setCursor(Cursor.HAND);
+        cancel.setOnMouseClicked(mouseEvent -> {
+            if (mouseEvent.getButton() != MouseButton.PRIMARY || !isSelected[0])
+                return;
+            else {
+                ((Pane) Objects.requireNonNull(getNodeInGridPane(gridPane, 0, selectedAddress[0] - 1))).setBorder(null);
+                isSelected[0] = false;
+                selectedAddress[0] = -1;
+                window.close();
+            }
+        });
+        Label label = new Label("Please choose the ritual monster in the hand");
+        label.setStyle("-fx-text-fill: white");
+        HBox buttonBox = new HBox(doneButton, resetChoicesButton, cancel);
+        VBox mainBox = new VBox(label, gridPane, buttonBox);
+        buttonBox.setSpacing(20);
+        buttonBox.setAlignment(Pos.CENTER);
+        doneButton.setCursor(Cursor.HAND);
+        mainBox.setSpacing(10);
+        mainBox.setStyle("-fx-background-color: #103188;");
+        mainBox.setAlignment(Pos.CENTER);
+        window.initModality(Modality.WINDOW_MODAL);
+        Scene scene = new Scene(mainBox, 700, 250);
+        mainBox.getScene().setFill(Color.TRANSPARENT);
+        window.initStyle(StageStyle.TRANSPARENT);
+        window.setScene(scene);
+        window.setResizable(false);
+        window.setX(500);
+        window.setY(300);
+        window.showAndWait();
+
+        return selectedAddress[0];
     }
 
     public int askAddressForManEaterBug(MonsterZone monsterZone) {
@@ -1016,6 +1214,7 @@ public class GameView {
 
         Button resetChoicesButton = new Button();
         resetChoicesButton.setText("Reset");
+        resetChoicesButton.setCursor(Cursor.HAND);
         resetChoicesButton.setStyle("-fx-background-color: #bb792d;\n" +
                 "-fx-background-radius: 10;\n" +
                 "-fx-text-fill: white;\n" +
@@ -1077,6 +1276,7 @@ public class GameView {
 
         Button resetChoicesButton = new Button();
         resetChoicesButton.setText("Reset");
+        resetChoicesButton.setCursor(Cursor.HAND);
         resetChoicesButton.setStyle("-fx-background-color: #bb792d;\n" +
                 "-fx-background-radius: 10;\n" +
                 "-fx-text-fill: white;\n" +
@@ -1176,6 +1376,7 @@ public class GameView {
 
         Button resetChoicesButton = new Button();
         resetChoicesButton.setText("Reset");
+        resetChoicesButton.setCursor(Cursor.HAND);
         resetChoicesButton.setStyle("-fx-background-color: #bb792d;\n" +
                 "-fx-background-radius: 10;\n" +
                 "-fx-text-fill: white;\n" +
@@ -1565,7 +1766,7 @@ public class GameView {
             currentPlayerFieldSpellPane.getChildren().clear();
             if (fieldZone.getCellStatus() == CellStatus.EMPTY) {
                 ImageView baseImage = new ImageView();
-                baseImage.setImage(new Image(getClass().getResource("/project/image/GamePictures/field.png").toString()));
+                baseImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/project/image/GamePictures/field.png")).toString()));
                 baseImage.setFitWidth(103.0);
                 baseImage.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
                 currentPlayerFieldSpellPane.getChildren().add(baseImage);
@@ -1575,7 +1776,7 @@ public class GameView {
             } else {
                 Cell cell = fieldZone.getFieldCell();
                 ImageView baseImage = new ImageView();
-                baseImage.setImage(new Image(getClass().getResource("/project/image/GamePictures/field.png").toString()));
+                baseImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/project/image/GamePictures/field.png")).toString()));
                 baseImage.setFitWidth(103.0);
                 baseImage.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
                 currentPlayerFieldSpellPane.getChildren().add(baseImage);
@@ -1595,7 +1796,7 @@ public class GameView {
         } else {
             currentPlayerFieldSpellPane.getChildren().clear();
             ImageView baseImage = new ImageView();
-            baseImage.setImage(new Image(getClass().getResource("/project/image/GamePictures/field.png").toString()));
+            baseImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/project/image/GamePictures/field.png")).toString()));
             baseImage.setFitWidth(103.0);
             baseImage.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
             currentPlayerFieldSpellPane.getChildren().add(baseImage);
@@ -1699,7 +1900,7 @@ public class GameView {
 
             if (fieldZone.getCellStatus() == CellStatus.EMPTY) {
                 ImageView baseImage = new ImageView();
-                baseImage.setImage(new Image(getClass().getResource("/project/image/GamePictures/field.png").toString()));
+                baseImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/project/image/GamePictures/field.png")).toString()));
                 baseImage.setFitWidth(103.0);
                 baseImage.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
                 opponentPlayerFieldSpellPane.getChildren().add(baseImage);
@@ -1709,7 +1910,7 @@ public class GameView {
             } else {
                 Cell cell = fieldZone.getFieldCell();
                 ImageView baseImage = new ImageView();
-                baseImage.setImage(new Image(getClass().getResource("/project/image/GamePictures/field.png").toString()));
+                baseImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/project/image/GamePictures/field.png")).toString()));
                 baseImage.setFitWidth(103.0);
                 baseImage.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
                 opponentPlayerFieldSpellPane.getChildren().add(baseImage);
@@ -1729,7 +1930,7 @@ public class GameView {
         } else {
             opponentPlayerFieldSpellPane.getChildren().clear();
             ImageView baseImage = new ImageView();
-            baseImage.setImage(new Image(getClass().getResource("/project/image/GamePictures/field.png").toString()));
+            baseImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/project/image/GamePictures/field.png")).toString()));
             baseImage.setFitWidth(103.0);
             baseImage.setFitHeight(126.0); //fitHeight="126.0" fitWidth="103.0"
             opponentPlayerFieldSpellPane.getChildren().add(baseImage);
@@ -1819,19 +2020,19 @@ public class GameView {
             } else Objects.requireNonNull(zonePane).setOnMouseClicked(mouseEvent -> {
             });
         }
-        deactiveOtherThings();
+        deActiveOtherThings();
     }
 
     public void updateLPLabels() {
         int currLP = RoundGameController.getInstance().getCurrentPlayer().getLifePoint();
-        currentPlayerLP.setText("LP : " + String.valueOf(currLP));
+        currentPlayerLP.setText("LP : " + currLP);
         currentPlayerLPBar.setProgress(1.0 * currLP / 8000);
         int oppLP = RoundGameController.getInstance().getOpponentPlayer().getLifePoint();
-        opponentPlayerLP.setText("LP : "+String.valueOf(oppLP));
+        opponentPlayerLP.setText("LP : " + oppLP);
         opponentPlayerLPBar.setProgress(1.0 * oppLP / 8000);
     }
 
-    private void deactiveOtherThings() {
+    private void deActiveOtherThings() {
         nextPhaseButton.setOnMouseClicked((Event) -> {
         });
         summonOrActivateButton.setOnMouseClicked((Event) -> {
@@ -2020,14 +2221,6 @@ public class GameView {
                 imageView.setFitHeight(130);
                 imageView.setFitWidth(94);
                 imageView.setCursor(Cursor.HAND);
-//                imageView.setOnMouseClicked(mouseEvent -> {
-//                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
-//                        return;
-//                    selectedCardImageView.setImage(getCardImageByName(cardName));
-//                    selectedCardDescriptionLabel.setText(Card.getCardByName(cardName).toString());
-//                    RoundGameController.getInstance().selectCardInMonsterZone(addressInMonsterZone);
-//                    reloadCurrentAndOpponentMonsterZone();
-//                });
                 reloadCurrentAndOpponentMonsterZone();
                 cardBoardPane.getChildren().remove(fakeCardImageView);
                 mainGamePane.getChildren().remove(fakeCardImageView);
@@ -2102,15 +2295,6 @@ public class GameView {
             imageView.setFitHeight(94);
             imageView.setFitWidth(130);
             imageView.setCursor(Cursor.HAND);
-
-//            imageView.setOnMouseClicked(mouseEvent -> {
-//                if (mouseEvent.getButton() != MouseButton.PRIMARY)
-//                    return;
-//                Card card = RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().getACellOfBoardWithAddress(Zone.MONSTER_ZONE, addressInMonsterZone).getCardInCell();
-//                selectedCardImageView.setImage(getCardImageByName(card.getName()));
-//                selectedCardDescriptionLabel.setText(card.toString());
-//                RoundGameController.getInstance().selectCardInMonsterZone(addressInMonsterZone);
-//            });
             cardBoardPane.getChildren().remove(fakeCardImageView);
             mainGamePane.getChildren().remove(fakeCardImageView);
             ((Pane) Objects.requireNonNull(inZoneNode)).getChildren().add(imageView);
@@ -2277,7 +2461,7 @@ public class GameView {
     }
 
     private void showNormalAttack(int addressInMonsterZone, int addressInOpponentZone, boolean isCurrent) {
-        ImageView imageView = new ImageView(getClass().getResource("/project/image/GamePictures/sword.png").toString());
+        ImageView imageView = new ImageView(Objects.requireNonNull(getClass().getResource("/project/image/GamePictures/sword.png")).toString());
         imageView.setFitHeight(110);
         imageView.setFitWidth(60);
         GridPane startGrid = isCurrent ? currentPlayerMonsterZone : opponentPlayerMonsterZone;
@@ -2397,7 +2581,7 @@ public class GameView {
         if (RoundGameController.getInstance().isFieldActivated()) {
             currentPlayerFieldSpellPane.getChildren().clear();
             ImageView baseImage = new ImageView();
-            baseImage.setImage(new Image(getClass().getResource("/project/image/GamePictures/field.png").toString()));
+            baseImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/project/image/GamePictures/field.png")).toString()));
             baseImage.setFitWidth(103.0);
             baseImage.setFitHeight(126.0);
             currentPlayerFieldSpellPane.getChildren().add(baseImage);
@@ -2423,7 +2607,7 @@ public class GameView {
         } else {
             currentPlayerFieldSpellPane.getChildren().clear();
             ImageView baseImage = new ImageView();
-            baseImage.setImage(new Image(getClass().getResource("/project/image/GamePictures/field.png").toString()));
+            baseImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/project/image/GamePictures/field.png")).toString()));
             baseImage.setFitWidth(103.0);
             baseImage.setFitHeight(126.0);
             currentPlayerFieldSpellPane.getChildren().add(baseImage);
@@ -2475,7 +2659,7 @@ public class GameView {
         if (RoundGameController.getInstance().isFieldActivated()) {
             opponentPlayerFieldSpellPane.getChildren().clear();
             ImageView baseImage = new ImageView();
-            baseImage.setImage(new Image(getClass().getResource("/project/image/GamePictures/field.png").toString()));
+            baseImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/project/image/GamePictures/field.png")).toString()));
             baseImage.setFitWidth(103.0);
             baseImage.setFitHeight(126.0);
             opponentPlayerFieldSpellPane.getChildren().add(baseImage);
@@ -2500,7 +2684,7 @@ public class GameView {
         } else {
             opponentPlayerFieldSpellPane.getChildren().clear();
             ImageView baseImage = new ImageView();
-            baseImage.setImage(new Image(getClass().getResource("/project/image/GamePictures/field.png").toString()));
+            baseImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/project/image/GamePictures/field.png")).toString()));
             baseImage.setFitWidth(103.0);
             baseImage.setFitHeight(126.0);
             opponentPlayerFieldSpellPane.getChildren().add(baseImage);
