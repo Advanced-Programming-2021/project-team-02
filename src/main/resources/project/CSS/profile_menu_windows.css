@@ -44,3 +44,7 @@
     -fx-border-color: #bb792d;
     -fx-border-width: 7;
 }
+
+.scroll-bar:vertical {
+    -fx-background-color: #103188;
+}

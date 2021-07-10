@@ -1,34 +1,30 @@
 package project.view;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import project.controller.ImportExportController;
-import project.controller.MainMenuController;
-import project.model.Assets;
 import project.model.card.Card;
 import project.model.card.CardsDatabase;
 import project.view.messages.ImportExportMessages;
 import project.view.messages.PopUpMessage;
 
 import java.io.*;
-import java.security.cert.Extension;
-import java.util.List;
-import java.util.Objects;
 
 public class ImportExportView {
     public ScrollPane scrollPane;
@@ -43,16 +39,23 @@ public class ImportExportView {
         utility = new Utility();
         utility.addImages();
 
-
         Stage window = new Stage();
+        window.initOwner(LoginMenuView.getStage());
+        window.initStyle(StageStyle.UNDECORATED);
+        window.initModality(Modality.WINDOW_MODAL);
         PopUpMessage.setStage(window);
-        window.setWidth(1525);
-        window.setHeight(860);
+        window.setWidth(1200);
+        window.setHeight(675);
 
-        scrollPane.setPannable(true);
-        scrollPane.setFitToWidth(true);
-        scrollPane.setFitToHeight(true);
-        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        Label title = new Label("Import/Export");
+        title.setId("title");
+        title.setLayoutX(525);
+        title.setLayoutY(50);
+
+//        scrollPane.setPannable(true);
+//        scrollPane.setFitToWidth(true);
+//        scrollPane.setFitToHeight(true);
+//        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         // gridPane.setGridLinesVisible(true);
 
 
@@ -64,16 +67,15 @@ public class ImportExportView {
             }
             if (utility.getStringImageHashMap().containsKey(CardsDatabase.getAllCards().get(i - 1).getName())) {
 
-                javafx.scene.image.ImageView imageView = new ImageView(utility.getStringImageHashMap().get(CardsDatabase.getAllCards().get(i - 1).getName()));
+                ImageView imageView = new ImageView(utility.getStringImageHashMap().get(CardsDatabase.getAllCards().get(i - 1).getName()));
                 imageView.setId(CardsDatabase.getAllCards().get(i - 1).getName());
                 imageView.setFitHeight(100);
-                imageView.setFitWidth(100);
+                imageView.setPreserveRatio(true);
 
                 Label label = new Label();
                 label.setText(CardsDatabase.getAllCards().get(i - 1).toString());
                 label.setWrapText(true);
-                label.setFont(Font.font("Cambria", 10));
-                label.setTextFill(Color.web("#0076a3"));
+                label.setStyle("-fx-text-fill: white; -fx-font-family: \"Matrix II Regular\";");
 
                 Button gson = new Button("Json");
                 gson.setId(CardsDatabase.getAllCards().get(i - 1).getName());
@@ -81,18 +83,18 @@ public class ImportExportView {
                     ImportExportMessages importExportMessages = ImportExportController.getInstance().exportCard(gson.getId());
                     new PopUpMessage(importExportMessages.getAlertType(), importExportMessages.getLabel());
                 });
+                gson.setStyle("-fx-background-color: #bb792d; -fx-background-radius: 10; -fx-text-fill: white; -fx-font-size: 14;");
 
-                Button csv = new Button("csv");
+                Button csv = new Button("CSV");
                 csv.setId(CardsDatabase.getAllCards().get(i - 1).getName());
                 csv.setOnMouseClicked(mouseEvent -> {
                     ImportExportMessages importExportMessages = ImportExportController.getInstance().SaveToCSV(gson.getId());
                     new PopUpMessage(importExportMessages.getAlertType(), importExportMessages.getLabel());
                 });
+                csv.setStyle("-fx-background-color: #bb792d; -fx-background-radius: 10; -fx-text-fill: white; -fx-font-size: 14;");
 
                 VBox layout = new VBox(10);
-                layout.setPadding(new Insets(10, 10, -450, 40));
-                layout.setPrefHeight(300);
-                layout.setEffect(new DropShadow());
+                layout.setPadding(new Insets(20, 20, 20, 20));
                 layout.getChildren().addAll(imageView, label, gson, csv);
 
                 gridPane.add(layout, k, j);
@@ -100,35 +102,50 @@ public class ImportExportView {
             }
         }
 
-        Button button = new Button("Exit");
-        button.setOnMouseClicked(actionEvent -> {
-            try {
-                back(actionEvent);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-
-        gridPane.add(button, 0, j + 2);
-
-        Button importButton = new Button("import");
-        importButton.setOnAction(this::chooseFile);
-
-        gridPane.add(importButton, 1, j + 2);
-
-
-        //   gridPane.add(listView, 3, j + 2);
-
-        gridPane.setPadding(new Insets(10, 300, 10, 10));
-        gridPane.setVgap(0);
-        gridPane.setHgap(15);
+        gridPane.setPadding(new Insets(10, 10, 10, 10));
+        gridPane.setVgap(20);
+        gridPane.setHgap(20);
 
         scrollPane.setContent(gridPane);
+        scrollPane.setStyle("-fx-background-color: #103188");
+        scrollPane.setPrefWidth(1100);
+        scrollPane.setPrefHeight(425);
+        scrollPane.setMaxHeight(425);
+        scrollPane.setLayoutY(100);
+        scrollPane.setLayoutX(50);
 
-        Scene scene = new Scene(scrollPane);
+        Button importButton = new Button("Import");
+        importButton.setOnAction(this::chooseFile);
+        importButton.setId("button");
+        importButton.setLayoutY(550);
+        importButton.setLayoutX(569);
+
+        Button closeButton = closeButton(window);
+        closeButton.setLayoutY(600);
+        closeButton.setLayoutX(575);
+
+        AnchorPane pane = new AnchorPane();
+        pane.getChildren().addAll(title, scrollPane, importButton, closeButton);
+
+        Scene scene = new Scene(pane);
+        pane.getScene().setFill(Color.TRANSPARENT);
+        window.initStyle(StageStyle.TRANSPARENT);
         window.setScene(scene);
-        window.setResizable(true);
+        window.setResizable(false);
+        window.getScene().getStylesheets().add(String.valueOf(getClass().getResource("/project/CSS/profile_menu_windows.css")));
         window.showAndWait();
+    }
+
+    private Button closeButton(Stage window) {
+        Button closeButton = new Button();
+        closeButton.setText("Close");
+        closeButton.setOnAction(event -> {
+            window.close();
+            PopUpMessage.setStage(LoginMenuView.getStage());
+        });
+        closeButton.setCursor(Cursor.HAND);
+        closeButton.setId("closeButton");
+        return closeButton;
     }
 
 
@@ -153,10 +170,5 @@ public class ImportExportView {
         } else {
             System.out.println("file is not valid");
         }
-
-    }
-
-    private void back(MouseEvent mouseEvent) throws IOException {
-        System.exit(0);
     }
 }
