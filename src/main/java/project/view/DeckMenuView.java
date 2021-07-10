@@ -250,8 +250,7 @@ public class DeckMenuView {
     }
 
     private void loadAddCard(MouseEvent mouseEvent) throws IOException {
-        if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
-        Utility.openNewMenu("/project/fxml/deck_menu.fxml");
+        showDecks();
     }
 
     private void checkDelete(Button button) {
