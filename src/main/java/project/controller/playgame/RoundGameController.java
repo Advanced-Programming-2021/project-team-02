@@ -571,9 +571,6 @@ public class RoundGameController {
 
     private void raigekiSpell() {
         MonsterZone monsterZone = getOpponentPlayer().getPlayerBoard().returnMonsterZone();
-        if (selectedCellZone == Zone.HAND) {
-            getCurrentPlayerHand().remove(selectedCellAddress - 1);
-        }
         int addressOfAdd;
         if (selectedCellZone == Zone.HAND) {
             getCurrentPlayerHand().remove(selectedCellAddress - 1);
