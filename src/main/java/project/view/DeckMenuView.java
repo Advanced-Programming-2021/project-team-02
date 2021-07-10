@@ -13,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -41,6 +42,8 @@ public class DeckMenuView {
     private static final Image deactivateImage = new Image(String.valueOf(DeckMenuView.class.getResource("/project/image/Icon/cancel.png")));
     private static final ArrayList<ImageView> activateImageViews = new ArrayList<>();
     private static final DeckMenuController controller = DeckMenuController.getInstance();
+    private AudioClip onClick = new AudioClip(Objects.requireNonNull(getClass().getResource("/project/soundEffects/CURSOR.wav")).toString());
+
     @FXML
     public static Label labelDeck;
     public ImageView playPauseMusicButton;
@@ -170,6 +173,7 @@ public class DeckMenuView {
     }
 
     private void activateDeck(Button button) {
+        onClick.play();
         DeckMenuMessage deckMenuMessage = controller.activateDeck(button.getId());
         new PopUpMessage(deckMenuMessage.getAlertType(), deckMenuMessage.getLabel());
         for (ImageView activateImageView : activateImageViews) {
@@ -178,13 +182,19 @@ public class DeckMenuView {
         }
     }
 
-    public void editDeck(javafx.scene.input.MouseEvent actionEvent, Button button) throws IOException {
+    public void editDeck(MouseEvent actionEvent, Button button) throws IOException {
+        if (actionEvent.getButton()!=MouseButton.PRIMARY)
+            return;
+        onClick.play();
         controller.setOpenedDeckButton(button);
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         Utility.openNewMenu("/project/fxml/deck_info_view.fxml");
     }
 
-    public void addDeck() {
+    public void addDeck(MouseEvent mouseEvent) {
+        if (mouseEvent.getButton()!=MouseButton.PRIMARY)
+            return;
+        onClick.play();
         if (Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllDecks().size() == 6) {
             new PopUpMessage(DeckMenuMessage.DECK_MAXIMUM_NUMBER.getAlertType(), DeckMenuMessage.DECK_MAXIMUM_NUMBER.getLabel());
         } else {
@@ -279,6 +289,7 @@ public class DeckMenuView {
 
     public void back(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
+        onClick.play();
         Utility.openNewMenu("/project/fxml/main_menu.fxml");
     }
 }

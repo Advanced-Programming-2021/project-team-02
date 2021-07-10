@@ -12,6 +12,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import project.controller.DeckMenuController;
@@ -28,15 +29,16 @@ import java.util.Objects;
 public class DeckInfoView {
     public GridPane gridScrollPane;
     public ScrollPane scrollPane;
+    public SnapshotParameters parameters = new SnapshotParameters();
+    public ArrayList<Button> buttons = new ArrayList<>();
     private String side;
     private int endOFI;
     private int endOFJ;
     private int endOFK;
-    private  DeckMenuController deckMenuController;
-    public  SnapshotParameters parameters = new SnapshotParameters();
-    public  ArrayList<Button> buttons = new ArrayList<>();
-    private  Utility utility;
+    private DeckMenuController deckMenuController;
+    private Utility utility;
     private String cardName;
+    private AudioClip onClick = new AudioClip(Objects.requireNonNull(getClass().getResource("/project/soundEffects/CURSOR.wav")).toString());
 
 
     @FXML
@@ -154,11 +156,13 @@ public class DeckInfoView {
 
     public void addCards(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
+        onClick.play();
         Utility.openNewMenu("/project/fxml/edit_deck_menu.fxml");
     }
 
     public void back(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
+        onClick.play();
         Utility.openNewMenu("/project/fxml/deck_menu.fxml");
     }
 

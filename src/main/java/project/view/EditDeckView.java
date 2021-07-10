@@ -2,11 +2,8 @@ package project.view;
 
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -14,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import project.controller.DeckMenuController;
 import project.controller.MainMenuController;
 import project.model.Assets;
@@ -51,12 +49,11 @@ public class EditDeckView {
     private ArrayList<Card> sideDeck;
     private HashMap<Card, Integer> hashMapAllCards;
     private int selectedCardRowInAllCards;
-    private int selectedCardColumnInAllCards;
     private int selectedCardRowInMain;
     private int selectedCardColumnInMain;
-    private int selectedCardRowInSide;
     private int selectedCardColumnInSide;
     private Assets assets;
+    private final AudioClip onClick = new AudioClip(Objects.requireNonNull(getClass().getResource("/project/soundEffects/CURSOR.wav")).toString());
 
     public void initialize() {
 
@@ -70,7 +67,7 @@ public class EditDeckView {
         hashMapAllCards = Objects.requireNonNull(
                 Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllUserCards();
         String deckName = DeckMenuController.getInstance().getOpenedDeckButton().getId();
-        deck = Assets.getAssetsByUsername(user.getUsername()).getDeckByDeckName(deckName);
+        deck = Objects.requireNonNull(Assets.getAssetsByUsername(user.getUsername())).getDeckByDeckName(deckName);
         mainDeck = deck.getMainCards();
         sideDeck = deck.getSideCards();
         draggingPane = null;
@@ -113,7 +110,7 @@ public class EditDeckView {
             Dragboard db = e.getDragboard();
             if (db.hasContent(allCardsPaneFormat)) {
                 Card card = getHashMapKey(selectedCardRowInAllCards);
-                DeckMenuMessage message = DeckMenuController.getInstance().addCardToSideDeck(deckName, card.getName().toLowerCase(Locale.ROOT));
+                DeckMenuMessage message = DeckMenuController.getInstance().addCardToSideDeck(deckName, Objects.requireNonNull(card).getName().toLowerCase(Locale.ROOT));
                 if (message != DeckMenuMessage.CARD_ADDED_TO_SIDE)
                     new PopUpMessage(message.getAlertType(), message.getLabel());
                 loadSideDeck();
@@ -146,7 +143,7 @@ public class EditDeckView {
             Dragboard db = e.getDragboard();
             if (db.hasContent(allCardsPaneFormat)) {
                 Card card = getHashMapKey(selectedCardRowInAllCards);
-                DeckMenuMessage message = DeckMenuController.getInstance().addCardToMainDeck(deckName, card.getName().toLowerCase(Locale.ROOT));
+                DeckMenuMessage message = DeckMenuController.getInstance().addCardToMainDeck(deckName, Objects.requireNonNull(card).getName().toLowerCase(Locale.ROOT));
                 if (message != DeckMenuMessage.CARD_ADDED_TO_MAIN)
                     new PopUpMessage(message.getAlertType(), message.getLabel());
                 loadSideDeck();
@@ -182,13 +179,6 @@ public class EditDeckView {
     }
 
 
-    private void blur() {
-        ColorAdjust adj = new ColorAdjust(0, -0.9, -0.5, 0);
-        GaussianBlur blur = new GaussianBlur(55);
-        adj.setInput(blur);
-        mainPane.setEffect(adj);
-    }
-
     private void loadAllCards() {
         int i = 0;
         allCardsVbox.getChildren().clear();
@@ -216,7 +206,6 @@ public class EditDeckView {
                     return;
                 selectedCardImageView.setImage(getCardImageByName(card.getName()));
                 selectedCardLabel.setText(card.toString());
-                selectedCardColumnInAllCards = 0;
                 selectedCardRowInAllCards = finalI;
 
             });
@@ -224,7 +213,6 @@ public class EditDeckView {
                 selectedCardImageView.setImage(getCardImageByName(card.getName()));
                 selectedCardLabel.setText(card.toString());
                 selectedCardRowInAllCards = finalI;
-                selectedCardColumnInAllCards = 0;
                 Dragboard db = imageView.startDragAndDrop(TransferMode.MOVE);
                 db.setDragView(imageView.snapshot(null, null));
                 ClipboardContent cc = new ClipboardContent();
@@ -307,14 +295,12 @@ public class EditDeckView {
                 selectedCardImageView.setImage(getCardImageByName(card.getName()));
                 selectedCardLabel.setText(card.toString());
                 selectedCardColumnInSide = finalI;
-                selectedCardRowInSide = 0;
             });
 
             pane.setOnDragDetected(e -> {
                 selectedCardColumnInSide = finalI;
                 selectedCardImageView.setImage(getCardImageByName(card.getName()));
                 selectedCardLabel.setText(card.toString());
-                selectedCardRowInSide = 0;
 
                 Dragboard db = imageView.startDragAndDrop(TransferMode.MOVE);
                 db.setDragView(imageView.snapshot(null, null));
@@ -338,18 +324,6 @@ public class EditDeckView {
         }
         return null;
     }
-
-    private synchronized Node getNodeInGridPane(GridPane gridPane, int row, int column) {
-        synchronized (gridPane) {
-            for (Node child : gridPane.getChildren()) {
-                if (child != null)
-                    if (GridPane.getRowIndex(child) == row && GridPane.getColumnIndex(child) == column)
-                        return child;
-            }
-            return null;
-        }
-    }
-
     private Card getHashMapKey(int number) {
         int i = 0;
         for (Card card : hashMapAllCards.keySet()) {
@@ -365,6 +339,7 @@ public class EditDeckView {
     public void back(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton()!=MouseButton.PRIMARY)
             return;
+        onClick.play();
         Utility.openNewMenu("/project/fxml/deck_info_view.fxml");
     }
 }
