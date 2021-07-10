@@ -48,20 +48,8 @@
                      <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                   </padding>
                   <HBox.margin>
-                     <Insets right="-15.0" />
+                     <Insets right="35.0" />
                   </HBox.margin></Label>
-               <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#changeUsername" style="-fx-background-color: #103188" textAlignment="CENTER">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-               <graphic>
-                  <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
-                     <Image url="@../image/Icon/edit.png" />
-                  </ImageView>
-               </graphic>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Button>
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
