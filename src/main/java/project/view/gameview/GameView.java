@@ -46,6 +46,7 @@ import project.view.messages.*;
 import project.view.messages.Error;
 
 import java.io.IOException;
+import java.io.PipedReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -91,6 +92,7 @@ public class GameView {
     public ProgressBar currentPlayerLPBar;
     public ProgressBar opponentPlayerLPBar;
     private Utility utility;
+    private AudioClip onClick = new AudioClip(Objects.requireNonNull(getClass().getResource("/project/soundEffects/CURSOR.wav")).toString());
 
     public void initialize() {
         utility = new Utility();
@@ -269,12 +271,12 @@ public class GameView {
 
     private synchronized Node getNodeInGridPane(GridPane gridPane, int row, int column) {
 
-            for (Node child : gridPane.getChildren()) {
-                if (child != null)
-                    if (GridPane.getRowIndex(child) == row && GridPane.getColumnIndex(child) == column)
-                        return child;
-            }
-            return null;
+        for (Node child : gridPane.getChildren()) {
+            if (child != null)
+                if (GridPane.getRowIndex(child) == row && GridPane.getColumnIndex(child) == column)
+                    return child;
+        }
+        return null;
     }
 
     private void updateCurrentDeckLabel() {
@@ -471,6 +473,7 @@ public class GameView {
                 "-fx-text-fill: white;\n" +
                 "-fx-font-size: 16;");
         doneButton.setOnAction(event -> {
+            onClick.play();
             if (tributeAddress.size() == numberOfTributeNeeded) {
                 window.close();
             } else new GamePopUpMessage(Alert.AlertType.ERROR, "Please select!!!");
@@ -486,14 +489,14 @@ public class GameView {
                 "-fx-text-fill: white;\n" +
                 "-fx-font-size: 16;");
         resetChoicesButton.setOnMouseClicked(mouseEvent -> {
-            if (mouseEvent.getButton() != MouseButton.PRIMARY || tributeAddress.size() == 0)
+            if (mouseEvent.getButton() != MouseButton.PRIMARY)
                 return;
-            else {
-                for (Integer address : tributeAddress) {
-                    ((Pane) Objects.requireNonNull(getNodeInGridPane(gridPane, 0, address - 1))).setBorder(null);
-                }
-                tributeAddress.clear();
+            onClick.play();
+            for (Integer address : tributeAddress) {
+                ((Pane) Objects.requireNonNull(getNodeInGridPane(gridPane, 0, address - 1))).setBorder(null);
             }
+            tributeAddress.clear();
+
         });
         Label label = new Label("Tribute Summon: please choose " + numberOfTributeNeeded + " of your monsters to tribute");
         label.setStyle("-fx-text-fill: white");
@@ -544,6 +547,7 @@ public class GameView {
             pane.setOnMouseClicked(mouseEvent -> {
                 if (mouseEvent.getButton() != MouseButton.PRIMARY)
                     return;
+                onClick.play();
                 if (listOfSelected.size() != size) {
                     listOfSelected.add(finalI + 1);
                     pane.setBorder(new Border(new BorderStroke(Color.YELLOW,
@@ -571,6 +575,7 @@ public class GameView {
                 "-fx-text-fill: white;\n" +
                 "-fx-font-size: 16;");
         doneButton.setOnAction(event -> {
+            onClick.play();
             if (tributeAddress.size() != 0) {
                 var ref = new Object() {
                     int sum = 0;
@@ -599,14 +604,13 @@ public class GameView {
                 "-fx-text-fill: white;\n" +
                 "-fx-font-size: 16;");
         resetChoicesButton.setOnMouseClicked(mouseEvent -> {
-            if (mouseEvent.getButton() != MouseButton.PRIMARY || tributeAddress.size() == 0)
+            if (mouseEvent.getButton() != MouseButton.PRIMARY)
                 return;
-            else {
-                for (Integer address : tributeAddress) {
-                    ((Pane) Objects.requireNonNull(getNodeInGridPane(gridPane, 0, address - 1))).setBorder(null);
-                }
-                tributeAddress.clear();
+            onClick.play();
+            for (Integer address : tributeAddress) {
+                ((Pane) Objects.requireNonNull(getNodeInGridPane(gridPane, 0, address - 1))).setBorder(null);
             }
+            tributeAddress.clear();
         });
         Label label = new Label("Tribute Summon: please choose some of your monsters that makes " + sumOfLevel + " to tribute");
         label.setStyle("-fx-text-fill: white");
@@ -645,6 +649,7 @@ public class GameView {
                 "-fx-text-fill: white;\n" +
                 "-fx-font-size: 16;");
         doneButton.setOnAction(event -> {
+            onClick.play();
             if (equipAddress.size() == 1) {
                 MonsterZone monsterZone = RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().returnMonsterZone();
                 Monster monster = (Monster) monsterZone.getCellWithAddress(equipAddress.get(0)).getCardInCell();
@@ -671,12 +676,12 @@ public class GameView {
         resetChoicesButton.setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getButton() != MouseButton.PRIMARY || equipAddress.size() == 0)
                 return;
-            else {
-                for (Integer address : equipAddress) {
-                    ((Pane) Objects.requireNonNull(getNodeInGridPane(gridPane, 0, address - 1))).setBorder(null);
-                }
-                equipAddress.clear();
+            onClick.play();
+            for (Integer address : equipAddress) {
+                ((Pane) Objects.requireNonNull(getNodeInGridPane(gridPane, 0, address - 1))).setBorder(null);
             }
+            equipAddress.clear();
+
         });
         Label label = new Label("Select monster to be equipped");
         label.setStyle("-fx-text-fill: white");
@@ -714,6 +719,7 @@ public class GameView {
                 "-fx-text-fill: white;\n" +
                 "-fx-font-size: 16;");
         doneButton.setOnAction(event -> {
+            onClick.play();
             if (equipAddress.size() == 1) {
                 window.close();
             } else {
@@ -731,14 +737,13 @@ public class GameView {
                 "-fx-text-fill: white;\n" +
                 "-fx-font-size: 16;");
         resetChoicesButton.setOnMouseClicked(mouseEvent -> {
-            if (mouseEvent.getButton() != MouseButton.PRIMARY || equipAddress.size() == 0)
+            if (mouseEvent.getButton() != MouseButton.PRIMARY)
                 return;
-            else {
-                for (Integer address : equipAddress) {
-                    ((Pane) Objects.requireNonNull(getNodeInGridPane(gridPane, 0, address - 1))).setBorder(null);
-                }
-                equipAddress.clear();
+            onClick.play();
+            for (Integer address : equipAddress) {
+                ((Pane) Objects.requireNonNull(getNodeInGridPane(gridPane, 0, address - 1))).setBorder(null);
             }
+            equipAddress.clear();
         });
         Label label = new Label("Select monster to be equipped");
         label.setStyle("-fx-text-fill: white");
@@ -779,6 +784,7 @@ public class GameView {
                 "-fx-font-size: 16;");
 
         doneButton.setOnAction(event -> {
+            onClick.play();
             if (toActivateAddress.size() == 1) {
                 {
                     switch (situation) {
@@ -833,6 +839,7 @@ public class GameView {
         cancel.setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getButton() != MouseButton.PRIMARY)
                 return;
+            onClick.play();
             toActivateAddress.clear();
             toActivateAddress.add(-1);
             window.close();
@@ -845,14 +852,14 @@ public class GameView {
                 "-fx-text-fill: white;\n" +
                 "-fx-font-size: 16;");
         resetChoicesButton.setOnMouseClicked(mouseEvent -> {
-            if (mouseEvent.getButton() != MouseButton.PRIMARY || toActivateAddress.size() == 0)
+            if (mouseEvent.getButton() != MouseButton.PRIMARY)
                 return;
-            else {
-                for (Integer address : toActivateAddress) {
-                    ((Pane) Objects.requireNonNull(getNodeInGridPane(gridPane, 0, address - 1))).setBorder(null);
-                }
-                toActivateAddress.clear();
+            onClick.play();
+            for (Integer address : toActivateAddress) {
+                ((Pane) Objects.requireNonNull(getNodeInGridPane(gridPane, 0, address - 1))).setBorder(null);
             }
+            toActivateAddress.clear();
+
         });
         Label label = new Label("please choose one of your spells to activate");
         label.setStyle("-fx-text-fill: white");
@@ -903,6 +910,7 @@ public class GameView {
             pane.setOnMouseClicked(mouseEvent -> {
                 if (mouseEvent.getButton() != MouseButton.PRIMARY)
                     return;
+                onClick.play();
                 if (listOfSelected.size() != size) {
                     listOfSelected.add(finalI + 1);
                     pane.setBorder(new Border(new BorderStroke(Color.YELLOW,
@@ -935,6 +943,7 @@ public class GameView {
                 "-fx-text-fill: white;\n" +
                 "-fx-font-size: 16;");
         doneButton.setOnAction(event -> {
+            onClick.play();
             if (isSelected[0]) {
                 window.close();
             } else new GamePopUpMessage(Alert.AlertType.ERROR, "Please select!!!");
@@ -950,9 +959,10 @@ public class GameView {
                 "-fx-text-fill: white;\n" +
                 "-fx-font-size: 16;");
         resetChoicesButton.setOnMouseClicked(mouseEvent -> {
-            if (mouseEvent.getButton() != MouseButton.PRIMARY || !isSelected[0])
+            if (mouseEvent.getButton() != MouseButton.PRIMARY)
                 return;
-            else {
+            onClick.play();
+            if (isSelected[0]) {
                 ((Pane) Objects.requireNonNull(getNodeInGridPane(gridPane, 0, selectedAddress[0] - 1))).setBorder(null);
                 isSelected[0] = false;
             }
@@ -1002,6 +1012,7 @@ public class GameView {
             pane.setOnMouseClicked(mouseEvent -> {
                 if (mouseEvent.getButton() != MouseButton.PRIMARY)
                     return;
+                onClick.play();
                 if (!isSelected[0]) {
                     selectedAddress[0] = finalI + 1;
                     pane.setBorder(new Border(new BorderStroke(Color.YELLOW,
@@ -1049,6 +1060,7 @@ public class GameView {
         button1.setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getButton() != MouseButton.PRIMARY)
                 return;
+            onClick.play();
             howToSummon[0] = 1;
             window.close();
         });
@@ -1056,6 +1068,7 @@ public class GameView {
         button2.setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getButton() != MouseButton.PRIMARY)
                 return;
+            onClick.play();
             howToSummon[0] = 2;
             window.close();
         });
@@ -1063,6 +1076,7 @@ public class GameView {
         button3.setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getButton() != MouseButton.PRIMARY)
                 return;
+            onClick.play();
             howToSummon[0] = 3;
             window.close();
         });
@@ -1077,6 +1091,9 @@ public class GameView {
                 "-fx-text-fill: white;\n" +
                 "-fx-font-size: 16;");
         cancelButton.setOnMouseClicked(mouseEvent -> {
+            if (mouseEvent.getButton() != MouseButton.PRIMARY)
+                return;
+            onClick.play();
             howToSummon[0] = -1;
             window.close();
         });
@@ -1114,6 +1131,7 @@ public class GameView {
                 "-fx-text-fill: white;\n" +
                 "-fx-font-size: 16;");
         doneButton.setOnAction(event -> {
+            onClick.play();
             if (isSelected[0]) {
                 if (RoundGameController.getInstance().getCurrentPlayerHand().get(selectedAddress[0] - 1).getCardType() == CardType.MONSTER) {
                     if (((Monster) RoundGameController.getInstance().getCurrentPlayerHand().get(selectedAddress[0] - 1)).getMonsterActionType() == MonsterActionType.RITUAL) {
@@ -1139,9 +1157,10 @@ public class GameView {
                 "-fx-font-size: 16;");
         resetChoicesButton.setCursor(Cursor.HAND);
         resetChoicesButton.setOnMouseClicked(mouseEvent -> {
-            if (mouseEvent.getButton() != MouseButton.PRIMARY || !isSelected[0])
+            if (mouseEvent.getButton() != MouseButton.PRIMARY)
                 return;
-            else {
+            onClick.play();
+            if (isSelected[0]) {
                 ((Pane) Objects.requireNonNull(getNodeInGridPane(gridPane, 0, selectedAddress[0] - 1))).setBorder(null);
                 isSelected[0] = false;
             }
@@ -1155,9 +1174,10 @@ public class GameView {
                 "-fx-font-size: 16;");
         cancel.setCursor(Cursor.HAND);
         cancel.setOnMouseClicked(mouseEvent -> {
-            if (mouseEvent.getButton() != MouseButton.PRIMARY || !isSelected[0])
+            if (mouseEvent.getButton() != MouseButton.PRIMARY)
                 return;
-            else {
+            onClick.play();
+            if (isSelected[0]) {
                 ((Pane) Objects.requireNonNull(getNodeInGridPane(gridPane, 0, selectedAddress[0] - 1))).setBorder(null);
                 isSelected[0] = false;
                 selectedAddress[0] = -1;
@@ -1205,6 +1225,7 @@ public class GameView {
                 "-fx-text-fill: white;\n" +
                 "-fx-font-size: 16;");
         doneButton.setOnAction(event -> {
+            onClick.play();
             if (address.size() == 1) {
                 window.close();
             } else new GamePopUpMessage(Alert.AlertType.ERROR, "Please select!!!");
@@ -1220,14 +1241,15 @@ public class GameView {
                 "-fx-text-fill: white;\n" +
                 "-fx-font-size: 16;");
         resetChoicesButton.setOnMouseClicked(mouseEvent -> {
-            if (mouseEvent.getButton() != MouseButton.PRIMARY || address.size() == 0)
+            if (mouseEvent.getButton() != MouseButton.PRIMARY)
                 return;
-            else {
-                for (Integer integer : address) {
-                    ((Pane) Objects.requireNonNull(getNodeInGridPane(gridPane, 0, integer - 1))).setBorder(null);
-                }
-                address.clear();
+            onClick.play();
+
+            for (Integer integer : address) {
+                ((Pane) Objects.requireNonNull(getNodeInGridPane(gridPane, 0, integer - 1))).setBorder(null);
             }
+            address.clear();
+
         });
         Label label = new Label("Man eater bug effect: please choose " + 1 + " of opponent monsters to tribute");
         label.setStyle("-fx-text-fill: white");
@@ -1267,6 +1289,7 @@ public class GameView {
                 "-fx-text-fill: white;\n" +
                 "-fx-font-size: 16;");
         doneButton.setOnAction(event -> {
+            onClick.play();
             if (isSelected[0]) {
                 window.close();
             } else new GamePopUpMessage(Alert.AlertType.ERROR, "Please select!!!");
@@ -1282,12 +1305,11 @@ public class GameView {
                 "-fx-text-fill: white;\n" +
                 "-fx-font-size: 16;");
         resetChoicesButton.setOnMouseClicked(mouseEvent -> {
-            if (mouseEvent.getButton() != MouseButton.PRIMARY || !isSelected[0])
+            if (mouseEvent.getButton() != MouseButton.PRIMARY)
                 return;
-            else {
-
+            onClick.play();
+            if (isSelected[0]) {
                 ((Pane) Objects.requireNonNull(getNodeInGridPane(graveYardGridPane, 0, selectedAddress[0] - 1))).setBorder(null);
-
                 isSelected[0] = false;
             }
         });
@@ -1339,6 +1361,7 @@ public class GameView {
             pane.setOnMouseClicked(mouseEvent -> {
                 if (mouseEvent.getButton() != MouseButton.PRIMARY)
                     return;
+                onClick.play();
                 if (!isSelected[0]) {
                     selectedAddress[0] = finalI + 1;
                     pane.setBorder(new Border(new BorderStroke(Color.YELLOW,
@@ -1367,6 +1390,7 @@ public class GameView {
                 "-fx-text-fill: white;\n" +
                 "-fx-font-size: 16;");
         doneButton.setOnAction(event -> {
+            onClick.play();
             if (isSelected[0]) {
                 window.close();
             } else new GamePopUpMessage(Alert.AlertType.ERROR, "Please select!!!");
@@ -1382,10 +1406,10 @@ public class GameView {
                 "-fx-text-fill: white;\n" +
                 "-fx-font-size: 16;");
         resetChoicesButton.setOnMouseClicked(mouseEvent -> {
-            if (mouseEvent.getButton() != MouseButton.PRIMARY || !isSelected[0])
+            if (mouseEvent.getButton() != MouseButton.PRIMARY)
                 return;
-            else {
-
+            onClick.play();
+            if (isSelected[0]) {
                 ((Pane) Objects.requireNonNull(getNodeInGridPane(gridPane, 0, selectedAddress[0] - 1))).setBorder(null);
                 isSelected[0] = false;
             }
@@ -1438,6 +1462,7 @@ public class GameView {
             pane.setOnMouseClicked(mouseEvent -> {
                 if (mouseEvent.getButton() != MouseButton.PRIMARY)
                     return;
+                onClick.play();
                 if (!isSelected[0]) {
                     selectedAddress[0] = finalI + 1;
                     pane.setBorder(new Border(new BorderStroke(Color.YELLOW,
@@ -1471,6 +1496,7 @@ public class GameView {
         button1.setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getButton() != MouseButton.PRIMARY)
                 return;
+            onClick.play();
             choice[0] = 1;
             window1.close();
         });
@@ -1478,6 +1504,7 @@ public class GameView {
         button2.setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getButton() != MouseButton.PRIMARY)
                 return;
+            onClick.play();
             choice[0] = 2;
             window1.close();
         });
@@ -1537,8 +1564,13 @@ public class GameView {
                 "-fx-background-radius: 10;\n" +
                 "-fx-text-fill: white;\n" +
                 "-fx-font-size: 16;");
-        backButton.setOnAction(event -> window.close());
+        backButton.setOnAction(event -> {
+            onClick.play();
+            window.close();
+        });
         scrollPane.getContent().setStyle("-fx-background-color: #00062b;-fx-color: #00062b;");
+
+        scrollPane.getStylesheets().add(getClass().getResource("/project/CSS/graveyard.css").toString());
         scrollPane.setPrefHeight(150);
         String owner = isCurrent ? "Your" : "Opponent";
         Label label = new Label(owner + " GraveYard");
@@ -2012,6 +2044,8 @@ public class GameView {
             if (monsterZone.getCellWithAddress(i).getCellStatus() != CellStatus.EMPTY) {
                 int finalI = i;
                 Objects.requireNonNull(zonePane).setOnMouseClicked(mouseEvent -> {
+                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
+                        return;
                     RoundGameController.getInstance().attackToCard(finalI);
                     if (RoundGameController.getInstance().isFinishedRound() || RoundGameController.getInstance().isFinishedGame())
                         return;
@@ -2092,6 +2126,8 @@ public class GameView {
             if ((cell = monsterZone.getCellWithAddress(i)).getCellStatus() != CellStatus.EMPTY) {
                 Cell finalCell1 = cell;
                 zonePane.setOnMouseClicked(mouseEvent -> {
+                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
+                        return;
                     if (finalCell1.getCellStatus() == CellStatus.HIDDEN)
                         return;
                     selectedCardImageView.setImage(getCardImageByName(finalCell1.getCardInCell().getName()));
@@ -2104,6 +2140,8 @@ public class GameView {
             if ((cell = monsterZone.getCellWithAddress(i)).getCellStatus() != CellStatus.EMPTY) {
                 Cell finalCell = cell;
                 Objects.requireNonNull(zonePane).setOnMouseClicked(mouseEvent -> {
+                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
+                        return;
                     selectedCardImageView.setImage(getCardImageByName(finalCell.getCardInCell().getName()));
                     selectedCardDescriptionLabel.setText(finalCell.getCardInCell().toString());
                     RoundGameController.getInstance().selectCardInMonsterZone(finalI);
@@ -2117,6 +2155,8 @@ public class GameView {
             if ((cell = spellZone.getCellWithAddress(i)).getCellStatus() != CellStatus.EMPTY) {
                 Cell finalCell1 = cell;
                 Objects.requireNonNull(zonePane).setOnMouseClicked(mouseEvent -> {
+                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
+                        return;
                     if (finalCell1.getCellStatus() == CellStatus.HIDDEN)
                         return;
                     selectedCardImageView.setImage(getCardImageByName(finalCell1.getCardInCell().getName()));
@@ -2129,6 +2169,8 @@ public class GameView {
                 int finalI = i;
                 Cell finalCell = cell;
                 zonePane.setOnMouseClicked(mouseEvent -> {
+                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
+                        return;
                     selectedCardImageView.setImage(getCardImageByName(finalCell.getCardInCell().getName()));
                     selectedCardDescriptionLabel.setText(finalCell.getCardInCell().toString());
                     RoundGameController.getInstance().selectCardInSpellZone(finalI);
@@ -2141,7 +2183,9 @@ public class GameView {
             Card card = hand.get(i);
             if (node != null) {
                 int finalI = i + 1;
-                node.setOnMouseClicked((Event) -> {
+                node.setOnMouseClicked(mouseEvent -> {
+                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
+                        return;
                     selectedCardImageView.setImage(getCardImageByName(card.getName()));
                     selectedCardDescriptionLabel.setText(card.toString());
                     RoundGameController.getInstance().selectCardInHand(finalI);
@@ -2151,7 +2195,9 @@ public class GameView {
         for (int i = 0; i < opponentHand.getChildren().size(); i++) {
             Node node = getNodeInGridPane(opponentHand, 0, i);
             if (node != null)
-                node.setOnMouseClicked((Event) -> {
+                node.setOnMouseClicked(mouseEvent -> {
+                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
+                        return;
                     selectedCardImageView.setImage(getCardImageByName("Back Image"));
                     selectedCardDescriptionLabel.setText("Cant see this card");
                 });
@@ -2253,9 +2299,6 @@ public class GameView {
                 selectedCardImageView.setImage(getCardImageByName(card.getName()));
                 selectedCardDescriptionLabel.setText(card.toString());
                 RoundGameController.getInstance().selectCardInHand(finalCounter + 1);
-            });
-            //TODO
-            cardImageView.setOnMouseEntered(mouseEvent -> {
             });
             currentHand.add(cardImageView, counter, 0);
             counter++;
@@ -2566,6 +2609,8 @@ public class GameView {
                 zonePane.getChildren().add(imageView);
                 zonePane.setCursor(Cursor.HAND);
                 zonePane.setOnMouseClicked(mouseEvent -> {
+                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
+                        return;
                     selectedCardImageView.setImage(getCardImageByName(cell.getCardInCell().getName()));
                     selectedCardDescriptionLabel.setText(cell.getCardInCell().toString());
                     RoundGameController.getInstance().selectCardInSpellZone(finalI);
@@ -2643,6 +2688,8 @@ public class GameView {
                 zonePane.getChildren().add(imageView);
                 zonePane.setCursor(Cursor.HAND);
                 zonePane.setOnMouseClicked(mouseEvent -> {
+                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
+                        return;
                     selectedCardImageView.setImage(getCardImageByName(cell.getCardInCell().getName()));
                     selectedCardDescriptionLabel.setText(cell.getCardInCell().toString());
                     RoundGameController.getInstance().deselectCard(0);
@@ -2746,6 +2793,8 @@ public class GameView {
                 zonePane.getChildren().add(imageView);
                 zonePane.setCursor(Cursor.HAND);
                 zonePane.setOnMouseClicked(mouseEvent -> {
+                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
+                        return;
                     selectedCardImageView.setImage(getCardImageByName(finalCell1.getCardInCell().getName()));
                     selectedCardDescriptionLabel.setText(finalCell1.getCardInCell().toString());
                     RoundGameController.getInstance().selectCardInMonsterZone(finalI);
@@ -2774,6 +2823,8 @@ public class GameView {
                     imageView.setLayoutX(imageView.getLayoutX() - 19);
                     imageView.setLayoutY(imageView.getLayoutY() + 20);
                     zonePane.setOnMouseClicked(mouseEvent -> {
+                        if (mouseEvent.getButton() != MouseButton.PRIMARY)
+                            return;
                         selectedCardImageView.setImage(getCardImageByName("Back Image"));
                         selectedCardDescriptionLabel.setText("Can't show this card to you");
                     });
@@ -2784,6 +2835,8 @@ public class GameView {
                 zonePane.getChildren().add(imageView);
                 zonePane.setCursor(Cursor.HAND);
                 zonePane.setOnMouseClicked(mouseEvent -> {
+                    if (mouseEvent.getButton() != MouseButton.PRIMARY)
+                        return;
                     if (finalCell.getCellStatus() == CellStatus.DEFENSIVE_HIDDEN)
                         return;
                     selectedCardImageView.setImage(getCardImageByName(finalCell.getCardInCell().getName()));
@@ -2820,6 +2873,7 @@ public class GameView {
 
     public void setting(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        boolean[] surrender = new boolean[1];
         Stage window = new Stage();
         window.initOwner(LoginMenuView.getStage());
         window.initStyle(StageStyle.UNDECORATED);
@@ -2830,9 +2884,21 @@ public class GameView {
                 "-fx-background-radius: 10;\n" +
                 "-fx-text-fill: white;\n" +
                 "-fx-font-size: 16;");
-        resumeButton.setOnAction(event -> window.close());
-
-
+        resumeButton.setOnAction(event -> {
+            onClick.play();
+            window.close();
+        });
+        Button surrenderButton = new Button("Surender");
+        surrenderButton.setCursor(Cursor.HAND);
+        surrenderButton.setStyle("-fx-background-color: #bb792d;\n" +
+                "-fx-background-radius: 10;\n" +
+                "-fx-text-fill: white;\n" +
+                "-fx-font-size: 16;");
+        surrenderButton.setOnAction(actionEvent1 -> {
+            onClick.play();
+            surrender[0] = true;
+            window.close();
+        });
         Button exitButton = new Button("Exit");
         exitButton.setCursor(Cursor.HAND);
         exitButton.setStyle("-fx-background-color: #bb792d;\n" +
@@ -2840,6 +2906,7 @@ public class GameView {
                 "-fx-text-fill: white;\n" +
                 "-fx-font-size: 16;");
         exitButton.setOnMouseClicked(mouseEvent -> {
+            onClick.play();
             window.close();
             try {
                 Utility.openNewMenu("/project/fxml/main_menu.fxml");
@@ -2851,7 +2918,7 @@ public class GameView {
 
         Label label = new Label("Game is paused.");
         label.setStyle("-fx-text-fill: white");
-        VBox mainBox = new VBox(label, resumeButton, exitButton);
+        VBox mainBox = new VBox(label, resumeButton, surrenderButton, exitButton);
         mainBox.setPadding(new Insets(0, 20, 0, 20));
         resumeButton.setCursor(Cursor.HAND);
         mainBox.setSpacing(10);
@@ -2868,6 +2935,9 @@ public class GameView {
         blur();
         window.showAndWait();
         mainGamePane.setEffect(null);
+        if (surrender[0]) {
+            RoundGameController.getInstance().surrender();
+        }
     }
 
     public void cheat() {
@@ -2883,7 +2953,7 @@ public class GameView {
                 "-fx-text-fill: white;\n" +
                 "-fx-font-size: 16;");
         doneButton.setOnAction(event -> {
-
+            onClick.play();
             window.close();
             processCheat(textField.getText());
         });
@@ -2895,7 +2965,12 @@ public class GameView {
                 "-fx-background-radius: 10;\n" +
                 "-fx-text-fill: white;\n" +
                 "-fx-font-size: 16;");
-        cancel.setOnMouseClicked(mouseEvent -> window.close());
+        cancel.setOnMouseClicked(mouseEvent -> {
+            if (mouseEvent.getButton() != MouseButton.PRIMARY)
+                return;
+            onClick.play();
+            window.close();
+        });
 
         Label label = new Label("You can cheat here : |");
         label.setStyle("-fx-text-fill: white");

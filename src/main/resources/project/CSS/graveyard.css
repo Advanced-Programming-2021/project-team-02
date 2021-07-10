@@ -1,0 +1,4 @@
+.scroll-pane > .viewport{
+    -fx-background-color: #00062b;
+    -fx-alignment: CENTER;
+}
