@@ -1,0 +1,8 @@
+.root{
+    -fx-border-width: 7;
+    -fx-border-radius: 10;
+    -fx-border-color: #bb792d;
+    -fx-background-radius: 14;
+    -fx-background-color: #00062b;
+    -fx-font-family: "Matrix II Regular";
+}

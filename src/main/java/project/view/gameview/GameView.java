@@ -254,11 +254,9 @@ public class GameView {
                     selectedCardDescriptionLabel.setText(Objects.requireNonNull(Card.getCardByName(cardName)).toString());
                     RoundGameController.getInstance().selectCardInHand(addressOfAddInGrid + 1);
                 });
-                AudioClip onClick = new AudioClip(Objects.requireNonNull(getClass().getResource("/project/soundEffects/ADD_CARD.wav")).toString());
-                onClick.play();
+                reloadCurrentAndOpponentMonsterZone(); //TODO not sure of here!
                 handPane.add(imageView, addressOfAddInGrid, 0);
                 mainGamePane.getChildren().remove(cardImageView);
-
             }
         });
 
@@ -516,6 +514,7 @@ public class GameView {
         window.setX(500);
         window.setY(300);
         window.initModality(Modality.WINDOW_MODAL);
+        window.getScene().getStylesheets().add(String.valueOf(getClass().getResource("/project/CSS/in_game_window.css")));
         window.showAndWait();
         return tributeAddress;
     }
@@ -630,6 +629,8 @@ public class GameView {
         window.setX(500);
         window.setY(300);
         window.initModality(Modality.WINDOW_MODAL);
+        window.getScene().getStylesheets().add(String.valueOf(getClass().getResource("/project/CSS/in_game_window.css")));
+
         window.showAndWait();
         return tributeAddress;
     }
@@ -701,6 +702,8 @@ public class GameView {
         window.setX(500);
         window.setY(300);
         window.initModality(Modality.WINDOW_MODAL);
+        window.getScene().getStylesheets().add(String.valueOf(getClass().getResource("/project/CSS/in_game_window.css")));
+
         window.showAndWait();
         return equipAddress.get(0);
     }
@@ -763,6 +766,8 @@ public class GameView {
         window.setX(500);
         window.setY(300);
         window.initModality(Modality.WINDOW_MODAL);
+        window.getScene().getStylesheets().add(String.valueOf(getClass().getResource("/project/CSS/in_game_window.css")));
+
         window.showAndWait();
         return equipAddress.get(0);
     }
@@ -879,6 +884,8 @@ public class GameView {
         window.setX(500);
         window.setY(300);
         window.initModality(Modality.WINDOW_MODAL);
+        window.getScene().getStylesheets().add(String.valueOf(getClass().getResource("/project/CSS/in_game_window.css")));
+
         window.showAndWait();
         return toActivateAddress.get(0);
     }
@@ -985,6 +992,7 @@ public class GameView {
         window.setResizable(false);
         window.setX(500);
         window.setY(300);
+        window.getScene().getStylesheets().add(String.valueOf(getClass().getResource("/project/CSS/in_game_window.css")));
         window.showAndWait();
 
         return selectedAddress[0];
@@ -1113,6 +1121,7 @@ public class GameView {
         window.setX(600);
         window.setY(300);
         window.initModality(Modality.WINDOW_MODAL);
+        window.getScene().getStylesheets().add(String.valueOf(getClass().getResource("/project/CSS/in_game_window.css")));
         window.showAndWait();
         return howToSummon[0];
     }
@@ -1202,6 +1211,7 @@ public class GameView {
         window.setResizable(false);
         window.setX(500);
         window.setY(300);
+        window.getScene().getStylesheets().add(String.valueOf(getClass().getResource("/project/CSS/in_game_window.css")));
         window.showAndWait();
 
         return selectedAddress[0];
@@ -1269,6 +1279,7 @@ public class GameView {
         window.setX(500);
         window.setY(300);
         window.initModality(Modality.WINDOW_MODAL);
+        window.getScene().getStylesheets().add(String.valueOf(getClass().getResource("/project/CSS/in_game_window.css")));
         window.showAndWait();
         return address.get(0);
     }
@@ -1331,6 +1342,7 @@ public class GameView {
         window.setX(500);
         window.setY(300);
         window.initModality(Modality.WINDOW_MODAL);
+        window.getScene().getStylesheets().add(String.valueOf(getClass().getResource("/project/CSS/in_game_window.css")));
         window.showAndWait();
         for (int i = 0; i < allCards.size(); i++) {
             if (allCards.get(i) == cards.get(selectedAddress[0])) {
@@ -1432,6 +1444,7 @@ public class GameView {
         window.setX(500);
         window.setY(300);
         window.initModality(Modality.WINDOW_MODAL);
+        window.getScene().getStylesheets().add(String.valueOf(getClass().getResource("/project/CSS/in_game_window.css")));
         window.showAndWait();
         for (int i = 0; i < graveyard.size(); i++) {
             if (graveyard.get(i) == monstersInGraveyard.get(selectedAddress[0] - 1)) {
@@ -1532,6 +1545,7 @@ public class GameView {
         window1.setX(600);
         window1.setY(300);
         window1.initModality(Modality.WINDOW_MODAL);
+        window1.getScene().getStylesheets().add(String.valueOf(getClass().getResource("/project/CSS/in_game_window.css")));
         window1.showAndWait();
         return choice[0];
     }
@@ -1591,6 +1605,7 @@ public class GameView {
         window.setResizable(false);
         window.setX(500);
         window.setY(300);
+        window.getScene().getStylesheets().add(String.valueOf(getClass().getResource("/project/CSS/in_game_window.css")));
         window.showAndWait();
 
 
@@ -1716,49 +1731,53 @@ public class GameView {
     private void setZonesBasedOnTurn() {
         MonsterZone currentMonsterZone = RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().returnMonsterZone();
         SpellZone currentSpellZone = RoundGameController.getInstance().getCurrentPlayer().getPlayerBoard().returnSpellZone();
-
+        System.out.println("current : "+RoundGameController.getInstance().getCurrentPlayer().getNickname());
+        System.out.println("opponent : "+RoundGameController.getInstance().getOpponentPlayer().getNickname());
         //monster zone
-        for (int i = 1; i <= 5; i++) {
-            Pane pane = (Pane) getNodeInGridPane(currentPlayerMonsterZone, 0, i - 1);
-            pane.getChildren().clear();
-            Cell monsterCell = currentMonsterZone.getCellWithAddress(i);
-            ImageView imageView = new ImageView();
-            imageView.setCursor(Cursor.HAND);
-            if (monsterCell.getCellStatus() == CellStatus.EMPTY) {
-                pane.setCursor(Cursor.DEFAULT);
-                pane.setOnMouseClicked(mouseEvent -> {
-                });
-                continue;
-            } else if (monsterCell.getCellStatus() == CellStatus.OFFENSIVE_OCCUPIED) {
-                imageView.setImage(getCardImageByName(monsterCell.getCardInCell().getName()));
-                pane.getChildren().add(imageView);
-                imageView.setFitHeight(130);
-                imageView.setFitWidth(94);
-            } else if (monsterCell.getCellStatus() == CellStatus.DEFENSIVE_HIDDEN) {
-                imageView.setImage(getCardImageByName("Card Back Set"));
-                pane.getChildren().add(imageView);
-                imageView.setFitWidth(130);
-                imageView.setFitHeight(94);
-                imageView.setLayoutY(imageView.getLayoutY() + 20);
-                imageView.setLayoutX(imageView.getLayoutX() - 19);
-            } else if (monsterCell.getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED) {
-                imageView.setImage(getCardImageByName(monsterCell.getCardInCell().getName()));
-                imageView.setRotate(90);
-                pane.getChildren().add(imageView);
-                imageView.setFitWidth(94);
-                imageView.setFitHeight(130);
-            }
-
-            int finalI = i;
-            imageView.setOnMouseClicked(mouseEvent -> {
-                if (mouseEvent.getButton() != MouseButton.PRIMARY)
-                    return;
-                selectedCardImageView.setImage(getCardImageByName(monsterCell.getCardInCell().getName()));
-                selectedCardDescriptionLabel.setText(monsterCell.getCardInCell().toString());
-                RoundGameController.getInstance().selectCardInMonsterZone(finalI);
-
-            });
-        }
+        opponentPlayerMonsterZone.setRotate(180);
+        reloadCurrentAndOpponentMonsterZone();
+//        for (int i = 1; i <= 5; i++) {
+//            Pane pane = (Pane) getNodeInGridPane(currentPlayerMonsterZone, 0, i - 1);
+//            pane.getChildren().clear();
+//            Cell monsterCell = currentMonsterZone.getCellWithAddress(i);
+//            ImageView imageView = new ImageView();
+//            imageView.setCursor(Cursor.HAND);
+//            if (monsterCell.getCellStatus() == CellStatus.EMPTY) {
+//                pane.setCursor(Cursor.DEFAULT);
+//                pane.setOnMouseClicked(mouseEvent -> {
+//                });
+//                continue;
+//            } else if (monsterCell.getCellStatus() == CellStatus.OFFENSIVE_OCCUPIED) {
+//                imageView.setImage(getCardImageByName(monsterCell.getCardInCell().getName()));
+//                pane.getChildren().add(imageView);
+//                imageView.setFitHeight(130);
+//                imageView.setFitWidth(94);
+//                System.out.println("here is reched! current : , monster : "+ monsterCell.getCardInCell().getName()+ "  type : "+monsterCell.getCardInCell().getCardType() );
+//            } else if (monsterCell.getCellStatus() == CellStatus.DEFENSIVE_HIDDEN) {
+//                imageView.setImage(getCardImageByName("Card Back Set"));
+//                pane.getChildren().add(imageView);
+//                imageView.setFitWidth(130);
+//                imageView.setFitHeight(94);
+//                imageView.setLayoutY(imageView.getLayoutY() + 20);
+//                imageView.setLayoutX(imageView.getLayoutX() - 19);
+//            } else if (monsterCell.getCellStatus() == CellStatus.DEFENSIVE_OCCUPIED) {
+//                imageView.setImage(getCardImageByName(monsterCell.getCardInCell().getName()));
+//                imageView.setRotate(90);
+//                pane.getChildren().add(imageView);
+//                imageView.setFitWidth(94);
+//                imageView.setFitHeight(130);
+//            }
+//
+//            int finalI = i;
+//            imageView.setOnMouseClicked(mouseEvent -> {
+//                if (mouseEvent.getButton() != MouseButton.PRIMARY)
+//                    return;
+//                selectedCardImageView.setImage(getCardImageByName(monsterCell.getCardInCell().getName()));
+//                selectedCardDescriptionLabel.setText(monsterCell.getCardInCell().toString());
+//                RoundGameController.getInstance().selectCardInMonsterZone(finalI);
+//
+//            });
+//        }
         //spellzone
         for (int i = 1; i <= 5; i++) {
             Pane pane = (Pane) getNodeInGridPane(currentPlayerSpellZone, 0, i - 1);
@@ -1850,17 +1869,17 @@ public class GameView {
             ImageView imageView = new ImageView();
             imageView.setCursor(Cursor.HAND);
             if (monsterCell.getCellStatus() == CellStatus.EMPTY) {
-                {
                     pane.setCursor(Cursor.DEFAULT);
                     pane.setOnMouseClicked(mouseEvent -> {
                     });
                     continue;
-                }
             } else if (monsterCell.getCellStatus() == CellStatus.OFFENSIVE_OCCUPIED) {
                 imageView.setImage(getCardImageByName(monsterCell.getCardInCell().getName()));
                 imageView.setFitHeight(130);
                 imageView.setFitWidth(94);
                 pane.getChildren().add(imageView);
+                System.out.println("here is reached! opponent, monster : "+ monsterCell.getCardInCell().getName()+ "  type : "+monsterCell.getCardInCell().getCardType() );
+
             } else if (monsterCell.getCellStatus() == CellStatus.DEFENSIVE_HIDDEN) {
                 imageView.setImage(getCardImageByName("Card Back Set"));
                 imageView.setFitWidth(130);
@@ -2270,11 +2289,8 @@ public class GameView {
                 reloadCurrentAndOpponentMonsterZone();
                 cardBoardPane.getChildren().remove(fakeCardImageView);
                 mainGamePane.getChildren().remove(fakeCardImageView);
-                AudioClip audioClip = new AudioClip(Objects.requireNonNull(getClass().getResource("/project/soundEffects/ADD_CARD.wav")).toString());
-                audioClip.play();
                 ((Pane) inZoneNode).getChildren().add(imageView);
                 reloadCurrentHand();
-
             }
         });
 
@@ -2933,6 +2949,7 @@ public class GameView {
         window.setY(300);
         window.initModality(Modality.WINDOW_MODAL);
         blur();
+        window.getScene().getStylesheets().add(String.valueOf(getClass().getResource("/project/CSS/in_game_window.css")));
         window.showAndWait();
         mainGamePane.setEffect(null);
         if (surrender[0]) {
@@ -2992,6 +3009,7 @@ public class GameView {
         window.setY(300);
         window.initModality(Modality.WINDOW_MODAL);
         blur();
+        window.getScene().getStylesheets().add(String.valueOf(getClass().getResource("/project/CSS/in_game_window.css")));
         window.showAndWait();
         mainGamePane.setEffect(null);
     }

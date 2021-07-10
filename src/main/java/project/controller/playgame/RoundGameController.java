@@ -351,7 +351,6 @@ public class RoundGameController {
             changedPositionCards.clear();
             changeTurn();
             view.changeTurn();
-            currentPhase = Phase.DRAW_PHASE;
 
         }
         return SUCCESS;
@@ -1198,7 +1197,13 @@ public class RoundGameController {
         if (!isRitualCardInHand()) {
             return GameViewMessage.CAN_NOT_RITUAL_SUMMON;
         }
-        ritualMonsterAddressInHand = view.getRitualMonsterAddress(selectedCellAddress);
+        if (selectedCellZone == Zone.HAND)
+            ritualMonsterAddressInHand = view.getRitualMonsterAddress(selectedCellAddress);
+        else
+            ritualMonsterAddressInHand = view.getRitualMonsterAddress(-2);
+        if (ritualMonsterAddressInHand == -1) {
+            return NONE;
+        }
         monster = (Monster) getCurrentPlayerHand().get(ritualMonsterAddressInHand - 1);
         System.out.println("ritual address : " + ritualMonsterAddressInHand + " monster : " + monster);
         if (!sumOfSubsequences(monster)) {
@@ -1206,20 +1211,21 @@ public class RoundGameController {
             return NONE;
         } else {
             if (areCardsLevelsEnoughToSummonRitualMonster(monster)) {
-                int addAddress;
+                int addAddressOfSpell;
                 if (selectedCellZone == Zone.HAND) {
-                    addAddress = getCurrentPlayer().getPlayerBoard().addSpellOrTrapToBoard(selectedCell.getCardInCell(), CellStatus.OCCUPIED);
+                    addAddressOfSpell = getCurrentPlayer().getPlayerBoard().addSpellOrTrapToBoard(selectedCell.getCardInCell(), CellStatus.OCCUPIED);
                     getCurrentPlayerHand().remove(selectedCellAddress - 1);
-                    view.showActivateEffectOfSpellFromHand(addAddress, selectedCellAddress, selectedCell.getCardInCell().getName());
+                    view.showActivateEffectOfSpellFromHand(addAddressOfSpell, selectedCellAddress, selectedCell.getCardInCell().getName());
                 } else {
                     getCurrentPlayer().getPlayerBoard().getACellOfBoardWithAddress(Zone.SPELL_ZONE, selectedCellAddress).setCellStatus(CellStatus.OCCUPIED);
-                    addAddress = selectedCellAddress;
+                    addAddressOfSpell = selectedCellAddress;
                     view.showActivateEffectOfSpellInZone();
                 }
                 view.showBoard();
                 int choice = view.twoChoiceQuestions("Choose monster position :", "Summon", "Set");
                 CellStatus status = choice == 1 ? CellStatus.OFFENSIVE_OCCUPIED : CellStatus.DEFENSIVE_HIDDEN;
                 int addressOfAdd = getCurrentPlayer().getPlayerBoard().addMonsterToBoard(monster, status);
+                System.out.println(getOpponentPlayer());
                 for (int i = 0; i < getCurrentPlayerHand().size(); i++) {
                     if (getCurrentPlayerHand().get(i) == monster) {
                         ritualMonsterAddressInHand = i + 1;
@@ -1227,9 +1233,12 @@ public class RoundGameController {
                     }
                 }
                 getCurrentPlayerHand().remove(ritualMonsterAddressInHand - 1);
-                view.playAnimation(Animation.SUMMON_MONSTER, monster.getName(), addressOfAdd, ritualMonsterAddressInHand, 0, true);
+                if (status == CellStatus.OFFENSIVE_OCCUPIED)
+                    view.playAnimation(Animation.SUMMON_MONSTER, monster.getName(), addressOfAdd, ritualMonsterAddressInHand, 0, true);
+                else
+                    view.playAnimation(Animation.SET_MONSTER, monster.getName(), addressOfAdd, ritualMonsterAddressInHand, 0, true);
                 view.showBoard();
-                addCardToGraveYard(Zone.SPELL_ZONE, addAddress, getCurrentPlayer());
+                addCardToGraveYard(Zone.SPELL_ZONE, addAddressOfSpell, getCurrentPlayer());
                 view.showBoard();
                 if (isCurrentPlayerTrapToBeActivatedInSummonSituation()) {
                     if (isTrapOfCurrentPlayerInSummonSituationActivated()) {
@@ -1242,10 +1251,8 @@ public class RoundGameController {
                         return SUCCESS;
                     }
                 }
-
             }
             return SUCCESS;
-
         }
 
     }
