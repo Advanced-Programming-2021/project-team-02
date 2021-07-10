@@ -2,18 +2,14 @@ package project.view;
 
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -42,7 +38,7 @@ public class ImportExportView {
         Stage window = new Stage();
         window.initOwner(LoginMenuView.getStage());
         window.initStyle(StageStyle.UNDECORATED);
-        window.initModality(Modality.WINDOW_MODAL);
+        window.initModality(Modality.APPLICATION_MODAL);
         PopUpMessage.setStage(window);
         window.setWidth(1200);
         window.setHeight(675);
@@ -66,7 +62,6 @@ public class ImportExportView {
                 k = 0;
             }
             if (utility.getStringImageHashMap().containsKey(CardsDatabase.getAllCards().get(i - 1).getName())) {
-
                 ImageView imageView = new ImageView(utility.getStringImageHashMap().get(CardsDatabase.getAllCards().get(i - 1).getName()));
                 imageView.setId(CardsDatabase.getAllCards().get(i - 1).getName());
                 imageView.setFitHeight(100);
@@ -75,7 +70,7 @@ public class ImportExportView {
                 Label label = new Label();
                 label.setText(CardsDatabase.getAllCards().get(i - 1).toString());
                 label.setWrapText(true);
-                label.setStyle("-fx-text-fill: white; -fx-font-family: \"Matrix II Regular\";");
+                label.setStyle("-fx-text-fill: #103188; -fx-font-family: \"Matrix II Regular\";");
 
                 Button gson = new Button("Json");
                 gson.setId(CardsDatabase.getAllCards().get(i - 1).getName());
@@ -105,9 +100,9 @@ public class ImportExportView {
         gridPane.setPadding(new Insets(10, 10, 10, 10));
         gridPane.setVgap(20);
         gridPane.setHgap(20);
+        gridPane.setStyle("-fx-background-color: #103188");
 
         scrollPane.setContent(gridPane);
-        scrollPane.setStyle("-fx-background-color: #103188");
         scrollPane.setPrefWidth(1100);
         scrollPane.setPrefHeight(425);
         scrollPane.setMaxHeight(425);
@@ -115,7 +110,7 @@ public class ImportExportView {
         scrollPane.setLayoutX(50);
 
         Button importButton = new Button("Import");
-        importButton.setOnAction(this::chooseFile);
+        importButton.setOnAction(actionEvent -> chooseFile(actionEvent, window));
         importButton.setId("button");
         importButton.setLayoutY(550);
         importButton.setLayoutX(569);
@@ -149,10 +144,10 @@ public class ImportExportView {
     }
 
 
-    private void chooseFile(ActionEvent event) {
+    private void chooseFile(ActionEvent event, Stage window) {
         FileChooser fc = new FileChooser();
         fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Json Files", "*.json"));
-        File selectedFile = fc.showOpenDialog(null);
+        File selectedFile = fc.showOpenDialog(window);
         if (selectedFile != null) {
             listView.getItems().add(selectedFile.getAbsoluteFile());
             String fileName = String.valueOf(listView.getItems());
