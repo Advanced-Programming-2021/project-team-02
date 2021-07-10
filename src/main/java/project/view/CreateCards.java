@@ -139,9 +139,6 @@ public class CreateCards {
     }
 
     private void checkListViewAndMakeCard() {
-        // effect bracket dare : solve
-        // manfi boodane attack o defense o level :
-        // khali boodan effect : solve
         String effect = String.valueOf(listView.getSelectionModel().getSelectedItems());
         String replacementForEffect = effect.substring(1, effect.length() - 1);
         System.out.println(replacementForEffect + "    : ");

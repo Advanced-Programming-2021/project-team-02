@@ -6,6 +6,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -77,7 +78,11 @@ public class ImportExportView {
 
                 Button gson = new Button("Json");
                 gson.setId(CardsDatabase.getAllCards().get(i - 1).getName());
+                gson.setCursor(Cursor.HAND);
                 gson.setOnMouseClicked(mouseEvent -> {
+                    if (mouseEvent.getButton()!= MouseButton.PRIMARY)
+                        return;
+                    onClick.play();
                     ImportExportMessages importExportMessages = ImportExportController.getInstance().exportCard(gson.getId());
                     new PopUpMessage(importExportMessages.getAlertType(), importExportMessages.getLabel());
                 });
@@ -85,7 +90,11 @@ public class ImportExportView {
 
                 Button csv = new Button("CSV");
                 csv.setId(CardsDatabase.getAllCards().get(i - 1).getName());
+                csv.setCursor(Cursor.HAND);
                 csv.setOnMouseClicked(mouseEvent -> {
+                    if (mouseEvent.getButton()!= MouseButton.PRIMARY)
+                        return;
+                    onClick.play();
                     ImportExportMessages importExportMessages = ImportExportController.getInstance().SaveToCSV(gson.getId());
                     new PopUpMessage(importExportMessages.getAlertType(), importExportMessages.getLabel());
                 });
