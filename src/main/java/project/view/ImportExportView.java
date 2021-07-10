@@ -70,7 +70,7 @@ public class ImportExportView {
                 Label label = new Label();
                 label.setText(CardsDatabase.getAllCards().get(i - 1).toString());
                 label.setWrapText(true);
-                label.setStyle("-fx-text-fill: white; -fx-font-family: \"Matrix II Regular\";");
+                label.setStyle("-fx-text-fill: #103188; -fx-font-family: \"Matrix II Regular\";");
 
                 Button gson = new Button("Json");
                 gson.setId(CardsDatabase.getAllCards().get(i - 1).getName());
