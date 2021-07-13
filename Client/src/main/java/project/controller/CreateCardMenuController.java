@@ -39,7 +39,7 @@ public class CreateCardMenuController {
                     MonsterEffect.getMonsterEffectByName(replacementForEffect), Integer.parseInt(level), Attribute.DARK, description,
                     Integer.parseInt(attack), Integer.parseInt(defense), MonsterType.PYRO, Integer.parseInt(price));
         }
-        Objects.requireNonNull(Assets.getAssetsByUsername(user.getUsername())).decreaseCoin(Integer.parseInt(price)/10);
+        Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).decreaseCoin(Integer.parseInt(price)/10);
         Utility utility = new Utility();
         utility.getStringImageHashMap().put(enterCardName, new Image(String.valueOf(getClass().getResource("/project/image/DeckMenuPictures/Picture.jpg"))));
         return CreateCardMessage.CARD_CREATED;
@@ -52,7 +52,7 @@ public class CreateCardMenuController {
         CardsDatabase.makeCardSpell(CardType.SPELL, enterCardName, "MADE", SpellEffect.getSpellByName(replacementForEffect),
                 Attribute.DARK, description, Spell.spellType(replacementForEffect),
                 false, Integer.parseInt(price));
-        Objects.requireNonNull(Assets.getAssetsByUsername(user.getUsername())).decreaseCoin(Integer.parseInt(price)/10);
+        Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).decreaseCoin(Integer.parseInt(price)/10);
         Utility utility = new Utility();
         utility.getStringImageHashMap().put(enterCardName, new Image(String.valueOf(getClass().getResource("/project/image/DeckMenuPictures/Picture.jpg"))));
         return CreateCardMessage.CARD_CREATED;
@@ -65,7 +65,7 @@ public class CreateCardMenuController {
         CardsDatabase.makeTrapCard(CardType.TRAP, enterCardName, "MADE", TrapEffect.getTrapEffectByName(replacementForEffect),
                 Attribute.DARK, description, Trap.trapType(replacementForEffect),
                 false, Integer.parseInt(price));
-        Objects.requireNonNull(Assets.getAssetsByUsername(user.getUsername())).decreaseCoin(Integer.parseInt(price)/10);
+        Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).decreaseCoin(Integer.parseInt(price)/10);
         Utility utility = new Utility();
         utility.getStringImageHashMap().put(enterCardName, new Image(String.valueOf(getClass().getResource("/project/image/DeckMenuPictures/Picture.jpg"))));
         return CreateCardMessage.CARD_CREATED;

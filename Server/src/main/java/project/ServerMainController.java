@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import project.controller.ControllerManager;
 import project.controller.LoginMenuController;
 import project.controller.Scoreboard;
+import project.model.Assets;
 import project.model.User;
 
 import java.io.DataInputStream;
@@ -75,7 +76,7 @@ public class ServerMainController {
         } else if (parts[0].equals("")) {
             return "";
         } else if (parts[0].startsWith("ask")) {
-            processAsk(parts);
+            return processAsk(parts);
         }
         return "";
     }
@@ -83,9 +84,16 @@ public class ServerMainController {
     private static String processAsk(String[] parts) {
         switch (parts[1]) {
             case "nickname":
-                 return loggedInUsers.get(parts[2]).getNickname();
+                return loggedInUsers.get(parts[2]).getNickname();
             case "user":
-                return new Gson().toJson(loggedInUsers.get(parts[2]));
+                String gson = new Gson().toJson(loggedInUsers.get(parts[2]));
+                System.out.println(gson);
+                return gson;
+            case "asset":
+
+                String assetGson = new Gson().toJson(Assets.getAssetsByUsername(parts[2]));
+                System.out.println(assetGson);
+                return assetGson;
         }
         return "";
     }

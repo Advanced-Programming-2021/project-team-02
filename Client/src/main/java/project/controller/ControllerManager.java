@@ -1,6 +1,7 @@
 package project.controller;
 
 import com.google.gson.Gson;
+import project.model.Assets;
 import project.model.User;
 
 import java.io.*;
@@ -12,8 +13,6 @@ public class ControllerManager {
     private Socket socket;
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
-    private ObjectInputStream objectInputStream;
-    private ObjectOutputStream objectOutputStream;
 
     private ControllerManager() {
 
@@ -30,8 +29,6 @@ public class ControllerManager {
             this.socket = socket;
             dataInputStream = new DataInputStream(socket.getInputStream());
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
-            objectInputStream = new ObjectInputStream(socket.getInputStream());
-            objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -60,10 +57,34 @@ public class ControllerManager {
         try {
             dataOutputStream.writeUTF("ask user " + MainMenuController.getInstance().getLoggedInUserToken());
             dataOutputStream.flush();
-            User user = new Gson().fromJson(dataInputStream.readUTF(), User.class);
+            String gson = dataInputStream.readUTF();
+            System.out.println(gson);
+            User user = new Gson().fromJson(gson, User.class);
+            System.out.println(user);
+            return user;
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
         return null;
+    }
+    public Assets getAUserAssets(String username) {
+        DataOutputStream dataOutputStream = ControllerManager.getInstance().getDataOutputStream();
+        try {
+            System.out.println(username + " to get data of asset");
+            dataOutputStream.writeUTF("ask asset " + username);
+            dataOutputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        DataInputStream dataInputStream = ControllerManager.getInstance().getDataInputStream();
+        Assets assets = null;
+        try {
+            String gson = dataInputStream.readUTF();
+            System.out.println(gson);
+            assets = new Gson().fromJson(gson, Assets.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return assets;
     }
 }

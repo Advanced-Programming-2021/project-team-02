@@ -1,11 +1,7 @@
 package project.controller;
 
 
-import com.google.gson.Gson;
-import project.model.User;
-import project.view.messages.Error;
 import project.view.messages.LoginMessage;
-import project.view.messages.SuccessMessage;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -72,7 +68,7 @@ public class LoginMenuController {
         String[] results = result.split(" ");
         switch (results[0]) {
             case "success": {
-                MainMenuController.getInstance().setLoggedInUser(username, results[1]);
+                MainMenuController.getInstance().setLoggedInUsernameAndToken(username, results[1]);
                 return LoginMessage.SUCCESSFUL_SIGN_UP;
             }
             case "username_password_dont_match":

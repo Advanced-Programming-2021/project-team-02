@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
@@ -14,20 +15,19 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import project.controller.MainMenuController;
 import project.controller.ShopMenuController;
+import project.view.messages.PopUpMessage;
+import project.view.messages.ShopMenuMessage;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
-import javafx.scene.control.Label;
-import project.model.Assets;
-import project.model.card.Card;
-import project.view.messages.PopUpMessage;
-import project.view.messages.ShopMenuMessage;
-
 public class ShopMenuView {
+    public static final ArrayList<Button> buttons = new ArrayList<>();
+    public static final ArrayList<ImageView> imageViews = new ArrayList<>();
     private static ShopMenuController controller = null;
+    private final AudioClip onClick = new AudioClip(Objects.requireNonNull(Utility.class.getResource("/project/soundEffects/CURSOR.wav")).toString());
     @FXML
     public Label C1;
     @FXML
@@ -128,13 +128,10 @@ public class ShopMenuView {
     public Label C49;
     @FXML
     public Label C50;
-
     @FXML
     public Label Coin;
     public Button seeOtherCards;
     public ScrollPane scrollPane;
-    public static final ArrayList<Button> buttons = new ArrayList<>();
-    public static final ArrayList<ImageView> imageViews = new ArrayList<>();
     public HBox row1;
     public HBox row2;
     public HBox row3;
@@ -144,17 +141,13 @@ public class ShopMenuView {
     public HBox row7;
     public Label C52;
     public Label C51;
-    private final AudioClip onClick = new AudioClip(Objects.requireNonNull(Utility.class.getResource("/project/soundEffects/CURSOR.wav")).toString());
-
-    HashMap<Card, Integer> allUserCards;
+    HashMap<String, Integer> allUserCards;
 
     @FXML
     public void initialize() throws IOException {
         controller = ShopMenuController.getInstance();
-        Coin.setText(String.valueOf(Objects.requireNonNull(
-                Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
-        allUserCards = Objects.requireNonNull(
-                Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllUserCards();
+        Coin.setText(String.valueOf(MainMenuController.getInstance().getLoggedInUserAssets().getCoin()));
+        allUserCards = Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets().getAllUserCards());
         scrollPane.setFitToWidth(true);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setPrefWidth(1525);
@@ -195,62 +188,62 @@ public class ShopMenuView {
     }
 
     public void showNumber() {
-        allUserCards = Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllUserCards();
-        for (Card card : Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllUserCards().keySet()) {
-            if (card.getName().equals("Alexandrite Dragon")) C1.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Axe Raider")) C2.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Baby dragon")) C3.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Battle OX")) C4.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Battle warrior")) C5.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Beast King Barbaros")) C6.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Bitron")) C7.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Blue-Eyes white dragon")) C8.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Crab Turtle")) C9.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Crawling dragon")) C10.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Curtain of the dark ones")) C11.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Dark Blade")) C12.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Dark magician")) C13.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Exploder Dragon")) C14.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Feral Imp")) C15.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Fireyarou")) C16.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Flame manipulator")) C17.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Gate Guardian")) C18.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Haniwa")) C19.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Hero of the east")) C20.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Horn Imp")) C21.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Leotron ")) C22.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Man-Eater Bug")) C23.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Silver Fang")) C24.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Skull Guardian")) C25.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Slot Machine")) C26.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Spiral Serpent")) C27.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("The Tricky")) C28.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Warrior Dai Grepher")) C29.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Wattaildragon")) C30.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Wattkid")) C31.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Yomi Ship")) C32.setText(String.valueOf(allUserCards.get(card)));
+        allUserCards = Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getAllUserCards();
+        for (String card : Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getAllUserCards().keySet()) {
+            if (card.equals("Alexandrite Dragon")) C1.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Axe Raider")) C2.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Baby dragon")) C3.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Battle OX")) C4.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Battle warrior")) C5.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Beast King Barbaros")) C6.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Bitron")) C7.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Blue-Eyes white dragon")) C8.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Crab Turtle")) C9.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Crawling dragon")) C10.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Curtain of the dark ones")) C11.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Dark Blade")) C12.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Dark magician")) C13.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Exploder Dragon")) C14.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Feral Imp")) C15.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Fireyarou")) C16.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Flame manipulator")) C17.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Gate Guardian")) C18.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Haniwa")) C19.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Hero of the east")) C20.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Horn Imp")) C21.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Leotron ")) C22.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Man-Eater Bug")) C23.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Silver Fang")) C24.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Skull Guardian")) C25.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Slot Machine")) C26.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Spiral Serpent")) C27.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("The Tricky")) C28.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Warrior Dai Grepher")) C29.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Wattaildragon")) C30.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Wattkid")) C31.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Yomi Ship")) C32.setText(String.valueOf(allUserCards.get(card)));
 
-            if (card.getName().equals("Advanced Ritual Art")) C33.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Black Pendant")) C34.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Closed Forest")) C35.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Dark Hole")) C36.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Forest")) C37.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Harpie's Feather Duster")) C38.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Monster Reborn")) C39.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Pot of Greed")) C40.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Raigeki")) C41.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Sword of dark destruction")) C42.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Terraforming")) C43.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Umiiruka")) C44.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Yami")) C45.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Advanced Ritual Art")) C33.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Black Pendant")) C34.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Closed Forest")) C35.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Dark Hole")) C36.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Forest")) C37.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Harpie's Feather Duster")) C38.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Monster Reborn")) C39.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Pot of Greed")) C40.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Raigeki")) C41.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Sword of dark destruction")) C42.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Terraforming")) C43.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Umiiruka")) C44.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Yami")) C45.setText(String.valueOf(allUserCards.get(card)));
 
-            if (card.getName().equals("Magic Cylinder")) C46.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Mirror Force")) C47.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Negate Attack")) C48.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Torrential Tribute")) C49.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Trap Hole")) C50.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Call of The Haunted")) C51.setText(String.valueOf(allUserCards.get(card)));
-            if (card.getName().equals("Time Seal")) C52.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Magic Cylinder")) C46.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Mirror Force")) C47.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Negate Attack")) C48.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Torrential Tribute")) C49.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Trap Hole")) C50.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Call of The Haunted")) C51.setText(String.valueOf(allUserCards.get(card)));
+            if (card.equals("Time Seal")) C52.setText(String.valueOf(allUserCards.get(card)));
 
         }
     }
@@ -259,7 +252,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Blue-Eyes white dragon");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -267,7 +260,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Axe Raider");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -275,7 +268,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Baby dragon");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -283,7 +276,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Battle OX");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -291,7 +284,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Beast King Barbaros");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -299,7 +292,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Battle warrior");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -307,7 +300,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Crab Turtle");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -315,7 +308,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Crawling dragon");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -323,7 +316,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Dark Blade");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -331,7 +324,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Curtain of the dark ones");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -339,7 +332,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Alexandrite Dragon");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -347,7 +340,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Dark magician");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -355,7 +348,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Gate Guardian");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -363,7 +356,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Flame manipulator");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -371,7 +364,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Feral Imp");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -379,7 +372,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Exploder Dragon");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -387,7 +380,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Hero of the east");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -395,7 +388,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Horn Imp");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -403,7 +396,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Silver Fang");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -411,7 +404,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Man-Eater Bug");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -419,7 +412,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Skull Guardian");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -427,7 +420,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Spiral Serpent");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -435,7 +428,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Warrior Dai Grepher");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -443,7 +436,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("The Tricky");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -451,7 +444,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Slot Machine");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -459,7 +452,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Yomi Ship");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -467,7 +460,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Advanced Ritual Art");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -475,7 +468,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Closed Forest");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -483,7 +476,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Forest");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -491,7 +484,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Black Pendant");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -499,7 +492,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Dark Hole");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -507,7 +500,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Monster Reborn");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -515,7 +508,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Pot of Greed");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -523,7 +516,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Sword of dark destruction");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -531,7 +524,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Harpie's Feather Duster");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -539,7 +532,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Mirror Force");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -547,7 +540,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Trap Hole");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -555,7 +548,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Negate Attack");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -563,7 +556,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Magic Cylinder");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -571,7 +564,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Bitron");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -579,7 +572,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Fireyarou");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -587,7 +580,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Leotron ");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -595,7 +588,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Wattaildragon");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -603,7 +596,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Wattkid");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -611,7 +604,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Raigeki");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -619,7 +612,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Yami");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -627,7 +620,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Umiiruka");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -635,7 +628,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Terraforming");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -643,7 +636,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Haniwa");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -651,7 +644,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Torrential Tribute");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -670,7 +663,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Call of The Haunted");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 
@@ -678,7 +671,7 @@ public class ShopMenuView {
         ShopMenuMessage shopMenuMessage = controller.buyCard("Time Seal");
         if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
             new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-        Coin.setText(String.valueOf(Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getCoin()));
+        Coin.setText(String.valueOf(Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getCoin()));
         showNumber();
     }
 }

@@ -13,7 +13,7 @@ public class Assets {
         allAssets = new HashMap<>();
     }
 
-    private final HashMap<Card, Integer> allUserCards;
+    private final HashMap<String, Integer> allUserCards;
     private final ArrayList<Deck> allDecks;
     private String username;
     private int coin;
@@ -82,7 +82,7 @@ public class Assets {
         return null;
     }
 
-    public HashMap<Card, Integer> getAllUserCards() {
+    public HashMap<String, Integer> getAllUserCards() {
         return allUserCards;
     }
 
@@ -263,13 +263,13 @@ public class Assets {
     }
 
     public void addCard(Card card) {
-        for (Card cardsOfUser : allUserCards.keySet()) {
-            if (cardsOfUser.getName().equals(card.getName())) {
+        for (String cardsOfUser : allUserCards.keySet()) {
+            if (cardsOfUser.equals(card.getName())) {
                 allUserCards.replace(cardsOfUser, allUserCards.get(cardsOfUser) + 1);
                 return;
             }
         }
-        allUserCards.put(card, 1);
+        allUserCards.put(card.getName(), 1);
 //        try {
 //            PrintWriter printWriter = new PrintWriter("assets.json");
 //            printWriter.print("");
@@ -292,8 +292,8 @@ public class Assets {
     }
 
     public int getNumberOfCards(Card card) {
-        for (Card cardOfUser : allUserCards.keySet()) {
-            if (cardOfUser.getName().equals(card.getName())) {
+        for (String cardOfUser : allUserCards.keySet()) {
+            if (cardOfUser.equals(card.getName())) {
                 return allUserCards.get(cardOfUser);
             }
         }

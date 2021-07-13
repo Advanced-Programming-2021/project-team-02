@@ -4,24 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00f24077-6cc3-42bb-ad92-b2a3c54accc6" name="Default Changelist" comment="client">
-      <change afterPath="$PROJECT_DIR$/src/main/java/project/controller/ControllerManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/project/view/ScoreboardData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Server/src/main/java/project/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Server/src/main/java/project/ServerMainController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/ControllerManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/LoginMenuController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/Scoreboard.java" afterDir="false" />
+    <list default="true" id="00f24077-6cc3-42bb-ad92-b2a3c54accc6" name="Default Changelist" comment="no idea what the hell am i doing . . .">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/ControllerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/ControllerManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/CreateCardMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/CreateCardMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/DeckMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/DeckMenuController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/LoginMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/LoginMenuController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/MainMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/MainMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/ScoreBoardView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/ScoreBoardView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/messages/LoginMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/messages/LoginMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/model/Deck.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/Deck.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/model/Music.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/ShopMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/ShopMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/model/Assets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/model/Assets.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/model/Deck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/model/Deck.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/DeckInfoView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/DeckInfoView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/DeckMenuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/DeckMenuView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/EditDeckView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/EditDeckView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/MainMenuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/MainMenuView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/ShopMenuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/ShopMenuView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/ShopOtherPlayerCards.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/ShopOtherPlayerCards.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/ServerMainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/ServerMainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/controller/LoginMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/LoginMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/model/Assets.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/Assets.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +51,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../ApFinalPracticeCodes/Q2 AP Practice Example Answer/TrelloServer" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Server" />
   </component>
   <component name="RunManager" selected="Application.Main">
     <configuration name="LoginMenuView" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -78,17 +80,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
@@ -104,7 +95,9 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1626161797989</updated>
-      <workItem from="1626161802323" duration="14057000" />
+      <workItem from="1626161802323" duration="14126000" />
+      <workItem from="1626180273301" duration="30000" />
+      <workItem from="1626180317139" duration="5199000" />
     </task>
     <task id="LOCAL-00001" summary="client">
       <created>1626162144686</created>
@@ -113,7 +106,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626162144686</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="no idea what the hell am i doing . . .">
+      <created>1626180197920</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1626180197920</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -129,9 +129,11 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="client" />
-    <option name="LAST_COMMIT_MESSAGE" value="client" />
+    <MESSAGE value="no idea what the hell am i doing . . ." />
+    <option name="LAST_COMMIT_MESSAGE" value="no idea what the hell am i doing . . ." />
   </component>
 </project>

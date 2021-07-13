@@ -61,7 +61,7 @@ public class DeckMenuView {
     @FXML
     public void initialize() {
         user = MainMenuController.getInstance().getLoggedInUser();
-        deckArrayList = Objects.requireNonNull(Assets.getAssetsByUsername(user.getUsername())).getAllDecks();
+        deckArrayList = Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getAllDecks();
         Utility utility = new Utility();
         utility.addImages();
         imageHashMap = utility.getStringImageHashMap();
@@ -195,7 +195,7 @@ public class DeckMenuView {
         if (mouseEvent.getButton()!=MouseButton.PRIMARY)
             return;
         onClick.play();
-        if (Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllDecks().size() == 6) {
+        if (MainMenuController.getInstance().getLoggedInUserAssets().getAllDecks().size() == 6) {
             new PopUpMessage(DeckMenuMessage.DECK_MAXIMUM_NUMBER.getAlertType(), DeckMenuMessage.DECK_MAXIMUM_NUMBER.getLabel());
         } else {
             Stage window = new Stage();
@@ -220,7 +220,7 @@ public class DeckMenuView {
                     new PopUpMessage(ProfileMenuMessage.INVALID_INPUT.getAlertType(),
                             ProfileMenuMessage.INVALID_INPUT.getLabel());
                 } else {
-                    if (Objects.requireNonNull(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername())).getAllDecks().size() == 6) {
+                    if (MainMenuController.getInstance().getLoggedInUserAssets().getAllDecks().size() == 6) {
                         new PopUpMessage(DeckMenuMessage.DECK_MAXIMUM_NUMBER.getAlertType(), DeckMenuMessage.DECK_MAXIMUM_NUMBER.getLabel());
                     } else {
                         DeckMenuMessage deckMenuMessage = controller.createDeck(textField.getText());
@@ -261,6 +261,9 @@ public class DeckMenuView {
     }
 
     private void loadAddCard(MouseEvent mouseEvent) throws IOException {
+        if (mouseEvent.getButton()!=MouseButton.PRIMARY)
+            return;
+        onClick.play();
         showDecks();
     }
 

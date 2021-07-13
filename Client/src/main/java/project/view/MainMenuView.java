@@ -6,6 +6,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.AudioClip;
+import project.controller.MainMenuController;
 import project.model.Music;
 import project.model.gui.Icon;
 import project.view.messages.LoginMessage;
@@ -95,6 +96,7 @@ public class MainMenuView {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         onClick.play();
         PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.LOGOUT_CONFIRMATION.getLabel());
+        MainMenuController.getInstance().logout();
         if (popUpMessage.getAlert().getResult().getText().equals("OK"))
             Utility.openNewMenu("/project/fxml/login_menu.fxml");
 

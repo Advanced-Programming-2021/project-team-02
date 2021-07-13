@@ -37,7 +37,7 @@ public class ShopOtherPlayerCards {
 
     @FXML
     public void initialize() {
-        Coin.setText(String.valueOf(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername()).getCoin()));
+        Coin.setText(String.valueOf(MainMenuController.getInstance().getLoggedInUserAssets().getCoin()));
         utility = new Utility();
         utility.addImages();
 
@@ -85,7 +85,7 @@ public class ShopOtherPlayerCards {
                     ShopMenuMessage shopMenuMessage = ShopMenuController.getInstance().buyCard(buttonBuy.getId());
                     if (shopMenuMessage != ShopMenuMessage.CARD_ADDED)
                         new PopUpMessage(shopMenuMessage.getAlertType(), shopMenuMessage.getLabel());
-                    Coin.setText(String.valueOf(Assets.getAssetsByUsername(MainMenuController.getInstance().getLoggedInUser().getUsername()).getCoin()));
+                    Coin.setText(String.valueOf(MainMenuController.getInstance().getLoggedInUserAssets().getCoin()));
                 });
                 buttonBuy.setStyle("-fx-font-size: 15.0; -fx-background-color: #bb792d; -fx-background-radius: 10; -fx-text-fill: white; -fx-cursor: hand;");
 

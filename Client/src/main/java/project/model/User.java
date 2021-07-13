@@ -34,15 +34,12 @@ public class User implements Comparable<User> {
     }
 
     {
-//        try {
-//            fileWriter = new FileWriter("user.json");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
         hasActiveDeck = false;
         setAvatarURL(Avatar.AVATAR_1.getUrl());
     }
+    public User(){
 
+    }
     public User(String username, String password, String nickname) {
         setUsername(username);
         setNickname(nickname);

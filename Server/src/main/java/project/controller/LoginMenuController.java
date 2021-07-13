@@ -46,6 +46,7 @@ public class LoginMenuController {
         if (!doesUsernameAndPasswordMatch(username, password)) return "username_password_dont_match";
         String token = UUID.randomUUID().toString();
         User user = User.getUserByUsername(username);
+        System.out.println(user + " logged in ");
         ServerMainController.getLoggedInUsers().put(token, user);
         return "success " + token;
     }
