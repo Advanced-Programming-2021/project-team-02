@@ -1,10 +1,15 @@
 package project.controller;
 
 
+import com.google.gson.Gson;
 import project.model.User;
 import project.view.messages.Error;
 import project.view.messages.LoginMessage;
 import project.view.messages.SuccessMessage;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 
 public class LoginMenuController {
@@ -19,36 +24,61 @@ public class LoginMenuController {
     }
 
     public LoginMessage createUser(String username, String nickname, String password, String secondPassword) {
-        if (username.length () == 0 || password.length () == 0 || secondPassword.length () == 0 || nickname.length () == 0) return LoginMessage.EMPTY_FIELD;
-        if (username.length () < 6) return LoginMessage.SHORT_USERNAME;
-        if (password.length () < 8) return LoginMessage.SHORT_PASSWORD;
-        if (isUsernameUsed(username)) return LoginMessage.TAKEN_USERNAME;
-        if (isNicknameUsed(nickname)) return LoginMessage.TAKEN_NICKNAME;
+        if (username.length() == 0 || password.length() == 0 || secondPassword.length() == 0 || nickname.length() == 0)
+            return LoginMessage.EMPTY_FIELD;
+        if (!username.matches("\\w+") || !nickname.matches("\\w+") || !password.matches("\\w+"))
+            return LoginMessage.INVALID_INPUT;
+        if (username.length() < 6) return LoginMessage.SHORT_USERNAME;
+        if (password.length() < 8) return LoginMessage.SHORT_PASSWORD;
         if (!password.equals(secondPassword)) return LoginMessage.NONIDENTICAL_PASSWORDS;
-        new User(username, password, nickname);
-        //TODO User.jsonUsers();
-        return LoginMessage.SUCCESSFUL_SIGN_UP;
-    }
 
-    public boolean isUsernameUsed(String username) {
-        return User.getUserByUsername(username) != null;
-    }
+        DataOutputStream dataOutputStream = ControllerManager.getInstance().getDataOutputStream();
+        DataInputStream dataInputStream = ControllerManager.getInstance().getDataInputStream();
+        String result = "";
+        try {
+            dataOutputStream.writeUTF("login_menu register " + username + " " + nickname + " " + password + " " + secondPassword);
+            dataOutputStream.flush();
+            result = dataInputStream.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-    public boolean isNicknameUsed(String nickname) {
-        for (User user : User.getAllUsers())
-            if (user.getNickname().equals(nickname)) return true;
-        return false;
-    }
+        switch (result) {
+            case "success":
+                return LoginMessage.SUCCESSFUL_SIGN_UP;
+            case "used_username":
+                return LoginMessage.TAKEN_USERNAME;
+            case "used_nickname":
+                return LoginMessage.TAKEN_NICKNAME;
+        }
+        return LoginMessage.ERROR_OCCURRED;
 
-    public boolean doesUsernameAndPasswordMatch(String username, String password) {
-        return User.getUserByUsername(username).getPassword().equals(password);
     }
 
     public LoginMessage loginUser(String username, String password) {
-        if (username.length () == 0 || password.length () == 0) return LoginMessage.EMPTY_FIELD;
-        if (!isUsernameUsed(username)) return LoginMessage.INCORRECT_USERNAME_PASSWORD;
-        if (!doesUsernameAndPasswordMatch(username, password)) return LoginMessage.INCORRECT_USERNAME_PASSWORD;
-        MainMenuController.getInstance().setLoggedInUser(User.getUserByUsername(username));
+        if (username.length() == 0 || password.length() == 0) return LoginMessage.EMPTY_FIELD;
+        if (!username.matches("\\w+") || !password.matches("\\w+"))
+            return LoginMessage.INVALID_INPUT;
+        DataOutputStream dataOutputStream = ControllerManager.getInstance().getDataOutputStream();
+        DataInputStream dataInputStream = ControllerManager.getInstance().getDataInputStream();
+        String result = "";
+        try {
+            dataOutputStream.writeUTF("login_menu login " + username + " " + password);
+            dataOutputStream.flush();
+            result = dataInputStream.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String[] results = result.split(" ");
+        switch (results[0]) {
+            case "success": {
+                MainMenuController.getInstance().setLoggedInUser(username, results[1]);
+                return LoginMessage.SUCCESSFUL_SIGN_UP;
+            }
+            case "username_password_dont_match":
+                return LoginMessage.INCORRECT_USERNAME_PASSWORD;
+        }
+
         return LoginMessage.SUCCESSFUL_LOGIN;
     }
 }

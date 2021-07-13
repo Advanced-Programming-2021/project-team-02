@@ -5,7 +5,7 @@ import project.model.card.Monster;
 import project.model.card.Spell;
 import project.model.card.Trap;
 import project.model.card.informationofcards.CardType;
-import project.view.messages.DeckMenuMessage;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -95,15 +95,15 @@ public class Deck {
         return false;
     }
 
-    public DeckMenuMessage removeCardFromMainDeck(int index) {
-        mainCards.remove(index);
-        return DeckMenuMessage.CARD_DELETED;
-    }
-
-    public DeckMenuMessage removeCardFromSideDeck(int index) {
-        sideCards.remove(index);
-        return DeckMenuMessage.CARD_DELETED;
-    }
+//    public DeckMenuMessage removeCardFromMainDeck(int index) {
+//        mainCards.remove(index);
+//        return DeckMenuMessage.CARD_DELETED;
+//    }
+//
+//    public DeckMenuMessage removeCardFromSideDeck(int index) {
+//        sideCards.remove(index);
+//        return DeckMenuMessage.CARD_DELETED;
+//    }
 
     public Deck copy() throws CloneNotSupportedException {
         Deck deck = new Deck(this.name);

@@ -10,15 +10,14 @@ public class User implements Comparable<User> {
     //static FileWriter fileWriter;
     //static Gson gson = new Gson();
     private static final ArrayList<User> allUsers;
-    private String username;
-    private String password;
-    private String nickname;
-    private boolean hasActiveDeck;
-    private int score;
-    private URL avatar;
 
     static {
+
         allUsers = new ArrayList<>();
+        User user = new User("ali", "ali", "ali");
+        user.score = 1000;
+        User user1 = new User("mmd", "mmd", "mmd");
+        user1.score = 2000;
         User ai = new User("ai", "", "ai");
         Assets assets = Assets.getAssetsByUsername("ai");
         Objects.requireNonNull(assets).createDeck("aiDeck");
@@ -32,6 +31,13 @@ public class User implements Comparable<User> {
         }
         assets.activateDeck("aiDeck");
     }
+
+    private String username;
+    private String password;
+    private String nickname;
+    private boolean hasActiveDeck;
+    private int score;
+    private URL avatar;
 
     {
 //        try {
@@ -51,14 +57,6 @@ public class User implements Comparable<User> {
         allUsers.add(this);
         //User.jsonUsers();
         //Assets.jsonAssets();
-    }
-
-    public URL getAvatarURL() {
-        return avatar;
-    }
-
-    public void setAvatarURL(URL avatar) {
-        this.avatar = avatar;
     }
 
     public static Deck getActiveDeckByUsername(String username) {
@@ -103,6 +101,14 @@ public class User implements Comparable<User> {
         }
         Collections.sort(usersWithoutAi);
         return usersWithoutAi;
+    }
+
+    public URL getAvatarURL() {
+        return avatar;
+    }
+
+    public void setAvatarURL(URL avatar) {
+        this.avatar = avatar;
     }
 
 //    public static void jsonUsers() {

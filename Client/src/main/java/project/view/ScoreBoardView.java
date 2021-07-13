@@ -11,38 +11,57 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
+import project.controller.ControllerManager;
 import project.controller.MainMenuController;
 import project.model.Music;
 import project.model.User;
 import project.model.gui.Icon;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class ScoreBoardView {
+    private final AudioClip onClick = new AudioClip(Objects.requireNonNull(Utility.class.getResource("/project/soundEffects/CURSOR.wav")).toString());
     public VBox secondBox;
     public AnchorPane pane;
     public VBox firstBox;
     public ImageView playPauseMusicButton;
     public ImageView muteUnmuteButton;
-    private final AudioClip onClick = new AudioClip(Objects.requireNonNull(Utility.class.getResource("/project/soundEffects/CURSOR.wav")).toString());
 
     @FXML
     public void initialize() {
+        DataInputStream dataInputStream = ControllerManager.getInstance().getDataInputStream();
+        DataOutputStream dataOutputStream = ControllerManager.getInstance().getDataOutputStream();
+        String result = "";
+        try {
+            dataOutputStream.writeUTF("scoreboard");
+            dataOutputStream.flush();
+            result = dataInputStream.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String[] userdata = result.split("/");
+        ArrayList<ScoreboardData> scoreboardData = new ArrayList<>();
+        for (String s : userdata) {
+            String[] parts = s.split(":");
+            scoreboardData.add(new ScoreboardData(parts[0], Integer.parseInt(parts[1]), parts[2].equals("ture")));
+        }
         Music.muteUnmuteButtons.add(muteUnmuteButton);
         if (!Music.isMediaPlayerPaused) playPauseMusicButton.setImage(Icon.PAUSE.getImage());
         else playPauseMusicButton.setImage(Icon.PLAY.getImage());
         if (Music.mediaPlayer.isMute()) muteUnmuteButton.setImage(Icon.MUTE.getImage());
         else muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
 
-        ArrayList<User> allUsers = User.sortAllUsers();
         secondBox.setPadding(new Insets(10, 10, 10, 10));
-        HBox[] hBoxes = new HBox[Math.min(10, allUsers.size())];
-        Label[] ranks = new Label[Math.min(10, allUsers.size())];
-        Label[] nicknames = new Label[Math.min(10, allUsers.size())];
-        Label[] scores = new Label[Math.min(10, allUsers.size())];
+        HBox[] hBoxes = new HBox[Math.min(10, scoreboardData.size())];
+        Label[] ranks = new Label[Math.min(10, scoreboardData.size())];
+        Label[] nicknames = new Label[Math.min(10, scoreboardData.size())];
+        Label[] scores = new Label[Math.min(10, scoreboardData.size())];
 
-        for (int i = 0; i < Math.min(10, allUsers.size()); i++) {
+        for (int i = 0; i < Math.min(10, scoreboardData.size()); i++) {
             hBoxes[i] = new HBox();
             ranks[i] = new Label();
             nicknames[i] = new Label();
@@ -50,17 +69,17 @@ public class ScoreBoardView {
         }
 
         int counter = 0;
-        for (int i = 0; i < Math.min(10, allUsers.size()); i++) {
-            if (i != 0 && allUsers.get(i).getScore() == allUsers.get(i - 1).getScore()) {
+        for (int i = 0; i < Math.min(10, userdata.length); i++) {
+            if (i != 0 && scoreboardData.get(i).getScore() == scoreboardData.get(i - 1).getScore()) {
                 ranks[i].setText(String.valueOf(i - counter));
-                nicknames[i].setText(allUsers.get(i).getNickname());
-                scores[i].setText(String.valueOf(allUsers.get(i).getScore()));
+                nicknames[i].setText(scoreboardData.get(i).getNickname());
+                scores[i].setText(String.valueOf(scoreboardData.get(i).getScore()));
                 counter++;
             } else {
                 counter = 0;
                 ranks[i].setText(String.valueOf(i + 1));
-                nicknames[i].setText(allUsers.get(i).getNickname());
-                scores[i].setText(String.valueOf(allUsers.get(i).getScore()));
+                nicknames[i].setText(scoreboardData.get(i).getNickname());
+                scores[i].setText(String.valueOf(scoreboardData.get(i).getScore()));
             }
         }
         HBox hBox1 = new HBox();
