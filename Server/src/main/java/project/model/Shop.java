@@ -6,11 +6,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Shop {
-    private   LinkedHashMap<String, Integer> cardsWithPrices;
     private static Shop instance = null;
-    private  LinkedHashMap<String, Integer> cardsWithNumberOfThem;
+    private LinkedHashMap<String, Integer> cardsWithPrices;
+    private LinkedHashMap<String, Integer> cardsWithNumberOfThem;
 
-     {
+    {
         cardsWithPrices = new LinkedHashMap<>();
         cardsWithNumberOfThem = new LinkedHashMap<>();
     }
@@ -23,7 +23,7 @@ public class Shop {
         return instance;
     }
 
-    public  LinkedHashMap<String, Integer> getCardsWithPrices() {
+    public LinkedHashMap<String, Integer> getCardsWithPrices() {
         return cardsWithPrices;
     }
 
@@ -33,7 +33,7 @@ public class Shop {
         cardsWithNumberOfThem.put(card.getName(), 5);
     }
 
-    public  LinkedHashMap<String, Integer> getCardsWithNumberOfThem() {
+    public LinkedHashMap<String, Integer> getCardsWithNumberOfThem() {
         return cardsWithNumberOfThem;
     }
 }

@@ -20,6 +20,7 @@ public class ShopController {
     }
 
     public String buyCard(String cardName, String username) {
+        System.out.println(cardName);
         LinkedHashMap<String, Integer> cardsLinkedToNumber = Shop.getInstance().getCardsWithNumberOfThem();
         LinkedHashMap<String, Integer> cardsWithPrices = Shop.getInstance().getCardsWithPrices();
         if (cardsLinkedToNumber.get(cardName) == 0)

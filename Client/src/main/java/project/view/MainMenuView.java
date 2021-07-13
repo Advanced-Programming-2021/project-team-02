@@ -57,7 +57,7 @@ public class MainMenuView {
     public void shopMenu(MouseEvent actionEvent) throws Exception {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         onClick.play();
-        Utility.openNewMenu("/project/fxml/shop_menu.fxml");
+        Utility.openNewMenu("/project/fxml/new_shop.fxml");
     }
 
     public void createCard(MouseEvent actionEvent) throws Exception {

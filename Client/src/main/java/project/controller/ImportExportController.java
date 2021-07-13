@@ -2,7 +2,6 @@ package project.controller;
 
 import com.google.gson.Gson;
 import javafx.scene.image.Image;
-import project.model.Assets;
 import project.model.Shop;
 import project.model.card.*;
 import project.model.card.informationofcards.CardType;
@@ -115,7 +114,7 @@ public class ImportExportController {
             fileWriter.append(COMMA_DELIMITER);
             fileWriter.append(trap.getDescription());
             fileWriter.append(COMMA_DELIMITER);
-            fileWriter.append(String.valueOf(Shop.getInstance().getCards().get(cardName)));
+            fileWriter.append(String.valueOf(Shop.getInstance().getCardsWithPrices().get(cardName)));
             fileWriter.append(LINE_SEPARATOR);
         } catch (IOException e) {
             e.printStackTrace();
@@ -148,7 +147,7 @@ public class ImportExportController {
             fileWriter.append(COMMA_DELIMITER);
             fileWriter.append(spell.getDescription());
             fileWriter.append(COMMA_DELIMITER);
-            fileWriter.append(String.valueOf(Shop.getInstance().getCards().get(cardName)));
+            fileWriter.append(String.valueOf(Shop.getInstance().getCardsWithPrices().get(cardName)));
             fileWriter.append(LINE_SEPARATOR);
         } catch (IOException e) {
             e.printStackTrace();
@@ -185,7 +184,7 @@ public class ImportExportController {
             fileWriter.append(COMMA_DELIMITER);
             fileWriter.append(monster.getDescription());
             fileWriter.append(COMMA_DELIMITER);
-            fileWriter.append(String.valueOf(Shop.getInstance().getCards().get(cardName)));
+            fileWriter.append(String.valueOf(Shop.getInstance().getCardsWithPrices().get(cardName)));
             fileWriter.append(LINE_SEPARATOR);
         } catch (IOException e) {
             e.printStackTrace();

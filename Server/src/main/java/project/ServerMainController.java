@@ -90,13 +90,13 @@ public class ServerMainController {
     }
 
     private static String processShopCommand(String input) {
-        Pattern pattern = Pattern.compile("buy shop <(?<cardname>.+)> (?<token>.+)");
+        Pattern pattern = Pattern.compile("shop buy <(?<cardName>.+)> (?<token>.+)");
         Matcher matcher = pattern.matcher(input);
         if (matcher.find()) {
             String cardName = matcher.group("cardName");
             String token = matcher.group("token");
             return ShopController.getInstance().buyCard(cardName, loggedInUsers.get(token).getUsername());
-        } else return "";
+        } else return "failed";
     }
 
     private static String processAsk(String[] parts) {

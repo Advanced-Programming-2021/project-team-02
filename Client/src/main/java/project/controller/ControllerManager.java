@@ -5,7 +5,6 @@ import com.google.gson.reflect.TypeToken;
 import project.model.Assets;
 import project.model.Shop;
 import project.model.User;
-import project.model.card.Card;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -113,7 +112,7 @@ public class ControllerManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        LinkedHashMap<String, Integer> shopCards = (LinkedHashMap<String, Integer>) Shop.getInstance().getCards();
+        LinkedHashMap<String, Integer> shopCards = (LinkedHashMap<String, Integer>) Shop.getInstance().getCardsWithPrices();
         for (String card : shopCards.keySet()) {
             shopCards.replace(card, cards.get(card));
         }

@@ -4,20 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00f24077-6cc3-42bb-ad92-b2a3c54accc6" name="Default Changelist" comment="changing assets class to match with network!">
-      <change afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/ShopController.java" afterDir="false" />
+    <list default="true" id="00f24077-6cc3-42bb-ad92-b2a3c54accc6" name="Default Changelist" comment="working on shop">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/project/fxml/new_shop.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/ControllerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/ControllerManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/ImportExportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/ImportExportController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/ShopMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/ShopMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/model/Assets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/model/Assets.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/project/model/Shop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/model/Shop.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/messages/ShopMenuMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/messages/ShopMenuMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/MainMenuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/MainMenuView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/ShopMenuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/ShopMenuView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/project/CSS/shop_menu.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/project/CSS/shop_menu.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/project/fxml/shop_menu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/project/fxml/shop_menu.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/ServerMainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/ServerMainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/controller/LoginMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/LoginMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/model/Assets.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/Assets.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/controller/ShopController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/ShopController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/model/Shop.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/Shop.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/User.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +30,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="FxmlFile" />
       </list>
     </option>
   </component>
@@ -45,7 +48,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../ApClasses/src/main/java/File" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunManager" selected="Application.Main">
     <configuration name="LoginMenuView" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -74,13 +77,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -102,7 +107,8 @@
       <updated>1626161797989</updated>
       <workItem from="1626161802323" duration="14126000" />
       <workItem from="1626180273301" duration="30000" />
-      <workItem from="1626180317139" duration="7788000" />
+      <workItem from="1626180317139" duration="21921000" />
+      <workItem from="1626206157931" duration="1197000" />
     </task>
     <task id="LOCAL-00001" summary="client">
       <created>1626162144686</created>
@@ -125,7 +131,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626185641995</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="working on shop">
+      <created>1626188642663</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1626188642663</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -147,6 +160,7 @@
     <MESSAGE value="client" />
     <MESSAGE value="no idea what the hell am i doing . . ." />
     <MESSAGE value="changing assets class to match with network!" />
-    <option name="LAST_COMMIT_MESSAGE" value="changing assets class to match with network!" />
+    <MESSAGE value="working on shop" />
+    <option name="LAST_COMMIT_MESSAGE" value="working on shop" />
   </component>
 </project>

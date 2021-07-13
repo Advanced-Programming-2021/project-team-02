@@ -24,22 +24,24 @@ public class ShopMenuController {
     public ShopMenuMessage buyCard(String cardName) {
         Card card = Card.getCardByName(cardName);
         Assets assets = MainMenuController.getInstance().getLoggedInUserAssets();
-        if (Objects.requireNonNull(assets).getCoin() < Shop.getInstance().getCards().get(cardName)) {
+        if (Objects.requireNonNull(assets).getCoin() < Shop.getInstance().getCardsWithPrices().get(cardName)) {
             return ShopMenuMessage.NOT_ENOUGH_MONEY;
         }
         String result = "";
         DataOutputStream dataOutputStream = ControllerManager.getInstance().getDataOutputStream();
         DataInputStream dataInputStream = ControllerManager.getInstance().getDataInputStream();
         try {
-            dataOutputStream.writeUTF("shop buy <" + cardName + ">" + MainMenuController.getInstance().getLoggedInUserToken());
+            dataOutputStream.writeUTF("shop buy <" + cardName + "> " + MainMenuController.getInstance().getLoggedInUserToken());
             dataOutputStream.flush();
             result = dataInputStream.readUTF();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("result : "+result);
+
         switch (result) {
             case "success":
-                Objects.requireNonNull(assets).decreaseCoin(Shop.getInstance().getCards().get(cardName));
+                Objects.requireNonNull(assets).decreaseCoin(Shop.getInstance().getCardsWithPrices().get(cardName));
                 assets.addBoughtCard(card);
                 ControllerManager.getInstance().getLastShopData();
                 return ShopMenuMessage.CARD_ADDED;

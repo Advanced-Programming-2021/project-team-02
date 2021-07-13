@@ -51,11 +51,10 @@
 }
 
 #button {
-    -fx-font-size: 15.0;
+    -fx-font-size: 20.0;
     -fx-background-color: #bb792d;
     -fx-background-radius: 10;
     -fx-text-fill: white;
-    -fx-cursor: hand;
 }
 
 #numberOfCards {
@@ -95,4 +94,8 @@
 
 .scroll-bar:vertical {
     -fx-background-color: #00062b;
+}
+.scroll-pane > .viewport{
+    -fx-background-color: #00062b;
+    -fx-alignment: CENTER;
 }
