@@ -111,7 +111,7 @@ public class Assets {
         coin -= amount;
     }
 
-    public void addCard(Card card) {
+    public void addBoughtCard(Card card) {
         for (String cardsOfUser : allUserCards.keySet()) {
             if (cardsOfUser.equals(card.getName())) {
                 allUserCards.replace(cardsOfUser, allUserCards.get(cardsOfUser) + 1);

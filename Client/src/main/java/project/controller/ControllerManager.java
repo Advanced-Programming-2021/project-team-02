@@ -1,12 +1,17 @@
 package project.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import project.model.Assets;
+import project.model.Shop;
 import project.model.User;
+import project.model.card.Card;
 
-import java.io.*;
-import java.net.ServerSocket;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.Socket;
+import java.util.LinkedHashMap;
 
 public class ControllerManager {
     private static ControllerManager instance = null;
@@ -67,6 +72,7 @@ public class ControllerManager {
         }
         return null;
     }
+
     public Assets getAUserAssets(String username) {
         DataOutputStream dataOutputStream = ControllerManager.getInstance().getDataOutputStream();
         try {
@@ -86,5 +92,30 @@ public class ControllerManager {
             e.printStackTrace();
         }
         return assets;
+    }
+
+    public void getLastShopData() {
+        DataOutputStream dataOutputStream = ControllerManager.getInstance().getDataOutputStream();
+        try {
+
+            dataOutputStream.writeUTF("ask shop");
+            dataOutputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        DataInputStream dataInputStream = ControllerManager.getInstance().getDataInputStream();
+        LinkedHashMap<String, Integer> cards = null;
+        try {
+            String gson = dataInputStream.readUTF();
+            System.out.println(gson);
+            cards = new Gson().fromJson(gson, new TypeToken<LinkedHashMap<String, Integer>>() {
+            }.getType());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        LinkedHashMap<String, Integer> shopCards = (LinkedHashMap<String, Integer>) Shop.getInstance().getCards();
+        for (String card : shopCards.keySet()) {
+            shopCards.replace(card, cards.get(card));
+        }
     }
 }

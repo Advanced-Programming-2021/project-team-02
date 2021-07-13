@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class Shop {
     private static Shop instance = null;
-    private static final LinkedHashMap<Card, Integer> cards;
+    private static final LinkedHashMap<String, Integer> cards;
 
     static {
         cards = new LinkedHashMap<> ();
@@ -20,12 +20,12 @@ public class Shop {
         return instance;
     }
 
-    public static Map<Card, Integer> getCards() {
+    public  Map<String, Integer> getCards() {
         return cards;
     }
 
     public void addCardToShop(Card card, int price) {
-        cards.put(card, price);
+        cards.put(card.getName(), price);
         card.setPrice(price);
     }
 }

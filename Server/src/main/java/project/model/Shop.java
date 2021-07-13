@@ -6,26 +6,34 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Shop {
+    private   LinkedHashMap<String, Integer> cardsWithPrices;
     private static Shop instance = null;
-    private static final LinkedHashMap<Card, Integer> cards;
+    private  LinkedHashMap<String, Integer> cardsWithNumberOfThem;
 
-    static {
-        cards = new LinkedHashMap<> ();
+     {
+        cardsWithPrices = new LinkedHashMap<>();
+        cardsWithNumberOfThem = new LinkedHashMap<>();
     }
 
-    private Shop() {}
+    private Shop() {
+    }
 
     public static Shop getInstance() {
-        if (instance == null) instance = new Shop ();
+        if (instance == null) instance = new Shop();
         return instance;
     }
 
-    public static Map<Card, Integer> getCards() {
-        return cards;
+    public  LinkedHashMap<String, Integer> getCardsWithPrices() {
+        return cardsWithPrices;
     }
 
     public void addCardToShop(Card card, int price) {
-        cards.put(card, price);
+        cardsWithPrices.put(card.getName(), price);
         card.setPrice(price);
+        cardsWithNumberOfThem.put(card.getName(), 5);
+    }
+
+    public  LinkedHashMap<String, Integer> getCardsWithNumberOfThem() {
+        return cardsWithNumberOfThem;
     }
 }

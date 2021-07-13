@@ -115,7 +115,7 @@ public class ImportExportController {
             fileWriter.append(COMMA_DELIMITER);
             fileWriter.append(trap.getDescription());
             fileWriter.append(COMMA_DELIMITER);
-            fileWriter.append(String.valueOf(Shop.getCards().get(card)));
+            fileWriter.append(String.valueOf(Shop.getInstance().getCards().get(cardName)));
             fileWriter.append(LINE_SEPARATOR);
         } catch (IOException e) {
             e.printStackTrace();
@@ -148,7 +148,7 @@ public class ImportExportController {
             fileWriter.append(COMMA_DELIMITER);
             fileWriter.append(spell.getDescription());
             fileWriter.append(COMMA_DELIMITER);
-            fileWriter.append(String.valueOf(Shop.getCards().get(card)));
+            fileWriter.append(String.valueOf(Shop.getInstance().getCards().get(cardName)));
             fileWriter.append(LINE_SEPARATOR);
         } catch (IOException e) {
             e.printStackTrace();
@@ -185,7 +185,7 @@ public class ImportExportController {
             fileWriter.append(COMMA_DELIMITER);
             fileWriter.append(monster.getDescription());
             fileWriter.append(COMMA_DELIMITER);
-            fileWriter.append(String.valueOf(Shop.getCards().get(card)));
+            fileWriter.append(String.valueOf(Shop.getInstance().getCards().get(cardName)));
             fileWriter.append(LINE_SEPARATOR);
         } catch (IOException e) {
             e.printStackTrace();

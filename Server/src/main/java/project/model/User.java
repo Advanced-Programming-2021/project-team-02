@@ -80,9 +80,11 @@ public class User implements Comparable<User> {
     }
 
     public static User getUserByUsername(String username) {
-        for (User user : allUsers)
-            if (user.username.equals(username)) return user;
-        return null;
+        synchronized (allUsers) {
+            for (User user : allUsers)
+                if (user.username.equals(username)) return user;
+            return null;
+        }
     }
 
     public static User getUserByNickName(String nickname) {

@@ -10,6 +10,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
@@ -141,6 +142,7 @@ public class ShopMenuView {
     public HBox row7;
     public Label C52;
     public Label C51;
+    public GridPane shopGrid;
     HashMap<String, Integer> allUserCards;
 
     @FXML

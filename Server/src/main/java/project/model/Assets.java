@@ -262,7 +262,7 @@ public class Assets {
         coin -= amount;
     }
 
-    public void addCard(Card card) {
+    public void addBoughtCard(Card card) {
         for (String cardsOfUser : allUserCards.keySet()) {
             if (cardsOfUser.equals(card.getName())) {
                 allUserCards.replace(cardsOfUser, allUserCards.get(cardsOfUser) + 1);
@@ -270,25 +270,6 @@ public class Assets {
             }
         }
         allUserCards.put(card.getName(), 1);
-//        try {
-//            PrintWriter printWriter = new PrintWriter("assets.json");
-//            printWriter.print("");
-//            Writer writer = null;
-//            try {
-//                writer = Files.newBufferedWriter(Paths.get("assets.json"));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            gson.toJson(allAssets, writer);
-//            try {
-//                assert writer != null;
-//                writer.close();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
     }
 
     public int getNumberOfCards(Card card) {

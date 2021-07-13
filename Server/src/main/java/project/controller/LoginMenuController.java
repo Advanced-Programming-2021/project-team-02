@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import project.ServerMainController;
 import project.model.User;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 
@@ -31,9 +32,12 @@ public class LoginMenuController {
     }
 
     public boolean isNicknameUsed(String nickname) {
-        for (User user : User.getAllUsers())
-            if (user.getNickname().equals(nickname)) return true;
-        return false;
+        ArrayList<User> allUsers = User.getAllUsers();
+        synchronized (allUsers) {
+            for (User user : allUsers)
+                if (user.getNickname().equals(nickname)) return true;
+            return false;
+        }
     }
 
     public boolean doesUsernameAndPasswordMatch(String username, String password) {
