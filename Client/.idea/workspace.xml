@@ -1,5 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="00f24077-6cc3-42bb-ad92-b2a3c54accc6" name="Default Changelist" comment="client">
+      <change afterPath="$PROJECT_DIR$/../Server/Server.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/Assets.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/Assets.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/Avatar.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/Avatar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/Deck.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/Deck.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/Music.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/Music.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/Shop.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/Shop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/card/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/card/Card.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/card/CardsDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/card/CardsDatabase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/card/Monster.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/card/Monster.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/card/Spell.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/card/Spell.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/card/Trap.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/card/Trap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/card/informationofcards/Attribute.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/card/informationofcards/Attribute.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/card/informationofcards/CardType.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/card/informationofcards/CardType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/card/informationofcards/MonsterActionType.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/card/informationofcards/MonsterActionType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/card/informationofcards/MonsterEffect.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/card/informationofcards/MonsterEffect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/card/informationofcards/MonsterType.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/card/informationofcards/MonsterType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/card/informationofcards/SpellEffect.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/card/informationofcards/SpellEffect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/card/informationofcards/SpellType.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/card/informationofcards/SpellType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/card/informationofcards/TrapEffect.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/card/informationofcards/TrapEffect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/card/informationofcards/TrapType.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/card/informationofcards/TrapType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/game/Duel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/game/Duel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/game/DuelPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/game/DuelPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/game/PlayerBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/game/PlayerBoard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/game/board/Cell.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/game/board/Cell.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/game/board/CellStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/game/board/CellStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/game/board/FieldZone.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/game/board/FieldZone.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/game/board/GraveYard.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/game/board/GraveYard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/game/board/MonsterZone.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/game/board/MonsterZone.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/game/board/SpellZone.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/game/board/SpellZone.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/game/board/Zone.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/game/board/Zone.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/gui/BackgroundMaker.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/model/gui/Icon.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1vFdV9bkiZubF5xPsF8fFXUwdSs" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+  </component>
   <component name="RunManager">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
@@ -12,5 +73,43 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="00f24077-6cc3-42bb-ad92-b2a3c54accc6" name="Default Changelist" comment="" />
+      <created>1626161797989</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1626161797989</updated>
+      <workItem from="1626161802323" duration="663000" />
+    </task>
+    <task id="LOCAL-00001" summary="client">
+      <created>1626162144686</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1626162144686</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="client" />
+    <option name="LAST_COMMIT_MESSAGE" value="client" />
   </component>
 </project>

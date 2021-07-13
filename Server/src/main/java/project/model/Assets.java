@@ -1,7 +1,6 @@
 package project.model;
 
 import project.model.card.Card;
-import project.view.messages.DeckMenuMessage;
 
 import java.util.*;
 
@@ -212,52 +211,52 @@ public class Assets {
 //            e.printStackTrace();
 //        }
     }
-
-    public DeckMenuMessage removeCardFromMainDeck(int index, Deck deck) {
-        return deck.removeCardFromMainDeck(index);
-//        try {
-//            PrintWriter printWriter = new PrintWriter("assets.json");
-//            printWriter.print("");
-//            Writer writer = null;
-//            try {
-//                writer = Files.newBufferedWriter(Paths.get("assets.json"));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            gson.toJson(allAssets, writer);
-//            try {
-//                assert writer != null;
-//                writer.close();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-    }
-
-    public DeckMenuMessage removeCardFromSideDeck(int index, Deck deck) {
-        return deck.removeCardFromSideDeck(index);
-//        try {
-//            PrintWriter printWriter = new PrintWriter("assets.json");
-//            printWriter.print("");
-//            Writer writer = null;
-//            try {
-//                writer = Files.newBufferedWriter(Paths.get("assets.json"));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            gson.toJson(allAssets, writer);
-//            try {
-//                assert writer != null;
-//                writer.close();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-    }
+//TODO
+//    public DeckMenuMessage removeCardFromMainDeck(int index, Deck deck) {
+//        return deck.removeCardFromMainDeck(index);
+////        try {
+////            PrintWriter printWriter = new PrintWriter("assets.json");
+////            printWriter.print("");
+////            Writer writer = null;
+////            try {
+////                writer = Files.newBufferedWriter(Paths.get("assets.json"));
+////            } catch (IOException e) {
+////                e.printStackTrace();
+////            }
+////            gson.toJson(allAssets, writer);
+////            try {
+////                assert writer != null;
+////                writer.close();
+////            } catch (IOException e) {
+////                e.printStackTrace();
+////            }
+////        } catch (FileNotFoundException e) {
+////            e.printStackTrace();
+////        }
+//    }
+//TODO
+//    public DeckMenuMessage removeCardFromSideDeck(int index, Deck deck) {
+//        return deck.removeCardFromSideDeck(index);
+////        try {
+////            PrintWriter printWriter = new PrintWriter("assets.json");
+////            printWriter.print("");
+////            Writer writer = null;
+////            try {
+////                writer = Files.newBufferedWriter(Paths.get("assets.json"));
+////            } catch (IOException e) {
+////                e.printStackTrace();
+////            }
+////            gson.toJson(allAssets, writer);
+////            try {
+////                assert writer != null;
+////                writer.close();
+////            } catch (IOException e) {
+////                e.printStackTrace();
+////            }
+////        } catch (FileNotFoundException e) {
+////            e.printStackTrace();
+////        }
+//    }
 
     public void decreaseCoin(int amount) {
         coin -= amount;
