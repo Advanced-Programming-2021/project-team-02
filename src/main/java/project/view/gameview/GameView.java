@@ -261,9 +261,11 @@ public class GameView {
                     selectedCardDescriptionLabel.setText(Objects.requireNonNull(Card.getCardByName(cardName)).toString());
                     RoundGameController.getInstance().selectCardInHand(addressOfAddInGrid + 1);
                 });
+
                 reloadCurrentAndOpponentMonsterZone(); //TODO not sure of here!
                 handPane.add(imageView, addressOfAddInGrid, 0);
                 mainGamePane.getChildren().remove(cardImageView);
+                reloadCurrentHand();
             }
         });
 
@@ -1723,6 +1725,14 @@ public class GameView {
                 selectedCardDescriptionLabel.setText(card.toString());
                 RoundGameController.getInstance().selectCardInHand(finalCounter + 1);
             });
+            cardImageView.setOnMouseEntered(mouseEvent -> {
+                cardImageView.setScaleX(1.2);
+                cardImageView.setScaleY(1.4);
+            });
+            cardImageView.setOnMouseExited(mouseEvent -> {
+                cardImageView.setScaleX(1);
+                cardImageView.setScaleY(1);
+            });
             currentHand.add(cardImageView, counter, 0);
             counter++;
         }
@@ -2273,10 +2283,10 @@ public class GameView {
     }
 
     public void showSummon(int addressInMonsterZone, int addressInHand, String cardName) {
-        if (cardName.equals("The Tricky")){
+        if (cardName.equals("The Tricky")) {
             reloadCurrentHand();
             reloadCurrentAndOpponentMonsterZone();
-            return ;
+            return;
         }
         ImageView fakeCardImageView = new ImageView(getCardImageByName(cardName));
         fakeCardImageView.setFitWidth(94);
@@ -2345,6 +2355,14 @@ public class GameView {
                 selectedCardDescriptionLabel.setText(card.toString());
                 RoundGameController.getInstance().selectCardInHand(finalCounter + 1);
             });
+            cardImageView.setOnMouseEntered(mouseEvent -> {
+                cardImageView.setScaleX(1.2);
+                cardImageView.setScaleY(1.4);
+            });
+            cardImageView.setOnMouseExited(mouseEvent -> {
+                cardImageView.setScaleX(1);
+                cardImageView.setScaleY(1);
+            });
             currentHand.add(cardImageView, counter, 0);
             counter++;
         }
@@ -2401,10 +2419,10 @@ public class GameView {
         TranslateTransition tt;
         switch (animation) {
             case DRAW_CARD:
-                 drawCardFromDeckAnimation(cardName, isCurrent);
+                drawCardFromDeckAnimation(cardName, isCurrent);
                 break;
             case SUMMON_MONSTER:
-                 showSummon(addressInZone, addressInHand, cardName);
+                showSummon(addressInZone, addressInHand, cardName);
 
                 break;
             case SET_MONSTER:
