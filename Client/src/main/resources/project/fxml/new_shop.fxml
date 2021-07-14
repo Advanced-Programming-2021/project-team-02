@@ -19,26 +19,62 @@
     <stylesheets>
         <URL value="@../CSS/shop_menu.css"/>
     </stylesheets>
-    <ImageView onMouseClicked="#nextPage" fitHeight="44.0" fitWidth="51.0" layoutX="497.0" layoutY="847.0"
-               pickOnBounds="true" preserveRatio="true" xmlns="http://javafx.com/javafx/16"
-               xmlns:fx="http://javafx.com/fxml/1">
+    <HBox alignment="CENTER_LEFT">
+    <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#back" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../image/Icon/previous.png" />
+        <cursor>
+            <Cursor fx:constant="HAND" />
+        </cursor>
+        <HBox.margin>
+            <Insets left="50.0" right="275.0" />
+        </HBox.margin>
+    </ImageView>
+    <HBox id="menuBar" alignment="CENTER" prefHeight="62.0" prefWidth="253.0" spacing="10.0">
+        <ImageView id="icon" fitWidth="35" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../image/Icon/main_menu.png" />
+        </ImageView>
+        <Label id="menuTitle" text="Shop Menu" />
+        <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+        </padding>
+        <VBox.margin>
+            <Insets left="125.0" right="125.0" />
+        </VBox.margin>
+    </HBox>
+        <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#refresh" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../image/Icon/refresh.png" />
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+            <HBox.margin>
+                <Insets left="260.0" right="50.0" />
+            </HBox.margin>
+        </ImageView>
+
+    </HBox>
+
+    <ImageView fitHeight="23.0" fitWidth="15.0" layoutX="534.0" layoutY="843.0" onMouseClicked="#nextPage" pickOnBounds="true" preserveRatio="true" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
         <cursor>
             <Cursor fx:constant="HAND" />
         </cursor>
         <image>
-            <Image url="@../image/Icon/arrow.png"/>
+            <Image url="@../image/Icon/arrow.png" />
         </image>
     </ImageView>
-    <ImageView onMouseClicked="#previousPage" fitHeight="44.0" fitWidth="45.0" layoutX="410.0" layoutY="847.0"
-               pickOnBounds="true" preserveRatio="true" rotate="180.0" xmlns="http://javafx.com/javafx/16"
-               xmlns:fx="http://javafx.com/fxml/1">
+
+    <Label alignment="CENTER" id="label" fx:id="pageLabel" layoutX="489.0" layoutY="846.0" prefHeight="18.0" prefWidth="21.0" text="Label" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" />
+
+
+    <ImageView fitHeight="23.0" fitWidth="19.0" layoutX="446.0" layoutY="843.0" onMouseClicked="#previousPage" pickOnBounds="true" preserveRatio="true" rotate="180.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
         <cursor>
             <Cursor fx:constant="HAND" />
         </cursor>
         <image>
-            <Image url="@../image/Icon/arrow.png"/>
+            <Image url="@../image/Icon/arrow.png" />
         </image>
     </ImageView>
+
+
     <children>
         <AnchorPane id="secondBox" layoutX="59.0" layoutY="80.0" prefHeight="759.0" prefWidth="875.0">
             <children>
@@ -60,12 +96,21 @@
                 </GridPane>
             </children>
         </AnchorPane>
-        <VBox alignment="CENTER" id="secondBox" layoutX="1062.0" layoutY="180.0" prefHeight="510.0" prefWidth="337.0"
+        <Label id="coinsLabel" fx:id="coinsLabel" layoutX="1145.0" layoutY="100.0" alignment="CENTER" prefHeight="30.0" prefWidth="160.0"
+               text="Coins : ">
+            <padding>
+                <Insets left="10.0" right="10.0"/>
+            </padding>
+            <VBox.margin>
+                <Insets left="30.0" right="30.0"/>
+            </VBox.margin>
+        </Label>
+        <VBox alignment="CENTER" id="secondBox" layoutX="1062.0" layoutY="180.0" prefHeight="520.0" prefWidth="337.0"
               spacing="10.0">
             <children>
                 <ImageView fx:id="selectedCardImage" fitHeight="356.0" fitWidth="339.0" pickOnBounds="true"
                            preserveRatio="true"/>
-                <Label id="label" fx:id="priceLabel" alignment="CENTER" prefHeight="18.0" prefWidth="358.0"
+                <Label id="label" fx:id="priceLabel" alignment="CENTER" prefHeight="20.0" prefWidth="358.0"
                        text="Price : ">
                     <padding>
                         <Insets left="10.0" right="10.0"/>
@@ -74,7 +119,7 @@
                         <Insets left="30.0" right="30.0"/>
                     </VBox.margin>
                 </Label>
-                <Label id="label" fx:id="availabilityLabel" alignment="CENTER" prefHeight="18.0" prefWidth="334.0"
+                <Label id="label" fx:id="availabilityLabel" alignment="CENTER" prefHeight="20.0" prefWidth="334.0"
                        text="Available ?">
                     <padding>
                         <Insets left="10.0" right="10.0"/>
@@ -97,7 +142,17 @@
                         </Button>
                     </children>
                 </HBox>
+                <Label id="label" fx:id="stockLabel" alignment="CENTER" prefHeight="20.0" prefWidth="334.0"
+                       text="Your Stock ?">
+                    <padding>
+                        <Insets left="10.0" right="10.0"/>
+                    </padding>
+                    <VBox.margin>
+                        <Insets left="30.0" right="30.0"/>
+                    </VBox.margin>
+                </Label>
             </children>
+
         </VBox>
 
     </children>

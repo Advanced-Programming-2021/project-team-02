@@ -112,7 +112,7 @@ public class ControllerManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        LinkedHashMap<String, Integer> shopCards = (LinkedHashMap<String, Integer>) Shop.getInstance().getCardsWithPrices();
+        LinkedHashMap<String, Integer> shopCards = (LinkedHashMap<String, Integer>) Shop.getInstance().getCardsWithNumberOfThem();
         for (String card : shopCards.keySet()) {
             shopCards.replace(card, cards.get(card));
         }

@@ -34,6 +34,6 @@ public class Shop {
     public void addCardToShop(Card card, int price) {
         cards.put(card.getName(), price);
         card.setPrice(price);
-        cardsWithNumberOfThem.put(card.getName(),5);
+        cardsWithNumberOfThem.put(card.getName(), 0);
     }
 }

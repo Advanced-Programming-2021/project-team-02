@@ -22,7 +22,7 @@ public class Assets {
 
 
     {
-        coin = 10000000;
+        coin = 1000;
     }
 
     public Assets(String username) {

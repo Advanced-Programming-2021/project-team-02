@@ -70,9 +70,9 @@
     -fx-text-fill: white;
 }
 
-#numberOfCoins {
+#coinsLabel {
     -fx-font-size: 15;
-    -fx-background-color: #20262b;
+    -fx-background-color: #103188;
     -fx-background-radius: 20;
     -fx-text-fill: white;
 }
