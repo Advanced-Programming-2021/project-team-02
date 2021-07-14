@@ -1,5 +1,7 @@
 package project.view;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -11,6 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
+import project.Main;
 import project.controller.ControllerManager;
 import project.controller.MainMenuController;
 import project.model.Music;
@@ -33,9 +36,11 @@ public class ScoreBoardView {
 
     @FXML
     public void initialize() {
+        MainMenuController.getInstance().setScoreBoardView(this);
         DataInputStream dataInputStream = ControllerManager.getInstance().getDataInputStream();
         DataOutputStream dataOutputStream = ControllerManager.getInstance().getDataOutputStream();
         String result = "";
+
         try {
             dataOutputStream.writeUTF("scoreboard");
             dataOutputStream.flush();
@@ -43,12 +48,10 @@ public class ScoreBoardView {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String[] userdata = result.split("/");
-        ArrayList<ScoreboardData> scoreboardData = new ArrayList<>();
-        for (String s : userdata) {
-            String[] parts = s.split(":");
-            scoreboardData.add(new ScoreboardData(parts[0], Integer.parseInt(parts[1]), parts[2].equals("ture")));
-        }
+        System.out.println(result);
+        ArrayList<ScoreboardData> arrayList = new Gson().fromJson(result, new TypeToken<ArrayList<ScoreboardData>>() {
+        }.getType());
+        ScoreboardData.setDataArrayList(arrayList);
         Music.muteUnmuteButtons.add(muteUnmuteButton);
         if (!Music.isMediaPlayerPaused) playPauseMusicButton.setImage(Icon.PAUSE.getImage());
         else playPauseMusicButton.setImage(Icon.PLAY.getImage());
@@ -56,6 +59,12 @@ public class ScoreBoardView {
         else muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
 
         secondBox.setPadding(new Insets(10, 10, 10, 10));
+        showBoard();
+    }
+
+    public void showBoard() {
+        secondBox.getChildren().clear();
+        ArrayList<ScoreboardData> scoreboardData = ScoreboardData.getDataArrayList();
         HBox[] hBoxes = new HBox[Math.min(10, scoreboardData.size())];
         Label[] ranks = new Label[Math.min(10, scoreboardData.size())];
         Label[] nicknames = new Label[Math.min(10, scoreboardData.size())];
@@ -69,7 +78,7 @@ public class ScoreBoardView {
         }
 
         int counter = 0;
-        for (int i = 0; i < Math.min(10, userdata.length); i++) {
+        for (int i = 0; i < Math.min(10, scoreboardData.size()); i++) {
             if (i != 0 && scoreboardData.get(i).getScore() == scoreboardData.get(i - 1).getScore()) {
                 ranks[i].setText(String.valueOf(i - counter));
                 nicknames[i].setText(scoreboardData.get(i).getNickname());
@@ -172,6 +181,7 @@ public class ScoreBoardView {
 
     public void back(MouseEvent mouseEvent) throws Exception {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
+        MainMenuController.getInstance().setScoreBoardView(null);
         onClick.play();
         Utility.openNewMenu("/project/fxml/main_menu.fxml");
     }

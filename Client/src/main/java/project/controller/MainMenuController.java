@@ -4,6 +4,7 @@ import animatefx.animation.SlideOutUp;
 import com.google.gson.Gson;
 import project.model.Assets;
 import project.model.User;
+import project.view.ScoreBoardView;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -15,6 +16,7 @@ public class MainMenuController {
     private String loggedInUserToken;
     private User loggedInUser;
     private Assets loggedInUserAssets;
+    private ScoreBoardView scoreBoardView;
 
     private MainMenuController() {
     }
@@ -65,5 +67,13 @@ public class MainMenuController {
 
     public void updateLoggedInAsset(Assets assets) {
         loggedInUserAssets = assets;
+    }
+
+    public ScoreBoardView getScoreBoard() {
+        return scoreBoardView;
+    }
+
+    public void setScoreBoardView(ScoreBoardView scoreBoardView) {
+        this.scoreBoardView = scoreBoardView;
     }
 }

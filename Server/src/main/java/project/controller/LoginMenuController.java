@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import project.ServerMainController;
 import project.model.User;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -24,6 +25,7 @@ public class LoginMenuController {
         if (isUsernameUsed(username)) return "used_username";
         if (isNicknameUsed(nickname)) return "used_nickname";
         new User(username, password, nickname);
+
         return "success";
     }
 
@@ -52,6 +54,15 @@ public class LoginMenuController {
         User user = User.getUserByUsername(username);
         System.out.println(user + " logged in ");
         ServerMainController.getLoggedInUsers().put(token, user);
+        if (ScoreboardData.mustBeAdded(user.getNickname()))
+            new ScoreboardData(user.getNickname(), user.getScore(), true);
+        for (String s : ServerMainController.getDataTransfer().keySet()) {
+            try {
+                ServerMainController.getDataTransfer().get(s).writeUTF("scoreboard " + new Gson().toJson(ScoreboardData.getDataArrayList()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         return "success " + token;
     }
 }

@@ -4,10 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00f24077-6cc3-42bb-ad92-b2a3c54accc6" name="Default Changelist" comment="shop . . .">
-      <change afterPath="$PROJECT_DIR$/src/main/java/project/view/AdminView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/project/fxml/admin_view.fxml" afterDir="false" />
+    <list default="true" id="00f24077-6cc3-42bb-ad92-b2a3c54accc6" name="Default Changelist" comment="admin?!">
+      <change afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/ScoreboardData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/ControllerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/ControllerManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/MainMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/MainMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/ScoreBoardView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/ScoreBoardView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/ScoreboardData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/ScoreboardData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/controller/LoginMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/LoginMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/controller/Scoreboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/Scoreboard.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +120,7 @@
       <workItem from="1626283957518" duration="299000" />
       <workItem from="1626284770353" duration="111000" />
       <workItem from="1626284974443" duration="164000" />
-      <workItem from="1626290130551" duration="5173000" />
+      <workItem from="1626290130551" duration="7540000" />
     </task>
     <task id="LOCAL-00001" summary="client">
       <created>1626162144686</created>
@@ -193,7 +199,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626294434971</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="admin?!">
+      <created>1626298008612</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1626298008612</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -222,6 +235,7 @@
     <MESSAGE value="working on shop!!!" />
     <MESSAGE value="small cleanings about shop" />
     <MESSAGE value="shop . . ." />
-    <option name="LAST_COMMIT_MESSAGE" value="shop . . ." />
+    <MESSAGE value="admin?!" />
+    <option name="LAST_COMMIT_MESSAGE" value="admin?!" />
   </component>
 </project>

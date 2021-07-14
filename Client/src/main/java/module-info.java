@@ -9,7 +9,7 @@ module Client {
     requires opencsv;
     requires AnimateFX;
 
-    opens project.view to javafx.fxml;
+    opens project.view to javafx.fxml, gson;
     exports project.view;
     opens project.view.gameview;
     exports project.view.gameview;

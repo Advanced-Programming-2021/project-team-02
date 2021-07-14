@@ -1,19 +1,28 @@
-package project.view;
+package project.controller;
 
 import java.util.ArrayList;
 
 public class ScoreboardData {
-    private String nickname;
-    private int score;
-    private boolean isOnline;
     private static ArrayList<ScoreboardData> dataArrayList;
+
     static {
         dataArrayList = new ArrayList<>();
     }
+
+    private String nickname;
+    private int score;
+    private boolean isOnline;
+
     public ScoreboardData(String nickname, int score, boolean isOnline) {
+
         this.score = score;
         this.nickname = nickname;
         this.isOnline = isOnline;
+        dataArrayList.add(this);
+    }
+
+    public static ArrayList<ScoreboardData> getDataArrayList() {
+        return dataArrayList;
     }
 
     public int getScore() {
@@ -28,11 +37,9 @@ public class ScoreboardData {
         return isOnline;
     }
 
-    public static ArrayList<ScoreboardData> getDataArrayList() {
-        return dataArrayList;
-    }
-
-    public static void setDataArrayList(ArrayList<ScoreboardData> dataArrayList) {
-        ScoreboardData.dataArrayList = dataArrayList;
+    public static boolean mustBeAdded(String nickname) {
+        if (dataArrayList.stream().filter(scoreboardData -> scoreboardData.nickname.equals(nickname)).count() != 0)
+            return false;
+        return true;
     }
 }

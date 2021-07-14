@@ -1,5 +1,6 @@
 package project.controller;
 
+import com.google.gson.Gson;
 import project.ServerMainController;
 import project.model.User;
 
@@ -8,12 +9,8 @@ import java.util.HashMap;
 
 public class Scoreboard {
     public static String scoreboardData() {
-        ArrayList<User> userArrayList = User.sortAllUsers();
-        StringBuilder stringBuilder = new StringBuilder();
-        for (User user : userArrayList) {
-            stringBuilder.append(user.getNickname() + ":" + user.getScore() + ":" + isOnline(user) + "/");
-        }
-        return stringBuilder.toString();
+
+        return new Gson().toJson(ScoreboardData.getDataArrayList());
 
     }
 
