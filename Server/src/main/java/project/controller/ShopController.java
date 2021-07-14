@@ -43,4 +43,16 @@ public class ShopController {
         }
         return "error!";
     }
+
+    public String sellCard(String cardName, String username) {
+        LinkedHashMap<String, Integer> cardsLinkedToNumber = Shop.getInstance().getCardsWithNumberOfThem();
+        synchronized (Shop.getInstance().getCardsWithNumberOfThem()) {
+            cardsLinkedToNumber.replace(cardName, cardsLinkedToNumber.get(cardName) + 1);
+        }
+        Assets assets = Assets.getAssetsByUsername(username);
+        Objects.requireNonNull(assets).sellCard(cardName);
+        return "success";
+
+
+    }
 }

@@ -42,7 +42,15 @@ public class Assets {
             if (key.equals(username)) return allAssets.get(key);
         return null;
     }
-
+    public void sellCard(String card) {
+        for (String cardsOfUser : allUserCards.keySet()) {
+            if (cardsOfUser.equals(card)) {
+                allUserCards.replace(cardsOfUser, allUserCards.get(cardsOfUser) - 1);
+                coin += Shop.getInstance().getCardsWithPrices().get(card);
+                return;
+            }
+        }
+    }
 //    public static void jsonAssets() {
 //        try {
 //            gson.toJson(allAssets, writer);

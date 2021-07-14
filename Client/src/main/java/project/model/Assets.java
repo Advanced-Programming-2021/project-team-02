@@ -121,6 +121,16 @@ public class Assets {
         allUserCards.put(card.getName(), 1);
     }
 
+    public void sellCard(String card) {
+        for (String cardsOfUser : allUserCards.keySet()) {
+            if (cardsOfUser.equals(card)) {
+                allUserCards.replace(cardsOfUser, allUserCards.get(cardsOfUser) - 1);
+                coin += Shop.getInstance().getCardsWithPrices().get(card);
+                return;
+            }
+        }
+    }
+
     public int getNumberOfCards(Card card) {
         for (String cardOfUser : allUserCards.keySet()) {
             if (cardOfUser.equals(card.getName())) {

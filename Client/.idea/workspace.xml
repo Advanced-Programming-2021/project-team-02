@@ -4,15 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00f24077-6cc3-42bb-ad92-b2a3c54accc6" name="Default Changelist" comment="png file">
+    <list default="true" id="00f24077-6cc3-42bb-ad92-b2a3c54accc6" name="Default Changelist" comment="working on shop">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/ControllerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/ControllerManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/ShopMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/ShopMenuController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/project/model/Assets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/model/Assets.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/model/Shop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/model/Shop.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/project/view/ShopMenuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/ShopMenuView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/project/CSS/shop_menu.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/project/CSS/shop_menu.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/project/fxml/new_shop.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/project/fxml/new_shop.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/messages/ShopMenuMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/messages/ShopMenuMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/project/image/Icon/refresh.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/project/image/Icon/refresh.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/ServerMainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/ServerMainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/controller/ShopController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/ShopController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/model/Assets.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/Assets.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -42,7 +42,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Server" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../HW4/Reflection" />
   </component>
   <component name="RunManager" selected="Application.Main">
     <configuration name="LoginMenuView" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -108,7 +108,7 @@
       <workItem from="1626180317139" duration="21921000" />
       <workItem from="1626206157931" duration="1197000" />
       <workItem from="1626207393031" duration="366000" />
-      <workItem from="1626244346336" duration="6825000" />
+      <workItem from="1626244346336" duration="9737000" />
     </task>
     <task id="LOCAL-00001" summary="client">
       <created>1626162144686</created>
@@ -145,7 +145,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626207414979</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="working on shop">
+      <created>1626252003869</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1626252003869</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -167,8 +174,8 @@
     <MESSAGE value="client" />
     <MESSAGE value="no idea what the hell am i doing . . ." />
     <MESSAGE value="changing assets class to match with network!" />
-    <MESSAGE value="working on shop" />
     <MESSAGE value="png file" />
-    <option name="LAST_COMMIT_MESSAGE" value="png file" />
+    <MESSAGE value="working on shop" />
+    <option name="LAST_COMMIT_MESSAGE" value="working on shop" />
   </component>
 </project>

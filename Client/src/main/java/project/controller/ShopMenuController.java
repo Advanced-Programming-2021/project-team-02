@@ -37,7 +37,7 @@ public class ShopMenuController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("result : "+result);
+        System.out.println("result : " + result);
 
         switch (result) {
             case "success":
@@ -49,6 +49,34 @@ public class ShopMenuController {
                 return ShopMenuMessage.NOT_ENOUGH_CARD;
             case "forbidden card":
                 return ShopMenuMessage.FORBIDDEN_CARD;
+        }
+
+
+        return ShopMenuMessage.CARD_ADDED;
+    }
+
+    public ShopMenuMessage sellCard(String cardName) {
+        Card card = Card.getCardByName(cardName);
+        Assets assets = MainMenuController.getInstance().getLoggedInUserAssets();
+        String result = "";
+        DataOutputStream dataOutputStream = ControllerManager.getInstance().getDataOutputStream();
+        DataInputStream dataInputStream = ControllerManager.getInstance().getDataInputStream();
+        try {
+            dataOutputStream.writeUTF("shop sell <" + cardName + "> " + MainMenuController.getInstance().getLoggedInUserToken());
+            dataOutputStream.flush();
+            result = dataInputStream.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("result : " + result);
+
+        switch (result) {
+            case "success":
+                assets.sellCard(cardName);
+                ControllerManager.getInstance().getLastShopData();
+                return ShopMenuMessage.SUCCESS;
+            case "not enough cards":
+                return ShopMenuMessage.NOT_ENOUGH_CARD;
         }
 
 

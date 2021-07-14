@@ -95,7 +95,15 @@ public class ServerMainController {
             String cardName = matcher.group("cardName");
             String token = matcher.group("token");
             return ShopController.getInstance().buyCard(cardName, loggedInUsers.get(token).getUsername());
-        } else return "failed";
+        }
+        pattern = Pattern.compile("shop sell <(?<cardName>.+)> (?<token>.+)");
+        matcher = pattern.matcher(input);
+        if (matcher.find()) {
+            String cardName = matcher.group("cardName");
+            String token = matcher.group("token");
+            return ShopController.getInstance().sellCard(cardName,loggedInUsers.get(token).getUsername());
+        }
+        return "failed";
     }
 
     private static String processAsk(String[] parts) {

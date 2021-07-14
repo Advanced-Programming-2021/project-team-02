@@ -188,7 +188,7 @@ public class ShopMenuView {
     }
 
     private void setCards() {
-
+        ControllerManager.getInstance().getLastShopData();
         ArrayList<String> cards = (ArrayList<String>) new ArrayList<>(cardsWithPrice.keySet());
         updateSelectedCard(cardsWithNumber);
         shopGrid.getChildren().clear();
@@ -242,9 +242,29 @@ public class ShopMenuView {
                                 new PopUpMessage(menuMessage.getAlertType(), menuMessage.getLabel());
                             else setCards();
                         });
+                    } else {
+                        buyButton.setStyle("-fx-background-color: #323c46");
+                        buyButton.setCursor(Cursor.DEFAULT);
+                        buyButton.setOnMouseClicked(mouseEvent1 -> {
+                        });
                     }
-                    sellButton.setStyle(" -fx-background-color: #bb792d;");
-                    sellButton.setCursor(Cursor.HAND);
+                    if (number != 0) {
+                        sellButton.setStyle(" -fx-background-color: #bb792d;");
+                        sellButton.setCursor(Cursor.HAND);
+                        sellButton.setOnMouseClicked(mouseEvent1 -> {
+                            if (mouseEvent1.getButton() != MouseButton.PRIMARY)
+                                return;
+                            ShopMenuMessage menuMessage = controller.sellCard(cardName);
+                            if (menuMessage != ShopMenuMessage.SUCCESS)
+                                new PopUpMessage(menuMessage.getAlertType(), menuMessage.getLabel());
+                            else setCards();
+                        });
+                    } else {
+                        sellButton.setStyle("-fx-background-color: #323c46");
+                        sellButton.setCursor(Cursor.DEFAULT);
+                        sellButton.setOnMouseClicked(mouseEvent1 -> {
+                        });
+                    }
 
                 });
                 imageView.setCursor(Cursor.HAND);
@@ -265,7 +285,44 @@ public class ShopMenuView {
             availabilityLabel.setText("Available : " + availability);
         int number = assets.getAllUserCards().get(selectedCardName) == null ? 0 : assets.getAllUserCards().get(selectedCardName);
         stockLabel.setText("Your stock : " + number);
-
+        coinsLabel.setText("Coins : " + assets.getCoin());
+        String[] price = priceLabel.getText().split(" ");
+        if (assets.getCoin() < Integer.parseInt(price[2]) || cardsWithNumber.get(selectedCardName) == 0) {
+            buyButton.setStyle("-fx-background-color: #323c46");
+            buyButton.setCursor(Cursor.DEFAULT);
+            buyButton.setOnMouseClicked(mouseEvent1 -> {
+            });
+        } else {
+            buyButton.setStyle("-fx-background-color: #bb792d;");
+            buyButton.setCursor(Cursor.HAND);
+            buyButton.setOnMouseClicked(mouseEvent2 -> {
+                if (mouseEvent2.getButton() != MouseButton.PRIMARY)
+                    return;
+                System.out.println("the card : " + selectedCardName);
+                ShopMenuMessage menuMessage = controller.buyCard(selectedCardName);
+                coinsLabel.setText("Coins : " + String.valueOf(assets.getCoin()));
+                if (menuMessage != ShopMenuMessage.CARD_ADDED)
+                    new PopUpMessage(menuMessage.getAlertType(), menuMessage.getLabel());
+                else setCards();
+            });
+        }
+        if (number == 0) {
+            sellButton.setStyle("-fx-background-color: #323c46");
+            sellButton.setCursor(Cursor.DEFAULT);
+            sellButton.setOnMouseClicked(mouseEvent1 -> {
+            });
+        } else {
+            sellButton.setCursor(Cursor.HAND);
+            sellButton.setStyle(" -fx-background-color: #bb792d;");
+            sellButton.setOnMouseClicked(mouseEvent1 -> {
+                if (mouseEvent1.getButton() != MouseButton.PRIMARY)
+                    return;
+                ShopMenuMessage menuMessage = controller.sellCard(selectedCardName);
+                if (menuMessage != ShopMenuMessage.SUCCESS)
+                    new PopUpMessage(menuMessage.getAlertType(), menuMessage.getLabel());
+                else setCards();
+            });
+        }
     }
 
     public Image getCardImageByName(String cardName) {
