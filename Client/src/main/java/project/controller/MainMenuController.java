@@ -53,4 +53,8 @@ public class MainMenuController {
             loggedInUserAssets = ControllerManager.getInstance().getAUserAssets(loggedInUserUsername);
         return loggedInUserAssets;
     }
+
+    public void updateLoggedInAsset(Assets assets) {
+        loggedInUserAssets = assets;
+    }
 }

@@ -2,9 +2,11 @@ package project.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import javafx.application.Platform;
 import project.model.Assets;
 import project.model.Shop;
 import project.model.User;
+import project.view.ShopMenuView;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -14,9 +16,12 @@ import java.util.LinkedHashMap;
 
 public class ControllerManager {
     private static ControllerManager instance = null;
-    private Socket socket;
+    private Socket reqSocket;
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
+    private Socket dataTransferSocket;
+    private DataInputStream dataTransferInputStream;
+    private DataOutputStream dataTransferOutputStream;
 
     private ControllerManager() {
 
@@ -28,11 +33,13 @@ public class ControllerManager {
         return instance;
     }
 
-    public void setSocket(Socket socket) {
+    public void setReqSocket(Socket socket) {
         try {
-            this.socket = socket;
+            this.reqSocket = socket;
             dataInputStream = new DataInputStream(socket.getInputStream());
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
+            dataOutputStream.writeUTF("request");
+            dataOutputStream.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -44,17 +51,6 @@ public class ControllerManager {
 
     public DataOutputStream getDataOutputStream() {
         return dataOutputStream;
-    }
-
-    public String askServerNickname() {
-        try {
-            dataOutputStream.writeUTF("ask nickname " + MainMenuController.getInstance().getLoggedInUserToken());
-            dataOutputStream.flush();
-            return dataInputStream.readUTF();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "";
     }
 
     public User askForLoggedInUser() {
@@ -116,5 +112,48 @@ public class ControllerManager {
         for (String card : shopCards.keySet()) {
             shopCards.replace(card, cards.get(card));
         }
+    }
+
+    public void setTransferSocket(Socket socket, String token) {
+        dataTransferSocket = socket;
+        try {
+            dataTransferOutputStream = new DataOutputStream(socket.getOutputStream());
+            dataTransferInputStream = new DataInputStream(socket.getInputStream());
+            dataTransferOutputStream.writeUTF("data_transfer " + token);
+            dataTransferOutputStream.flush();
+            startThreadOfDataTransfer();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void startThreadOfDataTransfer() {
+        new Thread(() -> {
+            try {
+                while (true) {
+                    String in = dataTransferInputStream.readUTF();
+                    if (in.matches("shop .+")) {
+                        in = in.replaceFirst("shop ", "");
+                        LinkedHashMap<String, Integer> mainMap = Shop.getInstance().getCardsWithNumberOfThem();
+                        LinkedHashMap<String, Integer> map = new Gson().fromJson(in, new TypeToken<LinkedHashMap<String, Integer>>() {
+                        }.getType());
+                        for (String s : map.keySet()) {
+                            mainMap.replace(s, map.get(s));
+                        }
+                        ShopMenuView shopMenuView = ShopMenuController.getInstance().getView();
+                        System.out.println("recieved cards :" + in);
+                        Platform.runLater(shopMenuView::setCards);
+                    } else if (in.matches("asset .+")) {
+                        in = in.replaceFirst("asset ", "");
+                        Assets assets = new Gson().fromJson(in, Assets.class);
+                        MainMenuController.getInstance().updateLoggedInAsset(assets);
+                        ShopMenuView shopMenuView = ShopMenuController.getInstance().getView();
+                        Platform.runLater(shopMenuView::setCards);
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 }

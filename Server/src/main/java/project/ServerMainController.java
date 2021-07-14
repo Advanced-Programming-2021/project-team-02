@@ -24,29 +24,43 @@ import java.util.regex.Pattern;
 public class ServerMainController {
 
     private static HashMap<String, User> loggedInUsers;
+    private static HashMap<String, DataOutputStream> dataTransfer;
 
     public static HashMap<String, User> getLoggedInUsers() {
         return loggedInUsers;
     }
 
+    public static HashMap<String, DataOutputStream> getDataTransfer() {
+        return dataTransfer;
+    }
+
     public static void run() {
         loggedInUsers = new HashMap<>();
+       dataTransfer =  new HashMap<>();
         try {
             ServerSocket serverSocket = new ServerSocket(8000);
             while (true) {
                 Socket socket = serverSocket.accept();
-                startThread(serverSocket, socket);
+                DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
+                DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
+                String in = dataInputStream.readUTF();
+                if (in.equals("request")) {
+                    startThread(serverSocket, socket, dataOutputStream, dataInputStream);
+                } else if (in.matches("data_transfer .+")) {
+                    in = in.replaceFirst("data_transfer ", "");
+                    System.out.println("token : "+in);
+                    dataTransfer.put(in, dataOutputStream);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static void startThread(ServerSocket serverSocket, Socket socket) {
+    private static void startThread(ServerSocket serverSocket, Socket socket, DataOutputStream dataOutputStream, DataInputStream dataInputStream) {
         new Thread(() -> {
             try {
-                DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
-                DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
+
                 getInputAndProcess(dataInputStream, dataOutputStream);
                 dataInputStream.close();
                 socket.close();
@@ -94,22 +108,20 @@ public class ServerMainController {
         if (matcher.find()) {
             String cardName = matcher.group("cardName");
             String token = matcher.group("token");
-            return ShopController.getInstance().buyCard(cardName, loggedInUsers.get(token).getUsername());
+            return ShopController.getInstance().buyCard(cardName, loggedInUsers.get(token).getUsername(),token);
         }
         pattern = Pattern.compile("shop sell <(?<cardName>.+)> (?<token>.+)");
         matcher = pattern.matcher(input);
         if (matcher.find()) {
             String cardName = matcher.group("cardName");
             String token = matcher.group("token");
-            return ShopController.getInstance().sellCard(cardName,loggedInUsers.get(token).getUsername());
+            return ShopController.getInstance().sellCard(cardName, loggedInUsers.get(token).getUsername());
         }
         return "failed";
     }
 
     private static String processAsk(String[] parts) {
         switch (parts[1]) {
-            case "nickname":
-                return loggedInUsers.get(parts[2]).getNickname();
             case "user":
                 String gson = new Gson().toJson(loggedInUsers.get(parts[2]));
                 System.out.println(gson);

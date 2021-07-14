@@ -1,26 +1,24 @@
 package project.view;
 
+import javafx.application.Application;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.AudioClip;
-import project.controller.LoginMenuController;
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-import project.model.Assets;
-import project.model.Deck;
+import project.controller.LoginMenuController;
 import project.model.Music;
-import project.model.User;
-import project.model.card.Card;
 import project.model.card.CardsDatabase;
-import project.model.card.Monster;
-import project.model.card.Spell;
-import project.model.card.informationofcards.MonsterActionType;
 import project.model.gui.Icon;
 import project.view.messages.GamePopUpMessage;
 import project.view.messages.LoginMessage;
@@ -28,7 +26,6 @@ import project.view.messages.PopUpMessage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class LoginMenuView extends Application {

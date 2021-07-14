@@ -53,8 +53,7 @@ public class ProfileMenuView {
     PasswordField newPasswordField = new PasswordField();
     @FXML
     TextField nickNameTextField = new TextField();
-    @FXML
-    TextField usernameTextField = new TextField();
+
     @FXML
     ImageView profileImageView = new ImageView();
     @FXML
@@ -84,46 +83,6 @@ public class ProfileMenuView {
         else muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
     }
 
-    public void changeUsername() {
-        Stage window = new Stage();
-        window.initOwner(LoginMenuView.getStage());
-        window.initStyle(StageStyle.UNDECORATED);
-        window.initModality(Modality.WINDOW_MODAL);
-        PopUpMessage.setStage(window);
-
-        Label title = new Label("Change Username");
-        title.setId("title");
-
-        usernameTextField.setPromptText("Enter new username");
-        usernameTextField.setId("field");
-
-        Button changeUsernameButton = new Button();
-        changeUsernameButton.setText("Change");
-        changeUsernameButton.setOnAction(event -> {
-            onClick.play();
-            ProfileMenuMessage profileMenuMessage = controller.changeUsername(usernameTextField.getText());
-            new PopUpMessage(profileMenuMessage.getAlertType(), profileMenuMessage.getLabel());
-            userNameLabel.setText(MainMenuController.getInstance().getLoggedInUser().getUsername());
-            usernameTextField.clear();
-        });
-        changeUsernameButton.setCursor(Cursor.HAND);
-        changeUsernameButton.setId("button");
-
-        Button closeButton = closeButton(window, usernameTextField);
-
-        VBox layout = new VBox(15);
-        layout.setPadding(new Insets(20, 50, 20, 50));
-        layout.getChildren().addAll(title, usernameTextField, changeUsernameButton, closeButton);
-        layout.setAlignment(Pos.CENTER);
-
-        Scene scene = new Scene(layout, 350, 225);
-        layout.getScene().setFill(Color.TRANSPARENT);
-        window.initStyle(StageStyle.TRANSPARENT);
-        window.setScene(scene);
-        window.setResizable(false);
-        window.getScene().getStylesheets().add(String.valueOf(getClass().getResource("/project/CSS/profile_menu_windows.css")));
-        window.showAndWait();
-    }
 
     private Button closeButton(Stage window, TextField usernameTextField) {
         Button closeButton = new Button();

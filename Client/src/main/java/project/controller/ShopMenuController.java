@@ -3,16 +3,18 @@ package project.controller;
 import project.model.Assets;
 import project.model.Shop;
 import project.model.card.Card;
+import project.view.ShopMenuView;
 import project.view.messages.ShopMenuMessage;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.Objects;
 
 public class ShopMenuController {
     private static ShopMenuController instance = null;
-
+    private ShopMenuView view;
     private ShopMenuController() {
     }
 
@@ -43,7 +45,7 @@ public class ShopMenuController {
             case "success":
                 Objects.requireNonNull(assets).decreaseCoin(Shop.getInstance().getCardsWithPrices().get(cardName));
                 assets.addBoughtCard(card);
-                ControllerManager.getInstance().getLastShopData();
+               // ControllerManager.getInstance().getLastShopData();
                 return ShopMenuMessage.CARD_ADDED;
             case "not enough cards":
                 return ShopMenuMessage.NOT_ENOUGH_CARD;
@@ -81,5 +83,13 @@ public class ShopMenuController {
 
 
         return ShopMenuMessage.CARD_ADDED;
+    }
+
+    public void setView(ShopMenuView view) {
+        this.view = view;
+    }
+
+    public ShopMenuView getView() {
+        return view;
     }
 }

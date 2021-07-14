@@ -35,6 +35,7 @@
                     <Insets left="125.0" right="125.0" />
                 </VBox.margin>
             </HBox>
+         <Button mnemonicParsing="false" text="Button" />
         </HBox>
         <VBox id="secondBox" fx:id="secondBox" prefHeight="675.0" prefWidth="700.0">
         </VBox>

@@ -6,6 +6,7 @@ import project.view.messages.LoginMessage;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.Socket;
 
 
 public class LoginMenuController {
@@ -68,6 +69,13 @@ public class LoginMenuController {
         String[] results = result.split(" ");
         switch (results[0]) {
             case "success": {
+                try {
+                    Socket socket = new Socket("localhost", 8000);
+                    ControllerManager.getInstance().setTransferSocket(socket, results[1]);
+                    System.out.println("token : "+results[1]);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 MainMenuController.getInstance().setLoggedInUsernameAndToken(username, results[1]);
                 return LoginMessage.SUCCESSFUL_SIGN_UP;
             }
