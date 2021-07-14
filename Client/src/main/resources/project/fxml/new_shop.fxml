@@ -41,15 +41,6 @@
             <Insets left="125.0" right="125.0" />
         </VBox.margin>
     </HBox>
-        <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#refresh" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../image/Icon/refresh.png" />
-            <cursor>
-                <Cursor fx:constant="HAND" />
-            </cursor>
-            <HBox.margin>
-                <Insets left="260.0" right="50.0" />
-            </HBox.margin>
-        </ImageView>
 
     </HBox>
 
