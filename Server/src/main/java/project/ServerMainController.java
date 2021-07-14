@@ -36,7 +36,7 @@ public class ServerMainController {
 
     public static void run() {
         loggedInUsers = new HashMap<>();
-       dataTransfer =  new HashMap<>();
+        dataTransfer = new HashMap<>();
         try {
             ServerSocket serverSocket = new ServerSocket(8000);
             while (true) {
@@ -48,7 +48,7 @@ public class ServerMainController {
                     startThread(serverSocket, socket, dataOutputStream, dataInputStream);
                 } else if (in.matches("data_transfer .+")) {
                     in = in.replaceFirst("data_transfer ", "");
-                    System.out.println("token : "+in);
+                    System.out.println("token : " + in);
                     dataTransfer.put(in, dataOutputStream);
                 }
             }
@@ -98,6 +98,8 @@ public class ServerMainController {
             return processAsk(parts);
         } else if (parts[0].equals("shop")) {
             return processShopCommand(input);
+        } else if (parts[0].equals("logout")) {
+            return processLogout(parts[1]);
         }
         return "";
     }
@@ -108,14 +110,14 @@ public class ServerMainController {
         if (matcher.find()) {
             String cardName = matcher.group("cardName");
             String token = matcher.group("token");
-            return ShopController.getInstance().buyCard(cardName, loggedInUsers.get(token).getUsername(),token);
+            return ShopController.getInstance().buyCard(cardName, loggedInUsers.get(token).getUsername(), token);
         }
         pattern = Pattern.compile("shop sell <(?<cardName>.+)> (?<token>.+)");
         matcher = pattern.matcher(input);
         if (matcher.find()) {
             String cardName = matcher.group("cardName");
             String token = matcher.group("token");
-            return ShopController.getInstance().sellCard(cardName, loggedInUsers.get(token).getUsername(),token);
+            return ShopController.getInstance().sellCard(cardName, loggedInUsers.get(token).getUsername(), token);
         }
         return "failed";
     }
@@ -148,5 +150,10 @@ public class ServerMainController {
         return "";
     }
 
+    private static String processLogout(String token) {
+        loggedInUsers.remove(token);
+        dataTransfer.remove(token);
+        return "success logout";
+    }
 
 }

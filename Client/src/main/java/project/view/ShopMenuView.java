@@ -1,34 +1,29 @@
 package project.view;
 
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import project.controller.ControllerManager;
 import project.controller.MainMenuController;
 import project.controller.ShopMenuController;
 import project.model.Assets;
 import project.model.Shop;
-import project.model.User;
-import project.model.card.Card;
 import project.view.messages.PopUpMessage;
 import project.view.messages.ShopMenuMessage;
 
 import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Objects;
 
 public class ShopMenuView {
     public static final ArrayList<Button> buttons = new ArrayList<>();
@@ -46,12 +41,10 @@ public class ShopMenuView {
     public Label pageLabel;
     public Label stockLabel;
     public Label coinsLabel;
-    private HashMap<String, Integer> allUserCards;
     private LinkedHashMap<String, Integer> cardsWithPrice;
     private LinkedHashMap<String, Integer> cardsWithNumber;
     private int pageCount;
     private Utility utility;
-    private Assets assets;
     private String selectedCardName;
 
     public static ShopMenuView getInstance() {
@@ -63,10 +56,9 @@ public class ShopMenuView {
         ControllerManager.getInstance().getLastShopData();
         ShopMenuController.getInstance().setView(this);
         instance = this;
-        assets = MainMenuController.getInstance().getLoggedInUserAssets();
         utility = new Utility();
         utility.addImages();
-        coinsLabel.setText("Coins : " + String.valueOf(MainMenuController.getInstance().getLoggedInUserAssets().getCoin()));
+        coinsLabel.setText("Coins : " + MainMenuController.getInstance().getLoggedInUserAssets().getCoin());
         stockLabel.setText("");
         pageCount = 1;
         pageLabel.setText(String.valueOf(pageCount));
@@ -79,11 +71,9 @@ public class ShopMenuView {
     }
 
     public void setCards() {
-        System.out.println("runned!");
         cardsWithPrice = (LinkedHashMap<String, Integer>) Shop.getInstance().getCardsWithPrices();
         cardsWithNumber = Shop.getInstance().getCardsWithNumberOfThem();
-
-        ArrayList<String> cards = (ArrayList<String>) new ArrayList<>(cardsWithPrice.keySet());
+        ArrayList<String> cards = new ArrayList<>(cardsWithPrice.keySet());
         shopGrid.getChildren().clear();
         int firstIndex = pageCount == 1 ? 0 : (pageCount == 2 ? 24 : 48);
         int limit = firstIndex == 0 ? 24 : (firstIndex == 24 ? 24 : 4);
@@ -118,60 +108,23 @@ public class ShopMenuView {
                         availabilityLabel.setText("Not available");
                     else
                         availabilityLabel.setText("Available : " + availability);
-                    int number = MainMenuController.getInstance().getLoggedInUserAssets().getAllUserCards().get(selectedCardName) == null ? 0 : MainMenuController.getInstance().getLoggedInUserAssets().getAllUserCards().get(selectedCardName);
-                    stockLabel.setText("Your stock : " + number);
-                    if (price < MainMenuController.getInstance().getLoggedInUserAssets().getCoin()) {
-                        buyButton.setStyle("-fx-background-color: #bb792d;");
-                        buyButton.setCursor(Cursor.HAND);
-                        buyButton.setOnMouseClicked(mouseEvent2 -> {
-                            if (mouseEvent2.getButton() != MouseButton.PRIMARY)
-                                return;
-                            System.out.println("the card : " + cardName);
-                            ShopMenuMessage menuMessage = controller.buyCard(cardName);
-                            coinsLabel.setText("Coins : " + String.valueOf(MainMenuController.getInstance().getLoggedInUserAssets().getCoin()));
-                            if (menuMessage != ShopMenuMessage.CARD_ADDED)
-                                new PopUpMessage(menuMessage.getAlertType(), menuMessage.getLabel());
-                            else setCards();
-                        });
-                    } else {
-                        buyButton.setStyle("-fx-background-color: #323c46");
-                        buyButton.setCursor(Cursor.DEFAULT);
-                        buyButton.setOnMouseClicked(mouseEvent1 -> {
-                        });
-                    }
-                    if (number != 0) {
-                        sellButton.setStyle(" -fx-background-color: #bb792d;");
-                        sellButton.setCursor(Cursor.HAND);
-                        sellButton.setOnMouseClicked(mouseEvent1 -> {
-                            if (mouseEvent1.getButton() != MouseButton.PRIMARY)
-                                return;
-                            ShopMenuMessage menuMessage = controller.sellCard(cardName);
-                            if (menuMessage != ShopMenuMessage.SUCCESS)
-                                new PopUpMessage(menuMessage.getAlertType(), menuMessage.getLabel());
-                            else setCards();
-                        });
-                    } else {
-                        sellButton.setStyle("-fx-background-color: #323c46");
-                        sellButton.setCursor(Cursor.DEFAULT);
-                        sellButton.setOnMouseClicked(mouseEvent1 -> {
-                        });
-                    }
-
-
+                    int loggedInStock = MainMenuController.getInstance().getLoggedInUserAssets().getAllUserCards().get(selectedCardName) == null ? 0 : MainMenuController.getInstance().getLoggedInUserAssets().getAllUserCards().get(selectedCardName);
+                    stockLabel.setText("Your stock : " + loggedInStock);
+                    setButtonsStatus(availability, loggedInStock, price, cardName);
                 });
                 if (selectedCardName != null && selectedCardName.equals(cardName)) {
-                    selectedCardImage.setOnMouseClicked(imageView.getOnMouseClicked());
+                    int availability = cardsWithNumber.get(cardName);
+                    int loggedInStock = MainMenuController.getInstance().getLoggedInUserAssets().getAllUserCards().get(selectedCardName) == null ? 0 : MainMenuController.getInstance().getLoggedInUserAssets().getAllUserCards().get(selectedCardName);
+                    setButtonsStatus(availability, loggedInStock, price, cardName);
                     selectedCardImage.setImage(imageView.getImage());
                     priceLabel.setText("Price : " + price);
-                    int availability = cardsWithNumber.get(cardName);
                     if (availability == -1)
                         availabilityLabel.setText("Forbidden Card");
                     else if (availability == 0)
                         availabilityLabel.setText("Not available");
                     else
                         availabilityLabel.setText("Available : " + availability);
-                    int number = MainMenuController.getInstance().getLoggedInUserAssets().getAllUserCards().get(selectedCardName) == null ? 0 : MainMenuController.getInstance().getLoggedInUserAssets().getAllUserCards().get(selectedCardName);
-                    stockLabel.setText("Your stock : " + number);
+                    stockLabel.setText("Your stock : " + loggedInStock);
                 }
                 imageView.setCursor(Cursor.HAND);
                 shopGrid.add(imageView, j, i);
@@ -179,54 +132,41 @@ public class ShopMenuView {
         }
     }
 
-    private void updateSelectedCard(LinkedHashMap<String, Integer> cardsWithNumber) {
-        if (selectedCardName == null)
-            return;
-        int availability = cardsWithNumber.get(selectedCardName);
-        if (availability == -1)
-            availabilityLabel.setText("Forbidden Card");
-        else if (availability == 0)
-            availabilityLabel.setText("Not available");
-        else
-            availabilityLabel.setText("Available : " + availability);
-        int number = MainMenuController.getInstance().getLoggedInUserAssets().getAllUserCards().get(selectedCardName) == null ? 0 : assets.getAllUserCards().get(selectedCardName);
-        stockLabel.setText("Your stock : " + number);
-        coinsLabel.setText("Coins : " + assets.getCoin());
-        String[] price = priceLabel.getText().split(" ");
-        if (MainMenuController.getInstance().getLoggedInUserAssets().getCoin() < Integer.parseInt(price[2]) || cardsWithNumber.get(selectedCardName) == 0) {
-            buyButton.setStyle("-fx-background-color: #323c46");
-            buyButton.setCursor(Cursor.DEFAULT);
-            buyButton.setOnMouseClicked(mouseEvent1 -> {
-            });
-        } else {
+    private void setButtonsStatus(int availability, int loggedInStock, int price, String cardName) {
+        if (price < MainMenuController.getInstance().getLoggedInUserAssets().getCoin() && availability > 0) {
             buyButton.setStyle("-fx-background-color: #bb792d;");
             buyButton.setCursor(Cursor.HAND);
             buyButton.setOnMouseClicked(mouseEvent2 -> {
                 if (mouseEvent2.getButton() != MouseButton.PRIMARY)
                     return;
-                System.out.println("the card : " + selectedCardName);
-                ShopMenuMessage menuMessage = controller.buyCard(selectedCardName);
-                coinsLabel.setText("Coins : " + String.valueOf(MainMenuController.getInstance().getLoggedInUserAssets().getCoin()));
+                System.out.println("the card : " + cardName);
+                ShopMenuMessage menuMessage = controller.buyCard(cardName);
+                coinsLabel.setText("Coins : " + MainMenuController.getInstance().getLoggedInUserAssets().getCoin());
                 if (menuMessage != ShopMenuMessage.CARD_ADDED)
                     new PopUpMessage(menuMessage.getAlertType(), menuMessage.getLabel());
                 else setCards();
             });
-        }
-        if (number == 0) {
-            sellButton.setStyle("-fx-background-color: #323c46");
-            sellButton.setCursor(Cursor.DEFAULT);
-            sellButton.setOnMouseClicked(mouseEvent1 -> {
-            });
         } else {
-            sellButton.setCursor(Cursor.HAND);
+            buyButton.setStyle("-fx-background-color: #323c46");
+            buyButton.setCursor(Cursor.DEFAULT);
+            buyButton.setOnMouseClicked(mouseEvent1 -> {
+            });
+        }
+        if (loggedInStock > 0) {
             sellButton.setStyle(" -fx-background-color: #bb792d;");
+            sellButton.setCursor(Cursor.HAND);
             sellButton.setOnMouseClicked(mouseEvent1 -> {
                 if (mouseEvent1.getButton() != MouseButton.PRIMARY)
                     return;
-                ShopMenuMessage menuMessage = controller.sellCard(selectedCardName);
+                ShopMenuMessage menuMessage = controller.sellCard(cardName);
                 if (menuMessage != ShopMenuMessage.SUCCESS)
                     new PopUpMessage(menuMessage.getAlertType(), menuMessage.getLabel());
                 else setCards();
+            });
+        } else {
+            sellButton.setStyle("-fx-background-color: #323c46");
+            sellButton.setCursor(Cursor.DEFAULT);
+            sellButton.setOnMouseClicked(mouseEvent1 -> {
             });
         }
     }
@@ -251,15 +191,7 @@ public class ShopMenuView {
             pageCount = 1;
         else if (pageCount == 3)
             pageCount = 2;
-        pageLabel.setText(String.valueOf(pageCount));
-        priceLabel.setText("");
-        availabilityLabel.setText("");
-        selectedCardImage.setImage(null);
-        buyButton.setStyle("-fx-background-color: #323c46");
-        sellButton.setStyle("-fx-background-color: #323c46");
-        selectedCardName = null;
-        stockLabel.setText("");
-        setCards();
+        setChangePageStuff();
     }
 
     public void nextPage(MouseEvent mouseEvent) {
@@ -271,6 +203,10 @@ public class ShopMenuView {
             pageCount = 3;
         else if (pageCount == 3)
             return;
+        setChangePageStuff();
+    }
+
+    private void setChangePageStuff() {
         pageLabel.setText(String.valueOf(pageCount));
         priceLabel.setText("");
         availabilityLabel.setText("");
@@ -289,4 +225,7 @@ public class ShopMenuView {
         Utility.openNewMenu("/project/fxml/main_menu.fxml");
     }
 
+    public void openAdminPanel(MouseEvent mouseEvent) {
+
+    }
 }

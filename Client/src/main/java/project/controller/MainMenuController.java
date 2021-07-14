@@ -46,6 +46,15 @@ public class MainMenuController {
         loggedInUserAssets = null;
         loggedInUserToken = "";
         loggedInUserUsername = "";
+        DataOutputStream dataOutputStream = ControllerManager.getInstance().getDataOutputStream();
+        DataInputStream dataInputStream = ControllerManager.getInstance().getDataInputStream();
+        try {
+            dataOutputStream.writeUTF("logout " + loggedInUserToken);
+            dataOutputStream.flush();
+            dataInputStream.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public Assets getLoggedInUserAssets() {
