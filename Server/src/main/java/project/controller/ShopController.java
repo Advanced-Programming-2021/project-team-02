@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Objects;
+import java.util.Set;
 
 public class ShopController {
     private static ShopController instance = null;
@@ -39,17 +40,7 @@ public class ShopController {
                 assets.addBoughtCard(Card.getCardByName(cardName));
                 cardsLinkedToNumber.replace(cardName, cardsLinkedToNumber.get(cardName) - 1);
                 HashMap<String, DataOutputStream> map = ServerMainController.getDataTransfer();
-                try {
-                    for (String s : map.keySet()) {
-                        System.out.println("sent for : " + s + "   username : " + ServerMainController.getLoggedInUsers().get(s));
-                        map.get(s).writeUTF("shop " + new Gson().toJson(Shop.getInstance().getCardsWithNumberOfThem()));
-                        map.get(s).flush();
-                    }
-                    map.get(token).writeUTF("asset " + new Gson().toJson(Assets.getAssetsByUsername(ServerMainController.getLoggedInUsers().get(token).getUsername())));
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                sendDataToClients(token, map, map.keySet(), cardsLinkedToNumber);
                 return "success";
             } else {
                 if (cardsLinkedToNumber.get(cardName) == 0)
@@ -61,15 +52,31 @@ public class ShopController {
         return "error!";
     }
 
-    public String sellCard(String cardName, String username) {
+    public String sellCard(String cardName, String username, String token) {
         LinkedHashMap<String, Integer> cardsLinkedToNumber = Shop.getInstance().getCardsWithNumberOfThem();
+        HashMap<String, DataOutputStream> map = ServerMainController.getDataTransfer();
         synchronized (Shop.getInstance().getCardsWithNumberOfThem()) {
             cardsLinkedToNumber.replace(cardName, cardsLinkedToNumber.get(cardName) + 1);
+            sendDataToClients(token, map, cardsLinkedToNumber.keySet(), cardsLinkedToNumber);
         }
         Assets assets = Assets.getAssetsByUsername(username);
         Objects.requireNonNull(assets).sellCard(cardName);
         return "success";
 
 
+    }
+
+    private void sendDataToClients(String token, HashMap<String, DataOutputStream> map, Set<String> strings, LinkedHashMap<String, Integer> cardsLinkedToNumber) {
+        try {
+
+            for (String s : strings) {
+                System.out.println("sent for : " + s + "   username : " + ServerMainController.getLoggedInUsers().get(s));
+                map.get(s).writeUTF("shop " + new Gson().toJson(Shop.getInstance().getCardsWithNumberOfThem()));
+                map.get(s).flush();
+            }
+            map.get(token).writeUTF("asset " + new Gson().toJson(Assets.getAssetsByUsername(ServerMainController.getLoggedInUsers().get(token).getUsername())));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

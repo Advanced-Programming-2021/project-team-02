@@ -115,7 +115,7 @@ public class ServerMainController {
         if (matcher.find()) {
             String cardName = matcher.group("cardName");
             String token = matcher.group("token");
-            return ShopController.getInstance().sellCard(cardName, loggedInUsers.get(token).getUsername());
+            return ShopController.getInstance().sellCard(cardName, loggedInUsers.get(token).getUsername(),token);
         }
         return "failed";
     }
