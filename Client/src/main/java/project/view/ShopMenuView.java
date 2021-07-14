@@ -60,6 +60,7 @@ public class ShopMenuView {
 
     @FXML
     public void initialize() throws IOException {
+        ControllerManager.getInstance().getLastShopData();
         ShopMenuController.getInstance().setView(this);
         instance = this;
         assets = MainMenuController.getInstance().getLoggedInUserAssets();
@@ -81,9 +82,8 @@ public class ShopMenuView {
         System.out.println("runned!");
         cardsWithPrice = (LinkedHashMap<String, Integer>) Shop.getInstance().getCardsWithPrices();
         cardsWithNumber = Shop.getInstance().getCardsWithNumberOfThem();
-        ControllerManager.getInstance().getLastShopData();
+
         ArrayList<String> cards = (ArrayList<String>) new ArrayList<>(cardsWithPrice.keySet());
-       // updateSelectedCard(cardsWithNumber);
         shopGrid.getChildren().clear();
         int firstIndex = pageCount == 1 ? 0 : (pageCount == 2 ? 24 : 48);
         int limit = firstIndex == 0 ? 24 : (firstIndex == 24 ? 24 : 4);
@@ -289,19 +289,4 @@ public class ShopMenuView {
         Utility.openNewMenu("/project/fxml/main_menu.fxml");
     }
 
-    public void refresh(MouseEvent mouseEvent) {
-        if (mouseEvent.getButton() != MouseButton.PRIMARY)
-            return;
-        onClick.play();
-        ControllerManager.getInstance().getLastShopData();
-        pageLabel.setText(String.valueOf(pageCount));
-        priceLabel.setText("");
-        availabilityLabel.setText("");
-        selectedCardImage.setImage(null);
-        stockLabel.setText("");
-        buyButton.setStyle("-fx-background-color: #323c46");
-        sellButton.setStyle("-fx-background-color: #323c46");
-        selectedCardName = null;
-        new PopUpMessage(Alert.AlertType.INFORMATION, "Refreshed!");
-    }
 }

@@ -40,7 +40,7 @@ public class ShopController {
                 assets.addBoughtCard(Card.getCardByName(cardName));
                 cardsLinkedToNumber.replace(cardName, cardsLinkedToNumber.get(cardName) - 1);
                 HashMap<String, DataOutputStream> map = ServerMainController.getDataTransfer();
-                sendDataToClients(token, map, map.keySet(), cardsLinkedToNumber);
+                sendShopDataAndBuyerAssetsToRelatedClients(token, map, map.keySet(), cardsLinkedToNumber);
                 return "success";
             } else {
                 if (cardsLinkedToNumber.get(cardName) == 0)
@@ -57,7 +57,7 @@ public class ShopController {
         HashMap<String, DataOutputStream> map = ServerMainController.getDataTransfer();
         synchronized (Shop.getInstance().getCardsWithNumberOfThem()) {
             cardsLinkedToNumber.replace(cardName, cardsLinkedToNumber.get(cardName) + 1);
-            sendDataToClients(token, map, cardsLinkedToNumber.keySet(), cardsLinkedToNumber);
+            sendShopDataAndBuyerAssetsToRelatedClients(token, map, cardsLinkedToNumber.keySet(), cardsLinkedToNumber);
         }
         Assets assets = Assets.getAssetsByUsername(username);
         Objects.requireNonNull(assets).sellCard(cardName);
@@ -66,9 +66,8 @@ public class ShopController {
 
     }
 
-    private void sendDataToClients(String token, HashMap<String, DataOutputStream> map, Set<String> strings, LinkedHashMap<String, Integer> cardsLinkedToNumber) {
+    private void sendShopDataAndBuyerAssetsToRelatedClients(String token, HashMap<String, DataOutputStream> map, Set<String> strings, LinkedHashMap<String, Integer> cardsLinkedToNumber) {
         try {
-
             for (String s : strings) {
                 System.out.println("sent for : " + s + "   username : " + ServerMainController.getLoggedInUsers().get(s));
                 map.get(s).writeUTF("shop " + new Gson().toJson(Shop.getInstance().getCardsWithNumberOfThem()));

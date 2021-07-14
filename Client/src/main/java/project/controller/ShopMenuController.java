@@ -75,7 +75,6 @@ public class ShopMenuController {
         switch (result) {
             case "success":
                 assets.sellCard(cardName);
-                ControllerManager.getInstance().getLastShopData();
                 return ShopMenuMessage.SUCCESS;
             case "not enough cards":
                 return ShopMenuMessage.NOT_ENOUGH_CARD;
