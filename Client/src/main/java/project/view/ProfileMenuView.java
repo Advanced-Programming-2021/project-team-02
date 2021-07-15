@@ -157,8 +157,8 @@ public class ProfileMenuView {
         changePasswordButton.setOnAction(event -> {
             onClick.play();
             if (newPasswordField.getText().length() == 0 || currentPasswordField.getText().length() == 0) {
-                new PopUpMessage(ProfileMenuMessage.INVALID_INPUT.getAlertType(),
-                        ProfileMenuMessage.INVALID_INPUT.getLabel());
+                new PopUpMessage(ProfileMenuMessage.FILL_THE_FIELDS.getAlertType(),
+                        ProfileMenuMessage.FILL_THE_FIELDS.getLabel());
             } else {
                 ProfileMenuMessage profileMenuMessage = controller.changePassword(currentPasswordField.getText(), newPasswordField.getText());
                 new PopUpMessage(profileMenuMessage.getAlertType(), profileMenuMessage.getLabel());

@@ -1,10 +1,11 @@
 package project.controller;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import project.model.User;
-import project.view.ProfileMenuView;
 import project.view.messages.ProfileMenuMessage;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 public class ProfileMenuController {
     private static ProfileMenuController instance = null;
@@ -17,37 +18,54 @@ public class ProfileMenuController {
         return instance;
     }
 
-    public ProfileMenuMessage changeUsername(String newUsername) {
-        if (newUsername.length() == 0) return ProfileMenuMessage.INVALID_INPUT;
-        if (newUsername.length () < 6) return ProfileMenuMessage.SHORT_USERNAME;
-        if (isUsernameUsed(newUsername)) return ProfileMenuMessage.USERNAME_TAKEN;
-        MainMenuController.getInstance().getLoggedInUser().changeUsername(newUsername);
-        return ProfileMenuMessage.USERNAME_CHANGED;
-    }
 
     public ProfileMenuMessage changeNickname(String newNickname) {
-        if (newNickname.length() == 0) return ProfileMenuMessage.INVALID_INPUT;
-        if (isNicknameUsed(newNickname)) return ProfileMenuMessage.NICKNAME_TAKEN;
-        MainMenuController.getInstance().getLoggedInUser().changeNickname(newNickname);
+        if (newNickname.length() == 0) return ProfileMenuMessage.FILL_THE_FIELDS;
+        DataOutputStream dataOutputStream = ControllerManager.getInstance().getDataOutputStream();
+        DataInputStream dataInputStream = ControllerManager.getInstance().getDataInputStream();
+        String result = "";
+        try {
+            dataOutputStream.writeUTF("profile change_nickname " + newNickname + " "  + MainMenuController.getInstance().getLoggedInUserToken());
+            dataOutputStream.flush();
+            result = dataInputStream.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        switch (result) {
+            case "success":
+                MainMenuController.getInstance().getLoggedInUser().changeNickname(newNickname);
+                return ProfileMenuMessage.NICKNAME_CHANGED;
+            case "used_nickname":
+                return ProfileMenuMessage.NICKNAME_TAKEN;
+        }
+
         return ProfileMenuMessage.NICKNAME_CHANGED;
     }
 
     public ProfileMenuMessage changePassword(String currentPassword, String newPassword) {
         if (!isPasswordCorrect(currentPassword)) return ProfileMenuMessage.CURRENT_PASSWORD;
-        if (newPassword.length () < 8) return ProfileMenuMessage.SHORT_PASSWORD;
+        if (!newPassword.matches("\\w+")) return ProfileMenuMessage.INVALID_INPUT;
+        if (newPassword.length() < 4) return ProfileMenuMessage.SHORT_PASSWORD;
         if (currentPassword.equals(newPassword)) return ProfileMenuMessage.SAME_PASSWORD;
-        MainMenuController.getInstance().getLoggedInUser().changePassword(newPassword);
+        DataOutputStream dataOutputStream = ControllerManager.getInstance().getDataOutputStream();
+        DataInputStream dataInputStream = ControllerManager.getInstance().getDataInputStream();
+        String result = "";
+        try {
+            dataOutputStream.writeUTF("profile change_password " + currentPassword + " " + newPassword + " " + MainMenuController.getInstance().getLoggedInUserToken());
+            dataOutputStream.flush();
+            result = dataInputStream.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        switch (result) {
+            case "success":
+                MainMenuController.getInstance().getLoggedInUser().changePassword(newPassword);
+                return ProfileMenuMessage.PASSWORD_CHANGED;
+            case "failed":
+                return ProfileMenuMessage.ERROR_OCCURRED;
+        }
+
         return ProfileMenuMessage.PASSWORD_CHANGED;
-    }
-
-    public boolean isUsernameUsed(String username) {
-        return User.getUserByUsername(username) != null;
-    }
-
-    public boolean isNicknameUsed(String nickname) {
-        for (User user : User.getAllUsers())
-            if (user.getNickname().equals(nickname)) return true;
-        return false;
     }
 
     public boolean isPasswordCorrect(String password) {

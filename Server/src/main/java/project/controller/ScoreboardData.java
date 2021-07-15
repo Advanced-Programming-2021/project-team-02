@@ -1,6 +1,8 @@
 package project.controller;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.stream.Collectors;
 
 public class ScoreboardData {
     private static ArrayList<ScoreboardData> dataArrayList;
@@ -22,7 +24,14 @@ public class ScoreboardData {
     }
 
     public static ArrayList<ScoreboardData> getDataArrayList() {
-        return dataArrayList;
+        return new ArrayList<>(dataArrayList.subList(0, Math.min(10, dataArrayList.size())));
+    }
+
+    public static void setOffline(String nickname) {
+        for (ScoreboardData data : dataArrayList) {
+            if (data.nickname.equals(nickname))
+                data.isOnline = false;
+        }
     }
 
     public int getScore() {
@@ -37,9 +46,12 @@ public class ScoreboardData {
         return isOnline;
     }
 
-    public static boolean mustBeAdded(String nickname) {
-        if (dataArrayList.stream().filter(scoreboardData -> scoreboardData.nickname.equals(nickname)).count() != 0)
-            return false;
-        return true;
+    public static void setOnline(String nickname) {
+        for (ScoreboardData data : dataArrayList) {
+            if (data.nickname.equals(nickname))
+                data.isOnline = true;
+        }
+
     }
+
 }

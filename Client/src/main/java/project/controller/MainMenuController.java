@@ -44,10 +44,7 @@ public class MainMenuController {
     }
 
     public void logout() {
-        loggedInUser = null;
-        loggedInUserAssets = null;
-        loggedInUserToken = "";
-        loggedInUserUsername = "";
+
         DataOutputStream dataOutputStream = ControllerManager.getInstance().getDataOutputStream();
         DataInputStream dataInputStream = ControllerManager.getInstance().getDataInputStream();
         try {
@@ -57,6 +54,10 @@ public class MainMenuController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        loggedInUser = null;
+        loggedInUserAssets = null;
+        loggedInUserToken = "";
+        loggedInUserUsername = "";
     }
 
     public Assets getLoggedInUserAssets() {

@@ -20,7 +20,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import project.controller.DeckMenuController;
 import project.controller.MainMenuController;
-import project.model.Assets;
 import project.model.Deck;
 import project.model.Music;
 import project.model.User;
@@ -217,8 +216,8 @@ public class DeckMenuView {
 
             addDeckButton.setOnMouseClicked(event -> {
                 if (textField.getText().length() == 0) {
-                    new PopUpMessage(ProfileMenuMessage.INVALID_INPUT.getAlertType(),
-                            ProfileMenuMessage.INVALID_INPUT.getLabel());
+                    new PopUpMessage(ProfileMenuMessage.FILL_THE_FIELDS.getAlertType(),
+                            ProfileMenuMessage.FILL_THE_FIELDS.getLabel());
                 } else {
                     if (MainMenuController.getInstance().getLoggedInUserAssets().getAllDecks().size() == 6) {
                         new PopUpMessage(DeckMenuMessage.DECK_MAXIMUM_NUMBER.getAlertType(), DeckMenuMessage.DECK_MAXIMUM_NUMBER.getLabel());

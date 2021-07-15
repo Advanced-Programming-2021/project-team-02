@@ -2,10 +2,7 @@ package project;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import project.controller.ControllerManager;
-import project.controller.LoginMenuController;
-import project.controller.Scoreboard;
-import project.controller.ShopController;
+import project.controller.*;
 import project.model.Assets;
 import project.model.Shop;
 import project.model.User;
@@ -99,6 +96,7 @@ public class ServerMainController {
         } else if (parts[0].equals("shop")) {
             return processShopCommand(input);
         } else if (parts[0].equals("logout")) {
+            System.out.println(input);
             return processLogout(parts[1]);
         }
         return "";
@@ -135,8 +133,18 @@ public class ServerMainController {
             case "shop":
                 return new Gson().toJson(Shop.getInstance().getCardsWithNumberOfThem(), new TypeToken<LinkedHashMap<String, Integer>>() {
                 }.getType());
+            case "profile":
+                return processProfileMenu(parts);
         }
         return "";
+    }
+
+    private static String processProfileMenu(String[] parts) {
+        if (parts[1].equals("change_password")) {
+            return new ProfileController().changePassword(parts[4], parts[2], parts[3]);
+        } else if (parts[1].equals("change_nickname")) {
+            return new ProfileController().changeNickname(parts[3],parts[2]);
+        } else return "";
     }
 
 
@@ -151,9 +159,7 @@ public class ServerMainController {
     }
 
     private static String processLogout(String token) {
-        loggedInUsers.remove(token);
-        dataTransfer.remove(token);
-        return "success logout";
+        return MainMenuController.getInstance().logout(token);
     }
 
 }

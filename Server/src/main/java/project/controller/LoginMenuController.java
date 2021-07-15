@@ -24,9 +24,21 @@ public class LoginMenuController {
     public String createUser(String username, String nickname, String password) {
         if (isUsernameUsed(username)) return "used_username";
         if (isNicknameUsed(nickname)) return "used_nickname";
-        new User(username, password, nickname);
-
+        User user = new User(username, password, nickname);
+        new ScoreboardData(user.getNickname(), user.getScore(), false);
+        sendScoreboardDate();
         return "success";
+    }
+
+    public void sendScoreboardDate() {
+        ArrayList<ScoreboardData> scoreboardData = ScoreboardData.getDataArrayList();
+        for (String s : ServerMainController.getDataTransfer().keySet()) {
+            try {
+                ServerMainController.getDataTransfer().get(s).writeUTF("scoreboard " + new Gson().toJson(scoreboardData));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public boolean isUsernameUsed(String username) {
@@ -54,15 +66,8 @@ public class LoginMenuController {
         User user = User.getUserByUsername(username);
         System.out.println(user + " logged in ");
         ServerMainController.getLoggedInUsers().put(token, user);
-        if (ScoreboardData.mustBeAdded(user.getNickname()))
-            new ScoreboardData(user.getNickname(), user.getScore(), true);
-        for (String s : ServerMainController.getDataTransfer().keySet()) {
-            try {
-                ServerMainController.getDataTransfer().get(s).writeUTF("scoreboard " + new Gson().toJson(ScoreboardData.getDataArrayList()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        ScoreboardData.setOnline(user.getNickname());
+        sendScoreboardDate();
         return "success " + token;
     }
 }

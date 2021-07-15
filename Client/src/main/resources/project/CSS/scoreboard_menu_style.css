@@ -49,3 +49,8 @@
     -fx-background-color: #323c46;
     -fx-background-radius: 10;
 }
+#Online{
+    -fx-text-fill: white;
+    -fx-background-color: #323c46;
+    -fx-background-radius: 10;
+}
