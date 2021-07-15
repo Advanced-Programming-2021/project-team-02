@@ -5,13 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="00f24077-6cc3-42bb-ad92-b2a3c54accc6" name="Default Changelist" comment="profile fixed">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/project/CSS/admin_panel.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/ControllerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/ControllerManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/MainMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/MainMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/ProfileMenuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/ProfileMenuView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/controller/ProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/ProfileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/AdminView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/AdminView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/MainMenuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/MainMenuView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/ScoreBoardView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/ScoreBoardView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/ShopMenuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/ShopMenuView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/project/CSS/shop_menu.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/project/CSS/shop_menu.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/project/fxml/admin_view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/project/fxml/admin_view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/project/fxml/main_menu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/project/fxml/main_menu.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/project/fxml/new_shop.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/project/fxml/new_shop.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/controller/ScoreboardData.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/ScoreboardData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/controller/ShopController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/ShopController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/User.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,7 +125,7 @@
       <workItem from="1626284974443" duration="164000" />
       <workItem from="1626290130551" duration="7688000" />
       <workItem from="1626331941993" duration="1099000" />
-      <workItem from="1626333085515" duration="7314000" />
+      <workItem from="1626333085515" duration="12511000" />
     </task>
     <task id="LOCAL-00001" summary="client">
       <created>1626162144686</created>

@@ -1,6 +1,9 @@
 package project.controller;
 
+import project.model.User;
+
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
@@ -24,7 +27,10 @@ public class ScoreboardData {
     }
 
     public static ArrayList<ScoreboardData> getDataArrayList() {
-        return new ArrayList<>(dataArrayList.subList(0, Math.min(10, dataArrayList.size())));
+        ArrayList<ScoreboardData> scoreboardData = new ArrayList<>(dataArrayList.subList(0, Math.min(10, dataArrayList.size())));
+        Comparator<ScoreboardData> comparator = Comparator.comparingInt(ScoreboardData::getScore).reversed().thenComparing(ScoreboardData::getNickname);
+        scoreboardData.sort(comparator);
+        return scoreboardData;
     }
 
     public static void setOffline(String nickname) {
