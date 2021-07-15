@@ -22,6 +22,7 @@ import project.model.gui.Icon;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -38,10 +39,14 @@ public class ScoreBoardView {
     @FXML
     public void initialize() {
         MainMenuController.getInstance().setScoreBoardView(this);
+        try {
+            ControllerManager.getInstance().setScoreBoardSocket(new Socket("localhost", 8000), MainMenuController.getInstance().getLoggedInUserToken());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         DataInputStream dataInputStream = ControllerManager.getInstance().getDataInputStream();
         DataOutputStream dataOutputStream = ControllerManager.getInstance().getDataOutputStream();
         String result = "";
-
         try {
             dataOutputStream.writeUTF("scoreboard");
             dataOutputStream.flush();

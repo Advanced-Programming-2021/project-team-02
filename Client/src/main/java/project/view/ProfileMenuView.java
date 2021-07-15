@@ -71,7 +71,8 @@ public class ProfileMenuView {
 
     @FXML
     public void initialize() {
-        MainMenuController.getInstance().setProfileMenuView(this);
+        ProfileMenuController.getInstance().setProfileMenuView(this);
+        ProfileMenuController.getInstance().initializeNetworkForDataTransfer();
         setProfileData();
         Music.muteUnmuteButtons.add(muteUnmuteButton);
         if (!Music.isMediaPlayerPaused) playPauseMusicButton.setImage(Icon.PAUSE.getImage());
@@ -85,7 +86,6 @@ public class ProfileMenuView {
         userNameLabel.setText(MainMenuController.getInstance().getLoggedInUser().getUsername());
         nickNameLabel.setText(MainMenuController.getInstance().getLoggedInUser().getNickname());
         passwordLabel.setText("●".repeat(MainMenuController.getInstance().getLoggedInUser().getPassword().length()));
-
     }
 
     private Button closeButton(Stage window, TextField usernameTextField) {

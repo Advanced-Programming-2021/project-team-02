@@ -34,7 +34,6 @@ public class MainMenuController {
 
     public User getLoggedInUser() {
         if (loggedInUser == null) {
-            System.out.println("entered");
             loggedInUser = ControllerManager.getInstance().askForLoggedInUser();
         }
         return loggedInUser;

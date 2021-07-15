@@ -47,15 +47,11 @@ public class ShopMenuView {
     private Utility utility;
     private String selectedCardName;
 
-    public static ShopMenuView getInstance() {
-        return instance;
-    }
-
     @FXML
     public void initialize() throws IOException {
         ControllerManager.getInstance().getLastShopData();
         ShopMenuController.getInstance().setView(this);
-        instance = this;
+        ShopMenuController.getInstance().initializeNetWorkForTransferShopData();
         utility = new Utility();
         utility.addImages();
         coinsLabel.setText("Coins : " + MainMenuController.getInstance().getLoggedInUserAssets().getCoin());
@@ -222,6 +218,7 @@ public class ShopMenuView {
         if (mouseEvent.getButton() != MouseButton.PRIMARY)
             return;
         onClick.play();
+        ShopMenuController.getInstance().closeShop();
         Utility.openNewMenu("/project/fxml/main_menu.fxml");
     }
 

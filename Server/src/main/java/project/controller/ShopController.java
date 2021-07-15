@@ -38,7 +38,7 @@ public class ShopController {
                 Objects.requireNonNull(assets).decreaseCoin(cardsWithPrices.get(cardName));
                 assets.addBoughtCard(Card.getCardByName(cardName));
                 cardsLinkedToNumber.replace(cardName, cardsLinkedToNumber.get(cardName) - 1);
-                HashMap<String, DataOutputStream> map = ServerMainController.getDataTransfer();
+                HashMap<String, DataOutputStream> map = ServerMainController.getDataTransferForShopCards();
                 sendShopDataAndBuyerAssetsToRelatedClients(token, map, cardsLinkedToNumber);
                 return "success";
             } else {
@@ -53,7 +53,7 @@ public class ShopController {
 
     public String sellCard(String cardName, String username, String token) {
         LinkedHashMap<String, Integer> cardsLinkedToNumber = Shop.getInstance().getCardsWithNumberOfThem();
-        HashMap<String, DataOutputStream> map = ServerMainController.getDataTransfer();
+        HashMap<String, DataOutputStream> map = ServerMainController.getDataTransferForShopCards();
         synchronized (Shop.getInstance().getCardsWithNumberOfThem()) {
             cardsLinkedToNumber.replace(cardName, cardsLinkedToNumber.get(cardName) + 1);
         }
@@ -67,10 +67,11 @@ public class ShopController {
     private void sendShopDataAndBuyerAssetsToRelatedClients(String token, HashMap<String, DataOutputStream> map, LinkedHashMap<String, Integer> cardsLinkedToNumber) {
         try {
             for (String s : map.keySet()) {
-                map.get(s).writeUTF("shop " + new Gson().toJson(Shop.getInstance().getCardsWithNumberOfThem()));
+                map.get(s).writeUTF(new Gson().toJson(Shop.getInstance().getCardsWithNumberOfThem()));
                 map.get(s).flush();
             }
-            map.get(token).writeUTF("asset " + new Gson().toJson(Assets.getAssetsByUsername(ServerMainController.getLoggedInUsers().get(token).getUsername())));
+            ServerMainController.getDataTransferForAssets().get(token).writeUTF(new Gson().toJson(Assets.getAssetsByUsername(ServerMainController.getLoggedInUsers().get(token).getUsername())));
+            ServerMainController.getDataTransferForAssets().get(token).flush();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -21,8 +21,23 @@ import java.util.regex.Pattern;
 public class ServerMainController {
 
     private static HashMap<String, User> loggedInUsers;
-    private static HashMap<String, DataOutputStream> dataTransfer;
+    private static HashMap<String, DataOutputStream> dataTransferForShopCards;
+    private static HashMap<String, DataOutputStream> dataTransferForAssets;
     private static HashMap<String, DataOutputStream> dataForChat;
+    private static HashMap<String, DataOutputStream> profileDataTransfer;
+    private static HashMap<String, DataOutputStream> scoreboardDataTransfer;
+
+    public static HashMap<String, DataOutputStream> getDataTransferForAssets() {
+        return dataTransferForAssets;
+    }
+
+    public static HashMap<String, DataOutputStream> getProfileDataTransfer() {
+        return profileDataTransfer;
+    }
+
+    public static HashMap<String, DataOutputStream> getScoreboardDataTransfer() {
+        return scoreboardDataTransfer;
+    }
 
     public static HashMap<String, DataOutputStream> getDataForChat() {
         return dataForChat;
@@ -32,51 +47,86 @@ public class ServerMainController {
         return loggedInUsers;
     }
 
-    public static HashMap<String, DataOutputStream> getDataTransfer() {
-        return dataTransfer;
+    public static HashMap<String, DataOutputStream> getDataTransferForShopCards() {
+        return dataTransferForShopCards;
     }
 
     public static void run() {
         loggedInUsers = new HashMap<>();
-        dataTransfer = new HashMap<>();
+        dataTransferForShopCards = new HashMap<>();
         dataForChat = new HashMap<>();
+        profileDataTransfer = new HashMap<>();
+        scoreboardDataTransfer = new HashMap<>();
+        dataTransferForAssets = new HashMap<>();
         try {
             ServerSocket serverSocket = new ServerSocket(8000);
             while (true) {
                 Socket socket = serverSocket.accept();
                 DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
                 DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
-                String in = dataInputStream.readUTF();
-                if (in.equals("request")) {
-                    startThread(serverSocket, socket, dataOutputStream, dataInputStream);
-                } else if (in.matches("data_transfer .+")) {
-                    in = in.replaceFirst("data_transfer ", "");
-                    System.out.println("token : " + in);
-                    dataTransfer.put(in, dataOutputStream);
-                } else if (in.matches("Chat_Socket_Read .+")) {
-                    String[] split = in.split("\\s+");
-                    dataForChat.put(split[1], dataOutputStream);
-                } else if (in.matches("Chat_Sending .+")) {
-                    System.out.println(in);
-                    Pattern pattern = Pattern.compile("Chat_Sending (?<token>.+?) (?<message>.+)");
-                    Matcher matcher = pattern.matcher(in);
-                    if (matcher.find())
-                    {
-                       String result =  ChatMenuController.getInstance().sendMessage(matcher.group("token"), matcher.group("message"));
-                        dataOutputStream.writeUTF(result);
-                        dataOutputStream.flush();
+                new Thread(() -> {
+                    try {
+                        String in = dataInputStream.readUTF();
+                        System.out.println(in);
+                        if (in.equals("request")) {
+                            startThreadForRequestSocket(socket, dataOutputStream, dataInputStream);
+                        } else if (in.matches("data_transfer_scoreboard .+")) {
+                            in = in.replaceFirst("data_transfer_scoreboard ", "");
+                            scoreboardDataTransfer.put(in, dataOutputStream);
+                        } else if (in.matches("data_transfer_shop .+")) {
+                            in = in.replaceFirst("data_transfer_shop ", "");
+                            dataTransferForShopCards.put(in, dataOutputStream);
+                        } else if (in.matches("data_transfer_asset .+")) {
+                            in = in.replaceFirst("data_transfer_asset ", "");
+                            dataTransferForAssets.put(in, dataOutputStream);
+                        } else if (in.matches("data_transfer_profile .+")) {
+                            in = in.replaceFirst("data_transfer_profile ", "");
+                            profileDataTransfer.put(in, dataOutputStream);
+                        } else if (in.matches("Chat_Socket_Read .+")) {
+                            in = in.replaceFirst("Chat_Socket_Read ", "");
+                            dataForChat.put(in, dataOutputStream);
+                        } else if (in.matches("chat_send_socket .+")) {
+                            String token = in.replaceFirst("chat_send_socket ", "");
+                            startThreadForChatSocket(socket, dataOutputStream, dataInputStream, token);
+                            dataOutputStream.writeUTF("success");
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                }
+                }).start();
+
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static void startThread(ServerSocket serverSocket, Socket socket, DataOutputStream dataOutputStream, DataInputStream dataInputStream) {
+    private static void startThreadForRequestSocket(Socket socket, DataOutputStream dataOutputStream, DataInputStream dataInputStream) {
         new Thread(() -> {
             try {
                 getInputAndProcess(dataInputStream, dataOutputStream);
+                dataInputStream.close();
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    private static void startThreadForChatSocket(Socket socket, DataOutputStream dataOutputStream, DataInputStream dataInputStream, String token) {
+        new Thread(() -> {
+            try {
+                while (true) {
+                    String message = dataInputStream.readUTF();
+                    if (message.equals("close_chat_socket " + token)) {
+                        break;
+                    } else {
+                        String result = ChatMenuController.getInstance().sendMessage(token, message);
+                        dataOutputStream.writeUTF(result);
+                        dataOutputStream.flush();
+
+                    }
+                }
                 dataInputStream.close();
                 socket.close();
             } catch (IOException e) {
@@ -117,13 +167,27 @@ public class ServerMainController {
             System.out.println(input);
             return processLogout(parts[1]);
         } else if (parts[0].equals("profile"))
-            return processProfileMenu(parts);
+            return processProfileMenu(parts, input);
         return "";
     }
 
     private static String processShopCommand(String input) {
-        Pattern pattern = Pattern.compile("shop buy <(?<cardName>.+)> (?<token>.+)");
+        Pattern pattern = Pattern.compile("shop close (?<token>.+)");
         Matcher matcher = pattern.matcher(input);
+        if (matcher.find()) {
+            String token = matcher.group("token");
+            try {
+                dataTransferForAssets.get(token).writeUTF("close");
+                dataTransferForShopCards.get(token).writeUTF("close");
+                dataTransferForShopCards.remove(token);
+                dataTransferForAssets.remove(token);
+                return "success";
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        pattern = Pattern.compile("shop buy <(?<cardName>.+)> (?<token>.+)");
+        matcher = pattern.matcher(input);
         if (matcher.find()) {
             String cardName = matcher.group("cardName");
             String token = matcher.group("token");
@@ -157,7 +221,19 @@ public class ServerMainController {
         return "";
     }
 
-    private static String processProfileMenu(String[] parts) {
+    private static String processProfileMenu(String[] parts, String input) {
+        Pattern pattern = Pattern.compile("profile close (?<token>.+)");
+        Matcher matcher = pattern.matcher(input);
+        if (matcher.find()) {
+            String token = matcher.group("token");
+            try {
+                profileDataTransfer.get(token).writeUTF("close");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            profileDataTransfer.remove(token);
+            return "success";
+        }
         System.out.println(parts[1]);
         if (parts[1].equals("change_password")) {
             return new ProfileController().changePassword(parts[4], parts[3]);

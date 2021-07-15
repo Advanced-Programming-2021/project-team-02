@@ -14,6 +14,9 @@ public class GlobalChatController {
     private static GlobalChatController instance = null;
     public String textToAppend;
     private GlobalChatView view;
+    private Socket socket;
+    private DataInputStream dataInputStreamChat;
+    private DataOutputStream dataOutputStreamChat;
 
     private GlobalChatController() {
     }
@@ -27,16 +30,27 @@ public class GlobalChatController {
         return textToAppend;
     }
 
-    public void initializeToRead() {
+    public void initializeNetworkToSend() {
+        try {
+            Socket socket = new Socket("localhost", 8000);
+            dataInputStreamChat = new DataInputStream(socket.getInputStream());
+            dataOutputStreamChat = new DataOutputStream(socket.getOutputStream());
+            dataOutputStreamChat.writeUTF("chat_send_socket " + MainMenuController.getInstance().getLoggedInUserToken());
+            dataOutputStreamChat.flush();
+            dataInputStreamChat.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void initializeNetworkToRead() {
         Socket socketChat = null;
         try {
             socketChat = new Socket("localhost", 8000);
-            System.out.println("Chat is going");
             DataOutputStream dataOutputStreamChat = new DataOutputStream(socketChat.getOutputStream());
             DataInputStream dataInputStreamChat = new DataInputStream(socketChat.getInputStream());
             dataOutputStreamChat.writeUTF("Chat_Socket_Read " + MainMenuController.getInstance().getLoggedInUserToken());
             dataOutputStreamChat.flush();
-            System.out.println("payam raft");
             startThreadForChat(dataInputStreamChat);
         } catch (IOException e) {
             e.printStackTrace();
@@ -60,13 +74,8 @@ public class GlobalChatController {
     }
 
     public GlobalChatMessage sendChatMessage(String message) {
-        Socket socketChat = null;
         try {
-            socketChat = new Socket("localhost", 8000);
-            System.out.println("Chat is going to send");
-            DataOutputStream dataOutputStreamChat = new DataOutputStream(socketChat.getOutputStream());
-            DataInputStream dataInputStreamChat = new DataInputStream(socketChat.getInputStream());
-            dataOutputStreamChat.writeUTF("Chat_Sending " + MainMenuController.getInstance().getLoggedInUserToken() + " " + message);
+            dataOutputStreamChat.writeUTF(message);
             dataOutputStreamChat.flush();
             String string = dataInputStreamChat.readUTF();
             System.out.println("result string");

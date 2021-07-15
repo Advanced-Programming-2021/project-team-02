@@ -31,10 +31,11 @@ public class LoginMenuController {
     }
 
     public void sendScoreboardDate() {
+        //TODO SCOREBOARD
         ArrayList<ScoreboardData> scoreboardData = ScoreboardData.getDataArrayList();
-        for (String s : ServerMainController.getDataTransfer().keySet()) {
+        for (String s : ServerMainController.getScoreboardDataTransfer().keySet()) {
             try {
-                ServerMainController.getDataTransfer().get(s).writeUTF("scoreboard " + new Gson().toJson(scoreboardData));
+                ServerMainController.getScoreboardDataTransfer().get(s).writeUTF( new Gson().toJson(scoreboardData));
             } catch (IOException e) {
                 e.printStackTrace();
             }
