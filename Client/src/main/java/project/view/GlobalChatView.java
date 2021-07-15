@@ -46,16 +46,16 @@ public class GlobalChatView {
         if (textPlace.getLength() == 0) {
             new PopUpMessage(GlobalChatMessage.WRITE_FIRST.getAlertType(), GlobalChatMessage.WRITE_FIRST.getLabel());
         } else {
-            VBox layout = new VBox(10);
-            Label label = new Label();
-            label.setText(MainMenuController.getInstance().getLoggedInUser().getUsername() + " : " + textPlace.getText());
-            layout.getChildren().add(label);
-            textArea.setWrapText(true);
-            textArea.setEditable(false);
-            textArea.appendText(label.getText() + "\n");
             GlobalChatMessage globalChatMessage = GlobalChatController.getInstance().sendChatMessage(textPlace.getText());
-            new PopUpMessage(globalChatMessage.getAlertType(), globalChatMessage.getLabel());
+            if (globalChatMessage != GlobalChatMessage.MESSAGE_SENT) {
+                new PopUpMessage(globalChatMessage.getAlertType(), globalChatMessage.getLabel());
+                textPlace.clear();
+                return;
+            }
+            textArea.appendText("<" + MainMenuController.getInstance().getLoggedInUser().getUsername() + "> : " + textPlace + "\n")
+            ;
             textPlace.clear();
+
 
         }
     }
@@ -64,16 +64,15 @@ public class GlobalChatView {
         if (textPlace.getLength() == 0) {
             new PopUpMessage(GlobalChatMessage.WRITE_FIRST.getAlertType(), GlobalChatMessage.WRITE_FIRST.getLabel());
         } else {
-            VBox layout = new VBox(10);
-            Label label = new Label();
-            label.setText(MainMenuController.getInstance().getLoggedInUser().getUsername() + " : " + textPlace.getText());
-            layout.getChildren().add(label);
-            textArea.setWrapText(true);
-            textArea.setEditable(false);
-            textArea.appendText(label.getText() + "\n");
             GlobalChatMessage globalChatMessage = GlobalChatController.getInstance().sendChatMessage(textPlace.getText());
-            new PopUpMessage(globalChatMessage.getAlertType(), globalChatMessage.getLabel());
+            if (globalChatMessage != GlobalChatMessage.MESSAGE_SENT) {
+                new PopUpMessage(globalChatMessage.getAlertType(), globalChatMessage.getLabel());
+                textPlace.clear();
+                return;
+            }
+            textArea.appendText("<" + MainMenuController.getInstance().getLoggedInUser().getUsername() + "> : " + textPlace + "\n");
             textPlace.clear();
+
 
         }
     }

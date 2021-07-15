@@ -21,6 +21,8 @@ public class ChatMenuController {
 
         for (String s : ServerMainController.getDataForChat().keySet()) {
             try {
+                if (s.equals(token))
+                    continue;
                 ServerMainController.getDataForChat().get(s).writeUTF(ServerMainController.getLoggedInUsers().get(s).getUsername()
                         + " : " + message);
                 ServerMainController.getDataForChat().get(s).flush();
