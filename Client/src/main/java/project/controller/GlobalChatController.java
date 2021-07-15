@@ -27,7 +27,7 @@ public class GlobalChatController {
         return textToAppend;
     }
 
-    public void readChats() {
+    public void initializeToRead() {
         Socket socketChat = null;
         try {
             socketChat = new Socket("localhost", 8000);
@@ -48,7 +48,6 @@ public class GlobalChatController {
         new Thread(() -> {
             try {
                 while (true) {
-                    System.out.println("received and waiting");
                     String chatResult = dataInputStreamChat.readUTF();
                     System.out.println(chatResult);
                     textToAppend = chatResult;
