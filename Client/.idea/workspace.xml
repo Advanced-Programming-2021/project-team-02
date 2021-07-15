@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00f24077-6cc3-42bb-ad92-b2a3c54accc6" name="Default Changelist" comment="fixing chat">
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/GlobalChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/GlobalChatController.java" afterDir="false" />
+    <list default="true" id="00f24077-6cc3-42bb-ad92-b2a3c54accc6" name="Default Changelist" comment="some files!">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -250,7 +250,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626375085404</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="some files!">
+      <created>1626375831125</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1626375831125</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -275,7 +282,6 @@
     <MESSAGE value="png file" />
     <MESSAGE value="working on shop" />
     <MESSAGE value="basic shop done!" />
-    <MESSAGE value="some files!" />
     <MESSAGE value="working on shop!!!" />
     <MESSAGE value="small cleanings about shop" />
     <MESSAGE value="shop . . ." />
@@ -285,6 +291,7 @@
     <MESSAGE value="working on admin" />
     <MESSAGE value="tired" />
     <MESSAGE value="fixing chat" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixing chat" />
+    <MESSAGE value="some files!" />
+    <option name="LAST_COMMIT_MESSAGE" value="some files!" />
   </component>
 </project>
