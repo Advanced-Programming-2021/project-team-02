@@ -25,8 +25,8 @@ public class LoginMenuController {
             return LoginMessage.EMPTY_FIELD;
         if (!username.matches("\\w+") || !nickname.matches("\\w+") || !password.matches("\\w+"))
             return LoginMessage.INVALID_INPUT;
-        if (username.length() < 6) return LoginMessage.SHORT_USERNAME;
-        if (password.length() < 8) return LoginMessage.SHORT_PASSWORD;
+        if (username.length() < 4) return LoginMessage.SHORT_USERNAME;
+        if (password.length() < 4) return LoginMessage.SHORT_PASSWORD;
         if (!password.equals(secondPassword)) return LoginMessage.NONIDENTICAL_PASSWORDS;
 
         DataOutputStream dataOutputStream = ControllerManager.getInstance().getDataOutputStream();
@@ -77,7 +77,7 @@ public class LoginMenuController {
                     e.printStackTrace();
                 }
                 MainMenuController.getInstance().setLoggedInUsernameAndToken(username, results[1]);
-                return LoginMessage.SUCCESSFUL_SIGN_UP;
+                return LoginMessage.SUCCESSFUL_LOGIN;
             }
             case "username_password_dont_match":
                 return LoginMessage.INCORRECT_USERNAME_PASSWORD;

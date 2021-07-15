@@ -37,9 +37,14 @@ import java.nio.file.Paths;
 import java.util.Objects;
 
 public class ProfileMenuView {
-    private final AudioClip onClick = new AudioClip(Objects.requireNonNull(Utility.class.getResource("/project/soundEffects/CURSOR.wav")).toString());
-    private static final ProfileMenuController controller = ProfileMenuController.getInstance();
     public static final SnapshotParameters parameters = new SnapshotParameters();
+    private static final ProfileMenuController controller = ProfileMenuController.getInstance();
+
+    static {
+        parameters.setFill(Color.TRANSPARENT);
+    }
+
+    private final AudioClip onClick = new AudioClip(Objects.requireNonNull(Utility.class.getResource("/project/soundEffects/CURSOR.wav")).toString());
     public Label userNameLabel;
     public Label nickNameLabel;
     public Label passwordLabel;
@@ -53,7 +58,6 @@ public class ProfileMenuView {
     PasswordField newPasswordField = new PasswordField();
     @FXML
     TextField nickNameTextField = new TextField();
-
     @FXML
     ImageView profileImageView = new ImageView();
     @FXML
@@ -65,17 +69,10 @@ public class ProfileMenuView {
     @FXML
     Image image4 = new Image(String.valueOf(Avatar.AVATAR_4.getUrl()));
 
-    static {
-        parameters.setFill(Color.TRANSPARENT);
-    }
-
     @FXML
     public void initialize() {
-        profileImageView.setImage(new Image(String.valueOf(MainMenuController.getInstance().getLoggedInUser().getAvatarURL())));
-        userNameLabel.setText(MainMenuController.getInstance().getLoggedInUser().getUsername());
-        nickNameLabel.setText(MainMenuController.getInstance().getLoggedInUser().getNickname());
-        passwordLabel.setText("●".repeat(MainMenuController.getInstance().getLoggedInUser().getPassword().length()));
-
+        MainMenuController.getInstance().setProfileMenuView(this);
+        setProfileData();
         Music.muteUnmuteButtons.add(muteUnmuteButton);
         if (!Music.isMediaPlayerPaused) playPauseMusicButton.setImage(Icon.PAUSE.getImage());
         else playPauseMusicButton.setImage(Icon.PLAY.getImage());
@@ -83,6 +80,13 @@ public class ProfileMenuView {
         else muteUnmuteButton.setImage(Icon.UNMUTE.getImage());
     }
 
+    public void setProfileData() {
+        profileImageView.setImage(new Image(String.valueOf(MainMenuController.getInstance().getLoggedInUser().getAvatarURL())));
+        userNameLabel.setText(MainMenuController.getInstance().getLoggedInUser().getUsername());
+        nickNameLabel.setText(MainMenuController.getInstance().getLoggedInUser().getNickname());
+        passwordLabel.setText("●".repeat(MainMenuController.getInstance().getLoggedInUser().getPassword().length()));
+
+    }
 
     private Button closeButton(Stage window, TextField usernameTextField) {
         Button closeButton = new Button();
@@ -157,13 +161,13 @@ public class ProfileMenuView {
         changePasswordButton.setOnAction(event -> {
             onClick.play();
             if (newPasswordField.getText().length() == 0 || currentPasswordField.getText().length() == 0) {
-                new PopUpMessage(ProfileMenuMessage.INVALID_INPUT.getAlertType(),
-                        ProfileMenuMessage.INVALID_INPUT.getLabel());
+                new PopUpMessage(ProfileMenuMessage.FILL_THE_FIELDS.getAlertType(),
+                        ProfileMenuMessage.FILL_THE_FIELDS.getLabel());
             } else {
                 ProfileMenuMessage profileMenuMessage = controller.changePassword(currentPasswordField.getText(), newPasswordField.getText());
+                System.out.println(profileMenuMessage.getLabel());
                 new PopUpMessage(profileMenuMessage.getAlertType(), profileMenuMessage.getLabel());
                 passwordLabel.setText("●".repeat(MainMenuController.getInstance().getLoggedInUser().getPassword().length()));
-                if (profileMenuMessage.getAlertType().equals(Alert.AlertType.INFORMATION)) window.close();
             }
         });
         changePasswordButton.setCursor(Cursor.HAND);
@@ -347,6 +351,7 @@ public class ProfileMenuView {
 
     public void back(MouseEvent mouseEvent) throws Exception {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
+        MainMenuController.getInstance().setProfileMenuView(null);
         onClick.play();
         Utility.openNewMenu("/project/fxml/main_menu.fxml");
     }

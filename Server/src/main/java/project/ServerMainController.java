@@ -2,10 +2,7 @@ package project;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import project.controller.ControllerManager;
-import project.controller.LoginMenuController;
-import project.controller.Scoreboard;
-import project.controller.ShopController;
+import project.controller.*;
 import project.model.Assets;
 import project.model.Shop;
 import project.model.User;
@@ -36,7 +33,7 @@ public class ServerMainController {
 
     public static void run() {
         loggedInUsers = new HashMap<>();
-       dataTransfer =  new HashMap<>();
+        dataTransfer = new HashMap<>();
         try {
             ServerSocket serverSocket = new ServerSocket(8000);
             while (true) {
@@ -48,7 +45,7 @@ public class ServerMainController {
                     startThread(serverSocket, socket, dataOutputStream, dataInputStream);
                 } else if (in.matches("data_transfer .+")) {
                     in = in.replaceFirst("data_transfer ", "");
-                    System.out.println("token : "+in);
+                    System.out.println("token : " + in);
                     dataTransfer.put(in, dataOutputStream);
                 }
             }
@@ -98,7 +95,11 @@ public class ServerMainController {
             return processAsk(parts);
         } else if (parts[0].equals("shop")) {
             return processShopCommand(input);
-        }
+        } else if (parts[0].equals("logout")) {
+            System.out.println(input);
+            return processLogout(parts[1]);
+        }else if (parts[0].equals("profile"))
+        return processProfileMenu(parts);
         return "";
     }
 
@@ -108,14 +109,14 @@ public class ServerMainController {
         if (matcher.find()) {
             String cardName = matcher.group("cardName");
             String token = matcher.group("token");
-            return ShopController.getInstance().buyCard(cardName, loggedInUsers.get(token).getUsername(),token);
+            return ShopController.getInstance().buyCard(cardName, loggedInUsers.get(token).getUsername(), token);
         }
         pattern = Pattern.compile("shop sell <(?<cardName>.+)> (?<token>.+)");
         matcher = pattern.matcher(input);
         if (matcher.find()) {
             String cardName = matcher.group("cardName");
             String token = matcher.group("token");
-            return ShopController.getInstance().sellCard(cardName, loggedInUsers.get(token).getUsername(),token);
+            return ShopController.getInstance().sellCard(cardName, loggedInUsers.get(token).getUsername(), token);
         }
         return "failed";
     }
@@ -133,8 +134,18 @@ public class ServerMainController {
             case "shop":
                 return new Gson().toJson(Shop.getInstance().getCardsWithNumberOfThem(), new TypeToken<LinkedHashMap<String, Integer>>() {
                 }.getType());
+
         }
         return "";
+    }
+
+    private static String processProfileMenu(String[] parts) {
+        System.out.println(parts[1]);
+        if (parts[1].equals("change_password")) {
+            return new ProfileController().changePassword(parts[4], parts[3]);
+        } else if (parts[1].equals("change_nickname")) {
+            return new ProfileController().changeNickname(parts[3],parts[2]);
+        } else return "";
     }
 
 
@@ -148,5 +159,8 @@ public class ServerMainController {
         return "";
     }
 
+    private static String processLogout(String token) {
+        return MainMenuController.getInstance().logout(token);
+    }
 
 }

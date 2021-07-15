@@ -6,12 +6,16 @@ import javafx.application.Platform;
 import project.model.Assets;
 import project.model.Shop;
 import project.model.User;
+import project.view.ProfileMenuView;
+import project.view.ScoreBoardView;
+import project.view.ScoreboardData;
 import project.view.ShopMenuView;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class ControllerManager {
@@ -141,7 +145,6 @@ public class ControllerManager {
                             mainMap.replace(s, map.get(s));
                         }
                         ShopMenuView shopMenuView = ShopMenuController.getInstance().getView();
-                        System.out.println("recieved cards :" + in);
                         Platform.runLater(shopMenuView::setCards);
                     } else if (in.matches("asset .+")) {
                         in = in.replaceFirst("asset ", "");
@@ -149,6 +152,21 @@ public class ControllerManager {
                         MainMenuController.getInstance().updateLoggedInAsset(assets);
                         ShopMenuView shopMenuView = ShopMenuController.getInstance().getView();
                         Platform.runLater(shopMenuView::setCards);
+                    } else if (in.matches("scoreboard .+")) {
+                        in = in.replaceFirst("scoreboard ", "");
+                        ArrayList<ScoreboardData> arrayList = new Gson().fromJson(in, new TypeToken<ArrayList<ScoreboardData>>() {
+                        }.getType());
+                        ScoreboardData.setDataArrayList(arrayList);
+                        ScoreBoardView view = MainMenuController.getInstance().getScoreBoard();
+                        if (view != null)
+                            Platform.runLater(view::showBoard);
+                    } else if (in.matches("profile .+")) {
+                        in = in.replaceFirst("profile ", "");
+                        User user = new Gson().fromJson(in, User.class);
+                        MainMenuController.getInstance().setLoggedInUser(user);
+                        ProfileMenuView profileMenuView = MainMenuController.getInstance().getProfileMenuView();
+                        if (profileMenuView != null)
+                            Platform.runLater(profileMenuView::setProfileData);
                     }
                 }
             } catch (IOException e) {

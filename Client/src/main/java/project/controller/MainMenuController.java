@@ -4,6 +4,8 @@ import animatefx.animation.SlideOutUp;
 import com.google.gson.Gson;
 import project.model.Assets;
 import project.model.User;
+import project.view.ProfileMenuView;
+import project.view.ScoreBoardView;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -15,7 +17,8 @@ public class MainMenuController {
     private String loggedInUserToken;
     private User loggedInUser;
     private Assets loggedInUserAssets;
-
+    private ScoreBoardView scoreBoardView;
+    private ProfileMenuView profileMenuView;
     private MainMenuController() {
     }
 
@@ -37,11 +40,25 @@ public class MainMenuController {
         return loggedInUser;
     }
 
+    public void setLoggedInUser(User user) {
+        loggedInUser = user;
+    }
+
     public String getLoggedInUserToken() {
         return loggedInUserToken;
     }
 
     public void logout() {
+
+        DataOutputStream dataOutputStream = ControllerManager.getInstance().getDataOutputStream();
+        DataInputStream dataInputStream = ControllerManager.getInstance().getDataInputStream();
+        try {
+            dataOutputStream.writeUTF("logout " + loggedInUserToken);
+            dataOutputStream.flush();
+            dataInputStream.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         loggedInUser = null;
         loggedInUserAssets = null;
         loggedInUserToken = "";
@@ -56,5 +73,21 @@ public class MainMenuController {
 
     public void updateLoggedInAsset(Assets assets) {
         loggedInUserAssets = assets;
+    }
+
+    public ScoreBoardView getScoreBoard() {
+        return scoreBoardView;
+    }
+
+    public void setScoreBoardView(ScoreBoardView scoreBoardView) {
+        this.scoreBoardView = scoreBoardView;
+    }
+
+    public void setProfileMenuView(ProfileMenuView profileMenuView) {
+        this.profileMenuView = profileMenuView;
+    }
+
+    public ProfileMenuView getProfileMenuView() {
+        return profileMenuView;
     }
 }
