@@ -161,9 +161,9 @@ public class ProfileMenuView {
                         ProfileMenuMessage.FILL_THE_FIELDS.getLabel());
             } else {
                 ProfileMenuMessage profileMenuMessage = controller.changePassword(currentPasswordField.getText(), newPasswordField.getText());
+                System.out.println(profileMenuMessage.getLabel());
                 new PopUpMessage(profileMenuMessage.getAlertType(), profileMenuMessage.getLabel());
                 passwordLabel.setText("●".repeat(MainMenuController.getInstance().getLoggedInUser().getPassword().length()));
-                if (profileMenuMessage.getAlertType().equals(Alert.AlertType.INFORMATION)) window.close();
             }
         });
         changePasswordButton.setCursor(Cursor.HAND);

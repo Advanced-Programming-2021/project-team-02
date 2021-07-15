@@ -98,7 +98,8 @@ public class ServerMainController {
         } else if (parts[0].equals("logout")) {
             System.out.println(input);
             return processLogout(parts[1]);
-        }
+        }else if (parts[0].equals("profile"))
+        return processProfileMenu(parts);
         return "";
     }
 
@@ -133,15 +134,15 @@ public class ServerMainController {
             case "shop":
                 return new Gson().toJson(Shop.getInstance().getCardsWithNumberOfThem(), new TypeToken<LinkedHashMap<String, Integer>>() {
                 }.getType());
-            case "profile":
-                return processProfileMenu(parts);
+
         }
         return "";
     }
 
     private static String processProfileMenu(String[] parts) {
+        System.out.println(parts[1]);
         if (parts[1].equals("change_password")) {
-            return new ProfileController().changePassword(parts[4], parts[2], parts[3]);
+            return new ProfileController().changePassword(parts[4], parts[3]);
         } else if (parts[1].equals("change_nickname")) {
             return new ProfileController().changeNickname(parts[3],parts[2]);
         } else return "";

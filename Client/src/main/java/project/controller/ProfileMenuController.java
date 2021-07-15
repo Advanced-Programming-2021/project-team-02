@@ -25,7 +25,7 @@ public class ProfileMenuController {
         DataInputStream dataInputStream = ControllerManager.getInstance().getDataInputStream();
         String result = "";
         try {
-            dataOutputStream.writeUTF("profile change_nickname " + newNickname + " "  + MainMenuController.getInstance().getLoggedInUserToken());
+            dataOutputStream.writeUTF("profile change_nickname " + newNickname + " " + MainMenuController.getInstance().getLoggedInUserToken());
             dataOutputStream.flush();
             result = dataInputStream.readUTF();
         } catch (IOException e) {
@@ -57,6 +57,7 @@ public class ProfileMenuController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("change pass result : " + result);
         switch (result) {
             case "success":
                 MainMenuController.getInstance().getLoggedInUser().changePassword(newPassword);
@@ -65,7 +66,7 @@ public class ProfileMenuController {
                 return ProfileMenuMessage.ERROR_OCCURRED;
         }
 
-        return ProfileMenuMessage.PASSWORD_CHANGED;
+        return ProfileMenuMessage.ERROR_OCCURRED;
     }
 
     public boolean isPasswordCorrect(String password) {

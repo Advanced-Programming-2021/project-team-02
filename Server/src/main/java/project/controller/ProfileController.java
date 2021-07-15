@@ -10,7 +10,7 @@ public class ProfileController {
 
 
 
-    public String changePassword(String token, String currentPassword, String newPassword) {
+    public String changePassword(String token, String newPassword) {
         ServerMainController.getLoggedInUsers().get(token).changePassword(newPassword);
         return "success";
     }
