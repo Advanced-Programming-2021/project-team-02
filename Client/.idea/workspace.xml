@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00f24077-6cc3-42bb-ad92-b2a3c54accc6" name="Default Changelist" comment="tired">
-      <change afterPath="$PROJECT_DIR$/src/main/java/project/controller/GlobalChatController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/ChatMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/ControllerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/ControllerManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/GlobalChatView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/GlobalChatView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/messages/GlobalChatMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/messages/GlobalChatMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/ServerMainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/ServerMainController.java" afterDir="false" />
-    </list>
+    <list default="true" id="00f24077-6cc3-42bb-ad92-b2a3c54accc6" name="Default Changelist" comment="some files!" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -28,6 +20,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="1vFdV9bkiZubF5xPsF8fFXUwdSs" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
