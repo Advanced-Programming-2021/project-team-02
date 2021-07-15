@@ -102,10 +102,18 @@
                         <Insets left="30.0" right="30.0"/>
                     </VBox.margin>
                 </Label>
-                <HBox alignment="CENTER">
+                <HBox alignment="CENTER" prefHeight="37.0" prefWidth="339.0">
                     <children>
-                        <RadioButton fx:id="availableButton" text="Available" id="radioButton"/>
-                        <RadioButton fx:id="forbidButton" text="Forbid" id="radioButton" />
+                        <RadioButton fx:id="availableButton" id="radioButton"  mnemonicParsing="false" text="Available">
+                            <HBox.margin>
+                                <Insets left="15.0" right="15.0"/>
+                            </HBox.margin>
+                        </RadioButton>
+                        <RadioButton fx:id="forbidCardButton" id="radioButton" mnemonicParsing="false" text="Forbid">
+                            <HBox.margin>
+                                <Insets left="15.0" right="15.0"/>
+                            </HBox.margin>
+                        </RadioButton>
                     </children>
                 </HBox>
 

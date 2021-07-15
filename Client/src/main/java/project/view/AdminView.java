@@ -2,6 +2,7 @@ package project.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.image.Image;
@@ -29,7 +30,7 @@ public class AdminView {
     public GridPane shopGrid;
     public Label pageLabel;
     public RadioButton availableButton;
-    public RadioButton forbidButton;
+    public RadioButton forbidCardButton;
     private Utility utility;
     private  int pageCount;
     private LinkedHashMap<String, Integer> cardsWithPrice;
