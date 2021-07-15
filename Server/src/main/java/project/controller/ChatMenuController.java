@@ -24,8 +24,7 @@ public class ChatMenuController {
                 try {
                     if (s.equals(token))
                         continue;
-                    ServerMainController.getDataForChat().get(s).writeUTF(ServerMainController.getLoggedInUsers().get(s).getUsername()
-                            + " : " + message);
+                    ServerMainController.getDataForChat().get(s).writeUTF(message);
                     ServerMainController.getDataForChat().get(s).flush();
                     System.out.println(message + " sent");
                 } catch (IOException e) {
