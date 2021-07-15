@@ -6,14 +6,9 @@ import javafx.application.Platform;
 import project.model.Assets;
 import project.model.Shop;
 import project.model.User;
-import project.view.ProfileMenuView;
-import project.view.ScoreBoardView;
-import project.view.ScoreboardData;
-import project.view.ShopMenuView;
+import project.view.*;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

@@ -23,6 +23,12 @@ public class ServerMainController {
     private static HashMap<String, User> loggedInUsers;
     private static HashMap<String, DataOutputStream> dataTransfer;
 
+    public static HashMap<String, DataOutputStream> getDataForChat() {
+        return dataForChat;
+    }
+
+    private static HashMap<String, DataOutputStream> dataForChat;
+
     public static HashMap<String, User> getLoggedInUsers() {
         return loggedInUsers;
     }
@@ -34,6 +40,7 @@ public class ServerMainController {
     public static void run() {
         loggedInUsers = new HashMap<>();
         dataTransfer = new HashMap<>();
+        dataForChat = new HashMap<>();
         try {
             ServerSocket serverSocket = new ServerSocket(8000);
             while (true) {
@@ -47,6 +54,12 @@ public class ServerMainController {
                     in = in.replaceFirst("data_transfer ", "");
                     System.out.println("token : " + in);
                     dataTransfer.put(in, dataOutputStream);
+                } else if (in.matches("Chat_Socket_Read .+")) {
+                    String[] split = in.split("\\s+");
+                    dataForChat.put(split[1], dataOutputStream);
+                } else if (in.matches("Chat_Sending .+")) {
+                    String[] split = in.split("\\s+");
+                    ChatMenuController.getInstance().sendMessage(split[1], split[2]);
                 }
             }
         } catch (IOException e) {
@@ -98,8 +111,8 @@ public class ServerMainController {
         } else if (parts[0].equals("logout")) {
             System.out.println(input);
             return processLogout(parts[1]);
-        }else if (parts[0].equals("profile"))
-        return processProfileMenu(parts);
+        } else if (parts[0].equals("profile"))
+            return processProfileMenu(parts);
         return "";
     }
 
@@ -144,7 +157,7 @@ public class ServerMainController {
         if (parts[1].equals("change_password")) {
             return new ProfileController().changePassword(parts[4], parts[3]);
         } else if (parts[1].equals("change_nickname")) {
-            return new ProfileController().changeNickname(parts[3],parts[2]);
+            return new ProfileController().changeNickname(parts[3], parts[2]);
         } else return "";
     }
 

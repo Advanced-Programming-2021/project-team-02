@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
+import project.controller.GlobalChatController;
 import project.controller.MainMenuController;
 import project.view.messages.GlobalChatMessage;
 import project.view.messages.PopUpMessage;
@@ -28,8 +29,15 @@ public class GlobalChatView {
     public int j = 0;
     public TextArea textArea;
 
+    public void setTextToAppend(String textToAppend) {
+        this.textToAppend = textToAppend;
+    }
+
+    public String textToAppend;
+
     @FXML
     public void initialize() {
+        GlobalChatController.getInstance().readChats();
         textArea.setEditable(false);
         textPlace.setPromptText("Type your message ...");
     }
@@ -45,6 +53,8 @@ public class GlobalChatView {
             textArea.setWrapText(true);
             textArea.setEditable(false);
             textArea.appendText(label.getText() + "\n");
+            GlobalChatMessage globalChatMessage = GlobalChatController.getInstance().sendChatMessage(textPlace.getText());
+            new PopUpMessage(globalChatMessage.getAlertType(), globalChatMessage.getLabel());
             textPlace.clear();
 
         }
@@ -71,5 +81,9 @@ public class GlobalChatView {
             return;
         onClick.play();
         Utility.openNewMenu("/project/fxml/main_menu.fxml");
+    }
+
+    public void setMessageForTextArea() {
+        textArea.appendText(textToAppend + "\n");
     }
 }

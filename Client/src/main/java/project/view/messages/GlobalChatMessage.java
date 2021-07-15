@@ -3,7 +3,9 @@ package project.view.messages;
 import javafx.scene.control.Alert;
 
 public enum GlobalChatMessage {
-    WRITE_FIRST("You need to write something first", Alert.AlertType.ERROR);
+    WRITE_FIRST("You need to write something first", Alert.AlertType.ERROR),
+    MESSAGE_DID_NOT_SEND("Your message did not send", Alert.AlertType.ERROR),
+    MESSAGE_SENT("Your message sent successfully", Alert.AlertType.INFORMATION);
     private final String label;
     private final Alert.AlertType alertType;
 
