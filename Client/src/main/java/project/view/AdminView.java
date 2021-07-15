@@ -110,9 +110,6 @@ public class AdminView {
         if (mouseEvent.getButton() != MouseButton.PRIMARY)
             return;
         onClick.play();
-        if (mouseEvent.getButton() != MouseButton.PRIMARY)
-            return;
-        onClick.play();
         Utility.openNewMenu("/project/fxml/main_menu.fxml");
     }
 

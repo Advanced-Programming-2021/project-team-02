@@ -1,22 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.GlobalChatView">
-   <children>
-      <TextField fx:id="textPlace" layoutX="10.0" layoutY="750.0" prefWidth="900.0" promptText="Type your messgae ...">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </TextField>
-      <ImageView fx:id="sendButton" fitHeight="45.0" fitWidth="45.0" layoutX="930.0" layoutY="745.0" onMouseClicked="#sendButtonClicked" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../image/th.jpg" />
-         </image>
-      </ImageView>
-      <TextArea fx:id="textArea" prefHeight="735.0" prefWidth="1000.0" />
-   </children>
+<AnchorPane id="secondPane" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/16"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.GlobalChatView">
+    <children>
+        <AnchorPane id="aroundChatBox" layoutX="103.0" layoutY="14.0" prefHeight="806.0" prefWidth="1263.0">
+            <HBox alignment="CENTER" layoutX="23.0" layoutY="14.0" prefHeight="62.0" prefWidth="1047.0">
+                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#back"
+                        style="-fx-background-color: #103188" textAlignment="CENTER">
+                    <HBox.margin>
+                        <Insets left="-350.0" right="300.0"/>
+                    </HBox.margin>
+                    <graphic>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../image/Icon/previous.png"/>
+                        </ImageView>
+                    </graphic>
+                    <cursor>
+                        <Cursor fx:constant="HAND"/>
+                    </cursor>
+                </Button>
+                <HBox id="menuBar" alignment="CENTER" prefHeight="62.0" prefWidth="287.0" spacing="10.0">
+                    <ImageView id="icon" fitWidth="35" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../image/Icon/main_menu.png"/>
+                    </ImageView>
+                    <Label id="menuTitle" text="Global Chat"/>
+
+                </HBox>
+            </HBox>
+            <TextField fx:id="textPlace" layoutX="14.0" layoutY="703.0" onAction="#enterToSendMessage" prefHeight="35.0"
+                       prefWidth="1127.0" promptText="Type your messgae ...">
+                <font>
+                    <Font size="18.0"/>
+                </font>
+            </TextField>
+            <ImageView fx:id="sendButton" fitHeight="35.0" fitWidth="35.0" layoutX="1149.0" layoutY="703.0"
+                       onMouseClicked="#sendButtonClicked" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@../image/Icon/send.png"/>
+                </image>
+            </ImageView>
+            <TextArea id="textArea" fx:id="textArea" layoutX="16.0" layoutY="88.0" prefHeight="603.0"
+                      prefWidth="1160.0">
+                <opaqueInsets>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </opaqueInsets>
+            </TextArea>
+
+        </AnchorPane>
+        <ImageView fitHeight="262.0" fitWidth="215.0" layoutX="1304.0" layoutY="636.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../image/chat.png"/>
+            </image>
+            <cursor>
+                <Cursor fx:constant="HAND"/>
+            </cursor>
+        </ImageView>
+    </children>
+
+    <stylesheets>
+        <URL value="@../CSS/global_chat_view.css"/>
+    </stylesheets>
 </AnchorPane>
