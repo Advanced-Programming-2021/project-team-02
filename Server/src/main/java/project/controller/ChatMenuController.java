@@ -19,16 +19,18 @@ public class ChatMenuController {
 
     public String sendMessage(String token, String message) {
 
-        for (String s : ServerMainController.getDataForChat().keySet()) {
-            try {
-                if (s.equals(token))
-                    continue;
-                ServerMainController.getDataForChat().get(s).writeUTF(ServerMainController.getLoggedInUsers().get(s).getUsername()
-                        + " : " + message);
-                ServerMainController.getDataForChat().get(s).flush();
-                System.out.println(message + " sent");
-            } catch (IOException e) {
-                return "failed";
+        synchronized (ServerMainController.getDataForChat()) {
+            for (String s : ServerMainController.getDataForChat().keySet()) {
+                try {
+                    if (s.equals(token))
+                        continue;
+                    ServerMainController.getDataForChat().get(s).writeUTF(ServerMainController.getLoggedInUsers().get(s).getUsername()
+                            + " : " + message);
+                    ServerMainController.getDataForChat().get(s).flush();
+                    System.out.println(message + " sent");
+                } catch (IOException e) {
+                    return "failed";
+                }
             }
         }
         return "success";
