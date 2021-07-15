@@ -16,12 +16,17 @@ public class ChatMenuController {
         if (instance == null) instance = new ChatMenuController();
         return instance;
     }
+
     public void sendMessage(String token, String message) {
 
-        for (String s: ServerMainController.getDataForChat().keySet()) {
+        for (String s : ServerMainController.getDataForChat().keySet()) {
             try {
-                ServerMainController.getDataTransfer().get(s).writeUTF(ServerMainController.getLoggedInUsers().get(s).getUsername()
+                if (s.equals(token))
+                    continue;
+                ServerMainController.getDataForChat().get(s).writeUTF(ServerMainController.getLoggedInUsers().get(s).getUsername()
                         + " : " + message);
+                ServerMainController.getDataForChat().get(s).flush();
+                System.out.println(message + " sent");
             } catch (IOException e) {
                 e.printStackTrace();
             }
