@@ -12,13 +12,19 @@ import java.net.Socket;
 
 public class GlobalChatController {
     private static GlobalChatController instance = null;
-    private GlobalChatView view = new GlobalChatView();
+    public String textToAppend;
+    private GlobalChatView view;
+
     private GlobalChatController() {
     }
 
     public static GlobalChatController getInstance() {
         if (instance == null) instance = new GlobalChatController();
         return instance;
+    }
+
+    public String getTextToAppend() {
+        return textToAppend;
     }
 
     public void readChats() {
@@ -42,11 +48,11 @@ public class GlobalChatController {
         new Thread(() -> {
             try {
                 while (true) {
+                    System.out.println("recieved");
                     String chatResult = dataInputStreamChat.readUTF();
                     System.out.println(chatResult);
-                    GlobalChatView globalChatView = new GlobalChatView();
-                    globalChatView.setTextToAppend(chatResult);
-                    Platform.runLater(globalChatView::setMessageForTextArea);
+                    textToAppend = chatResult;
+                    Platform.runLater(view::setMessageForTextArea);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -64,6 +70,7 @@ public class GlobalChatController {
             dataOutputStreamChat.writeUTF("Chat_Sending " + MainMenuController.getInstance().getLoggedInUserToken() + " " + message);
             dataOutputStreamChat.flush();
             String string = dataInputStreamChat.readUTF();
+            System.out.println("result string");
             if (string.equals("success")) {
                 return GlobalChatMessage.MESSAGE_SENT;
             } else {
@@ -73,5 +80,9 @@ public class GlobalChatController {
             e.printStackTrace();
         }
         return GlobalChatMessage.MESSAGE_DID_NOT_SEND;
+    }
+
+    public void setView(GlobalChatView view) {
+        this.view = view;
     }
 }

@@ -22,12 +22,11 @@ public class ServerMainController {
 
     private static HashMap<String, User> loggedInUsers;
     private static HashMap<String, DataOutputStream> dataTransfer;
+    private static HashMap<String, DataOutputStream> dataForChat;
 
     public static HashMap<String, DataOutputStream> getDataForChat() {
         return dataForChat;
     }
-
-    private static HashMap<String, DataOutputStream> dataForChat;
 
     public static HashMap<String, User> getLoggedInUsers() {
         return loggedInUsers;
@@ -58,8 +57,11 @@ public class ServerMainController {
                     String[] split = in.split("\\s+");
                     dataForChat.put(split[1], dataOutputStream);
                 } else if (in.matches("Chat_Sending .+")) {
-                    String[] split = in.split("\\s+");
-                    ChatMenuController.getInstance().sendMessage(split[1], split[2]);
+                    System.out.println(in);
+                    Pattern pattern = Pattern.compile("Chat_Sending (?<token>.+?) (?<message>.+)");
+                    Matcher matcher = pattern.matcher(in);
+                    if (matcher.find())
+                        ChatMenuController.getInstance().sendMessage(matcher.group("token"), matcher.group("message"));
                 }
             }
         } catch (IOException e) {
@@ -70,7 +72,6 @@ public class ServerMainController {
     private static void startThread(ServerSocket serverSocket, Socket socket, DataOutputStream dataOutputStream, DataInputStream dataInputStream) {
         new Thread(() -> {
             try {
-
                 getInputAndProcess(dataInputStream, dataOutputStream);
                 dataInputStream.close();
                 socket.close();

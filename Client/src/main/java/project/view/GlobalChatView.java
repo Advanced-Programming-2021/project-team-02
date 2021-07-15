@@ -28,15 +28,15 @@ public class GlobalChatView {
     public GridPane gridPane;
     public int j = 0;
     public TextArea textArea;
+    public String textToAppend;
 
     public void setTextToAppend(String textToAppend) {
         this.textToAppend = textToAppend;
     }
 
-    public String textToAppend;
-
     @FXML
     public void initialize() {
+        GlobalChatController.getInstance().setView(this);
         GlobalChatController.getInstance().readChats();
         textArea.setEditable(false);
         textPlace.setPromptText("Type your message ...");
@@ -66,11 +66,13 @@ public class GlobalChatView {
         } else {
             VBox layout = new VBox(10);
             Label label = new Label();
-            label.setText("<" + MainMenuController.getInstance().getLoggedInUser().getUsername() + ">" + " : " + textPlace.getText());
+            label.setText(MainMenuController.getInstance().getLoggedInUser().getUsername() + " : " + textPlace.getText());
             layout.getChildren().add(label);
             textArea.setWrapText(true);
             textArea.setEditable(false);
             textArea.appendText(label.getText() + "\n");
+            GlobalChatMessage globalChatMessage = GlobalChatController.getInstance().sendChatMessage(textPlace.getText());
+            new PopUpMessage(globalChatMessage.getAlertType(), globalChatMessage.getLabel());
             textPlace.clear();
 
         }
@@ -84,6 +86,6 @@ public class GlobalChatView {
     }
 
     public void setMessageForTextArea() {
-        textArea.appendText(textToAppend + "\n");
+        textArea.appendText(GlobalChatController.getInstance().getTextToAppend() + "\n");
     }
 }
