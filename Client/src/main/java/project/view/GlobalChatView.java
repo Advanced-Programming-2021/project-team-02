@@ -43,6 +43,12 @@ public class GlobalChatView {
     }
 
     public void sendButtonClicked(MouseEvent mouseEvent) {
+        if (mouseEvent.getButton() != MouseButton.PRIMARY)
+            return;
+        sendMessge();
+    }
+
+    private void sendMessge() {
         if (textPlace.getLength() == 0) {
             new PopUpMessage(GlobalChatMessage.WRITE_FIRST.getAlertType(), GlobalChatMessage.WRITE_FIRST.getLabel());
         } else {
@@ -52,7 +58,7 @@ public class GlobalChatView {
                 textPlace.clear();
                 return;
             }
-            textArea.appendText("<" + MainMenuController.getInstance().getLoggedInUser().getUsername() + "> : " + textPlace + "\n")
+            textArea.appendText("<" + MainMenuController.getInstance().getLoggedInUser().getUsername() + "> : " + textPlace.getText() + "\n")
             ;
             textPlace.clear();
 
@@ -61,20 +67,7 @@ public class GlobalChatView {
     }
 
     public void enterToSendMessage(javafx.event.ActionEvent event) {
-        if (textPlace.getLength() == 0) {
-            new PopUpMessage(GlobalChatMessage.WRITE_FIRST.getAlertType(), GlobalChatMessage.WRITE_FIRST.getLabel());
-        } else {
-            GlobalChatMessage globalChatMessage = GlobalChatController.getInstance().sendChatMessage(textPlace.getText());
-            if (globalChatMessage != GlobalChatMessage.MESSAGE_SENT) {
-                new PopUpMessage(globalChatMessage.getAlertType(), globalChatMessage.getLabel());
-                textPlace.clear();
-                return;
-            }
-            textArea.appendText("<" + MainMenuController.getInstance().getLoggedInUser().getUsername() + "> : " + textPlace + "\n");
-            textPlace.clear();
-
-
-        }
+        sendMessge();
     }
 
     public void back(MouseEvent mouseEvent) throws IOException {

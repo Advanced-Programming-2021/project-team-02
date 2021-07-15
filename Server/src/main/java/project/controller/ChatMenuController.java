@@ -17,7 +17,7 @@ public class ChatMenuController {
         return instance;
     }
 
-    public void sendMessage(String token, String message) {
+    public String sendMessage(String token, String message) {
 
         for (String s : ServerMainController.getDataForChat().keySet()) {
             try {
@@ -28,9 +28,10 @@ public class ChatMenuController {
                 ServerMainController.getDataForChat().get(s).flush();
                 System.out.println(message + " sent");
             } catch (IOException e) {
-                e.printStackTrace();
+                return "failed";
             }
         }
+        return "success";
     }
 }
 

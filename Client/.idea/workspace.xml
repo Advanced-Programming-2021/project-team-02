@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00f24077-6cc3-42bb-ad92-b2a3c54accc6" name="Default Changelist" comment="some files!" />
+    <list default="true" id="00f24077-6cc3-42bb-ad92-b2a3c54accc6" name="Default Changelist" comment="fixing chat">
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/GlobalChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/GlobalChatController.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -230,12 +232,12 @@
       <option name="project" value="LOCAL" />
       <updated>1626354584567</updated>
     </task>
-    <task id="LOCAL-00017" summary="some files!">
-      <created>1626375179367</created>
+    <task id="LOCAL-00017" summary="fixing chat">
+      <created>1626375085404</created>
       <option name="number" value="00017" />
       <option name="presentableId" value="LOCAL-00017" />
       <option name="project" value="LOCAL" />
-      <updated>1626375179367</updated>
+      <updated>1626375085404</updated>
     </task>
     <option name="localTasksCounter" value="18" />
     <servers />
@@ -262,6 +264,7 @@
     <MESSAGE value="png file" />
     <MESSAGE value="working on shop" />
     <MESSAGE value="basic shop done!" />
+    <MESSAGE value="some files!" />
     <MESSAGE value="working on shop!!!" />
     <MESSAGE value="small cleanings about shop" />
     <MESSAGE value="shop . . ." />
@@ -270,7 +273,7 @@
     <MESSAGE value="profile fixed" />
     <MESSAGE value="working on admin" />
     <MESSAGE value="tired" />
-    <MESSAGE value="some files!" />
-    <option name="LAST_COMMIT_MESSAGE" value="some files!" />
+    <MESSAGE value="fixing chat" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixing chat" />
   </component>
 </project>

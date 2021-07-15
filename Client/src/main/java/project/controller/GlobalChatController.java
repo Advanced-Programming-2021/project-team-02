@@ -48,7 +48,7 @@ public class GlobalChatController {
         new Thread(() -> {
             try {
                 while (true) {
-                    System.out.println("recieved");
+                    System.out.println("received and waiting");
                     String chatResult = dataInputStreamChat.readUTF();
                     System.out.println(chatResult);
                     textToAppend = chatResult;
