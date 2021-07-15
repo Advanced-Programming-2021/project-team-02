@@ -4,6 +4,7 @@ import animatefx.animation.SlideOutUp;
 import com.google.gson.Gson;
 import project.model.Assets;
 import project.model.User;
+import project.view.ProfileMenuView;
 import project.view.ScoreBoardView;
 
 import java.io.DataInputStream;
@@ -17,7 +18,7 @@ public class MainMenuController {
     private User loggedInUser;
     private Assets loggedInUserAssets;
     private ScoreBoardView scoreBoardView;
-
+    private ProfileMenuView profileMenuView;
     private MainMenuController() {
     }
 
@@ -37,6 +38,10 @@ public class MainMenuController {
             loggedInUser = ControllerManager.getInstance().askForLoggedInUser();
         }
         return loggedInUser;
+    }
+
+    public void setLoggedInUser(User user) {
+        loggedInUser = user;
     }
 
     public String getLoggedInUserToken() {
@@ -76,5 +81,13 @@ public class MainMenuController {
 
     public void setScoreBoardView(ScoreBoardView scoreBoardView) {
         this.scoreBoardView = scoreBoardView;
+    }
+
+    public void setProfileMenuView(ProfileMenuView profileMenuView) {
+        this.profileMenuView = profileMenuView;
+    }
+
+    public ProfileMenuView getProfileMenuView() {
+        return profileMenuView;
     }
 }

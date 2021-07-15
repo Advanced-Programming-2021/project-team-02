@@ -34,6 +34,21 @@ public class ScoreboardData {
         }
     }
 
+    public static void changeNickname(String nickname, String newNickName) {
+        for (ScoreboardData data : dataArrayList) {
+            if (data.getNickname().equals(nickname))
+                data.nickname = newNickName;
+        }
+        MainMenuController.getInstance().sendScoreboardDate();
+    }
+
+    public static void changeScore(String nickname, int score) {
+        for (ScoreboardData data : dataArrayList) {
+            if (data.getNickname().equals(nickname))
+                data.score = score;
+        }
+    }
+
     public int getScore() {
         return score;
     }
@@ -51,7 +66,6 @@ public class ScoreboardData {
             if (data.nickname.equals(nickname))
                 data.isOnline = true;
         }
-
     }
 
 }

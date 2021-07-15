@@ -67,7 +67,6 @@ public class ShopController {
     private void sendShopDataAndBuyerAssetsToRelatedClients(String token, HashMap<String, DataOutputStream> map, LinkedHashMap<String, Integer> cardsLinkedToNumber) {
         try {
             for (String s : map.keySet()) {
-                System.out.println("sent for : " + s + "   username : " + ServerMainController.getLoggedInUsers().get(s));
                 map.get(s).writeUTF("shop " + new Gson().toJson(Shop.getInstance().getCardsWithNumberOfThem()));
                 map.get(s).flush();
             }
