@@ -1,18 +1,17 @@
 package project.model;
 
-import project.controller.LoginMenuController;
 import project.controller.MainMenuController;
-import project.controller.Scoreboard;
 import project.controller.ScoreboardData;
 import project.model.card.Monster;
 import project.model.card.informationofcards.MonsterActionType;
 
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 public class User implements Comparable<User> {
-    //static FileWriter fileWriter;
-    //static Gson gson = new Gson();
     private static final ArrayList<User> allUsers;
 
     static {
@@ -20,8 +19,10 @@ public class User implements Comparable<User> {
         allUsers = new ArrayList<>();
         User user = new User("ali", "ali", "ali");
         user.score = 1000;
+        new ScoreboardData(user.nickname, user.score, false);
         User user1 = new User("mmd", "mmd", "mmd");
         user1.score = 2000;
+        new ScoreboardData(user1.nickname, user1.score, false);
         User ai = new User("ai", "", "ai");
         Assets assets = Assets.getAssetsByUsername("ai");
         Objects.requireNonNull(assets).createDeck("aiDeck");
@@ -44,11 +45,7 @@ public class User implements Comparable<User> {
     private URL avatar;
 
     {
-//        try {
-//            fileWriter = new FileWriter("user.json");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+
         hasActiveDeck = false;
         setAvatarURL(Avatar.AVATAR_1.getUrl());
     }
@@ -59,8 +56,6 @@ public class User implements Comparable<User> {
         setPassword(password);
         new Assets(username);
         allUsers.add(this);
-        //User.jsonUsers();
-        //Assets.jsonAssets();
     }
 
     public static Deck getActiveDeckByUsername(String username) {
@@ -117,59 +112,8 @@ public class User implements Comparable<User> {
         this.avatar = avatar;
     }
 
-//    public static void jsonUsers() {
-//        try {
-//            PrintWriter printWriter = new PrintWriter("user.json");
-//            printWriter.print("");
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        Writer writer = null;
-//        try {
-//            writer = Files.newBufferedWriter(Paths.get("user.json"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        gson.toJson(allUsers, writer);
-//        try {
-//            assert writer != null;
-//            writer.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-//    public static void fromJson() {
-//        try {
-//            String json = new String(Files.readAllBytes(Paths.get("user.json")));
-//            allUsers = new Gson().fromJson(json, new TypeToken<List<User>>() {
-//            }.getType());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
     public void activatedDeck() {
         hasActiveDeck = true;
-//        try {
-//            PrintWriter printWriter = new PrintWriter("user.json");
-//            printWriter.print("");
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        Writer writer = null;
-//        try {
-//            writer = Files.newBufferedWriter(Paths.get("user.json"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        gson.toJson(allUsers, writer);
-//        try {
-//            assert writer != null;
-//            writer.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
 
     public void deactivatedDeck() {
@@ -214,50 +158,10 @@ public class User implements Comparable<User> {
 
     public void changeNickname(String newNickname) {
         setNickname(newNickname);
-//        try {
-//            PrintWriter printWriter = new PrintWriter("user.json");
-//            printWriter.print("");
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        Writer writer = null;
-//        try {
-//            writer = Files.newBufferedWriter(Paths.get("user.json"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        gson.toJson(allUsers, writer);
-//        try {
-//            assert writer != null;
-//            writer.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
 
     public void changePassword(String newPassword) {
         setPassword(newPassword);
-//        PrintWriter printWriter = null;
-//        try {
-//            printWriter = new PrintWriter("user.json");
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        assert printWriter != null;
-//        printWriter.print("");
-//        Writer writer = null;
-//        try {
-//            writer = Files.newBufferedWriter(Paths.get("user.json"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        gson.toJson(allUsers, writer);
-//        try {
-//            assert writer != null;
-//            writer.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
 
     @Override

@@ -97,6 +97,18 @@
                     <Insets bottom="2.0" left="10.0" top="2.0" />
                 </padding>
             </HBox>
+            <HBox id="row" onMouseClicked="#adminPanel" spacing="5.0">
+                <ImageView id="icon" fitWidth="22" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../image/Icon/main_menu.png" />
+                    <HBox.margin>
+                        <Insets top="5.0" />
+                    </HBox.margin>
+                </ImageView>
+                <Label id="menu" text="Admin Panel" />
+                <padding>
+                    <Insets bottom="2.0" left="10.0" top="2.0" />
+                </padding>
+            </HBox>
          <HBox id="row" layoutX="10.0" layoutY="293.0" onMouseClicked="#importExportMenu" spacing="5.0">
             <padding>
                <Insets bottom="2.0" left="10.0" top="2.0" />

@@ -1,16 +1,25 @@
 package project.view;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Cursor;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import project.controller.MainMenuController;
 import project.model.Music;
 import project.model.gui.Icon;
 import project.view.messages.LoginMessage;
 import project.view.messages.PopUpMessage;
+import project.view.messages.ProfileMenuMessage;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -106,6 +115,75 @@ public class MainMenuView {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
         if (popUpMessage.getAlert().getResult().getText().equals("OK")) System.exit(0);
+    }
+
+    public void adminPanel(MouseEvent mouseEvent) throws IOException {
+        if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
+        onClick.play();
+        if (getAdminPassAndUsername()) {
+            Utility.openNewMenu("/project/fxml/admin_view.fxml");
+        }
+    }
+
+    private boolean getAdminPassAndUsername() {
+        final Boolean[] flag = {false};
+        Stage window = new Stage();
+        window.initOwner(LoginMenuView.getStage());
+        window.initStyle(StageStyle.UNDECORATED);
+        PopUpMessage.setStage(window);
+
+        Label title = new Label("Open Admin Menu");
+        title.setId("title");
+        TextField usernameField = new TextField();
+        usernameField.setPromptText("Enter admin username");
+        usernameField.setId("field");
+
+        PasswordField passwordField = new PasswordField();
+        passwordField.setPromptText("Enter admin password");
+        passwordField.setId("field");
+
+        Button okButton = new Button();
+        okButton.setText("OK");
+        okButton.setOnAction(event -> {
+            onClick.play();
+            if (passwordField.getText().length() == 0 || usernameField.getText().length() == 0) {
+                new PopUpMessage(ProfileMenuMessage.FILL_THE_FIELDS.getAlertType(),
+                        ProfileMenuMessage.FILL_THE_FIELDS.getLabel());
+            } else {
+                if (usernameField.getText().equals("admin1") && passwordField.getText().equals("1admin")) {
+                    flag[0] = true;
+                    window.close();
+                } else new PopUpMessage(Alert.AlertType.ERROR,"Wrong username or password!");
+
+
+            }
+        });
+        okButton.setCursor(Cursor.HAND);
+        okButton.setId("button");
+
+        Button closeButton = new Button();
+        closeButton.setText("Close");
+        closeButton.setOnAction(event -> {
+            onClick.play();
+            window.close();
+            PopUpMessage.setStage(LoginMenuView.getStage());
+        });
+        closeButton.setCursor(Cursor.HAND);
+        closeButton.setId("closeButton");
+
+        VBox layout = new VBox(15);
+        layout.setPadding(new Insets(20, 50, 20, 50));
+        layout.getChildren().addAll(title, usernameField, passwordField, okButton, closeButton);
+        layout.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(layout, 350, 300);
+        layout.getScene().setFill(Color.TRANSPARENT);
+        window.initStyle(StageStyle.TRANSPARENT);
+        window.setScene(scene);
+        window.setResizable(false);
+        window.getScene().getStylesheets().add(String.valueOf(getClass().getResource("/project/CSS/profile_menu_windows.css")));
+        window.showAndWait();
+        return flag[0];
     }
 
     public void chatPage(MouseEvent mouseEvent) throws IOException {

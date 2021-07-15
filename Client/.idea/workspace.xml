@@ -4,15 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00f24077-6cc3-42bb-ad92-b2a3c54accc6" name="Default Changelist" comment="some files!">
-      <change afterPath="$PROJECT_DIR$/src/main/java/project/view/GlobalChatView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/project/view/messages/GlobalChatMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/project/fxml/global_chat.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/project/image/send button.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/project/image/th.jpg" afterDir="false" />
+    <list default="true" id="00f24077-6cc3-42bb-ad92-b2a3c54accc6" name="Default Changelist" comment="working on admin">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/MainMenuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/MainMenuView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/project/fxml/main_menu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/project/fxml/main_menu.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/AdminView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/AdminView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/project/fxml/admin_view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/project/fxml/admin_view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,23 +19,11 @@
       <list>
         <option value="Class" />
         <option value="FxmlFile" />
-        <option value="Enum" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
-  </component>
-  <component name="GitSEFilterConfiguration">
-    <file-type-list>
-      <filtered-out-file-type name="LOCAL_BRANCH" />
-      <filtered-out-file-type name="REMOTE_BRANCH" />
-      <filtered-out-file-type name="TAG" />
-      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
-    </file-type-list>
-  </component>
-  <component name="MacroExpansionManager">
-    <option name="directoryName" value="i1n6spf2" />
   </component>
   <component name="ProjectId" id="1vFdV9bkiZubF5xPsF8fFXUwdSs" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -56,10 +39,6 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="extract.method.default.visibility" value="private" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="node.js.detected.package.eslint" value="true" />
-    <property name="node.js.detected.package.tslint" value="true" />
-    <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="node.js.selected.package.tslint" value="(autodetect)" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -139,14 +118,7 @@
       <workItem from="1626284974443" duration="164000" />
       <workItem from="1626290130551" duration="7688000" />
       <workItem from="1626331941993" duration="1099000" />
-      <workItem from="1626333085515" duration="7314000" />
-      <workItem from="1626345327881" duration="1448000" />
-      <workItem from="1626346930136" duration="394000" />
-      <workItem from="1626347361328" duration="4294000" />
-      <workItem from="1626352145075" duration="331000" />
-      <workItem from="1626352534112" duration="34000" />
-      <workItem from="1626353393803" duration="1716000" />
-      <workItem from="1626355122773" duration="485000" />
+      <workItem from="1626333085515" duration="13652000" />
     </task>
     <task id="LOCAL-00001" summary="client">
       <created>1626162144686</created>
@@ -246,7 +218,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626342117883</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="working on admin">
+      <created>1626349594300</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1626349594300</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -278,6 +257,7 @@
     <MESSAGE value="admin?!" />
     <MESSAGE value="profile + scoreboard completed" />
     <MESSAGE value="profile fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="profile fixed" />
+    <MESSAGE value="working on admin" />
+    <option name="LAST_COMMIT_MESSAGE" value="working on admin" />
   </component>
 </project>

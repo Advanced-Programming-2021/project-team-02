@@ -14,11 +14,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
-import project.Main;
 import project.controller.ControllerManager;
 import project.controller.MainMenuController;
 import project.model.Music;
-import project.model.User;
 import project.model.gui.Icon;
 
 import java.io.DataInputStream;

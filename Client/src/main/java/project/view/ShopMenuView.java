@@ -225,7 +225,10 @@ public class ShopMenuView {
         Utility.openNewMenu("/project/fxml/main_menu.fxml");
     }
 
-    public void openAdminPanel(MouseEvent mouseEvent) {
-
+    public void openAdminPanel(MouseEvent mouseEvent) throws IOException {
+    if (mouseEvent.getButton()!=MouseButton.PRIMARY)
+        return;
+        onClick.play();
+        Utility.openNewMenu("/project/fxml/admin_view.fxml");
     }
 }

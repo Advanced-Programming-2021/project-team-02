@@ -87,7 +87,6 @@
                 </GridPane>
             </children>
         </AnchorPane>
-        <Button  onMouseClicked="#openAdminPanel" id="button" mnemonicParsing="false" text="Admin Panel" layoutX="1145.0" layoutY="40.0"/>
         <Label id="coinsLabel" fx:id="coinsLabel" layoutX="1145.0" layoutY="100.0" alignment="CENTER" prefHeight="30.0" prefWidth="160.0"
                text="Coins : ">
             <padding>
