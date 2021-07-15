@@ -107,4 +107,10 @@ public class MainMenuView {
         PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
         if (popUpMessage.getAlert().getResult().getText().equals("OK")) System.exit(0);
     }
+
+    public void chatPage(MouseEvent mouseEvent) throws IOException {
+        if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
+        onClick.play();
+        Utility.openNewMenu("/project/fxml/global_chat.fxml");
+    }
 }
