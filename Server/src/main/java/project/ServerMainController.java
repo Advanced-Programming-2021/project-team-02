@@ -61,7 +61,11 @@ public class ServerMainController {
                     Pattern pattern = Pattern.compile("Chat_Sending (?<token>.+?) (?<message>.+)");
                     Matcher matcher = pattern.matcher(in);
                     if (matcher.find())
-                        ChatMenuController.getInstance().sendMessage(matcher.group("token"), matcher.group("message"));
+                    {
+                       String result =  ChatMenuController.getInstance().sendMessage(matcher.group("token"), matcher.group("message"));
+                        dataOutputStream.writeUTF(result);
+                        dataOutputStream.flush();
+                    }
                 }
             }
         } catch (IOException e) {
