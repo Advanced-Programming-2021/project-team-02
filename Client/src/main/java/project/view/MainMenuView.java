@@ -126,12 +126,13 @@ public class MainMenuView {
     public void adminPanel(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
         onClick.play();
-        AdminPanelMessage message = AdminController.getInstance().initializeNetworkForAdmin();
-        if (message != AdminPanelMessage.SUCCESS) {
-            new PopUpMessage(message.getAlertType(), message.getLabel());
-            return;
-        }
+
         if (getAdminPassAndUsername()) {
+            AdminPanelMessage message = AdminController.getInstance().initializeNetworkForAdmin();
+            if (message != AdminPanelMessage.SUCCESS) {
+                new PopUpMessage(message.getAlertType(), message.getLabel());
+                return;
+            }
             Utility.openNewMenu("/project/fxml/admin_view.fxml");
         }
     }

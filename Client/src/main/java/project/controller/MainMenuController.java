@@ -1,7 +1,5 @@
 package project.controller;
 
-import animatefx.animation.SlideOutUp;
-import com.google.gson.Gson;
 import project.model.Assets;
 import project.model.User;
 import project.view.ProfileMenuView;

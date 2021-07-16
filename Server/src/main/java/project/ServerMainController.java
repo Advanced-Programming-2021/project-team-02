@@ -166,11 +166,7 @@ public class ServerMainController {
             try {
                 while (true) {
                     String message;
-//                    try {
                     message = dataInputStream.readUTF();
-//                    } catch (EOFException e) {
-//                        continue;
-//                    }
                     if (message.equals("close_chat_socket")) {
                         getDataForChat().get(token).writeUTF("close");
                         dataOutputStream.flush();

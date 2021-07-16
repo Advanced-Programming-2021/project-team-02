@@ -88,7 +88,6 @@ public class ShopMenuController {
                     String in = assetsDataInputStream.readUTF();
                     if (in.equals("close"))
                         break;
-                    System.out.println(in + " received in scoreboard");
                     Assets assets = new Gson().fromJson(in, Assets.class);
                     MainMenuController.getInstance().updateLoggedInAsset(assets);
                     ShopMenuView shopMenuView = ShopMenuController.getInstance().getView();
