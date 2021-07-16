@@ -7,7 +7,7 @@ public enum AdminPanelMessage {
     MADE_CARD_AVAILABLE("Card became available successfully", Alert.AlertType.INFORMATION),
     INCREASED_SUCCESSFULLY("Card inventory increased successfully", Alert.AlertType.INFORMATION),
     DECREASED_SUCCESSFULLY("Card inventory decrease successfully", Alert.AlertType.INFORMATION),
-    NOTHING_TO_DECREASE("No cards of this type", Alert.AlertType.ERROR),ERROR_OCCURRED("Error occurred", Alert.AlertType.ERROR);
+    NOTHING_TO_DECREASE("No cards of this type", Alert.AlertType.ERROR), ERROR_OCCURRED("Error occurred", Alert.AlertType.ERROR), SUCCESS("Success", Alert.AlertType.INFORMATION), ADMIN_ALREADY_LOGGED_IN("Admin is logged in, you cant login", Alert.AlertType.ERROR);
     private String label;
     private Alert.AlertType alertType;
 

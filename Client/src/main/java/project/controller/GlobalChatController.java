@@ -2,7 +2,6 @@ package project.controller;
 
 import javafx.application.Platform;
 import project.view.GlobalChatView;
-import project.view.ShopMenuView;
 import project.view.messages.GlobalChatMessage;
 
 import java.io.DataInputStream;
@@ -17,6 +16,9 @@ public class GlobalChatController {
     private Socket socket;
     private DataInputStream dataInputStreamChat;
     private DataOutputStream dataOutputStreamChat;
+    private Socket readerSocket;
+    private DataInputStream readerInPutStream;
+    private DataOutputStream readerOutPutStream;
 
     private GlobalChatController() {
     }
@@ -32,7 +34,7 @@ public class GlobalChatController {
 
     public void initializeNetworkToSend() {
         try {
-            Socket socket = new Socket("localhost", 8000);
+            socket = new Socket("localhost", 8000);
             dataInputStreamChat = new DataInputStream(socket.getInputStream());
             dataOutputStreamChat = new DataOutputStream(socket.getOutputStream());
             dataOutputStreamChat.writeUTF("chat_send_socket " + MainMenuController.getInstance().getLoggedInUserToken());
@@ -43,30 +45,33 @@ public class GlobalChatController {
         }
     }
 
-    public void initializeNetworkToRead() {
-        Socket socketChat = null;
+    public void initializeNetworkToReceive() {
         try {
-            socketChat = new Socket("localhost", 8000);
-            DataOutputStream dataOutputStreamChat = new DataOutputStream(socketChat.getOutputStream());
-            DataInputStream dataInputStreamChat = new DataInputStream(socketChat.getInputStream());
-            dataOutputStreamChat.writeUTF("Chat_Socket_Read " + MainMenuController.getInstance().getLoggedInUserToken());
-            dataOutputStreamChat.flush();
-            startThreadForChat(dataInputStreamChat);
+            readerSocket = new Socket("localhost", 8000);
+            readerOutPutStream = new DataOutputStream(readerSocket.getOutputStream());
+            readerInPutStream = new DataInputStream(readerSocket.getInputStream());
+            readerOutPutStream.writeUTF("Chat_Socket_Read " + MainMenuController.getInstance().getLoggedInUserToken());
+            readerOutPutStream.flush();
+            startReceiverThreadForChat();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
-    private void startThreadForChat(DataInputStream dataInputStreamChat) {
+    private void startReceiverThreadForChat() {
         new Thread(() -> {
             try {
                 while (true) {
-                    String chatResult = dataInputStreamChat.readUTF();
-                    System.out.println(chatResult);
+                    String chatResult = readerInPutStream.readUTF();
+                    if (chatResult.equals("close"))
+                        break;
                     textToAppend = chatResult;
                     Platform.runLater(view::setMessageForTextArea);
                 }
+                readerInPutStream.close();
+                readerOutPutStream.close();
+                readerSocket.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -78,7 +83,6 @@ public class GlobalChatController {
             dataOutputStreamChat.writeUTF(message);
             dataOutputStreamChat.flush();
             String string = dataInputStreamChat.readUTF();
-            System.out.println("result string");
             if (string.equals("success")) {
                 return GlobalChatMessage.MESSAGE_SENT;
             } else {
@@ -92,5 +96,16 @@ public class GlobalChatController {
 
     public void setView(GlobalChatView view) {
         this.view = view;
+    }
+
+    public void close() {
+        try {
+            dataOutputStreamChat.writeUTF("close_chat_socket");
+            dataOutputStreamChat.flush();
+            dataOutputStreamChat.close();
+            dataInputStreamChat.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

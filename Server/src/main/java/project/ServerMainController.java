@@ -9,6 +9,7 @@ import project.model.User;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -74,7 +75,6 @@ public class ServerMainController {
                 new Thread(() -> {
                     try {
                         String in = dataInputStream.readUTF();
-                        System.out.println(in);
                         if (in.equals("request")) {
                             startThreadForRequestSocket(socket, dataOutputStream, dataInputStream);
                         } else if (in.matches("data_transfer_scoreboard .+")) {
@@ -165,16 +165,23 @@ public class ServerMainController {
         new Thread(() -> {
             try {
                 while (true) {
-                    String message = dataInputStream.readUTF();
-                    if (message.equals("close_chat_socket " + token)) {
+                    String message;
+//                    try {
+                        message = dataInputStream.readUTF();
+//                    } catch (EOFException e) {
+//                        continue;
+//                    }
+                    if (message.equals("close_chat_socket")) {
+                        getDataForChat().get(token).writeUTF("close");
+                        dataOutputStream.flush();
                         break;
                     } else {
                         String result = ChatMenuController.getInstance().sendMessage(token, message);
                         dataOutputStream.writeUTF(result);
                         dataOutputStream.flush();
-
                     }
                 }
+                dataOutputStream.close();
                 dataInputStream.close();
                 socket.close();
             } catch (IOException e) {

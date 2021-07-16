@@ -20,8 +20,8 @@ public class ChatMenuController {
         synchronized (ServerMainController.getDataForChat()) {
             for (String s : ServerMainController.getDataForChat().keySet()) {
                 try {
-                    if (s.equals(token))
-                        continue;
+//                    if (s.equals(token))
+//                        continue;
                     ServerMainController.getDataForChat().get(s).writeUTF(message);
                     ServerMainController.getDataForChat().get(s).flush();
                 } catch (IOException e) {

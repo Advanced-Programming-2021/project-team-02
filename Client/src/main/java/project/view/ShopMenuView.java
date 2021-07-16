@@ -147,7 +147,7 @@ public class ShopMenuView {
             buyButton.setOnMouseClicked(mouseEvent1 -> {
             });
         }
-        if (loggedInStock > 0) {
+        if (loggedInStock > 0 && cardsWithNumber.get(cardName) != -1) {
             sellButton.setStyle(" -fx-background-color: #bb792d;");
             sellButton.setCursor(Cursor.HAND);
             sellButton.setOnMouseClicked(mouseEvent1 -> {

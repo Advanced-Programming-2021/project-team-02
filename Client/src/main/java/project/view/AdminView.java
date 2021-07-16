@@ -50,7 +50,6 @@ public class AdminView {
     public void initialize() throws IOException {
         ControllerManager.getInstance().getLastShopData();
         AdminController.getInstance().setView(this);
-        AdminController.getInstance().initializeNetworkForAdmin();
         availableButton.setToggleGroup(toggleGroup);
         forbidCardButton.setToggleGroup(toggleGroup);
         utility = new Utility();

@@ -1,12 +1,8 @@
 package project.view;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -38,8 +34,9 @@ public class GlobalChatView {
     @FXML
     public void initialize() {
         GlobalChatController.getInstance().setView(this);
-        GlobalChatController.getInstance().initializeNetworkToRead();
         GlobalChatController.getInstance().initializeNetworkToSend();
+        GlobalChatController.getInstance().initializeNetworkToReceive();
+
         textArea.setEditable(false);
         textPlace.setPromptText("Type your message ...");
 
@@ -68,7 +65,6 @@ public class GlobalChatView {
                 textPlace.clear();
                 return;
             }
-            textArea.appendText(sendData + "\n");
             textPlace.clear();
 
 

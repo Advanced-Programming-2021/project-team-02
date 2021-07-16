@@ -34,18 +34,19 @@ public class AdminController {
         this.view = view;
     }
 
-    public void initializeNetworkForAdmin() {
+    public AdminPanelMessage initializeNetworkForAdmin() {
         try {
             dataSocket = new Socket("localhost", 8000);
             dataInputStream = new DataInputStream(dataSocket.getInputStream());
             dataOutputStream = new DataOutputStream(dataSocket.getOutputStream());
             dataOutputStream.writeUTF("admin");
             String result = dataInputStream.readUTF();
-            if (result.equals("success"))
+            if (result.equals("success")) {
                 startThread();
-            else System.out.println("bug");
+                return AdminPanelMessage.SUCCESS;
+            } else return AdminPanelMessage.ADMIN_ALREADY_LOGGED_IN;
         } catch (IOException e) {
-            e.printStackTrace();
+            return AdminPanelMessage.ERROR_OCCURRED;
         }
     }
 
