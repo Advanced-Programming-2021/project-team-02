@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.media.AudioClip;
 import project.controller.ControllerManager;
 import project.controller.MainMenuController;
@@ -31,6 +32,9 @@ public class AdminView {
     public Label pageLabel;
     public RadioButton availableButton;
     public RadioButton forbidCardButton;
+    public Button addButton;
+    public Button decreaseButton;
+    public HBox addOrRemoveButtonBox;
     private Utility utility;
     private int pageCount;
     private LinkedHashMap<String, Integer> cardsWithPrice;
@@ -102,7 +106,7 @@ public class AdminView {
                     availableButton.setOnAction(actionEvent -> {
                         availableButton.setSelected(true);
                         forbidCardButton.setSelected(false);
-                        cardsWithNumber.replace(cardName, cardsWithNumber.get(cardName));
+                        cardsWithNumber.replace(cardName, 0);
                     });
                     forbidCardButton.setOnAction(actionEvent -> {
                         availableButton.setSelected(false);

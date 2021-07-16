@@ -2,6 +2,7 @@ package project.view;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -41,9 +42,8 @@ public class GlobalChatView {
         GlobalChatController.getInstance().initializeNetworkToSend();
         textArea.setEditable(false);
         textPlace.setPromptText("Type your message ...");
-        textPlace.setOnAction(actionEvent -> {
-            sendData = "<" + MainMenuController.getInstance().getLoggedInUserToken() + "> : " + textPlace.getText();
-        });
+
+
     }
 
     public void sendButtonClicked(MouseEvent mouseEvent) {
@@ -75,9 +75,6 @@ public class GlobalChatView {
         }
     }
 
-//    public void enterToSendMessage(javafx.event.ActionEvent event) {
-//        sendMessage();
-//    }
 
     public void back(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY)
@@ -88,5 +85,13 @@ public class GlobalChatView {
 
     public void setMessageForTextArea() {
         textArea.appendText(GlobalChatController.getInstance().getTextToAppend() + "\n");
+    }
+
+    public void enter(KeyEvent keyEvent) {
+        if (keyEvent.getCode().toString().equals("ENTER")){
+            keyEvent.consume();
+            sendData = "<" + MainMenuController.getInstance().getLoggedInUser().getUsername() + "> : " + textPlace.getText();
+            sendMessage();
+        }
     }
 }

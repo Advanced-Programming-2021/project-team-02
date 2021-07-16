@@ -38,8 +38,7 @@ public class ShopController {
                 Objects.requireNonNull(assets).decreaseCoin(cardsWithPrices.get(cardName));
                 assets.addBoughtCard(Card.getCardByName(cardName));
                 cardsLinkedToNumber.replace(cardName, cardsLinkedToNumber.get(cardName) - 1);
-                HashMap<String, DataOutputStream> map = ServerMainController.getDataTransferForShopCards();
-                sendShopDataAndBuyerAssetsToRelatedClients(token, map, cardsLinkedToNumber);
+                sendShopDataAndBuyerAssetsToRelatedClients(token);
                 return "success";
             } else {
                 if (cardsLinkedToNumber.get(cardName) == 0)
@@ -52,26 +51,29 @@ public class ShopController {
     }
 
     public String sellCard(String cardName, String username, String token) {
-        LinkedHashMap<String, Integer> cardsLinkedToNumber = Shop.getInstance().getCardsWithNumberOfThem();
-        HashMap<String, DataOutputStream> map = ServerMainController.getDataTransferForShopCards();
         synchronized (Shop.getInstance().getCardsWithNumberOfThem()) {
-            cardsLinkedToNumber.replace(cardName, cardsLinkedToNumber.get(cardName) + 1);
+            Shop.getInstance().getCardsWithNumberOfThem().replace(cardName, Shop.getInstance().getCardsWithNumberOfThem().get(cardName) + 1);
         }
         Assets assets = Assets.getAssetsByUsername(username);
         Objects.requireNonNull(assets).sellCard(cardName);
-        sendShopDataAndBuyerAssetsToRelatedClients(token, map, cardsLinkedToNumber);
+        sendShopDataAndBuyerAssetsToRelatedClients(token);
 
         return "success";
     }
 
-    private void sendShopDataAndBuyerAssetsToRelatedClients(String token, HashMap<String, DataOutputStream> map, LinkedHashMap<String, Integer> cardsLinkedToNumber) {
+    private void sendShopDataAndBuyerAssetsToRelatedClients(String token) {
         try {
-            for (String s : map.keySet()) {
-                map.get(s).writeUTF(new Gson().toJson(Shop.getInstance().getCardsWithNumberOfThem()));
-                map.get(s).flush();
+            synchronized (ServerMainController.getDataTransferForShopCards()) {
+                for (String s : ServerMainController.getDataTransferForShopCards().keySet()) {
+                    System.out.println("send shop for : " + ServerMainController.getLoggedInUsers().get(s));
+                    ServerMainController.getDataTransferForShopCards().get(s).writeUTF(new Gson().toJson(Shop.getInstance().getCardsWithNumberOfThem()));
+                    ServerMainController.getDataTransferForShopCards().get(s).flush();
+                }
             }
-            ServerMainController.getDataTransferForAssets().get(token).writeUTF(new Gson().toJson(Assets.getAssetsByUsername(ServerMainController.getLoggedInUsers().get(token).getUsername())));
-            ServerMainController.getDataTransferForAssets().get(token).flush();
+            synchronized (ServerMainController.getDataTransferForAssets()) {
+                ServerMainController.getDataTransferForAssets().get(token).writeUTF(new Gson().toJson(Assets.getAssetsByUsername(ServerMainController.getLoggedInUsers().get(token).getUsername())));
+                ServerMainController.getDataTransferForAssets().get(token).flush();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

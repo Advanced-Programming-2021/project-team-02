@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00f24077-6cc3-42bb-ad92-b2a3c54accc6" name="Default Changelist" comment="chat">
+    <list default="true" id="00f24077-6cc3-42bb-ad92-b2a3c54accc6" name="Default Changelist" comment="some huge changes ! ! !">
+      <change afterPath="$PROJECT_DIR$/src/main/java/project/controller/ScoreboardController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/ControllerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/ControllerManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/GlobalChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/GlobalChatController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/LoginMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/LoginMenuController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/MainMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/MainMenuController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/ProfileMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/ProfileMenuController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/ShopMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/ShopMenuController.java" afterDir="false" />
@@ -17,12 +16,13 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/project/view/ProfileMenuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/ProfileMenuView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/project/view/ScoreBoardView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/ScoreBoardView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/project/view/ShopMenuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/ShopMenuView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/project/fxml/admin_view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/project/fxml/admin_view.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/project/fxml/global_chat.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/project/fxml/global_chat.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/project/fxml/profile_menu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/project/fxml/profile_menu.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/ServerMainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/ServerMainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/controller/ChatMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/ChatMenuController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/controller/LoginMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/LoginMenuController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/controller/MainMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/MainMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/controller/ProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/ProfileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/controller/Scoreboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/Scoreboard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/controller/ShopController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/ShopController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -62,7 +62,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="extract.method.default.visibility" value="private" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../messanger" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Server" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -100,15 +100,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -150,6 +148,7 @@
       <workItem from="1626354330829" duration="268000" />
       <workItem from="1626354658202" duration="727000" />
       <workItem from="1626356356529" duration="4605000" />
+      <workItem from="1626418090362" duration="6815000" />
     </task>
     <task id="LOCAL-00001" summary="client">
       <created>1626162144686</created>
@@ -284,7 +283,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626376461282</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="some huge changes ! ! !">
+      <created>1626387249788</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1626387249788</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -321,6 +327,7 @@
     <MESSAGE value="fixing chat" />
     <MESSAGE value="chat fixed" />
     <MESSAGE value="chat" />
-    <option name="LAST_COMMIT_MESSAGE" value="chat" />
+    <MESSAGE value="some huge changes ! ! !" />
+    <option name="LAST_COMMIT_MESSAGE" value="some huge changes ! ! !" />
   </component>
 </project>

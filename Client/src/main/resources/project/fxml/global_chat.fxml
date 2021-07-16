@@ -38,7 +38,7 @@
 
                 </HBox>
             </HBox>
-            <TextField fx:id="textPlace" layoutX="14.0" layoutY="703.0" prefHeight="35.0" prefWidth="1127.0" promptText="Type your messgae ...">
+            <TextField fx:id="textPlace" layoutX="14.0" layoutY="703.0" prefHeight="35.0" prefWidth="1127.0" onKeyPressed="#enter" promptText="Type your message ...">
                 <font>
                     <Font size="18.0" />
                 </font>

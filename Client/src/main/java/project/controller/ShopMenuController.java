@@ -47,18 +47,18 @@ public class ShopMenuController {
             assetsDataOutputStream = new DataOutputStream(assetsSocket.getOutputStream());
             assetsDataOutputStream.writeUTF("data_transfer_asset " + MainMenuController.getInstance().getLoggedInUserToken());
             assetsDataOutputStream.flush();
-            startReceiverThreadForAssets(assetsDataInputStream);
-            startReceiverThreadForShop(shopDataInputStream);
+            startReceiverThreadForAssets();
+            startReceiverThreadForShop();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void startReceiverThreadForShop(DataInputStream dataInputStream) {
+    private void startReceiverThreadForShop() {
         new Thread(() -> {
             try {
                 while (true) {
-                    String in = dataInputStream.readUTF();
+                    String in = shopDataInputStream.readUTF();
                     if (in.equals("close"))
                         break;
                     LinkedHashMap<String, Integer> mainMap = Shop.getInstance().getCardsWithNumberOfThem();
@@ -67,44 +67,42 @@ public class ShopMenuController {
                     for (String s : map.keySet()) {
                         mainMap.replace(s, map.get(s));
                     }
+                    System.out.println("shop received");
                     Platform.runLater(view::setCards);
                 }
+                shopDataInputStream.close();
+                shopDataOutPutStream.close();
+                shopSocket.close();
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }).start();
-        try {
-            shopDataInputStream.close();
-            shopDataOutPutStream.close();
-            shopSocket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
-    private void startReceiverThreadForAssets(DataInputStream dataInputStream) {
+    private void startReceiverThreadForAssets() {
         new Thread(() -> {
             try {
                 while (true) {
-                    String in = dataInputStream.readUTF();
+                    String in = assetsDataInputStream.readUTF();
                     if (in.equals("close"))
                         break;
+                    System.out.println(in + " received in scoreboard");
                     Assets assets = new Gson().fromJson(in, Assets.class);
                     MainMenuController.getInstance().updateLoggedInAsset(assets);
                     ShopMenuView shopMenuView = ShopMenuController.getInstance().getView();
                     Platform.runLater(shopMenuView::setCards);
                 }
+                assetsDataOutputStream.close();
+                assetsDataInputStream.close();
+                assetsSocket.close();
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }).start();
-        try {
-            assetsDataOutputStream.close();
-            assetsDataInputStream.close();
-            assetsSocket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
 

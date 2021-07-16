@@ -104,7 +104,7 @@
                 </Label>
                 <HBox alignment="CENTER" prefHeight="37.0" prefWidth="339.0">
                     <children>
-                        <RadioButton fx:id="availableButton" id="radioButton"  mnemonicParsing="false" text="Available">
+                        <RadioButton fx:id="availableButton" id="radioButton" mnemonicParsing="false" text="Available">
                             <HBox.margin>
                                 <Insets left="15.0" right="15.0"/>
                             </HBox.margin>
@@ -127,6 +127,34 @@
                         <Insets left="30.0" right="30.0"/>
                     </VBox.margin>
                 </Label>
+                <HBox fx:id="addOrRemoveButtonBox" alignment="CENTER" prefHeight="37.0" prefWidth="339.0">
+                    <children>
+                        <Button fx:id="addButton" mnemonicParsing="false" style="-fx-background-color: transparent;">
+                            <graphic>
+                                <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../image/Icon/add.png"/>
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                            <HBox.margin>
+                                <Insets left="15.0" right="15.0"/>
+                            </HBox.margin>
+                        </Button>
+                        <Button fx:id="decreaseButton" mnemonicParsing="false" style="-fx-background-color: transparent;">
+                            <graphic>
+                                <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../image/Icon/remove.png"/>
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                            <HBox.margin>
+                                <Insets left="15.0" right="15.0"/>
+                            </HBox.margin>
+                        </Button>
+                    </children>
+                </HBox>
             </children>
 
         </VBox>

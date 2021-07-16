@@ -41,6 +41,8 @@ public class MainMenuController {
         for (String s : ServerMainController.getScoreboardDataTransfer().keySet()) {
             try {
                 ServerMainController.getScoreboardDataTransfer().get(s).writeUTF( new Gson().toJson(scoreboardData));
+                ServerMainController.getScoreboardDataTransfer().get(s).flush();
+                System.out.println("sent");
             } catch (IOException e) {
                 e.printStackTrace();
             }

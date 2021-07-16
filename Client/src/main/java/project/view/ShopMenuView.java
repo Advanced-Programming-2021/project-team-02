@@ -223,8 +223,8 @@ public class ShopMenuView {
     }
 
     public void openAdminPanel(MouseEvent mouseEvent) throws IOException {
-    if (mouseEvent.getButton()!=MouseButton.PRIMARY)
-        return;
+        if (mouseEvent.getButton() != MouseButton.PRIMARY)
+            return;
         onClick.play();
         Utility.openNewMenu("/project/fxml/admin_view.fxml");
     }

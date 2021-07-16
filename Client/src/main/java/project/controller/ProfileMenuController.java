@@ -57,17 +57,14 @@ public class ProfileMenuController {
                     if (profileMenuView != null)
                         Platform.runLater(profileMenuView::setProfileData);
                 }
+                    dataOutputStream.close();
+                    dataInputStream.close();
+                    socket.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }).start();
-        try {
-            dataOutputStream.close();
-            dataInputStream.close();
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
     public ProfileMenuMessage changeNickname(String newNickname) {

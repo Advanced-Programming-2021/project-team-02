@@ -16,6 +16,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import project.controller.ControllerManager;
 import project.controller.MainMenuController;
+import project.controller.ProfileMenuController;
+import project.controller.ScoreboardController;
 import project.model.Music;
 import project.model.gui.Icon;
 
@@ -38,12 +40,9 @@ public class ScoreBoardView {
 
     @FXML
     public void initialize() {
-        MainMenuController.getInstance().setScoreBoardView(this);
-        try {
-            ControllerManager.getInstance().setScoreBoardSocket(new Socket("localhost", 8000), MainMenuController.getInstance().getLoggedInUserToken());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ScoreboardController.getInstance().setScoreBoardView(this);
+
+        ScoreboardController.getInstance().initializeNetworkForScoreboard();
         DataInputStream dataInputStream = ControllerManager.getInstance().getDataInputStream();
         DataOutputStream dataOutputStream = ControllerManager.getInstance().getDataOutputStream();
         String result = "";
@@ -54,7 +53,6 @@ public class ScoreBoardView {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(result);
         ArrayList<ScoreboardData> arrayList = new Gson().fromJson(result, new TypeToken<ArrayList<ScoreboardData>>() {
         }.getType());
         ScoreboardData.setDataArrayList(arrayList);
@@ -207,7 +205,7 @@ public class ScoreBoardView {
 
     public void back(MouseEvent mouseEvent) throws Exception {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
-        MainMenuController.getInstance().setScoreBoardView(null);
+        ScoreboardController.getInstance().closeScoreboard();
         onClick.play();
         Utility.openNewMenu("/project/fxml/main_menu.fxml");
     }

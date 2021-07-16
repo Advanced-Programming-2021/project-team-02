@@ -156,7 +156,19 @@ public class ServerMainController {
             System.out.println(result);
             return result;
         } else if (parts[0].equals("scoreboard")) {
-            return Scoreboard.scoreboardData();
+            if (input.equals("scoreboard close")) {
+                try {
+                    synchronized (scoreboardDataTransfer) {
+                        scoreboardDataTransfer.get(parts[2]).writeUTF("close");
+                        scoreboardDataTransfer.get(parts[2]).flush();
+                        scoreboardDataTransfer.remove(parts[2]);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return "success";
+            } else
+                return Scoreboard.scoreboardData();
         } else if (parts[0].equals("")) {
             return "";
         } else if (parts[0].startsWith("ask")) {
@@ -177,10 +189,16 @@ public class ServerMainController {
         if (matcher.find()) {
             String token = matcher.group("token");
             try {
-                dataTransferForAssets.get(token).writeUTF("close");
-                dataTransferForShopCards.get(token).writeUTF("close");
-                dataTransferForShopCards.remove(token);
-                dataTransferForAssets.remove(token);
+                synchronized (getDataTransferForAssets()) {
+                    getDataTransferForAssets().get(token).writeUTF("close");
+                    getDataTransferForAssets().get(token).flush();
+                    getDataTransferForAssets().remove(token);
+                }
+                synchronized (getDataTransferForShopCards()) {
+                    getDataTransferForShopCards().get(token).writeUTF("close");
+                    getDataTransferForShopCards().get(token).flush();
+                    getDataTransferForShopCards().remove(token);
+                }
                 return "success";
             } catch (IOException e) {
                 e.printStackTrace();
@@ -228,6 +246,7 @@ public class ServerMainController {
             String token = matcher.group("token");
             try {
                 profileDataTransfer.get(token).writeUTF("close");
+                profileDataTransfer.get(token).flush();
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -113,6 +113,19 @@ public class ControllerManager {
         }
     }
 
+    public void getLastProfileData() {
+        try {
+            dataOutputStream.writeUTF("ask user " + MainMenuController.getInstance().getLoggedInUserToken());
+            dataOutputStream.flush();
+            String gson = dataInputStream.readUTF();
+            System.out.println(gson);
+            User user = new Gson().fromJson(gson, User.class);
+            MainMenuController.getInstance().setLoggedInUser(user);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
     public void setScoreBoardSocket(Socket socket, String token) {
         scoreBoardDataTransferSocket = socket;
         try {

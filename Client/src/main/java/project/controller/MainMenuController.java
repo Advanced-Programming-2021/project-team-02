@@ -52,6 +52,7 @@ public class MainMenuController {
         DataOutputStream dataOutputStream = ControllerManager.getInstance().getDataOutputStream();
         DataInputStream dataInputStream = ControllerManager.getInstance().getDataInputStream();
         try {
+            System.out.println("logout "+loggedInUserToken);
             dataOutputStream.writeUTF("logout " + loggedInUserToken);
             dataOutputStream.flush();
             dataInputStream.readUTF();
