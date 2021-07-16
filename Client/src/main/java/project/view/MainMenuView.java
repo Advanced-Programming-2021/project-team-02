@@ -116,7 +116,11 @@ public class MainMenuView {
     public void exit(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
-        if (popUpMessage.getAlert().getResult().getText().equals("OK")) System.exit(0);
+        if (popUpMessage.getAlert().getResult().getText().equals("OK")) {
+            String result = MainMenuController.getInstance().close();
+            if (result.equals("success"))
+                System.exit(0);
+        }
     }
 
     public void adminPanel(MouseEvent mouseEvent) throws IOException {

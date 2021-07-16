@@ -19,6 +19,7 @@ public class MainMenuController {
     private Assets loggedInUserAssets;
     private ScoreBoardView scoreBoardView;
     private ProfileMenuView profileMenuView;
+
     private MainMenuController() {
     }
 
@@ -52,7 +53,7 @@ public class MainMenuController {
         DataOutputStream dataOutputStream = ControllerManager.getInstance().getDataOutputStream();
         DataInputStream dataInputStream = ControllerManager.getInstance().getDataInputStream();
         try {
-            System.out.println("logout "+loggedInUserToken);
+            System.out.println("logout " + loggedInUserToken);
             dataOutputStream.writeUTF("logout " + loggedInUserToken);
             dataOutputStream.flush();
             dataInputStream.readUTF();
@@ -83,11 +84,25 @@ public class MainMenuController {
         this.scoreBoardView = scoreBoardView;
     }
 
+    public ProfileMenuView getProfileMenuView() {
+        return profileMenuView;
+    }
+
     public void setProfileMenuView(ProfileMenuView profileMenuView) {
         this.profileMenuView = profileMenuView;
     }
 
-    public ProfileMenuView getProfileMenuView() {
-        return profileMenuView;
+    public String close() {
+        logout();
+        try {
+            ControllerManager.getInstance().getDataOutputStream().writeUTF("close");
+            ControllerManager.getInstance().getDataOutputStream().flush();
+            ControllerManager.getInstance().getDataOutputStream().close();
+            ControllerManager.getInstance().getDataInputStream().close();
+            ControllerManager.getInstance().getReqSocket().close();
+        } catch (IOException e) {
+            return "failed";
+        }
+        return "success";
     }
 }

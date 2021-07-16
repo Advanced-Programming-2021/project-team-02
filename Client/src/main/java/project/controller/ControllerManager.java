@@ -185,4 +185,8 @@ public class ControllerManager {
             }
         }).start();
     }
+
+    public Socket getReqSocket() {
+        return reqSocket;
+    }
 }

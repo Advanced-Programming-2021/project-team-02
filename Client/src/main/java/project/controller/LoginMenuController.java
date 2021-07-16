@@ -85,4 +85,17 @@ public class LoginMenuController {
 
         return LoginMessage.SUCCESSFUL_LOGIN;
     }
+
+    public LoginMessage close() {
+        try {
+            ControllerManager.getInstance().getDataOutputStream().writeUTF("close");
+            ControllerManager.getInstance().getDataOutputStream().flush();
+            ControllerManager.getInstance().getDataOutputStream().close();
+            ControllerManager.getInstance().getDataInputStream().close();
+            ControllerManager.getInstance().getReqSocket().close();
+        } catch (IOException e) {
+            return LoginMessage.ERROR_OCCURRED;
+        }
+        return LoginMessage.SUCCESS;
+    }
 }

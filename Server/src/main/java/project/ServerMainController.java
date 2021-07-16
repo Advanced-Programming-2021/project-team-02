@@ -167,7 +167,7 @@ public class ServerMainController {
                 while (true) {
                     String message;
 //                    try {
-                        message = dataInputStream.readUTF();
+                    message = dataInputStream.readUTF();
 //                    } catch (EOFException e) {
 //                        continue;
 //                    }
@@ -198,6 +198,8 @@ public class ServerMainController {
             } catch (SocketException e) {
                 break;
             }
+            if (input.equals("close"))
+                break;
             String result = process(input);
             dataOutputStream.writeUTF(result);
             dataOutputStream.flush();
