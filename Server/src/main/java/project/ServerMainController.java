@@ -26,6 +26,13 @@ public class ServerMainController {
     private static HashMap<String, DataOutputStream> dataForChat;
     private static HashMap<String, DataOutputStream> profileDataTransfer;
     private static HashMap<String, DataOutputStream> scoreboardDataTransfer;
+    private static boolean isAdminLoggedIn = false;
+    private static DataInputStream adminInput;
+    private static DataOutputStream adminOutput;
+
+    public static boolean isIsAdminLoggedIn() {
+        return isAdminLoggedIn;
+    }
 
     public static HashMap<String, DataOutputStream> getDataTransferForAssets() {
         return dataTransferForAssets;
@@ -89,6 +96,14 @@ public class ServerMainController {
                             String token = in.replaceFirst("chat_send_socket ", "");
                             startThreadForChatSocket(socket, dataOutputStream, dataInputStream, token);
                             dataOutputStream.writeUTF("success");
+                        } else if (in.equals("admin")) {
+                            if (!isAdminLoggedIn) {
+                                isAdminLoggedIn = true;
+                                adminInput = dataInputStream;
+                                adminOutput = dataOutputStream;
+                                dataOutputStream.writeUTF("success");
+                                startThreadForAdmin();
+                            } else dataOutputStream.writeUTF("admin is logged in!");
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -99,6 +114,39 @@ public class ServerMainController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static void startThreadForAdmin() {
+        new Thread(() -> {
+            while (true) {
+                try {
+                    String in = adminInput.readUTF();
+                    if (in.equals("close")) {
+                        adminOutput.writeUTF("close");
+                        break;
+                    }
+                    AdminController.getInstance().updateAdminData(in);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            try {
+                adminOutput.close();
+                adminInput.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            isAdminLoggedIn = false;
+        }).start();
+    }
+
+    public static DataInputStream getAdminInput() {
+        return adminInput;
+    }
+
+    public static DataOutputStream getAdminOutput() {
+        return adminOutput;
     }
 
     private static void startThreadForRequestSocket(Socket socket, DataOutputStream dataOutputStream, DataInputStream dataInputStream) {

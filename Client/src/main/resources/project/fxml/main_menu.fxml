@@ -126,11 +126,6 @@
                     <Insets bottom="2.0" left="10.0" top="2.0" />
                 </padding>
             </HBox>
-         <HBox id="row" layoutX="10.0" layoutY="293.0" onMouseClicked="#importExportMenu" spacing="5.0">
-            <padding>
-               <Insets bottom="2.0" left="10.0" top="2.0" />
-            </padding>
-         </HBox>
 
          <VBox.margin>
             <Insets left="80.0" right="150.0" />

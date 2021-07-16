@@ -73,7 +73,6 @@ public class ShopMenuView {
         shopGrid.getChildren().clear();
         int firstIndex = pageCount == 1 ? 0 : (pageCount == 2 ? 24 : 48);
         int limit = firstIndex == 0 ? 24 : (firstIndex == 24 ? 24 : 4);
-        System.out.println(firstIndex + "  limit : " + limit);
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 6; j++) {
                 if (i * 6 + j == limit)
@@ -222,10 +221,5 @@ public class ShopMenuView {
         Utility.openNewMenu("/project/fxml/main_menu.fxml");
     }
 
-    public void openAdminPanel(MouseEvent mouseEvent) throws IOException {
-        if (mouseEvent.getButton() != MouseButton.PRIMARY)
-            return;
-        onClick.play();
-        Utility.openNewMenu("/project/fxml/admin_view.fxml");
-    }
+
 }

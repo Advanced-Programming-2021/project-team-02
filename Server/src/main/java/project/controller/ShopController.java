@@ -69,6 +69,10 @@ public class ShopController {
                     ServerMainController.getDataTransferForShopCards().get(s).writeUTF(new Gson().toJson(Shop.getInstance().getCardsWithNumberOfThem()));
                     ServerMainController.getDataTransferForShopCards().get(s).flush();
                 }
+                if (ServerMainController.isIsAdminLoggedIn()) {
+                    ServerMainController.getAdminOutput().writeUTF(new Gson().toJson(Shop.getInstance().getCardsWithNumberOfThem()));
+                    ServerMainController.getAdminOutput().flush();
+                }
             }
             synchronized (ServerMainController.getDataTransferForAssets()) {
                 ServerMainController.getDataTransferForAssets().get(token).writeUTF(new Gson().toJson(Assets.getAssetsByUsername(ServerMainController.getLoggedInUsers().get(token).getUsername())));
