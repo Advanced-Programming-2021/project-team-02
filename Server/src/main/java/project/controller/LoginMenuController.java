@@ -36,9 +36,9 @@ public class LoginMenuController {
     }
 
     public void saveToDataBase(String username1, String nickname1, String password1) {
-        String url = "jdbc:mysql://localhost:7000/user";
-        String usernameLH = "mahdi";
-        String passwordLH = "test1234";
+        String url = "jdbc:mysql://localhost:3306/user";
+        String usernameLH = "root";
+        String passwordLH = "12345678";
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = DriverManager.getConnection(url, usernameLH, passwordLH);
