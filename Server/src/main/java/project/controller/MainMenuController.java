@@ -31,20 +31,22 @@ public class MainMenuController {
         }
         loggedInUsers.remove(token);
         dataTransfer.remove(token);
-        sendScoreboardDate();
+        sendScoreboardData();
         return "success logout";
     }
 
-    public void sendScoreboardDate() {
+    public void sendScoreboardData() {
         //TODO SCOREBOARD
         ArrayList<ScoreboardData> scoreboardData = ScoreboardData.getDataArrayList();
-        for (String s : ServerMainController.getScoreboardDataTransfer().keySet()) {
-            try {
-                ServerMainController.getScoreboardDataTransfer().get(s).writeUTF( new Gson().toJson(scoreboardData));
-                ServerMainController.getScoreboardDataTransfer().get(s).flush();
-                System.out.println("sent");
-            } catch (IOException e) {
-                e.printStackTrace();
+        synchronized (ServerMainController.getScoreboardDataTransfer()) {
+            for (String s : ServerMainController.getScoreboardDataTransfer().keySet()) {
+                try {
+                    ServerMainController.getScoreboardDataTransfer().get(s).writeUTF(new Gson().toJson(scoreboardData));
+                    ServerMainController.getScoreboardDataTransfer().get(s).flush();
+                    System.out.println("sent");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

@@ -1,11 +1,7 @@
 package project.controller;
 
-import project.model.User;
-
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.regex.Matcher;
-import java.util.stream.Collectors;
 
 public class ScoreboardData {
     private static ArrayList<ScoreboardData> dataArrayList;
@@ -45,7 +41,7 @@ public class ScoreboardData {
             if (data.getNickname().equals(nickname))
                 data.nickname = newNickName;
         }
-        MainMenuController.getInstance().sendScoreboardDate();
+        MainMenuController.getInstance().sendScoreboardData();
     }
 
     public static void changeScore(String nickname, int score) {
