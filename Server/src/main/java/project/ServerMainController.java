@@ -178,6 +178,7 @@ public class ServerMainController {
                     String message;
                     message = dataInputStream.readUTF();
                     if (message.equals("close_chat_socket")) {
+                        System.out.println("chat closed");
                         getDataForChat().get(token).writeUTF("close");
                         dataOutputStream.flush();
                         break;
@@ -219,10 +220,11 @@ public class ServerMainController {
             System.out.println(result);
             return result;
         } else if (parts[0].equals("scoreboard")) {
-            if (input.equals("scoreboard close")) {
+            if (input.matches("scoreboard close .+")) {
                 try {
                     synchronized (getScoreboardDataTransfer()) {
                         scoreboardDataTransfer.get(parts[2]).writeUTF("close");
+                        System.out.println("scoreboard closed");
                         scoreboardDataTransfer.get(parts[2]).flush();
                         scoreboardDataTransfer.remove(parts[2]);
                     }

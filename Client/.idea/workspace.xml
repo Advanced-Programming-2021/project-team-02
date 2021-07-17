@@ -5,18 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="00f24077-6cc3-42bb-ad92-b2a3c54accc6" name="Default Changelist" comment="working on closing things!!!">
-      <change afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/DeckMenuController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/DeckMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/DeckMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/LoginMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/LoginMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/DeckMenuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/DeckMenuView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/ShopMenuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/ShopMenuView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/messages/DeckMenuMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/messages/DeckMenuMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/messages/LoginMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/messages/LoginMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/project/fxml/admin_view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/project/fxml/admin_view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/ScoreboardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/ScoreboardController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/GlobalChatView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/GlobalChatView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/ServerMainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/ServerMainController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/controller/LoginMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/LoginMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/controller/ShopController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/ShopController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/controller/MainMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/MainMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/controller/ScoreboardData.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/ScoreboardData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/model/User.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,6 +85,17 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>

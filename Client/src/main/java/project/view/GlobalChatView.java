@@ -75,6 +75,7 @@ public class GlobalChatView {
     public void back(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY)
             return;
+        GlobalChatController.getInstance().close();
         onClick.play();
         Utility.openNewMenu("/project/fxml/main_menu.fxml");
     }

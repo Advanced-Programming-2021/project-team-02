@@ -181,7 +181,7 @@ public class User implements Comparable<User> {
     public void increaseScore(int score) {
         this.score += score;
         ScoreboardData.changeScore(nickname, this.score);
-        MainMenuController.getInstance().sendScoreboardDate();
+        MainMenuController.getInstance().sendScoreboardData();
     }
 
 }

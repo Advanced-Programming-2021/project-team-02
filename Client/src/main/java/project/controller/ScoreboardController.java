@@ -79,7 +79,6 @@ public class ScoreboardController {
 
     public void closeScoreboard() {
         try {
-
             ControllerManager.getInstance().getDataOutputStream().writeUTF("scoreboard close " + MainMenuController.getInstance().getLoggedInUserToken());
             ControllerManager.getInstance().getDataOutputStream().flush();
             ControllerManager.getInstance().getDataInputStream().readUTF();
