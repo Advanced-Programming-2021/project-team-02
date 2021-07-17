@@ -21,8 +21,9 @@ public class MainMenuController {
     }
 
     public String logout(String token) {
+        //TODO
         HashMap<String, User> loggedInUsers = ServerMainController.getLoggedInUsers();
-        HashMap<String, DataOutputStream> dataTransfer = ServerMainController.getDataTransfer();
+        HashMap<String, DataOutputStream> dataTransfer = ServerMainController.getDataTransferForShopCards();
         User user = loggedInUsers.get(token);
         long loggedInNumber = loggedInUsers.values().stream().filter(user1 -> user1.getNickname().equals(user.getNickname())).count();
         if (loggedInNumber == 1) {
@@ -35,10 +36,13 @@ public class MainMenuController {
     }
 
     public void sendScoreboardDate() {
+        //TODO SCOREBOARD
         ArrayList<ScoreboardData> scoreboardData = ScoreboardData.getDataArrayList();
-        for (String s : ServerMainController.getDataTransfer().keySet()) {
+        for (String s : ServerMainController.getScoreboardDataTransfer().keySet()) {
             try {
-                ServerMainController.getDataTransfer().get(s).writeUTF("scoreboard " + new Gson().toJson(scoreboardData));
+                ServerMainController.getScoreboardDataTransfer().get(s).writeUTF( new Gson().toJson(scoreboardData));
+                ServerMainController.getScoreboardDataTransfer().get(s).flush();
+                System.out.println("sent");
             } catch (IOException e) {
                 e.printStackTrace();
             }

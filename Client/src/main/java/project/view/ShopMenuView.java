@@ -47,15 +47,12 @@ public class ShopMenuView {
     private Utility utility;
     private String selectedCardName;
 
-    public static ShopMenuView getInstance() {
-        return instance;
-    }
-
     @FXML
     public void initialize() throws IOException {
         ControllerManager.getInstance().getLastShopData();
+        MainMenuController.getInstance().updateLoggedInAsset(ControllerManager.getInstance().getAUserAssets(MainMenuController.getInstance().getLoggedInUser().getUsername()));
         ShopMenuController.getInstance().setView(this);
-        instance = this;
+        ShopMenuController.getInstance().initializeNetWorkForTransferShopData();
         utility = new Utility();
         utility.addImages();
         coinsLabel.setText("Coins : " + MainMenuController.getInstance().getLoggedInUserAssets().getCoin());
@@ -77,7 +74,6 @@ public class ShopMenuView {
         shopGrid.getChildren().clear();
         int firstIndex = pageCount == 1 ? 0 : (pageCount == 2 ? 24 : 48);
         int limit = firstIndex == 0 ? 24 : (firstIndex == 24 ? 24 : 4);
-        System.out.println(firstIndex + "  limit : " + limit);
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 6; j++) {
                 if (i * 6 + j == limit)
@@ -152,7 +148,7 @@ public class ShopMenuView {
             buyButton.setOnMouseClicked(mouseEvent1 -> {
             });
         }
-        if (loggedInStock > 0) {
+        if (loggedInStock > 0 && cardsWithNumber.get(cardName) != -1) {
             sellButton.setStyle(" -fx-background-color: #bb792d;");
             sellButton.setCursor(Cursor.HAND);
             sellButton.setOnMouseClicked(mouseEvent1 -> {
@@ -222,13 +218,9 @@ public class ShopMenuView {
         if (mouseEvent.getButton() != MouseButton.PRIMARY)
             return;
         onClick.play();
+        ShopMenuController.getInstance().closeShop();
         Utility.openNewMenu("/project/fxml/main_menu.fxml");
     }
 
-    public void openAdminPanel(MouseEvent mouseEvent) throws IOException {
-    if (mouseEvent.getButton()!=MouseButton.PRIMARY)
-        return;
-        onClick.play();
-        Utility.openNewMenu("/project/fxml/admin_view.fxml");
-    }
+
 }

@@ -31,10 +31,13 @@ public class LoginMenuController {
     }
 
     public void sendScoreboardDate() {
+        //TODO SCOREBOARD
         ArrayList<ScoreboardData> scoreboardData = ScoreboardData.getDataArrayList();
-        for (String s : ServerMainController.getDataTransfer().keySet()) {
+        for (String s : ServerMainController.getScoreboardDataTransfer().keySet()) {
             try {
-                ServerMainController.getDataTransfer().get(s).writeUTF("scoreboard " + new Gson().toJson(scoreboardData));
+                ServerMainController.getScoreboardDataTransfer().get(s).writeUTF(new Gson().toJson(scoreboardData));
+                ServerMainController.getScoreboardDataTransfer().get(s).flush();
+                System.out.println("sent");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -62,6 +65,10 @@ public class LoginMenuController {
     public String loginUser(String username, String password) {
         if (!isUsernameUsed(username)) return "username_password_dont_match";
         if (!doesUsernameAndPasswordMatch(username, password)) return "username_password_dont_match";
+        for (String s : ServerMainController.getLoggedInUsers().keySet()) {
+            if (ServerMainController.getLoggedInUsers().get(s).getUsername().equals(username))
+                return "logged_in_before";
+        }
         String token = UUID.randomUUID().toString();
         User user = User.getUserByUsername(username);
         System.out.println(user + " logged in ");

@@ -4,11 +4,10 @@ import com.google.gson.Gson;
 import project.ServerMainController;
 import project.model.Assets;
 import project.model.Shop;
+import project.model.User;
 import project.model.card.Card;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Objects;
 
@@ -38,8 +37,7 @@ public class ShopController {
                 Objects.requireNonNull(assets).decreaseCoin(cardsWithPrices.get(cardName));
                 assets.addBoughtCard(Card.getCardByName(cardName));
                 cardsLinkedToNumber.replace(cardName, cardsLinkedToNumber.get(cardName) - 1);
-                HashMap<String, DataOutputStream> map = ServerMainController.getDataTransfer();
-                sendShopDataAndBuyerAssetsToRelatedClients(token, map, cardsLinkedToNumber);
+                sendShopDataAndBuyerAssetsToRelatedClients(token);
                 return "success";
             } else {
                 if (cardsLinkedToNumber.get(cardName) == 0)
@@ -52,25 +50,43 @@ public class ShopController {
     }
 
     public String sellCard(String cardName, String username, String token) {
-        LinkedHashMap<String, Integer> cardsLinkedToNumber = Shop.getInstance().getCardsWithNumberOfThem();
-        HashMap<String, DataOutputStream> map = ServerMainController.getDataTransfer();
         synchronized (Shop.getInstance().getCardsWithNumberOfThem()) {
-            cardsLinkedToNumber.replace(cardName, cardsLinkedToNumber.get(cardName) + 1);
+            Shop.getInstance().getCardsWithNumberOfThem().replace(cardName, Shop.getInstance().getCardsWithNumberOfThem().get(cardName) + 1);
         }
         Assets assets = Assets.getAssetsByUsername(username);
         Objects.requireNonNull(assets).sellCard(cardName);
-        sendShopDataAndBuyerAssetsToRelatedClients(token, map, cardsLinkedToNumber);
+        sendShopDataAndBuyerAssetsToRelatedClients(token);
 
         return "success";
     }
 
-    private void sendShopDataAndBuyerAssetsToRelatedClients(String token, HashMap<String, DataOutputStream> map, LinkedHashMap<String, Integer> cardsLinkedToNumber) {
+    private void sendShopDataAndBuyerAssetsToRelatedClients(String token) {
         try {
-            for (String s : map.keySet()) {
-                map.get(s).writeUTF("shop " + new Gson().toJson(Shop.getInstance().getCardsWithNumberOfThem()));
-                map.get(s).flush();
+            synchronized (ServerMainController.getDataTransferForShopCards()) {
+                for (String s : ServerMainController.getDataTransferForShopCards().keySet()) {
+                    System.out.println("send shop for : " + ServerMainController.getLoggedInUsers().get(s));
+                    ServerMainController.getDataTransferForShopCards().get(s).writeUTF(new Gson().toJson(Shop.getInstance().getCardsWithNumberOfThem()));
+                    ServerMainController.getDataTransferForShopCards().get(s).flush();
+                }
+                if (ServerMainController.isIsAdminLoggedIn()) {
+                    ServerMainController.getAdminOutput().writeUTF(new Gson().toJson(Shop.getInstance().getCardsWithNumberOfThem()));
+                    ServerMainController.getAdminOutput().flush();
+                }
             }
-            map.get(token).writeUTF("asset " + new Gson().toJson(Assets.getAssetsByUsername(ServerMainController.getLoggedInUsers().get(token).getUsername())));
+            User user = ServerMainController.getLoggedInUsers().get(token);
+            String username = user.getUsername();
+            Assets assets = Assets.getAssetsByUsername(username);
+            synchronized (ServerMainController.getDataTransferForAssetsInShop()) {
+                ServerMainController.getDataTransferForAssetsInShop().get(token).writeUTF(new Gson().toJson(assets));
+                ServerMainController.getDataTransferForAssetsInShop().get(token).flush();
+//                for (String s : ServerMainController.getLoggedInUsers().keySet()) {
+//                    if (ServerMainController.getLoggedInUsers().get(s).getNickname().equals(user.getNickname())) {
+//                        if (ServerMainController.getDataTransferForAssetsInShop().containsKey(s)) {
+//                            ServerMainController.getDataTransferForAssetsInShop().get(s).writeUTF(new Gson().toJson(assets));
+//                        }
+//                    }
+//                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

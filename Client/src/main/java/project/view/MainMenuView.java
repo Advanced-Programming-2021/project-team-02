@@ -14,9 +14,11 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import project.controller.AdminController;
 import project.controller.MainMenuController;
 import project.model.Music;
 import project.model.gui.Icon;
+import project.view.messages.AdminPanelMessage;
 import project.view.messages.LoginMessage;
 import project.view.messages.PopUpMessage;
 import project.view.messages.ProfileMenuMessage;
@@ -114,13 +116,23 @@ public class MainMenuView {
     public void exit(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
-        if (popUpMessage.getAlert().getResult().getText().equals("OK")) System.exit(0);
+        if (popUpMessage.getAlert().getResult().getText().equals("OK")) {
+            String result = MainMenuController.getInstance().close();
+            if (result.equals("success"))
+                System.exit(0);
+        }
     }
 
     public void adminPanel(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
         onClick.play();
+
         if (getAdminPassAndUsername()) {
+            AdminPanelMessage message = AdminController.getInstance().initializeNetworkForAdmin();
+            if (message != AdminPanelMessage.SUCCESS) {
+                new PopUpMessage(message.getAlertType(), message.getLabel());
+                return;
+            }
             Utility.openNewMenu("/project/fxml/admin_view.fxml");
         }
     }
@@ -153,7 +165,7 @@ public class MainMenuView {
                 if (usernameField.getText().equals("admin1") && passwordField.getText().equals("1admin")) {
                     flag[0] = true;
                     window.close();
-                } else new PopUpMessage(Alert.AlertType.ERROR,"Wrong username or password!");
+                } else new PopUpMessage(Alert.AlertType.ERROR, "Wrong username or password!");
 
 
             }
@@ -186,7 +198,7 @@ public class MainMenuView {
         return flag[0];
     }
 
-    public void chatPage(MouseEvent mouseEvent) throws IOException {
+    public void openChat(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
         onClick.play();
         Utility.openNewMenu("/project/fxml/global_chat.fxml");

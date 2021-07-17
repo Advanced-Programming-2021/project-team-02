@@ -22,6 +22,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import project.controller.ControllerManager;
 import project.controller.MainMenuController;
 import project.controller.ProfileMenuController;
 import project.model.Avatar;
@@ -71,7 +72,9 @@ public class ProfileMenuView {
 
     @FXML
     public void initialize() {
-        MainMenuController.getInstance().setProfileMenuView(this);
+        ProfileMenuController.getInstance().setProfileMenuView(this);
+        ProfileMenuController.getInstance().initializeNetworkForDataTransfer();
+        ControllerManager.getInstance().getLastProfileData();
         setProfileData();
         Music.muteUnmuteButtons.add(muteUnmuteButton);
         if (!Music.isMediaPlayerPaused) playPauseMusicButton.setImage(Icon.PAUSE.getImage());
@@ -85,7 +88,6 @@ public class ProfileMenuView {
         userNameLabel.setText(MainMenuController.getInstance().getLoggedInUser().getUsername());
         nickNameLabel.setText(MainMenuController.getInstance().getLoggedInUser().getNickname());
         passwordLabel.setText("●".repeat(MainMenuController.getInstance().getLoggedInUser().getPassword().length()));
-
     }
 
     private Button closeButton(Stage window, TextField usernameTextField) {
@@ -353,14 +355,8 @@ public class ProfileMenuView {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
         MainMenuController.getInstance().setProfileMenuView(null);
         onClick.play();
+        ProfileMenuController.getInstance().closeProfile();
         Utility.openNewMenu("/project/fxml/main_menu.fxml");
-    }
-
-    public void exit(MouseEvent actionEvent) {
-        if (actionEvent.getButton() != MouseButton.PRIMARY) return;
-        onClick.play();
-        PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
-        if (popUpMessage.getAlert().getResult().getText().equals("OK")) System.exit(0);
     }
 
     public void chooseProfilePicture(ActionEvent event) {

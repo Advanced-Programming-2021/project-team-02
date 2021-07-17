@@ -41,12 +41,12 @@ public class ProfileController {
     private void sendUserData(String token) {
         HashMap<String, User> loggedInUsers = ServerMainController.getLoggedInUsers();
         User user = loggedInUsers.get(token);
-        HashMap<String, DataOutputStream> dataTransfer = ServerMainController.getDataTransfer();
+        HashMap<String, DataOutputStream> profileData = ServerMainController.getProfileDataTransfer();
         for (String s : loggedInUsers.keySet()) {
             if (loggedInUsers.get(s).getUsername().equals(user.getUsername())) {
                 try {
-                    dataTransfer.get(s).writeUTF("profile " + new Gson().toJson(user));
-                    dataTransfer.get(s).flush();
+                    profileData.get(s).writeUTF(new Gson().toJson(user));
+                    profileData.get(s).flush();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

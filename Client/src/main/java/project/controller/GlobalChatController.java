@@ -2,7 +2,6 @@ package project.controller;
 
 import javafx.application.Platform;
 import project.view.GlobalChatView;
-import project.view.ShopMenuView;
 import project.view.messages.GlobalChatMessage;
 
 import java.io.DataInputStream;
@@ -14,13 +13,14 @@ public class GlobalChatController {
     private static GlobalChatController instance = null;
     public String textToAppend;
     private GlobalChatView view;
-    private Socket socketChat;
-    private Socket socketChatForReading;
+    private Socket socket;
     private DataInputStream dataInputStreamChat;
     private DataOutputStream dataOutputStreamChat;
+    private Socket readerSocket;
+    private DataInputStream readerInPutStream;
+    private DataOutputStream readerOutPutStream;
 
     private GlobalChatController() {
-
     }
 
     public static GlobalChatController getInstance() {
@@ -32,32 +32,46 @@ public class GlobalChatController {
         return textToAppend;
     }
 
-    public void initializeToRead() {
-        Socket socketChat = null;
+    public void initializeNetworkToSend() {
         try {
-            socketChat = new Socket("localhost", 8000);
-            System.out.println("Chat is going");
-            DataOutputStream dataOutputStreamChat = new DataOutputStream(socketChat.getOutputStream());
-            DataInputStream dataInputStreamChat = new DataInputStream(socketChat.getInputStream());
-            dataOutputStreamChat.writeUTF("Chat_Socket_Read " + MainMenuController.getInstance().getLoggedInUserToken());
+            socket = new Socket("localhost", 8000);
+            dataInputStreamChat = new DataInputStream(socket.getInputStream());
+            dataOutputStreamChat = new DataOutputStream(socket.getOutputStream());
+            dataOutputStreamChat.writeUTF("chat_send_socket " + MainMenuController.getInstance().getLoggedInUserToken());
             dataOutputStreamChat.flush();
-            System.out.println("payam raft");
-            startThreadForChat(dataInputStreamChat);
+            dataInputStreamChat.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void initializeNetworkToReceive() {
+        try {
+            readerSocket = new Socket("localhost", 8000);
+            readerOutPutStream = new DataOutputStream(readerSocket.getOutputStream());
+            readerInPutStream = new DataInputStream(readerSocket.getInputStream());
+            readerOutPutStream.writeUTF("Chat_Socket_Read " + MainMenuController.getInstance().getLoggedInUserToken());
+            readerOutPutStream.flush();
+            startReceiverThreadForChat();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
-    private void startThreadForChat(DataInputStream dataInputStreamChat) {
+    private void startReceiverThreadForChat() {
         new Thread(() -> {
             try {
                 while (true) {
-                    String chatResult = dataInputStreamChat.readUTF();
-                    System.out.println(chatResult);
+                    String chatResult = readerInPutStream.readUTF();
+                    if (chatResult.equals("close"))
+                        break;
                     textToAppend = chatResult;
                     Platform.runLater(view::setMessageForTextArea);
                 }
+                readerInPutStream.close();
+                readerOutPutStream.close();
+                readerSocket.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -66,13 +80,9 @@ public class GlobalChatController {
 
     public GlobalChatMessage sendChatMessage(String message) {
         try {
-            System.out.println("Chat is going to send");
-            DataOutputStream dataOutputStreamChat = new DataOutputStream(socketChat.getOutputStream());
-            DataInputStream dataInputStreamChat = new DataInputStream(socketChat.getInputStream());
-            dataOutputStreamChat.writeUTF("Chat_Sending " + MainMenuController.getInstance().getLoggedInUserToken() + " " + message);
+            dataOutputStreamChat.writeUTF(message);
             dataOutputStreamChat.flush();
             String string = dataInputStreamChat.readUTF();
-            System.out.println("result string");
             if (string.equals("success")) {
                 return GlobalChatMessage.MESSAGE_SENT;
             } else {
@@ -86,5 +96,16 @@ public class GlobalChatController {
 
     public void setView(GlobalChatView view) {
         this.view = view;
+    }
+
+    public void close() {
+        try {
+            dataOutputStreamChat.writeUTF("close_chat_socket");
+            dataOutputStreamChat.flush();
+            dataOutputStreamChat.close();
+            dataInputStreamChat.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

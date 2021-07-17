@@ -41,8 +41,6 @@ public class DeckMenuView {
     private static final Image deactivateImage = new Image(String.valueOf(DeckMenuView.class.getResource("/project/image/Icon/cancel.png")));
     private static final ArrayList<ImageView> activateImageViews = new ArrayList<>();
     private static final DeckMenuController controller = DeckMenuController.getInstance();
-    private AudioClip onClick = new AudioClip(Objects.requireNonNull(getClass().getResource("/project/soundEffects/CURSOR.wav")).toString());
-
     @FXML
     public static Label labelDeck;
     public ImageView playPauseMusicButton;
@@ -50,8 +48,9 @@ public class DeckMenuView {
     @FXML
     public GridPane gridPaneAsli;
     HashMap<String, Image> imageHashMap;
+    private AudioClip onClick = new AudioClip(Objects.requireNonNull(getClass().getResource("/project/soundEffects/CURSOR.wav")).toString());
     private User user;
-    private ArrayList<Deck> deckArrayList;
+    // private ArrayList<Deck> deckArrayList;
 
     public static Label getLabel() {
         return labelDeck;
@@ -59,17 +58,21 @@ public class DeckMenuView {
 
     @FXML
     public void initialize() {
+        DeckMenuController.getInstance().setFirstView(this);
+        DeckMenuController.getInstance().setIsEdit(false);
+        DeckMenuController.getInstance().initializeNetwork();
         user = MainMenuController.getInstance().getLoggedInUser();
-        deckArrayList = Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getAllDecks();
+        //   deckArrayList = Objects.requireNonNull(MainMenuController.getInstance().getLoggedInUserAssets()).getAllDecks();
         Utility utility = new Utility();
         utility.addImages();
         imageHashMap = utility.getStringImageHashMap();
         showDecks();
     }
 
-    private void showDecks() {
+    public void showDecks() {
         int maximumOfJ = 0;
         int counterSize = 0;
+        ArrayList<Deck> deckArrayList = MainMenuController.getInstance().getLoggedInUserAssets().getAllDecks();
         for (int i = 0, j = 0; counterSize < deckArrayList.size(); i++) {
             if (maximumOfJ == 3) {
                 j++;
@@ -182,7 +185,7 @@ public class DeckMenuView {
     }
 
     public void editDeck(MouseEvent actionEvent, Button button) throws IOException {
-        if (actionEvent.getButton()!=MouseButton.PRIMARY)
+        if (actionEvent.getButton() != MouseButton.PRIMARY)
             return;
         onClick.play();
         controller.setOpenedDeckButton(button);
@@ -191,7 +194,7 @@ public class DeckMenuView {
     }
 
     public void addDeck(MouseEvent mouseEvent) {
-        if (mouseEvent.getButton()!=MouseButton.PRIMARY)
+        if (mouseEvent.getButton() != MouseButton.PRIMARY)
             return;
         onClick.play();
         if (MainMenuController.getInstance().getLoggedInUserAssets().getAllDecks().size() == 6) {
@@ -260,7 +263,7 @@ public class DeckMenuView {
     }
 
     private void loadAddCard(MouseEvent mouseEvent) throws IOException {
-        if (mouseEvent.getButton()!=MouseButton.PRIMARY)
+        if (mouseEvent.getButton() != MouseButton.PRIMARY)
             return;
         onClick.play();
         showDecks();

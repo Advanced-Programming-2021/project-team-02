@@ -69,20 +69,29 @@ public class LoginMenuController {
         String[] results = result.split(" ");
         switch (results[0]) {
             case "success": {
-                try {
-                    Socket socket = new Socket("localhost", 8000);
-                    ControllerManager.getInstance().setTransferSocket(socket, results[1]);
-                    System.out.println("token : "+results[1]);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                System.out.println("user token : "+results[1]);
                 MainMenuController.getInstance().setLoggedInUsernameAndToken(username, results[1]);
                 return LoginMessage.SUCCESSFUL_LOGIN;
             }
+            case"logged_in_before":
+                return LoginMessage.LOG_OUT_OTHER_ACCOUNTS;
             case "username_password_dont_match":
                 return LoginMessage.INCORRECT_USERNAME_PASSWORD;
         }
 
         return LoginMessage.SUCCESSFUL_LOGIN;
+    }
+
+    public LoginMessage close() {
+        try {
+            ControllerManager.getInstance().getDataOutputStream().writeUTF("close");
+            ControllerManager.getInstance().getDataOutputStream().flush();
+            ControllerManager.getInstance().getDataOutputStream().close();
+            ControllerManager.getInstance().getDataInputStream().close();
+            ControllerManager.getInstance().getReqSocket().close();
+        } catch (IOException e) {
+            return LoginMessage.ERROR_OCCURRED;
+        }
+        return LoginMessage.SUCCESS;
     }
 }

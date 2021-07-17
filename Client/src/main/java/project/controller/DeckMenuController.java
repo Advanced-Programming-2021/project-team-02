@@ -1,7 +1,10 @@
 package project.controller;
 
+import com.google.gson.Gson;
+import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import project.Main;
 import project.model.Assets;
 import project.model.Deck;
 import project.model.card.Card;
@@ -9,8 +12,14 @@ import project.model.card.Monster;
 import project.model.card.Spell;
 import project.model.card.Trap;
 import project.model.card.informationofcards.CardType;
+import project.view.DeckMenuView;
+import project.view.EditDeckView;
 import project.view.messages.DeckMenuMessage;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -18,6 +27,15 @@ public class DeckMenuController {
     private static DeckMenuController instance = null;
     private Label openedDeck;
     private Button openedDeckButton;
+    private Socket socket;
+    private DataOutputStream dataOutputStream;
+    private DataInputStream dataInputStream;
+    private DeckMenuView firstView;
+    private EditDeckView editDeckView;
+    private boolean isEdit;
+    private Socket receiverSocket;
+    private DataOutputStream receiverOutput;
+    private DataInputStream receiverInput;
 
     private DeckMenuController() {
     }
@@ -28,13 +46,81 @@ public class DeckMenuController {
         return instance;
     }
 
+    public void setIsEdit(boolean edit) {
+        isEdit = edit;
+    }
+
+    public void setEditDeckView(EditDeckView editDeckView) {
+        this.editDeckView = editDeckView;
+    }
+
+    public void setFirstView(DeckMenuView firstView) {
+        this.firstView = firstView;
+    }
+
+    public void initializeNetwork() {
+        try {
+            receiverSocket = new Socket("localhost", 8000);
+            receiverOutput = new DataOutputStream(receiverSocket.getOutputStream());
+            receiverInput = new DataInputStream(receiverSocket.getInputStream());
+            receiverOutput.writeUTF("data_transfer_deck " + MainMenuController.getInstance().getLoggedInUserToken());
+            receiverOutput.flush();
+            startReceiverThread();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void startReceiverThread() {
+        new Thread(() ->
+        {
+            try {
+                while (true) {
+                    String in = receiverInput.readUTF();
+                    if (in.equals("close"))
+                        break;
+                    System.out.println("received assets : " + in);
+                    Assets assets = new Gson().fromJson(in, Assets.class);
+                    MainMenuController.getInstance().updateLoggedInAsset(assets);
+                    //TODO
+                    if (isEdit)
+                        Platform.runLater(editDeckView::initialize);
+                    else Platform.runLater(firstView::showDecks);
+                }
+                receiverOutput.close();
+                receiverInput.close();
+                receiverSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
     public DeckMenuMessage createDeck(String deckName) {
         if (doesDeckExist(deckName)) {
             return DeckMenuMessage.DECK_ALREADY_EXIST;
         }
-        Assets assets = MainMenuController.getInstance().getLoggedInUserAssets();
-        Objects.requireNonNull(assets).createDeck(deckName);
-        return DeckMenuMessage.DECK_ADDED;
+//        Assets assets = MainMenuController.getInstance().getLoggedInUserAssets();
+//        Objects.requireNonNull(assets).createDeck(deckName);
+        DataOutputStream dataOutputStream = ControllerManager.getInstance().getDataOutputStream();
+        DataInputStream dataInputStream = ControllerManager.getInstance().getDataInputStream();
+        String result;
+        try {
+            dataOutputStream.writeUTF("deck create <" + deckName + "> " + MainMenuController.getInstance().getLoggedInUserToken());
+            dataOutputStream.flush();
+            result = dataInputStream.readUTF();
+            switch (result) {
+                case "success":
+                    return DeckMenuMessage.DECK_ADDED;
+                case "exists":
+                    return DeckMenuMessage.DECK_ALREADY_EXIST;
+                case "failed":
+                    return DeckMenuMessage.ERROR_OCCURRED;
+            }
+        } catch (IOException e) {
+            return DeckMenuMessage.ERROR_OCCURRED;
+        }
+        return DeckMenuMessage.ERROR_OCCURRED;
 
     }
 
@@ -42,9 +128,27 @@ public class DeckMenuController {
         if (!doesDeckExist(deckName)) {
             return DeckMenuMessage.DECK_DOES_NOT_EXIST;
         }
-        Assets assets = MainMenuController.getInstance().getLoggedInUserAssets();
-        Objects.requireNonNull(assets).deleteDeck(deckName);
-        return DeckMenuMessage.DECK_DELETED;
+        DataOutputStream dataOutputStream = ControllerManager.getInstance().getDataOutputStream();
+        DataInputStream dataInputStream = ControllerManager.getInstance().getDataInputStream();
+        String result;
+        try {
+            dataOutputStream.writeUTF("deck delete <" + deckName + "> " + MainMenuController.getInstance().getLoggedInUserToken());
+            dataOutputStream.flush();
+            result = dataInputStream.readUTF();
+            switch (result) {
+                case "success":
+                    return DeckMenuMessage.DECK_DELETED;
+                case "not_exists":
+                    return DeckMenuMessage.DECK_DOES_NOT_EXIST;
+                case "failed":
+                    return DeckMenuMessage.ERROR_OCCURRED;
+            }
+        } catch (IOException e) {
+            return DeckMenuMessage.ERROR_OCCURRED;
+        }
+//        Assets assets = MainMenuController.getInstance().getLoggedInUserAssets();
+//        Objects.requireNonNull(assets).deleteDeck(deckName);
+        return DeckMenuMessage.ERROR_OCCURRED;
     }
 
     public DeckMenuMessage activateDeck(String deckName) {
@@ -52,8 +156,24 @@ public class DeckMenuController {
         if (!doesDeckExist(deckName)) {
             return DeckMenuMessage.DECK_DOES_NOT_EXIST;
         }
-        Objects.requireNonNull(assets).activateDeck(deckName);
-        return DeckMenuMessage.DECK_ACTIVATED;
+        //   Objects.requireNonNull(assets).activateDeck(deckName);
+        DataOutputStream dataOutputStream = ControllerManager.getInstance().getDataOutputStream();
+        DataInputStream dataInputStream = ControllerManager.getInstance().getDataInputStream();
+        String result;
+        try {
+            dataOutputStream.writeUTF("deck activate <" + deckName + "> " + MainMenuController.getInstance().getLoggedInUserToken());
+            dataOutputStream.flush();
+            result = dataInputStream.readUTF();
+            switch (result) {
+                case "success":
+                    return DeckMenuMessage.DECK_ACTIVATED;
+                case "failed":
+                    return DeckMenuMessage.ERROR_OCCURRED;
+            }
+        } catch (IOException e) {
+            return DeckMenuMessage.ERROR_OCCURRED;
+        }
+        return DeckMenuMessage.ERROR_OCCURRED;
     }
 
     public DeckMenuMessage addCardToMainDeck(String deckName, String cardName) {

@@ -157,6 +157,10 @@ public class LoginMenuView extends Application {
     public void exit(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
-        if (popUpMessage.getAlert().getResult().getText().equals("OK")) System.exit(0);
+        if (popUpMessage.getAlert().getResult().getText().equals("OK")) {
+            LoginMessage message = LoginMenuController.getInstance().close();
+            if (message == LoginMessage.SUCCESS)
+                System.exit(0);
+        }
     }
 }

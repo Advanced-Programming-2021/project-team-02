@@ -4,10 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00f24077-6cc3-42bb-ad92-b2a3c54accc6" name="Default Changelist" comment="some files!">
+    <list default="true" id="00f24077-6cc3-42bb-ad92-b2a3c54accc6" name="Default Changelist" comment="working on closing things!!!">
+      <change afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/DeckMenuController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/GlobalChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/GlobalChatController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/GlobalChatView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/GlobalChatView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/DeckMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/DeckMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/LoginMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/LoginMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/DeckMenuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/DeckMenuView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/ShopMenuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/ShopMenuView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/messages/DeckMenuMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/messages/DeckMenuMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/messages/LoginMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/messages/LoginMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/project/fxml/admin_view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/project/fxml/admin_view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/ServerMainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/ServerMainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/controller/LoginMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/LoginMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/controller/ShopController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/ShopController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,17 +93,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
       <item itemvalue="Application.LoginMenuView" />
       <item itemvalue="Application.Main" />
@@ -132,6 +130,12 @@
       <workItem from="1626354330829" duration="268000" />
       <workItem from="1626354658202" duration="727000" />
       <workItem from="1626356356529" duration="4605000" />
+      <workItem from="1626418090362" duration="7125000" />
+      <workItem from="1626428512587" duration="6677000" />
+      <workItem from="1626437812835" duration="81000" />
+      <workItem from="1626437919640" duration="4827000" />
+      <workItem from="1626448468079" duration="5064000" />
+      <workItem from="1626502841884" duration="4832000" />
     </task>
     <task id="LOCAL-00001" summary="client">
       <created>1626162144686</created>
@@ -259,14 +263,42 @@
       <option name="project" value="LOCAL" />
       <updated>1626375553661</updated>
     </task>
-    <task id="LOCAL-00019" summary="some files!">
-      <created>1626376511557</created>
+    <task id="LOCAL-00019" summary="chat">
+      <created>1626376461282</created>
       <option name="number" value="00019" />
       <option name="presentableId" value="LOCAL-00019" />
       <option name="project" value="LOCAL" />
-      <updated>1626376511557</updated>
+      <updated>1626376461282</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="some huge changes ! ! !">
+      <created>1626387249788</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1626387249788</updated>
+    </task>
+    <task id="LOCAL-00021" summary="working on many things!">
+      <created>1626426548959</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1626426548959</updated>
+    </task>
+    <task id="LOCAL-00022" summary="handling close process">
+      <created>1626449252983</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1626449252983</updated>
+    </task>
+    <task id="LOCAL-00023" summary="working on closing things!!!">
+      <created>1626453116060</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1626453116060</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -277,7 +309,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -291,6 +335,7 @@
     <MESSAGE value="png file" />
     <MESSAGE value="working on shop" />
     <MESSAGE value="basic shop done!" />
+    <MESSAGE value="some files!" />
     <MESSAGE value="working on shop!!!" />
     <MESSAGE value="small cleanings about shop" />
     <MESSAGE value="shop . . ." />
@@ -301,7 +346,11 @@
     <MESSAGE value="tired" />
     <MESSAGE value="fixing chat" />
     <MESSAGE value="chat fixed" />
-    <MESSAGE value="some files!" />
-    <option name="LAST_COMMIT_MESSAGE" value="some files!" />
+    <MESSAGE value="chat" />
+    <MESSAGE value="some huge changes ! ! !" />
+    <MESSAGE value="working on many things!" />
+    <MESSAGE value="handling close process" />
+    <MESSAGE value="working on closing things!!!" />
+    <option name="LAST_COMMIT_MESSAGE" value="working on closing things!!!" />
   </component>
 </project>

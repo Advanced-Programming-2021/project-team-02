@@ -10,7 +10,7 @@
 <?import javafx.scene.Cursor?>
 <?import java.net.URL?>
 <?import javafx.scene.control.RadioButton?>
-<AnchorPane id="secondPane" xmlns="http://javafx.com/javafx"
+<AnchorPane id="secondPane" xmlns="https://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="project.view.AdminView"
             prefHeight="1080.0" prefWidth="1920.0">
@@ -48,9 +48,7 @@
         <cursor>
             <Cursor fx:constant="HAND"/>
         </cursor>
-        <image>
-            <Image url="@../image/Icon/arrow.png"/>
-        </image>
+        <Image url="@../image/Icon/arrow.png"/>
     </ImageView>
 
     <Label alignment="CENTER" id="label" fx:id="pageLabel" layoutX="489.0" layoutY="846.0" prefHeight="18.0"
@@ -63,75 +61,88 @@
         <cursor>
             <Cursor fx:constant="HAND"/>
         </cursor>
-        <image>
-            <Image url="@../image/Icon/arrow.png"/>
-        </image>
+        <Image url="@../image/Icon/arrow.png"/>
     </ImageView>
-    <children>
-        <AnchorPane id="secondBox" layoutX="59.0" layoutY="80.0" prefHeight="759.0" prefWidth="875.0">
-            <children>
-                <GridPane fx:id="shopGrid" layoutX="49.0" layoutY="14.0" prefHeight="717.0" prefWidth="777.0">
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                    </rowConstraints>
-                </GridPane>
-            </children>
-        </AnchorPane>
-        <VBox alignment="CENTER" id="secondBox" layoutX="1062.0" layoutY="180.0" prefHeight="520.0" prefWidth="337.0"
-              spacing="10.0">
-            <children>
-                <ImageView fx:id="selectedCardImage" fitHeight="356.0" fitWidth="339.0" pickOnBounds="true"
-                           preserveRatio="true"/>
-                <Label id="label" fx:id="priceLabel" alignment="CENTER" prefHeight="20.0" prefWidth="358.0"
-                       text="Price : ">
-                    <padding>
-                        <Insets left="10.0" right="10.0"/>
-                    </padding>
-                    <VBox.margin>
-                        <Insets left="30.0" right="30.0"/>
-                    </VBox.margin>
-                </Label>
-                <HBox alignment="CENTER" prefHeight="37.0" prefWidth="339.0">
-                    <children>
-                        <RadioButton fx:id="availableButton" id="radioButton"  mnemonicParsing="false" text="Available">
-                            <HBox.margin>
-                                <Insets left="15.0" right="15.0"/>
-                            </HBox.margin>
-                        </RadioButton>
-                        <RadioButton fx:id="forbidCardButton" id="radioButton" mnemonicParsing="false" text="Forbid">
-                            <HBox.margin>
-                                <Insets left="15.0" right="15.0"/>
-                            </HBox.margin>
-                        </RadioButton>
-                    </children>
-                </HBox>
 
 
-                <Label id="label" fx:id="availabilityLabel" alignment="CENTER" prefHeight="20.0" prefWidth="334.0"
-                       text="Available ?">
-                    <padding>
-                        <Insets left="10.0" right="10.0"/>
-                    </padding>
-                    <VBox.margin>
-                        <Insets left="30.0" right="30.0"/>
-                    </VBox.margin>
-                </Label>
-            </children>
+    <AnchorPane id="secondBox" layoutX="59.0" layoutY="80.0" prefHeight="759.0" prefWidth="875.0">
+        <GridPane fx:id="shopGrid" layoutX="49.0" layoutY="14.0" prefHeight="717.0" prefWidth="777.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            </rowConstraints>
+        </GridPane>
+    </AnchorPane>
+    <VBox alignment="CENTER" id="secondBox" layoutX="1062.0" layoutY="180.0" prefHeight="520.0" prefWidth="337.0"
+          spacing="10.0">
 
-        </VBox>
+        <ImageView fx:id="selectedCardImage" fitHeight="356.0" fitWidth="339.0" pickOnBounds="true"
+                   preserveRatio="true"/>
+        <Label id="label" fx:id="priceLabel" alignment="CENTER" prefHeight="20.0" prefWidth="358.0"
+               text="Price : ">
+            <padding>
+                <Insets left="10.0" right="10.0"/>
+            </padding>
+            <VBox.margin>
+                <Insets left="30.0" right="30.0"/>
+            </VBox.margin>
+        </Label>
+        <HBox alignment="CENTER" prefHeight="37.0" prefWidth="339.0">
+            <RadioButton fx:id="availableButton" id="radioButton" mnemonicParsing="false" text="Available">
+                <HBox.margin>
+                    <Insets left="15.0" right="15.0"/>
+                </HBox.margin>
+            </RadioButton>
+            <RadioButton fx:id="forbidCardButton" id="radioButton" mnemonicParsing="false" text="Forbid">
+                <HBox.margin>
+                    <Insets left="15.0" right="15.0"/>
+                </HBox.margin>
+            </RadioButton>
+        </HBox>
 
-    </children>
 
+        <Label id="label" fx:id="availabilityLabel" alignment="CENTER" prefHeight="20.0" prefWidth="334.0"
+               text="Available ?">
+            <padding>
+                <Insets left="10.0" right="10.0"/>
+            </padding>
+            <VBox.margin>
+                <Insets left="30.0" right="30.0"/>
+            </VBox.margin>
+        </Label>
+        <HBox fx:id="addOrRemoveButtonBox" alignment="CENTER" prefHeight="37.0" prefWidth="339.0">
+            <Button fx:id="addButton" mnemonicParsing="false" style="-fx-background-color: transparent;">
+                <graphic>
+                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../image/Icon/add.png"/>
+                    </ImageView>
+                </graphic>
+                <HBox.margin>
+                    <Insets left="15.0" right="15.0"/>
+                </HBox.margin>
+            </Button>
+            <Button fx:id="decreaseButton" mnemonicParsing="false"
+                    style="-fx-background-color: transparent;">
+                <graphic>
+                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../image/Icon/remove.png"/>
+                    </ImageView>
+                </graphic>
+                <HBox.margin>
+                    <Insets left="15.0" right="15.0"/>
+                </HBox.margin>
+            </Button>
+        </HBox>
+    </VBox>
 
 </AnchorPane>
