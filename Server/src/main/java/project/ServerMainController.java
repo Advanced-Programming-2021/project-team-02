@@ -9,11 +9,11 @@ import project.model.User;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.EOFException;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.regex.Matcher;
@@ -23,20 +23,21 @@ public class ServerMainController {
 
     private static HashMap<String, User> loggedInUsers;
     private static HashMap<String, DataOutputStream> dataTransferForShopCards;
-    private static HashMap<String, DataOutputStream> dataTransferForAssets;
+    private static HashMap<String, DataOutputStream> dataTransferForAssetsInShop;
     private static HashMap<String, DataOutputStream> dataForChat;
     private static HashMap<String, DataOutputStream> profileDataTransfer;
     private static HashMap<String, DataOutputStream> scoreboardDataTransfer;
     private static boolean isAdminLoggedIn = false;
     private static DataInputStream adminInput;
     private static DataOutputStream adminOutput;
+    private static HashMap<String, DataOutputStream> deckDataTransfer;
 
     public static boolean isIsAdminLoggedIn() {
         return isAdminLoggedIn;
     }
 
-    public static HashMap<String, DataOutputStream> getDataTransferForAssets() {
-        return dataTransferForAssets;
+    public static HashMap<String, DataOutputStream> getDataTransferForAssetsInShop() {
+        return dataTransferForAssetsInShop;
     }
 
     public static HashMap<String, DataOutputStream> getProfileDataTransfer() {
@@ -59,13 +60,18 @@ public class ServerMainController {
         return dataTransferForShopCards;
     }
 
+    public static HashMap<String, DataOutputStream> getDeckDataTransfer() {
+        return deckDataTransfer;
+    }
+
     public static void run() {
         loggedInUsers = new HashMap<>();
         dataTransferForShopCards = new HashMap<>();
         dataForChat = new HashMap<>();
         profileDataTransfer = new HashMap<>();
         scoreboardDataTransfer = new HashMap<>();
-        dataTransferForAssets = new HashMap<>();
+        dataTransferForAssetsInShop = new HashMap<>();
+        deckDataTransfer = new HashMap<>();
         try {
             ServerSocket serverSocket = new ServerSocket(8000);
             while (true) {
@@ -85,7 +91,7 @@ public class ServerMainController {
                             dataTransferForShopCards.put(in, dataOutputStream);
                         } else if (in.matches("data_transfer_asset .+")) {
                             in = in.replaceFirst("data_transfer_asset ", "");
-                            dataTransferForAssets.put(in, dataOutputStream);
+                            dataTransferForAssetsInShop.put(in, dataOutputStream);
                         } else if (in.matches("data_transfer_profile .+")) {
                             in = in.replaceFirst("data_transfer_profile ", "");
                             profileDataTransfer.put(in, dataOutputStream);
@@ -104,6 +110,10 @@ public class ServerMainController {
                                 dataOutputStream.writeUTF("success");
                                 startThreadForAdmin();
                             } else dataOutputStream.writeUTF("admin is logged in!");
+                        } else if (in.matches("data_transfer_deck .+")) {
+                            in = in.replaceFirst("data_transfer_deck ", "");
+                            System.out.println("deck data transfer  : "+in);
+                            deckDataTransfer.put(in, dataOutputStream);
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -211,7 +221,7 @@ public class ServerMainController {
         } else if (parts[0].equals("scoreboard")) {
             if (input.equals("scoreboard close")) {
                 try {
-                    synchronized (scoreboardDataTransfer) {
+                    synchronized (getScoreboardDataTransfer()) {
                         scoreboardDataTransfer.get(parts[2]).writeUTF("close");
                         scoreboardDataTransfer.get(parts[2]).flush();
                         scoreboardDataTransfer.remove(parts[2]);
@@ -231,8 +241,36 @@ public class ServerMainController {
         } else if (parts[0].equals("logout")) {
             System.out.println(input);
             return processLogout(parts[1]);
-        } else if (parts[0].equals("profile"))
+        } else if (parts[0].equals("profile")) {
             return processProfileMenu(parts, input);
+        } else if (parts[0].equals("deck")) {
+            return processDeckMenu(parts, input);
+        }
+        return "";
+    }
+
+    private static String processDeckMenu(String[] parts, String input) {
+        Pattern pattern = Pattern.compile("deck create <(?<deckName>.+)> (?<token>.+)");
+        Matcher matcher = pattern.matcher(input);
+        if (matcher.find()) {
+            String deckName = matcher.group("deckName");
+            String token = matcher.group("token");
+            return DeckMenuController.getInstance().createDeck(deckName, token);
+        }
+        pattern = Pattern.compile("deck delete <(?<deckName>.+)> (?<token>.+)");
+        matcher = pattern.matcher(input);
+        if (matcher.find()) {
+            String deckName = matcher.group("deckName");
+            String token = matcher.group("token");
+            return DeckMenuController.getInstance().deleteDeck(deckName, token);
+        }
+        pattern = Pattern.compile("deck activate <(?<deckName>.+) (?<token>.+)");
+        matcher = pattern.matcher(input);
+        if (matcher.find()) {
+            String deckName = matcher.group("deckName");
+            String token = matcher.group("token");
+            return DeckMenuController.getInstance().activateDeck(deckName,token);
+        }
         return "";
     }
 
@@ -242,10 +280,10 @@ public class ServerMainController {
         if (matcher.find()) {
             String token = matcher.group("token");
             try {
-                synchronized (getDataTransferForAssets()) {
-                    getDataTransferForAssets().get(token).writeUTF("close");
-                    getDataTransferForAssets().get(token).flush();
-                    getDataTransferForAssets().remove(token);
+                synchronized (getDataTransferForAssetsInShop()) {
+                    getDataTransferForAssetsInShop().get(token).writeUTF("close");
+                    getDataTransferForAssetsInShop().get(token).flush();
+                    getDataTransferForAssetsInShop().remove(token);
                 }
                 synchronized (getDataTransferForShopCards()) {
                     getDataTransferForShopCards().get(token).writeUTF("close");

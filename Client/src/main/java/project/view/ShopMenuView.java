@@ -50,6 +50,7 @@ public class ShopMenuView {
     @FXML
     public void initialize() throws IOException {
         ControllerManager.getInstance().getLastShopData();
+        MainMenuController.getInstance().updateLoggedInAsset(ControllerManager.getInstance().getAUserAssets(MainMenuController.getInstance().getLoggedInUser().getUsername()));
         ShopMenuController.getInstance().setView(this);
         ShopMenuController.getInstance().initializeNetWorkForTransferShopData();
         utility = new Utility();

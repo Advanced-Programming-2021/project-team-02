@@ -4,11 +4,10 @@ import com.google.gson.Gson;
 import project.ServerMainController;
 import project.model.Assets;
 import project.model.Shop;
+import project.model.User;
 import project.model.card.Card;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Objects;
 
@@ -74,9 +73,19 @@ public class ShopController {
                     ServerMainController.getAdminOutput().flush();
                 }
             }
-            synchronized (ServerMainController.getDataTransferForAssets()) {
-                ServerMainController.getDataTransferForAssets().get(token).writeUTF(new Gson().toJson(Assets.getAssetsByUsername(ServerMainController.getLoggedInUsers().get(token).getUsername())));
-                ServerMainController.getDataTransferForAssets().get(token).flush();
+            User user = ServerMainController.getLoggedInUsers().get(token);
+            String username = user.getUsername();
+            Assets assets = Assets.getAssetsByUsername(username);
+            synchronized (ServerMainController.getDataTransferForAssetsInShop()) {
+                ServerMainController.getDataTransferForAssetsInShop().get(token).writeUTF(new Gson().toJson(assets));
+                ServerMainController.getDataTransferForAssetsInShop().get(token).flush();
+//                for (String s : ServerMainController.getLoggedInUsers().keySet()) {
+//                    if (ServerMainController.getLoggedInUsers().get(s).getNickname().equals(user.getNickname())) {
+//                        if (ServerMainController.getDataTransferForAssetsInShop().containsKey(s)) {
+//                            ServerMainController.getDataTransferForAssetsInShop().get(s).writeUTF(new Gson().toJson(assets));
+//                        }
+//                    }
+//                }
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -16,7 +16,7 @@ public enum LoginMessage {
     EXIT_CONFIRMATION("Are you sure you want to exit?", Alert.AlertType.CONFIRMATION),
     ERROR_OCCURRED("Error occurred", Alert.AlertType.ERROR),
     INVALID_INPUT("your input can only contain characters and numbers", Alert.AlertType.ERROR),
-    SUCCESS("",null);
+    SUCCESS("",null),LOG_OUT_OTHER_ACCOUNTS("Please logout other accounts and then  try again", Alert.AlertType.ERROR) ;
     private final String label;
     private final Alert.AlertType alertType;
 

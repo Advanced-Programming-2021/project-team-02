@@ -73,6 +73,8 @@ public class LoginMenuController {
                 MainMenuController.getInstance().setLoggedInUsernameAndToken(username, results[1]);
                 return LoginMessage.SUCCESSFUL_LOGIN;
             }
+            case"logged_in_before":
+                return LoginMessage.LOG_OUT_OTHER_ACCOUNTS;
             case "username_password_dont_match":
                 return LoginMessage.INCORRECT_USERNAME_PASSWORD;
         }
