@@ -14,8 +14,13 @@ public class GlobalChatController {
     private static GlobalChatController instance = null;
     public String textToAppend;
     private GlobalChatView view;
+    private Socket socketChat;
+    private Socket socketChatForReading;
+    private DataInputStream dataInputStreamChat;
+    private DataOutputStream dataOutputStreamChat;
 
     private GlobalChatController() {
+
     }
 
     public static GlobalChatController getInstance() {
@@ -60,9 +65,7 @@ public class GlobalChatController {
     }
 
     public GlobalChatMessage sendChatMessage(String message) {
-        Socket socketChat = null;
         try {
-            socketChat = new Socket("localhost", 8000);
             System.out.println("Chat is going to send");
             DataOutputStream dataOutputStreamChat = new DataOutputStream(socketChat.getOutputStream());
             DataInputStream dataInputStreamChat = new DataInputStream(socketChat.getInputStream());

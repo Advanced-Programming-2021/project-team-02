@@ -35,6 +35,7 @@ public class GlobalChatView {
         GlobalChatController.getInstance().initializeToRead();
         textArea.setEditable(false);
         textPlace.setPromptText("Type your message ...");
+        GlobalChatController.getInstance().setSocket();
     }
 
     public void sendButtonClicked(MouseEvent mouseEvent) {
