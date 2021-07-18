@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00f24077-6cc3-42bb-ad92-b2a3c54accc6" name="Default Changelist" comment="davood ja haye inaro dorost kon to chat">
+    <list default="true" id="00f24077-6cc3-42bb-ad92-b2a3c54accc6" name="Default Changelist" comment="working on closing things!!!">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/project/fxml/global_chat.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/project/fxml/global_chat.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +22,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="MongoDB" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="GitSEFilterConfiguration">
@@ -84,15 +89,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -318,7 +321,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626621830081</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="working on closing things!!!">
+      <created>1626629996474</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1626629996474</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -370,9 +380,9 @@
     <MESSAGE value="some huge changes ! ! !" />
     <MESSAGE value="working on many things!" />
     <MESSAGE value="handling close process" />
-    <MESSAGE value="working on closing things!!!" />
     <MESSAGE value="small change" />
     <MESSAGE value="davood ja haye inaro dorost kon to chat" />
-    <option name="LAST_COMMIT_MESSAGE" value="davood ja haye inaro dorost kon to chat" />
+    <MESSAGE value="working on closing things!!!" />
+    <option name="LAST_COMMIT_MESSAGE" value="working on closing things!!!" />
   </component>
 </project>
