@@ -2,6 +2,12 @@ package project.controller;
 
 
 import com.google.gson.Gson;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoCredential;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
 import project.ServerMainController;
 import project.model.User;
 
@@ -11,6 +17,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -32,6 +40,7 @@ public class LoginMenuController {
         new ScoreboardData(user.getNickname(), user.getScore(), false);
         sendScoreboardData();
         saveToDataBase(username, nickname, password);
+        saveToMongo(username, nickname, password);
         return "success";
     }
 
@@ -48,6 +57,31 @@ public class LoginMenuController {
             statement.execute(query);
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
+        }
+    }
+
+    public void saveToMongo(String username1, String nickname1, String password1) {
+        MongoClient mongo = new MongoClient( "localhost" , 27017 );
+        MongoCredential credential;
+        credential = MongoCredential.createCredential("sampleUser", "savingUsers", "password".toCharArray());
+        System.out.println("Connected to the database successfully");
+        MongoDatabase database = mongo.getDatabase("savingUsers");
+        MongoCollection<Document> collection = database.getCollection("usersCollection");
+        System.out.println("Collection usersCollection selected successfully");
+        Document document1 = new Document("title", "SavingUsersInMongoDB")
+                .append("username", username1)
+                .append("nickname", nickname1)
+                .append("password", password1);
+        List<Document> list = new ArrayList<Document>();
+        list.add(document1);
+        collection.insertMany(list);
+        FindIterable<Document> iterDoc = collection.find();
+        int i = 1;
+        // Getting the iterator
+        Iterator it = iterDoc.iterator();
+        while (it.hasNext()) {
+            System.out.println(it.next());
+            i++;
         }
     }
 
