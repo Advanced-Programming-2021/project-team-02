@@ -356,6 +356,7 @@ public class ServerMainController {
         if (matcher.find()) {
             String token = matcher.group("token");
             int url = Integer.parseInt(matcher.group("url"));
+            System.out.println("avatar : " + url);
             URL avatar = Avatar.getAvatarByNumber(url);
             return new ProfileController().changePhoto(token, avatar);
         }

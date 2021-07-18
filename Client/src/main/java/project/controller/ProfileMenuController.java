@@ -143,8 +143,9 @@ public class ProfileMenuController {
             dataOutputStream.writeUTF("profile change_photo <" + MainMenuController.getInstance().getLoggedInUserToken() + "> " +avatarNum);
             dataOutputStream.flush();
             result = dataInputStream.readUTF();
+            System.out.println("change pro result : "+result);
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
     }
 }

@@ -5,8 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="00f24077-6cc3-42bb-ad92-b2a3c54accc6" name="Default Changelist" comment="some bugs fixed">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/ProfileMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/ProfileMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/ProfileMenuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/ProfileMenuView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/controller/ProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/ProfileController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,7 +139,7 @@
       <workItem from="1626437919640" duration="4827000" />
       <workItem from="1626448468079" duration="5064000" />
       <workItem from="1626502841884" duration="4832000" />
-      <workItem from="1626593581543" duration="4265000" />
+      <workItem from="1626593581543" duration="5057000" />
     </task>
     <task id="LOCAL-00001" summary="client">
       <created>1626162144686</created>

@@ -14,8 +14,9 @@ import java.util.HashMap;
 public class ProfileController {
 
 
-    public  String changePhoto(String token, URL avatar) {
+    public String changePhoto(String token, URL avatar) {
         ServerMainController.getLoggedInUsers().get(token).setAvatarURL(avatar);
+        System.out.println("change url : "+ ServerMainController.getLoggedInUsers().get(token).getAvatarURL());
         return "success";
 
     }
