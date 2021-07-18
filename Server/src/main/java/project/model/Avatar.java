@@ -14,11 +14,24 @@ public enum Avatar {
         setUrl(url);
     }
 
+    public URL getUrl() {
+        return url;
+    }
+
     public void setUrl(URL url) {
         this.url = url;
     }
 
-    public URL getUrl() {
-        return url;
+    public static URL getAvatarByNumber(int number) {
+        switch (number) {
+            case 2:
+                return AVATAR_2.getUrl();
+            case 3:
+                return AVATAR_3.getUrl();
+            case 4:
+                return AVATAR_4.getUrl();
+            default:
+                return AVATAR_1.getUrl();
+        }
     }
 }

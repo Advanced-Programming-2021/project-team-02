@@ -5,12 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="00f24077-6cc3-42bb-ad92-b2a3c54accc6" name="Default Changelist" comment="some bugs fixed">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/GlobalChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/GlobalChatController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/GlobalChatView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/GlobalChatView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/project/CSS/global_chat_view.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/project/CSS/global_chat_view.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/project/fxml/global_chat.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/project/fxml/global_chat.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/controller/ChatMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/controller/ChatMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/ProfileMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/ProfileMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/ProfileMenuView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/ProfileMenuView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,6 +50,7 @@
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -141,7 +138,7 @@
       <workItem from="1626437919640" duration="4827000" />
       <workItem from="1626448468079" duration="5064000" />
       <workItem from="1626502841884" duration="4832000" />
-      <workItem from="1626593581543" duration="3949000" />
+      <workItem from="1626593581543" duration="4265000" />
     </task>
     <task id="LOCAL-00001" summary="client">
       <created>1626162144686</created>

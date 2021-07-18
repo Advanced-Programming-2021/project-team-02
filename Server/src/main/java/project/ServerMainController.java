@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import project.controller.*;
 import project.model.Assets;
+import project.model.Avatar;
 import project.model.Shop;
 import project.model.User;
 
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -112,7 +114,7 @@ public class ServerMainController {
                             } else dataOutputStream.writeUTF("admin is logged in!");
                         } else if (in.matches("data_transfer_deck .+")) {
                             in = in.replaceFirst("data_transfer_deck ", "");
-                            System.out.println("deck data transfer  : "+in);
+                            System.out.println("deck data transfer  : " + in);
                             deckDataTransfer.put(in, dataOutputStream);
                         }
                     } catch (IOException e) {
@@ -272,7 +274,7 @@ public class ServerMainController {
         if (matcher.find()) {
             String deckName = matcher.group("deckName");
             String token = matcher.group("token");
-            return DeckMenuController.getInstance().activateDeck(deckName,token);
+            return DeckMenuController.getInstance().activateDeck(deckName, token);
         }
         return "";
     }
@@ -348,6 +350,15 @@ public class ServerMainController {
             return "success";
         }
         System.out.println(parts[1]);
+        //change_photo
+        pattern = Pattern.compile("profile change_photo <(?<token>.+)> (?<url>\\d+)");
+        matcher = pattern.matcher(input);
+        if (matcher.find()) {
+            String token = matcher.group("token");
+            int url = Integer.parseInt(matcher.group("url"));
+            URL avatar = Avatar.getAvatarByNumber(url);
+            return new ProfileController().changePhoto(token, avatar);
+        }
         if (parts[1].equals("change_password")) {
             return new ProfileController().changePassword(parts[4], parts[3]);
         } else if (parts[1].equals("change_nickname")) {

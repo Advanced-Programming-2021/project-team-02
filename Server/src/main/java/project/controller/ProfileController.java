@@ -7,11 +7,18 @@ import project.model.User;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 
 
 public class ProfileController {
 
+
+    public  String changePhoto(String token, URL avatar) {
+        ServerMainController.getLoggedInUsers().get(token).setAvatarURL(avatar);
+        return "success";
+
+    }
 
     public String changePassword(String token, String newPassword) {
         ServerMainController.getLoggedInUsers().get(token).changePassword(newPassword);

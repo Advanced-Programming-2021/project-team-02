@@ -57,9 +57,9 @@ public class ProfileMenuController {
                     if (profileMenuView != null)
                         Platform.runLater(profileMenuView::setProfileData);
                 }
-                    dataOutputStream.close();
-                    dataInputStream.close();
-                    socket.close();
+                dataOutputStream.close();
+                dataInputStream.close();
+                socket.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -132,6 +132,19 @@ public class ProfileMenuController {
             String result = ControllerManager.getInstance().getDataInputStream().readUTF();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void changeProfilePhoto(int avatarNum) {
+        DataOutputStream dataOutputStream = ControllerManager.getInstance().getDataOutputStream();
+        DataInputStream dataInputStream = ControllerManager.getInstance().getDataInputStream();
+        String result = "";
+        try {
+            dataOutputStream.writeUTF("profile change_photo <" + MainMenuController.getInstance().getLoggedInUserToken() + "> " +avatarNum);
+            dataOutputStream.flush();
+            result = dataInputStream.readUTF();
+        } catch (IOException e) {
+
         }
     }
 }
