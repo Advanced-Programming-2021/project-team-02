@@ -181,6 +181,7 @@ public class ServerMainController {
                         System.out.println("chat closed");
                         getDataForChat().get(token).writeUTF("close");
                         dataOutputStream.flush();
+                        getDataForChat().remove(token);
                         break;
                     } else {
                         String result = ChatMenuController.getInstance().sendMessage(token, message);

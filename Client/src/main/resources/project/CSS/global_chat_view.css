@@ -11,38 +11,13 @@
     -fx-background-color: #103188;
     -fx-background-size: cover;
 }
-#aroundChatBox{
-    -fx-font-size: 15;
-    -fx-background-radius: 15;
-    -fx-background-color: #103188;
 
-    -fx-background-size: cover;
-}
-.text-area{
-    -fx-control-inner-background: #00062b;
-    -fx-font-family: "Matrix II Regular";
-    -fx-background-color: #00062b;
-    -fx-background-radius: 10;
-    -fx-text-fill: white;
-    -fx-cursor: default;
-}
-.text-area .content{
+.scroll-pane > .viewport {
     -fx-background-color: #00062b;
     -fx-background-radius: 20;
     -fx-vgap: 10;
 }
-.text-area .scroll-pane{
-    -fx-background-color: #00062b;
-}
-.text-field{
-    -fx-font-family: "Matrix II Regular";
-    -fx-background-color: #00062b;
-    -fx-background-radius: 15;
-    -fx-text-fill: white;
-}
-.text-area .row{
-    -fx-border-color: #103188;
-}
+
 #menuBar {
 
     -fx-border-color: #ffd500;
@@ -53,4 +28,27 @@
 #menuTitle {
     -fx-font-size: 36;
     -fx-text-fill: #ffd500;
+}
+
+.scroll-pane.content {
+    -fx-background-color: #00062b;
+    -fx-background-radius: 20;
+    -fx-vgap: 10;
+}
+
+.label {
+    -fx-font-family: "Matrix II Regular";
+    -fx-fill: white;
+    -fx-font-size: 15;
+}
+
+#label {
+    -fx-font-family: "Matrix II Regular";
+    -fx-text-fill: white;
+    -fx-font-size: 15;
+}
+#textPlace{
+    -fx-text-fill: white;
+    -fx-background-color: #00062b;
+    -fx-background-radius: 20;
 }

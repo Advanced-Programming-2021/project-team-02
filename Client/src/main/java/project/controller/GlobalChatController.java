@@ -8,6 +8,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GlobalChatController {
     private static GlobalChatController instance = null;
@@ -19,6 +21,10 @@ public class GlobalChatController {
     private Socket readerSocket;
     private DataInputStream readerInPutStream;
     private DataOutputStream readerOutPutStream;
+    private Socket onlineSocket;
+    private DataInputStream onlineReceiver;
+    private DataOutputStream onlineOutput;
+    private String avatarToAppend;
 
     private GlobalChatController() {
     }
@@ -26,6 +32,10 @@ public class GlobalChatController {
     public static GlobalChatController getInstance() {
         if (instance == null) instance = new GlobalChatController();
         return instance;
+    }
+
+    public String getAvatarToAppend() {
+        return avatarToAppend;
     }
 
     public String getTextToAppend() {
@@ -53,6 +63,13 @@ public class GlobalChatController {
             readerOutPutStream.writeUTF("Chat_Socket_Read " + MainMenuController.getInstance().getLoggedInUserToken());
             readerOutPutStream.flush();
             startReceiverThreadForChat();
+
+//            onlineSocket = new Socket("localhost", 8000);
+//            onlineOutput = new DataOutputStream(onlineSocket.getOutputStream());
+//            onlineReceiver = new DataInputStream(onlineSocket.getInputStream());
+//            onlineOutput.writeUTF("chat_online_member");
+//            onlineOutput.flush();
+            //TODO
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -66,8 +83,14 @@ public class GlobalChatController {
                     String chatResult = readerInPutStream.readUTF();
                     if (chatResult.equals("close"))
                         break;
-                    textToAppend = chatResult;
-                    Platform.runLater(view::setMessageForTextArea);
+                    Pattern pattern = Pattern.compile("\\((?<url>.+)\\) (?<message>.+)");
+                    Matcher matcher = pattern.matcher(chatResult);
+                    if (matcher.find()) {
+                        textToAppend = matcher.group("message");
+                        avatarToAppend = matcher.group("url");
+                        //Platform.runLater(view::setMessageForTextArea);
+                        Platform.runLater(view::addMessage);
+                    }
                 }
                 readerInPutStream.close();
                 readerOutPutStream.close();
@@ -83,6 +106,7 @@ public class GlobalChatController {
             dataOutputStreamChat.writeUTF(message);
             dataOutputStreamChat.flush();
             String string = dataInputStreamChat.readUTF();
+            System.out.println("send result : " + string);
             if (string.equals("success")) {
                 return GlobalChatMessage.MESSAGE_SENT;
             } else {

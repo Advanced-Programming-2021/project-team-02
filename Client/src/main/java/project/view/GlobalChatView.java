@@ -7,6 +7,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import project.controller.GlobalChatController;
 import project.controller.MainMenuController;
@@ -26,49 +28,22 @@ public class GlobalChatView {
     public String textToAppend;
     public String sendData;
     public TextArea input;
+    public Label onlineLabel;
 
-    public void setTextToAppend(String textToAppend) {
-        this.textToAppend = textToAppend;
-    }
+
+    public VBox chatVBox;
+    public TextField messageText;
+    public Label onlineNumberLabel;
+    public ScrollPane scrollPane;
 
     @FXML
     public void initialize() {
         GlobalChatController.getInstance().setView(this);
         GlobalChatController.getInstance().initializeNetworkToSend();
         GlobalChatController.getInstance().initializeNetworkToReceive();
-
-        textArea.setEditable(false);
-        textPlace.setPromptText("Type your message ...");
-
-
-    }
-
-    public void sendButtonClicked(MouseEvent mouseEvent) {
-        if (mouseEvent.getButton() != MouseButton.PRIMARY)
-            return;
-        String message = "<" + MainMenuController.getInstance().getLoggedInUser().getUsername() + "> : " + textPlace.getText();
-        message = message.replace("\n", "");
-        message = message.replace("\r", "");
-        sendData = message;
-        sendMessage();
-    }
-
-    private void sendMessage() {
-        if (textPlace.getLength() == 0) {
-            new PopUpMessage(GlobalChatMessage.WRITE_FIRST.getAlertType(), GlobalChatMessage.WRITE_FIRST.getLabel());
-        } else {
-
-            sendData = sendData.replace(String.valueOf(Character.LINE_SEPARATOR), "");
-            GlobalChatMessage globalChatMessage = GlobalChatController.getInstance().sendChatMessage(sendData);
-            if (globalChatMessage != GlobalChatMessage.MESSAGE_SENT) {
-                new PopUpMessage(globalChatMessage.getAlertType(), globalChatMessage.getLabel());
-                textPlace.clear();
-                return;
-            }
-            textPlace.clear();
-
-
-        }
+        scrollPane.setContent(chatVBox);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        chatVBox.setSpacing(7);
     }
 
 
@@ -80,15 +55,42 @@ public class GlobalChatView {
         Utility.openNewMenu("/project/fxml/main_menu.fxml");
     }
 
-    public void setMessageForTextArea() {
-        textArea.appendText(GlobalChatController.getInstance().getTextToAppend() + "\n");
-    }
-
     public void enter(KeyEvent keyEvent) {
-        if (keyEvent.getCode().toString().equals("ENTER")){
+        if (keyEvent.getCode().toString().equals("ENTER")) {
             keyEvent.consume();
-            sendData = "<" + MainMenuController.getInstance().getLoggedInUser().getUsername() + "> : " + textPlace.getText();
             sendMessage();
         }
+    }
+
+    private void sendMessage() {
+        sendData = "(" + MainMenuController.getInstance().getLoggedInUser().getAvatarURL() + ")" + " <" + MainMenuController.getInstance().getLoggedInUser().getUsername() + "> : " + messageText.getText();
+        GlobalChatMessage globalChatMessage = GlobalChatController.getInstance().sendChatMessage(sendData);
+        if (globalChatMessage != GlobalChatMessage.MESSAGE_SENT) {
+            new PopUpMessage(globalChatMessage.getAlertType(), globalChatMessage.getLabel());
+            messageText.clear();
+            return;
+        }
+        messageText.clear();
+    }
+
+    public void sendByClick(MouseEvent mouseEvent) {
+        if (mouseEvent.getButton() != MouseButton.PRIMARY)
+            return;
+        sendMessage();
+    }
+
+    public void addMessage() {
+        String avatar = GlobalChatController.getInstance().getAvatarToAppend();
+        String message = GlobalChatController.getInstance().getTextToAppend();
+        ImageView imageView = new ImageView(avatar);
+        imageView.setFitHeight(30);
+        imageView.setFitWidth(30);
+        HBox hBox = new HBox();
+        Label label = new Label(message);
+        label.getStylesheets().add(getClass().getResource("/project/CSS/global_chat_view.css").toString());
+        label.setId("label");
+        label.setWrapText(true);
+        hBox.getChildren().addAll(imageView, label);
+        chatVBox.getChildren().add(hBox);
     }
 }
