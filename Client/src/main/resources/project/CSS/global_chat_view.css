@@ -38,7 +38,7 @@
 
 .label {
     -fx-font-family: "Matrix II Regular";
-    -fx-fill: white;
+    -fx-text-fill: white;
     -fx-font-size: 15;
 }
 

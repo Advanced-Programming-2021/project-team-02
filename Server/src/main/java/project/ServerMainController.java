@@ -200,6 +200,11 @@ public class ServerMainController {
                             getOnlineCounter().remove(token);
                         }
                         break;
+                    } else if (message.matches("user_data .+")) {
+                        message = message.replaceFirst("user_data ", "");
+                        User user = User.getUserByUsername(message);
+                        dataOutputStream.writeUTF(user.getUsername() + " " + user.getNickname() + " " + user.getScore());
+                        dataOutputStream.flush();
                     } else {
                         String result = ChatMenuController.getInstance().sendMessage(token, message);
                         dataOutputStream.writeUTF(result);

@@ -9,10 +9,10 @@
 <?import javafx.geometry.Insets?>
 <AnchorPane id="secondPane" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/11.0.1"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.view.GlobalChatView">
-    <HBox alignment="CENTER" layoutX="23.0" layoutY="14.0" prefHeight="62.0" prefWidth="1047.0">
+    <HBox alignment="CENTER" layoutX="23.0" layoutY="14.0" prefHeight="62.0" prefWidth="1250.0">
         <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#back" style="-fx-background-color: #103188" textAlignment="CENTER">
             <HBox.margin>
-                <Insets left="-350.0" right="300.0" />
+                <Insets left="-350.0" right="400.0" />
             </HBox.margin>
             <graphic>
                 <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
@@ -28,11 +28,10 @@
                 <Image url="@../image/Icon/main_menu.png" />
             </ImageView>
             <Label id="menuTitle" text="Global Chat" />
-
         </HBox>
     </HBox>
     <children>
-        <ScrollPane fx:id="scrollPane" layoutX="299.0" layoutY="186.0" prefHeight="525.0" prefWidth="737.0">
+        <ScrollPane fx:id="scrollPane" layoutX="330.0" layoutY="186.0" prefHeight="525.0" prefWidth="787.0">
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="484.0" prefWidth="720.0">
                     <children>
@@ -41,8 +40,8 @@
                 </AnchorPane>
             </content>
         </ScrollPane>
-        <TextField id="textPlace" onKeyPressed="#enter" fx:id="messageText" layoutX="299.0" layoutY="720.0" prefHeight="26.0" prefWidth="670.0"/>
-        <ImageView fitHeight="26.0" fitWidth="34.0" layoutX="1000.0" layoutY="720.0" onMouseClicked="#sendByClick"
+        <TextField id="textPlace" onKeyPressed="#enter" fx:id="messageText" layoutX="299.0" layoutY="720.0" prefHeight="26.0" prefWidth="700.0"/>
+        <ImageView fitHeight="26.0" fitWidth="34.0" layoutX="1050.0" layoutY="720.0" onMouseClicked="#sendByClick"
                    pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../image/Icon/send.png"/>

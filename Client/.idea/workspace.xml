@@ -4,8 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00f24077-6cc3-42bb-ad92-b2a3c54accc6" name="Default Changelist" comment="some bugs fixed">
+    <list default="true" id="00f24077-6cc3-42bb-ad92-b2a3c54accc6" name="Default Changelist" comment="small change">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/project/CSS/window.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/project/controller/GlobalChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/controller/GlobalChatController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/project/view/GlobalChatView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/project/view/GlobalChatView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/project/CSS/global_chat_view.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/project/CSS/global_chat_view.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/project/fxml/global_chat.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/project/fxml/global_chat.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/project/ServerMainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/project/ServerMainController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,7 +146,7 @@
       <workItem from="1626448468079" duration="5064000" />
       <workItem from="1626502841884" duration="4832000" />
       <workItem from="1626593581543" duration="5368000" />
-      <workItem from="1626612137104" duration="3555000" />
+      <workItem from="1626612137104" duration="7932000" />
     </task>
     <task id="LOCAL-00001" summary="client">
       <created>1626162144686</created>
@@ -303,7 +309,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626453116060</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="small change">
+      <created>1626616438903</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1626616438903</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -356,6 +369,7 @@
     <MESSAGE value="working on many things!" />
     <MESSAGE value="handling close process" />
     <MESSAGE value="working on closing things!!!" />
-    <option name="LAST_COMMIT_MESSAGE" value="working on closing things!!!" />
+    <MESSAGE value="small change" />
+    <option name="LAST_COMMIT_MESSAGE" value="small change" />
   </component>
 </project>

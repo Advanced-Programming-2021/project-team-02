@@ -87,7 +87,7 @@ public class GlobalChatController {
                     String chatResult = onlineReceiver.readUTF();
                     if (chatResult.equals("close"))
                         break;
-                    System.out.println("online : "+chatResult);
+                    System.out.println("online : " + chatResult);
                     onlineCount = Integer.parseInt(chatResult);
                     System.out.println("online : " + onlineCount);
                     Platform.runLater(view::showOnlineCount);
@@ -159,5 +159,17 @@ public class GlobalChatController {
 
     public int getOnlineCount() {
         return onlineCount;
+    }
+
+    public String[] askForUserData(String username) {
+        try {
+            dataOutputStreamChat.writeUTF("user_data " + username);
+            dataOutputStreamChat.flush();
+            String result = dataInputStreamChat.readUTF();
+            return result.split(" ");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
