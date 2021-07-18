@@ -39,8 +39,8 @@ public class LoginMenuController {
         User user = new User(username, password, nickname);
         new ScoreboardData(user.getNickname(), user.getScore(), false);
         sendScoreboardData();
-        saveToDataBase(username, nickname, password);
-        saveToMongo(username, nickname, password);
+        //saveToDataBase(username, nickname, password);
+        //saveToMongo(username, nickname, password);
         return "success";
     }
 
