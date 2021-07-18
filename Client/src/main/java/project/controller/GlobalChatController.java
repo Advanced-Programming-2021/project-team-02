@@ -130,7 +130,6 @@ public class GlobalChatController {
             dataOutputStreamChat.writeUTF(message);
             dataOutputStreamChat.flush();
             String string = dataInputStreamChat.readUTF();
-            System.out.println("send result : " + string);
             if (string.matches("success")) {
 
                 return GlobalChatMessage.MESSAGE_SENT;
