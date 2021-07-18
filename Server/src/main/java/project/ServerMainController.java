@@ -33,6 +33,7 @@ public class ServerMainController {
     private static DataInputStream adminInput;
     private static DataOutputStream adminOutput;
     private static HashMap<String, DataOutputStream> deckDataTransfer;
+    private static HashMap<String, DataOutputStream> onlineCounter;
 
     public static boolean isIsAdminLoggedIn() {
         return isAdminLoggedIn;
@@ -66,6 +67,10 @@ public class ServerMainController {
         return deckDataTransfer;
     }
 
+    public static HashMap<String, DataOutputStream> getOnlineCounter() {
+        return onlineCounter;
+    }
+
     public static void run() {
         loggedInUsers = new HashMap<>();
         dataTransferForShopCards = new HashMap<>();
@@ -74,6 +79,7 @@ public class ServerMainController {
         scoreboardDataTransfer = new HashMap<>();
         dataTransferForAssetsInShop = new HashMap<>();
         deckDataTransfer = new HashMap<>();
+        onlineCounter = new HashMap<>();
         try {
             ServerSocket serverSocket = new ServerSocket(8000);
             while (true) {
@@ -103,7 +109,7 @@ public class ServerMainController {
                         } else if (in.matches("chat_send_socket .+")) {
                             String token = in.replaceFirst("chat_send_socket ", "");
                             startThreadForChatSocket(socket, dataOutputStream, dataInputStream, token);
-                            dataOutputStream.writeUTF("success");
+                            dataOutputStream.writeUTF("success " + loggedInUsers.keySet().size());
                         } else if (in.equals("admin")) {
                             if (!isAdminLoggedIn) {
                                 isAdminLoggedIn = true;
@@ -114,8 +120,10 @@ public class ServerMainController {
                             } else dataOutputStream.writeUTF("admin is logged in!");
                         } else if (in.matches("data_transfer_deck .+")) {
                             in = in.replaceFirst("data_transfer_deck ", "");
-                            System.out.println("deck data transfer  : " + in);
                             deckDataTransfer.put(in, dataOutputStream);
+                        } else if (in.matches("chat_online_member_counter .+")) {
+                            in = in.replaceFirst("chat_online_member_counter ", "");
+                            onlineCounter.put(in, dataOutputStream);
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -181,9 +189,16 @@ public class ServerMainController {
                     message = dataInputStream.readUTF();
                     if (message.equals("close_chat_socket")) {
                         System.out.println("chat closed");
-                        getDataForChat().get(token).writeUTF("close");
-                        dataOutputStream.flush();
-                        getDataForChat().remove(token);
+                        synchronized (getDataForChat()) {
+                            getDataForChat().get(token).writeUTF("close");
+                            dataOutputStream.flush();
+                            getDataForChat().remove(token);
+                        }
+                        synchronized (getOnlineCounter()) {
+                            getOnlineCounter().get(token).writeUTF("close");
+                            getOnlineCounter().get(token).flush();
+                            getOnlineCounter().remove(token);
+                        }
                         break;
                     } else {
                         String result = ChatMenuController.getInstance().sendMessage(token, message);

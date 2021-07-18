@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 public class GlobalChatController {
     private static GlobalChatController instance = null;
     public String textToAppend;
+    private int onlineCount;
     private GlobalChatView view;
     private Socket socket;
     private DataInputStream dataInputStreamChat;
@@ -49,7 +50,9 @@ public class GlobalChatController {
             dataOutputStreamChat = new DataOutputStream(socket.getOutputStream());
             dataOutputStreamChat.writeUTF("chat_send_socket " + MainMenuController.getInstance().getLoggedInUserToken());
             dataOutputStreamChat.flush();
-            dataInputStreamChat.readUTF();
+            String string = dataInputStreamChat.readUTF();
+            String count = string.replace("success ", "");
+            onlineCount = Integer.parseInt(count);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -57,23 +60,45 @@ public class GlobalChatController {
 
     public void initializeNetworkToReceive() {
         try {
+            String token = MainMenuController.getInstance().getLoggedInUserToken();
             readerSocket = new Socket("localhost", 8000);
             readerOutPutStream = new DataOutputStream(readerSocket.getOutputStream());
             readerInPutStream = new DataInputStream(readerSocket.getInputStream());
-            readerOutPutStream.writeUTF("Chat_Socket_Read " + MainMenuController.getInstance().getLoggedInUserToken());
+            readerOutPutStream.writeUTF("Chat_Socket_Read " + token);
             readerOutPutStream.flush();
             startReceiverThreadForChat();
 
-//            onlineSocket = new Socket("localhost", 8000);
-//            onlineOutput = new DataOutputStream(onlineSocket.getOutputStream());
-//            onlineReceiver = new DataInputStream(onlineSocket.getInputStream());
-//            onlineOutput.writeUTF("chat_online_member");
-//            onlineOutput.flush();
-            //TODO
+            onlineSocket = new Socket("localhost", 8000);
+            onlineOutput = new DataOutputStream(onlineSocket.getOutputStream());
+            onlineReceiver = new DataInputStream(onlineSocket.getInputStream());
+            onlineOutput.writeUTF("chat_online_member_counter " + token);
+            onlineOutput.flush();
+            startThreadForOnlineCountInChat();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+    }
+
+    private void startThreadForOnlineCountInChat() {
+        new Thread(() -> {
+            try {
+                while (true) {
+                    String chatResult = onlineReceiver.readUTF();
+                    if (chatResult.equals("close"))
+                        break;
+                    System.out.println("online : "+chatResult);
+                    onlineCount = Integer.parseInt(chatResult);
+                    System.out.println("online : " + onlineCount);
+                    Platform.runLater(view::showOnlineCount);
+                }
+                readerInPutStream.close();
+                readerOutPutStream.close();
+                readerSocket.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     private void startReceiverThreadForChat() {
@@ -88,7 +113,6 @@ public class GlobalChatController {
                     if (matcher.find()) {
                         textToAppend = matcher.group("message");
                         avatarToAppend = matcher.group("url");
-                        //Platform.runLater(view::setMessageForTextArea);
                         Platform.runLater(view::addMessage);
                     }
                 }
@@ -107,7 +131,8 @@ public class GlobalChatController {
             dataOutputStreamChat.flush();
             String string = dataInputStreamChat.readUTF();
             System.out.println("send result : " + string);
-            if (string.equals("success")) {
+            if (string.matches("success")) {
+
                 return GlobalChatMessage.MESSAGE_SENT;
             } else {
                 return GlobalChatMessage.MESSAGE_DID_NOT_SEND;
@@ -131,5 +156,9 @@ public class GlobalChatController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public int getOnlineCount() {
+        return onlineCount;
     }
 }

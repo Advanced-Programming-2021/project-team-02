@@ -16,9 +16,7 @@ public class ProfileController {
 
     public String changePhoto(String token, URL avatar) {
         ServerMainController.getLoggedInUsers().get(token).setAvatarURL(avatar);
-        System.out.println("change url : "+ ServerMainController.getLoggedInUsers().get(token).getAvatarURL());
         return "success";
-
     }
 
     public String changePassword(String token, String newPassword) {
@@ -32,7 +30,7 @@ public class ProfileController {
         if (isNicknameUsed(newNickName))
             return "used_nickname";
         else {
-            ScoreboardData.changeNickname(ServerMainController.getLoggedInUsers().get(token).getNickname(),newNickName);
+            ScoreboardData.changeNickname(ServerMainController.getLoggedInUsers().get(token).getNickname(), newNickName);
             ServerMainController.getLoggedInUsers().get(token).changeNickname(newNickName);
 
             sendUserData(token);

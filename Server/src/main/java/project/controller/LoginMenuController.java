@@ -30,7 +30,7 @@ public class LoginMenuController {
         if (isNicknameUsed(nickname)) return "used_nickname";
         User user = new User(username, password, nickname);
         new ScoreboardData(user.getNickname(), user.getScore(), false);
-        sendScoreboardDate();
+        sendScoreboardData();
         saveToDataBase(username, nickname, password);
         return "success";
     }
@@ -51,8 +51,7 @@ public class LoginMenuController {
         }
     }
 
-    public void sendScoreboardDate() {
-        //TODO SCOREBOARD
+    public void sendScoreboardData() {
         ArrayList<ScoreboardData> scoreboardData = ScoreboardData.getDataArrayList();
         synchronized (ServerMainController.getScoreboardDataTransfer()) {
             for (String s : ServerMainController.getScoreboardDataTransfer().keySet()) {
@@ -97,7 +96,18 @@ public class LoginMenuController {
         System.out.println(user + " logged in ");
         ServerMainController.getLoggedInUsers().put(token, user);
         ScoreboardData.setOnline(user.getNickname());
-        sendScoreboardDate();
+        synchronized (ServerMainController.getOnlineCounter()) {
+            int count = ServerMainController.getLoggedInUsers().keySet().size();
+            for (String s : ServerMainController.getOnlineCounter().keySet()) {
+                try {
+                    ServerMainController.getOnlineCounter().get(s).writeUTF(String.valueOf(count));
+                    ServerMainController.getOnlineCounter().get(s).flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        sendScoreboardData();
         return "success " + token;
     }
 }

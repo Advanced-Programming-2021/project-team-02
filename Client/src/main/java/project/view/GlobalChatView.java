@@ -43,7 +43,9 @@ public class GlobalChatView {
         GlobalChatController.getInstance().initializeNetworkToReceive();
         scrollPane.setContent(chatVBox);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.vvalueProperty().bind(chatVBox.heightProperty());
         chatVBox.setSpacing(7);
+        showOnlineCount();
     }
 
 
@@ -92,5 +94,9 @@ public class GlobalChatView {
         label.setWrapText(true);
         hBox.getChildren().addAll(imageView, label);
         chatVBox.getChildren().add(hBox);
+    }
+
+    public void showOnlineCount() {
+        onlineNumberLabel.setText("Online : " + GlobalChatController.getInstance().getOnlineCount());
     }
 }
