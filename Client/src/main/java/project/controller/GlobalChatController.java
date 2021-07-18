@@ -8,10 +8,13 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GlobalChatController {
     private static GlobalChatController instance = null;
     public String textToAppend;
+    private int onlineCount;
     private GlobalChatView view;
     private Socket socket;
     private DataInputStream dataInputStreamChat;
@@ -19,6 +22,10 @@ public class GlobalChatController {
     private Socket readerSocket;
     private DataInputStream readerInPutStream;
     private DataOutputStream readerOutPutStream;
+    private Socket onlineSocket;
+    private DataInputStream onlineReceiver;
+    private DataOutputStream onlineOutput;
+    private String avatarToAppend;
 
     private GlobalChatController() {
     }
@@ -26,6 +33,10 @@ public class GlobalChatController {
     public static GlobalChatController getInstance() {
         if (instance == null) instance = new GlobalChatController();
         return instance;
+    }
+
+    public String getAvatarToAppend() {
+        return avatarToAppend;
     }
 
     public String getTextToAppend() {
@@ -39,7 +50,9 @@ public class GlobalChatController {
             dataOutputStreamChat = new DataOutputStream(socket.getOutputStream());
             dataOutputStreamChat.writeUTF("chat_send_socket " + MainMenuController.getInstance().getLoggedInUserToken());
             dataOutputStreamChat.flush();
-            dataInputStreamChat.readUTF();
+            String string = dataInputStreamChat.readUTF();
+            String count = string.replace("success ", "");
+            onlineCount = Integer.parseInt(count);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -47,16 +60,45 @@ public class GlobalChatController {
 
     public void initializeNetworkToReceive() {
         try {
+            String token = MainMenuController.getInstance().getLoggedInUserToken();
             readerSocket = new Socket("localhost", 8000);
             readerOutPutStream = new DataOutputStream(readerSocket.getOutputStream());
             readerInPutStream = new DataInputStream(readerSocket.getInputStream());
-            readerOutPutStream.writeUTF("Chat_Socket_Read " + MainMenuController.getInstance().getLoggedInUserToken());
+            readerOutPutStream.writeUTF("Chat_Socket_Read " + token);
             readerOutPutStream.flush();
             startReceiverThreadForChat();
+
+            onlineSocket = new Socket("localhost", 8000);
+            onlineOutput = new DataOutputStream(onlineSocket.getOutputStream());
+            onlineReceiver = new DataInputStream(onlineSocket.getInputStream());
+            onlineOutput.writeUTF("chat_online_member_counter " + token);
+            onlineOutput.flush();
+            startThreadForOnlineCountInChat();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+    }
+
+    private void startThreadForOnlineCountInChat() {
+        new Thread(() -> {
+            try {
+                while (true) {
+                    String chatResult = onlineReceiver.readUTF();
+                    if (chatResult.equals("close"))
+                        break;
+                    System.out.println("online : " + chatResult);
+                    onlineCount = Integer.parseInt(chatResult);
+                    System.out.println("online : " + onlineCount);
+                    Platform.runLater(view::showOnlineCount);
+                }
+                readerInPutStream.close();
+                readerOutPutStream.close();
+                readerSocket.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     private void startReceiverThreadForChat() {
@@ -66,8 +108,13 @@ public class GlobalChatController {
                     String chatResult = readerInPutStream.readUTF();
                     if (chatResult.equals("close"))
                         break;
-                    textToAppend = chatResult;
-                    Platform.runLater(view::setMessageForTextArea);
+                    Pattern pattern = Pattern.compile("\\((?<url>.+)\\) (?<message>.+)");
+                    Matcher matcher = pattern.matcher(chatResult);
+                    if (matcher.find()) {
+                        textToAppend = matcher.group("message");
+                        avatarToAppend = matcher.group("url");
+                        Platform.runLater(view::addMessage);
+                    }
                 }
                 readerInPutStream.close();
                 readerOutPutStream.close();
@@ -83,7 +130,8 @@ public class GlobalChatController {
             dataOutputStreamChat.writeUTF(message);
             dataOutputStreamChat.flush();
             String string = dataInputStreamChat.readUTF();
-            if (string.equals("success")) {
+            if (string.matches("success")) {
+
                 return GlobalChatMessage.MESSAGE_SENT;
             } else {
                 return GlobalChatMessage.MESSAGE_DID_NOT_SEND;
@@ -107,5 +155,21 @@ public class GlobalChatController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public int getOnlineCount() {
+        return onlineCount;
+    }
+
+    public String[] askForUserData(String username) {
+        try {
+            dataOutputStreamChat.writeUTF("user_data " + username);
+            dataOutputStreamChat.flush();
+            String result = dataInputStreamChat.readUTF();
+            return result.split(" ");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

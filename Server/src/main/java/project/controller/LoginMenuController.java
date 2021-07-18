@@ -30,15 +30,15 @@ public class LoginMenuController {
         if (isNicknameUsed(nickname)) return "used_nickname";
         User user = new User(username, password, nickname);
         new ScoreboardData(user.getNickname(), user.getScore(), false);
-        sendScoreboardDate();
+        sendScoreboardData();
         saveToDataBase(username, nickname, password);
         return "success";
     }
 
     public void saveToDataBase(String username1, String nickname1, String password1) {
-        String url = "jdbc:mysql://localhost:7000/user";
-        String usernameLH = "mahdi";
-        String passwordLH = "test1234";
+        String url = "jdbc:mysql://localhost:3306/user";
+        String usernameLH = "root";
+        String passwordLH = "12345678";
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = DriverManager.getConnection(url, usernameLH, passwordLH);
@@ -51,8 +51,7 @@ public class LoginMenuController {
         }
     }
 
-    public void sendScoreboardDate() {
-        //TODO SCOREBOARD
+    public void sendScoreboardData() {
         ArrayList<ScoreboardData> scoreboardData = ScoreboardData.getDataArrayList();
         synchronized (ServerMainController.getScoreboardDataTransfer()) {
             for (String s : ServerMainController.getScoreboardDataTransfer().keySet()) {
@@ -97,7 +96,18 @@ public class LoginMenuController {
         System.out.println(user + " logged in ");
         ServerMainController.getLoggedInUsers().put(token, user);
         ScoreboardData.setOnline(user.getNickname());
-        sendScoreboardDate();
+        synchronized (ServerMainController.getOnlineCounter()) {
+            int count = ServerMainController.getLoggedInUsers().keySet().size();
+            for (String s : ServerMainController.getOnlineCounter().keySet()) {
+                try {
+                    ServerMainController.getOnlineCounter().get(s).writeUTF(String.valueOf(count));
+                    ServerMainController.getOnlineCounter().get(s).flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        sendScoreboardData();
         return "success " + token;
     }
 }

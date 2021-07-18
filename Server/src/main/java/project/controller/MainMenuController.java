@@ -31,12 +31,22 @@ public class MainMenuController {
         }
         loggedInUsers.remove(token);
         dataTransfer.remove(token);
+        synchronized (ServerMainController.getOnlineCounter()) {
+            int count = ServerMainController.getLoggedInUsers().keySet().size();
+            for (String s : ServerMainController.getOnlineCounter().keySet()) {
+                try {
+                    ServerMainController.getOnlineCounter().get(s).writeUTF(String.valueOf(count));
+                    ServerMainController.getOnlineCounter().get(s).flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         sendScoreboardData();
         return "success logout";
     }
 
     public void sendScoreboardData() {
-        //TODO SCOREBOARD
         ArrayList<ScoreboardData> scoreboardData = ScoreboardData.getDataArrayList();
         synchronized (ServerMainController.getScoreboardDataTransfer()) {
             for (String s : ServerMainController.getScoreboardDataTransfer().keySet()) {

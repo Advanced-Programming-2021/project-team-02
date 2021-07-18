@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import project.controller.*;
 import project.model.Assets;
+import project.model.Avatar;
 import project.model.Shop;
 import project.model.User;
 
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -31,6 +33,7 @@ public class ServerMainController {
     private static DataInputStream adminInput;
     private static DataOutputStream adminOutput;
     private static HashMap<String, DataOutputStream> deckDataTransfer;
+    private static HashMap<String, DataOutputStream> onlineCounter;
 
     public static boolean isIsAdminLoggedIn() {
         return isAdminLoggedIn;
@@ -64,6 +67,10 @@ public class ServerMainController {
         return deckDataTransfer;
     }
 
+    public static HashMap<String, DataOutputStream> getOnlineCounter() {
+        return onlineCounter;
+    }
+
     public static void run() {
         loggedInUsers = new HashMap<>();
         dataTransferForShopCards = new HashMap<>();
@@ -72,6 +79,7 @@ public class ServerMainController {
         scoreboardDataTransfer = new HashMap<>();
         dataTransferForAssetsInShop = new HashMap<>();
         deckDataTransfer = new HashMap<>();
+        onlineCounter = new HashMap<>();
         try {
             ServerSocket serverSocket = new ServerSocket(8000);
             while (true) {
@@ -101,7 +109,7 @@ public class ServerMainController {
                         } else if (in.matches("chat_send_socket .+")) {
                             String token = in.replaceFirst("chat_send_socket ", "");
                             startThreadForChatSocket(socket, dataOutputStream, dataInputStream, token);
-                            dataOutputStream.writeUTF("success");
+                            dataOutputStream.writeUTF("success " + loggedInUsers.keySet().size());
                         } else if (in.equals("admin")) {
                             if (!isAdminLoggedIn) {
                                 isAdminLoggedIn = true;
@@ -112,8 +120,10 @@ public class ServerMainController {
                             } else dataOutputStream.writeUTF("admin is logged in!");
                         } else if (in.matches("data_transfer_deck .+")) {
                             in = in.replaceFirst("data_transfer_deck ", "");
-                            System.out.println("deck data transfer  : "+in);
                             deckDataTransfer.put(in, dataOutputStream);
+                        } else if (in.matches("chat_online_member_counter .+")) {
+                            in = in.replaceFirst("chat_online_member_counter ", "");
+                            onlineCounter.put(in, dataOutputStream);
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -179,9 +189,22 @@ public class ServerMainController {
                     message = dataInputStream.readUTF();
                     if (message.equals("close_chat_socket")) {
                         System.out.println("chat closed");
-                        getDataForChat().get(token).writeUTF("close");
-                        dataOutputStream.flush();
+                        synchronized (getDataForChat()) {
+                            getDataForChat().get(token).writeUTF("close");
+                            dataOutputStream.flush();
+                            getDataForChat().remove(token);
+                        }
+                        synchronized (getOnlineCounter()) {
+                            getOnlineCounter().get(token).writeUTF("close");
+                            getOnlineCounter().get(token).flush();
+                            getOnlineCounter().remove(token);
+                        }
                         break;
+                    } else if (message.matches("user_data .+")) {
+                        message = message.replaceFirst("user_data ", "");
+                        User user = User.getUserByUsername(message);
+                        dataOutputStream.writeUTF(user.getUsername() + " " + user.getNickname() + " " + user.getScore());
+                        dataOutputStream.flush();
                     } else {
                         String result = ChatMenuController.getInstance().sendMessage(token, message);
                         dataOutputStream.writeUTF(result);
@@ -271,7 +294,7 @@ public class ServerMainController {
         if (matcher.find()) {
             String deckName = matcher.group("deckName");
             String token = matcher.group("token");
-            return DeckMenuController.getInstance().activateDeck(deckName,token);
+            return DeckMenuController.getInstance().activateDeck(deckName, token);
         }
         return "";
     }
@@ -347,6 +370,16 @@ public class ServerMainController {
             return "success";
         }
         System.out.println(parts[1]);
+        //change_photo
+        pattern = Pattern.compile("profile change_photo <(?<token>.+)> (?<url>\\d+)");
+        matcher = pattern.matcher(input);
+        if (matcher.find()) {
+            String token = matcher.group("token");
+            int url = Integer.parseInt(matcher.group("url"));
+            System.out.println("avatar : " + url);
+            URL avatar = Avatar.getAvatarByNumber(url);
+            return new ProfileController().changePhoto(token, avatar);
+        }
         if (parts[1].equals("change_password")) {
             return new ProfileController().changePassword(parts[4], parts[3]);
         } else if (parts[1].equals("change_nickname")) {

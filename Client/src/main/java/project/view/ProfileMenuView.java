@@ -256,6 +256,7 @@ public class ProfileMenuView {
             vBox4.setId(null);
             profileImageView.setImage(image1);
             MainMenuController.getInstance().getLoggedInUser().setAvatarURL(Avatar.AVATAR_1.getUrl());
+            ProfileMenuController.getInstance().changeProfilePhoto(1);
         });
 
         imageView2.setOnMouseClicked(event -> {
@@ -266,6 +267,7 @@ public class ProfileMenuView {
             vBox4.setId(null);
             profileImageView.setImage(image2);
             MainMenuController.getInstance().getLoggedInUser().setAvatarURL(Avatar.AVATAR_2.getUrl());
+            ProfileMenuController.getInstance().changeProfilePhoto(2);
         });
         imageView3.setOnMouseClicked(event -> {
             onClick.play();
@@ -275,6 +277,7 @@ public class ProfileMenuView {
             vBox4.setId(null);
             profileImageView.setImage(image3);
             MainMenuController.getInstance().getLoggedInUser().setAvatarURL(Avatar.AVATAR_3.getUrl());
+            ProfileMenuController.getInstance().changeProfilePhoto(3);
         });
 
         imageView4.setOnMouseClicked(event -> {
@@ -285,6 +288,7 @@ public class ProfileMenuView {
             vBox1.setId(null);
             profileImageView.setImage(image4);
             MainMenuController.getInstance().getLoggedInUser().setAvatarURL(Avatar.AVATAR_4.getUrl());
+            ProfileMenuController.getInstance().changeProfilePhoto(4);
         });
 
         Button closeButton = new Button();

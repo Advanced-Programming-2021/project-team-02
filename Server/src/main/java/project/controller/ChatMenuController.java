@@ -22,9 +22,11 @@ public class ChatMenuController {
                 try {
 //                    if (s.equals(token))
 //                        continue;
+                    System.out.println("message : "+ message);
                     ServerMainController.getDataForChat().get(s).writeUTF(message);
                     ServerMainController.getDataForChat().get(s).flush();
                 } catch (IOException e) {
+                    System.out.println("ya hagh");
                     return "failed";
                 }
             }
