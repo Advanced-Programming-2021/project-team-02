@@ -64,7 +64,6 @@ public class ShopController {
         try {
             synchronized (ServerMainController.getDataTransferForShopCards()) {
                 for (String s : ServerMainController.getDataTransferForShopCards().keySet()) {
-                    System.out.println("send shop for : " + ServerMainController.getLoggedInUsers().get(s));
                     ServerMainController.getDataTransferForShopCards().get(s).writeUTF(new Gson().toJson(Shop.getInstance().getCardsWithNumberOfThem()));
                     ServerMainController.getDataTransferForShopCards().get(s).flush();
                 }
@@ -79,13 +78,6 @@ public class ShopController {
             synchronized (ServerMainController.getDataTransferForAssetsInShop()) {
                 ServerMainController.getDataTransferForAssetsInShop().get(token).writeUTF(new Gson().toJson(assets));
                 ServerMainController.getDataTransferForAssetsInShop().get(token).flush();
-//                for (String s : ServerMainController.getLoggedInUsers().keySet()) {
-//                    if (ServerMainController.getLoggedInUsers().get(s).getNickname().equals(user.getNickname())) {
-//                        if (ServerMainController.getDataTransferForAssetsInShop().containsKey(s)) {
-//                            ServerMainController.getDataTransferForAssetsInShop().get(s).writeUTF(new Gson().toJson(assets));
-//                        }
-//                    }
-//                }
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -21,7 +21,6 @@ public class MainMenuController {
     }
 
     public String logout(String token) {
-        //TODO
         HashMap<String, User> loggedInUsers = ServerMainController.getLoggedInUsers();
         HashMap<String, DataOutputStream> dataTransfer = ServerMainController.getDataTransferForShopCards();
         User user = loggedInUsers.get(token);

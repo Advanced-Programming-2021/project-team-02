@@ -23,15 +23,6 @@ import java.util.UUID;
 
 
 public class LoginMenuController {
-//    private static LoginMenuController instance = null;
-//
-//    private LoginMenuController() {
-//    }
-//
-//    public static LoginMenuController getInstance() {
-//        if (instance == null) instance = new LoginMenuController();
-//        return instance;
-//    }
 
     public String createUser(String username, String nickname, String password) {
         if (isUsernameUsed(username)) return "used_username";
