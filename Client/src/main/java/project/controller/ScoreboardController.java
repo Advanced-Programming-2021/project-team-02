@@ -41,7 +41,8 @@ public class ScoreboardController {
     public void initializeNetworkForScoreboard() {
 
         try {
-            scoreBoardDataTransferSocket = new Socket("localhost", 8000);
+            //scoreBoardDataTransferSocket = new Socket("localhost", 8000);
+            scoreBoardDataTransferSocket = new Socket("2.tcp.ngrok.io", 18536);
             dataTransferScoreboardOutputStream = new DataOutputStream(scoreBoardDataTransferSocket.getOutputStream());
             dataTransferScoreboardInputStream = new DataInputStream(scoreBoardDataTransferSocket.getInputStream());
             dataTransferScoreboardOutputStream.writeUTF("data_transfer_scoreboard " + MainMenuController.getInstance().getLoggedInUserToken());

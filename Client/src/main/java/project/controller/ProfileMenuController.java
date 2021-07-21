@@ -34,7 +34,8 @@ public class ProfileMenuController {
 
     public void initializeNetworkForDataTransfer() {
         try {
-            socket = new Socket("localhost", 8000);
+           // socket = new Socket("localhost", 8000);
+            socket = new Socket("2.tcp.ngrok.io", 18536);
             dataInputStream = new DataInputStream(socket.getInputStream());
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
             dataOutputStream.writeUTF("data_transfer_profile " + MainMenuController.getInstance().getLoggedInUserToken());

@@ -45,7 +45,8 @@ public class GlobalChatController {
 
     public void initializeNetworkToSend() {
         try {
-            socket = new Socket("localhost", 8000);
+            //socket = new Socket("localhost", 8000);
+            socket = new Socket("2.tcp.ngrok.io", 18536);
             dataInputStreamChat = new DataInputStream(socket.getInputStream());
             dataOutputStreamChat = new DataOutputStream(socket.getOutputStream());
             dataOutputStreamChat.writeUTF("chat_send_socket " + MainMenuController.getInstance().getLoggedInUserToken());
@@ -61,14 +62,16 @@ public class GlobalChatController {
     public void initializeNetworkToReceive() {
         try {
             String token = MainMenuController.getInstance().getLoggedInUserToken();
-            readerSocket = new Socket("localhost", 8000);
+            //readerSocket = new Socket("localhost", 8000);
+            readerSocket = new Socket("2.tcp.ngrok.io", 18536);
             readerOutPutStream = new DataOutputStream(readerSocket.getOutputStream());
             readerInPutStream = new DataInputStream(readerSocket.getInputStream());
             readerOutPutStream.writeUTF("Chat_Socket_Read " + token);
             readerOutPutStream.flush();
             startReceiverThreadForChat();
 
-            onlineSocket = new Socket("localhost", 8000);
+            //onlineSocket = new Socket("localhost", 8000);
+            onlineSocket = new Socket("2.tcp.ngrok.io", 18536);
             onlineOutput = new DataOutputStream(onlineSocket.getOutputStream());
             onlineReceiver = new DataInputStream(onlineSocket.getInputStream());
             onlineOutput.writeUTF("chat_online_member_counter " + token);

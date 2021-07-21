@@ -60,7 +60,8 @@ public class DeckMenuController {
 
     public void initializeNetwork() {
         try {
-            receiverSocket = new Socket("localhost", 8000);
+            //receiverSocket = new Socket("localhost", 8000);
+            receiverSocket = new Socket("2.tcp.ngrok.io", 18536);
             receiverOutput = new DataOutputStream(receiverSocket.getOutputStream());
             receiverInput = new DataInputStream(receiverSocket.getInputStream());
             receiverOutput.writeUTF("data_transfer_deck " + MainMenuController.getInstance().getLoggedInUserToken());

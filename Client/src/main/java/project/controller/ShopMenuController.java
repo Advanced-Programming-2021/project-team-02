@@ -36,13 +36,15 @@ public class ShopMenuController {
 
     public void initializeNetWorkForTransferShopData() {
         try {
-            shopSocket = new Socket("localhost", 8000);
+            //shopSocket = new Socket("localhost", 8000);
+            shopSocket = new Socket("2.tcp.ngrok.io", 18536);
             shopDataInputStream = new DataInputStream(shopSocket.getInputStream());
             shopDataOutPutStream = new DataOutputStream(shopSocket.getOutputStream());
             shopDataOutPutStream.writeUTF("data_transfer_shop " + MainMenuController.getInstance().getLoggedInUserToken());
             shopDataOutPutStream.flush();
 
-            assetsSocket = new Socket("localhost", 8000);
+            //assetsSocket = new Socket("localhost", 8000);
+            assetsSocket = new Socket("2.tcp.ngrok.io", 18536);
             assetsDataInputStream = new DataInputStream(assetsSocket.getInputStream());
             assetsDataOutputStream = new DataOutputStream(assetsSocket.getOutputStream());
             assetsDataOutputStream.writeUTF("data_transfer_asset " + MainMenuController.getInstance().getLoggedInUserToken());

@@ -36,7 +36,8 @@ public class AdminController {
 
     public AdminPanelMessage initializeNetworkForAdmin() {
         try {
-            dataSocket = new Socket("localhost", 8000);
+            //dataSocket = new Socket("localhost", 8000);
+            dataSocket = new Socket("2.tcp.ngrok.io", 18536);
             dataInputStream = new DataInputStream(dataSocket.getInputStream());
             dataOutputStream = new DataOutputStream(dataSocket.getOutputStream());
             dataOutputStream.writeUTF("admin");
