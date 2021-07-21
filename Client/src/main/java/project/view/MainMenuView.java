@@ -106,6 +106,7 @@ public class MainMenuView {
     public void logout(MouseEvent actionEvent) throws Exception {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
         onClick.play();
+        PopUpMessage.setStage(LoginMenuView.getStage());
         PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.LOGOUT_CONFIRMATION.getLabel());
         MainMenuController.getInstance().logout();
         if (popUpMessage.getAlert().getResult().getText().equals("OK"))
@@ -115,7 +116,9 @@ public class MainMenuView {
 
     public void exit(MouseEvent actionEvent) {
         if (actionEvent.getButton() != MouseButton.PRIMARY) return;
+        PopUpMessage.setStage(LoginMenuView.getStage());
         PopUpMessage popUpMessage = new PopUpMessage(Alert.AlertType.CONFIRMATION, LoginMessage.EXIT_CONFIRMATION.getLabel());
+
         if (popUpMessage.getAlert().getResult().getText().equals("OK")) {
             String result = MainMenuController.getInstance().close();
             if (result.equals("success"))
@@ -126,6 +129,7 @@ public class MainMenuView {
     public void adminPanel(MouseEvent mouseEvent) throws IOException {
         if (mouseEvent.getButton() != MouseButton.PRIMARY) return;
         onClick.play();
+        PopUpMessage.setStage(LoginMenuView.getStage());
 
         if (getAdminPassAndUsername()) {
             AdminPanelMessage message = AdminController.getInstance().initializeNetworkForAdmin();
